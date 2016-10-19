@@ -1,0 +1,47 @@
+# Author: Josie Hughes
+# Date : October 2016
+# Version 0.1
+# Licence GPL v3
+#' \code{command} issues a command to the SyncroSim console and returns the output.
+#'
+#' @param args A list of arguments to the SyncroSim console.
+#' @param cSession=NULL A session object. If NULL, a default session will be used.
+#' @param silent=F If TRUE, warnings from the console are ignored. Otherwise they are printed.
+#' @return Output from the SyncroSim console.
+#' @examples
+#' #Use a default session to creat a new library
+#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
+#' output = command(args)
+#' output
+#' @export
+command<-function(args,cSession=NULL,silent=F) {
+  #cSession=NULL;silent=F
+  #TO DO: check validity of args
+
+  #if a syncrosim session is not provided, make one
+  if(is.null(cSession)){
+    cSession = session()
+  }
+
+  sysArgs = c()
+  for(i in seq(length(args))){
+    #i=1
+    cArg = paste0("--",names(args)[i])
+    sysArgs =c(sysArgs,cArg)
+    if(is.null(args[[i]])){next}
+    if(is.na(args[[i]])){next}
+    if(args[[i]]==""){next}
+    sysArgs[i] = paste0(sysArgs[i],"=",args[[i]])
+  }
+  if(silent){stderr=F}else{stderr=""}
+  cOutput = system2(path(cSession), args=sysArgs,stdout=TRUE,stderr=stderr)
+  if(identical(cOutput,character(0))){
+    cOutput="Success!"
+  }else{
+    if(!is.null(attr(cOutput,"status"))){
+      if(attr(cOutput,"status")!=0){stop(cOutput)}
+    }
+  }
+  return(cOutput)
+}
+
