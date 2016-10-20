@@ -1,7 +1,9 @@
 
-library(devtools)
-devtools::load_all()
+#devtools::document();devtools::load_all()
+devtools::install_github("ApexRMS/dev.rsyncrosim",ref="dev",auth_token="29e830ebdf432c947be1a3a89cfa6c766233b10a")
+
 #source("R/generics.R");source("R/ssimLibrary.R");source("R/session.R");source("R/command.R")
+library(rsyncrosim)
 
 ?rsyncrosim
 ?command
@@ -17,7 +19,6 @@ myLib = ssimLibrary(model="st-sim")
 session(myLib) #The SycroSim session
 path(myLib) #Path to the file on disk.
 info(myLib) #Model type and other library information.
-
 #Open an existing SyncroSim library in the current working directory.
 myLib = ssimLibrary()
 myLib = ssimLibrary(name="st-sim",model="st-sim")
