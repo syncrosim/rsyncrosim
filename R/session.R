@@ -3,15 +3,28 @@
 # Version 0.1
 # Licence GPL v3
 #' @include generics.R
-#' Class respresents a SyncroSim session.
+NULL
+#' SyncroSim Session class
 #'
+#' A SyncroSim Session object contains a link to SyncroSim.
+#' \code{SSimLibrary}, \code{Project} and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
+#'
+#' @examples
+#' #create or load a library using a non-default Session
+#' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
+#' myLib = ssimLibrary(name="st-sim",model="st-sim",cSession=mySession)
+#' session(myLib)
+#'
+#' #create or load a library using a default Session
+#' myLib = ssimLibrary(name="st-sim",model="st-sim")
+#' session(myLib)
 #' @slot path The path to SyncroSim.Console.exe.
 #' @name Session-class
 #' @rdname Session-class
-#' @exportClass Session
+#' @export Session
 Session <- setClass("Session", representation(path="character"))
-#' @name Session
-#' @rdname Session-class
+# @name Session
+# @rdname Session-class
 setMethod(f="initialize",signature="Session",definition=function(.Object,x){
   #Check validity of console path.
   path=x

@@ -1,8 +1,7 @@
-install.packages("devtools","roxygen2")
 
-library(raster)
-
-source("R/generics.R");source("R/ssimLibrary.R");source("R/session.R");source("R/command.R")
+library(devtools)
+devtools::load_all()
+#source("R/generics.R");source("R/ssimLibrary.R");source("R/session.R");source("R/command.R")
 
 #Create a library called <model>.ssim in the current working directory.
 myLib = ssimLibrary(model="st-sim")

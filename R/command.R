@@ -2,11 +2,13 @@
 # Date : October 2016
 # Version 0.1
 # Licence GPL v3
+#' SyncroSim console command
+#'
 #' \code{command} issues a command to the SyncroSim console and returns the output.
 #'
 #' @param args A list of arguments to the SyncroSim console.
-#' @param cSession=NULL A session object. If NULL, a default session will be used.
-#' @param silent=F If TRUE, warnings from the console are ignored. Otherwise they are printed.
+#' @param cSession A session object. If NULL, a default session will be used.
+#' @param silent If TRUE, warnings from the console are ignored. Otherwise they are printed.
 #' @return Output from the SyncroSim console.
 #' @examples
 #' #Use a default session to creat a new library

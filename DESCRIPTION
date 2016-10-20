@@ -7,3 +7,13 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: What license is it under?
 LazyData: TRUE
+Collate:
+    'command.R'
+    'fullFilename.R'
+    'generics.R'
+    'hello.R'
+    'rsyncrosim.R'
+    'session.R'
+    'ssimLibrary.R'
+    'trim.R'
+RoxygenNote: 5.0.1

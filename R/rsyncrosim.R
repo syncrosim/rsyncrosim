@@ -7,8 +7,7 @@
 #' such as defining scenarios of model inputs, running Monte Carlo simulations,
 #' and viewing charts and maps of outputs.
 #'
-#' To learn more about rsyncrosim, start with the vignette:
-#' TO DO#\code{browseVignettes(package = "dplyr")}
+#' To learn more about rsyncrosim, start with the vignette: TO DO
 #'
 #' @docType package
 #' @name rsyncrosim

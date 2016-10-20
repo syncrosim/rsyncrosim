@@ -3,20 +3,30 @@
 # Version 0.1
 # Licence GPL v3
 #' @include generics.R
-#' Class represents a SyncroSim library.
+NULL
+#' SyncroSim Library class
 #'
+#' \code{SSimLibrary} object representing a SyncroSim Library.
+#'
+#' @seealso See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
+#' @examples
+#' #Create or load and query an STSim library.
+#' myLib = ssimLibrary(model="st-sim")
+#' session(myLib)
+#' path(myLib)
+#' info(myLib)
 #' @slot session The SyncroSim session.
 #' @slot path The path to the library on disk.
 #' @slot info Basic library properties.
 #' @name SSimLibrary-class
 #' @rdname SSimLibrary-class
-#' @exportClass SSimLibrary
+#' @export SSimLibrary
 SSimLibrary <- setClass("SSimLibrary", representation(session="Session",path="character",info="character"))
-#' @name SSimLibrary
-#' @rdname SSimLibrary-class
+# @name SSimLibrary
+# @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
     definition=function(.Object,model=NULL,name=NULL,cSession=NULL,...){
-    #model="st-sim";name=libName;cSession=NULL
+    #model="st-sim";name="st-sim";cSession=NULL
 
     #TO DO: mapping between model, primaryModule name, and name
     models=list("st-sim"=list(modelCmd="stsim:model-transformer",modelName="ST-Sim State and Transition"))
@@ -81,19 +91,22 @@ setMethod(f="initialize",signature="SSimLibrary",
     return(.Object) # return of the object
   }
 )
-#' Create or open a SyncroSim library.
+#' Create or open a library.
+#'
+#' Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim library.
 #'
 #' @details
-#' If given no name and no model: Opens an existing SyncroSim library in the
-#' current working directory - returns an error if more than one library exists.
-#' If given a model but no name: Opens or creates a library called <model>.ssim in the current working directory.
-#' If given a name but no model: Attempts to open a library of that name. Returns an error if that library does not already exist.
-#' If given a name and a model: Opens or creates a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.
-#'
-#' @param model=NULL The model type. Optional when loading an existing library.
-#' @param name=NULL A library file name or library file path. If not a path library is created or opened in the current working directory.
-#' @param cSession A SyncroSim session. If NULL, the default SyncroSim session will be used.
-#' @return An SSimLibrary object.
+#' \itemize{
+#'   \item {If given no name and no model: }{Opens an existing SyncroSim library in
+#'   the current working directory - returns an error if more than one library exists.}
+#'   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
+#'   \item {If given a name but no model: }{Attempts to open a library of that name. Returns an error if that library does not already exist.}
+#'   \item {If given a name and a model: }{Opens or creates a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
+#' }
+#' @param model The model type. Optional when loading an existing library.
+#' @param name A library file name or library file path. If not a path library is created or opened in the current working directory.
+#' @param cSession A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
+#' @return An \code{SSimLibrary} object representing a SyncroSim library.
 #' @examples
 #' #Create a library called <model>.ssim in the current working directory.
 #' myLib = ssimLibrary(model="st-sim")
@@ -114,9 +127,9 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 #' myLib = ssimLibrary(name="Lib2",cSession=mySession)
 #' @name ssimLibrary
-#' @rdname SSimLibrary-class
+# @rdname SSimLibrary-class
 #' @export
-ssimLibrary <- function(...) new("SSimLibrary", ...)
+ssimLibrary <- function(model=NULL,name=NULL,cSession=NULL,...) new("SSimLibrary",model,name,cSession,...)
 
 #' @describeIn path Path to an SSimLibrary on disk.
 setMethod('path', signature(x="SSimLibrary"), function(x) x@path)
