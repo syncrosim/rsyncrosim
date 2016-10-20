@@ -3,6 +3,12 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #'
 #' @param x An object containing a path.
 setGeneric('path',function(x) standardGeneric('path'))
+
+#' #' Info generic
+#'
+#' @param x An object containing info.
+setGeneric('info',function(x) standardGeneric('info'))
+
 #' Starts or gets a SyncroSim session.
 #'
 #' @param x=NULL A path to SyncroSim.Console.exe or an object containing a Session.
