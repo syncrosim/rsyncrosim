@@ -1,0 +1,3 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^buildPackage\.R$          # Notes on how to build the package.
