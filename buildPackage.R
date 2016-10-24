@@ -1,8 +1,8 @@
 #following http://r-pkgs.had.co.nz/intro.html
 install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
 
-library(devtools)
-has_devel()
+install.packages(devtools)
+devtools::has_devel()
 
 library(raster)
 class ? RasterBrick

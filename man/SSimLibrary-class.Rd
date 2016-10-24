@@ -13,7 +13,7 @@
 \describe{
 \item{\code{session}}{The SyncroSim session.}
 
-\item{\code{path}}{The path to the library on disk.}
+\item{\code{filepath}}{The path to the library on disk.}
 
 \item{\code{info}}{Basic library properties.}
 }}
@@ -21,7 +21,7 @@
 #Create or load and query an STSim library.
 myLib = ssimLibrary(model="st-sim")
 session(myLib)
-path(myLib)
+filepath(myLib)
 info(myLib)
 }
 \seealso{

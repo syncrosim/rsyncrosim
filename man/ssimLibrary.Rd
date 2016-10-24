@@ -32,7 +32,7 @@ Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim li
 #Create a library called <model>.ssim in the current working directory.
 myLib = ssimLibrary(model="st-sim")
 session(myLib) #The SycroSim session
-path(myLib) #Path to the file on disk.
+filepath(myLib) #Path to the file on disk.
 info(myLib) #Model type and other library information.
 
 #Open an existing SyncroSim library in the current working directory.

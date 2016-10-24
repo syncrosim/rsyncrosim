@@ -13,15 +13,15 @@ NULL
 #' #Create or load and query an STSim library.
 #' myLib = ssimLibrary(model="st-sim")
 #' session(myLib)
-#' path(myLib)
+#' filepath(myLib)
 #' info(myLib)
 #' @slot session The SyncroSim session.
-#' @slot path The path to the library on disk.
+#' @slot filepath The path to the library on disk.
 #' @slot info Basic library properties.
 #' @name SSimLibrary-class
 #' @rdname SSimLibrary-class
 #' @export SSimLibrary
-SSimLibrary <- setClass("SSimLibrary", representation(session="Session",path="character",info="character"))
+SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath="character",info="character"))
 # @name SSimLibrary
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
@@ -84,7 +84,7 @@ setMethod(f="initialize",signature="SSimLibrary",
       }
     }
     .Object@session=cSession
-    .Object@path=x
+    .Object@filepath=x
     .Object@info=cStatus
     return(.Object)
 
@@ -111,7 +111,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' #Create a library called <model>.ssim in the current working directory.
 #' myLib = ssimLibrary(model="st-sim")
 #' session(myLib) #The SycroSim session
-#' path(myLib) #Path to the file on disk.
+#' filepath(myLib) #Path to the file on disk.
 #' info(myLib) #Model type and other library information.
 #'
 #' #Open an existing SyncroSim library in the current working directory.
@@ -131,8 +131,8 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' @export
 ssimLibrary <- function(model=NULL,name=NULL,cSession=NULL,...) new("SSimLibrary",model,name,cSession,...)
 
-#' @describeIn path Path to an SSimLibrary on disk.
-setMethod('path', signature(x="SSimLibrary"), function(x) x@path)
+#' @describeIn filepath Path to an SSimLibrary on disk.
+setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
 #' @describeIn session Session from an SSimLibrary.
 setMethod('session', signature(x="SSimLibrary"), function(x) x@session)

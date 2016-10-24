@@ -12,7 +12,7 @@ A SyncroSim Session object contains a link to SyncroSim.
 \section{Slots}{
 
 \describe{
-\item{\code{path}}{The path to SyncroSim.Console.exe.}
+\item{\code{filepath}}{The path to SyncroSim.Console.exe.}
 }}
 \examples{
 #create or load a library using a non-default Session

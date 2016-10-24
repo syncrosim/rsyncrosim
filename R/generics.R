@@ -1,16 +1,18 @@
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
-#' The path to an object on disk
+#' The path to a SyncroSim object on disk
 #'
 #' The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 #'
-#' @param x An object containing a path.
-setGeneric('path',function(x) standardGeneric('path'))
+#' @param x An object containing a filepath.
+#' @export
+setGeneric('filepath',function(x) standardGeneric('filepath'))
 
 #' Information about an object
 #'
 #' Get basic information about a SyncroSim Session, SSimLibarary, Project or Scenario
 #'
 #' @param x An object containing info.
+#' @export
 setGeneric('info',function(x) standardGeneric('info'))
 #' Start or get a SyncroSim session.
 #'

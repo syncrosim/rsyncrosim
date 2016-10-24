@@ -36,7 +36,7 @@ command<-function(args,cSession=NULL,silent=F) {
     sysArgs[i] = paste0(sysArgs[i],"=",args[[i]])
   }
   if(silent){stderr=F}else{stderr=""}
-  cOutput = system2(path(cSession), args=sysArgs,stdout=TRUE,stderr=stderr)
+  cOutput = system2(filepath(cSession), args=sysArgs,stdout=TRUE,stderr=stderr)
   if(identical(cOutput,character(0))){
     cOutput="Success!"
   }else{

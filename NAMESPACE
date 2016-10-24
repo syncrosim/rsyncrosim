@@ -3,5 +3,7 @@
 export(SSimLibrary)
 export(Session)
 export(command)
+export(filepath)
+export(info)
 export(session)
 export(ssimLibrary)

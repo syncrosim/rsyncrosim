@@ -25,7 +25,7 @@ Methods to create a Syncrosim session or fetch one from a SSimLibrary, Project o
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{missingOrNULLOrChar}: Create a SyncroSim Session from a path or get default Session.
+\item \code{missingOrNULLOrChar}: Create a SyncroSim Session from a filepath or get default Session.
 
 \item \code{SSimLibrary}: Session from an SSimLibrary.
 }}
