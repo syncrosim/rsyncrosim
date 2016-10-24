@@ -13,12 +13,22 @@ A SyncroSim Session object contains a link to SyncroSim.
 
 \describe{
 \item{\code{filepath}}{The path to SyncroSim.Console.exe.}
+
+\item{\code{silent}}{If TRUE, warnings from the console are ignored. Otherwise they are printed.}
 }}
 \examples{
 #create or load a library using a non-default Session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 myLib = ssimLibrary(name="st-sim",model="st-sim",cSession=mySession)
 session(myLib)
+
+showMethods(class="Session",where=loadNamespace("rsyncrosim")) #Methods for the Session
+filepath(mySession)   # Lists the folder location of syncrosim session
+version(mySession)   # Lists the version of syncrosim session
+modules(mySession)   # Dataframe of the modules installed with this version of syncrosim, listing all of its properties as columns
+
+#add and remove modules
+TO DO:
 
 #create or load a library using a default Session
 myLib = ssimLibrary(name="st-sim",model="st-sim")

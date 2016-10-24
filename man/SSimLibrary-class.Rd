@@ -14,8 +14,6 @@
 \item{\code{session}}{The SyncroSim session.}
 
 \item{\code{filepath}}{The path to the library on disk.}
-
-\item{\code{info}}{Basic library properties.}
 }}
 \examples{
 #Create or load and query an STSim library.

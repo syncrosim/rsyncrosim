@@ -4,7 +4,8 @@
 \alias{ssimLibrary}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(model = NULL, name = NULL, cSession = NULL, ...)
+ssimLibrary(model = NULL, name = NULL, cSession = NULL, backup = F,
+  backupName = "backup", backupOverwrite = T, ...)
 }
 \arguments{
 \item{model}{The model type. Optional when loading an existing library.}
@@ -12,6 +13,12 @@ ssimLibrary(model = NULL, name = NULL, cSession = NULL, ...)
 \item{name}{A library file name or library file path. If not a path library is created or opened in the current working directory.}
 
 \item{cSession}{A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.}
+
+\item{backup}{If TRUE, a backup copy is made when an existing library is opened.}
+
+\item{backupName}{Added to a library filepath to create a backup library.}
+
+\item{backupOverwrite}{If TRUE, the existing backup of a library (if any) will be overwritten.}
 }
 \value{
 An \code{SSimLibrary} object representing a SyncroSim library.
@@ -35,13 +42,13 @@ session(myLib) #The SycroSim session
 filepath(myLib) #Path to the file on disk.
 info(myLib) #Model type and other library information.
 
-#Open an existing SyncroSim library in the current working directory.
+#Open an existing SyncroSim library in the current working directory - don't make a backup copy.
 myLib = ssimLibrary()
 
-#Create a library with name in the current working directory
+#Create a library with a name in the current working directory
 myLib2 = ssimLibrary(name="Lib2",model="st-sim")
 
-#Create a library with a name and model in another directory
+#Create a library with a name in another directory
 myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="st-sim")
 
 #create or load a library using a specific session

@@ -4,14 +4,12 @@
 \alias{command}
 \title{SyncroSim console command}
 \usage{
-command(args, cSession = NULL, silent = F)
+command(args, cSession = NULL)
 }
 \arguments{
 \item{args}{A list of arguments to the SyncroSim console.}
 
 \item{cSession}{A session object. If NULL, a default session will be used.}
-
-\item{silent}{If TRUE, warnings from the console are ignored. Otherwise they are printed.}
 }
 \value{
 Output from the SyncroSim console.

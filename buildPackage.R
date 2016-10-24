@@ -4,8 +4,6 @@ install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
 install.packages(devtools)
 devtools::has_devel()
 
-library(raster)
-class ? RasterBrick
 #########################
 #For fast local development
 #load package directly to memory without install
@@ -19,7 +17,6 @@ devtools::load_all()
 #auth_token To install from a private repo, generate a personal
 #'   access token (PAT) in \url{https://github.com/settings/tokens} and
 #'   supply to this argument.
-
 devtools::install_github("ApexRMS/dev.rsyncrosim",ref="dev",auth_token="29e830ebdf432c947be1a3a89cfa6c766233b10a")
 
 ##########################
