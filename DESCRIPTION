@@ -9,6 +9,7 @@ License: What license is it under?
 LazyData: TRUE
 Collate:
     'command.R'
+    'dataframeFromSSim.R'
     'fullFilename.R'
     'generics.R'
     'hello.R'

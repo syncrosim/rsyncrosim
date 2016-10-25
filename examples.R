@@ -15,7 +15,7 @@ showMethods("filepath") #See the objects for which filepath is defined.
 ##########################
 #Create and query a session
 mySsim = session()   # Creates a session using the default installation of syncrosim
-mySsim = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe",silent=T)   # Creates a silent session using a particular version (i.e. folder) of syncrosim
+mySsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug/SyncroSim.Console.exe",silent=T)   # Creates a silent session using a particular version (i.e. folder) of syncrosim
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim)   # Lists the folder location of syncrosim session
 version(mySsim)   # Lists the version of syncrosim session
@@ -23,13 +23,15 @@ modules(mySsim)   # Dataframe of the modules installed with this version of sync
 #JH Not sure how modules differ from models. Currently returns a dataframe of models returned by --list --models.
 #TO DO: Get the options for the model argument in library creation.
 #TO DO: figure out how to handle the output when more than one module is available.
+#TO DO: Platform agnostic paths. All of this will need to work on Unix (Linux specifically), so we probably need to figure out some way to find the SyncroSim binaries in a platform agnostic way?  It seems like the convention in Unix is to put the binaries (or a symbolic link) on the path somehow, but on Windows it seems like we might want to hard code the "Program Files" path and provide a way to configure it if necessary?
 
 # Add/remove modules
 addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
 addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
 removeModules(mySsim) = "stsim"
 removeModules(mySsim) = c("stsim", "stsim-stock-flow")
-#TO DO: addModules and removeModules don't yet do anything. Need console commands for adding and removing modules
+#TO DO: addModules and removeModules don't yet do anything. Need ModuleManager commands for adding and removing modules
+#Use the Module Manager to add and remove modules (SyncroSim.ModuleManager.exe)
 
 ###########################
 #Give SyncroSim commands - users won't normally need to do this, but advanced users may.
@@ -42,6 +44,7 @@ command(args=list(list=NULL,models=NULL),mySsim)
 mySsimLibrary = ssimLibrary(model="st-sim")     # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory
 mySsimLibrary = ssimLibrary(model="st-sim", name= "C:/Temp/NewLibrary.ssim",cSession=session())
 #see ?ssimLibrary for more details and examples.
+#TO DO: Sort out module/model/transformer names and concepts. The primary transformer names are not as user friendly as it is shown in here of course.  For example, ST-Sim's is really "stsim:model-transformer".
 
 # Not sure how to reference models and add-ons. They are different from modules, as a module (like an R package) can contain anything, including
 # multiple models and add-ons. Will need to work with Leo and Alex on this.
