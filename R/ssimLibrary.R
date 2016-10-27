@@ -154,7 +154,7 @@ setMethod('info', signature(x="SSimLibrary"), function(x) {
 
 setMethod('modelName', signature(x="SSimLibrary"), function(x) {
   #myLib = ssimLibrary()
-  nameString = info(myLib)[grepl("Name: ",info(myLib),fixed=T)]
+  nameString = info(x)[grepl("Name: ",info(x),fixed=T)]
   nameBits = strsplit(nameString[1],"  ")[[1]]
   name = gsub(" ","",nameBits[length(nameBits)],fixed=T)
   return(name)

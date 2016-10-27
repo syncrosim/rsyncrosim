@@ -14,8 +14,8 @@ showMethods("filepath") #See the objects for which filepath is defined.
 
 ##########################
 #Create and query a session
-mySsim = session()   # Creates a session using the default installation of syncrosim
 mySsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug/SyncroSim.Console.exe",silent=T)   # Creates a silent session using a particular version (i.e. folder) of syncrosim
+mySsim = session()   # Creates a session using the default installation of syncrosim
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim)   # Lists the folder location of syncrosim session
 version(mySsim)   # Lists the version of syncrosim session
@@ -24,6 +24,7 @@ modules(mySsim)   # Dataframe of the modules installed with this version of sync
 #TO DO: Get the options for the model argument in library creation.
 #TO DO: figure out how to handle the output when more than one module is available.
 #TO DO: Platform agnostic paths. All of this will need to work on Unix (Linux specifically), so we probably need to figure out some way to find the SyncroSim binaries in a platform agnostic way?  It seems like the convention in Unix is to put the binaries (or a symbolic link) on the path somehow, but on Windows it seems like we might want to hard code the "Program Files" path and provide a way to configure it if necessary?
+#TO DO: Fix modules for Debug version of SyncroSim.
 
 # Add/remove modules
 addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
