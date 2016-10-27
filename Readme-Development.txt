@@ -24,8 +24,8 @@ TO INSTALL THE DEVELOPMENT VERSION OF THE PACKAGE
 1) Make sure you can read the repository: https://github.com/ApexRMS/dev.rsyncrosim
 2) Get an access token (PAT) with repo scope: https://github.com/settings/tokens
 3) In R: 
-   install.packages(devtools)
-   devtools::install_github("ApexRMS/dev.rsyncrosim",ref="dev",auth_token=yourPAT)
+   install.packages("devtools")
+   devtools::install_github("ApexRMS/dev.rsyncrosim",ref="dev",auth_token="yourPAT")
    library(rsyncrosim)
 
 *******************************************
