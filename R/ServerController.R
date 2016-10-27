@@ -7,23 +7,24 @@ setOldClass("sockconn")
 NULL
 #' ServerController class
 #'
-#' @examples
 #' @name ServerController-class
 #' @rdname ServerController-class
-#' @export ServerController
-ServerController <- setClass("ServerController",contains="sockconn")
-#setMethod(f="initialize",signature="ServerController",
-#          definition=function(.Object,model=NULL,name=NULL,cSession=NULL,backup=F,backupName="backup",backupOverwrite=T){
+# @export ServerController
+ServerController <- setClass("ServerController",representation(connection="sockconn"))
+
 #remoteMsgBreakpointHit = 'breakpoint-hit',
 #remoteMsgBreakpointContinue = 'breakpoint-continue',
 #remoteMsgCallComplete = 'call-complete'
-setGeneric('connect',function(x,...) standardGeneric('connect'))
-setMethod('connect', signature(x="ServerController"),
-          function(x,ipAddress='127.0.0.1',port=13000) {
+
+#' @export
+setGeneric('connection<-',function(object,value) standardGeneric('connection<-'))
+#' @export
+setGeneric('connection',function(x,...) standardGeneric('connection'))
+setMethod('connection', signature(x="ServerController"), function(x) return(x@connection))
+setMethod('connection',signature(x="missingOrNULLOrChar"),
+  function(x='127.0.0.1',port=13000) {
   #port=13000;ipAddress='127.0.0.1'
-
-
-  con = socketConnection(host = ipAddress, port=port)
+  con = socketConnection(host = ipAddress, port=port,open="w+",encoding="UTF-8")
   ## S3 method for class 'connection'
   #open(con, open = "r", blocking = TRUE, ...)
   ## S3 method for class 'connection'
@@ -31,11 +32,24 @@ setMethod('connect', signature(x="ServerController"),
   #flush(con)
   #isOpen(con, rw = "")
   #isIncomplete(con)
-
   if(!isOpen(con)){
     stop(paste0('Problem connecting to the SyncroSim server. IP:',ipAddress," Port:",port))
   }
-  return(x=con)
+  return(con)
 })
+setReplaceMethod(
+  f="connection",
+  signature="ServerController",
+  definition=function(object,value){
+    if(!is.element("sockconn",class(value))){
+      stop('Must assign a socket connection object.')
+    }
+    object@connection = value
+    return (object)
+  }
+)
+#' @export
+setGeneric('readServer',function(x,...) standardGeneric('readServer'))
+
 
 

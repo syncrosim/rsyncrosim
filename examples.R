@@ -8,7 +8,7 @@ library(rsyncrosim)
 ?session #Help for the Session object constructor
 ?ssimLibrary #Help for the SSimLibrary object constructor.
 showMethods(class="Session",where=loadNamespace("rsyncrosim")) #See methods for the Session object
-getMethod("filepath","Session") #See code for the filepath method of the Session object.
+getMethod("modules","Session") #See code for the filepath method of the Session object.
 showMethods("filepath") #See the objects for which filepath is defined.
 ?filepath #Help for the filepath function
 
@@ -19,12 +19,13 @@ mySsim = session()   # Creates a session using the default installation of syncr
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim)   # Lists the folder location of syncrosim session
 version(mySsim)   # Lists the version of syncrosim session
+
 modules(mySsim)   # Dataframe of the modules installed with this version of syncrosim, listing all of its properties as columns
+#This queries models, not modules.
 #JH Not sure how modules differ from models. Currently returns a dataframe of models returned by --list --models.
 #TO DO: Get the options for the model argument in library creation.
 #TO DO: figure out how to handle the output when more than one module is available.
 #TO DO: Platform agnostic paths. All of this will need to work on Unix (Linux specifically), so we probably need to figure out some way to find the SyncroSim binaries in a platform agnostic way?  It seems like the convention in Unix is to put the binaries (or a symbolic link) on the path somehow, but on Windows it seems like we might want to hard code the "Program Files" path and provide a way to configure it if necessary?
-#TO DO: Fix modules for Debug version of SyncroSim.
 
 # Add/remove modules
 addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
@@ -34,16 +35,27 @@ removeModules(mySsim) = c("stsim", "stsim-stock-flow")
 #TO DO: addModules and removeModules don't yet do anything. Need ModuleManager commands for adding and removing modules
 #Use the Module Manager to add and remove modules (SyncroSim.ModuleManager.exe)
 
+#TO DO: aSession instead of cSession
+
 ###########################
 #Give SyncroSim commands - users won't normally need to do this, but advanced users may.
-command(args=list(help=NULL),mySsim)
-command(args=list(list=NULL,help=NULL),mySsim)
-command(args=list(list=NULL,models=NULL),mySsim)
+command(list(help=NULL))
+command(args=list(list=NULL,help=NULL),mySsim,printCmd=T)
+command(list(list=NULL,models=NULL))
+
+#c("list","models")
+#Write examples that show how to use the help function
+#NOT TOP OF THE LIST
+
 #TO DO: handle spaces in paths
 #TO DO: how to use status to check for failure?
+#TO DO LATER: Create own model from scratch in R. Inputs, output and calculations
 
 ################################
 # Create a new SSimLibrary
+#If no primary model and only one model installed, use that.
+mySsimLibrary = ssimLibrary(model="st-sim",name="st-sim")
+
 mySsimLibrary = ssimLibrary(model="st-sim")     # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory
 mySsimLibrary = ssimLibrary(model="st-sim", name= "C:/Temp/NewLibrary.ssim",cSession=session())
 #see ?ssimLibrary for more details and examples.
@@ -60,7 +72,8 @@ mySsimLibrary = ssimLibrary()      # look for a single .ssim file in the current
 
 # Get/set the various properties of the library
 session(mySsimLibrary)   # returns the SyncroSim Session object associated with the library
-session(mySsimLibrary)=session()
+session(mySsimLibrary)=session() #Does this make sense?
+
 modelName(mySsimLibrary)    # returns the name of the library's model - can't change this once the library is created.
 modelVersion(mySsimLibrary)   # returns the version of the library's model
 #TO DO: need Console command to get version of library's model.

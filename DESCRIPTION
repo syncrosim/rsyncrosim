@@ -12,6 +12,7 @@ Collate:
     'ServerController.R'
     'command.R'
     'dataframeFromSSim.R'
+    'externalClient.R'
     'fullFilename.R'
     'hello.R'
     'rsyncrosim.R'

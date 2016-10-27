@@ -11,14 +11,14 @@
 #' @param printCmd If T, the command string is printed.
 #' @return Output from the SyncroSim console.
 #' @examples
-#' #Use a default session to creat a new library
+#' # Use a default session to creat a new library
 #' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
 #' output = command(args)
 #' output
 #' @export
 command<-function(args,cSession=NULL,printCmd=F) {
-  #args=myArgs;cSession=mySsim;printCmd=F
-  #TO DO: check validity of args
+  # args=myArgs;cSession=mySsim;printCmd=F
+  # TO DO: check validity of args
 
   #if a syncrosim session is not provided, make one
   if(is.null(cSession)){

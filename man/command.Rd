@@ -20,7 +20,7 @@ Output from the SyncroSim console.
 \code{command} issues a command to the SyncroSim console and returns the output.
 }
 \examples{
-#Use a default session to creat a new library
+# Use a default session to creat a new library
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
 output = command(args)
 output
