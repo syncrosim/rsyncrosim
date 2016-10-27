@@ -17,7 +17,7 @@
 #' output
 #' @export
 command<-function(args,cSession=NULL,printCmd=F) {
-  #cSession=NULL;silent=F
+  #args=myArgs;cSession=mySsim;printCmd=F
   #TO DO: check validity of args
 
   #if a syncrosim session is not provided, make one
@@ -42,11 +42,12 @@ command<-function(args,cSession=NULL,printCmd=F) {
   cOutput = system2(filepath(cSession), args=sysArgs,stdout=TRUE,stderr=stderr)
   if(identical(cOutput,character(0))){
     cOutput="Success!"
-  }else{
-    if(!is.null(attr(cOutput,"status"))){
-      if(attr(cOutput,"status")!=0){stop(cOutput)}
-    }
-  }
+  }#else{
+  #  if(!is.null(attr(cOutput,"status"))){
+  #    if(attr(cOutput,"status")!=0){stop(cOutput)}
+  #  }
+  #}
+  #TO DO: how to use status to check for failure?
   return(cOutput)
 }
 

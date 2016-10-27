@@ -8,10 +8,11 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 LazyData: TRUE
 Collate:
+    'generics.R'
+    'ServerController.R'
     'command.R'
     'dataframeFromSSim.R'
     'fullFilename.R'
-    'generics.R'
     'hello.R'
     'rsyncrosim.R'
     'session.R'

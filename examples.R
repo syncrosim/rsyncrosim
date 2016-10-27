@@ -38,6 +38,8 @@ removeModules(mySsim) = c("stsim", "stsim-stock-flow")
 command(args=list(help=NULL),mySsim)
 command(args=list(list=NULL,help=NULL),mySsim)
 command(args=list(list=NULL,models=NULL),mySsim)
+#TO DO: handle spaces in paths
+#TO DO: how to use status to check for failure?
 
 ################################
 # Create a new SSimLibrary
