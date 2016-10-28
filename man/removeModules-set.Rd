@@ -7,9 +7,9 @@
 removeModules(x) <- value
 }
 \arguments{
-\item{value}{A module or vector of modules to remove. \code{\link{modules()}} for options.}
+\item{x}{A SyncroSim \code{\link{Session}} object.}
 
-\item{object}{A SyncroSim \code{\link{Session}} object.}
+\item{value}{A module or vector of modules to remove. \code{\link{modules()}} for options.}
 }
 \description{
 Remove module or modules to this version of SyncroSim.

@@ -1,9 +1,13 @@
 devtools::document();devtools::load_all()
 
-myClient=externalClient()
-
 #How to send a valid command?
+myClient=externalClient()
 sendResp = writeLines("shutdown", connection(myClient))
+connection(myClient)
+showMethods("connection")
+getMethod("connection","missingOrNULLOrChar")
+?socketConnection
+close(connection(myClient))
 
 #Clean up stray connections
 gc()

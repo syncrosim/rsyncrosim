@@ -7,9 +7,9 @@
 addModules(x) <- value
 }
 \arguments{
-\item{value}{The path to an .ssimpkg file on disk, or a vector of filepaths}
+\item{x}{A SyncroSim \code{\link{Session}} object.}
 
-\item{object}{A SyncroSim \code{\link{Session}} object.}
+\item{value}{The path to an .ssimpkg file on disk, or a vector of filepaths}
 }
 \description{
 Add module or modules to this version of SyncroSim
