@@ -29,15 +29,18 @@ Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim li
 \details{
 \itemize{
   \item {If given no name and no model: }{Opens an existing SyncroSim library in
-  the current working directory - returns an error if more than one library exists.}
+  the current working directory - returns an error if more than one library exists. If library does not exist and only one model is installed - creates a library of that type.}
   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
   \item {If given a name but no model: }{Attempts to open a library of that name. Returns an error if that library does not already exist.}
   \item {If given a name and a model: }{Opens or creates a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 }
 }
 \examples{
+# See the installed models
+models(session())
+
 # Create a library called <model>.ssim in the current working directory.
-myLib = ssimLibrary(model="st-sim")
+myLib = ssimLibrary(model="stsim")
 session(myLib) #The SycroSim session
 filepath(myLib) #Path to the file on disk.
 info(myLib) #Model type and other library information.
@@ -46,10 +49,10 @@ info(myLib) #Model type and other library information.
 myLib = ssimLibrary()
 
 # Create a library with a name in the current working directory
-myLib2 = ssimLibrary(name="Lib2",model="st-sim")
+myLib2 = ssimLibrary(name="Lib2",model="stsim")
 
 # Create a library with a name in another directory
-myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="st-sim")
+myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
 
 # Create or load a library using a specific session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")

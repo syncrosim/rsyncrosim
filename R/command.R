@@ -33,7 +33,7 @@ command<-function(args,aSession=NULL,printCmd=F,program="/SyncroSim.Console.exe"
     if(is.null(args[[i]])){next}
     if(is.na(args[[i]])){next}
     if(args[[i]]==""){next}
-    sysArgs[i] = paste0(sysArgs[i],"=",args[[i]])
+    sysArgs[i] = paste0(sysArgs[i],'="',args[[i]],'"')
   }
   if(printCmd){
     print(paste(sysArgs,collapse=" "))
@@ -42,12 +42,11 @@ command<-function(args,aSession=NULL,printCmd=F,program="/SyncroSim.Console.exe"
   out = system2(paste0(filepath(aSession),program), args=sysArgs,stdout=TRUE,stderr=stderr)
   if(identical(cOutput,character(0))){
     out="Success!"
-  }#else{
-  #  if(!is.null(attr(cOutput,"status"))){
-  #    if(attr(cOutput,"status")!=0){stop(cOutput)}
-  #  }
-  #}
-  #TO DO: how to use status to check for failure?
+  }else{
+    if(!is.null(attr(out,"status"))){
+      if(attr(out,"status")!=0){stop(out)}
+    }
+  }
   return(out)
 }
 

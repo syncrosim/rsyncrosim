@@ -2,11 +2,18 @@ devtools::document();devtools::load_all()
 
 #How to send a valid command?
 myClient=externalClient()
-sendResp = writeLines("shutdown", connection(myClient)) #Gives an error
+sendResp = writeLines("shutdown", connection(myClient),sep = "") #Gives an error
+?writeLines
 connection(myClient) # See info about the connection
+
 getMethod("connection","missingOrNULLOrChar") # See R code used to open the connection.
 ?socketConnection # See help for socketConnection
 close(connection(myClient)) # Close the connection.
+
+# Oct 28 discussion
+# Agree users can define a class in python, pass functions in R - whatever makes users most comfortable.
+# Alex will sort out a version he likes in Python, I will translate to R.
+# Leave multi-threading for now - get a single thread to work well.
 
 #Clean up stray connections
 gc()

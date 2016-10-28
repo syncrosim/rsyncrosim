@@ -92,7 +92,8 @@ setGeneric('models',function(x) standardGeneric('models'))
 setMethod('models', signature(x="Session"), function(x) {
   #x=mySsim
   tt=command(args=list(list=NULL,models=NULL),x)
-  out=.dataframeFromSSim(tt,colNames=c("name","command"))
+  out=.dataframeFromSSim(tt,colNames=c("description","command"))
+  out$name = gsub(":model-transformer","",out$command,fixed=T)
   return(out)
 })
 
@@ -136,14 +137,13 @@ setReplaceMethod(
     #value="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
     for(i in seq(length(value))){
       #i=1
-      if(!file.exists(value[i])){
-        stop(paste0("Cannot find ",value[i],"."))
+      cVal = value[i]
+      if(!file.exists(cVal)){
+        stop(paste0("Cannot find ",cVal,"."))
       }
-      modulesInstalled = modules(x)
-
-      #RESUME HERE: What
-      #TO DO: finish these. Need console commands for adding and removing modules
+      tt = command(args=list(queue=cVal),x,program="/SyncroSim.ModuleManager.exe")
     }
+    tt = command(args=list(installqueue=NULL),x,program="/SyncroSim.ModuleManager.exe")
     return (x)
   }
 )
@@ -171,12 +171,14 @@ setReplaceMethod(
         next
       }
 
-      tt = command(args=list(removemodule=cVal),x,program="/SyncroSim.ModuleManager.exe")
+      n <- readline(prompt=paste0("To restore ",cVal," after removing it you will need to provide a .ssimpkg file or reinstall SyncroSim.\nDo you really want to remove the module? (y/n): "))
+      if(n=="y"){
+        tt = command(args=list(removemodule=cVal),x,program="/SyncroSim.ModuleManager.exe")
 
-      #TO DO: How to handle return errors from SyncroSim?
-      installedModules = modules(x)
-      if(is.element(cVal,installedModules$name)){
-        stop(paste0('Error: failed to remove module ',cVal))
+        installedModules = modules(x)
+        if(is.element(cVal,installedModules$name)){
+          stop(paste0('Error: failed to remove module ',cVal))
+        }
       }
     }
     return (x)

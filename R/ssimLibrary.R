@@ -25,13 +25,19 @@ SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
     definition=function(.Object,model=NULL,name=NULL,aSession=NULL,backup=F,backupName="backup",backupOverwrite=T){
-    #model="st-sim";name="st-sim";aSession=NULL
+    #model="stsim";name="stsim";aSession=mySsim
+    #if a syncrosim session is not provided, make one
+    if(is.null(aSession)){
+      aSession = session()
+    }
 
-    #TO DO: mapping between model, primaryModule name, and name
-    models=list("st-sim"=list(modelCmd="stsim:model-transformer",modelName="ST-Sim State and Transition"))
+    modelOptions = models(aSession)
+
+    #modelOptions=list("st-sim"=list(modelCmd="stsim:model-transformer",modelName="ST-Sim State and Transition"))
     if(!is.null(model)){
-      if(!is.element(model,names(models))){
-        stop(paste("Model type",model,"not recognized. Options are:",paste0(names(models),collapse=",")))
+      model=gsub(":model-transformer","",model,fixed=T)
+      if(!is.element(model,modelOptions$name)){
+        stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
       }
     }
 
@@ -42,14 +48,18 @@ setMethod(f="initialize",signature="SSimLibrary",
     if(is.null(name)){
       fList = list.files(pattern="\\.ssim")
       if(length(fList)>1){
-        stop(paste0("The working directory constains more than one SyncroSimLibrary - specify a name:",paste(fList,collapse=",")))
+        stop(paste0("The working directory contains more than one SyncroSimLibrary - specify a name:",paste(fList,collapse=",")))
       }
       if(length(fList)==1){
         name = fList[1]
       }
       if(length(fList)==0){
         if(is.null(model)){
-          stop(paste0("Please specify a model type for a new library. Options are:",paste(names(models),collapse=",")))
+          if(nrow(modelOptions)==1){
+            model = modelOptions$name
+          }else{
+            stop(paste0("Please specify a model type for a new library. Options are:",paste(modelOptions$name,collapse=",")))
+          }
         }
         name=model
       }
@@ -57,11 +67,6 @@ setMethod(f="initialize",signature="SSimLibrary",
 
     path <- .fullFilename(name)
     if(!grepl(".ssim",path)) path=paste0(path,".ssim")
-
-    #if a syncrosim session is not provided, make one
-    if(is.null(aSession)){
-      aSession = session()
-    }
 
     #if library does not exist on disk, create it
     if(!file.exists(path)){
@@ -71,7 +76,7 @@ setMethod(f="initialize",signature="SSimLibrary",
       pathBits = strsplit(path,"/")[[1]]
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
 
-      args = list(create=NULL,library=NULL,name=x,model=models[[model]]$modelCmd)
+      args = list(create=NULL,library=NULL,name=path,model=modelOptions$command[modelOptions$name==model])
       cStatus = command(args,aSession)
       #cStatus=command(args,aSession)
     }else{
@@ -89,7 +94,7 @@ setMethod(f="initialize",signature="SSimLibrary",
     cStatus = command(args,aSession)
     #cStatus= command(args,aSession)
     if(!is.null(model)){
-      expectedModule = models[[model]]$modelName
+      expectedModule = modelOptions$description[modelOptions$name==model]
       if(!grepl(expectedModule,cStatus[2])){
         stop(paste0("A library of that name and a different model type ",cStatus[2]," already exists."))
       }
@@ -106,7 +111,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' @details
 #' \itemize{
 #'   \item {If given no name and no model: }{Opens an existing SyncroSim library in
-#'   the current working directory - returns an error if more than one library exists.}
+#'   the current working directory - returns an error if more than one library exists. If library does not exist and only one model is installed - creates a library of that type.}
 #'   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
 #'   \item {If given a name but no model: }{Attempts to open a library of that name. Returns an error if that library does not already exist.}
 #'   \item {If given a name and a model: }{Opens or creates a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
@@ -119,8 +124,11 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' @param backupOverwrite If TRUE, the existing backup of a library (if any) will be overwritten.
 #' @return An \code{SSimLibrary} object representing a SyncroSim library.
 #' @examples
+#' # See the installed models
+#' models(session())
+#'
 #' # Create a library called <model>.ssim in the current working directory.
-#' myLib = ssimLibrary(model="st-sim")
+#' myLib = ssimLibrary(model="stsim")
 #' session(myLib) #The SycroSim session
 #' filepath(myLib) #Path to the file on disk.
 #' info(myLib) #Model type and other library information.
@@ -129,10 +137,10 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' myLib = ssimLibrary()
 #'
 #' # Create a library with a name in the current working directory
-#' myLib2 = ssimLibrary(name="Lib2",model="st-sim")
+#' myLib2 = ssimLibrary(name="Lib2",model="stsim")
 #'
 #' # Create a library with a name in another directory
-#' myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="st-sim")
+#' myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
 #'
 #' # Create or load a library using a specific session
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
@@ -148,16 +156,16 @@ setMethod('session', signature(x="SSimLibrary"), function(x) x@session)
 
 setMethod('info', signature(x="SSimLibrary"), function(x) {
   args = list(list=NULL,library=NULL,lib=filepath(x))
-  cStatus = command(args,session(x))
-  return(cStatus)
+  tt = command(args,session(x))
+  out = .dataframeFromSSim(tt,colNames=c("type","value"))
+  return(out)
 })
 
 setMethod('modelName', signature(x="SSimLibrary"), function(x) {
   #x = myLibrary
-  nameString = info(x)[grepl("Name: ",info(x),fixed=T)]
-  nameBits = strsplit(nameString[2],"  ")[[2]]
-  name = gsub(" ","",nameBits[length(nameBits)],fixed=T)
-  return(name)
+  cInfo = info(x)
+  out=cInfo$value[cInfo$type=="Primary Module:"]
+  return(out)
 })
 
 setReplaceMethod(

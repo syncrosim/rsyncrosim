@@ -22,16 +22,16 @@ version(mySsim) # Lists the version of syncrosim session
 
 modules(mySsim) # Dataframe of the modules installed with this verions of SyncroSim.
 models(mySsim) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-# TO DO: Get the options for the model argument in library creation.
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
 
+# devtools::document();devtools::load_all()
+
 # Add/remove modules
-removeModules(mySsim) = "dgsim"
-removeModules(mySsim) = c("dgsim", "cce-lite")
+removeModules(mySsim) = "stsim-stock-flow"
+is.element("stsim-stock-flow",modules(mySsim)$name)
 addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
 addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
-# How to get the options for adding?
-# Understand queue.
+is.element("stsim-stock-flow",modules(mySsim)$name)
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
@@ -40,25 +40,21 @@ command(args=list(list=NULL,help=NULL),mySsim,printCmd=T)
 command(list(list=NULL,models=NULL))
 
 # LOW PRIORITY: Accept simpler args, and better explain command with help examples: c("list","models")
-
-# TO DO: handle spaces in paths
-# TO DO: How to handle return codes from SyncroSim?
 # LATER: Create own model from scratch in R. Inputs, output and calculations
 
 ################################
 # Create a new SSimLibrary
 # If no primary model and only one model installed, use that.
 # devtools::document();devtools::load_all()
+models(session())
+myLibrary = ssimLibrary(model="stsim",name="stsim")
 
-myLibrary = ssimLibrary(model="st-sim",name="st-sim")
-
-myLibrary = ssimLibrary(model="st-sim") # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory
-myLibrary = ssimLibrary(model="st-sim", name= "C:/Temp/NewLibrary.ssim",aSession=session())
+myLibrary = ssimLibrary(model="stsim") # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",aSession=session())
 # See ?ssimLibrary for more details and examples.
-# TO DO: Sort out module/model/transformer names and concepts. The primary transformer names are not as user friendly as it is shown in here of course.  For example, ST-Sim's is really "stsim:model-transformer".
 
 # Not sure how to reference models and add-ons.
-myLibrary = ssimLibrary(model="st-sim", name= "C:/Temp/NewLibrary.ssim", addons=c("st-sim-ecological-departure", "st-sim-stock-flow"))
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim", addons=c("st-sim-ecological-departure", "st-sim-stock-flow"))
 # TO DO: Need console command for creating a library with add-ons.
 
 # Open an existing ST-Sim library on a SyncroSim connection
@@ -75,25 +71,58 @@ modelVersion(myLibrary)   # Returns the version of the library's model
 addons(myLibrary)   # provides a dataframe of the addons and their various properties
 # TO DO: need Console command to get addons of a library.
 
+# As with the UI, these changes are committed immediately
+enableAddons(mySsimLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")    # Change is made immediately on disk
+disableAddons(mySsimLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")   # Change is made immediately on disk
+# TO DO: Console commands for enabling and disabling addons
+
+# Backup a library (with various options) - skip this for now
+backup(mySsimLibrary)
+restore(mySsimLibrary)
+# LATER
+
+###################################
+# Projects
+# Get a named vector of existing projects - should have a SyncroSimProject class
+myProjects = projects(mySsimLibrary)    # Each element in the vector is named by a character version of the project ID
+names(myProjects)   # vector of the project names (using base R names function)
+
+# Get an existing project - NOTE: by default assume that name uniquely identifies a single project - give error if not
+myProject = myProjects[1]
+myProject = project(mySsimLibrary, name="My Existing Project")
+
+# Create a new project - committed to db immediately
+myProject = project(mySsimLibrary)
+myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
+
+# Get/set the project properties - for now we can only set the name
+name(myProject)
+name(myProject) = "New project name"   #  - committed to db immediately
+ssimLibrary(myProject)    # Returns a SyncroSimLibrary object for the project
+
+# Delete projects - committed to db immediately
+result = deleteProjects(ssimLibrary=mySsimLibrary, project="My Existing Project")    # Returns some result indicating success? What does the command line do?
+result = deleteProjects(ssimLibrary=mySsimLibrary, project=c(2,3))
+
 
 
 ####################
 # Other examples
 # Create a library called <model>.ssim in the current working directory.
-myLib = ssimLibrary(model="st-sim")
+myLib = ssimLibrary(model="stsim")
 session(myLib) # The SycroSim session
 filepath(myLib) # Path to the file on disk.
 info(myLib) # Model type and other library information.
 # Open an existing SyncroSim library in the current working directory.
 myLib = ssimLibrary()
-myLib = ssimLibrary(name="st-sim",model="st-sim")
+myLib = ssimLibrary(name="stsim",model="stsim")
 
 # Create a library with name in the current working directory
-# myLib2 = ssimLibrary(name="Lib2",model="st-sim")
+# myLib2 = ssimLibrary(name="Lib2",model="stsim")
 
 # Create a library with a name and model in another directory
-myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="st-sim")
+myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
 
 # Create or load a library using a specific session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-myLib = ssimLibrary(name="st-sim",aSession=mySession)
+myLib = ssimLibrary(name="stsim",aSession=mySession)
