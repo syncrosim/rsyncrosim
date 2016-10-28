@@ -19,18 +19,18 @@ An SyncroSim Session object containing a valid console path.
 Methods to create a Syncrosim session or fetch one from a SSimLibrary, Project or Scenario object.
 }
 \examples{
-#Look for SyncroSim in the usual places
+# Look for SyncroSim in the usual places
 mySession = session()
 path(mySession)
 
-#Specify a SyncroSim version
+# Specify a SyncroSim version
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 
-#Get the session from an SSimLibrary
+# Get the session from an SSimLibrary
 myLib = ssimLibrary(name="st-sim",model="st-sim")
 session(myLib)
 
-#assign a session to a SyncroSim library
+# Assign a session to a SyncroSim library
 session(myLib)=session()
 }
 

@@ -31,18 +31,18 @@ setGeneric('info',function(x) standardGeneric('info'))
 #' @param silent Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
 #' @return An SyncroSim Session object containing a valid console path.
 #' @examples
-#' #Look for SyncroSim in the usual places
+#' # Look for SyncroSim in the usual places
 #' mySession = session()
 #' path(mySession)
 #'
-#' #Specify a SyncroSim version
+#' # Specify a SyncroSim version
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 #'
-#' #Get the session from an SSimLibrary
+#' # Get the session from an SSimLibrary
 #' myLib = ssimLibrary(name="st-sim",model="st-sim")
 #' session(myLib)
 #'
-#' #assign a session to a SyncroSim library
+#' # Assign a session to a SyncroSim library
 #' session(myLib)=session()
 #' @export
 setGeneric('session',function(x=NULL,...) standardGeneric('session'))
@@ -58,4 +58,4 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' session(ssimLibrary)<-session()
 #' session(ssimLibrary)
 #' @export
-setGeneric('session<-',function(object,value) standardGeneric('session<-'))
+setGeneric('session<-',function(x,value) standardGeneric('session<-'))

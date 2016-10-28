@@ -7,7 +7,7 @@
 #' \code{command} issues a command to the SyncroSim console and returns the output.
 #'
 #' @param args A list of arguments to the SyncroSim console.
-#' @param cSession A session object. If NULL, a default session will be used.
+#' @param aSession A SyncroSim session object. If NULL, a default session will be used.
 #' @param printCmd If T, the command string is printed.
 #' @return Output from the SyncroSim console.
 #' @examples
@@ -16,13 +16,13 @@
 #' output = command(args)
 #' output
 #' @export
-command<-function(args,cSession=NULL,printCmd=F) {
-  # args=myArgs;cSession=mySsim;printCmd=F
+command<-function(args,aSession=NULL,printCmd=F,program="/SyncroSim.Console.exe") {
+  # args=myArgs;aSession=mySsim;printCmd=F
   # TO DO: check validity of args
 
   #if a syncrosim session is not provided, make one
-  if(is.null(cSession)){
-    cSession = session()
+  if(is.null(aSession)){
+    aSession = session()
   }
 
   sysArgs = c()
@@ -38,16 +38,16 @@ command<-function(args,cSession=NULL,printCmd=F) {
   if(printCmd){
     print(paste(sysArgs,collapse=" "))
   }
-  if(silent(cSession)){stderr=F}else{stderr=""}
-  cOutput = system2(filepath(cSession), args=sysArgs,stdout=TRUE,stderr=stderr)
+  if(silent(aSession)){stderr=F}else{stderr=""}
+  out = system2(paste0(filepath(aSession),program), args=sysArgs,stdout=TRUE,stderr=stderr)
   if(identical(cOutput,character(0))){
-    cOutput="Success!"
+    out="Success!"
   }#else{
   #  if(!is.null(attr(cOutput,"status"))){
   #    if(attr(cOutput,"status")!=0){stop(cOutput)}
   #  }
   #}
   #TO DO: how to use status to check for failure?
-  return(cOutput)
+  return(out)
 }
 

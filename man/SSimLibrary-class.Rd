@@ -16,7 +16,7 @@
 \item{\code{filepath}}{The path to the library on disk.}
 }}
 \examples{
-#Create or load and query an STSim library.
+# Create or load and query an STSim library.
 myLib = ssimLibrary(model="st-sim")
 session(myLib)
 filepath(myLib)

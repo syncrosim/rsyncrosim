@@ -10,7 +10,7 @@ NULL
 #'
 #' @seealso See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
 #' @examples
-#' #Create or load and query an STSim library.
+#' # Create or load and query an STSim library.
 #' myLib = ssimLibrary(model="st-sim")
 #' session(myLib)
 #' filepath(myLib)
@@ -24,8 +24,8 @@ SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath
 # @name SSimLibrary
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
-    definition=function(.Object,model=NULL,name=NULL,cSession=NULL,backup=F,backupName="backup",backupOverwrite=T){
-    #model="st-sim";name="st-sim";cSession=NULL
+    definition=function(.Object,model=NULL,name=NULL,aSession=NULL,backup=F,backupName="backup",backupOverwrite=T){
+    #model="st-sim";name="st-sim";aSession=NULL
 
     #TO DO: mapping between model, primaryModule name, and name
     models=list("st-sim"=list(modelCmd="stsim:model-transformer",modelName="ST-Sim State and Transition"))
@@ -55,47 +55,47 @@ setMethod(f="initialize",signature="SSimLibrary",
       }
     }
 
-    x <- .fullFilename(name)
-    if(!grepl(".ssim",x)) x=paste0(x,".ssim")
+    path <- .fullFilename(name)
+    if(!grepl(".ssim",path)) path=paste0(path,".ssim")
 
     #if a syncrosim session is not provided, make one
-    if(is.null(cSession)){
-      cSession = session()
+    if(is.null(aSession)){
+      aSession = session()
     }
 
     #if library does not exist on disk, create it
-    if(!file.exists(x)){
+    if(!file.exists(path)){
       if(is.null(model)){
         stop('Specify a model for the new library.')
       }
-      pathBits = strsplit(x,"/")[[1]]
+      pathBits = strsplit(path,"/")[[1]]
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
 
       args = list(create=NULL,library=NULL,name=x,model=models[[model]]$modelCmd)
-      cStatus = command(args,cSession)
-      #cStatus=command(args,cSession)
+      cStatus = command(args,aSession)
+      #cStatus=command(args,aSession)
     }else{
       #x="C:/Temp/NewLibrary.ssim"
       if(backup){
-        backupName = gsub(".ssim",paste0("_",backupName,".ssim"),x,fixed=T)
+        backupName = gsub(".ssim",paste0("_",backupName,".ssim"),path,fixed=T)
         if(file.exists(backupName)&!backupOverwrite){
           stop(paste0('Backup ',backupName,' already exists. Set backupOverwrite=T or provide a different backupName.'))
         }
-        file.copy(x, backupName, overwrite=T)
+        file.copy(path, backupName, overwrite=T)
       }
     }
     #ensure the primaryModule specified matches the primaryModule on disk
-    args = list(list=NULL,library=NULL,lib=x)
-    cStatus = command(args,cSession)
-    #cStatus= command(args,cSession)
+    args = list(list=NULL,library=NULL,lib=path)
+    cStatus = command(args,aSession)
+    #cStatus= command(args,aSession)
     if(!is.null(model)){
       expectedModule = models[[model]]$modelName
       if(!grepl(expectedModule,cStatus[2])){
         stop(paste0("A library of that name and a different model type ",cStatus[2]," already exists."))
       }
     }
-    .Object@session=cSession
-    .Object@filepath=x
+    .Object@session=aSession
+    .Object@filepath=path
     return(.Object)
   }
 )
@@ -113,34 +113,34 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' }
 #' @param model The model type. Optional when loading an existing library.
 #' @param name A library file name or library file path. If not a path library is created or opened in the current working directory.
-#' @param cSession A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
+#' @param aSession A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
 #' @param backup If TRUE, a backup copy is made when an existing library is opened.
 #' @param backupName Added to a library filepath to create a backup library.
 #' @param backupOverwrite If TRUE, the existing backup of a library (if any) will be overwritten.
 #' @return An \code{SSimLibrary} object representing a SyncroSim library.
 #' @examples
-#' #Create a library called <model>.ssim in the current working directory.
+#' # Create a library called <model>.ssim in the current working directory.
 #' myLib = ssimLibrary(model="st-sim")
 #' session(myLib) #The SycroSim session
 #' filepath(myLib) #Path to the file on disk.
 #' info(myLib) #Model type and other library information.
 #'
-#' #Open an existing SyncroSim library in the current working directory - don't make a backup copy.
+#' # Open an existing SyncroSim library in the current working directory - don't make a backup copy.
 #' myLib = ssimLibrary()
 #'
-#' #Create a library with a name in the current working directory
+#' # Create a library with a name in the current working directory
 #' myLib2 = ssimLibrary(name="Lib2",model="st-sim")
 #'
-#' #Create a library with a name in another directory
+#' # Create a library with a name in another directory
 #' myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="st-sim")
 #'
-#' #create or load a library using a specific session
+#' # Create or load a library using a specific session
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#' myLib = ssimLibrary(name="Lib2",cSession=mySession)
+#' myLib = ssimLibrary(name="Lib2",aSession=mySession)
 #' @name ssimLibrary
 # @rdname SSimLibrary-class
 #' @export
-ssimLibrary <- function(model=NULL,name=NULL,cSession=NULL,backup=F,backupName="backup",backupOverwrite=T,...) new("SSimLibrary",model,name,cSession,...)
+ssimLibrary <- function(model=NULL,name=NULL,aSession=NULL,backup=F,backupName="backup",backupOverwrite=T,...) new("SSimLibrary",model,name,cSession,...)
 
 setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
@@ -163,12 +163,12 @@ setMethod('modelName', signature(x="SSimLibrary"), function(x) {
 setReplaceMethod(
   f="session",
   signature="SSimLibrary",
-  definition=function(object,value){
+  definition=function(x,value){
     if(class(value)!="Session"){
       stop('Must assign a Session object.')
     }
-    object@session = value
-    return (object)
+    x@session = value
+    return (x)
   }
 )
 

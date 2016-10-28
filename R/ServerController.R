@@ -17,7 +17,7 @@ ServerController <- setClass("ServerController",representation(connection="sockc
 #remoteMsgCallComplete = 'call-complete'
 
 #' @export
-setGeneric('connection<-',function(object,value) standardGeneric('connection<-'))
+setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
 #' @export
 setGeneric('connection',function(x,...) standardGeneric('connection'))
 setMethod('connection', signature(x="ServerController"), function(x) return(x@connection))
@@ -40,12 +40,12 @@ setMethod('connection',signature(x="missingOrNULLOrChar"),
 setReplaceMethod(
   f="connection",
   signature="ServerController",
-  definition=function(object,value){
+  definition=function(x,value){
     if(!is.element("sockconn",class(value))){
       stop('Must assign a socket connection object.')
     }
-    object@connection = value
-    return (object)
+    x@connection = value
+    return (x)
   }
 )
 #' @export

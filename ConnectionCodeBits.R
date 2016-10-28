@@ -1,20 +1,26 @@
 devtools::document();devtools::load_all()
 
-myClient=externalClient(connect=T)
+myClient=externalClient()
 
-#Methods for s3 connection object
+#How to send a valid command?
+sendResp = writeLines("shutdown", connection(myClient))
+
+#Clean up stray connections
+gc()
+closeAllConnections()
+
+#Handling multiple connections?
 showConnections()
 isOpen(connection(myClient))
 close(connection(myClient)) #remove the connection
 showConnections()
-connection(myClient) = connection() #get a new connection
+connection(myClient) = connection() #get a new connection - but server is still listening for the old connection
 connection(myClient)
 #TO DO: understand how multiple connections work.
 #TO DO: When I close connections, the server seems to think I am still connected. ??
 
 showConnections()
 
-sendResp = writeLines(message, connection(x))
 
 setMethod('readServer', signature(x="ServerController"), function(x) {
   m = readLines(connection(x))
@@ -52,9 +58,6 @@ setMethod('remoteCall', signature(x="ServerController"), function(x,message) {
 
 
 
-#Clean up stray connections
-gc()
-closeAllConnections()
 
 mySsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug/SyncroSim.Console.exe",silent=T)   # Creates a silent session using a particular version (i.e. folder) of syncrosim
 

@@ -4,7 +4,7 @@
 \alias{ssimLibrary}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(model = NULL, name = NULL, cSession = NULL, backup = F,
+ssimLibrary(model = NULL, name = NULL, aSession = NULL, backup = F,
   backupName = "backup", backupOverwrite = T, ...)
 }
 \arguments{
@@ -12,7 +12,7 @@ ssimLibrary(model = NULL, name = NULL, cSession = NULL, backup = F,
 
 \item{name}{A library file name or library file path. If not a path library is created or opened in the current working directory.}
 
-\item{cSession}{A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.}
+\item{aSession}{A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.}
 
 \item{backup}{If TRUE, a backup copy is made when an existing library is opened.}
 
@@ -36,23 +36,23 @@ Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim li
 }
 }
 \examples{
-#Create a library called <model>.ssim in the current working directory.
+# Create a library called <model>.ssim in the current working directory.
 myLib = ssimLibrary(model="st-sim")
 session(myLib) #The SycroSim session
 filepath(myLib) #Path to the file on disk.
 info(myLib) #Model type and other library information.
 
-#Open an existing SyncroSim library in the current working directory - don't make a backup copy.
+# Open an existing SyncroSim library in the current working directory - don't make a backup copy.
 myLib = ssimLibrary()
 
-#Create a library with a name in the current working directory
+# Create a library with a name in the current working directory
 myLib2 = ssimLibrary(name="Lib2",model="st-sim")
 
-#Create a library with a name in another directory
+# Create a library with a name in another directory
 myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="st-sim")
 
-#create or load a library using a specific session
+# Create or load a library using a specific session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-myLib = ssimLibrary(name="Lib2",cSession=mySession)
+myLib = ssimLibrary(name="Lib2",aSession=mySession)
 }
 

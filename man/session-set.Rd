@@ -4,7 +4,7 @@
 \alias{session<-}
 \title{Set a SyncroSim session.}
 \usage{
-session(object) <- value
+session(x) <- value
 }
 \arguments{
 \item{x=}{A SyncroSim Session.}

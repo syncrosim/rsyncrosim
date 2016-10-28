@@ -4,12 +4,12 @@
 \alias{addModules<-}
 \title{Add modules}
 \usage{
-addModules(object) <- value
+addModules(x) <- value
 }
 \arguments{
-\item{object}{A SyncroSim \code{\link{Session}} object.}
-
 \item{value}{The path to an .ssimpkg file on disk, or a vector of filepaths}
+
+\item{object}{A SyncroSim \code{\link{Session}} object.}
 }
 \description{
 Add module or modules to this version of SyncroSim

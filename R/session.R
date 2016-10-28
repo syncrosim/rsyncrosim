@@ -10,9 +10,9 @@ NULL
 #' \code{SSimLibrary}, \code{Project} and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
 #'
 #' @examples
-#' #create or load a library using a non-default Session
+#' # Create or load a library using a non-default Session
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#' myLib = ssimLibrary(name="st-sim",model="st-sim",cSession=mySession)
+#' myLib = ssimLibrary(name="st-sim",model="st-sim",aSession=mySession)
 #' session(myLib)
 #'
 #' showMethods(class="Session",where=loadNamespace("rsyncrosim")) #Methods for the Session
@@ -20,13 +20,13 @@ NULL
 #' version(mySession)   # Lists the version of syncrosim session
 #' modules(mySession)   # Dataframe of the modules installed with this version of syncrosim, listing all of its properties as columns
 #'
-#' #add and remove modules
+#' # Add and remove modules
 #' TO DO:
 #'
-#' #create or load a library using a default Session
+#' # Create or load a library using a default Session
 #' myLib = ssimLibrary(name="st-sim",model="st-sim")
 #' session(myLib)
-#' @slot filepath The path to SyncroSim.Console.exe.
+#' @slot filepath The path to SyncroSim
 #' @slot silent If TRUE, warnings from the console are ignored. Otherwise they are printed.
 #' @name Session-class
 #' @rdname Session-class
@@ -34,30 +34,33 @@ NULL
 Session <- setClass("Session", representation(filepath="character",silent="logical"))
 # @name Session
 # @rdname Session-class
-setMethod(f="initialize",signature="Session",definition=function(.Object,x,silent=F){
+setMethod(f="initialize",signature="Session",definition=function(.Object,path,silent=F){
   #Check validity of console filepath.
-  filepath=x
-  if(!is.null(filepath)){
-    if(!file.exists(filepath)){
-      stop(paste("SyncroSim console could not be found at:",filepath))
+  if(!is.null(path)){
+    if(!grepl("SyncroSim.Console.exe",path,fixed=T)){
+      path=paste0(path,"/SyncroSim.Console.exe")
+    }
+
+    if(!file.exists(path)){
+      stop(paste("SyncroSim console could not be found at:",path))
     }
   }else{
     #try which
     whichPath = Sys.which("SyncroSim.Console.exe")
     if (file.exists(whichPath[1])){consolePath=whichPath[1]}
-    if(is.null(filepath)){
+    if(is.null(path)){
       #TO DO: what is best way to find console on all systems
       #Default installation locations?
       consolePathPossibilities = c("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
       for(i in seq(length(consolePathPossibilities))){
-        if(file.exists(consolePathPossibilities[i])){filepath=consolePathPossibilities[i];break}
+        if(file.exists(consolePathPossibilities[i])){path=consolePathPossibilities[i];break}
       }
     }
   }
-  if(is.null(filepath)){
+  if(is.null(path)){
     stop('SyncroSim.Console.exe not found. Please set consolePath to the location of the SyncroSim console.')
   }
-  .Object@filepath=filepath
+  .Object@filepath=gsub("/SyncroSim.Console.exe","",path,fixed=T)
   .Object@silent=silent
   return(.Object)
 })
@@ -79,23 +82,17 @@ setMethod('filepath', signature(x="Session"), function(x) x@filepath)
 setGeneric('silent',function(x) standardGeneric('silent'))
 setMethod('silent', signature(x="Session"), function(x) x@silent)
 
-#' Installed modules
+#' Installed models
 #'
-#' Modules installed with this version of SyncroSim
+#' Models installed with this version of SyncroSim
 #'
 #' @param x A SyncroSim \code{\link{Session}} object.
 #' @export
-setGeneric('modules',function(x) standardGeneric('modules'))
-setMethod('modules', signature(x="Session"), function(x) {
+setGeneric('models',function(x) standardGeneric('models'))
+setMethod('models', signature(x="Session"), function(x) {
+  #x=mySsim
   tt=command(args=list(list=NULL,models=NULL),x)
-  tt=strsplit(tt,split="  ")
-  out = data.frame(Model=c(NA),ModelName=c(NA),ModelCommand=c(NA))
-  for(i in seq(length(tt))){
-    #i=1
-    tt[[i]]=tt[[i]][tt[[i]]!=""]
-    out$ModelName[i]=tt[[i]][1]
-    out$ModelCommand[i]=gsub(" ","",tt[[i]][2],fixed=T)
-  }
+  out=.dataframeFromSSim(tt,colNames=c("name","command"))
   return(out)
 })
 
@@ -108,28 +105,46 @@ setMethod('modules', signature(x="Session"), function(x) {
 setGeneric('version',function(x) standardGeneric('version'))
 setMethod('version', signature(x="Session"), function(x) {return(command(list(version=NULL),x))})
 
+#' Installed modules
+#'
+#' Modules installed with this version of SyncroSim
+#'
+#' @param x A SyncroSim \code{\link{Session}} object.
+#' @export
+setGeneric('modules',function(x) standardGeneric('modules'))
+setMethod('modules', signature(x="Session"), function(x) {
+  tt = command(args=list(listmodules=NULL),x,program="/SyncroSim.ModuleManager.exe")
+  out = .dataframeFromSSim(tt,colNames=c("name","description","version"))
+  return(out)
+})
+
 #' Add modules
 #'
 #' Add module or modules to this version of SyncroSim
 #' TO DO: Doesn't currently do anything. Need console commands for adding and removing modules.
 #'
-#' @param object A SyncroSim \code{\link{Session}} object.
+#' @param x A SyncroSim \code{\link{Session}} object.
 #' @param value The path to an .ssimpkg file on disk, or a vector of filepaths
 #' @export
-setGeneric('addModules<-',function(object,value) standardGeneric('addModules<-'))
+setGeneric('addModules<-',function(x,value) standardGeneric('addModules<-'))
 setReplaceMethod(
   f="addModules",
   signature="Session",
-  definition=function(object,value){
-    #newModules=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
-    #newModules="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
+  definition=function(x,value){
+    #x=mySsim
+    #value=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
+    #value="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
     for(i in seq(length(value))){
+      #i=1
       if(!file.exists(value[i])){
         stop(paste0("Cannot find ",value[i],"."))
       }
+      modulesInstalled = modules(x)
+
+      #RESUME HERE: What
       #TO DO: finish these. Need console commands for adding and removing modules
     }
-    return (object)
+    return (x)
   }
 )
 
@@ -138,20 +153,21 @@ setReplaceMethod(
 #' Remove module or modules to this version of SyncroSim.
 #' TO DO: Doesn't currently do anything. Need console commands for adding and removing modules.
 #'
-#' @param object A SyncroSim \code{\link{Session}} object.
+#' @param x A SyncroSim \code{\link{Session}} object.
 #' @param value A module or vector of modules to remove. \code{\link{modules()}} for options.
 #' @export
-setGeneric('removeModules<-',function(object,value) standardGeneric('removeModules<-'))
+setGeneric('removeModules<-',function(x,value) standardGeneric('removeModules<-'))
 setReplaceMethod(
   f="removeModules",
   signature="Session",
-  definition=function(object,value){
-    #newModules=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
-    #newModules="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
+  definition=function(x,value){
+    #value = "stsim"
     for(i in seq(length(value))){
+      #i = 1
+
       #TO DO: finish these. Need console commands for adding and removing modules
     }
-    return (object)
+    return (x)
   }
 )
 
