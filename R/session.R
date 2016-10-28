@@ -161,11 +161,23 @@ setReplaceMethod(
   f="removeModules",
   signature="Session",
   definition=function(x,value){
-    #value = "stsim"
+    #value = "dgsim";x=mySsim
+    installedModules=modules(x)
     for(i in seq(length(value))){
       #i = 1
+      cVal = value[i]
+      if(!is.element(cVal,installedModules$name)){
+        print(paste0("Module ",cVal," is not installed, so cannot be removed."))
+        next
+      }
 
-      #TO DO: finish these. Need console commands for adding and removing modules
+      tt = command(args=list(removemodule=cVal),x,program="/SyncroSim.ModuleManager.exe")
+
+      #TO DO: How to handle return errors from SyncroSim?
+      installedModules = modules(x)
+      if(is.element(cVal,installedModules$name)){
+        stop(paste0('Error: failed to remove module ',cVal))
+      }
     }
     return (x)
   }

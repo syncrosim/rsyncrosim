@@ -2,12 +2,11 @@ devtools::document();devtools::load_all()
 
 #How to send a valid command?
 myClient=externalClient()
-sendResp = writeLines("shutdown", connection(myClient))
-connection(myClient)
-showMethods("connection")
-getMethod("connection","missingOrNULLOrChar")
-?socketConnection
-close(connection(myClient))
+sendResp = writeLines("shutdown", connection(myClient)) #Gives an error
+connection(myClient) # See info about the connection
+getMethod("connection","missingOrNULLOrChar") # See R code used to open the connection.
+?socketConnection # See help for socketConnection
+close(connection(myClient)) # Close the connection.
 
 #Clean up stray connections
 gc()

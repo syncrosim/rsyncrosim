@@ -140,7 +140,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' @name ssimLibrary
 # @rdname SSimLibrary-class
 #' @export
-ssimLibrary <- function(model=NULL,name=NULL,aSession=NULL,backup=F,backupName="backup",backupOverwrite=T,...) new("SSimLibrary",model,name,cSession,...)
+ssimLibrary <- function(model=NULL,name=NULL,aSession=NULL,backup=F,backupName="backup",backupOverwrite=T,...) new("SSimLibrary",model,name,aSession,...)
 
 setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
@@ -153,9 +153,9 @@ setMethod('info', signature(x="SSimLibrary"), function(x) {
 })
 
 setMethod('modelName', signature(x="SSimLibrary"), function(x) {
-  #myLib = ssimLibrary()
+  #x = myLibrary
   nameString = info(x)[grepl("Name: ",info(x),fixed=T)]
-  nameBits = strsplit(nameString[1],"  ")[[1]]
+  nameBits = strsplit(nameString[2],"  ")[[2]]
   name = gsub(" ","",nameBits[length(nameBits)],fixed=T)
   return(name)
 })
