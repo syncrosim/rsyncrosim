@@ -31,7 +31,7 @@
   if(is.null(colNames)){
     colNames = rows[[1]]
   }
-  for(i in seq(length(colNames))){
+  for(i in seq(length.out=length(colNames))){
     #i = 1
     out[[colNames[i]]]=c(NA)
   }
@@ -41,12 +41,12 @@
   if(identical(colNames,rows[[1]])){
     skip=2
   }else{skip=0}
-  for(i in seq(length(rows))){
+  for(i in seq(length.out=length(rows))){
     if(i<=skip){next}
     if(length(rows[[i]])!=ncol(out)){
       stop(paste("Need the same number of columns in each row.",rows[[1]],";",rows[[i]]))
     }
-    for(j in seq(length(rows[[i]]))){
+    for(j in seq(length.out=length(rows[[i]]))){
       out[i-skip,j]=rows[[i]][j]
     }
   }

@@ -19,19 +19,24 @@ A SyncroSim Session object contains a link to SyncroSim.
 \examples{
 # Create or load a library using a non-default Session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-myLib = ssimLibrary(name="st-sim",model="st-sim",aSession=mySession)
+myLib = ssimLibrary(name="stsim",model="st-sim",session=mySession)
 session(myLib)
 
 showMethods(class="Session",where=loadNamespace("rsyncrosim")) #Methods for the Session
 filepath(mySession)   # Lists the folder location of syncrosim session
 version(mySession)   # Lists the version of syncrosim session
-modules(mySession)   # Dataframe of the modules installed with this version of syncrosim, listing all of its properties as columns
+modules(mySession)   # Dataframe of the modules installed with this version of syncrosim.
+models(mySsim) # Dataframe of the models installed with this version of syncrosim.
 
 # Add and remove modules
-TO DO:
+removeModules(mySsim) = "stsim-stock-flow"
+is.element("stsim-stock-flow",modules(mySsim)$name)
+addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
+addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
+is.element("stsim-stock-flow",modules(mySsim)$name)
 
 # Create or load a library using a default Session
-myLib = ssimLibrary(name="st-sim",model="st-sim")
+myLib = ssimLibrary(name="stsim",model="stsim")
 session(myLib)
 }
 

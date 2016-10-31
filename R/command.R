@@ -7,26 +7,26 @@
 #' \code{command} issues a command to the SyncroSim console and returns the output.
 #'
 #' @param args A list of arguments to the SyncroSim console.
-#' @param aSession A SyncroSim session object. If NULL, a default session will be used.
+#' @param session A SyncroSim session object. If NULL, a default session will be used.
 #' @param printCmd If T, the command string is printed.
 #' @return Output from the SyncroSim console.
 #' @examples
 #' # Use a default session to creat a new library
-#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
+#' args = list(create=NULL,ssimLibrary=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
 #' output = command(args)
 #' output
 #' @export
-command<-function(args,aSession=NULL,printCmd=F,program="/SyncroSim.Console.exe") {
-  # args=myArgs;aSession=mySsim;printCmd=F
+command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe") {
+  # args=myArgs;session=mySsim;printCmd=F
   # TO DO: check validity of args
 
   #if a syncrosim session is not provided, make one
-  if(is.null(aSession)){
-    aSession = session()
+  if(is.null(session)){
+    session = .session()
   }
 
   sysArgs = c()
-  for(i in seq(length(args))){
+  for(i in seq(length.out=length(args))){
     #i=1
     cArg = paste0("--",names(args)[i])
     sysArgs =c(sysArgs,cArg)
@@ -38,9 +38,9 @@ command<-function(args,aSession=NULL,printCmd=F,program="/SyncroSim.Console.exe"
   if(printCmd){
     print(paste(sysArgs,collapse=" "))
   }
-  if(silent(aSession)){stderr=F}else{stderr=""}
-  out = system2(paste0(filepath(aSession),program), args=sysArgs,stdout=TRUE,stderr=stderr)
-  if(identical(cOutput,character(0))){
+  if(silent(session)){stderr=F}else{stderr=""}
+  out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE,stderr=stderr)
+  if(identical(out,character(0))){
     out="Success!"
   }else{
     if(!is.null(attr(out,"status"))){

@@ -4,7 +4,7 @@
 \alias{ssimLibrary}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(model = NULL, name = NULL, aSession = NULL, backup = F,
+ssimLibrary(model = NULL, name = NULL, session = NULL, backup = F,
   backupName = "backup", backupOverwrite = T, ...)
 }
 \arguments{
@@ -12,7 +12,7 @@ ssimLibrary(model = NULL, name = NULL, aSession = NULL, backup = F,
 
 \item{name}{A library file name or library file path. If not a path library is created or opened in the current working directory.}
 
-\item{aSession}{A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.}
+\item{session}{A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.}
 
 \item{backup}{If TRUE, a backup copy is made when an existing library is opened.}
 
@@ -56,6 +56,6 @@ myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
 
 # Create or load a library using a specific session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-myLib = ssimLibrary(name="Lib2",aSession=mySession)
+myLib = ssimLibrary(name="Lib2",session=mySession)
 }
 

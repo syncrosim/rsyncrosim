@@ -15,8 +15,9 @@ Collate:
     'externalClient.R'
     'fullFilename.R'
     'hello.R'
-    'rsyncrosim.R'
     'session.R'
     'ssimLibrary.R'
+    'project.R'
+    'rsyncrosim.R'
     'trim.R'
 RoxygenNote: 5.0.1

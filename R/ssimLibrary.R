@@ -3,6 +3,7 @@
 # Version 0.1
 # Licence GPL v3
 #' @include generics.R
+#' @include session.R
 NULL
 #' SyncroSim Library class
 #'
@@ -11,7 +12,7 @@ NULL
 #' @seealso See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
 #' @examples
 #' # Create or load and query an STSim library.
-#' myLib = ssimLibrary(model="st-sim")
+#' myLib = ssimLibrary(model="stsim")
 #' session(myLib)
 #' filepath(myLib)
 #' info(myLib)
@@ -24,16 +25,14 @@ SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath
 # @name SSimLibrary
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
-    definition=function(.Object,model=NULL,name=NULL,aSession=NULL,backup=F,backupName="backup",backupOverwrite=T){
-    #model="stsim";name="stsim";aSession=mySsim
+    definition=function(.Object,model=NULL,name=NULL,session=NULL,backup=F,backupName="backup",backupOverwrite=T){
+    #model="stsim";name="stsim";session=mySsim
     #if a syncrosim session is not provided, make one
-    if(is.null(aSession)){
-      aSession = session()
+    if(is.null(session)){
+      session = .session()
     }
 
-    modelOptions = models(aSession)
-
-    #modelOptions=list("st-sim"=list(modelCmd="stsim:model-transformer",modelName="ST-Sim State and Transition"))
+    modelOptions = models(session)
     if(!is.null(model)){
       model=gsub(":model-transformer","",model,fixed=T)
       if(!is.element(model,modelOptions$name)){
@@ -77,8 +76,7 @@ setMethod(f="initialize",signature="SSimLibrary",
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
 
       args = list(create=NULL,library=NULL,name=path,model=modelOptions$command[modelOptions$name==model])
-      cStatus = command(args,aSession)
-      #cStatus=command(args,aSession)
+      cStatus = command(args,session)
     }else{
       #x="C:/Temp/NewLibrary.ssim"
       if(backup){
@@ -91,15 +89,14 @@ setMethod(f="initialize",signature="SSimLibrary",
     }
     #ensure the primaryModule specified matches the primaryModule on disk
     args = list(list=NULL,library=NULL,lib=path)
-    cStatus = command(args,aSession)
-    #cStatus= command(args,aSession)
+    cStatus = command(args,session)
     if(!is.null(model)){
       expectedModule = modelOptions$description[modelOptions$name==model]
       if(!grepl(expectedModule,cStatus[2])){
         stop(paste0("A library of that name and a different model type ",cStatus[2]," already exists."))
       }
     }
-    .Object@session=aSession
+    .Object@session=session
     .Object@filepath=path
     return(.Object)
   }
@@ -118,7 +115,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' }
 #' @param model The model type. Optional when loading an existing library.
 #' @param name A library file name or library file path. If not a path library is created or opened in the current working directory.
-#' @param aSession A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
+#' @param session A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
 #' @param backup If TRUE, a backup copy is made when an existing library is opened.
 #' @param backupName Added to a library filepath to create a backup library.
 #' @param backupOverwrite If TRUE, the existing backup of a library (if any) will be overwritten.
@@ -144,19 +141,19 @@ setMethod(f="initialize",signature="SSimLibrary",
 #'
 #' # Create or load a library using a specific session
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#' myLib = ssimLibrary(name="Lib2",aSession=mySession)
+#' myLib = ssimLibrary(name="Lib2",session=mySession)
 #' @name ssimLibrary
 # @rdname SSimLibrary-class
 #' @export
-ssimLibrary <- function(model=NULL,name=NULL,aSession=NULL,backup=F,backupName="backup",backupOverwrite=T,...) new("SSimLibrary",model,name,aSession,...)
+ssimLibrary <- function(model=NULL,name=NULL,session=NULL,backup=F,backupName="backup",backupOverwrite=T,...) new("SSimLibrary",model,name,session,...)
 
 setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
 setMethod('session', signature(x="SSimLibrary"), function(x) x@session)
 
 setMethod('info', signature(x="SSimLibrary"), function(x) {
-  args = list(list=NULL,library=NULL,lib=filepath(x))
-  tt = command(args,session(x))
+  args = list(list=NULL,library=NULL,lib=.filepath(x))
+  tt = command(args,.session(x))
   out = .dataframeFromSSim(tt,colNames=c("type","value"))
   return(out)
 })
@@ -180,6 +177,23 @@ setReplaceMethod(
   }
 )
 
+setMethod('projects', signature(x="SSimLibrary"), function(x) {
+  #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+  #x = myLibrary
+
+  tt = command(list(list=NULL,projects=NULL,lib=.filepath(x)),.session(x))
+  if(identical(tt,"Success!")){
+    ttFrame = subset(data.frame(id=NA,name=NA),!is.na(id))
+  }else{
+    ttFrame=.dataframeFromSSim(tt,colNames=c("id","name"))
+  }
+  ttList = list()
+  for(i in seq(length.out=nrow(ttFrame))){
+    #i = 1
+    ttList[[ttFrame$id[i]]]=project(x,id=ttFrame$id[i])
+  }
+  return(ttList)
+})
 
 
 

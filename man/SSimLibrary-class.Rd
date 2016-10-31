@@ -17,7 +17,7 @@
 }}
 \examples{
 # Create or load and query an STSim library.
-myLib = ssimLibrary(model="st-sim")
+myLib = ssimLibrary(model="stsim")
 session(myLib)
 filepath(myLib)
 info(myLib)

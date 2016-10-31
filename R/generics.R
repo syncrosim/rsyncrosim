@@ -1,4 +1,12 @@
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
+#' The name of a SyncroSim project or scenario.
+#'
+#' The name of a SyncroSim Project or Scenario.
+#'
+#' @param x An object with a name.
+#' @export
+setGeneric('name',function(x) standardGeneric('name'))
+
 #' The name of the model associate with a SyncroSim object
 #'
 #' The name of the model associated with a SSimLibarary, Project or Scenario.
@@ -14,6 +22,10 @@ setGeneric('modelName',function(x) standardGeneric('modelName'))
 #' @param x An object containing a filepath.
 #' @export
 setGeneric('filepath',function(x) standardGeneric('filepath'))
+#Internal version that will not be overwritten by function arguments of the same name.
+#Exported to facilitate debugging during development.
+#' @export
+.filepath=filepath
 
 #' Information about an object
 #'
@@ -39,13 +51,17 @@ setGeneric('info',function(x) standardGeneric('info'))
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 #'
 #' # Get the session from an SSimLibrary
-#' myLib = ssimLibrary(name="st-sim",model="st-sim")
+#' myLib = ssimLibrary(name="stsim",model="stsim")
 #' session(myLib)
 #'
 #' # Assign a session to a SyncroSim library
 #' session(myLib)=session()
 #' @export
 setGeneric('session',function(x=NULL,...) standardGeneric('session'))
+#Internal version that will not be overwritten by function arguments of the same name.
+#Exported to facilitate debugging during development.
+#' @export
+.session=session
 
 #' Set a SyncroSim session.
 #'
@@ -59,3 +75,14 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' session(ssimLibrary)
 #' @export
 setGeneric('session<-',function(x,value) standardGeneric('session<-'))
+
+#' The projects in a SyncroSim library.
+#'
+#' Get a list of projects in a SyncroSim library.
+#'
+#' @param x= An SSimLibrary object
+#' @return A list of projects identified by the project id. Each element of the list contains a SyncroSim Project object.
+#' @examples
+#' myProjects = projects(ssimLibrary(model="stsim",name="stsim"))
+#' @export
+setGeneric('projects',function(x) standardGeneric('projects'))

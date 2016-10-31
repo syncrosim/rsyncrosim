@@ -27,7 +27,7 @@ path(mySession)
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 
 # Get the session from an SSimLibrary
-myLib = ssimLibrary(name="st-sim",model="st-sim")
+myLib = ssimLibrary(name="stsim",model="stsim")
 session(myLib)
 
 # Assign a session to a SyncroSim library

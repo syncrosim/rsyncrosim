@@ -12,19 +12,24 @@ NULL
 #' @examples
 #' # Create or load a library using a non-default Session
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#' myLib = ssimLibrary(name="st-sim",model="st-sim",aSession=mySession)
+#' myLib = ssimLibrary(name="stsim",model="st-sim",session=mySession)
 #' session(myLib)
 #'
 #' showMethods(class="Session",where=loadNamespace("rsyncrosim")) #Methods for the Session
 #' filepath(mySession)   # Lists the folder location of syncrosim session
 #' version(mySession)   # Lists the version of syncrosim session
-#' modules(mySession)   # Dataframe of the modules installed with this version of syncrosim, listing all of its properties as columns
+#' modules(mySession)   # Dataframe of the modules installed with this version of syncrosim.
+#' models(mySsim) # Dataframe of the models installed with this version of syncrosim.
 #'
 #' # Add and remove modules
-#' TO DO:
+#' removeModules(mySsim) = "stsim-stock-flow"
+#' is.element("stsim-stock-flow",modules(mySsim)$name)
+#' addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
+#' addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
+#' is.element("stsim-stock-flow",modules(mySsim)$name)
 #'
 #' # Create or load a library using a default Session
-#' myLib = ssimLibrary(name="st-sim",model="st-sim")
+#' myLib = ssimLibrary(name="stsim",model="stsim")
 #' session(myLib)
 #' @slot filepath The path to SyncroSim
 #' @slot silent If TRUE, warnings from the console are ignored. Otherwise they are printed.
@@ -52,7 +57,7 @@ setMethod(f="initialize",signature="Session",definition=function(.Object,path,si
       #TO DO: what is best way to find console on all systems
       #Default installation locations?
       consolePathPossibilities = c("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-      for(i in seq(length(consolePathPossibilities))){
+      for(i in seq(length.out=length(consolePathPossibilities))){
         if(file.exists(consolePathPossibilities[i])){path=consolePathPossibilities[i];break}
       }
     }
@@ -135,7 +140,7 @@ setReplaceMethod(
     #x=mySsim
     #value=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
     #value="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
-    for(i in seq(length(value))){
+    for(i in seq(length.out=length(value))){
       #i=1
       cVal = value[i]
       if(!file.exists(cVal)){
@@ -163,7 +168,7 @@ setReplaceMethod(
   definition=function(x,value){
     #value = "dgsim";x=mySsim
     installedModules=modules(x)
-    for(i in seq(length(value))){
+    for(i in seq(length.out=length(value))){
       #i = 1
       cVal = value[i]
       if(!is.element(cVal,installedModules$name)){

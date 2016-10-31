@@ -11,11 +11,10 @@ showMethods(class="Session",where=loadNamespace("rsyncrosim")) # See methods for
 getMethod("modules","Session") # See code for the filepath method of the Session object.
 showMethods("filepath") # See the objects for which filepath is defined.
 ?filepath # Help for the filepath function
-
 ##########################
 # Create and query a session
 mySsim = session() # Creates a session using the default installation of syncrosim
-mySsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a silent session using a particular version (i.e. folder) of syncrosim
+devSsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a silent session using a particular version (i.e. folder) of syncrosim
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim) # Lists the folder location of syncrosim session
 version(mySsim) # Lists the version of syncrosim session
@@ -23,8 +22,6 @@ version(mySsim) # Lists the version of syncrosim session
 modules(mySsim) # Dataframe of the modules installed with this verions of SyncroSim.
 models(mySsim) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
-
-# devtools::document();devtools::load_all()
 
 # Add/remove modules
 removeModules(mySsim) = "stsim-stock-flow"
@@ -50,7 +47,7 @@ models(session())
 myLibrary = ssimLibrary(model="stsim",name="stsim")
 
 myLibrary = ssimLibrary(model="stsim") # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",aSession=session())
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=session())
 # See ?ssimLibrary for more details and examples.
 
 # Not sure how to reference models and add-ons.
@@ -72,30 +69,35 @@ addons(myLibrary)   # provides a dataframe of the addons and their various prope
 # TO DO: need Console command to get addons of a library.
 
 # As with the UI, these changes are committed immediately
-enableAddons(mySsimLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")    # Change is made immediately on disk
-disableAddons(mySsimLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")   # Change is made immediately on disk
+enableAddons(myLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")    # Change is made immediately on disk
+disableAddons(myLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")   # Change is made immediately on disk
 # TO DO: Console commands for enabling and disabling addons
 
 # Backup a library (with various options) - skip this for now
-backup(mySsimLibrary)
-restore(mySsimLibrary)
+backup(myLibrary)
+restore(myLibrary)
 # LATER
 
 ###################################
 # Projects
-# Get a named vector of existing projects - should have a SyncroSimProject class
-myProjects = projects(mySsimLibrary)    # Each element in the vector is named by a character version of the project ID
-names(myProjects)   # vector of the project names (using base R names function)
-
-# Get an existing project - NOTE: by default assume that name uniquely identifies a single project - give error if not
-myProject = myProjects[1]
-myProject = project(mySsimLibrary, name="My Existing Project")
-
-# Create a new project - committed to db immediately
-myProject = project(mySsimLibrary)
+# devtools::document();devtools::load_all()
+# Create a new project
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
 myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
 
+# Get a named list of existing projects
+myProjects = projects(myLibrary) # Each element in the list is named by a character version of the project ID
+
+names(myProjects)   # vector of the project names (using base R names function)
+#TO DO: base R function names returns project id's, not names. Do we want to overwrite the base function?
+
+# Get an existing project. Assume that name uniquely identifies a single project - give error if not
+myProject = myProjects[[1]]
+myProject = project(myLibrary, name="TempProject")
+
 # Get/set the project properties - for now we can only set the name
+# RESUME HERE - remember to set object and disk...
 name(myProject)
 name(myProject) = "New project name"   #  - committed to db immediately
 ssimLibrary(myProject)    # Returns a SyncroSimLibrary object for the project
@@ -125,4 +127,4 @@ myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
 
 # Create or load a library using a specific session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-myLib = ssimLibrary(name="stsim",aSession=mySession)
+myLib = ssimLibrary(name="stsim",session=mySession)

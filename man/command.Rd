@@ -4,13 +4,13 @@
 \alias{command}
 \title{SyncroSim console command}
 \usage{
-command(args, aSession = NULL, printCmd = F,
+command(args, session = NULL, printCmd = F,
   program = "/SyncroSim.Console.exe")
 }
 \arguments{
 \item{args}{A list of arguments to the SyncroSim console.}
 
-\item{aSession}{A SyncroSim session object. If NULL, a default session will be used.}
+\item{session}{A SyncroSim session object. If NULL, a default session will be used.}
 
 \item{printCmd}{If T, the command string is printed.}
 }
@@ -22,7 +22,7 @@ Output from the SyncroSim console.
 }
 \examples{
 # Use a default session to creat a new library
-args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
+args = list(create=NULL,ssimLibrary=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
 output = command(args)
 output
 }
