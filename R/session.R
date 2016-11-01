@@ -127,7 +127,6 @@ setMethod('modules', signature(x="Session"), function(x) {
 #' Add modules
 #'
 #' Add module or modules to this version of SyncroSim
-#' TO DO: Doesn't currently do anything. Need console commands for adding and removing modules.
 #'
 #' @param x A SyncroSim \code{\link{Session}} object.
 #' @param value The path to an .ssimpkg file on disk, or a vector of filepaths
@@ -156,7 +155,9 @@ setReplaceMethod(
 #' Remove modules
 #'
 #' Remove module or modules to this version of SyncroSim.
-#' TO DO: Doesn't currently do anything. Need console commands for adding and removing modules.
+#' Note that removing a module can be difficult to undo.
+#' To restore the module the user will need to provide a .ssimpkg file or reinstall SyncroSim.
+#' Thus, \code{removeModules} requires confirmation from the user.
 #'
 #' @param x A SyncroSim \code{\link{Session}} object.
 #' @param value A module or vector of modules to remove. \code{\link{modules()}} for options.

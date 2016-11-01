@@ -16,11 +16,16 @@
 \item{\code{filepath}}{The path to the library on disk.}
 }}
 \examples{
-# Create or load and query an STSim library.
-myLib = ssimLibrary(model="stsim")
-session(myLib)
-filepath(myLib)
-info(myLib)
+# Create or load and query a SyncroSim Library.
+myLibrary = ssimLibrary(model="stsim")
+session(myLibrary)
+filepath(myLibrary)
+info(myLibrary)
+
+# Add or load a project, then get the SyncroSim Library associated with that Project
+myProject = project(myLibrary)
+myLibrary = ssimLibrary(myProject)
+
 }
 \seealso{
 See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.

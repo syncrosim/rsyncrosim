@@ -21,11 +21,10 @@ Project <- setClass("Project", contains="SSimLibrary",representation(name="chara
 # @name Project
 # @rdname Project-class
 setMethod(f="initialize",signature="Project",
-    definition=function(.Object,ssimlibrary,name=NULL,id=NULL){
+    definition=function(.Object,ssimLibrary,name=NULL,id=NULL){
     #ssimLibrary = myLibrary#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id = NULL;name=NULL
-    tt = command(list(list=NULL,projects=NULL,lib=.filepath(ssimLibrary)),.session(ssimLibrary))
-    cProjects=.dataframeFromSSim(tt,colNames=c("id","name"))
+    cProjects = projects(ssimLibrary,names=T)
     if(is.null(name)&is.null(id)){
       #stop("Project must be identified by a name or id.")
       if(nrow(cProjects)==0){
@@ -34,9 +33,10 @@ setMethod(f="initialize",signature="Project",
         name= paste0("Project",max(as.numeric(cProjects$id))+1)
       }
     }
+
     #If project already exists, return the details.
     #Complain if id and name don't match, or if there is more than one project with a name and id is not specified.
-    if((nrow(cProjects)>0)&&((is.null(id)||is.element(id,cProjects$id))||(is.null(name)||is.element(name,cProjects$name)))){
+    if(nrow(cProjects)>0){#&&((is.null(id)||is.element(id,cProjects$id))||(is.null(name)||is.element(name,cProjects$name)))){
       if(!is.null(id)&&is.element(id,cProjects$id)){
         cName = cProjects$name[cProjects$id==id]
         if(!is.null(name)&&!identical(cName,name)){
@@ -51,22 +51,18 @@ setMethod(f="initialize",signature="Project",
         }
         id = cProjects$id[cProjects$name==name]
       }
-      .Object@session=session(ssimLibrary)
-      .Object@filepath=filepath(ssimLibrary)
-      .Object@id = as.numeric(id)
-      .Object@name = name
-      return(.Object)
     }
 
     #If given an id for a project that does not yet exist, complain
-    if(!is.null(id)){
+    if(!is.null(id)&&!is.element(id,cProjects$id)){
       stop(paste0("The library does not contain project id ",id,". Please provide a name for the new project - the id will be assigned automatically by SyncroSim."))
     }
 
     #If project does not yet exist, make it.
-    tt = command(list(create=NULL,project=NULL,lib=.filepath(ssimLibrary),name=name),.session(library))
-    id =strsplit(tt,": ")[[1]][2]
-
+    if(is.null(id)){
+      tt = command(list(create=NULL,project=NULL,lib=.filepath(ssimLibrary),name=name),.session(ssimLibrary))
+      id =strsplit(tt,": ")[[1]][2]
+    }
     .Object@session=session(ssimLibrary)
     .Object@filepath=filepath(ssimLibrary)
     .Object@id = as.numeric(id)
@@ -105,12 +101,35 @@ setMethod(f="initialize",signature="Project",
 # @rdname Project-class
 #' @export
 project <- function(ssimLibrary,name=NULL,id=NULL) new("Project",ssimLibrary,name,id)
+.project = project
 
 setMethod('name', signature(x="Project"), function(x) {
   return(x@name)
 })
 
-#RESUME HERE: set name on disk and in project
+#' Set the project name
+#'
+#' Set the name of a SyncroSim project.
+#'
+#' @param x A SyncroSim \code{\link{Project}} object.
+#' @param value The new project name.
+#' @export
+setGeneric('name<-',function(x,value) standardGeneric('name<-'))
+setReplaceMethod(
+  f="name",
+  signature="Project",
+  definition=function(x,value){
+    #x=myProject
+    #TO DO: console command for renaming a project.
+    return (x)
+  }
+)
+
+#' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Project.
+setMethod('ssimLibrary', signature(model="Project"), function(model) {
+  out = .ssimLibrary(name=.filepath(model),session=.session(model))
+  return(out)
+})
 
 
 

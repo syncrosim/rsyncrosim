@@ -1,4 +1,13 @@
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
+#' Create or open a library.
+#'
+#' Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim library.
+#'
+#' @param model A model type or a SyncroSim Project or Scenario. Optional when loading an existing library using a name.
+#' @export
+setGeneric('ssimLibrary',function(model=NULL,...) standardGeneric('ssimLibrary'))
+.ssimLibrary=ssimLibrary
+
 #' The name of a SyncroSim project or scenario.
 #'
 #' The name of a SyncroSim Project or Scenario.
@@ -75,14 +84,3 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' session(ssimLibrary)
 #' @export
 setGeneric('session<-',function(x,value) standardGeneric('session<-'))
-
-#' The projects in a SyncroSim library.
-#'
-#' Get a list of projects in a SyncroSim library.
-#'
-#' @param x= An SSimLibrary object
-#' @return A list of projects identified by the project id. Each element of the list contains a SyncroSim Project object.
-#' @examples
-#' myProjects = projects(ssimLibrary(model="stsim",name="stsim"))
-#' @export
-setGeneric('projects',function(x) standardGeneric('projects'))

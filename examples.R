@@ -82,29 +82,35 @@ restore(myLibrary)
 # Projects
 # devtools::document();devtools::load_all()
 # Create a new project
+devSsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a silent session using a particular version (i.e. folder) of syncrosim
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
 myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
-myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
+myProject = project(ssimLibrary=myLibrary, name="My new project name")
 
 # Get a named list of existing projects
 myProjects = projects(myLibrary) # Each element in the list is named by a character version of the project ID
 
+projects(myLibrary,names=T) # Returns a data frame containing project names and ids.
 names(myProjects)   # vector of the project names (using base R names function)
-#TO DO: base R function names returns project id's, not names. Do we want to overwrite the base function?
+#TO DO: base R function names returns project id's, not names. I don't think it is a good idea to overwrite the base function for List objects.
 
 # Get an existing project. Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[[1]]
 myProject = project(myLibrary, name="TempProject")
 
 # Get/set the project properties - for now we can only set the name
-# RESUME HERE - remember to set object and disk...
 name(myProject)
-name(myProject) = "New project name"   #  - committed to db immediately
-ssimLibrary(myProject)    # Returns a SyncroSimLibrary object for the project
+name(myProject) = "New project name"
+#TO DO: get console command for renaming a project
 
-# Delete projects - committed to db immediately
-result = deleteProjects(ssimLibrary=mySsimLibrary, project="My Existing Project")    # Returns some result indicating success? What does the command line do?
-result = deleteProjects(ssimLibrary=mySsimLibrary, project=c(2,3))
+myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
+
+# Delete projects
+projects(myLibrary,names=T)
+deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
+deleteProjects(ssimLibrary=myLibrary, project=c(1,13))
+#QUESTION: Do we want to be consistent about "project" vs "projects" here?
+#TO DO: Need console command that does not require additional input. I can ask for confirmation in R.
 
 
 

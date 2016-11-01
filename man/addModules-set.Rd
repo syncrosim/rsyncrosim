@@ -13,6 +13,5 @@ addModules(x) <- value
 }
 \description{
 Add module or modules to this version of SyncroSim
-TO DO: Doesn't currently do anything. Need console commands for adding and removing modules.
 }
 

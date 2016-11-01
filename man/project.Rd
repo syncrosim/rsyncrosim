@@ -20,8 +20,23 @@ A \code{Project} object representing a SyncroSim project.
 Creates or opens an \code{\link{Project}} object representing a SyncroSim project.
 }
 \examples{
-# Create a project in the default library.
-myLib = ssimLibrary(model="stsim",name="stsim")
-myProject = project(myLib,name="firstProject")
+# Create a new project
+myLibrary = ssimLibrary(model="stsim",name="stsim")
+myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
+myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
+
+# Get a named list of existing projects
+myProjects = projects(myLibrary) # Each element in the list is named by a character version of the project ID
+names(myProjects)   # vector of the project names (using base R names function)
+#TO DO: base R function names returns project id's, not names. Do we want to overwrite the base function?
+
+# Get an existing project. Assume that name uniquely identifies a single project - give error if not
+myProject = myProjects[[1]]
+myProject = project(myLibrary, name="My new project name")
+
+# Get/set the project properties - for now we can only set the name
+name(myProject)
+name(myProject) = "New project name" #  - committed to db immediately
+ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
 }
 

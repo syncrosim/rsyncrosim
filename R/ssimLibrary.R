@@ -11,11 +11,16 @@ NULL
 #'
 #' @seealso See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
 #' @examples
-#' # Create or load and query an STSim library.
-#' myLib = ssimLibrary(model="stsim")
-#' session(myLib)
-#' filepath(myLib)
-#' info(myLib)
+#' # Create or load and query a SyncroSim Library.
+#' myLibrary = ssimLibrary(model="stsim")
+#' session(myLibrary)
+#' filepath(myLibrary)
+#' info(myLibrary)
+#'
+#' # Add or load a project, then get the SyncroSim Library associated with that Project
+#' myProject = project(myLibrary)
+#' myLibrary = ssimLibrary(myProject)
+#'
 #' @slot session The SyncroSim session.
 #' @slot filepath The path to the library on disk.
 #' @name SSimLibrary-class
@@ -101,19 +106,16 @@ setMethod(f="initialize",signature="SSimLibrary",
     return(.Object)
   }
 )
-#' Create or open a library.
-#'
-#' Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim library.
-#'
 #' @details
 #' \itemize{
+#'   \item {If model is SyncroSim Project or Scenario: }{Returns the \code{\link{SSimLibrary}} associated with the Project or Scenario.}
 #'   \item {If given no name and no model: }{Opens an existing SyncroSim library in
 #'   the current working directory - returns an error if more than one library exists. If library does not exist and only one model is installed - creates a library of that type.}
 #'   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
 #'   \item {If given a name but no model: }{Attempts to open a library of that name. Returns an error if that library does not already exist.}
 #'   \item {If given a name and a model: }{Opens or creates a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 #' }
-#' @param model The model type. Optional when loading an existing library.
+# @param model The model type. Optional when loading an existing library.
 #' @param name A library file name or library file path. If not a path library is created or opened in the current working directory.
 #' @param session A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
 #' @param backup If TRUE, a backup copy is made when an existing library is opened.
@@ -125,27 +127,31 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' models(session())
 #'
 #' # Create a library called <model>.ssim in the current working directory.
-#' myLib = ssimLibrary(model="stsim")
-#' session(myLib) #The SycroSim session
-#' filepath(myLib) #Path to the file on disk.
-#' info(myLib) #Model type and other library information.
+#' myLibrary = ssimLibrary(model="stsim")
+#' session(myLibrary) #The SycroSim session
+#' filepath(myLibrary) #Path to the file on disk.
+#' info(myLibrary) #Model type and other library information.
 #'
 #' # Open an existing SyncroSim library in the current working directory - don't make a backup copy.
-#' myLib = ssimLibrary()
+#' myLibrary = ssimLibrary()
 #'
 #' # Create a library with a name in the current working directory
-#' myLib2 = ssimLibrary(name="Lib2",model="stsim")
+#' mySecondLibrary = ssimLibrary(name="Lib2",model="stsim")
 #'
 #' # Create a library with a name in another directory
-#' myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
+#' myThirdLibrary = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
 #'
 #' # Create or load a library using a specific session
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#' myLib = ssimLibrary(name="Lib2",session=mySession)
+#' myLibrary = ssimLibrary(name="Lib2",session=mySession)
+#'
+#' # Add a project and get the library associated with that project
+#' myProject = project(myLibrary)
+#' myLibrary = ssimLibrary(myProject)
 #' @name ssimLibrary
 # @rdname SSimLibrary-class
-#' @export
-ssimLibrary <- function(model=NULL,name=NULL,session=NULL,backup=F,backupName="backup",backupOverwrite=T,...) new("SSimLibrary",model,name,session,...)
+setMethod('ssimLibrary',signature(model="missingOrNULLOrChar"),
+          function(model=NULL,name=NULL,session=NULL,backup=F,backupName="backup",backupOverwrite=T) new("SSimLibrary",model,name,session,backup,backupName,backupOverwrite))
 
 setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
@@ -177,7 +183,19 @@ setReplaceMethod(
   }
 )
 
-setMethod('projects', signature(x="SSimLibrary"), function(x) {
+#' The projects in a SyncroSim library.
+#'
+#' Get a list of projects in a SyncroSim library.
+#'
+#' @param x An SSimLibrary object, or a Project or Scenario associated with a Library
+#' @param names If FALSE, a list of \code{\link{Project}} objects is returned. If TRUE returns a dataframe containing the name and id of each project.
+#' @return By default returns a list of projects identified by the project id. Each element of the list contains a SyncroSim Project object. If names=T, returns a dataframe containing the name and id of each project.
+#' @examples
+#' myProjects = projects(ssimLibrary(model="stsim",name="stsim"))
+#' @export
+setGeneric('projects',function(x,...) standardGeneric('projects'))
+.projects = projects
+setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
 
@@ -187,6 +205,9 @@ setMethod('projects', signature(x="SSimLibrary"), function(x) {
   }else{
     ttFrame=.dataframeFromSSim(tt,colNames=c("id","name"))
   }
+  if(names){
+    return(ttFrame)
+  }
   ttList = list()
   for(i in seq(length.out=nrow(ttFrame))){
     #i = 1
@@ -195,6 +216,54 @@ setMethod('projects', signature(x="SSimLibrary"), function(x) {
   return(ttList)
 })
 
+#' Delete projects from a Library
+#'
+#' Deletes one or more projects from a SyncroSim library.
+#'
+#' @param x An SSimLibrary object, or a Project or Scenario associated with a Library.
+#' @param project One or more project names or ids.
+#' @return A list of "Success!" or failure messages for each project.
+#' @examples
+#' myLibrary = ssimLibrary(model="stsim",session=devSession)
+#' myProject = project(myLibrary)
+#' projects(myLibrary,names=T)
+#' deleteProjects(myLibrary,project="Project1")
+#' projects(myLibrary,names=T)
+#'
+#' @export
+setGeneric('deleteProjects',function(x,...) standardGeneric('deleteProjects'))
+setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,...) {
+  #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+  #x = myLibrary
+  #project = "TempProject"
+
+  allProjects = .projects(myLibrary,names=T)
+  out = list()
+  for(i in seq(length.out=length(project))){
+    #i = 1
+    cProj = project[i]
+    if(is.character(cProj)){
+      id = allProjects$id[allProjects$name==cProj]
+      if(length(id)>1){
+        stop(paste0("The library contains more than one project called ",cProj,". Please specify a project id: ",paste(id,collapse=",")))
+      }
+    }else{
+      id = intersect(cProj,allProjects$id)
+    }
+    if(length(id)==0){
+      print(paste0("Cannot remove the project ",cProj," from the library because it does not exist."))
+      next
+    }
+    outBit = command(list(delete=NULL,project=NULL,lib=.filepath(x),pid=id),.session(x))
+    #TO DO: Need console command that does not require additional input. I can ask for confirmation in R.
+    if(length(project)==1){
+      out = outBit
+    }else{
+      out[[cProj]]=outBit
+    }
+  }
+  return(out)
+})
 
 
 

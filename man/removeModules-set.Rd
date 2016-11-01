@@ -13,6 +13,8 @@ removeModules(x) <- value
 }
 \description{
 Remove module or modules to this version of SyncroSim.
-TO DO: Doesn't currently do anything. Need console commands for adding and removing modules.
+Note that removing a module can be difficult to undo.
+To restore the module the user will need to provide a .ssimpkg file or reinstall SyncroSim.
+Thus, \code{removeModules} requires confirmation from the user.
 }
 
