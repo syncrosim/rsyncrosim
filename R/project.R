@@ -27,11 +27,12 @@ setMethod(f="initialize",signature="Project",
     cProjects = projects(ssimLibrary,names=T)
     if(is.null(name)&is.null(id)){
       #stop("Project must be identified by a name or id.")
-      if(nrow(cProjects)==0){
-        name = "Project1"
-      }else{
-        name= paste0("Project",max(as.numeric(cProjects$id))+1)
-      }
+      #if(nrow(cProjects)==0){
+      #  name = "Project1"
+      #}else{
+      #  name= paste0("Project",max(as.numeric(cProjects$id))+1)
+      #}
+      name="Project"
     }
 
     #If project already exists, return the details.
@@ -63,8 +64,8 @@ setMethod(f="initialize",signature="Project",
       tt = command(list(create=NULL,project=NULL,lib=.filepath(ssimLibrary),name=name),.session(ssimLibrary))
       id =strsplit(tt,": ")[[1]][2]
     }
-    .Object@session=session(ssimLibrary)
-    .Object@filepath=filepath(ssimLibrary)
+    .Object@session=.session(ssimLibrary)
+    .Object@filepath=.filepath(ssimLibrary)
     .Object@id = as.numeric(id)
     .Object@name = name
     return(.Object)
@@ -74,9 +75,17 @@ setMethod(f="initialize",signature="Project",
 #'
 #' Creates or opens an \code{\link{Project}} object representing a SyncroSim project.
 #'
+#' @details
+#' \itemize{
+#'   \item {If name/id uniquely identify an existing project: }{Returns the existing Project}
+#'   \item {If name/id identify more than one project: }{Error}
+#'   \item {If name/id don't identify an existing project, and name is not specified: }{Creates a new Project called "Project". The id argument is ignored, as SyncroSim automatically assigns an id.}
+#'   \item {If name/id don't identify an existing project, and name is specified: }{Creates a new Project called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
+#' }
+#'
 #' @param ssimLibrary An SSimLibrary object, representing the library that contains the project.
-#' @param name The project name. At least one of name and id must be provided to identify the project.
-#' @param id The project id. At least one of name and id must be provided to identify the project.
+#' @param name The project name.
+#' @param id The project id.
 #' @return A \code{Project} object representing a SyncroSim project.
 #' @examples
 #' # Create a new project
@@ -106,6 +115,11 @@ project <- function(ssimLibrary,name=NULL,id=NULL) new("Project",ssimLibrary,nam
 setMethod('name', signature(x="Project"), function(x) {
   return(x@name)
 })
+
+setMethod('id', signature(x="Project"), function(x) {
+  return(x@id)
+})
+
 
 #' Set the project name
 #'

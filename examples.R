@@ -80,7 +80,6 @@ restore(myLibrary)
 
 ###################################
 # Projects
-# devtools::document();devtools::load_all()
 # Create a new project
 devSsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a silent session using a particular version (i.e. folder) of syncrosim
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
@@ -112,6 +111,45 @@ deleteProjects(ssimLibrary=myLibrary, project=c(1,13))
 #QUESTION: Do we want to be consistent about "project" vs "projects" here?
 #TO DO: Need console command that does not require additional input. I can ask for confirmation in R.
 
+#########################
+# Scenarios
+# devtools::document();devtools::load_all()
+# Get a named list of Scenario objects
+myScenarios = scenarios(myLibrary)
+names(myScenarios)
+# - should have a SyncroSimScenario (and a SyncroSimResultsScenario that inherits from it)
+#TO DO: understand results scenarios
+scenarios(myLibrary,names=T)
+projects(myLibrary,names=T)
+# Get a list of existing results scenarios for a particular project
+myScenarios = scenarios(myProject, results=TRUE)
+# Get scenarios in a project
+myScenarios = scenarios(myLibrary, project="TempProject")
+myScenarios = scenarios(myLibrary, project=1)
+#NOTE CHANGE: projects contain info about their parent libraries and sessions, so either Project or Library object is sufficient
+
+# Get an existing scenario by ID
+#RESUME HERE: switch from pid/id to project/scenario
+myScenario = scenario(myLibrary, scenario=2)    # By ID directly from the library - return a single scenario object
+myScenario = myScenarios["509"]             # By character ID from the list of scenarios - returns a single scenario object
+
+# Create a new scenario - committed to db immediately
+myScenario = scenario(mySsimLibrary)
+myScenario = scenario(ssimLibrary=mySsimLibrary, name="My new scenario name", author="Colin", description="My description", readOnly=FALSE)
+
+# Delete a scenario - committed to db immediately
+result = deleteScenarios(ssimLibrary=mySsimLibrary, scenario=509)    # Returns some result indicating success? What does the command line do?
+
+# Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
+name(myScenario)
+name(myScenario) = "New scenario name"      #  committed to db immediately
+id(myScenario)
+readOnly(myScenario)    # Returns TRUE/FALSE
+
+hasResults(myScenario)    # Returns TRUE/FALSE
+projectId(myScenario)  # Returns the project ID for the scenario
+ssimLibrary(myScenario)  # Returns a SyncroSimLibrary object for the scenario
+results(myScenario)     # returns a named vector (by char ID) of the results scenarios associated with this scenario; returns empty vector if no results
 
 
 ####################

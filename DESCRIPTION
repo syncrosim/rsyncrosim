@@ -19,5 +19,6 @@ Collate:
     'ssimLibrary.R'
     'project.R'
     'rsyncrosim.R'
+    'scenario.R'
     'trim.R'
 RoxygenNote: 5.0.1

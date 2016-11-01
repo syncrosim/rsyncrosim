@@ -194,7 +194,6 @@ setReplaceMethod(
 #' myProjects = projects(ssimLibrary(model="stsim",name="stsim"))
 #' @export
 setGeneric('projects',function(x,...) standardGeneric('projects'))
-.projects = projects
 setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
@@ -265,5 +264,63 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,...) 
   return(out)
 })
 
+#' The scenarios in a SyncroSim library or project.
+#'
+#' Get a list of scenarios in a SSimLibrary or Project.
+#'
+#' @param x An SSimLibrary or Project object
+#' @param names If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.
+#' @return By default returns a list of scenarios identified by id. Each element of the list contains a SyncroSim Scenario object. If names=T, returns a dataframe containing the name, id, and project id of each scenario.
+#' @examples
+#' myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
+#' @export
+setGeneric('scenarios',function(x,...) standardGeneric('scenarios'))
+setMethod('scenarios', signature(x="SSimLibrary"), function(x,names=F,results=NULL,project=NULL,...) {
+  #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+  #x = myLibrary;names=T
+  #command(list(create=NULL,scenario=NULL,lib=.filepath(x),pid=85,name="Another scenario"),.session(x))
+  tt = command(list(list=NULL,scenarios=NULL,lib=.filepath(x)),.session(x))
+
+  if(identical(tt,"Success!")){
+    ttFrame = subset(data.frame(id=NA,pid=NA,isResult=NA,name=NA),!is.na(id))
+  }else{
+    ttFrame=.dataframeFromSSim(tt,colNames=c("id","pid","isResult","name"))
+  }
+  if(!is.null(project)){
+    if(class(project)=="Project") pid = .id(project)
+    if(class(project)=="numeric") pid = project
+    if(class(project)=="character"){
+      cProjects = projects(x,names=T)
+      pid = cProjects$id[cProjects$name==project]
+      if(length(pid)>1){
+        stop(paste0("There is more than one project called ",project,". Please specify a project id:",paste(pid,collapse=",")))
+      }
+    }
+    cPid
+    ttFrame = subset(ttFrame,is.element(pid,cPid))
+  }
+
+  if(class(x)=="Project"){
+    ttFrame=subset(ttFrame,pid==.id(x))
+  }
+  if(!is.null(results)){
+    if(results){
+      ttFrame = subset(ttFrame,isResult=="(Y)")
+    }else{
+      ttFrame = subset(ttFrame,isResult=="(N)")
+    }
+  }
+
+
+  if(names){
+    return(ttFrame)
+  }
+  ttList = list()
+  for(i in seq(length.out=nrow(ttFrame))){
+    #i = 1
+    ttList[[ttFrame$id[i]]]=scenario(x,id=ttFrame$id[i],pid=ttFrame$pid[i])
+  }
+  return(ttList)
+})
 
 

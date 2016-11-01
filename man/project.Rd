@@ -9,15 +9,23 @@ project(ssimLibrary, name = NULL, id = NULL)
 \arguments{
 \item{ssimLibrary}{An SSimLibrary object, representing the library that contains the project.}
 
-\item{name}{The project name. At least one of name and id must be provided to identify the project.}
+\item{name}{The project name.}
 
-\item{id}{The project id. At least one of name and id must be provided to identify the project.}
+\item{id}{The project id.}
 }
 \value{
 A \code{Project} object representing a SyncroSim project.
 }
 \description{
 Creates or opens an \code{\link{Project}} object representing a SyncroSim project.
+}
+\details{
+\itemize{
+  \item {If name/id uniquely identify an existing project: }{Returns the existing Project}
+  \item {If name/id identify more than one project: }{Error}
+  \item {If name/id don't identify an existing project, and name is not specified: }{Creates a new Project called "Project". The id argument is ignored, as SyncroSim automatically assigns an id.}
+  \item {If name/id don't identify an existing project, and name is specified: }{Creates a new Project called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
+}
 }
 \examples{
 # Create a new project

@@ -16,6 +16,17 @@ setGeneric('ssimLibrary',function(model=NULL,...) standardGeneric('ssimLibrary')
 #' @export
 setGeneric('name',function(x) standardGeneric('name'))
 
+#' The id of a SyncroSim project or scenario.
+#'
+#' The id of a SyncroSim Project or Scenario.
+#'
+#' @param x An object with an id.
+#' @export
+setGeneric('id',function(x) standardGeneric('id'))
+#' @export
+.id=id
+
+
 #' The name of the model associate with a SyncroSim object
 #'
 #' The name of the model associated with a SSimLibarary, Project or Scenario.
