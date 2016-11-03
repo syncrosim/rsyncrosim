@@ -177,8 +177,8 @@ setReplaceMethod(
         next
       }
 
-      n <- readline(prompt=paste0("To restore ",cVal," after removing it you will need to provide a .ssimpkg file or reinstall SyncroSim.\nDo you really want to remove the module? (y/n): "))
-      if(n=="y"){
+      answer <- readline(prompt=paste0("To restore ",cVal," after removing it you will need to provide a .ssimpkg file or reinstall SyncroSim.\nDo you really want to remove the module? (y/n): "))
+      if(answer=="y"){
         tt = command(args=list(removemodule=cVal),x,program="/SyncroSim.ModuleManager.exe")
 
         installedModules = modules(x)

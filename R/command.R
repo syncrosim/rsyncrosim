@@ -44,7 +44,6 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe")
     out="Success!"
   }else{
     if(!is.null(attr(out,"status"))){
-      if(attr(out,"status")!=0){stop(out)}
     }
   }
   return(out)

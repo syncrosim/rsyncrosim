@@ -18,7 +18,8 @@ Collate:
     'session.R'
     'ssimLibrary.R'
     'project.R'
-    'rsyncrosim.R'
     'scenario.R'
+    'internalWrappers.R'
+    'rsyncrosim.R'
     'trim.R'
 RoxygenNote: 5.0.1

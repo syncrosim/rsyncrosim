@@ -30,8 +30,8 @@ SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath
 # @name SSimLibrary
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
-    definition=function(.Object,model=NULL,name=NULL,session=NULL,backup=F,backupName="backup",backupOverwrite=T){
-    #model="stsim";name="stsim";session=mySsim
+    definition=function(.Object,model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T){
+    #model="stsim";name="stsim";session=mySsim;backup=F;backupName="backup";backupOverwrite=T
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
@@ -94,13 +94,25 @@ setMethod(f="initialize",signature="SSimLibrary",
     }
     #ensure the primaryModule specified matches the primaryModule on disk
     args = list(list=NULL,library=NULL,lib=path)
-    cStatus = command(args,session)
+    tt = .dataframeFromSSim(command(args,session),colNames=c("description","value"))
+
+
     if(!is.null(model)){
-      expectedModule = modelOptions$description[modelOptions$name==model]
-      if(!grepl(expectedModule,cStatus[2])){
-        stop(paste0("A library of that name and a different model type ",cStatus[2]," already exists."))
+      expectedModule = modelOptions$command[modelOptions$name==model]
+      if(!grepl(expectedModule,tt$value[tt$description=="Model Name:"])){
+        stop(paste0("A library of that name and a different model type ",tt$value[tt$description=="Model Name:"]," already exists."))
       }
     }
+
+    #addons=c("stsim-ecological-departure", "stsim-stock-flow")
+    if(!is.null(addons)){
+      addons=gsub(":add-on-transformer","",addons,fixed=T)
+      for(i in seq(length.out=length(addons))){
+        #i=1
+        tt = command(list(create=NULL,addon=NULL,lib=path,name=paste0(addons[i],":add-on-transformer")),session)
+      }
+    }
+
     .Object@session=session
     .Object@filepath=path
     return(.Object)
@@ -118,6 +130,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 # @param model The model type. Optional when loading an existing library.
 #' @param name A library file name or library file path. If not a path library is created or opened in the current working directory.
 #' @param session A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
+#' @param addons One or more addons. See addons() for options.
 #' @param backup If TRUE, a backup copy is made when an existing library is opened.
 #' @param backupName Added to a library filepath to create a backup library.
 #' @param backupOverwrite If TRUE, the existing backup of a library (if any) will be overwritten.
@@ -151,7 +164,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' @name ssimLibrary
 # @rdname SSimLibrary-class
 setMethod('ssimLibrary',signature(model="missingOrNULLOrChar"),
-          function(model=NULL,name=NULL,session=NULL,backup=F,backupName="backup",backupOverwrite=T) new("SSimLibrary",model,name,session,backup,backupName,backupOverwrite))
+          function(model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T) new("SSimLibrary",model,name,session,addons,backup,backupName,backupOverwrite))
 
 setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
@@ -164,13 +177,48 @@ setMethod('info', signature(x="SSimLibrary"), function(x) {
   return(out)
 })
 
+#' The name of the primary model associate with a SyncroSim object
+#'
+#' The name of the primary model associated with a SSimLibarary, Project or Scenario.
+#'
+#' @param x An object with an associated primary model.
+#' @return A model name
+#' @export
+setGeneric('modelName',function(x) standardGeneric('modelName'))
 setMethod('modelName', signature(x="SSimLibrary"), function(x) {
   #x = myLibrary
   cInfo = info(x)
-  out=cInfo$value[cInfo$type=="Primary Module:"]
+  out=cInfo$value[cInfo$type=="Model Name:"]
   return(out)
 })
 
+#' The version of the primary model associated with a SyncroSim object
+#'
+#' The version of the primary model associated with a SSimLibarary, Project or Scenario.
+#'
+#' @param x An object with an associated primary model.
+#' @return A model version.
+#' @export
+setGeneric('modelVersion',function(x) standardGeneric('modelVersion'))
+setMethod('modelVersion', signature(x="SSimLibrary"), function(x) {
+  #x = myLibrary
+  cInfo = info(x)
+  out=paste(cInfo$type[cInfo$type=="Source Module Version:"],cInfo$value[cInfo$type=="Source Module Version:"])
+  return(out)
+})
+
+#' Set a SyncroSim session.
+#'
+#' Set the Session of a SSimLibrary, Project or Scenario object.
+#'
+#' @param x= A SyncroSim Session.
+#' @return An SyncroSim object containing a Session.
+#' @examples
+#' myLibrary = ssimLibrary()
+#' session(myLibrary)=session()
+#' session(myLibrary)
+#' @export
+setGeneric('session<-',function(x,value) standardGeneric('session<-'))
 setReplaceMethod(
   f="session",
   signature="SSimLibrary",
@@ -219,7 +267,7 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
 #'
 #' Deletes one or more projects from a SyncroSim library.
 #'
-#' @param x An SSimLibrary object, or a Project or Scenario associated with a Library.
+#' @param x An SSimLibrary, Project or Scenario associated with a library.
 #' @param project One or more project names or ids.
 #' @return A list of "Success!" or failure messages for each project.
 #' @examples
@@ -231,12 +279,22 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
 #'
 #' @export
 setGeneric('deleteProjects',function(x,...) standardGeneric('deleteProjects'))
-setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,...) {
+setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project=NULL,...) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
   #project = "TempProject"
+  if(is.null(project)){
+    if(!class(x)=="Project"){
+      stop("Please specify one or more projects to delete.")
+    }
+    project = id(x)
+  }
 
-  allProjects = .projects(myLibrary,names=T)
+  if(class(project)=="Project"){
+    project=id(project)
+  }
+
+  allProjects = projects(x,names=T)
   out = list()
   for(i in seq(length.out=length(project))){
     #i = 1
@@ -253,16 +311,82 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,...) 
       print(paste0("Cannot remove the project ",cProj," from the library because it does not exist."))
       next
     }
-    outBit = command(list(delete=NULL,project=NULL,lib=.filepath(x),pid=id),.session(x))
-    #TO DO: Need console command that does not require additional input. I can ask for confirmation in R.
+    answer <- readline(prompt=paste0("Do you really want to delete project ",allProjects$name[allProjects$id==id],"(",id,")? (y/n): "))
+    if(answer=="y"){
+      outBit = command(list(delete=NULL,project=NULL,lib=.filepath(x),pid=id,force=NULL),.session(x))
+    }else{
+      outBit = "skipped"
+    }
     if(length(project)==1){
       out = outBit
     }else{
-      out[[cProj]]=outBit
+      out[[as.character(cProj)]]=outBit
     }
   }
   return(out)
 })
+
+#' Delete scenarios
+#'
+#' Deletes one or more scenarios from a SyncroSim library.
+#'
+#' @param x An SSimLibrary, Project or Scenario.
+#' @param scenario One or more scenario names or ids.
+#' @return A list of "Success!" or failure messages for each scenario.
+#' @examples
+#' myLibrary = ssimLibrary(model="stsim")
+#' myScenario = scenario(project(myLibrary))
+#' scenarios(myLibrary,names=T)
+#' deleteScenarios(myLibrary,scenario="Scenario")
+#' scenarios(myLibrary,names=T)
+#' @export
+setGeneric('deleteScenarios',function(x,...) standardGeneric('deleteScenarios'))
+setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario=NULL,...) {
+  #x = myLibrary
+  #scenario = "Scenario"
+  if(is.null(scenario)){
+    if(!class(x)=="Scenario"){
+      stop("Please specify one or more scenarios to delete.")
+    }
+    scenario = id(x)
+  }
+
+  if(class(scenario)=="Scenario"){
+    scenario=id(scenario)
+  }
+
+  allScenarios = scenarios(x,names=T)
+  out = list()
+  for(i in seq(length.out=length(scenario))){
+    #i = 1
+    cScn = scenario[i]
+    if(is.character(cScn)){
+      id = allScenarios$id[allScenarios$name==cScn]
+      if(length(id)>1){
+        stop(paste0("Found more than one scenario called ",cScn,". Please specify a scenario id: ",paste(id,collapse=",")))
+      }
+    }else{
+      id = intersect(cScn,allScenarios$id)
+    }
+    if(length(id)==0){
+      print(paste0("Cannot remove the scenario ",cScn," from the library because it does not exist."))
+      next
+    }
+    answer <- readline(prompt=paste0("Do you really want to delete scenario ",allScenarios$name[allScenarios$id==id],"(",id,")? (y/n): "))
+    if(answer=="y"){
+      outBit = command(list(delete=NULL,scenario=NULL,lib=.filepath(x),sid=id,force=NULL),.session(x))
+    }else{
+      outBit = "skipped"
+    }
+    if(length(scenario)==1){
+      out = outBit
+    }else{
+      out[[as.character(cScn)]]=outBit
+    }
+  }
+  return(out)
+})
+
 
 setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names=F,results=NULL,...) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
@@ -275,6 +399,10 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
   }else{
     ttFrame=.dataframeFromSSim(tt,colNames=c("id","pid","isResult","name"))
   }
+  if(class(x)=="Project"){
+    ttFrame = subset(ttFrame,pid==.id(x))
+  }
+
   if(!is.null(project)){
     if(class(project)=="Project") pid = .id(project)
     if(class(project)=="numeric") pid = project
@@ -285,7 +413,6 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
         stop(paste0("There is more than one project called ",project,". Please specify a project id:",paste(pid,collapse=",")))
       }
     }
-    cPid
     ttFrame = subset(ttFrame,is.element(pid,cPid))
   }
 
@@ -312,4 +439,109 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
   return(ttList)
 })
 
+#' addons of an SSimLibrary
+#'
+#' The addons of an SSimLibrary.
+#'
+#' @param x An SSimLibrary, or a Project/Scenario object associated with an SSimLibrary.
+#' @param all If T, all available addons are returned. Otherwise, only enabled addons.
+#' @return A dataframe of addons.
+#' @examples
+#' addons(ssimLibrary(model="stsim",name="stsim"))
+#' @export
+setGeneric('addons',function(x,...) standardGeneric('addons'))
+setMethod('addons', signature(x="SSimLibrary"), function(x,all=F) {
+  #x = myLibrary
+  tt = command(list(list=NULL,addons=NULL,lib=.filepath(x)),.session(x))
+  tt = .dataframeFromSSim(tt,colNames=c("status","description","command"))
+  if(!all){
+    tt=subset(tt,status!="(D)")
+  }
+  tt$name = gsub(":add-on-transformer","",tt$command,fixed=T)
+  return(tt)
+})
 
+#' Enable addons.
+#'
+#' Enable addons of an SSimLibrary, or Project/Scenario with an associated SSimLibrary.
+#'
+#' @param x= A SSimLibrary, Project or Scenario.
+#' @return x
+#' @examples
+#' myLibrary = ssimLibrary()
+#' enableAddons(myLibrary)=c("stsim-ecological-departure", "stsim-stock-flow")
+#' addons(myLibrary)
+#' @export
+setGeneric('enableAddons<-',function(x,value) standardGeneric('enableAddons<-'))
+setReplaceMethod(
+  f="enableAddons",
+  signature="SSimLibrary",
+  definition=function(x,value){
+    #x=myLibrary
+    #value = c("stsim-ecological-departure", "stsim-stock-flow")
+    cAdds = addons(x,all=T)
+    value=gsub(":add-on-transformer","",value,fixed=T)
+    for(i in seq(length.out=length(value))){
+      #i=1
+      cVal = value[i]
+      if(!is.element(cVal,cAdds$name)){
+        print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$status=="(D)"],collapse=",")))
+        next
+      }
+      cAddsLess = subset(cAdds,status=="(D)")
+      if(!is.element(cVal,cAddsLess$name)){
+        print(paste0(cVal," is already enabled."))
+        next
+      }
+
+      tt=command(list(create=NULL,addon=NULL,lib=.filepath(x),name=paste0(cVal,":add-on-transformer")),.session(x))
+      if(!identical(tt,"Success!")){print(paste(tt[1],cVal))}
+    }
+
+    return (x)
+  }
+)
+
+#' Disable addons.
+#'
+#' Disable addons an SSimLibrary, or Project/Scenario with an associated SSimLibrary.
+#'
+#' @param x= A SSimLibrary, Project or Scenario.
+#' @return x
+#' @examples
+#' myLibrary = ssimLibrary()
+#' enableAddons(myLibrary)=c("stsim-ecological-departure")
+#' addons(myLibrary)
+#' disableAddons(myLibrary)=c("stsim-ecological-departure")
+#' addons(myLibrary)
+#'
+#' @export
+setGeneric('disableAddons<-',function(x,value) standardGeneric('disableAddons<-'))
+setReplaceMethod(
+  f="disableAddons",
+  signature="SSimLibrary",
+  definition=function(x,value){
+    #x=myLibrary
+    #value = c("stsim-ecological-departure", "stsim-stock-flow")
+    cAdds = addons(x,all=T)
+    value=gsub(":add-on-transformer","",value,fixed=T)
+    for(i in seq(length.out=length(value))){
+      #i=1
+      cVal = value[i]
+      if(!is.element(cVal,cAdds$name)){
+        print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$status=="(D)"],collapse=",")))
+        next
+      }
+      cAddsLess = subset(cAdds,status=="(E)")
+      if(!is.element(cVal,cAddsLess$name)){
+        print(paste0(cVal," is already disabled."))
+        next
+      }
+
+      tt=command(list(delete=NULL,addon=NULL,force=NULL,lib=.filepath(x),name=paste0(cVal,":add-on-transformer")),.session(x))
+      if(!identical(tt,"Success!")){print(paste(tt[1],cVal))}
+    }
+
+    return (x)
+  }
+)

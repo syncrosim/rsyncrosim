@@ -7,7 +7,7 @@
 deleteProjects(x, ...)
 }
 \arguments{
-\item{x}{An SSimLibrary object, or a Project or Scenario associated with a Library.}
+\item{x}{An SSimLibrary, Project or Scenario associated with a library.}
 
 \item{project}{One or more project names or ids.}
 }

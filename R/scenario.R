@@ -168,7 +168,6 @@ setMethod(f="initialize",signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL) new("Scenario",ssimLibrary,project,name,id)
-.scenario = scenario
 
 setMethod('name', signature(x="Scenario"), function(x) {
   return(x@name)
@@ -177,6 +176,13 @@ setMethod('name', signature(x="Scenario"), function(x) {
 setMethod('id', signature(x="Scenario"), function(x) {
   return(x@id)
 })
+
+#' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Scenario.
+setMethod('ssimLibrary', signature(model="Scenario"), function(model) {
+  out = .ssimLibrary(name=.filepath(model),session=.session(model))
+  return(out)
+})
+
 
 
 

@@ -111,7 +111,6 @@ setMethod(f="initialize",signature="Project",
 # @rdname Project-class
 #' @export
 project <- function(ssimLibrary,name=NULL,id=NULL) new("Project",ssimLibrary,name,id)
-.project = project
 
 setMethod('name', signature(x="Project"), function(x) {
   return(x@name)

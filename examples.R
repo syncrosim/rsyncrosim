@@ -24,11 +24,12 @@ models(mySsim) # Dataframe of the models installed with this version of syncrosi
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
 
 # Add/remove modules
-removeModules(mySsim) = "stsim-stock-flow"
-is.element("stsim-stock-flow",modules(mySsim)$name)
-addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
-addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
-is.element("stsim-stock-flow",modules(mySsim)$name)
+#removeModules(mySsim) = "stsim-stock-flow"
+#is.element("stsim-stock-flow",modules(mySsim)$name)
+#addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
+#addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
+#is.element("stsim-stock-flow",modules(mySsim)$name)
+#NOTE: this works, but causes problems because I am using the dev version of SyncroSim.
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
@@ -42,7 +43,6 @@ command(list(list=NULL,models=NULL))
 ################################
 # Create a new SSimLibrary
 # If no primary model and only one model installed, use that.
-# devtools::document();devtools::load_all()
 models(session())
 myLibrary = ssimLibrary(model="stsim",name="stsim")
 
@@ -50,13 +50,17 @@ myLibrary = ssimLibrary(model="stsim") # Uses default syncrosim installation and
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=session())
 # See ?ssimLibrary for more details and examples.
 
-# Not sure how to reference models and add-ons.
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim", addons=c("st-sim-ecological-departure", "st-sim-stock-flow"))
-# TO DO: Need console command for creating a library with add-ons.
+# With addons
+addons(myLibrary,all=T)
+addons(myLibrary)
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim", addons=c("stsim-ecological-departure"))
+addons(myLibrary)
+#TO DO: apply updates to a library from the command line?
+
+myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
 
 # Open an existing ST-Sim library on a SyncroSim connection
-myLibrary = ssimLibrary(name="C:/Temp/NewLibrary.ssim", backup=TRUE)
-myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
+myLibrary = ssimLibrary(model="stsim",name="C:/Temp/NewLibrary.ssim", backup=TRUE)
 
 # Get/set the various properties of the library
 session(myLibrary) # returns the SyncroSim Session object associated with the library
@@ -64,26 +68,21 @@ session(myLibrary)=session() #Does this make sense?
 
 modelName(myLibrary) # Returns the name of the library's model - can't change this once the library is created.
 modelVersion(myLibrary)   # Returns the version of the library's model
-# TO DO: need Console command to get version of library's model.
-addons(myLibrary)   # provides a dataframe of the addons and their various properties
-# TO DO: need Console command to get addons of a library.
-
-# As with the UI, these changes are committed immediately
-enableAddons(myLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")    # Change is made immediately on disk
-disableAddons(myLibrary) = c("st-sim-ecological-departure", "st-sim-stock-flow")   # Change is made immediately on disk
-# TO DO: Console commands for enabling and disabling addons
+addons(myLibrary,all=T)   # A dataframe of enabled addons. Set all=T to see disabled addons.
+enableAddons(myLibrary) = c("stsim-stock-flow")
+addons(myLibrary)
+disableAddons(myLibrary) = c("stsim-ecological-departure", "stsim-stock-flow")
+addons(myLibrary)
 
 # Backup a library (with various options) - skip this for now
-backup(myLibrary)
-restore(myLibrary)
-# LATER
+#backup(myLibrary)
+#restore(myLibrary)
+# LOW PRIORITY
 
 ###################################
 # Projects
 # Create a new project
-
-devSsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a silent session using a particular version (i.e. folder) of syncrosim
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
 myProject = project(ssimLibrary=myLibrary, name="My new project name")
 
@@ -95,7 +94,7 @@ names(myProjects)   # vector of the project names (using base R names function)
 #TO DO: base R function names returns project id's, not names. I don't think it is a good idea to overwrite the base function for List objects.
 
 # Get an existing project. Assume that name uniquely identifies a single project - give error if not
-myProject = myProjects[[1]]
+myProject = myProjects[["1"]]
 myProject = project(myLibrary, name="TempProject")
 
 # Get/set the project properties - for now we can only set the name
@@ -106,19 +105,34 @@ name(myProject) = "New project name"
 myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
 
 # Delete projects
+#RESUME HERE
 projects(myLibrary,names=T)
 deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
-deleteProjects(ssimLibrary=myLibrary, project=c(1,13))
+deleteProjects(myLibrary, project=c(37,61))
 #QUESTION: Do we want to be consistent about "project" vs "projects" here?
-#TO DO: Need console command that does not require additional input. I can ask for confirmation in R.
+#QUESTION: consistency with enable/disableAddons?
 
 #########################
 # Scenarios
-# devtools::document();devtools::load_all()
+# TO DO: understand results scenarios
 # Get a named list of Scenario objects
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
+myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
+myScenario = scenario(myLibrary)
+#QUESTION: In what cases do we want this to work?
+#For now a project is required to create a scenario
+myScenario = scenario(myProject) #Creates or loads a scenario named Scenario
+myScenario = scenario(myLibrary,project="My new project name")
+#QUESTION: Default names for new projects and scenarios???
+
+myScenario = scenario(myProject, name="My new scenario name")
+
+#TO DO
+myScenario = scenario(myLibrary, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
+#NOTE: Returns and error if "Another scenario" already exists, but has different properties?
+
 myScenarios = scenarios(myLibrary)
 names(myScenarios)
-#TO DO: understand results scenarios
 scenarios(myLibrary,names=T)
 projects(myLibrary,names=T)
 
@@ -133,26 +147,15 @@ myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - r
 myScenario = scenario(myLibrary, id=2) # By ID directly from the library - return a single scenario object
 #NOTE: To be consistent with project() I have used name/id in scenario().
 
-myScenario = scenario(myLibrary)
-#QUESTION: In what cases do we want this to work?
-#For now a project is required to create a scenario
-myScenario = scenario(myProject) #Creates or loads a scenario named Scenario
-# devtools::document();devtools::load_all()
-myScenario = scenario(myLibrary,project="My new project name")
-id(myScenario)
-#QUESTION: Default names for new projects and scenarios???
-
-myScenario = scenario(myProject, name="My new scenario name")
-
-#RESUME HERE
-myScenario = scenario(myLibrary, name="My new scenario name", author="Colin", description="My description", readOnly=FALSE)
-
 # Delete a scenario
-result = deleteScenarios(ssimLibrary=mySsimLibrary, scenario=509)    # Returns some result indicating success? What does the command line do?
+scenarios(myProject,names=T)
+deleteScenarios(myProject, scenario=c(1,3))
 
+# devtools::document();devtools::load_all()
+# RESUME HERE
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
 name(myScenario)
-name(myScenario) = "New scenario name"      #  committed to db immediately
+name(myScenario) = "New scenario name"
 id(myScenario)
 readOnly(myScenario)    # Returns TRUE/FALSE
 

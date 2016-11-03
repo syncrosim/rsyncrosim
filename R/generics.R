@@ -23,7 +23,6 @@ setMethod('scenarios', signature(x="character"), function(x,...) {
 #' @param model A model type or a SyncroSim Project or Scenario. Optional when loading an existing library using a name.
 #' @export
 setGeneric('ssimLibrary',function(model=NULL,...) standardGeneric('ssimLibrary'))
-.ssimLibrary=ssimLibrary
 
 #' The name of a SyncroSim project or scenario.
 #'
@@ -40,17 +39,6 @@ setGeneric('name',function(x) standardGeneric('name'))
 #' @param x An object with an id.
 #' @export
 setGeneric('id',function(x) standardGeneric('id'))
-#' @export
-.id=id
-
-
-#' The name of the model associate with a SyncroSim object
-#'
-#' The name of the model associated with a SSimLibarary, Project or Scenario.
-#'
-#' @param x An object with an associated model name.
-#' @export
-setGeneric('modelName',function(x) standardGeneric('modelName'))
 
 #' The path to a SyncroSim object on disk
 #'
@@ -59,10 +47,6 @@ setGeneric('modelName',function(x) standardGeneric('modelName'))
 #' @param x An object containing a filepath.
 #' @export
 setGeneric('filepath',function(x) standardGeneric('filepath'))
-#Internal version that will not be overwritten by function arguments of the same name.
-#Exported to facilitate debugging during development.
-#' @export
-.filepath=filepath
 
 #' Information about an object
 #'
@@ -95,20 +79,4 @@ setGeneric('info',function(x) standardGeneric('info'))
 #' session(myLib)=session()
 #' @export
 setGeneric('session',function(x=NULL,...) standardGeneric('session'))
-#Internal version that will not be overwritten by function arguments of the same name.
-#Exported to facilitate debugging during development.
-#' @export
-.session=session
 
-#' Set a SyncroSim session.
-#'
-#' Set the Session of a SSimLibrary, Project or Scenario object.
-#'
-#' @param x= A SyncroSim Session.
-#' @return An SyncroSim object containing a Session.
-#' @examples
-#' myLib = ssimLibrary()
-#' session(ssimLibrary)<-session()
-#' session(ssimLibrary)
-#' @export
-setGeneric('session<-',function(x,value) standardGeneric('session<-'))
