@@ -264,18 +264,7 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,...) 
   return(out)
 })
 
-#' The scenarios in a SyncroSim library or project.
-#'
-#' Get a list of scenarios in a SSimLibrary or Project.
-#'
-#' @param x An SSimLibrary or Project object
-#' @param names If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.
-#' @return By default returns a list of scenarios identified by id. Each element of the list contains a SyncroSim Scenario object. If names=T, returns a dataframe containing the name, id, and project id of each scenario.
-#' @examples
-#' myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
-#' @export
-setGeneric('scenarios',function(x,...) standardGeneric('scenarios'))
-setMethod('scenarios', signature(x="SSimLibrary"), function(x,names=F,results=NULL,project=NULL,...) {
+setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names=F,results=NULL,...) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary;names=T
   #command(list(create=NULL,scenario=NULL,lib=.filepath(x),pid=85,name="Another scenario"),.session(x))
@@ -318,7 +307,7 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,names=F,results=NU
   ttList = list()
   for(i in seq(length.out=nrow(ttFrame))){
     #i = 1
-    ttList[[ttFrame$id[i]]]=scenario(x,id=ttFrame$id[i],pid=ttFrame$pid[i])
+    ttList[[ttFrame$id[i]]]=scenario(x,id=ttFrame$id[i],project=as.numeric(ttFrame$pid[i]))
   }
   return(ttList)
 })

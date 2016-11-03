@@ -4,16 +4,16 @@
 \alias{scenario}
 \title{Create or open a scenario}
 \usage{
-scenario(x, name = NULL, id = NULL, pid = NULL)
+scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL)
 }
 \arguments{
-\item{x}{An SSimLibrary or Project object.}
+\item{ssimLibrary}{An SSimLibrary object or name. If a name is given, the library will be opened using the default session.}
+
+\item{project}{A Project object, project name, or project id.}
 
 \item{name}{The scenario name.}
 
 \item{id}{The scenario id.}
-
-\item{pid}{The project id.}
 }
 \value{
 A \code{Scenario} object representing a SyncroSim scenario.
@@ -34,7 +34,7 @@ If x is a Project, the pid argument is ignored, and pid is set to id(x).
 \examples{
 # Create a new default scenario
 myLibrary = ssimLibrary(model="stsim",name="stsim")
-myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
+myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 myScenario = scenario(myProject)
 
 }

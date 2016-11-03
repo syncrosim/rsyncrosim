@@ -81,6 +81,7 @@ restore(myLibrary)
 ###################################
 # Projects
 # Create a new project
+
 devSsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a silent session using a particular version (i.e. folder) of syncrosim
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
 myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
@@ -117,27 +118,36 @@ deleteProjects(ssimLibrary=myLibrary, project=c(1,13))
 # Get a named list of Scenario objects
 myScenarios = scenarios(myLibrary)
 names(myScenarios)
-# - should have a SyncroSimScenario (and a SyncroSimResultsScenario that inherits from it)
 #TO DO: understand results scenarios
 scenarios(myLibrary,names=T)
 projects(myLibrary,names=T)
+
 # Get a list of existing results scenarios for a particular project
 myScenarios = scenarios(myProject, results=TRUE)
-# Get scenarios in a project
-myScenarios = scenarios(myLibrary, project="TempProject")
-myScenarios = scenarios(myLibrary, project=1)
-#NOTE CHANGE: projects contain info about their parent libraries and sessions, so either Project or Library object is sufficient
+myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project="My new project name", results=TRUE)
+myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=2, results=TRUE)
+#NOTE CHANGE: scenarios() is a generic method defined for Project, SSimLibrary, and character object. If given a character string, queries an SSimLibrary of that name.
 
 # Get an existing scenario by ID
-#RESUME HERE: switch from pid/id to project/scenario
-myScenario = scenario(myLibrary, scenario=2)    # By ID directly from the library - return a single scenario object
-myScenario = myScenarios["509"]             # By character ID from the list of scenarios - returns a single scenario object
+myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - returns a single scenario object
+myScenario = scenario(myLibrary, id=2) # By ID directly from the library - return a single scenario object
+#NOTE: To be consistent with project() I have used name/id in scenario().
 
-# Create a new scenario - committed to db immediately
-myScenario = scenario(mySsimLibrary)
-myScenario = scenario(ssimLibrary=mySsimLibrary, name="My new scenario name", author="Colin", description="My description", readOnly=FALSE)
+myScenario = scenario(myLibrary)
+#QUESTION: In what cases do we want this to work?
+#For now a project is required to create a scenario
+myScenario = scenario(myProject) #Creates or loads a scenario named Scenario
+# devtools::document();devtools::load_all()
+myScenario = scenario(myLibrary,project="My new project name")
+id(myScenario)
+#QUESTION: Default names for new projects and scenarios???
 
-# Delete a scenario - committed to db immediately
+myScenario = scenario(myProject, name="My new scenario name")
+
+#RESUME HERE
+myScenario = scenario(myLibrary, name="My new scenario name", author="Colin", description="My description", readOnly=FALSE)
+
+# Delete a scenario
 result = deleteScenarios(ssimLibrary=mySsimLibrary, scenario=509)    # Returns some result indicating success? What does the command line do?
 
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)

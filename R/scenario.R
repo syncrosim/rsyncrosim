@@ -23,14 +23,33 @@ Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="nume
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f="initialize",signature="Scenario",
-    definition=function(.Object,x,name=NULL,id=NULL,pid=NULL){
-    #x = myLibrary#.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id = NULL;name="New Thing";pid=1
+    definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL){
+    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    # id = NULL;name="New Thing";project="My new project name"
+
+    x=NULL
+    if(!is.null(ssimLibrary)){
+      x=ssimLibrary
+    }else{
+      x=project
+    }
+    if(is.null(x)){
+      stop("Specify a library and (optional) project to create or open a scenario.")
+    }
+    if(is.character(x)){
+      x=.ssimLibrary(name=x)
+    }
+
+    pid=project
 
     #x can be either a project or a library - but need a project in order to create a new scneario
 
     if(!is.null(pid)&(class(x)=="SSimLibrary")){
-      x = .project(x,id=pid)
+      if(class(pid)=="numeric"){
+        x = .project(x,id=pid)
+      }else{
+        x = .project(x,name=pid)
+      }
     }
     cScenarios = scenarios(x,names=T)
 
@@ -40,7 +59,8 @@ setMethod(f="initialize",signature="Scenario",
         cName =name
         cNames = subset(cScenarios,name==cName)
         if(!is.null(id)){
-          cNames = subset(cNames,id==id)
+          cId = as.character(id)
+          cNames = subset(cNames,id==cId)
         }
         if(nrow(cNames)==0){
           stop(paste0("Scenario ",name," (id=",id,") does not exist. A project is needed to create a new scenario."))
@@ -125,32 +145,38 @@ setMethod(f="initialize",signature="Scenario",
 #' Creates or opens an \code{\link{Scenario}} object representing a SyncroSim scenario.
 #' @details
 #'
-#' If x is a Project, the pid argument is ignored, and pid is set to id(x).
 #' \itemize{
-#'   \item {If name/id/pid uniquely identifies an existing scenario: }{Returns the existing Scenario}
-#'   \item {If name/id/pid uniquely identifies more than one existing scenario: }{Error}
-#'   \item {If pid is NULL, and name/id do not uniquely idenfity an existing scenario: }{Error}
-#'   \item {If pid is not NULL, name is NULL, and id/pid do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id.}
-#'   \item {If pid is not NULL, name is not NULL, and name/id/pid do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
+#'   \item {If name/id/project uniquely identifies an existing scenario: }{Returns the existing Scenario}
+#'   \item {If name/id/project uniquely identifies more than one existing scenario: }{Error}
+#'   \item {If project is NULL, and name/id do not uniquely idenfity an existing scenario: }{Error}
+#'   \item {If project is not NULL, name is NULL, and id/project do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id.}
+#'   \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
 #' }
 #'
-#' @param x An SSimLibrary or Project object.
+#' @param ssimLibrary An SSimLibrary object or name, or an object that contains an SSimLibrary. If a name is given, the library will be opened using the default session.
+#' @param project A Project object, project name, or project id.
 #' @param name The scenario name.
 #' @param id The scenario id.
-#' @param pid The project id.
 #' @return A \code{Scenario} object representing a SyncroSim scenario.
 #' @examples
 #' # Create a new default scenario
 #' myLibrary = ssimLibrary(model="stsim",name="stsim")
-#' myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
+#' myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 #' myScenario = scenario(myProject)
 #'
 #' @name scenario
 # @rdname Scenario-class
 #' @export
-scenario <- function(x,name=NULL,id=NULL,pid=NULL) new("Scenario",x,name,id,pid)
+scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL) new("Scenario",ssimLibrary,project,name,id)
 .scenario = scenario
 
+setMethod('name', signature(x="Scenario"), function(x) {
+  return(x@name)
+})
+
+setMethod('id', signature(x="Scenario"), function(x) {
+  return(x@id)
+})
 
 
 

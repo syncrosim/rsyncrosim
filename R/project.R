@@ -46,7 +46,8 @@ setMethod(f="initialize",signature="Project",
         name=cName
       }
       if(is.null(id)&&!is.null(name)&&is.element(name,cProjects$name)){
-        numProjects = nrow(subset(cProjects,name==name))
+        cName = name
+        numProjects = nrow(subset(cProjects,name==cName))
         if(is.null(id)&(numProjects>1)){
           stop(paste0("The library contains more than one project called ",name,". Please provide an id:",paste(cProjects$id[cProjects$name==name],collapse=",")))
         }

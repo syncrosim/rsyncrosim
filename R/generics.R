@@ -1,4 +1,21 @@
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
+#' The scenarios in a SyncroSim library or project.
+#'
+#' Get a list of scenarios in a SSimLibrary or Project.
+#'
+#' @param x An SSimLibrary or Project object, or an SSimLibrary name.
+#' @param project A project name, id, or object.
+#' @param names If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.
+#' @return By default returns a list of scenarios identified by id. Each element of the list contains a SyncroSim Scenario object. If names=T, returns a dataframe containing the name, id, and project id of each scenario.
+#' @examples
+#' myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
+#' @export
+setGeneric('scenarios',function(x,...) standardGeneric('scenarios'))
+setMethod('scenarios', signature(x="character"), function(x,...) {
+  x = .ssimLibrary(name=x)
+  out = scenarios(x,...)
+  return(out)
+})
 #' Create or open a library.
 #'
 #' Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim library.
