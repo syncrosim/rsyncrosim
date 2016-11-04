@@ -189,6 +189,21 @@ setMethod('id', signature(x="Scenario"), function(x) {
   return(x@id)
 })
 
+#' The write status of a Scenario
+#'
+#' Whether or not the scenario is readOnly
+#'
+#' @param x An Scenario object.
+#' @return TRUE or FALSE
+#' @export
+setGeneric('readOnly',function(x) standardGeneric('readOnly'))
+setMethod('readOnly', signature(x="Scenario"), function(x) {
+  #x=myScenario
+  stop("not done yet")
+  return(x)
+})
+
+
 #' The pid of a SyncroSim Scenario.
 #'
 #' The project id of a SyncroSim Scenario
@@ -199,7 +214,13 @@ setGeneric('pid',function(x) standardGeneric('pid'))
 setMethod('pid', signature(x="Scenario"), function(x) {
   return(x@pid)
 })
-
+#' The project id of a SyncroSim Scenario.
+#'
+#' The project id of a SyncroSim Scenario
+#'
+#' @param x An Scenario object.
+#' @export
+projectId = pid
 
 #' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Scenario.
 setMethod('ssimLibrary', signature(model="Scenario"), function(model) {

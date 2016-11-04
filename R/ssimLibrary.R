@@ -545,4 +545,191 @@ setReplaceMethod(
   }
 )
 
+#Internal helper - return uniquely identified and valid SyncroSim object
+setGeneric('.getFromXProjScn',function(x,project,scenario) standardGeneric('.getFromXProjScn'))
+setMethod('.getFromXProjScn', signature(x="SSimLibrary"), function(x,project=NULL,scenario=NULL) {
+  #x=myLibrary
+  #If x is scenario, ignore project and scenario arguments
+  if(class(x)=="Scenario"){
+    if(!is.null(scenario)){
+      if(is.character(scenario)&&!identical(scenario,name(x))){
+        stop(paste0("Scenario name mismatch: ",name(x),",",scenario))
+      }
+      if(is.numeric(scenario)&&!identical(scenario,id(x))){
+        stop(paste0("Scenario id mismatch: ",id(x),",",scenario))
+      }
+    }
+    return(x)
+  }
+  if(is.character(x)){
+    x = .ssimLibrary(name=x)
+  }
+  if(is.null(project)&is.null(scenario)){
+    return(x)
+  }
+
+  if(!is.null(scenario)){
+    if(class(scenario)=="Scenario"){
+      return(Scenario)
+    }
+    if(class(scenario)=="character"){
+      return(.scenario(x,project,name=scenario))
+    }
+    if(class(scenario)=="numeric"){
+      return(.scenario(x,project,id=scenario))
+    }
+  }
+
+  if(class(x)=="Project"){
+    if(!is.null(project)){
+      if(is.character(project)&&!identical(name(x),project)){
+        stop(paste0("Project name mismatch: ",name(x),",",project))
+      }
+      if(is.numeric(project)&&!identical(id(x),project)){
+        stop(paste0("Project id mismatch: ",id(x),",",project))
+      }
+    }
+    return(x)
+  }
+
+  if(!is.null(project)){
+    if(class(project)=="Project"){
+      return(project)
+    }
+    if(class(project)=="character"){
+      return(.project(x,name=project))
+    }
+    if(class(project)=="numeric"){
+      return(.project(x,id=project))
+    }
+  }
+  stop("Something is wrong")
+})
+
+#' datasheets
+#'
+#' Gets datasheets from an SSimLibrary, Project or Scenario.
+#'
+#' @details
+#' \itemize{
+#'   \item {If x/project/scenario identify a scenario: }{Returns library, project, and scenario scope datasheets.}
+#'   \item {If x/project/scenario identify a project (but not a scenario): }{Returns library and project scope datasheets.}
+#'   \item {If x/project/scenario identify a library (but not a project or scenario): }{Returns library scope datasheets.}
+#' }
+#'
+#' @param x An SSimLibrary, Project or Scenario object.
+#' @param project Project name or id. Ignored if x is a Project.
+#' @param scenario Scenario name or id. Ignored if x is a Scenario.
+#' @param names If TRUE (default) returns dataframe of sheet names. If false returns a named list of dataframes representing each datasheet.
+#' @param empty If TRUE returns empty template dataframes.
+#' @param scope "scenario","project", "library", or NULL.
+#' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
+#' @examples
+#'
+#' @export
+setGeneric('datasheets',function(x,...) standardGeneric('datasheets'))
+setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scenario=NULL,names=T,empty=F,scope=NULL) {
+  #x = myLibrary;project=NULL;scenario="My new scenario name";names=T;empty=F
+  x = .getFromXProjScn(x,project,scenario)
+
+  #Get datasheet dataframe
+  tt=command(c("list","datasheets",paste0("lib=",.filepath(x))),.session(x))
+  datasheets = .dataframeFromSSim(tt,colNames=c("scope","description","name"))
+  if(is.element(class(x),c("Project","SSimLibrary"))){
+    datasheets = subset(datasheets,scope!="(S)")
+  }
+  if(is.element(class(x),c("SSimLibrary"))){
+    datasheets = subset(datasheets,scope!="(P)")
+  }
+  if(!is.null(scope)){
+    if(!is.element(scope,c("scenario","project","library"))){
+      stop("Invalid scope ",scope,". Valid scopes are 'scenario', 'project', 'library' and NULL.")
+    }
+    if(scope=="scenario"){
+      datasheets=subset(datasheets,scope=="(S)")
+    }
+    if(scope=="project"){
+      datasheets=subset(datasheets,scope=="(P)")
+    }
+    if(scope=="library"){
+      datasheets=subset(datasheets,scope=="(L)")
+    }
+
+  }
+  if(names){
+    return(datasheets)
+  }
+
+  #TO DO: make list of dataframes
+})
+
+#' datasheet
+#'
+#' Gets Syncrosim datasheet.
+#'
+#' @details
+#' If !empty & !optional: return required columns and columns containing data
+#'
+#' @param x An SSimLibrary, Project or Scenario object.
+#' @param name The sheet name
+#' @param project Project name or id.
+#' @param scenario Scenario name or id.
+#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also.
+#' @param empty If FALSE (default) returns data (if any). If FALSE returns empty dataframe of correct format.
+#' @return A dataframe.
+#' @examples
+#'
+#' @export
+setGeneric('datasheet',function(x,...) standardGeneric('datasheet'))
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project=NULL,scenario=NULL,optional=F,empty=F) {
+  #x = myLibrary;project=NULL;scenario=NULL;name="SSim_Settings";optional=F
+  x = .getFromXProjScn(x,project,scenario)
+
+  tt = command(c("export",paste0("lib=",.filepath(x)),paste0("sheet=",name),"file=temp.csv"),.session(x))
+  if(!identical(tt,"Success!")){stop("Something is wrong.")}
+  #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
+  sheet = read.csv("temp.csv")
+  file.remove("temp.csv")
+
+  tt=command(c("list","columns",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(myScenario))
+  sheetInfo = .dataframeFromSSim(tt)
+
+  sheetInfo$id = seq(length.out=nrow(sheetInfo))
+  if(!optional){
+    if(!empty){
+      sheetInfo$Optional[is.element(sheetInfo$Name,colnames(sheet))]="Present"
+    }
+    sheetInfo = subset(sheetInfo,is.element(Optional,c("No","Present")))
+    sheetInfo = sheetInfo[order(sheetInfo$id),]
+  }
+  if(nrow(sheet)==0){
+    sheet[1,1]=NA
+  }
+
+  for(i in seq(length.out=nrow(sheetInfo))){
+    #i =1
+    cRow = sheetInfo[i,]
+    if(!is.element(cRow$Name,colnames(sheet))){
+      sheet[[cRow$Name]] = NA
+    }
+    if(cRow$Type=="Integer"){
+      sheet[[cRow$Name]] = as.numeric(sheet[[cRow$Name]])
+    }
+    if(cRow$Type=="String"){
+      sheet[[cRow$Name]] = as.character(sheet[[cRow$Name]])
+    }
+    if(cRow$Formula1!="N/A"){
+      stop("TO DO: Handle this case.")
+      #TO DO: handle formula1/formula2
+    }
+  }
+
+  #TO DO: deal with NA values in sheet
+
+  #put columns in correct order
+  sheet = subset(sheet,select=sheetInfo$Name)
+  return(sheet)
+})
+
+
 

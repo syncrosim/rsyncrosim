@@ -130,6 +130,7 @@ scenarios(myLibrary,names=T)
 
 myScenario = scenario(myProject, name="My new scenario name")
 scenarios(myLibrary,names=T)
+
 #TO DO
 myScenario = scenario(myLibrary, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
 #NOTE: Returns and error if "Another scenario" already exists, but has different properties?
@@ -156,22 +157,82 @@ scenarios(myLibrary,names=T)
 deleteScenarios(myLibrary, scenario=c(1,2))
 scenarios(myLibrary,names=T)
 
-# devtools::document();devtools::load_all()
-# RESUME HERE
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
 name(myScenario)
 id(myScenario)
+
+#TO DO
 readOnly(myScenario)    # Returns TRUE/FALSE
-
-
-
 name(myScenario) = "New scenario name"
 
-
-hasResults(myScenario)    # Returns TRUE/FALSE
 projectId(myScenario)  # Returns the project ID for the scenario
 ssimLibrary(myScenario)  # Returns a SyncroSimLibrary object for the scenario
+
+#TO DO
+hasResults(myScenario)    # Returns TRUE/FALSE
 results(myScenario)     # returns a named vector (by char ID) of the results scenarios associated with this scenario; returns empty vector if no results
+
+# LOW PRIORITY - datafeeds
+
+#############################
+# Datasheets
+# Get a datasheet from an SSimLibrary, Project or Scenario
+# Datasheets are provided in dataframe format
+# We return lookup columns as factors, based on the definitions at the time the datasheet is created
+# We also return each column in the correct data type. This will require replacing blanks from the db with NA values
+# devtools::document();devtools::load_all()
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
+scenarios(myLibrary,names=T)
+myScenario = scenario(myLibrary)
+
+# datasheet and datasheets functions accept any combination of x, project and scenario arguments.
+# x must be a SyncroSim object (SSimLibrary,Project or Scenario). scenario and project can be names, ids, or SycnroSim objects
+datasheets(myScenario)  #Returns a dataframe of names by default - there are a lot of datasheets. Usually not necessary to parse them all.
+# RESUME HERE
+myScenarioDataframes = datasheets(myLibrary, project=1, names=F,scope="scenario") # A named list of all the project datafeeds for projectID=2
+
+#TO DO: handle dependencies among datasheets
+myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F) # This option returns characters instead of factors
+
+#TO DO - not clear to me what this one is about
+myScenarioDataframes = datasheets(myProject, scope="scenario", keepId=T) # This option returns a dataframe with IDs, not factors
+
+myDeterministicTransitionDataframe = myScenarioDataframes[["STSim_DeterministicTransition"]] # a single dataframe
+myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
+myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
+
+datasheet(myLibrary,name="SSim_Settings")
+
+# Alternatively a datasheet can be provided as a Datasheet object  - skip this for now
+myScenarioDatasheets = datasheets(scenario=myScenario, dataframe=FALSE, empty=FALSE)    # named vector of datasheet objects, instead of default dataframes
+
+# Similarly we can get dataframes of project definitions
+myProjectDataframes = definitions(myProject)   # same as above - just an alternative function that matches UI terminology
+myProjectDataframes = datasheets(ssimLibrary=mySsimLibrary, project="My Existing Project", scope="project")  # same as above
+
+# Get empty template dataframes for each scenario datafeed in a project - lookup columns are expressed as factors with only valid values
+emptytScenarioDataframes = datasheets(project=myProject, scope="scenario")     # returns empty versions of all the scenario datafeeds for this project
+emptytScenarioDataframes = datasheets(ssimLibrary=mySsimLibrary, project=2, scope="scenario")     # same as above
+emptyDeterministicTransitionDataframe = datasheet(project=myProject, name="STSim_DeterministicTransition")
+
+# Similarly also get empty dataframes for project definitions
+emptyProjectDataframes = datasheets(myProject, scope="project")
+emptyProjectDataframes = definitions(myProject)    # same as above
+
+# Update the values for project definitions
+existingStateClassDefinitionDataframe = datasheet(project=myProject, name="STSim_StateClass")
+newStateClassDefinitionDataframe = rbind(existingStateClassDefinitionDataframe, c(NA, "Forest", "All", NA, NA, NA))
+
+# Then save the updated project definitions back to the library  - committed to db immediately
+result = loadDatasheets(newStateClassDefinitionDataframe, ssimLibrary=mySsimLibrary, project=2, datasheets="STSim_StateClass")
+
+# Update the values of an existing scenario datasheet (after the definitions have been added)
+myScenario = scenario(project=myProject, scenario=509)
+myDeterminisiticTransitionDataframe = datasheets(scenario=myScenario, name="STSim_DeterministicTransition")
+myDeterminisiticTransitionDataframe$AgeMin = c(50, 60, NA)    # change the AgeMin field for 3 rows - character to allow blanks
+
+# Then save the updated scenario datasheet back to the library  - committed to db immediately
+result = loadDatasheets(myDeterminisiticTransitionDataframe, library=mySsimLibrary, scenario=myScenario, datasheets="STSim_DeterministicTransition")
 
 
 ####################
