@@ -4,7 +4,8 @@
 \alias{scenario}
 \title{Create or open a scenario}
 \usage{
-scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL)
+scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
+  create = T, scenarios = NULL)
 }
 \arguments{
 \item{ssimLibrary}{An SSimLibrary object or name, or an object that contains an SSimLibrary. If a name is given, the library will be opened using the default session.}
@@ -14,6 +15,10 @@ scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL)
 \item{name}{The scenario name.}
 
 \item{id}{The scenario id.}
+
+\item{create}{If TRUE, create scenario if one does not exist. If FALSE, only return an existing scenario}
+
+\item{scenarios}{A dataframe of existing scenarios produced by scenarios(). Use to speed processing.}
 }
 \value{
 A \code{Scenario} object representing a SyncroSim scenario.

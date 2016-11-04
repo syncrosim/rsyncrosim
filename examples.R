@@ -33,11 +33,10 @@ models(mySsim) # Dataframe of the models installed with this version of syncrosi
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
-command(list(help=NULL))
-command(args=list(list=NULL,help=NULL),mySsim,printCmd=T)
-command(list(list=NULL,models=NULL))
+command("help")
+command(c("list","help"),mySsim,printCmd=T)
+# LOW PRIORITY: Better explain command with help examples: c("list","models")
 
-# LOW PRIORITY: Accept simpler args, and better explain command with help examples: c("list","models")
 # LATER: Create own model from scratch in R. Inputs, output and calculations
 
 ################################
@@ -115,18 +114,22 @@ deleteProjects(myLibrary, project=c(37,61))
 #########################
 # Scenarios
 # TO DO: understand results scenarios
+# devtools::document();devtools::load_all()
 # Get a named list of Scenario objects
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
+name(myProject)
 myScenario = scenario(myLibrary)
 #QUESTION: In what cases do we want this to work?
 #For now a project is required to create a scenario
-myScenario = scenario(myProject) #Creates or loads a scenario named Scenario
-myScenario = scenario(myLibrary,project="My new project name")
+myScenario = scenario(myProject) #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
+scenarios(myLibrary,names=T)
+myScenario = scenario(myLibrary,project="My new project name") #Will create project if necessary
+scenarios(myLibrary,names=T)
 #QUESTION: Default names for new projects and scenarios???
 
 myScenario = scenario(myProject, name="My new scenario name")
-
+scenarios(myLibrary,names=T)
 #TO DO
 myScenario = scenario(myLibrary, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
 #NOTE: Returns and error if "Another scenario" already exists, but has different properties?
@@ -136,6 +139,7 @@ names(myScenarios)
 scenarios(myLibrary,names=T)
 projects(myLibrary,names=T)
 
+# RESUME HERE
 # Get a list of existing results scenarios for a particular project
 myScenarios = scenarios(myProject, results=TRUE)
 myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project="My new project name", results=TRUE)
@@ -148,16 +152,21 @@ myScenario = scenario(myLibrary, id=2) # By ID directly from the library - retur
 #NOTE: To be consistent with project() I have used name/id in scenario().
 
 # Delete a scenario
-scenarios(myProject,names=T)
-deleteScenarios(myProject, scenario=c(1,3))
+scenarios(myLibrary,names=T)
+deleteScenarios(myLibrary, scenario=c(1,2))
+scenarios(myLibrary,names=T)
 
 # devtools::document();devtools::load_all()
 # RESUME HERE
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
 name(myScenario)
-name(myScenario) = "New scenario name"
 id(myScenario)
 readOnly(myScenario)    # Returns TRUE/FALSE
+
+
+
+name(myScenario) = "New scenario name"
+
 
 hasResults(myScenario)    # Returns TRUE/FALSE
 projectId(myScenario)  # Returns the project ID for the scenario

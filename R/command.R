@@ -25,15 +25,19 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe")
     session = .session()
   }
 
-  sysArgs = c()
-  for(i in seq(length.out=length(args))){
-    #i=1
-    cArg = paste0("--",names(args)[i])
-    sysArgs =c(sysArgs,cArg)
-    if(is.null(args[[i]])){next}
-    if(is.na(args[[i]])){next}
-    if(args[[i]]==""){next}
-    sysArgs[i] = paste0(sysArgs[i],'="',args[[i]],'"')
+  if(class(args)=="list"){
+    sysArgs = c()
+    for(i in seq(length.out=length(args))){
+      #i=1
+      cArg = paste0("--",names(args)[i])
+      sysArgs =c(sysArgs,cArg)
+      if(is.null(args[[i]])){next}
+      if(is.na(args[[i]])){next}
+      if(args[[i]]==""){next}
+      sysArgs[i] = paste0(sysArgs[i],'="',args[[i]],'"')
+    }
+  }else{
+    sysArgs=paste0("--",args)
   }
   if(printCmd){
     print(paste(sysArgs,collapse=" "))

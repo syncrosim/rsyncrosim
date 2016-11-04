@@ -4,7 +4,8 @@
 \alias{project}
 \title{Create or open a project.}
 \usage{
-project(ssimLibrary, name = NULL, id = NULL)
+project(ssimLibrary, name = NULL, id = NULL, create = T,
+  projects = NULL)
 }
 \arguments{
 \item{ssimLibrary}{An SSimLibrary object, representing the library that contains the project.}
@@ -12,6 +13,10 @@ project(ssimLibrary, name = NULL, id = NULL)
 \item{name}{The project name.}
 
 \item{id}{The project id.}
+
+\item{create}{If TRUE, create project if one does not exist. If FALSE, only return an existing project}
+
+\item{projects}{A dataframe of existing projects produced by projects(). Use to speed processing.}
 }
 \value{
 A \code{Project} object representing a SyncroSim project.

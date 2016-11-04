@@ -258,7 +258,7 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
   ttList = list()
   for(i in seq(length.out=nrow(ttFrame))){
     #i = 1
-    ttList[[ttFrame$id[i]]]=project(x,id=ttFrame$id[i])
+    ttList[[ttFrame$id[i]]]=project(x,id=ttFrame$id[i],create=F,projects=ttFrame)
   }
   return(ttList)
 })
@@ -387,7 +387,6 @@ setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario=NUL
   return(out)
 })
 
-
 setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names=F,results=NULL,...) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary;names=T
@@ -434,7 +433,7 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
   ttList = list()
   for(i in seq(length.out=nrow(ttFrame))){
     #i = 1
-    ttList[[ttFrame$id[i]]]=scenario(x,id=ttFrame$id[i],project=as.numeric(ttFrame$pid[i]))
+    ttList[[ttFrame$id[i]]]=scenario(x,id=ttFrame$id[i],project=as.numeric(ttFrame$pid[i]),create=F,scenarios=ttFrame)
   }
   return(ttList)
 })
@@ -545,3 +544,5 @@ setReplaceMethod(
     return (x)
   }
 )
+
+

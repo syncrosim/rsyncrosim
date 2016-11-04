@@ -11,6 +11,8 @@ NULL
 #' @export
 .id=id
 #' @export
+.pid=pid
+#' @export
 .filepath=filepath
 #' @export
 .session=session
@@ -20,5 +22,9 @@ NULL
 .scenario = scenario
 #' @export
 .addons=addons
+#' @export
+.scenarios=scenarios
+#' @export
+.projects=projects
 
 

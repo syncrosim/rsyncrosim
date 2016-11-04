@@ -21,52 +21,73 @@ Project <- setClass("Project", contains="SSimLibrary",representation(name="chara
 # @name Project
 # @rdname Project-class
 setMethod(f="initialize",signature="Project",
-    definition=function(.Object,ssimLibrary,name=NULL,id=NULL){
-    #ssimLibrary = myLibrary#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id = NULL;name=NULL
-    cProjects = projects(ssimLibrary,names=T)
-    if(is.null(name)&is.null(id)){
-      #stop("Project must be identified by a name or id.")
-      #if(nrow(cProjects)==0){
-      #  name = "Project1"
-      #}else{
-      #  name= paste0("Project",max(as.numeric(cProjects$id))+1)
-      #}
-      name="Project"
+    definition=function(.Object,ssimLibrary,name=NULL,id=NULL,create=T,projects=NULL){
+    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    # id = NULL;name="Project";projects=NULL;create=F
+    x=ssimLibrary
+    if(is.character(x)){
+      x=.ssimLibrary(name=x)
     }
 
-    #If project already exists, return the details.
-    #Complain if id and name don't match, or if there is more than one project with a name and id is not specified.
-    if(nrow(cProjects)>0){#&&((is.null(id)||is.element(id,cProjects$id))||(is.null(name)||is.element(name,cProjects$name)))){
-      if(!is.null(id)&&is.element(id,cProjects$id)){
-        cName = cProjects$name[cProjects$id==id]
-        if(!is.null(name)&&!identical(cName,name)){
-          stop(paste0("The library already contains a project id ",id," with a different name ",cName))
-        }
-        name=cName
+    #For fast processing - quickly return without system calls if projects exists and can be easily identified
+    if(is.null(projects)){
+      projects = .projects(x,names=T)
+    }
+    findPrj = projects
+    if(!is.null(id)){
+      cId = as.character(id)
+      findPrj = subset(findPrj,id==cId)
+    }
+    if(!is.null(name)){
+      pre = findPrj
+      cName=name
+      findPrj = subset(findPrj,name==cName)
+      if(!is.null(id)&&(nrow(pre)>0)&&(nrow(findPrj)==0)){
+        stop(paste0("The library already contains a project id ",id," with a different name ",pre$name))
       }
-      if(is.null(id)&&!is.null(name)&&is.element(name,cProjects$name)){
-        cName = name
-        numProjects = nrow(subset(cProjects,name==cName))
-        if(is.null(id)&(numProjects>1)){
-          stop(paste0("The library contains more than one project called ",name,". Please provide an id:",paste(cProjects$id[cProjects$name==name],collapse=",")))
-        }
-        id = cProjects$id[cProjects$name==name]
-      }
+    }
+    if(is.null(id)&is.null(name)){
+      findPrj = subset(findPrj,id=="-")
+    }
+
+    if(nrow(findPrj)==1){
+      #Go ahead and create the Projects object without issuing system commands to make sure it is ok
+      .Object@session=.session(x)
+      .Object@filepath=.filepath(x)
+      .Object@id = as.numeric(findPrj$id)
+      .Object@name = findPrj$name
+      return(.Object)
+    }
+
+    #Now go ahead to handle odder cases
+    if(nrow(findPrj)>0){
+      stop(paste0("The library contains more than one project called ",name,". Specify a project id:",paste(findPrj$id,collapse=",")))
+    }
+
+    if(!create){
+      stop(paste0("The library does not contain a project called ",name," (",id,"). Set create=T to make one."))
     }
 
     #If given an id for a project that does not yet exist, complain
-    if(!is.null(id)&&!is.element(id,cProjects$id)){
+    if(!is.null(id)){
       stop(paste0("The library does not contain project id ",id,". Please provide a name for the new project - the id will be assigned automatically by SyncroSim."))
     }
 
-    #If project does not yet exist, make it.
-    if(is.null(id)){
-      tt = command(list(create=NULL,project=NULL,lib=.filepath(ssimLibrary),name=name),.session(ssimLibrary))
-      id =strsplit(tt,": ")[[1]][2]
+    #Create a new project
+    if(is.null(name)){
+      #allScenarios = scenarios(.ssimLibrary(x),names=T)
+      #if(nrow(allScenarios)==0){
+      #  name = "Scenario1"
+      #}else{
+      #  name =paste0("Scenario",max(allScenarios$id)+1)
+      #}
+      name="Project"
     }
-    .Object@session=.session(ssimLibrary)
-    .Object@filepath=.filepath(ssimLibrary)
+    tt = command(list(create=NULL,project=NULL,lib=.filepath(x),name=name),.session(x))
+    id = as.numeric(strsplit(tt,": ")[[1]][2])
+
+    .Object@session=.session(x)
+    .Object@filepath=.filepath(x)
     .Object@id = as.numeric(id)
     .Object@name = name
     return(.Object)
@@ -87,6 +108,8 @@ setMethod(f="initialize",signature="Project",
 #' @param ssimLibrary An SSimLibrary object, representing the library that contains the project.
 #' @param name The project name.
 #' @param id The project id.
+#' @param create If TRUE, create project if one does not exist. If FALSE, only return an existing project
+#' @param projects A dataframe of existing projects produced by projects(). Use to speed processing.
 #' @return A \code{Project} object representing a SyncroSim project.
 #' @examples
 #' # Create a new project
@@ -110,7 +133,7 @@ setMethod(f="initialize",signature="Project",
 #' @name project
 # @rdname Project-class
 #' @export
-project <- function(ssimLibrary,name=NULL,id=NULL) new("Project",ssimLibrary,name,id)
+project <- function(ssimLibrary,name=NULL,id=NULL,create=T,projects=NULL) new("Project",ssimLibrary,name,id,create,projects)
 
 setMethod('name', signature(x="Project"), function(x) {
   return(x@name)
