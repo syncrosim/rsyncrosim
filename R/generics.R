@@ -119,7 +119,7 @@ setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenar
   return(out)
 })
 
-#' datasheet
+#' Get a datasheet
 #'
 #' Gets Syncrosim datasheet.
 #'
@@ -142,6 +142,27 @@ setGeneric('datasheet',function(x,...) standardGeneric('datasheet'))
 setMethod('datasheet', signature(x="character"), function(x,name,project=NULL,scenario=NULL,...) {
   x = .getFromXProjScn(x,project,scenario)
   out = .datasheet(x,name=name,project=project,scenario=scenario,...)
+  return(out)
+})
+
+#' Set datasheets
+#'
+#' Loads datasheets into the SyncroSim library.
+#'
+#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
+#' @param data A dataframe or named list of dataframes to load.
+#' @param name The sheet name - required if data is a dataframe, ignored otherwise.
+#' @param project Project name or id.
+#' @param scenario Scenario name or id.
+#' @return A named list of success or failure reports.
+#' @examples
+#'
+#' @export
+setGeneric('loadDatasheets',function(x,...) standardGeneric('loadDatasheets'))
+#Handles case where x is a path to an SyncroSim library on disk.
+setMethod('loadDatasheets', signature(x="character"), function(x,data,name=NULL,project=NULL,scenario=NULL,...) {
+  x = .getFromXProjScn(x,project,scenario)
+  out = .datasheet(x,data=data,name=name,project=project,scenario=scenario,...)
   return(out)
 })
 

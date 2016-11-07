@@ -2,7 +2,7 @@
 % Please edit documentation in R/generics.R
 \name{datasheet}
 \alias{datasheet}
-\title{datasheet}
+\title{Get a datasheet}
 \usage{
 datasheet(x, ...)
 }

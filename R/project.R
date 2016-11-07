@@ -23,7 +23,7 @@ Project <- setClass("Project", contains="SSimLibrary",representation(name="chara
 setMethod(f="initialize",signature="Project",
     definition=function(.Object,ssimLibrary,name=NULL,id=NULL,create=T,projects=NULL){
     #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id = NULL;name="Project";projects=NULL;create=F
+    # id = NULL;name=NULL;projects=NULL;create=T
     x=ssimLibrary
     if(is.character(x)){
       x=.ssimLibrary(name=x)
@@ -34,6 +34,7 @@ setMethod(f="initialize",signature="Project",
       projects = .projects(x,names=T)
     }
     findPrj = projects
+
     if(!is.null(id)){
       cId = as.character(id)
       findPrj = subset(findPrj,id==cId)
@@ -46,8 +47,11 @@ setMethod(f="initialize",signature="Project",
         stop(paste0("The library already contains a project id ",id," with a different name ",pre$name))
       }
     }
-    if(is.null(id)&is.null(name)){
-      findPrj = subset(findPrj,id=="-")
+
+    if(is.null(id)&is.null(name)&(nrow(findPrj)>0)){
+      name = "Project"
+      cName = name
+      findPrj = subset(findPrj,name==cName)
     }
 
     if(nrow(findPrj)==1){

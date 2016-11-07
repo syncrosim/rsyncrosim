@@ -23,10 +23,10 @@ NULL
 #'
 #' # Add and remove modules
 #' removeModules(mySsim) = "stsim-stock-flow"
-#' is.element("stsim-stock-flow",modules(mySsim)$name)
+#' is.element("stsim-stock-flow",modules(mySsim)$shortName)
 #' addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
 #' addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
-#' is.element("stsim-stock-flow",modules(mySsim)$name)
+#' is.element("stsim-stock-flow",modules(mySsim)$shortName)
 #'
 #' # Create or load a library using a default Session
 #' myLib = ssimLibrary(name="stsim",model="stsim")
@@ -95,10 +95,10 @@ setMethod('silent', signature(x="Session"), function(x) x@silent)
 #' @export
 setGeneric('models',function(x) standardGeneric('models'))
 setMethod('models', signature(x="Session"), function(x) {
-  #x=mySsim
-  tt=command(args=list(list=NULL,models=NULL),x)
-  out=.dataframeFromSSim(tt,colNames=c("description","command"))
-  out$name = gsub(":model-transformer","",out$command,fixed=T)
+  #x=session()
+  tt=command(c("list","models","csv"),x)
+  out=.dataframeFromSSim(tt,localNames=T)
+  out$shortName = gsub(":model-transformer","",out$name,fixed=T)
   return(out)
 })
 
@@ -119,8 +119,8 @@ setMethod('version', signature(x="Session"), function(x) {return(command(list(ve
 #' @export
 setGeneric('modules',function(x) standardGeneric('modules'))
 setMethod('modules', signature(x="Session"), function(x) {
-  tt = command(args=list(listmodules=NULL),x,program="/SyncroSim.ModuleManager.exe")
-  out = .dataframeFromSSim(tt,colNames=c("name","description","version"))
+  tt = command(c("listmodules"),x,program="/SyncroSim.ModuleManager.exe")
+  out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
   return(out)
 })
 
@@ -167,7 +167,7 @@ setReplaceMethod(
   f="removeModules",
   signature="Session",
   definition=function(x,value){
-    #value = "dgsim";x=mySsim
+    #value = "stsim-stock-flow";x=mySsim
     installedModules=modules(x)
     for(i in seq(length.out=length(value))){
       #i = 1

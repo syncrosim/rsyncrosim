@@ -30,10 +30,10 @@ models(mySsim) # Dataframe of the models installed with this version of syncrosi
 
 # Add and remove modules
 removeModules(mySsim) = "stsim-stock-flow"
-is.element("stsim-stock-flow",modules(mySsim)$name)
+is.element("stsim-stock-flow",modules(mySsim)$shortName)
 addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
 addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
-is.element("stsim-stock-flow",modules(mySsim)$name)
+is.element("stsim-stock-flow",modules(mySsim)$shortName)
 
 # Create or load a library using a default Session
 myLib = ssimLibrary(name="stsim",model="stsim")

@@ -22,6 +22,7 @@ version(mySsim) # Lists the version of syncrosim session
 modules(mySsim) # Dataframe of the modules installed with this verions of SyncroSim.
 models(mySsim) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
+# devtools::document();devtools::load_all()
 
 # Add/remove modules
 #removeModules(mySsim) = "stsim-stock-flow"
@@ -29,7 +30,7 @@ models(mySsim) # Dataframe of the models installed with this version of syncrosi
 #addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
 #addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
 #is.element("stsim-stock-flow",modules(mySsim)$name)
-#NOTE: this works, but causes problems because I am using the dev version of SyncroSim.
+#NOTE: this works but causes problems because I am working with dev version of SyncroSim
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
@@ -81,8 +82,9 @@ addons(myLibrary)
 ###################################
 # Projects
 # Create a new project
+# devtools::document();devtools::load_all()
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
-myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
+myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 myProject = project(ssimLibrary=myLibrary, name="My new project name")
 
 # Get a named list of existing projects
@@ -90,7 +92,7 @@ myProjects = projects(myLibrary) # Each element in the list is named by a charac
 
 projects(myLibrary,names=T) # Returns a data frame containing project names and ids.
 names(myProjects)   # vector of the project names (using base R names function)
-#TO DO: base R function names returns project id's, not names. I don't think it is a good idea to overwrite the base function for List objects.
+#TO DO: base R function names returns project id's, not names. I don't recommend overwriting the base function for List objects.
 
 # Get an existing project. Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[["1"]]
@@ -103,10 +105,9 @@ name(myProject) = "New project name"
 myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
 
 # Delete projects
-#RESUME HERE
 projects(myLibrary,names=T)
 deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
-deleteProjects(myLibrary, project=c(37,61))
+deleteProjects(myLibrary, project=c(25))
 #QUESTION: Do we want to be consistent about "project" vs "projects" here?
 #QUESTION: consistency with enable/disableAddons?
 
@@ -120,7 +121,7 @@ myProject = project(myLibrary) #If no name is given, creates a project named "Pr
 name(myProject)
 myScenario = scenario(myLibrary)
 #QUESTION: In what cases do we want this to work?
-#For now a project is required to create a scenario
+#At present a project is required to create a scenario
 myScenario = scenario(myProject) #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary,project="My new project name") #Will create project if necessary
@@ -148,12 +149,13 @@ myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=1, results=TRUE)
 
 # Get an existing scenario by ID
 myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - returns a single scenario object
-myScenario = scenario(myLibrary, id=5) # By ID directly from the library - return a single scenario object
+scenarios(myLibrary,names=T)
+myScenario = scenario(myLibrary, id=1) # By ID directly from the library - return a single scenario object
 #NOTE: To be consistent with project() I have used name/id in scenario().
 
 # Delete a scenario
 scenarios(myLibrary,names=T)
-deleteScenarios(myLibrary, scenario=c(3,4))
+deleteScenarios(myLibrary, scenario=c(3))
 scenarios(myLibrary,names=T)
 
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
@@ -178,16 +180,18 @@ results(myScenario)     # returns a named vector (by char ID) of the results sce
 # Datasheets are provided in dataframe format
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
 # We also return each column in the correct data type. This will require replacing blanks from the db with NA values
+# devtools::document();devtools::load_all()
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
 scenarios(myLibrary,names=T)
-myScenario = scenario(myLibrary,id=5)
+myScenario = scenario(myLibrary,id=1)
 
 # datasheet() and datasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects
 datasheets(myScenario)
-projects(myLibrary,names=T)
 # DISCUSS: Returns a dataframe of names by default - there are a lot of datasheets. Usually not necessary to parse them all.
+
+projects(myLibrary,names=T)
 myProjectDataframes = datasheets(myLibrary, project=1, names=T) # A named list of all the project and library datasheets for project id 2.
 myProjectDataframes = datasheets("C:/Temp/NewLibrary.ssim", project=1, names=T,scope="project") # A named list of all the project datasheets for project id 2
 #TO DO: names=F
@@ -227,6 +231,7 @@ newStateClassDefinitionDataframe = rbind(existingStateClassDefinitionDataframe, 
 
 # Then save the updated project definitions back to the library  - committed to db immediately
 result = loadDatasheets(newStateClassDefinitionDataframe, ssimLibrary=mySsimLibrary, project=2, datasheets="STSim_StateClass")
+# DISCUSS: was written in plural, but need name/frame to be linked in that case.
 
 # Update the values of an existing scenario datasheet (after the definitions have been added)
 myScenario = scenario(project=myProject, scenario=509)

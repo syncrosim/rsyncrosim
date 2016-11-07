@@ -78,6 +78,8 @@ setMethod(f="initialize",signature="Scenario",
 
     if(is.null(id)&is.null(name)&(nrow(findScn)>0)){
         name = "Scenario"
+        cName=name
+        findScn = subset(findScn,name==cName)
     }
 
     if(nrow(findScn)==1){

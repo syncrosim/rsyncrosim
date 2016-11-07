@@ -1,17 +1,6 @@
 # **********************************************************
 # commandLineTutorialRMockup.R
 # Mock R code following the steps in Leo's PowerShell script.
-# The R package rstan may be a useful example: http://mc-stan.org/interfaces/rstan
-# Stan is software for Bayesian statistical modelling, written in C++.
-# Bayesian methods are computationally intensive, so users typically want to run many mcmc chains in parallel.
-# All of the complexity is wrapped in a single call to stan()
-# Borrowing from rstan, the approach here is:
-#  1) User does a bunch of work to set up the model. In our case, it will be a project definition object,
-#     containing all the datafeeds and datasheets need by syncrosim.
-#  2) User calls a function (SyncroSimRun) that does a ton of work: creating (or modifying) the library,
-#     project, scenarios, etc; running the simulations (in parallel if needed); returning an object containing
-#     the project definition and info required to access the output.
-#  3) User does a bunch of stuff with the output (not done yet). We provide methods for querying the output.
 # **********************************************************
 # Author Josie Hughes, ApexRMS
 # Date 2016.10.13
@@ -22,36 +11,26 @@
 # **********************************************************
 
 # The working directory path and the name of the library you will create
-workingDir = "C:/Users/Josie Hughes/Documents/ApexLocal/BashShellTutorial/Temp"
-libName = "ST-Sim-Command-Line.ssim"
-# The name of the project you want to create
-prjName = "ST-Sim Demonstration"
-primaryModule = "STSim"
+workingDir = "C:/Temp"
+setwd("C:/gitprojects/rsyncrosim")
+
+# devtools::document();devtools::load_all()
 
 #*************************************
 #Create the project definition
-myProject = SyncroSimNewProjectDefinition(workingDir,libName,prjName,primaryModule)
-#Method returns a SyncroSimProjectDefinition object containing lists of library and project scope datasheets.
-#Datasheet lists are populated from the appropriate model.config xml files.
-#Datasheet objects contain
-#  descriptors: name, displayName,dataScope, etc.
-#  columnDescriptions: name, dataType, etc.
-#  validations: from the xml file
-#  options: an example data frame with expected column names. In case of constraints on allowed values (i.e. formula1=), the options data frame will include a row for each allowable combination (e.g. every possible transition, unless the number of possible combinations is excessive). Otherwise there will be no rows in the options data frame.
-#  defaults: we may wish to supply defaults for some data sheets.
-#  values: blank until a data frame is supplied by the user.
-#Fail if there is already a project of that name in the library.
-#Alternatively, load an existing project from disk:
-#  myProject = SyncroSimLoadProjectDefinition(workingDir,libName,prjName)
+myLibrary = ssimLibrary(model="stsim",name=paste0(workingDir,"/ST-Sim-Command-Line.ssim"))
 
-#Query the status of the project definition. What info is required?
-Status(myProject)
-#Returns a data frame containing info on each data sheet: required or not? has defaults? has values?
+myProject = project(myLibrary,name="ST-Sim Demonstration")
+
+datasheets(myProject,names=T)
 
 #***********************************
 #Cover types and state classes
-coverTypes = GetOptions(myProject,dataSheet="State Label X") #returns a data frame with no rows - there are no constraints on this yet
-coverTypes$Name=c('Coniferous','Deciduous','Mixed')
+coverTypes = datasheet(myProject,name="STSim_StateLabelX")
+coverTypes[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
+
+
+
 myProject = SetDataSheet(myProject,dataSheet="State Label X",values=coverTypes) #The "State Label X" data sheet now contains values.
 #SetDataSheet will do some checking to ensure that the values are valid.
 

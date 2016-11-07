@@ -31,7 +31,7 @@ SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
     definition=function(.Object,model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T){
-    #model="stsim";name="stsim";session=mySsim;backup=F;backupName="backup";backupOverwrite=T
+    #model="stsim";name="C:/Temp/NewLibrary.ssim";session=mySsim;backup=F;backupName="backup";backupOverwrite=T;addons=c("stsim-ecological-departure")
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
@@ -40,8 +40,8 @@ setMethod(f="initialize",signature="SSimLibrary",
     modelOptions = models(session)
     if(!is.null(model)){
       model=gsub(":model-transformer","",model,fixed=T)
-      if(!is.element(model,modelOptions$name)){
-        stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
+      if(!is.element(model,modelOptions$shortName)){
+        stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$shortName,collapse=",")))
       }
     }
 
@@ -60,9 +60,9 @@ setMethod(f="initialize",signature="SSimLibrary",
       if(length(fList)==0){
         if(is.null(model)){
           if(nrow(modelOptions)==1){
-            model = modelOptions$name
+            model = modelOptions$shortName
           }else{
-            stop(paste0("Please specify a model type for a new library. Options are:",paste(modelOptions$name,collapse=",")))
+            stop(paste0("Please specify a model type for a new library. Options are:",paste(modelOptions$shortName,collapse=",")))
           }
         }
         name=model
@@ -80,7 +80,7 @@ setMethod(f="initialize",signature="SSimLibrary",
       pathBits = strsplit(path,"/")[[1]]
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
 
-      args = list(create=NULL,library=NULL,name=path,model=modelOptions$command[modelOptions$name==model])
+      args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$shortName==model])
       cStatus = command(args,session)
     }else{
       #x="C:/Temp/NewLibrary.ssim"
@@ -93,22 +93,30 @@ setMethod(f="initialize",signature="SSimLibrary",
       }
     }
     #ensure the primaryModule specified matches the primaryModule on disk
-    args = list(list=NULL,library=NULL,lib=path)
-    tt = .dataframeFromSSim(command(args,session),colNames=c("description","value"))
-
+    #path =.filepath(myLibrary);session=.session(myLibrary)
+    args = list(list=NULL,library=NULL,csv=NULL,lib=path)
+    tt = command(args,session)
+    tt = .dataframeFromSSim(tt)
 
     if(!is.null(model)){
-      expectedModule = modelOptions$command[modelOptions$name==model]
-      if(!grepl(expectedModule,tt$value[tt$description=="Model Name:"])){
-        stop(paste0("A library of that name and a different model type ",tt$value[tt$description=="Model Name:"]," already exists."))
+      expectedModule = modelOptions$name[modelOptions$shortName==model]
+      if(!grepl(expectedModule,tt$value[tt$property=="Model Name:"])){
+        stop(paste0("A library of that name and a different model type ",tt$value[tt$property=="Model Name:"]," already exists."))
       }
     }
 
     #addons=c("stsim-ecological-departure", "stsim-stock-flow")
     if(!is.null(addons)){
       addons=gsub(":add-on-transformer","",addons,fixed=T)
+
+      tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=path),session)
+      tt = .dataframeFromSSim(tt)
+      cAdds = subset(tt,enabled=="Yes")
+      addons=setdiff(addons,gsub(":add-on-transformer","",cAdds$name,fixed=T))
+
       for(i in seq(length.out=length(addons))){
         #i=1
+
         tt = command(list(create=NULL,addon=NULL,lib=path,name=paste0(addons[i],":add-on-transformer")),session)
       }
     }
@@ -171,9 +179,10 @@ setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 setMethod('session', signature(x="SSimLibrary"), function(x) x@session)
 
 setMethod('info', signature(x="SSimLibrary"), function(x) {
-  args = list(list=NULL,library=NULL,lib=.filepath(x))
+  #x=myLibrary
+  args = list(list=NULL,library=NULL,csv=NULL,lib=.filepath(x))
   tt = command(args,.session(x))
-  out = .dataframeFromSSim(tt,colNames=c("type","value"))
+  out = .dataframeFromSSim(tt,localNames=T)
   return(out)
 })
 
@@ -188,7 +197,7 @@ setGeneric('modelName',function(x) standardGeneric('modelName'))
 setMethod('modelName', signature(x="SSimLibrary"), function(x) {
   #x = myLibrary
   cInfo = info(x)
-  out=cInfo$value[cInfo$type=="Model Name:"]
+  out=cInfo$value[cInfo$property=="Model Name:"]
   return(out)
 })
 
@@ -203,7 +212,7 @@ setGeneric('modelVersion',function(x) standardGeneric('modelVersion'))
 setMethod('modelVersion', signature(x="SSimLibrary"), function(x) {
   #x = myLibrary
   cInfo = info(x)
-  out=paste(cInfo$type[cInfo$type=="Source Module Version:"],cInfo$value[cInfo$type=="Source Module Version:"])
+  out=paste(cInfo$property[cInfo$property=="Source Module Version:"],cInfo$value[cInfo$property=="Source Module Version:"])
   return(out)
 })
 
@@ -246,11 +255,13 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
 
-  tt = command(list(list=NULL,projects=NULL,lib=.filepath(x)),.session(x))
+  tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(x)),.session(x))
   if(identical(tt,"Success!")){
-    ttFrame = subset(data.frame(id=NA,name=NA),!is.na(id))
+    ttFrame = data.frame(id=NA,name=NA)
+    ttFrame=subset(ttFrame,!is.na(id))
   }else{
-    ttFrame=.dataframeFromSSim(tt,colNames=c("id","name"))
+    ttFrame=.dataframeFromSSim(tt)
+    names(ttFrame)[names(ttFrame)=="iD"]="id"
   }
   if(names){
     return(ttFrame)
@@ -391,13 +402,11 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary;names=T
   #command(list(create=NULL,scenario=NULL,lib=.filepath(x),pid=85,name="Another scenario"),.session(x))
-  tt = command(list(list=NULL,scenarios=NULL,lib=.filepath(x)),.session(x))
+  tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(x)),.session(x))
+  ttFrame=.dataframeFromSSim(tt,localNames=T)
+  names(ttFrame)[names(ttFrame)=="scenarioID"]="id"
+  names(ttFrame)[names(ttFrame)=="projectID"]="pid"
 
-  if(identical(tt,"Success!")){
-    ttFrame = subset(data.frame(id=NA,pid=NA,isResult=NA,name=NA),!is.na(id))
-  }else{
-    ttFrame=.dataframeFromSSim(tt,colNames=c("id","pid","isResult","name"))
-  }
   if(class(x)=="Project"){
     ttFrame = subset(ttFrame,pid==.id(x))
   }
@@ -451,12 +460,12 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
 setGeneric('addons',function(x,...) standardGeneric('addons'))
 setMethod('addons', signature(x="SSimLibrary"), function(x,all=F) {
   #x = myLibrary
-  tt = command(list(list=NULL,addons=NULL,lib=.filepath(x)),.session(x))
-  tt = .dataframeFromSSim(tt,colNames=c("status","description","command"))
+  tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(x)),.session(x))
+  tt = .dataframeFromSSim(tt)
   if(!all){
-    tt=subset(tt,status!="(D)")
+    tt=subset(tt,enabled=="Yes")
   }
-  tt$name = gsub(":add-on-transformer","",tt$command,fixed=T)
+  tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
 
@@ -483,12 +492,12 @@ setReplaceMethod(
     for(i in seq(length.out=length(value))){
       #i=1
       cVal = value[i]
-      if(!is.element(cVal,cAdds$name)){
-        print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$status=="(D)"],collapse=",")))
+      if(!is.element(cVal,cAdds$shortName)){
+        print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$shortName[cAdds$enabled=="No"],collapse=",")))
         next
       }
-      cAddsLess = subset(cAdds,status=="(D)")
-      if(!is.element(cVal,cAddsLess$name)){
+      cAddsLess = subset(cAdds,enabled=="No")
+      if(!is.element(cVal,cAddsLess$shortName)){
         print(paste0(cVal," is already enabled."))
         next
       }
@@ -527,12 +536,12 @@ setReplaceMethod(
     for(i in seq(length.out=length(value))){
       #i=1
       cVal = value[i]
-      if(!is.element(cVal,cAdds$name)){
-        print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$status=="(D)"],collapse=",")))
+      if(!is.element(cVal,cAdds$shortName)){
+        print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$shortName[cAdds$enabled=="No"],collapse=",")))
         next
       }
-      cAddsLess = subset(cAdds,status=="(E)")
-      if(!is.element(cVal,cAddsLess$name)){
+      cAddsLess = subset(cAdds,enabled=="Yes")
+      if(!is.element(cVal,cAddsLess$shortName)){
         print(paste0(cVal," is already disabled."))
         next
       }
@@ -550,28 +559,21 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
   x = .getFromXProjScn(x,project,scenario)
 
   #Get datasheet dataframe
-  tt=command(c("list","datasheets",paste0("lib=",.filepath(x))),.session(x))
-  datasheets = .dataframeFromSSim(tt,colNames=c("scope","description","name"))
+  tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
+  datasheets = .dataframeFromSSim(tt)
+  datasheets$dataScope = sapply(datasheets$dataScope,camel)
+  names(datasheets) = c("name","displayName","dataScope")
   if(is.element(class(x),c("Project","SSimLibrary"))){
-    datasheets = subset(datasheets,scope!="(S)")
+    datasheets = subset(datasheets,dataScope!="scenario")
   }
   if(is.element(class(x),c("SSimLibrary"))){
-    datasheets = subset(datasheets,scope!="(P)")
+    datasheets = subset(datasheets,dataScope!="project")
   }
   if(!is.null(scope)){
     if(!is.element(scope,c("scenario","project","library"))){
       stop("Invalid scope ",scope,". Valid scopes are 'scenario', 'project', 'library' and NULL.")
     }
-    if(scope=="scenario"){
-      datasheets=subset(datasheets,scope=="(S)")
-    }
-    if(scope=="project"){
-      datasheets=subset(datasheets,scope=="(P)")
-    }
-    if(scope=="library"){
-      datasheets=subset(datasheets,scope=="(L)")
-    }
-
+    datasheets=subset(datasheets,dataScope==scope)
   }
   if(names){
     return(datasheets)
@@ -586,24 +588,33 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project=NULL,scenario=NULL,optional=F,empty=F) {
-  #x = myLibrary;project=NULL;scenario=NULL;name="SSim_Settings";optional=F
+  #x = myProject;project=NULL;scenario=NULL;name="STSim_StateLabelX";optional=F;empty=F
   x = .getFromXProjScn(x,project,scenario)
 
-  tt = command(c("export",paste0("lib=",.filepath(x)),paste0("sheet=",name),"file=temp.csv"),.session(x))
+  if(class(x)=="SSimLibrary"){
+    tt = command(c("export",paste0("lib=",.filepath(x)),paste0("sheet=",name),"file=temp.csv"),.session(x))
+  }
+  if(class(x)=="Project"){
+    tt = command(list(export=NULL,lib=.filepath(x),pid = .id(x),sheet=name,file="temp.csv"),.session(x))
+  }
+  if(class(x)=="Scenario"){
+    tt = command(list(export=NULL,lib=.filepath(x),sid = .id(x),sheet=name,file="temp.csv"),.session(x))
+  }
+
   if(!identical(tt,"Success!")){stop("Something is wrong.")}
   #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
   sheet = read.csv("temp.csv")
   file.remove("temp.csv")
 
-  tt=command(c("list","columns",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(myScenario))
+  tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
   sheetInfo = .dataframeFromSSim(tt)
 
   sheetInfo$id = seq(length.out=nrow(sheetInfo))
   if(!optional){
     if(!empty){
-      sheetInfo$Optional[is.element(sheetInfo$Name,colnames(sheet))]="Present"
+      sheetInfo$Optional[is.element(sheetInfo$name,colnames(sheet))]="Present"
     }
-    sheetInfo = subset(sheetInfo,is.element(Optional,c("No","Present")))
+    sheetInfo = subset(sheetInfo,is.element(optional,c("No","Present")))
     sheetInfo = sheetInfo[order(sheetInfo$id),]
   }
   if(nrow(sheet)==0){
@@ -613,27 +624,69 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project=NULL,
   for(i in seq(length.out=nrow(sheetInfo))){
     #i =1
     cRow = sheetInfo[i,]
-    if(!is.element(cRow$Name,colnames(sheet))){
-      sheet[[cRow$Name]] = NA
+    if(!is.element(cRow$name,colnames(sheet))){
+      sheet[[cRow$name]] = NA
     }
-    if(cRow$Type=="Integer"){
-      sheet[[cRow$Name]] = as.numeric(sheet[[cRow$Name]])
+    if(cRow$type=="Integer"){
+      sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
     }
-    if(cRow$Type=="String"){
-      sheet[[cRow$Name]] = as.character(sheet[[cRow$Name]])
+    if(cRow$type=="String"){
+      sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
     }
-    if(cRow$Formula1!="N/A"){
+    if(cRow$formula1!="N/A"){
       stop("TO DO: Handle this case.")
       #TO DO: handle formula1/formula2
     }
   }
 
   #TO DO: deal with NA values in sheet
-
   #put columns in correct order
-  sheet = subset(sheet,select=sheetInfo$Name)
+  sheet$colOne = sheet[,1]
+  sheet$cOrder=seq(1,nrow(sheet))
+  if(empty){
+    sheet= subset(sheet,is.null(colOne))
+  }else{
+    sheet=subset(sheet,!is.na(colOne))
+    sheet = sheet[order(sheet$cOrder),]
+  }
+  sheet = subset(sheet,select=sheetInfo$name)
   return(sheet)
 })
 
+setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NULL,project=NULL,scenario=NULL) {
+  #x = myProject;project=NULL;scenario=NULL;name="STSim_StateLabelX";data=coverTypes
+  x = .getFromXProjScn(x,project,scenario)
+  if(class(data)=="data.frame"){
+    if(is.null(name)){
+      stop("Need a datasheet name.")
+    }
+    hdat = data
+    data = list()
+    data[[name]]=hdat
+  }
+
+  if(class(data)!="list"){
+    stop("data must be a dataframe or list of dataframes.")
+  }
+  out=list()
+  for(i in seq(length.out=length(data))){
+    #i=1
+    cName = names(data)[i]
+    cDat = data[[cName]]
+
+    write.csv(cDat,file=paste0(cName,".csv"))
+    args = list(import=NULL,lib=.filepath(x),sheet=cName,file=paste0(getwd(),"/",cName,".csv"))
+    if(class(x)=="Project"){
+      args[["pid"]]=.id(x)
+    }
+    if(class(x)=="Scenario"){
+      args[["sid"]]=.id(x)
+    }
+    tt=command(args,.session(x))
+    #RESUME HERE - remember to remove temporary csv file when finished.
+    out[[cName]] = tt
+  }
+  return(out)
+})
 
 

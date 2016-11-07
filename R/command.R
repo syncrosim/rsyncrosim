@@ -40,7 +40,8 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe")
     sysArgs=paste0("--",args)
   }
   if(printCmd){
-    print(paste(sysArgs,collapse=" "))
+    outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)
+    print(outCmd)
   }
   if(silent(session)){stderr=F}else{stderr=""}
   out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE,stderr=stderr)
