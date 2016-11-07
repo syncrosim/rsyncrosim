@@ -31,6 +31,15 @@ setGeneric('ssimLibrary',function(model=NULL,...) standardGeneric('ssimLibrary')
 #' @param x An object with a name.
 #' @export
 setGeneric('name',function(x) standardGeneric('name'))
+#' Set the project or scenario names.
+#'
+#' Set the name of a SyncroSim Project or Scenario.
+#'
+#' @param x A SyncroSim \code{\link{Project}} or \code{\link{Scenario}} object.
+#' @param value The new name.
+#' @export
+setGeneric('name<-',function(x,value) standardGeneric('name<-'))
+
 
 #' The id of a SyncroSim project or scenario.
 #'
@@ -79,4 +88,60 @@ setGeneric('info',function(x) standardGeneric('info'))
 #' session(myLib)=session()
 #' @export
 setGeneric('session',function(x=NULL,...) standardGeneric('session'))
+
+#' datasheets
+#'
+#' Gets datasheets from an SSimLibrary, Project or Scenario.
+#'
+#' @details
+#' \itemize{
+#'   \item {If x/project/scenario identify a scenario: }{Returns library, project, and scenario scope datasheets.}
+#'   \item {If x/project/scenario identify a project (but not a scenario): }{Returns library and project scope datasheets.}
+#'   \item {If x/project/scenario identify a library (but not a project or scenario): }{Returns library scope datasheets.}
+#' }
+#'
+#' @param x An SSimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.
+#' @param project Project name or id. Ignored if x is a Project.
+#' @param scenario Scenario name or id. Ignored if x is a Scenario.
+#' @param names If TRUE (default) returns dataframe of sheet names. If false returns a named list of dataframes representing each datasheet.
+#' @param empty If TRUE returns empty template dataframes.
+#' @param scope "scenario","project", "library", or NULL.
+#' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
+#' @examples
+#'
+#' @export
+setGeneric('datasheets',function(x,...) standardGeneric('datasheets'))
+.datasheets=datasheets
+#Handles case where x is a path to an SyncroSim library on disk.
+setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenario=NULL,...) {
+  x = .getFromXProjScn(x,project,scenario)
+  out = .datasheets(x,project,scenario,...)
+  return(out)
+})
+
+#' datasheet
+#'
+#' Gets Syncrosim datasheet.
+#'
+#' @details
+#' If !empty & !optional: return required columns and columns containing data
+#'
+#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
+#' @param name The sheet name
+#' @param project Project name or id.
+#' @param scenario Scenario name or id.
+#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also.
+#' @param empty If FALSE (default) returns data (if any). If FALSE returns empty dataframe of correct format.
+#' @return A dataframe.
+#' @examples
+#'
+#' @export
+setGeneric('datasheet',function(x,...) standardGeneric('datasheet'))
+.datasheet=datasheet
+#Handles case where x is a path to an SyncroSim library on disk.
+setMethod('datasheet', signature(x="character"), function(x,name,project=NULL,scenario=NULL,...) {
+  x = .getFromXProjScn(x,project,scenario)
+  out = .datasheet(x,name=name,project=project,scenario=scenario,...)
+  return(out)
+})
 

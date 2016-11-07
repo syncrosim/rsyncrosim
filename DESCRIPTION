@@ -14,6 +14,7 @@ Collate:
     'dataframeFromSSim.R'
     'externalClient.R'
     'fullFilename.R'
+    'getFromXProjScn.R'
     'getFromXprojectscenario.R'
     'hello.R'
     'internalHelpers.R'

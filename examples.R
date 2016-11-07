@@ -99,7 +99,6 @@ myProject = project(myLibrary, name="TempProject")
 # Get/set the project properties - for now we can only set the name
 name(myProject)
 name(myProject) = "New project name"
-#TO DO: get console command for renaming a project
 
 myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
 
@@ -144,29 +143,28 @@ projects(myLibrary,names=T)
 # Get a list of existing results scenarios for a particular project
 myScenarios = scenarios(myProject, results=TRUE)
 myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project="My new project name", results=TRUE)
-myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=2, results=TRUE)
+myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=1, results=TRUE)
 #NOTE CHANGE: scenarios() is a generic method defined for Project, SSimLibrary, and character object. If given a character string, queries an SSimLibrary of that name.
 
 # Get an existing scenario by ID
 myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - returns a single scenario object
-myScenario = scenario(myLibrary, id=2) # By ID directly from the library - return a single scenario object
+myScenario = scenario(myLibrary, id=5) # By ID directly from the library - return a single scenario object
 #NOTE: To be consistent with project() I have used name/id in scenario().
 
 # Delete a scenario
 scenarios(myLibrary,names=T)
-deleteScenarios(myLibrary, scenario=c(1,2))
+deleteScenarios(myLibrary, scenario=c(3,4))
 scenarios(myLibrary,names=T)
 
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
 name(myScenario)
 id(myScenario)
+name(myScenario) = "New scenario name"
+ssimLibrary(myScenario)  # Returns a SyncroSimLibrary object for the scenario
+projectId(myScenario)  # Returns the project ID for the scenario
 
 #TO DO
 readOnly(myScenario)    # Returns TRUE/FALSE
-name(myScenario) = "New scenario name"
-
-projectId(myScenario)  # Returns the project ID for the scenario
-ssimLibrary(myScenario)  # Returns a SyncroSimLibrary object for the scenario
 
 #TO DO
 hasResults(myScenario)    # Returns TRUE/FALSE
@@ -180,17 +178,21 @@ results(myScenario)     # returns a named vector (by char ID) of the results sce
 # Datasheets are provided in dataframe format
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
 # We also return each column in the correct data type. This will require replacing blanks from the db with NA values
-# devtools::document();devtools::load_all()
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
 scenarios(myLibrary,names=T)
-myScenario = scenario(myLibrary)
+myScenario = scenario(myLibrary,id=5)
 
-# datasheet and datasheets functions accept any combination of x, project and scenario arguments.
-# x must be a SyncroSim object (SSimLibrary,Project or Scenario). scenario and project can be names, ids, or SycnroSim objects
-datasheets(myScenario)  #Returns a dataframe of names by default - there are a lot of datasheets. Usually not necessary to parse them all.
-# RESUME HERE
-myScenarioDataframes = datasheets(myLibrary, project=1, names=F,scope="scenario") # A named list of all the project datafeeds for projectID=2
+# datasheet() and datasheets() accept any combination of x, project and scenario arguments.
+# x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
+# scenario and project can be names, ids, or SycnroSim objects
+datasheets(myScenario)
+projects(myLibrary,names=T)
+# DISCUSS: Returns a dataframe of names by default - there are a lot of datasheets. Usually not necessary to parse them all.
+myProjectDataframes = datasheets(myLibrary, project=1, names=T) # A named list of all the project and library datasheets for project id 2.
+myProjectDataframes = datasheets("C:/Temp/NewLibrary.ssim", project=1, names=T,scope="project") # A named list of all the project datasheets for project id 2
+#TO DO: names=F
 
+#RESUME HERE
 #TO DO: handle dependencies among datasheets
 myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F) # This option returns characters instead of factors
 

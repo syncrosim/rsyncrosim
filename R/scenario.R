@@ -184,6 +184,19 @@ scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,sc
 setMethod('name', signature(x="Scenario"), function(x) {
   return(x@name)
 })
+setReplaceMethod(
+  f="name",
+  signature="Scenario",
+  definition=function(x,value){
+    #x=myScenario;value="New Name"
+    tt = command(list(rename=NULL,scenario=NULL,lib=.filepath(x),sid=.id(x),name=value),.session(x))
+    if(!identical(tt,"Success!")){
+      stop(tt)
+    }
+    x@name = value
+    return (x)
+  }
+)
 
 setMethod('id', signature(x="Scenario"), function(x) {
   return(x@id)

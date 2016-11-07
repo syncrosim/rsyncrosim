@@ -143,21 +143,16 @@ setMethod('id', signature(x="Project"), function(x) {
   return(x@id)
 })
 
-
-#' Set the project name
-#'
-#' Set the name of a SyncroSim project.
-#'
-#' @param x A SyncroSim \code{\link{Project}} object.
-#' @param value The new project name.
-#' @export
-setGeneric('name<-',function(x,value) standardGeneric('name<-'))
 setReplaceMethod(
   f="name",
   signature="Project",
   definition=function(x,value){
-    #x=myProject
-    #TO DO: console command for renaming a project.
+    #x=myProject;value="New Name"
+    tt = command(list(rename=NULL,project=NULL,lib=.filepath(x),pid=.id(x),name=value),.session(x))
+    if(!identical(tt,"Success!")){
+      stop(tt)
+    }
+    x@name = value
     return (x)
   }
 )
