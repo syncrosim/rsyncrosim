@@ -4,7 +4,8 @@
 \alias{datasheet}
 \title{Get a datasheet}
 \usage{
-datasheet(x, ...)
+datasheet(x, name, project = NULL, scenario = NULL, optional = F,
+  empty = F, sheetNames = NULL, checkDependencies = T)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
@@ -18,6 +19,10 @@ datasheet(x, ...)
 \item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also.}
 
 \item{empty}{If FALSE (default) returns data (if any). If FALSE returns empty dataframe of correct format.}
+
+\item{sheetNames}{Output from datasheets(). Used internally to speed calculation of dependencies.}
+
+\item{checkDependencies}{If TRUE (default) dependencies are checked. Set to FALSE to speed calculations.}
 }
 \value{
 A dataframe.

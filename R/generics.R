@@ -31,6 +31,7 @@ setGeneric('ssimLibrary',function(model=NULL,...) standardGeneric('ssimLibrary')
 #' @param x An object with a name.
 #' @export
 setGeneric('name',function(x) standardGeneric('name'))
+
 #' Set the project or scenario names.
 #'
 #' Set the name of a SyncroSim Project or Scenario.
@@ -132,16 +133,17 @@ setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenar
 #' @param scenario Scenario name or id.
 #' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also.
 #' @param empty If FALSE (default) returns data (if any). If FALSE returns empty dataframe of correct format.
+#' @param sheetNames Output from datasheets(). Used internally to speed calculation of dependencies.
+#' @param checkDependencies If TRUE (default) dependencies are checked. Set to FALSE to speed calculations.
 #' @return A dataframe.
 #' @examples
 #'
 #' @export
-setGeneric('datasheet',function(x,...) standardGeneric('datasheet'))
-.datasheet=datasheet
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,sheetNames=NULL,checkDependencies=T) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project=NULL,scenario=NULL,...) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,sheetNames,checkDependencies) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name=name,project=project,scenario=scenario,...)
+  out = .datasheet(x,name,project,scenario,optional,empty,sheetNames,checkDependencies)
   return(out)
 })
 

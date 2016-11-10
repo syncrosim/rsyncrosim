@@ -10,6 +10,7 @@ LazyData: TRUE
 Collate:
     'generics.R'
     'ServerController.R'
+    'allCombos.R'
     'command.R'
     'dataframeFromSSim.R'
     'externalClient.R'
@@ -23,5 +24,6 @@ Collate:
     'scenario.R'
     'internalWrappers.R'
     'rsyncrosim.R'
+    'setRows.R'
     'trim.R'
 RoxygenNote: 5.0.1

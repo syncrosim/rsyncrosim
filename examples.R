@@ -90,7 +90,8 @@ myProject = project(ssimLibrary=myLibrary, name="My new project name")
 # Get a named list of existing projects
 myProjects = projects(myLibrary) # Each element in the list is named by a character version of the project ID
 
-projects(myLibrary,names=T) # Returns a data frame containing project names and ids.
+myProjects =projects(myLibrary) # Returns a data frame containing project names and ids.
+str(myProjects)
 names(myProjects)   # vector of the project names (using base R names function)
 #TO DO: base R function names returns project id's, not names. I don't recommend overwriting the base function for List objects.
 
@@ -106,10 +107,12 @@ myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the p
 
 # Delete projects
 projects(myLibrary,names=T)
+#TO DO: force deletion
 deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
 deleteProjects(myLibrary, project=c(25))
 #QUESTION: Do we want to be consistent about "project" vs "projects" here?
-#QUESTION: consistency with enable/disableAddons?
+#QUESTION: consistency with enable/disableAddons? Assignment operators.
+#QUESTION: generic delete method?
 
 #########################
 # Scenarios
@@ -117,11 +120,14 @@ deleteProjects(myLibrary, project=c(25))
 # devtools::document();devtools::load_all()
 # Get a named list of Scenario objects
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
-myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
+myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 name(myProject)
+scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary)
 #QUESTION: In what cases do we want this to work?
 #At present a project is required to create a scenario
+#Ideas: if no project, create project/scenario?
+#Fail if more than one project.
 myScenario = scenario(myProject) #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary,project="My new project name") #Will create project if necessary
@@ -207,6 +213,7 @@ myDeterministicTransitionDataframe = myScenarioDataframes[["STSim_DeterministicT
 myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
 myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
 
+?datasheet
 datasheet(myLibrary,name="SSim_Settings")
 
 # Alternatively a datasheet can be provided as a Datasheet object  - skip this for now

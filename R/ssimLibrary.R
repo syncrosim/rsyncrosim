@@ -587,55 +587,85 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project=NULL,scenario=NULL,optional=F,empty=F) {
-  #x = myProject;project=NULL;scenario=NULL;name="STSim_StateLabelX";optional=F;empty=F
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,sheetNames,checkDependencies) {
+  #x = myScenario;project=NULL;scenario=NULL;name="STSim_DeterministicTransition";optional=T;empty=F;checkDependencies=T
   x = .getFromXProjScn(x,project,scenario)
+  if(is.null(sheetNames)){
+    sheetNames = datasheets(x,names=T)
+  }
+  rmId = strsplit(name,"_")[[1]][2]
+  rmCols = c(paste0(rmId,"ID"),"ProjectID","ScenarioID")
 
-  if(class(x)=="SSimLibrary"){
-    tt = command(c("export",paste0("lib=",.filepath(x)),paste0("sheet=",name),"file=temp.csv"),.session(x))
+  dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
+  tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
+  unlink(tempFile)
+
+  args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile)
+
+  scope = sheetNames$dataScope[sheetNames$name==name]
+  if(length(scope)==0){
+    stop("name not found in sheetNames")
   }
   if(class(x)=="Project"){
-    tt = command(list(export=NULL,lib=.filepath(x),pid = .id(x),sheet=name,file="temp.csv"),.session(x))
+    if(scope=="project"){args[["pid"]]=.id(x)}
   }
   if(class(x)=="Scenario"){
-    tt = command(list(export=NULL,lib=.filepath(x),sid = .id(x),sheet=name,file="temp.csv"),.session(x))
+    if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
+    if(scope=="scenario"){args[["sid"]]=.id(x)}
+  }
+  tt=command(args,.session(x))
+
+  if(!identical(tt,"Success!")){
+    stop(tt)
   }
 
-  if(!identical(tt,"Success!")){stop("Something is wrong.")}
   #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
-  sheet = read.csv("temp.csv")
-  file.remove("temp.csv")
+  sheet = read.csv(tempFile)
+  unlink(tempFile)
 
   tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
   sheetInfo = .dataframeFromSSim(tt)
-
   sheetInfo$id = seq(length.out=nrow(sheetInfo))
+  sheetInfo = subset(sheetInfo,!is.element(name,rmCols))
+
   if(!optional){
     if(!empty){
       sheetInfo$Optional[is.element(sheetInfo$name,colnames(sheet))]="Present"
     }
     sheetInfo = subset(sheetInfo,is.element(optional,c("No","Present")))
-    sheetInfo = sheetInfo[order(sheetInfo$id),]
   }
+  sheetInfo = sheetInfo[order(sheetInfo$id),]
+
   if(nrow(sheet)==0){
     sheet[1,1]=NA
   }
 
   for(i in seq(length.out=nrow(sheetInfo))){
-    #i =1
+    #i =2
     cRow = sheetInfo[i,]
     if(!is.element(cRow$name,colnames(sheet))){
       sheet[[cRow$name]] = NA
     }
-    if(cRow$type=="Integer"){
+    if((cRow$type=="Integer")&(cRow$valType!="DataSheet")){
       sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
     }
     if(cRow$type=="String"){
       sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
     }
-    if(cRow$formula1!="N/A"){
-      stop("TO DO: Handle this case.")
-      #TO DO: handle formula1/formula2
+    if((cRow$formula1!="N/A")&checkDependencies){
+      #if a number, ignore - SyncroSim will do the checking
+      if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
+        dependSheet = datasheet(x,name=cRow$formula1,sheetNames=sheetNames,checkDependencies=F)
+        if(nrow(dependSheet)==0){
+          warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
+        }
+        dependLevels = dependSheet$Name
+        sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=dependLevels)
+        #TO DO: handle formula1/formula2
+      }
+    }
+    if(cRow$formula2!="N/A"){
+      stop("handle this case")
     }
   }
 
@@ -653,9 +683,12 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project=NULL,
   return(sheet)
 })
 
-setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NULL,project=NULL,scenario=NULL) {
-  #x = myProject;project=NULL;scenario=NULL;name="STSim_StateLabelX";data=coverTypes
+setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NULL,project=NULL,scenario=NULL,sheetNames=NULL) {
+  #x = myScenario;project=NULL;scenario=NULL;name="STSim_DeterministicTransition";data=mySheet
   x = .getFromXProjScn(x,project,scenario)
+  if(is.null(sheetNames)){
+    sheetNames = datasheets(x)
+  }
   if(class(data)=="data.frame"){
     if(is.null(name)){
       stop("Need a datasheet name.")
@@ -665,7 +698,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NUL
     data[[name]]=hdat
   }
 
-  if(class(data)!="list"){
+  if((class(data)!="list")||(class(data[[1]])!="data.frame")){
     stop("data must be a dataframe or list of dataframes.")
   }
   out=list()
@@ -673,16 +706,27 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NUL
     #i=1
     cName = names(data)[i]
     cDat = data[[cName]]
+    cDat[is.na(cDat)]=""
 
-    write.csv(cDat,file=paste0(cName,".csv"))
-    args = list(import=NULL,lib=.filepath(x),sheet=cName,file=paste0(getwd(),"/",cName,".csv"))
+    dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
+    tempFile = paste0(dirname(.filepath(x)),"/Temp/",cName,".csv")
+
+    write.csv(cDat,file=tempFile,row.names=F,quote=F)
+    args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)
+    scope =sheetNames$dataScope[sheetNames$name==cName]
+    if(length(scope)==0){
+      stop("name not found in sheetNames")
+    }
+
     if(class(x)=="Project"){
-      args[["pid"]]=.id(x)
+      if(scope=="project"){args[["pid"]]=.id(x)}
     }
     if(class(x)=="Scenario"){
-      args[["sid"]]=.id(x)
+      if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
+      if(scope=="scenario"){args[["sid"]]=.id(x)}
     }
     tt=command(args,.session(x))
+    unlink(tempFile)
     #RESUME HERE - remember to remove temporary csv file when finished.
     out[[cName]] = tt
   }
