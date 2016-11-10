@@ -6,26 +6,19 @@
 # Date 2016.10.13
 # **********************************************************
 
-# **********************************************************
-# Define the project
-# **********************************************************
-
 # devtools::document();devtools::load_all()
 
 # The working directory path and the name of the library you will create
 workingDir = "C:/Temp"
-#setwd("C:/gitprojects/rsyncrosim")
 
 #*************************************
 # Create the project definition
 myLibrary = ssimLibrary(model="stsim",name=paste0(workingDir,"/ST-Sim-Command-Line.ssim"))
-
 myProject = project(myLibrary,name="ST-Sim Demonstration")
-
 sheetNames = datasheets(myProject,names=T)
+
 #***********************************
 # Cover types and state classes
-# devtools::document();devtools::load_all()
 sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName)
 mySheet[1,"Name"]="Entire Forest"
 loadDatasheets(myProject,mySheet,name=sheetName)
@@ -37,7 +30,6 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 # Warn if dependencies are not loaded, and return a factor with 0 levels
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
-str(mySheet)
 mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
 
 sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
@@ -66,8 +58,8 @@ loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 #***********************************
 # Transitions
 sheetNames$name[sheetNames$dataScope=="project"]
-sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
 str(mySheet)
+sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
 loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 loadDatasheets(myProject,mySheet,name="STSim_TransitionType",sheetNames=sheetNames)
@@ -80,7 +72,6 @@ loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 
 #****************
 # Age type
-# devtools::document();devtools::load_all()
 sheetNames$name[sheetNames$dataScope=="project"]
 sheetName = "STSim_AgeType"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
 str(mySheet)
@@ -91,9 +82,7 @@ loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 #*************************************
 # Add No Harvest Scenario
 #*************************************
-scenarioName="No Harvest"
 myScenario = scenario(myProject,name="No Harvest")
-
 sheetNames = datasheets(myScenario,names=T)
 sheetNames$name[sheetNames$dataScope=="scenario"]
 
@@ -109,92 +98,59 @@ loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 
 #**************************
 # Deterministic transitions
-# devtools::document();devtools::load_all()
-sheetNames$name[sheetNames$dataScope=="scenario"]
-sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames)
-# NOTE: dependencies are time consuming
+sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames,empty=T)
 str(mySheet)
-mySheet = allCombos(mySheet)
-str(mySheet)
-mySheet=setRows(mySheet,
-  conditions=list(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All"),
-  values=list(AgeMin=21,Location="C1"))
-mySheet=setRows(mySheet,
-  conditions=list(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All"),
-  values=list(Location="A1"))
-mySheet=setRows(mySheet,
-  conditions=list(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All"),
-  values=list(AgeMin=11,Location="B1"))
-mySheet=subset(mySheet,!is.na(Location))
+levels(mySheet$StateClassIDSource)
+addRow(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1")
+addRow(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1")
+addRow(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1")
+#addRow fills in missing values using factor levels where possible.
+#addRow also complains if factor values are not valid
+mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 #mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames)
 #str(mySheet)
-
-sheetName = "STSim_Transition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames)
-str(mySheet)
-mySheet = allCombos(mySheet)
-str(mySheet)
-mySheet=setRows(mySheet,
-  conditions=list(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",TransitionTypeID="Fire"),
-  values=list(Probability=0.01))
-mySheet=setRows(mySheet,
-  conditions=list(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",TransitionTypeID="Harvest"),
-  values=list(Probability=1,AgeMin=40))
-mySheet=setRows(mySheet,
-  conditions=list(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",TransitionTypeID="Harvest"),
-  values=list(Probability=1,AgeMin=40))
-
-mySheet=subset(mySheet,!is.na(Probability))
-loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
-#mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames)
-#str(mySheet)
-
-
-detTransitions = GetOptions(myProject[[scenarioName]],dataSheet="Deterministic Transitions")
-#GetOptions returns a data frame with all possible stratum and state class sources and destinations.
-#If the number of possible options is too large, warn the user and return a subset, with possible values for each column in the factor levels
-#The user can subset and modify the transition table as appropriate.
-#SetValues modifies values on one or more rows of a data frame. Values are assigned to all rows that meet the conditions.
-#Users can also load or generate their own data frame.
-detTransitions=SetValues(detTransitions,conditions=list(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All"),
-                         values=list(AgeMin=21,Location="C1"))
-detTransitions$Location[(StateSource=="Deciduous:All")&(StateDest=="Deciduous:All")]="A1"
-detTransitions=SetValues(detTransitions,conditions=list(StateSource="Mixed:All",StateDest="Mixed:All"),
-                         values=list(AgeMin=11,Location="B1"))
-myProject = SetDataSheet(myProject[[scenarioName]],dataSheet="Deterministic Transitions",values=detTransitions)
-#Rows without probabilities will be automatically dropped from the table.
 
 #*************************
-#Probabilistic transitions
-probTransitions = GetOptions(myProject[[scenarioName]],dataSheet="Probabilistic Transitions")
-probTransitions$Probability[(StateSource=="Coniferous:All")&(StateDest=="Deciduous:All")&(Type="Fire")]=0.01
-probTransitions=SetValues(probTransitions,conditions=list(StateSource="Coniferous:All",StateDest="Deciduous:All",Type="Harvest"),
-                          values=list(AgeMin=40,Probability=1))
-probTransitions$Probability[(StateSource=="Deciduous:All")&(StateDest=="Deciduous:All")&Type="Fire"]=0.002
-probTransitions=SetValues(probTransitions,conditions=list(StateSource="Decidious:All",StateDest="Mixed:All",Type="Succession"),
-                          values=list(AgeMin=10,Probability=0.1))
-probTransitions$Probability[(StateSource=="Mixed:All")&(StateDest=="Deciduous:All")&Type="Fire"]=0.005
-probTransitions=SetValues(probTransitions,conditions=list(StateSource="Mixed:All",StateDest="Coniferous:All",Type="Succession"),
-                          values=list(AgeMin=20,Probability=0.1))
-myProject = SetDataSheet(myProject[[scenarioName]],dataSheet="Probabilistic Transitions",values=probTransitions)
-#The user can subset, modify or overwrite the options table in the usual manner.
+# Probabilistic transitions
+sheetName = "STSim_Transition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames,empty=T)
+addRow(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Fire",Probability=0.01)
+addRow(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Harvest",Probability=1,AgeMin=40)
+addRow(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Fire",Probability=0.002)
+addRow(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
+                           TransitionTypeID="Succession",Probability=0.1,AgeMin=10)
+addRow(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Fire",Probability=0.005)
+addRow(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
+                           TransitionTypeID="Succession",Probability=0.1,AgeMin=20)
+loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
+#mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames)
+#mySheet
 
 #********************
 #Initial conditions
-inits = GetOptions(myProject[[scenarioName]],dataSheet="Initial Conditions Non Spatial")
-inits= AddRow(TotalAmount=1000,NumCells=1000)
-myProject = SetDataSheet(myProject[[scenarioName]],dataSheet="Initial Conditions Non Spatial",values=inits)
+# devtools::document();devtools::load_all()
+sheetName = "STSim_InitialConditionsNonSpatial"; mySheet = datasheet(myScenario,name=sheetName,optional=F,sheetNames=sheetNames,empty=T)
+mySheet[1,"TotalAmount"]=1000
+mySheet[1,"NumCells"]=1000
+loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 
-nsInitialConditions = GetOptions(myProject[[scenarioName]],dataSheet="Initial Cond. Distribution")
-nsInitialConditions=SetValues(nsInitialConditions,conditions=list(State="Coniferous:All"),values=list(AgeMin=20,AgeMax=100,RelativeAmount=20))
-nsInitialConditions=SetValues(nsInitialConditions,conditions=list(State="Decidious:All"),values=list(AgeMax=10,RelativeAmount=40))
-nsInitialConditions=SetValues(nsInitialConditions,conditions=list(State="Mixed:All"),values=list(AgeMin=11,AgeMax=20,RelativeAmount=40))
-myProject = SetDataSheet(myProject[[scenarioName]],dataSheet="Initial Cond. Distribution",values=nsInitialConditions)
+sheetName = "STSim_InitialConditionsNonSpatialDistribution"; mySheet = datasheet(myScenario,name=sheetName,optional=T,sheetNames=sheetNames,empty=T)
+addRow(mySheet)=data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20)
+addRow(mySheet)=data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40)
+addRow(mySheet)=data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40)
+mySheet
+loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 
 #*************************************
 #Add Harvest Scenario
 #*************************************
-scenarioName="Harvest"
+myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
+#copies "No Harvest" scenario to new "Harvest" scenario
+
 myProject = AddScenario(myProject,scenarioName,sourceScenario="No Harvest")
 #Adds a copy of the source scenario to the project.
 

@@ -588,7 +588,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,sheetNames,checkDependencies) {
-  #x = myScenario;project=NULL;scenario=NULL;name="STSim_DeterministicTransition";optional=T;empty=F;checkDependencies=T
+  #x = myScenario;project=NULL;scenario=NULL;name="STSim_InitialConditionsNonSpatialDistribution";optional=T;empty=F;checkDependencies=T
   x = .getFromXProjScn(x,project,scenario)
   if(is.null(sheetNames)){
     sheetNames = datasheets(x,names=T)
@@ -652,17 +652,17 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     if(cRow$type=="String"){
       sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
     }
-    if((cRow$formula1!="N/A")&checkDependencies){
+    if((cRow$valType=="DataSheet")&checkDependencies){
       #if a number, ignore - SyncroSim will do the checking
-      if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
+      #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
         dependSheet = datasheet(x,name=cRow$formula1,sheetNames=sheetNames,checkDependencies=F)
-        if(nrow(dependSheet)==0){
+        if((nrow(dependSheet)==0)&(cRow$optional=="No")){
           warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
         }
         dependLevels = dependSheet$Name
         sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=dependLevels)
         #TO DO: handle formula1/formula2
-      }
+      #}
     }
     if(cRow$formula2!="N/A"){
       stop("handle this case")

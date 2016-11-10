@@ -4,10 +4,12 @@
 \alias{allCombos}
 \title{Get all combinations of factor levels}
 \usage{
-allCombos(x)
+allCombos(x, onlyFactors = F)
 }
 \arguments{
 \item{x}{An empty data frame with factors.}
+
+\item{onlyFactors}{If T, only the factor columns are returned.}
 }
 \value{
 A data frame containing all possible combinations of factor levels.
