@@ -5,7 +5,7 @@
 \title{Create or open a scenario}
 \usage{
 scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
-  create = T, scenarios = NULL)
+  create = T, scenarios = NULL, sourceScenario = NULL)
 }
 \arguments{
 \item{ssimLibrary}{An SSimLibrary object or name, or an object that contains an SSimLibrary. If a name is given, the library will be opened using the default session.}
@@ -19,6 +19,8 @@ scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
 \item{create}{If TRUE, create scenario if one does not exist. If FALSE, only return an existing scenario}
 
 \item{scenarios}{A dataframe of existing scenarios produced by scenarios(). Use to speed processing.}
+
+\item{sourceScenario}{The name or id of a scenario to copy.}
 }
 \value{
 A \code{Scenario} object representing a SyncroSim scenario.
@@ -31,8 +33,8 @@ Creates or opens an \code{\link{Scenario}} object representing a SyncroSim scena
   \item {If name/id/project uniquely identifies an existing scenario: }{Returns the existing Scenario}
   \item {If name/id/project uniquely identifies more than one existing scenario: }{Error}
   \item {If project is NULL, and name/id do not uniquely idenfity an existing scenario: }{Error}
-  \item {If project is not NULL, name is NULL, and id/project do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id.}
-  \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
+  \item {If project is not NULL, name is NULL, and id/project do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
+  \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
 }
 }
 \examples{

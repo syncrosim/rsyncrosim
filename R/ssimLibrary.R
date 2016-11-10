@@ -352,7 +352,7 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project=NULL,
 #' scenarios(myLibrary,names=T)
 #' @export
 setGeneric('deleteScenarios',function(x,...) standardGeneric('deleteScenarios'))
-setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario=NULL,...) {
+setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario=NULL,force=FALSE,...) {
   #x = myLibrary
   #scenario = "Scenario"
   if(is.null(scenario)){
@@ -383,7 +383,11 @@ setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario=NUL
       print(paste0("Cannot remove the scenario ",cScn," from the library because it does not exist."))
       next
     }
-    answer <- readline(prompt=paste0("Do you really want to delete scenario ",allScenarios$name[allScenarios$id==id],"(",id,")? (y/n): "))
+    if(force){
+      answer="y"
+    }else{
+      answer <- readline(prompt=paste0("Do you really want to delete scenario ",allScenarios$name[allScenarios$id==id],"(",id,")? (y/n): "))
+    }
     if(answer=="y"){
       outBit = command(list(delete=NULL,scenario=NULL,lib=.filepath(x),sid=id,force=NULL),.session(x))
     }else{
@@ -554,15 +558,20 @@ setReplaceMethod(
   }
 )
 
-setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scenario=NULL,names=T,optional=F,empty=F,scope=NULL) {
+setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scenario=NULL,names=T,optional=F,empty=F,scope=NULL,sheetNames=NULL) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=F;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
   #Get datasheet dataframe
-  tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
-  datasheets = .dataframeFromSSim(tt)
-  datasheets$dataScope = sapply(datasheets$dataScope,camel)
-  names(datasheets) = c("name","displayName","dataScope")
+  if(!is.null(sheetNames)){
+    datasheets=sheetNames
+  }else{
+    tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
+    datasheets = .dataframeFromSSim(tt)
+    datasheets$dataScope = sapply(datasheets$dataScope,camel)
+    names(datasheets) = c("name","displayName","dataScope")
+    sheetNames=datasheets
+  }
   if(is.element(class(x),c("Project","SSimLibrary"))){
     datasheets = subset(datasheets,dataScope!="scenario")
   }
@@ -582,7 +591,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
   ttList = list()
   for(i in seq(length.out=nrow(datasheets))){
     #i = 1
-    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty)
+    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,sheetNames=sheetNames)
   }
   return(ttList)
 })

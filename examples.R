@@ -194,32 +194,30 @@ myScenario = scenario(myLibrary,id=1)
 # datasheet() and datasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects
-datasheets(myScenario)
-# DISCUSS: Returns a dataframe of names by default - there are a lot of datasheets. Usually not necessary to parse them all.
+myProjectDataframes = datasheets(myLibrary, project=1, names=F,sheetNames=sheetNames) # A named list of all the project and library datasheets for project id 2.
+#myScenarioDataframes = datasheets(myScenario,names=F) #This takes 5 minutes to run.
+myProjectSheetNames = datasheets("C:/Temp/NewLibrary.ssim", project=1, names=T,scope="project") # A dataframe of datasheet names for project id 1.
+myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a single dataframe
+#myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
+#myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
+# DISCUSS: When names=F a named list of all sheets is returned. However, this is very expensive.
+# Loading a datasheet requires least 2 system calls + 2 calls for each dependency.
+# In almost all circumstances the best way to get a sheet is to load only the desired sheet.
+datasheets(myScenario,scope="scenario")$name
+myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition")
 
-projects(myLibrary,names=T)
-myProjectDataframes = datasheets(myLibrary, project=1, names=T) # A named list of all the project and library datasheets for project id 2.
-myProjectDataframes = datasheets("C:/Temp/NewLibrary.ssim", project=1, names=T,scope="project") # A named list of all the project datasheets for project id 2
-#TO DO: names=F
-
-#RESUME HERE
-#TO DO: handle dependencies among datasheets
-myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F) # This option returns characters instead of factors
+# TO DO - WHY?
+#myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F) # This option returns characters instead of factors
 
 #TO DO - not clear to me what this one is about
-myScenarioDataframes = datasheets(myProject, scope="scenario", keepId=T) # This option returns a dataframe with IDs, not factors
-
-myDeterministicTransitionDataframe = myScenarioDataframes[["STSim_DeterministicTransition"]] # a single dataframe
-myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
-myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
-
-?datasheet
-datasheet(myLibrary,name="SSim_Settings")
+#myScenarioDataframes = datasheets(myProject, scope="scenario", keepId=T) # This option returns a dataframe with IDs, not factors
 
 # Alternatively a datasheet can be provided as a Datasheet object  - skip this for now
 myScenarioDatasheets = datasheets(scenario=myScenario, dataframe=FALSE, empty=FALSE)    # named vector of datasheet objects, instead of default dataframes
+#DISCUSS - not sure exactly what a datasheet object should be, or why we need one.
 
 # Similarly we can get dataframes of project definitions
+# TO DO
 myProjectDataframes = definitions(myProject)   # same as above - just an alternative function that matches UI terminology
 myProjectDataframes = datasheets(ssimLibrary=mySsimLibrary, project="My Existing Project", scope="project")  # same as above
 
@@ -247,6 +245,7 @@ myDeterminisiticTransitionDataframe$AgeMin = c(50, 60, NA)    # change the AgeMi
 
 # Then save the updated scenario datasheet back to the library  - committed to db immediately
 result = loadDatasheets(myDeterminisiticTransitionDataframe, library=mySsimLibrary, scenario=myScenario, datasheets="STSim_DeterministicTransition")
+
 
 
 ####################

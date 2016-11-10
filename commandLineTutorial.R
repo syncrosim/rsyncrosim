@@ -1,9 +1,9 @@
 # **********************************************************
-# commandLineTutorialRMockup.R
-# Mock R code following the steps in Leo's PowerShell script.
+# commandLineTutorial.R
+# Following the steps in Leo's PowerShell script using rsyncrosim.
 # **********************************************************
 # Author Josie Hughes, ApexRMS
-# Date 2016.10.13
+# Date 2016.11.10
 # **********************************************************
 
 # devtools::document();devtools::load_all()
@@ -146,39 +146,33 @@ mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 
 #*************************************
-#Add Harvest Scenario
+# Add Harvest Scenario
 #*************************************
-myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
-#copies "No Harvest" scenario to new "Harvest" scenario
+# devtools::document();devtools::load_all()
+#deleteScenarios(myProject,"Harvest",force=T)
 
-myProject = AddScenario(myProject,scenarioName,sourceScenario="No Harvest")
-#Adds a copy of the source scenario to the project.
+myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
+# Copy "No Harvest" scenario to new "Harvest" scenario
 
 #******************
-#Transition targets
-transitionTargets = GetOptions(myProject[[scenarioName]],dataSheet="Transition Targets")
-transitionTargets$Amount[transitionGroupID=='Harvest'] = 20
-myProject = SetDataSheet(myProject[[scenarioName]],dataSheet="Transition Targets",values=transitionTargets)
+# Transition targets
+sheetName = "STSim_TransitionTarget"; mySheet = datasheet(myScenario,name=sheetName,optional=F,sheetNames=sheetNames,empty=T)
+str(mySheet)
+mySheet[1,"TransitionGroupID"]="Harvest"
+mySheet[1,"Amount"]=20
+loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 
 #********************************
-#Run scenarios
+# Run scenarios
 #******************************
-ssResults = SyncroSimRun(myProject,scenarios=c("No Harvest","Harvest"),cores=2)
-#SyncroSimRun does all the work, and returns an object containing the project definition and info necessary for querying the output.
-#To do:
+# Not done.
+# To do:
 # - Project revisions: Safe modification of existing libraries?
 # - Parallel processing
 
-#********************
-#Other useful functions
-Status(ssResults)
-#status of each scenario in the project
-
 #*****************
-#To do:
+# To do:
 #*********************
 # - break points
 # - output
 
-######################
-#Misc notes, thoughts, extra code bits - ignore.

@@ -23,9 +23,9 @@ Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="nume
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f="initialize",signature="Scenario",
-    definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL){
-    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id = 4;name=NULL;project=1;scenarios=NULL;create=F
+    definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL){
+    #ssimLibrary = myProject  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    # id=NULL;name="Harvest";project=NULL;scenarios=NULL;create=T;sourceScenario="No Harvest"
     if(is.character(id)){id = as.numeric(id)}
 
     x=NULL
@@ -83,6 +83,9 @@ setMethod(f="initialize",signature="Scenario",
     }
 
     if(nrow(findScn)==1){
+      if(!is.null(sourceScenario)){
+        stop("Scenario ",name," already exists. Delete the scenario before replacing it.")
+      }
       #Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
@@ -141,7 +144,23 @@ setMethod(f="initialize",signature="Scenario",
       #}
       name="Scenario"
     }
-    tt = command(list(create=NULL,scenario=NULL,lib=.filepath(x),name=name,pid=pid),.session(x))
+    if(is.null(sourceScenario)){
+      tt = command(list(create=NULL,scenario=NULL,lib=.filepath(x),name=name,pid=pid),.session(x))
+    }else{
+      if(is.character(sourceScenario)){
+        findSource = subset(scenarios,name==sourceScenario)
+      }else{
+        findSource = subset(scenarios,id==sourceScenario)
+      }
+      findSource=subset(findSource,isResult=No)
+      if(nrow(findSource)==0){
+        stop("Source scenario ",sourceScenario," not found.")
+      }
+      if(nrow(findSource)>1){
+        stop("There is more than one scenario named ",sourceScenario,". Specify an id: ",paste(findSource$id,collapse=","))
+      }
+      tt = command(list(copy=NULL,scenario=NULL,lib=.filepath(x),name=name,sid=findSource$id),.session(x))
+    }
     id = as.numeric(strsplit(tt,": ")[[1]][2])
 
     .Object@session=.session(x)
@@ -161,8 +180,8 @@ setMethod(f="initialize",signature="Scenario",
 #'   \item {If name/id/project uniquely identifies an existing scenario: }{Returns the existing Scenario}
 #'   \item {If name/id/project uniquely identifies more than one existing scenario: }{Error}
 #'   \item {If project is NULL, and name/id do not uniquely idenfity an existing scenario: }{Error}
-#'   \item {If project is not NULL, name is NULL, and id/project do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id.}
-#'   \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
+#'   \item {If project is not NULL, name is NULL, and id/project do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
+#'   \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
 #' }
 #'
 #' @param ssimLibrary An SSimLibrary object or name, or an object that contains an SSimLibrary. If a name is given, the library will be opened using the default session.
@@ -171,6 +190,7 @@ setMethod(f="initialize",signature="Scenario",
 #' @param id The scenario id.
 #' @param create If TRUE, create scenario if one does not exist. If FALSE, only return an existing scenario
 #' @param scenarios A dataframe of existing scenarios produced by scenarios(). Use to speed processing.
+#' @param sourceScenario The name or id of a scenario to copy.
 #' @return A \code{Scenario} object representing a SyncroSim scenario.
 #' @examples
 #' # Create a new default scenario
@@ -181,7 +201,7 @@ setMethod(f="initialize",signature="Scenario",
 #' @name scenario
 # @rdname Scenario-class
 #' @export
-scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL) new("Scenario",ssimLibrary,project,name,id,create,scenarios)
+scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL) new("Scenario",ssimLibrary,project,name,id,create,scenarios,sourceScenario)
 
 setMethod('name', signature(x="Scenario"), function(x) {
   return(x@name)
