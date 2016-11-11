@@ -28,5 +28,7 @@ NULL
 .projects=projects
 #' @export
 .datasheet=datasheet
+#' @export
+.name=name
 
 

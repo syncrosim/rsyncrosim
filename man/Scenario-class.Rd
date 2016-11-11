@@ -20,6 +20,8 @@
 \item{\code{name}}{The scenario name.}
 
 \item{\code{id}}{The scenario id.}
+
+\item{\code{parentId}}{For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.}
 }}
 \seealso{
 See \code{\link{scenario}} for options when creating or loading an SyncroSim Scenario.

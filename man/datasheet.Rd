@@ -5,7 +5,7 @@
 \title{Get a datasheet}
 \usage{
 datasheet(x, name, project = NULL, scenario = NULL, optional = F,
-  empty = F, sheetNames = NULL, checkDependencies = T)
+  empty = F, sheetNames = NULL, dependsAsFactors = T, addScenario = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
@@ -16,13 +16,15 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
 
 \item{scenario}{Scenario name or id.}
 
-\item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also.}
+\item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.}
 
-\item{empty}{If FALSE (default) returns data (if any). If FALSE returns empty dataframe of correct format.}
+\item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
 
-\item{sheetNames}{Output from datasheets(). Used internally to speed calculation of dependencies.}
+\item{sheetNames}{Output from datasheets(). Set to speed calculation.}
 
-\item{checkDependencies}{If TRUE (default) dependencies are checked. Set to FALSE to speed calculations.}
+\item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
+
+\item{addScenario}{FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.}
 }
 \value{
 A dataframe.
@@ -31,7 +33,11 @@ A dataframe.
 Gets Syncrosim datasheet.
 }
 \details{
-If !empty & !optional: return required columns and columns containing data
+\itemize{
+  \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
+  \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
+  \item {If empty=F and dependsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
+}
 }
 \examples{
 

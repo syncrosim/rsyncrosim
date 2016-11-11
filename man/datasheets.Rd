@@ -13,11 +13,19 @@ datasheets(x, ...)
 
 \item{scenario}{Scenario name or id. Ignored if x is a Scenario.}
 
-\item{names}{If TRUE (default) returns dataframe of sheet names. If false returns a named list of dataframes representing each datasheet.}
-
-\item{empty}{If TRUE returns empty template dataframes.}
+\item{names}{If TRUE (default) returns dataframe of sheet names, ignoring remaining arguments. If FALSE returns a named list of dataframes representing each datasheet.}
 
 \item{scope}{"scenario","project", "library", or NULL.}
+
+\item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.}
+
+\item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
+
+\item{sheetNames}{Output from datasheets(). Set to speed calculation.}
+
+\item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
+
+\item{addScenario}{FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.}
 }
 \value{
 A dataframe of datasheet names, or list of datasheets represented by dataframes.
@@ -26,6 +34,7 @@ A dataframe of datasheet names, or list of datasheets represented by dataframes.
 Gets datasheets from an SSimLibrary, Project or Scenario.
 }
 \details{
+See \code{\link{datasheet}} for discussion of optional/empty/sheetName/dependsAsFactors arguments.
 \itemize{
   \item {If x/project/scenario identify a scenario: }{Returns library, project, and scenario scope datasheets.}
   \item {If x/project/scenario identify a project (but not a scenario): }{Returns library and project scope datasheets.}

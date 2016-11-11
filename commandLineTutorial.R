@@ -7,7 +7,7 @@
 # **********************************************************
 
 # devtools::document();devtools::load_all()
-
+?datasheet
 # The working directory path and the name of the library you will create
 workingDir = "C:/Temp"
 
@@ -19,29 +19,29 @@ sheetNames = datasheets(myProject,names=T)
 
 #***********************************
 # Cover types and state classes
-sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName)
+sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T,sheetNames=sheetNames)
 mySheet[1,"Name"]="Entire Forest"
 loadDatasheets(myProject,mySheet,name=sheetName)
-#NOTE: datasheet() retrieval is slow because it requires at least 2 system calls (export and list columns).
-#Currently, another system call is required to determine scope in both datasheet() and loadDatasheets().
-#That system call is avoided if the user provides sheetNames.
-#Do we want to consider options for speeding the process?
-#Another system call is required for each dependency.
+#NOTE: Default datasheet() retrieval requires at least 3 console calls (empty=F, stringsAsFactors=T, and sheetNames=NULL)
+#A console call is required for each dependency, so the default datasheet() can be quite slow.
+#Setting empty=T eliminates a console call.
+#Providing sheetNames eliminates a console call.
+#Do we want to consider other options for speeding the process?
 
 # Warn if dependencies are not loaded, and return a factor with 0 levels
-sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
+sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T,sheetNames=sheetNames)
 mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
 
 sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
 mySheet[1,"Name"]="All"
 loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 
-sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
+sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=T,sheetNames=sheetNames)
 mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
 loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 
 # Now dependencies are loaded we can set StateClass
-sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
+sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T,sheetNames=sheetNames)
 str(mySheet)
 mySheet[1,"StateLabelXID"] ="hi" #Invalid value for a column with dependency
 mySheet[1:3,"StateLabelXID"]=levels(mySheet$StateLabelXID) #Valid values
@@ -59,12 +59,12 @@ loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 # Transitions
 sheetNames$name[sheetNames$dataScope=="project"]
 str(mySheet)
-sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
+sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames,empty=T)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
 loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 loadDatasheets(myProject,mySheet,name="STSim_TransitionType",sheetNames=sheetNames)
 
-sheetName = "STSim_TransitionTypeGroup"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
+sheetName = "STSim_TransitionTypeGroup"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames,empty=T)
 str(mySheet)
 mySheet[1:3,"TransitionTypeID"]=levels(mySheet$TransitionTypeID)
 mySheet[1:3,"TransitionGroupID"]=levels(mySheet$TransitionGroupID)
@@ -73,7 +73,7 @@ loadDatasheets(myProject,mySheet,name=sheetName,sheetNames=sheetNames)
 #****************
 # Age type
 sheetNames$name[sheetNames$dataScope=="project"]
-sheetName = "STSim_AgeType"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames)
+sheetName = "STSim_AgeType"; mySheet = datasheet(myProject,name=sheetName,sheetNames=sheetNames,empty=T)
 str(mySheet)
 mySheet[1,"Frequency"] = 1
 mySheet[1,"MaximumAge"] = 100
@@ -88,7 +88,7 @@ sheetNames$name[sheetNames$dataScope=="scenario"]
 
 #**************
 # Run control
-sheetName = "STSim_RunControl"; mySheet = datasheet(myScenario,name=sheetName,sheetNames=sheetNames)
+sheetName = "STSim_RunControl"; mySheet = datasheet(myScenario,name=sheetName,sheetNames=sheetNames,empty=T)
 str(mySheet)
 mySheet[1,"MinimumIteration"] = 1
 mySheet[1,"MaximumIteration"] = 40
@@ -145,12 +145,19 @@ addRow(mySheet)=data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,Relative
 mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 
+#******************
+# Transition targets
+sheetName = "STSim_TransitionTarget"; mySheet = datasheet(myScenario,name=sheetName,optional=F,sheetNames=sheetNames,empty=T)
+str(mySheet)
+mySheet[1,"TransitionGroupID"]="Harvest"
+mySheet[1,"Amount"]=0
+loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
+
 #*************************************
 # Add Harvest Scenario
 #*************************************
 # devtools::document();devtools::load_all()
-#deleteScenarios(myProject,"Harvest",force=T)
-
+deleteScenarios(myProject,"Harvest",force=T)
 myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
 # Copy "No Harvest" scenario to new "Harvest" scenario
 
@@ -165,14 +172,46 @@ loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 #********************************
 # Run scenarios
 #******************************
-# Not done.
-# To do:
-# - Project revisions: Safe modification of existing libraries?
-# - Parallel processing
+# devtools::document();devtools::load_all()
 
-#*****************
-# To do:
-#*********************
-# - break points
-# - output
+myResults = run(myProject,scenario=c("Harvest","No Harvest"))
+#By default, returns a named list of result Scenario objects.
+#If onlyIds = TRUE (faster), returns result scenario ids instead of objects
+#TO DO: multiple threads
 
+scenarios(myProject,names=T)
+
+harvestResult = myResults[["Harvest"]]
+noHarvestResult = myResults[["No Harvest"]]
+
+#********************************
+# See results
+#******************************
+# devtools::document();devtools::load_all()
+
+datasheets(harvestResult)
+
+outStates = datasheet(harvestResult,name="STSim_OutputStratumState",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T)
+outStates = rbind(outStates,datasheet(noHarvestResult,name="STSim_OutputStratumState",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T))
+outTransitions = datasheet(harvestResult,name="STSim_OutputStratumTransition",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T)
+outTransitions = rbind(outTransitions,datasheet(noHarvestResult,name="STSim_OutputStratumTransition",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T))
+
+# DISCUSS: to what extent (if any) do we want to reimplement ggplot2/plyr functionality for summarizing and visualizing output?
+#install.packages("ggplot2");install.packages("plyr")
+library(ggplot2);library(plyr)
+
+#Example visualization - mean and 95% confidence bands for area in each state over time.
+outStatesAllAges = ddply(outStates,.(Timestep,StateLabelXID,scenario,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
+outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,scenario),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+base = ggplot(outStatesSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
+base=base+facet_grid(StateLabelXID~scenario)+ theme_bw()
+base=base+ylab("area (acres)")
+print(base)
+
+#Example visualization - mean and 95% confidence bands for transitions over time.
+outTransitionsAllAges = ddply(outTransitions,.(Timestep,TransitionGroupID,scenario,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
+outTransitionsSummary = ddply(outTransitionsAllAges,.(Timestep,TransitionGroupID,scenario),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+base = ggplot(outTransitionsSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
+base=base+facet_grid(TransitionGroupID~scenario,scales="free_y")+ theme_bw()
+base=base+ylab("area (acres)")
+print(base)

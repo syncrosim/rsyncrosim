@@ -16,18 +16,20 @@ NULL
 #' @slot pid The project id.
 #' @slot name The scenario name.
 #' @slot id The scenario id.
+#' @slot parentId For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric"))
+Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric"))
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f="initialize",signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL){
     #ssimLibrary = myProject  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id=NULL;name="Harvest";project=NULL;scenarios=NULL;create=T;sourceScenario="No Harvest"
+    # id=8;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
     if(is.character(id)){id = as.numeric(id)}
 
+    .Object@parentId = 0
     x=NULL
     if(!is.null(ssimLibrary)){
       x=ssimLibrary
@@ -85,6 +87,11 @@ setMethod(f="initialize",signature="Scenario",
     if(nrow(findScn)==1){
       if(!is.null(sourceScenario)){
         stop("Scenario ",name," already exists. Delete the scenario before replacing it.")
+      }
+      if(findScn$isResult=="Yes"){
+        parentBit = strsplit(findScn$name,"[",fixed=T)[[1]][2]
+        parent = strsplit(parentBit,"]",fixed=T)[[1]][1]
+        .Object@parentId = as.numeric(parent)
       }
       #Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
@@ -173,7 +180,7 @@ setMethod(f="initialize",signature="Scenario",
 )
 #' Create or open a scenario
 #'
-#' Creates or opens an \code{\link{Scenario}} object representing a SyncroSim scenario.
+#' Creates or opens a \code{\link{Scenario}} object representing a SyncroSim scenario.
 #' @details
 #'
 #' \itemize{

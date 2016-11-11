@@ -146,6 +146,7 @@ names(myScenarios)
 scenarios(myLibrary,names=T)
 projects(myLibrary,names=T)
 
+scenarios(myProject,names=T)
 # RESUME HERE
 # Get a list of existing results scenarios for a particular project
 myScenarios = scenarios(myProject, results=TRUE)
@@ -179,13 +180,14 @@ hasResults(myScenario)    # Returns TRUE/FALSE
 results(myScenario)     # returns a named vector (by char ID) of the results scenarios associated with this scenario; returns empty vector if no results
 
 # LOW PRIORITY - datafeeds
+# TO DO: disable assignment functions for result scenarios?
 
 #############################
 # Datasheets
 # Get a datasheet from an SSimLibrary, Project or Scenario
 # Datasheets are provided in dataframe format
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
-# We also return each column in the correct data type. This will require replacing blanks from the db with NA values
+# We also return each column in the correct data type.
 # devtools::document();devtools::load_all()
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
 scenarios(myLibrary,names=T)
@@ -246,8 +248,31 @@ myDeterminisiticTransitionDataframe$AgeMin = c(50, 60, NA)    # change the AgeMi
 # Then save the updated scenario datasheet back to the library  - committed to db immediately
 result = loadDatasheets(myDeterminisiticTransitionDataframe, library=mySsimLibrary, scenario=myScenario, datasheets="STSim_DeterministicTransition")
 
+#TO DO: fix addRow internally - don't use expand.grid. Consider borrowing plyr code.
+#TO DO: speed up datasheet() - issue fewer system calls when empty=T or dependsAsFactors=F.
 
+#################
+# Run
+# Run a scenario and return the results scenario  - note that it is up to user to save changes to db before running
+myResultsScenario = run(myScenario)
+myResultsScenario = run(scenario=509)    # run scenario by ID
+myResultsScenarios= run(myScenarios)  # Run a vector of scenarios (or a vector of IDs)  - skip this for now
 
+# Get the output from the results scenario - note that only results scenarios have scenario output datafeeds
+myoutputDataframe = datasheets(scenario=myResultsScenario, name="STSim_OutputStratumState")
+
+# Need to figure out how to deal with raster scenario datafeeds (both input and output)...
+
+# Not done.
+# To do:
+# - Project revisions: Safe modification of existing libraries?
+# - Parallel processing
+
+#*****************
+# To do:
+#*********************
+# - break points
+# - output
 ####################
 # Other examples
 # Create a library called <model>.ssim in the current working directory.

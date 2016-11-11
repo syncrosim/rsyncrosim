@@ -558,7 +558,7 @@ setReplaceMethod(
   }
 )
 
-setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scenario=NULL,names=T,optional=F,empty=F,scope=NULL,sheetNames=NULL) {
+setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T,addScenario=F) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=F;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
@@ -591,14 +591,15 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
   ttList = list()
   for(i in seq(length.out=nrow(datasheets))){
     #i = 1
-    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,sheetNames=sheetNames)
+    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,sheetNames=sheetNames,dependsAsFactors=dependsAsFactors)
   }
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,sheetNames,checkDependencies) {
-  #x = myScenario;project=NULL;scenario=NULL;name="STSim_InitialConditionsNonSpatialDistribution";optional=T;empty=F;checkDependencies=T
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors,addScenario) {
+  #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=T;empty=T;dependsAsFactors=F
   x = .getFromXProjScn(x,project,scenario)
+
   if(is.null(sheetNames)){
     sheetNames = datasheets(x,names=T)
   }
@@ -606,89 +607,111 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   rmCols = c(paste0(rmId,"ID"),"ProjectID","ScenarioID")
 
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
-  tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
-  unlink(tempFile)
-
-  args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile)
-
   scope = sheetNames$dataScope[sheetNames$name==name]
   if(length(scope)==0){
     stop("name not found in sheetNames")
   }
-  if(class(x)=="Project"){
-    if(scope=="project"){args[["pid"]]=.id(x)}
-  }
-  if(class(x)=="Scenario"){
-    if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
-    if(scope=="scenario"){args[["sid"]]=.id(x)}
-  }
-  tt=command(args,.session(x))
 
-  if(!identical(tt,"Success!")){
-    stop(tt)
-  }
+  if(!empty){
+    tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
+    unlink(tempFile)
 
-  #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
-  sheet = read.csv(tempFile)
-  unlink(tempFile)
+    args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile)
 
-  tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
-  sheetInfo = .dataframeFromSSim(tt)
-  sheetInfo$id = seq(length.out=nrow(sheetInfo))
-  sheetInfo = subset(sheetInfo,!is.element(name,rmCols))
-
-  if(!optional){
-    if(!empty){
-      sheetInfo$Optional[is.element(sheetInfo$name,colnames(sheet))]="Present"
+    if(class(x)=="Project"){
+      if(scope=="project"){args[["pid"]]=.id(x)}
     }
-    sheetInfo = subset(sheetInfo,is.element(optional,c("No","Present")))
-  }
-  sheetInfo = sheetInfo[order(sheetInfo$id),]
+    if(class(x)=="Scenario"){
+      if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
+      if(scope=="scenario"){args[["sid"]]=.id(x)}
+    }
+    tt=command(args,.session(x))
 
-  if(nrow(sheet)==0){
-    sheet[1,1]=NA
-  }
+    if(!identical(tt,"Success!")){
+      stop(tt)
+    }
 
-  for(i in seq(length.out=nrow(sheetInfo))){
-    #i =2
-    cRow = sheetInfo[i,]
-    if(!is.element(cRow$name,colnames(sheet))){
-      sheet[[cRow$name]] = NA
-    }
-    if((cRow$type=="Integer")&(cRow$valType!="DataSheet")){
-      sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
-    }
-    if(cRow$type=="String"){
-      sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
-    }
-    if((cRow$valType=="DataSheet")&checkDependencies){
-      #if a number, ignore - SyncroSim will do the checking
-      #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
-        dependSheet = datasheet(x,name=cRow$formula1,sheetNames=sheetNames,checkDependencies=F)
-        if((nrow(dependSheet)==0)&(cRow$optional=="No")){
-          warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
-        }
-        dependLevels = dependSheet$Name
-        sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=dependLevels)
-        #TO DO: handle formula1/formula2
-      #}
-    }
-    if(cRow$formula2!="N/A"){
-      stop("handle this case")
-    }
-  }
-
-  #TO DO: deal with NA values in sheet
-  #put columns in correct order
-  sheet$colOne = sheet[,1]
-  sheet$cOrder=seq(1,nrow(sheet))
-  if(empty){
-    sheet= subset(sheet,is.null(colOne))
+    #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
+    sheet = read.csv(tempFile,as.is=T)
+    unlink(tempFile)
   }else{
-    sheet=subset(sheet,!is.na(colOne))
-    sheet = sheet[order(sheet$cOrder),]
+    sheet=data.frame(temp=NA)
   }
-  sheet = subset(sheet,select=sheetInfo$name)
+  if(empty|dependsAsFactors){
+    tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
+    sheetInfo = .dataframeFromSSim(tt)
+    sheetInfo$id = seq(length.out=nrow(sheetInfo))
+    sheetInfo = subset(sheetInfo,!is.element(name,rmCols))
+
+    if(!optional){
+      if(!empty){
+        sheetInfo$Optional[is.element(sheetInfo$name,colnames(sheet))]="Present"
+      }
+      sheetInfo = subset(sheetInfo,is.element(optional,c("No","Present")))
+    }
+    sheetInfo = sheetInfo[order(sheetInfo$id),]
+
+    if(nrow(sheet)==0){
+      sheet[1,1]=NA
+    }
+
+    for(i in seq(length.out=nrow(sheetInfo))){
+      #i =2
+      cRow = sheetInfo[i,]
+      if(!is.element(cRow$name,colnames(sheet))){
+        sheet[[cRow$name]] = NA
+      }
+      if((cRow$type=="Integer")&(cRow$valType!="DataSheet")){
+        sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
+      }
+      if(cRow$type=="String"){
+        sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
+      }
+      if(cRow$valType=="DataSheet"){
+        if(dependsAsFactors){
+          #if a number, ignore - SyncroSim will do the checking
+          #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
+          dependSheet = datasheet(x,name=cRow$formula1,sheetNames=sheetNames,dependsAsFactors=F)
+          if((nrow(dependSheet)==0)&(cRow$optional=="No")){
+            warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
+          }
+          dependLevels = dependSheet$Name
+          sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=dependLevels)
+          #TO DO: handle formula1/formula2
+        }else{
+          sheet[[cRow$name]]=as.character(sheet[[cRow$name]])
+        }
+      }
+      if(cRow$formula2!="N/A"){
+        stop("handle this case")
+      }
+    }
+
+    #TO DO: deal with NA values in sheet
+    #put columns in correct order
+    sheet$colOne = sheet[,1]
+    sheet$cOrder=seq(1,nrow(sheet))
+    if(empty){
+      sheet= subset(sheet,is.null(colOne))
+    }else{
+      sheet=subset(sheet,!is.na(colOne))
+      sheet = sheet[order(sheet$cOrder),]
+    }
+    sheet = subset(sheet,select=sheetInfo$name)
+  }
+
+  if(addScenario){
+    if(class(x)=="Scenario"){
+      if(x@parentId==0){
+        sheet$scenario = .name(x)
+      }else{
+        sheet$scenario =strsplit(.name(x)," ([",fixed=T)[[1]][1]
+      }
+    }else{
+      sheet$scenario=NA
+    }
+  }
+
   return(sheet)
 })
 
@@ -742,4 +765,52 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NUL
   return(out)
 })
 
+setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds) {
+  #x=myScenario;scenario="Harvest"
+  if(is.null(scenario)){
+    if(class(x)!="Scenario"){
+      stop("Need a scenario to run.")
+    }
+    scenario = .id(x)
+  }
+  #name(x)
+  scenarios=NULL
+  out=list()
+  for(i in seq(length.out=length(scenario))){
+    #i =1
+    cScn = scenario[[i]]
+    inScn = as.character(cScn)
+    if(!identical(cScn,suppressWarnings(as.character(as.numeric(cScn))))){
+      if(is.null(scenarios)){
+        scenarios = .scenarios(x,names=T)
+      }
+      findScn = subset(scenarios,name==cScn)
+      if(nrow(findScn)==0){
+        stop("Scenario ",cScn," not found.")
+      }
+      if(nrow(findScn)>1){
+        stop("There is more than one scenario named ",cScn,". Provide a scenario id: ",paste(findScn$id,collapse=","))
+      }
+      cScn = as.numeric(findScn$id)
+    }else{
+      cScn = as.numeric(cScn)
+    }
+    #now assume we have a single scenario
+    if(!is.numeric(cScn)){stop("Something is wrong.")}
 
+    #TO DO: handle jobs, transformer and inpl.
+    tt = command(list(run=NULL,lib=.filepath(x),sid=cScn),.session(x))
+
+    resultId = strsplit(tt,": ",fixed=T)[[1]][2]
+    if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
+      out[[inScn]]=tt
+    }else{
+      if(onlyIds){
+        out[[inScn]] = as.numeric(resultId)
+      }else{
+        out[[inScn]] = .scenario(x,id=as.numeric(resultId))
+      }
+    }
+  }
+  return(out)
+})

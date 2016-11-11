@@ -26,7 +26,7 @@ scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
 A \code{Scenario} object representing a SyncroSim scenario.
 }
 \description{
-Creates or opens an \code{\link{Scenario}} object representing a SyncroSim scenario.
+Creates or opens a \code{\link{Scenario}} object representing a SyncroSim scenario.
 }
 \details{
 \itemize{

@@ -95,6 +95,7 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' Gets datasheets from an SSimLibrary, Project or Scenario.
 #'
 #' @details
+#' See \code{\link{datasheet}} for discussion of optional/empty/sheetName/dependsAsFactors arguments.
 #' \itemize{
 #'   \item {If x/project/scenario identify a scenario: }{Returns library, project, and scenario scope datasheets.}
 #'   \item {If x/project/scenario identify a project (but not a scenario): }{Returns library and project scope datasheets.}
@@ -104,9 +105,13 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' @param x An SSimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.
 #' @param project Project name or id. Ignored if x is a Project.
 #' @param scenario Scenario name or id. Ignored if x is a Scenario.
-#' @param names If TRUE (default) returns dataframe of sheet names. If false returns a named list of dataframes representing each datasheet.
-#' @param empty If TRUE returns empty template dataframes.
+#' @param names If TRUE (default) returns dataframe of sheet names, ignoring remaining arguments. If FALSE returns a named list of dataframes representing each datasheet.
 #' @param scope "scenario","project", "library", or NULL.
+#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
+#' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
+#' @param sheetNames Output from datasheets(). Set to speed calculation.
+#' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
+#' @param addScenario FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.
 #' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
 #' @examples
 #'
@@ -125,25 +130,31 @@ setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenar
 #' Gets Syncrosim datasheet.
 #'
 #' @details
-#' If !empty & !optional: return required columns and columns containing data
+#'
+#' \itemize{
+#'   \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
+#'   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
+#'   \item {If empty=F and dependsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
+#' }
 #'
 #' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
 #' @param name The sheet name
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
-#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also.
-#' @param empty If FALSE (default) returns data (if any). If FALSE returns empty dataframe of correct format.
-#' @param sheetNames Output from datasheets(). Used internally to speed calculation of dependencies.
-#' @param checkDependencies If TRUE (default) dependencies are checked. Set to FALSE to speed calculations.
+#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
+#' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
+#' @param sheetNames Output from datasheets(). Set to speed calculation.
+#' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
+#' @param addScenario FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.
 #' @return A dataframe.
 #' @examples
 #'
 #' @export
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,sheetNames=NULL,checkDependencies=T) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T,addScenario=F) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,sheetNames,checkDependencies) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors,addScenario) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name,project,scenario,optional,empty,sheetNames,checkDependencies)
+  out = .datasheet(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors,addScenario)
   return(out)
 })
 
@@ -168,3 +179,29 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name=NULL,
   return(out)
 })
 
+#' Run scenarios
+#'
+#' Run one or more SyncroSim scenarios
+#'
+#' @param x One or more SSimLibrary, Projects or Scenario objects. Or the path to a library on disk.
+#' @param scenario One or more scenario objects, names or ids.
+#' @param onlyIds If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
+#' @return A named list of result Scenario objects or ids. The name is the parent scenario for each result.
+#' @examples
+#'
+#' @export
+setGeneric('run',function(x,scenario=NULL,onlyIds=F) standardGeneric('run'))
+#Handles case where x is a path to an SyncroSim library on disk.
+setMethod('run', signature(x="character"), function(x,scenario,onlyIds) {
+  x = library(x)
+  out = run(x,scenario,onlyIds)
+  return(out)
+})
+#Handles case where x is a list of objects.
+setMethod('run', signature(x="list"), function(x,scenario,onlyIds) {
+  out=list()
+  for(i in seq(length.out=length(x))){
+    out[[i]]=run(x[[i]],scenario,onlyIds)
+  }
+  return(out)
+})
