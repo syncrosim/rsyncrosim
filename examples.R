@@ -3,6 +3,8 @@
 # devtools::document();devtools::load_all()
 library(rsyncrosim)
 
+#TO DO: figure out how to specify suggested packages.
+
 #################################
 # Examples - querying the package
 ?session # Help for the Session object constructor

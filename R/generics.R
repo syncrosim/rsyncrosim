@@ -109,7 +109,7 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' @param scope "scenario","project", "library", or NULL.
 #' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
-#' @param sheetNames Output from datasheets(). Set to speed calculation.
+#' @param sheetNames Output from datasheets(). Set to speed calculation or load a subset of datasheets.
 #' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
 #' @param addScenario FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.
 #' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
@@ -143,22 +143,21 @@ setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenar
 #' @param scenario Scenario name or id.
 #' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
-#' @param sheetNames Output from datasheets(). Set to speed calculation.
 #' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
 #' @return A dataframe.
 #' @examples
 #'
 #' @export
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,dependsAsFactors=T) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors)
+  out = .datasheet(x,name,project,scenario,optional,empty,dependsAsFactors)
   return(out)
 })
 
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors) {
+setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
   for(i in seq(length.out=length(x))){
     cName = names(x)[i]
     cScn = x[[cName]]
@@ -167,7 +166,7 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
     }
     project=NULL
     scenario=NULL
-    cOut = .datasheet(cScn,name,project,scenario,optional,empty,sheetNames,dependsAsFactors)
+    cOut = .datasheet(cScn,name,project,scenario,optional,empty,dependsAsFactors)
     cOut$scenario = cName
 
     if(i==1){

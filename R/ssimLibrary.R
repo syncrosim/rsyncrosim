@@ -434,9 +434,9 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
   }
   if(!is.null(results)){
     if(results){
-      ttFrame = subset(ttFrame,isResult=="(Y)")
+      ttFrame = subset(ttFrame,isResult=="Yes")
     }else{
-      ttFrame = subset(ttFrame,isResult=="(N)")
+      ttFrame = subset(ttFrame,isResult=="No")
     }
   }
 
@@ -446,7 +446,7 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
   ttList = list()
   for(i in seq(length.out=nrow(ttFrame))){
     #i = 1
-    ttList[[ttFrame$id[i]]]=scenario(x,id=ttFrame$id[i],project=as.numeric(ttFrame$pid[i]),create=F,scenarios=ttFrame)
+    ttList[[as.character(ttFrame$id[i])]]=scenario(x,id=ttFrame$id[i],project=as.numeric(ttFrame$pid[i]),create=F,scenarios=ttFrame)
   }
   return(ttList)
 })
@@ -591,52 +591,58 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
   ttList = list()
   for(i in seq(length.out=nrow(datasheets))){
     #i = 1
-    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,sheetNames=sheetNames,dependsAsFactors=dependsAsFactors)
+    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,dependsAsFactors=dependsAsFactors)
   }
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors) {
-  #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=T;empty=T;dependsAsFactors=F
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
+  #x = myResults[[1]];project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=T;empty=F;dependsAsFactors=F
   x = .getFromXProjScn(x,project,scenario)
 
-  if(is.null(sheetNames)){
-    sheetNames = datasheets(x,names=T)
-  }
   rmId = strsplit(name,"_")[[1]][2]
   rmCols = c(paste0(rmId,"ID"),"ProjectID","ScenarioID")
 
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
-  scope = sheetNames$dataScope[sheetNames$name==name]
-  if(length(scope)==0){
-    stop("name not found in sheetNames")
-  }
 
   if(!empty){
-    tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
-    unlink(tempFile)
+    #try to load directly from the database
+    # Connect to the ssim database
+    #install.packages("RSQLite");library(RSQLite)
+    drv = dbDriver("SQLite")
+    con = dbConnect(drv,.filepath(x))
+    sheet = dbReadTable(con, name)
+    dbDisconnect(con)
 
-    args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile)
-
-    if(class(x)=="Project"){
-      if(scope=="project"){args[["pid"]]=.id(x)}
+    if(is.element("ScenarioID",names(sheet))){
+      if(class(x)=="Scenario"){
+        sheet=subset(sheet,ScenarioID==.id(x))
+        sheet$ScenarioID = NULL
+      }else{
+        stop("Specify a scenario.")
+      }
     }
-    if(class(x)=="Scenario"){
-      if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
-      if(scope=="scenario"){args[["sid"]]=.id(x)}
-    }
-    tt=command(args,.session(x))
 
-    if(!identical(tt,"Success!")){
-      stop(tt)
-    }
+    if(is.element("ProjectID",names(sheet))){
+      id=NULL
+      if(class(x)=="Project"){
+        id = .id(x)
+      }
+      if(class(x)=="Scenario"){
+        id = .pid(x)
+      }
 
-    #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
-    sheet = read.csv(tempFile,as.is=T)
-    unlink(tempFile)
+      if(!is.null(id)){
+        sheet=subset(sheet,ProjectID==id)
+        sheet$ProjectID = NULL
+      }else{
+        stop("Specify a project.")
+      }
+    }
   }else{
     sheet=data.frame(temp=NA)
   }
+
   if(empty|dependsAsFactors){
     tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
     sheetInfo = .dataframeFromSSim(tt)
@@ -671,7 +677,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         if(dependsAsFactors){
           #if a number, ignore - SyncroSim will do the checking
           #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
-          dependSheet = datasheet(x,name=cRow$formula1,sheetNames=sheetNames,dependsAsFactors=F)
+          dependSheet = datasheet(x,name=cRow$formula1,dependsAsFactors=F)
           if((nrow(dependSheet)==0)&(cRow$optional=="No")){
             warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
           }
@@ -699,18 +705,6 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     }
     sheet = subset(sheet,select=sheetInfo$name)
   }
-
-  #if(addScenario){
-  #  if(class(x)=="Scenario"){
-  #    if(x@parentId==0){
-  #      sheet$scenario = .name(x)
-  #    }else{
-  #      sheet$scenario =strsplit(.name(x)," ([",fixed=T)[[1]][1]
-  #    }
-  #  }else{
-  #    sheet$scenario=NA
-  #  }
-  #}
 
   return(sheet)
 })

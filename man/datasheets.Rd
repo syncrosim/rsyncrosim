@@ -21,7 +21,7 @@ datasheets(x, ...)
 
 \item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
 
-\item{sheetNames}{Output from datasheets(). Set to speed calculation.}
+\item{sheetNames}{Output from datasheets(). Set to speed calculation or load a subset of datasheets.}
 
 \item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
 

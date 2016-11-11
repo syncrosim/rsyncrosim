@@ -5,7 +5,7 @@
 \title{Get a datasheet}
 \usage{
 datasheet(x, name, project = NULL, scenario = NULL, optional = F,
-  empty = F, sheetNames = NULL, dependsAsFactors = T)
+  empty = F, dependsAsFactors = T)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario objects.}
@@ -19,8 +19,6 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
 \item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.}
 
 \item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
-
-\item{sheetNames}{Output from datasheets(). Set to speed calculation.}
 
 \item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
 }
