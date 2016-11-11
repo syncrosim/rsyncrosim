@@ -596,7 +596,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors,addScenario) {
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors) {
   #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=T;empty=T;dependsAsFactors=F
   x = .getFromXProjScn(x,project,scenario)
 
@@ -700,17 +700,17 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     sheet = subset(sheet,select=sheetInfo$name)
   }
 
-  if(addScenario){
-    if(class(x)=="Scenario"){
-      if(x@parentId==0){
-        sheet$scenario = .name(x)
-      }else{
-        sheet$scenario =strsplit(.name(x)," ([",fixed=T)[[1]][1]
-      }
-    }else{
-      sheet$scenario=NA
-    }
-  }
+  #if(addScenario){
+  #  if(class(x)=="Scenario"){
+  #    if(x@parentId==0){
+  #      sheet$scenario = .name(x)
+  #    }else{
+  #      sheet$scenario =strsplit(.name(x)," ([",fixed=T)[[1]][1]
+  #    }
+  #  }else{
+  #    sheet$scenario=NA
+  #  }
+  #}
 
   return(sheet)
 })

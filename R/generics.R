@@ -130,14 +130,14 @@ setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenar
 #' Gets Syncrosim datasheet.
 #'
 #' @details
-#'
+#' If x is a list of Scenario objects (e.g. output from run()), adds a scenario column and binds sheets from multiple scenarios.
 #' \itemize{
 #'   \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
 #'   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
 #'   \item {If empty=F and dependsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
 #' }
 #'
-#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
+#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario objects.
 #' @param name The sheet name
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
@@ -145,16 +145,37 @@ setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenar
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
 #' @param sheetNames Output from datasheets(). Set to speed calculation.
 #' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
-#' @param addScenario FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.
 #' @return A dataframe.
 #' @examples
 #'
 #' @export
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T,addScenario=F) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors,addScenario) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors,addScenario)
+  out = .datasheet(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors)
+  return(out)
+})
+
+#Handles case where x is a path to an SyncroSim library on disk.
+setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,sheetNames,dependsAsFactors) {
+  for(i in seq(length.out=length(x))){
+    cName = names(x)[i]
+    cScn = x[[cName]]
+    if(class(cScn)!="Scenario"){
+      stop("x must be an SSimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
+    }
+    project=NULL
+    scenario=NULL
+    cOut = .datasheet(cScn,name,project,scenario,optional,empty,sheetNames,dependsAsFactors)
+    cOut$scenario = cName
+
+    if(i==1){
+      out=cOut
+    }else{
+      out=rbind(out,cOut)
+    }
+  }
   return(out)
 })
 

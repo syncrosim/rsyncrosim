@@ -177,27 +177,23 @@ loadDatasheets(myScenario,mySheet,name=sheetName,sheetNames=sheetNames)
 myResults = run(myProject,scenario=c("Harvest","No Harvest"))
 #By default, returns a named list of result Scenario objects.
 #If onlyIds = TRUE (faster), returns result scenario ids instead of objects
+
 #TO DO: multiple threads
-
 scenarios(myProject,names=T)
-
 harvestResult = myResults[["Harvest"]]
-noHarvestResult = myResults[["No Harvest"]]
 
 #********************************
 # See results
 #******************************
 # devtools::document();devtools::load_all()
 
-datasheets(harvestResult)
-
-outStates = datasheet(harvestResult,name="STSim_OutputStratumState",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T)
-outStates = rbind(outStates,datasheet(noHarvestResult,name="STSim_OutputStratumState",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T))
-outTransitions = datasheet(harvestResult,name="STSim_OutputStratumTransition",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T)
-outTransitions = rbind(outTransitions,datasheet(noHarvestResult,name="STSim_OutputStratumTransition",dependsAsFactors=F,sheetNames=sheetNames,addScenario=T))
+# When given a list of Scenario objects, datasheet() binds over scenarios.
+outStates = datasheet(myResults,name="STSim_OutputStratumState",dependsAsFactors=F,sheetNames=sheetNames)
+unique(outStates$scenario)
+outTransitions = datasheet(myResults,name="STSim_OutputStratumTransition",dependsAsFactors=F,sheetNames=sheetNames)
 
 # DISCUSS: to what extent (if any) do we want to reimplement ggplot2/plyr functionality for summarizing and visualizing output?
-#install.packages("ggplot2");install.packages("plyr")
+# install.packages("ggplot2");install.packages("plyr")
 library(ggplot2);library(plyr)
 
 #Example visualization - mean and 95% confidence bands for area in each state over time.

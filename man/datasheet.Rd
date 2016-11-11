@@ -5,10 +5,10 @@
 \title{Get a datasheet}
 \usage{
 datasheet(x, name, project = NULL, scenario = NULL, optional = F,
-  empty = F, sheetNames = NULL, dependsAsFactors = T, addScenario = F)
+  empty = F, sheetNames = NULL, dependsAsFactors = T)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
+\item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario objects.}
 
 \item{name}{The sheet name}
 
@@ -23,8 +23,6 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
 \item{sheetNames}{Output from datasheets(). Set to speed calculation.}
 
 \item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
-
-\item{addScenario}{FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.}
 }
 \value{
 A dataframe.
@@ -33,6 +31,7 @@ A dataframe.
 Gets Syncrosim datasheet.
 }
 \details{
+If x is a list of Scenario objects (e.g. output from run()), adds a scenario column and binds sheets from multiple scenarios.
 \itemize{
   \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
