@@ -3,13 +3,11 @@
 # devtools::document();devtools::load_all()
 library(rsyncrosim)
 
-#TO DO: figure out how to specify suggested packages.
-
 #################################
 # Examples - querying the package
 ?session # Help for the Session object constructor
 ?ssimLibrary # Help for the SSimLibrary object constructor.
-showMethods(class="Session",where=loadNamespace("rsyncrosim")) # See methods for the Session object
+showMethods(class="SSimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
 getMethod("modules","Session") # See code for the filepath method of the Session object.
 showMethods("filepath") # See the objects for which filepath is defined.
 ?filepath # Help for the filepath function
@@ -95,7 +93,7 @@ myProjects = projects(myLibrary) # Each element in the list is named by a charac
 myProjects =projects(myLibrary) # Returns a data frame containing project names and ids.
 str(myProjects)
 names(myProjects)   # vector of the project names (using base R names function)
-#TO DO: base R function names returns project id's, not names. I don't recommend overwriting the base function for List objects.
+# DISCUSS: base R function names returns project id's, not names. I don't recommend overwriting the base function for List objects.
 
 # Get an existing project. Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[["1"]]
@@ -109,16 +107,14 @@ myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the p
 
 # Delete projects
 projects(myLibrary,names=T)
-#TO DO: force deletion
 deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
-deleteProjects(myLibrary, project=c(25))
-#QUESTION: Do we want to be consistent about "project" vs "projects" here?
-#QUESTION: consistency with enable/disableAddons? Assignment operators.
-#QUESTION: generic delete method?
+deleteProjects(myLibrary, project=c(25),force=T)
+# QUESTION: Do we want to be consistent about "project" vs "projects" here?
+# QUESTION: consistency with enable/disableAddons? Assignment operators.
+# QUESTION: generic delete method?
 
 #########################
 # Scenarios
-# TO DO: understand results scenarios
 # devtools::document();devtools::load_all()
 # Get a named list of Scenario objects
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
@@ -126,22 +122,22 @@ myProject = project(myLibrary) #If no name is given, creates a project named "Pr
 name(myProject)
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary)
-#QUESTION: In what cases do we want this to work?
-#At present a project is required to create a scenario
-#Ideas: if no project, create project/scenario?
-#Fail if more than one project.
+# QUESTION: In what cases do we want this to work?
+# At present a project is required to create a scenario
+# Ideas: if no project, create project/scenario?
+# Fail if more than one project.
 myScenario = scenario(myProject) #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary,project="My new project name") #Will create project if necessary
 scenarios(myLibrary,names=T)
-#QUESTION: Default names for new projects and scenarios???
+# QUESTION: Default names for new projects and scenarios???
 
 myScenario = scenario(myProject, name="My new scenario name")
 scenarios(myLibrary,names=T)
 
-#TO DO
+# TO DO - Alex is working on this.
 myScenario = scenario(myLibrary, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
-#NOTE: Returns and error if "Another scenario" already exists, but has different properties?
+# NOTE: Returns and error if "Another scenario" already exists, but has different properties?
 
 myScenarios = scenarios(myLibrary)
 names(myScenarios)
@@ -149,18 +145,18 @@ scenarios(myLibrary,names=T)
 projects(myLibrary,names=T)
 
 scenarios(myProject,names=T)
-# RESUME HERE
+
 # Get a list of existing results scenarios for a particular project
 myScenarios = scenarios(myProject, results=TRUE)
 myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project="My new project name", results=TRUE)
 myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=1, results=TRUE)
-#NOTE CHANGE: scenarios() is a generic method defined for Project, SSimLibrary, and character object. If given a character string, queries an SSimLibrary of that name.
+# NOTE CHANGE: scenarios() is a generic method defined for Project, SSimLibrary, and character object. If given a character string, queries an SSimLibrary of that name.
 
 # Get an existing scenario by ID
 myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - returns a single scenario object
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary, id=1) # By ID directly from the library - return a single scenario object
-#NOTE: To be consistent with project() I have used name/id in scenario().
+# NOTE: To be consistent with project() I have used name/id in scenario().
 
 # Delete a scenario
 scenarios(myLibrary,names=T)
@@ -186,7 +182,8 @@ results(myScenario)     # returns a named vector (by char ID) of the results sce
 
 #############################
 # Datasheets
-# Get a datasheet from an SSimLibrary, Project or Scenario
+# Get datasheet from an SSimLibrary, Projects or Scenarios.
+# NOTE CHANGE: can query multiple projects or scenarios - see ?datasheet for details.
 # Datasheets are provided in dataframe format
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
 # We also return each column in the correct data type.
@@ -195,23 +192,28 @@ myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary,id=1)
 
-# datasheet() and datasheets() accept any combination of x, project and scenario arguments.
+# NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
-# scenario and project can be names, ids, or SycnroSim objects
-myProjectDataframes = datasheets(myLibrary, project=1, names=F,sheetNames=sheetNames) # A named list of all the project and library datasheets for project id 2.
+# scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
+myProjectDataframes = datasheets(myLibrary, project=1, names=F) # A named list of all the project and library datasheets for project id 2.
 #myScenarioDataframes = datasheets(myScenario,names=F) #This takes 5 minutes to run.
 myProjectSheetNames = datasheets("C:/Temp/NewLibrary.ssim", project=1, names=T,scope="project") # A dataframe of datasheet names for project id 1.
 myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a single dataframe
 #myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
 #myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
-# DISCUSS: When names=F a named list of all sheets is returned. However, this is very expensive.
-# Loading a datasheet requires least 2 system calls + 2 calls for each dependency.
-# In almost all circumstances the best way to get a sheet is to load only the desired sheet.
+# DISCUSS: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
+# A console call is also required for each dependency, so the default datasheet() can be slow.
+# datasheets(myScenario,names=F) is very slow because there are a lot of scenario datasheets.
+# Setting empty=T eliminates the database query.
+# Setting stringsAsFactors=T eliminates the console call.
+# Getting a datasheet for multiple scenarios or projects requires only 1 extra console call.
+# Even so datasheets() slow.
+
 datasheets(myScenario,scope="scenario")$name
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition")
 
-# TO DO - WHY?
-#myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F) # This option returns characters instead of factors
+myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition",dependsAsFactors=F) # This option returns characters instead of factors
+#myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F)
 
 #TO DO - not clear to me what this one is about
 #myScenarioDataframes = datasheets(myProject, scope="scenario", keepId=T) # This option returns a dataframe with IDs, not factors
@@ -221,25 +223,26 @@ myScenarioDatasheets = datasheets(scenario=myScenario, dataframe=FALSE, empty=FA
 #DISCUSS - not sure exactly what a datasheet object should be, or why we need one.
 
 # Similarly we can get dataframes of project definitions
-# TO DO
 myProjectDataframes = definitions(myProject)   # same as above - just an alternative function that matches UI terminology
-myProjectDataframes = datasheets(ssimLibrary=mySsimLibrary, project="My Existing Project", scope="project")  # same as above
+projects(myLibrary,names=T)
+myProjectDataframes = datasheets(myLibrary, project="Project", scope="project")  # same as above
 
 # Get empty template dataframes for each scenario datafeed in a project - lookup columns are expressed as factors with only valid values
-emptytScenarioDataframes = datasheets(project=myProject, scope="scenario")     # returns empty versions of all the scenario datafeeds for this project
-emptytScenarioDataframes = datasheets(ssimLibrary=mySsimLibrary, project=2, scope="scenario")     # same as above
-emptyDeterministicTransitionDataframe = datasheet(project=myProject, name="STSim_DeterministicTransition")
+emptyScenarioDataframes = datasheets(myProject, scope="library",empty=T,names=F)     # returns empty versions of all the scenario datafeeds for this project
+emptyScenarioDataframes = datasheets(myLibrary, project=1, scope="library",empty=T,names=F)     # same as above
+emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_DeterministicTransition",empty=T)
 
 # Similarly also get empty dataframes for project definitions
-emptyProjectDataframes = datasheets(myProject, scope="project")
-emptyProjectDataframes = definitions(myProject)    # same as above
+#emptyProjectDataframes = datasheets(myProject, scope="project")
+#emptyProjectDataframes = definitions(myProject)    # same as above
 
-# Update the values for project definitions
-existingStateClassDefinitionDataframe = datasheet(project=myProject, name="STSim_StateClass")
-newStateClassDefinitionDataframe = rbind(existingStateClassDefinitionDataframe, c(NA, "Forest", "All", NA, NA, NA))
+# Update the values for project definitions - see tutorial for examples.
+existingStateClassDefinitionDataframe = datasheet(myProject, name="STSim_StateClass")
+newStateClassDefinitionDataframe = existingStateClassDefinitionDataframe
+#newStateClassDefinitionDataframe = rbind(existingStateClassDefinitionDataframe, c(NA, "Forest", "All", NA, NA, NA))
 
-# Then save the updated project definitions back to the library  - committed to db immediately
-result = loadDatasheets(newStateClassDefinitionDataframe, ssimLibrary=mySsimLibrary, project=2, datasheets="STSim_StateClass")
+# Then save the updated project definitions back to the library
+result = loadDatasheets(myLibrary, newStateClassDefinitionDataframe, project=1, name="STSim_StateClass")
 # DISCUSS: was written in plural, but need name/frame to be linked in that case.
 
 # Update the values of an existing scenario datasheet (after the definitions have been added)
@@ -249,9 +252,6 @@ myDeterminisiticTransitionDataframe$AgeMin = c(50, 60, NA)    # change the AgeMi
 
 # Then save the updated scenario datasheet back to the library  - committed to db immediately
 result = loadDatasheets(myDeterminisiticTransitionDataframe, library=mySsimLibrary, scenario=myScenario, datasheets="STSim_DeterministicTransition")
-
-#TO DO: fix addRow internally - don't use expand.grid. Consider borrowing plyr code.
-#TO DO: speed up datasheet() - issue fewer system calls when empty=T or dependsAsFactors=F.
 
 #################
 # Run
@@ -274,7 +274,7 @@ myoutputDataframe = datasheets(scenario=myResultsScenario, name="STSim_OutputStr
 # To do:
 #*********************
 # - break points
-# - output
+
 ####################
 # Other examples
 # Create a library called <model>.ssim in the current working directory.

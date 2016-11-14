@@ -4,7 +4,7 @@
 \alias{run}
 \title{Run scenarios}
 \usage{
-run(x, scenario = NULL, onlyIds = F)
+run(x, scenario = NULL, onlyIds = F, jobs = 1)
 }
 \arguments{
 \item{x}{One or more SSimLibrary, Projects or Scenario objects. Or the path to a library on disk.}
@@ -12,6 +12,8 @@ run(x, scenario = NULL, onlyIds = F)
 \item{scenario}{One or more scenario objects, names or ids.}
 
 \item{onlyIds}{If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.}
+
+\item{jobs}{The number of jobs to run. Passed to SyncroSim where multithreading is handled.}
 }
 \value{
 A named list of result Scenario objects or ids. The name is the parent scenario for each result.

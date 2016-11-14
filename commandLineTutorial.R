@@ -18,18 +18,21 @@ datasheets(myProject,names=T)
 
 #***********************************
 # Cover types and state classes
-#RESUME HERE - understand package dependencies.
 sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"Name"]="Entire Forest"
 loadDatasheets(myProject,mySheet,name=sheetName)
-#NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
-#A console call is required for each dependency, so the default datasheet() can be slow.
-#Setting empty=T eliminates the database query.
-#Setting stringsAsFactors=T eliminates the console call.
-#Getting results or inputs from multiple scenarios or projects requires only 1 extra console call.
-#Do we need other options for speeding the process?
+# NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
+# x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
+# scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
+#
+# NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
+# A console call is also required for each dependency, so the default datasheet() can be slow.
+# Setting empty=T eliminates the database query.
+# Setting stringsAsFactors=T eliminates the console call.
+# Getting a datasheet for multiple scenarios or projects requires only 1 extra console call.
+# Do we need more options for speeding the process?
 
-# Warn if dependencies are not loaded, and return a factor with 0 levels
+# Warns if dependencies are not loaded, and return a factor with 0 levels
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
 
@@ -49,8 +52,7 @@ mySheet[1:3,"StateLabelXID"]=levels(mySheet$StateLabelXID) #Valid values
 mySheet$StateLabelYID = levels(mySheet$StateLabelYID)[1] #Valid values
 mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
 loadDatasheets(myProject,mySheet,name=sheetName)
-#sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName)
-#str(mySheet)
+#mySheet = datasheet(myProject,name=sheetName);str(mySheet)
 
 # DISCUSS: dependencies. Is this enough? If not, what else is needed?
 # DISCUSS: special knowledge needed to construct Name here?
@@ -58,8 +60,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 #***********************************
 # Transitions
-sheetNames$name[sheetNames$dataScope=="project"]
-str(mySheet)
+datasheets(myProject,names=T,scope="project")$name #See project scope datasheet names
 sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
 loadDatasheets(myProject,mySheet,name=sheetName)
@@ -73,7 +74,6 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 #****************
 # Age type
-sheetNames$name[sheetNames$dataScope=="project"]
 sheetName = "STSim_AgeType"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
 mySheet[1,"Frequency"] = 1
@@ -99,37 +99,38 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 
 #**************************
 # Deterministic transitions
+# devtools::document();devtools::load_all()
 sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
 str(mySheet)
 levels(mySheet$StateClassIDSource)
-addRow(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1")
-addRow(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1")
-addRow(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1")
-#addRow fills in missing values using factor levels where possible.
-#addRow also complains if factor values are not valid
+addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1")
+addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1")
+addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1")
 mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName)
-#mySheet = datasheet(myScenario,name=sheetName,optional=T)
-#str(mySheet)
+# mySheet = datasheet(myScenario,name=sheetName,optional=T); str(mySheet) #check what happened
+# addRows() checks validity of column names and factor levels.
+# addRows() fills missing values using factor levels where possible.
 
 #*************************
 # Probabilistic transitions
 sheetName = "STSim_Transition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-addRow(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+str(mySheet)
+addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Fire",Probability=0.01)
-addRow(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Harvest",Probability=1,AgeMin=40)
-addRow(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
+addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Fire",Probability=0.002)
-addRow(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
+addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
                            TransitionTypeID="Succession",Probability=0.1,AgeMin=10)
-addRow(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
+addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Fire",Probability=0.005)
-addRow(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
+addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
                            TransitionTypeID="Succession",Probability=0.1,AgeMin=20)
+mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName)
-#mySheet = datasheet(myScenario,name=sheetName,optional=T)
-#mySheet
+#mySheet = datasheet(myScenario,name=sheetName,optional=T); mySheet #check what happened
 
 #********************
 #Initial conditions
@@ -140,9 +141,9 @@ mySheet[1,"NumCells"]=1000
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
 sheetName = "STSim_InitialConditionsNonSpatialDistribution"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-addRow(mySheet)=data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20)
-addRow(mySheet)=data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40)
-addRow(mySheet)=data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40)
+addRows(mySheet)=data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20)
+addRows(mySheet)=data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40)
+addRows(mySheet)=data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40)
 mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
@@ -175,27 +176,28 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 #******************************
 # devtools::document();devtools::load_all()
 
-myResults = run(myProject,scenario=c("Harvest","No Harvest"))
-#By default, returns a named list of result Scenario objects.
-#If onlyIds = TRUE (faster), returns result scenario ids instead of objects
+myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
+# By default, returns a named list of result Scenario objects.
+# If onlyIds = TRUE (faster), returns result scenario ids instead of objects
+# NOTE: jobs is passed through to SyncroSim which handles multithreading.
+# TO DO: break points etc.
 
-#TO DO: multiple threads
 scenarios(myProject,names=T)
-# deleteScenarios(myProject,4,force=T)
 
-harvestResult = myResults[["Harvest"]]
+# deleteScenarios(myProject,4,force=T)
 
 #********************************
 # See results
 #******************************
 # devtools::document();devtools::load_all()
-#myResults=scenarios(myProject,results=T)
+# myResults=scenarios(myProject,results=T)
 
 # When given a list of Scenario objects, datasheet() binds over scenarios.
 outStates = datasheet(myResults,name="STSim_OutputStratumState",dependsAsFactors=F)
 str(outStates)
 unique(outStates$ScenarioParent)
 outTransitions = datasheet(myResults,name="STSim_OutputStratumTransition",dependsAsFactors=F)
+# NOTE CHANGE: can query multiple projects or scenarios - see ?datasheet for details.
 # Requires 1 database query and 1 console call, regardless of the number of scenarios included in myResults
 
 # DISCUSS: to what extent (if any) do we want to reimplement ggplot2/plyr functionality for summarizing and visualizing output?
@@ -218,7 +220,74 @@ base=base+facet_grid(TransitionGroupID~ScenarioParent,scales="free_y")+ theme_bw
 base=base+ylab("area (acres)")
 print(base)
 
+#*********************
+# For information and discussion:
+#*********************
+# devtools::document();devtools::load_all()
+# NOTE: dependencies are DBI and RSQLite (Wickham package)
+# DISCUSS: datasheets()
+
+showMethods(class="SSimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
+anotherProject = project(myLibrary,name="AnotherProject")
+# DISCUSS: Inheritance
+# Project and Scenario objects inherit from SSimLibrary.
+# For some methods, this is helpful:
+#  - datasheet(), datasheets(), loadDatasheets(): do sensible things with x/project/scenario arguments - see help for details.
+#  - run(): does sensible things with x/scenario arguments
+#  - session(), modelVersion(), modelName(), filepath(), addons(): provide useful information.
+#
+# Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.
+#  - enableAddons<-,disableAddons<- : side effects for other projects/scenarios
+#  - deleteScenarios(): only let a parent (Project or SSimLibrary) delete a scenario?
+#  - deleteProjects(): only let parent SSimLibrary delete a project?
+#  - projects(): only SSimLibraries can contain more than one project.
+#  - scenarios(): only SSimLibraries and Projects can contain more than one scenario.
+#
+# And I am unsure what to do with these methods:
+#  - info() returns library info
+#  - session<-: When should users be allowed to change the version of SyncroSim they are using?
+
+myScenarios = scenarios(myProject) #returns list - names are scenario ids.
+names(myScenarios)
+# DISCUSS: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
+
+deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
+# QUESTION: Do we want to be consistent about "project" vs "projects" here?
+# QUESTION: consistency with enable/disableAddons? Assignment operators.
+# QUESTION: generic delete method?
+
+myScenario = scenario(myLibrary)
+# QUESTION: In what cases do we want this to work?
+# At present a project is required to create a scenario
+# Ideas: if no project, create project/scenario?
+# Fail if more than one project.
+
+# QUESTION: Default names for new projects and scenarios???
+
+# NOTE: To be consistent with project() I have used name/id in scenario().
+
+# QUESTION: Should I disable assignment functions for result scenarios?
+
+# DISCUSS: What exactly is a datasheet object, and why do we need one?
+
+# DISCUSS datasheet(..,keepId=T): Why would we return a dataframe with IDs not factors?
+
+# addRow<-: should this be an assignment function or a normal function?
+
+################
+# TO DO:
+# - get/set summary information (name,author,description,readOnly): Alex is working on this.
+# - handle raster datasheets (input and output)
+# - tests
+# - bigger data example.
+# - Project revisions: Safe modification of existing libraries?
+# - break points
+# - help/documentation
+
 ###############
-#Points to discuss:
-# - depends are DBI and RSQLite (Wickham package)
-# - datasheets - why, why, how?
+# LOW PRIORITY
+# LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
+# LOW PRIORITY: Better explain command with help examples: c("list","models")
+# LATER: Create own model from scratch in R. Inputs, output and calculations
+# Backup and restore libraries.
+# LOW PRIORITY - datafeeds

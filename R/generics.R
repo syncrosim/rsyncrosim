@@ -115,12 +115,16 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' @examples
 #'
 #' @export
-setGeneric('datasheets',function(x,...) standardGeneric('datasheets'))
-.datasheets=datasheets
+setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T,addScenario=F) standardGeneric('datasheets'))
+#' definitions
+#'
+#' Alias for \code{\link{datasheets}} function
+#' @export
+definitions=datasheets
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenario=NULL,...) {
+setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors,addScenario) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheets(x,project,scenario,...)
+  out = .datasheets(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors,addScenario)
   return(out)
 })
 
@@ -191,11 +195,11 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 #' @examples
 #'
 #' @export
-setGeneric('loadDatasheets',function(x,...) standardGeneric('loadDatasheets'))
+setGeneric('loadDatasheets',function(x,data,name=NULL,project=NULL,scenario=NULL,sheetNames=NULL) standardGeneric('loadDatasheets'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadDatasheets', signature(x="character"), function(x,data,name=NULL,project=NULL,scenario=NULL,...) {
+setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,sheetNames) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,data=data,name=name,project=project,scenario=scenario,...)
+  out = .datasheet(x,data,name,project,scenario,sheetNames)
   return(out)
 })
 
@@ -206,22 +210,23 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name=NULL,
 #' @param x One or more SSimLibrary, Projects or Scenario objects. Or the path to a library on disk.
 #' @param scenario One or more scenario objects, names or ids.
 #' @param onlyIds If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
+#' @param jobs The number of jobs to run. Passed to SyncroSim where multithreading is handled.
 #' @return A named list of result Scenario objects or ids. The name is the parent scenario for each result.
 #' @examples
 #'
 #' @export
-setGeneric('run',function(x,scenario=NULL,onlyIds=F) standardGeneric('run'))
+setGeneric('run',function(x,scenario=NULL,onlyIds=F,jobs=1) standardGeneric('run'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('run', signature(x="character"), function(x,scenario,onlyIds) {
+setMethod('run', signature(x="character"), function(x,scenario,onlyIds,jobs) {
   x = library(x)
-  out = run(x,scenario,onlyIds)
+  out = run(x,scenario,onlyIds,jobs)
   return(out)
 })
 #Handles case where x is a list of objects.
-setMethod('run', signature(x="list"), function(x,scenario,onlyIds) {
+setMethod('run', signature(x="list"), function(x,scenario,onlyIds,jobs) {
   out=list()
   for(i in seq(length.out=length(x))){
-    out[[i]]=run(x[[i]],scenario,onlyIds)
+    out[[i]]=run(x[[i]],scenario,onlyIds,jobs)
   }
   return(out)
 })

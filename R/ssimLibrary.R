@@ -263,13 +263,14 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
     ttFrame=.dataframeFromSSim(tt)
     names(ttFrame)[names(ttFrame)=="iD"]="id"
   }
+
   if(names){
     return(ttFrame)
   }
   ttList = list()
   for(i in seq(length.out=nrow(ttFrame))){
     #i = 1
-    ttList[[ttFrame$id[i]]]=project(x,id=ttFrame$id[i],create=F,projects=ttFrame)
+    ttList[[as.character(ttFrame$id[i])]]=project(x,id=ttFrame$id[i],create=F,projects=ttFrame)
   }
   return(ttList)
 })
@@ -560,7 +561,7 @@ setReplaceMethod(
   }
 )
 
-setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T,addScenario=F) {
+setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors,addScenario) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=F;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
@@ -599,7 +600,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
-  #x = myResults[[1]];project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=T;empty=F;dependsAsFactors=F
+  #x = myScenario;project=NULL;scenario=NULL;name="STSim_Transition";optional=T;empty=T;dependsAsFactors=T
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -700,11 +701,17 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       if(!is.element(cRow$name,colnames(sheet))){
         sheet[[cRow$name]] = NA
       }
-      if((cRow$type=="Integer")&(cRow$valType!="DataSheet")){
+      if((is.element(cRow$type,c("Integer","Double","Single")))&(cRow$valType!="DataSheet")){
         sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
       }
       if(cRow$type=="String"){
         sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
+      }
+      if(cRow$type=="Boolean"){
+        if(length(setdiff(unique(sheet[[cRow$name]]),c(NA)))>0){
+          sheet[[cRow$name]]=as.logical(abs(sheet[[cRow$name]]))
+          #stop("handle this case")
+        }
       }
       if(cRow$valType=="DataSheet"){
         if(dependsAsFactors){
@@ -767,8 +774,8 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   return(sheet)
 })
 
-setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NULL,project=NULL,scenario=NULL,sheetNames=NULL) {
-  #x = myScenario;project=NULL;scenario=NULL;name="STSim_DeterministicTransition";data=mySheet
+setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario,sheetNames) {
+  #x = myScenario;project=NULL;scenario=NULL;name="STSim_InitialConditionsNonSpatialDistribution";data=mySheet
   x = .getFromXProjScn(x,project,scenario)
   if(is.null(sheetNames)){
     sheetNames = datasheets(x)
@@ -790,6 +797,13 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NUL
     #i=1
     cName = names(data)[i]
     cDat = data[[cName]]
+    for(i in seq(length.out=nrow(cDat))){
+      if(is.factor(cDat[[i]])){cDat[[i]]=as.character(cDat[[i]])}
+      if(is.logical(cDat[[i]])){
+        inCol = cDat[[i]]
+        cDat[[i]][inCol]=-1;cDat[[i]][!inCol]=0
+      }
+    }
     cDat[is.na(cDat)]=""
 
     dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
@@ -817,8 +831,11 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name=NUL
   return(out)
 })
 
-setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds) {
+setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
   #x=myScenario;scenario="Harvest"
+  command(c("run","help"),.session(x))
+
+
   if(is.null(scenario)){
     if(class(x)!="Scenario"){
       stop("Need a scenario to run.")
@@ -851,7 +868,7 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds) {
     if(!is.numeric(cScn)){stop("Something is wrong.")}
 
     #TO DO: handle jobs, transformer and inpl.
-    tt = command(list(run=NULL,lib=.filepath(x),sid=cScn),.session(x))
+    tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
 
     resultId = strsplit(tt,": ",fixed=T)[[1]][2]
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){

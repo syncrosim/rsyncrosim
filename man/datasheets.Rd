@@ -4,7 +4,9 @@
 \alias{datasheets}
 \title{datasheets}
 \usage{
-datasheets(x, ...)
+datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
+  optional = F, empty = F, sheetNames = NULL, dependsAsFactors = T,
+  addScenario = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.}

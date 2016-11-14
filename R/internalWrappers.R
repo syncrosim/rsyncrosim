@@ -30,5 +30,7 @@ NULL
 .datasheet=datasheet
 #' @export
 .name=name
+#' @export
+.datasheets=datasheets
 
 

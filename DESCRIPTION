@@ -4,7 +4,12 @@ Title: The R Interface to SyncroSim: http://syncrosim.com/
 Version: 0.1.0
 Author: ApexRMS
 Maintainer: Josie Hughes <josie.s.hughes@gmail.com>
-Description: rsyncrosim provides an interface to SyncroSim, a generalized framework for running and managing scenario-based stochastic simulations over space and time. Different kinds of simulation models can "plug-in" to SyncroSim as modules and take advantage of general features common to many kinds of simulation models, such as defining scenarios of model inputs, running Monte Carlo simulations, and viewing charts and maps of outputs.
+Description: rsyncrosim provides an interface to SyncroSim, a generalized
+    framework for running and managing scenario-based stochastic simulations over
+    space and time. Different kinds of simulation models can "plug-in" to SyncroSim
+    as modules and take advantage of general features common to many kinds of
+    simulation models, such as defining scenarios of model inputs, running Monte
+    Carlo simulations, and viewing charts and maps of outputs.
 License: ?
 LazyData: TRUE
 Imports:
@@ -16,14 +21,13 @@ Suggests:
 Collate:
     'generics.R'
     'ServerController.R'
-    'addRow.R'
+    'addRows.R'
     'allCombos.R'
     'command.R'
     'dataframeFromSSim.R'
     'externalClient.R'
     'fullFilename.R'
     'getFromXProjScn.R'
-    'hello.R'
     'internalHelpers.R'
     'session.R'
     'ssimLibrary.R'
