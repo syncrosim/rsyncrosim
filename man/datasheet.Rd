@@ -8,13 +8,13 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
   empty = F, dependsAsFactors = T)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario objects.}
+\item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.}
 
 \item{name}{The sheet name}
 
-\item{project}{Project name or id.}
+\item{project}{One or more Project names, id or objects.}
 
-\item{scenario}{Scenario name or id.}
+\item{scenario}{One or more Scenario names, id or objects.}
 
 \item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.}
 
@@ -23,17 +23,20 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
 \item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
 }
 \value{
-A dataframe.
+A dataframe representing a SyncroSim datasheet.
 }
 \description{
 Gets Syncrosim datasheet.
 }
 \details{
-If x is a list of Scenario objects (e.g. output from run()), adds a scenario column and binds sheets from multiple scenarios.
 \itemize{
   \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
   \item {If empty=F and dependsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
+  \item {If x is a list of Scenario or Project objects (output from run(), scenarios() or projects()): }{Adds ScenarioID/ProjectID column if appropriate.}
+  \item {If length(scenario)>1: }{Adds ScenarioID/ProjectID column if appropriate.}
+  \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
+  \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 }
 }
 \examples{

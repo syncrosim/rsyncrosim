@@ -19,13 +19,15 @@ datasheets(myProject,names=T)
 #***********************************
 # Cover types and state classes
 #RESUME HERE - understand package dependencies.
-sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=F)
+sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"Name"]="Entire Forest"
 loadDatasheets(myProject,mySheet,name=sheetName)
-#NOTE: Default datasheet() retrieval requires a database query and at least 1 console call (empty=F, stringsAsFactors=T)
-#A console call is required for each dependency, so the default datasheet() can be quite slow.
+#NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
+#A console call is required for each dependency, so the default datasheet() can be slow.
 #Setting empty=T eliminates the database query.
-#Do we want to consider other options for speeding the process?
+#Setting stringsAsFactors=T eliminates the console call.
+#Getting results or inputs from multiple scenarios or projects requires only 1 extra console call.
+#Do we need other options for speeding the process?
 
 # Warn if dependencies are not loaded, and return a factor with 0 levels
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
@@ -156,7 +158,7 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 # Add Harvest Scenario
 #*************************************
 # devtools::document();devtools::load_all()
-deleteScenarios(myProject,"Harvest",force=T)
+# deleteScenarios(myProject,"Harvest",force=T)
 myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
 # Copy "No Harvest" scenario to new "Harvest" scenario
 
@@ -179,35 +181,44 @@ myResults = run(myProject,scenario=c("Harvest","No Harvest"))
 
 #TO DO: multiple threads
 scenarios(myProject,names=T)
+# deleteScenarios(myProject,4,force=T)
+
 harvestResult = myResults[["Harvest"]]
 
 #********************************
 # See results
 #******************************
 # devtools::document();devtools::load_all()
-#myResults=scenarios(myProject,results=T);names(myResults) = c("Harvest","No Harvest")
+#myResults=scenarios(myProject,results=T)
 
 # When given a list of Scenario objects, datasheet() binds over scenarios.
 outStates = datasheet(myResults,name="STSim_OutputStratumState",dependsAsFactors=F)
-unique(outStates$scenario)
+str(outStates)
+unique(outStates$ScenarioParent)
 outTransitions = datasheet(myResults,name="STSim_OutputStratumTransition",dependsAsFactors=F)
+# Requires 1 database query and 1 console call, regardless of the number of scenarios included in myResults
 
 # DISCUSS: to what extent (if any) do we want to reimplement ggplot2/plyr functionality for summarizing and visualizing output?
 # install.packages("ggplot2");install.packages("plyr")
 library(ggplot2);library(plyr)
 
 #Example visualization - mean and 95% confidence bands for area in each state over time.
-outStatesAllAges = ddply(outStates,.(Timestep,StateLabelXID,scenario,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
-outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,scenario),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+outStatesAllAges = ddply(outStates,.(Timestep,StateLabelXID,ScenarioParent,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
+outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
 base = ggplot(outStatesSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
-base=base+facet_grid(StateLabelXID~scenario)+ theme_bw()
+base=base+facet_grid(StateLabelXID~ScenarioParent)+ theme_bw()
 base=base+ylab("area (acres)")
 print(base)
 
 #Example visualization - mean and 95% confidence bands for transitions over time.
-outTransitionsAllAges = ddply(outTransitions,.(Timestep,TransitionGroupID,scenario,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
-outTransitionsSummary = ddply(outTransitionsAllAges,.(Timestep,TransitionGroupID,scenario),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+outTransitionsAllAges = ddply(outTransitions,.(Timestep,TransitionGroupID,ScenarioParent,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
+outTransitionsSummary = ddply(outTransitionsAllAges,.(Timestep,TransitionGroupID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
 base = ggplot(outTransitionsSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
-base=base+facet_grid(TransitionGroupID~scenario,scales="free_y")+ theme_bw()
+base=base+facet_grid(TransitionGroupID~ScenarioParent,scales="free_y")+ theme_bw()
 base=base+ylab("area (acres)")
 print(base)
+
+###############
+#Points to discuss:
+# - depends are DBI and RSQLite (Wickham package)
+# - datasheets - why, why, how?

@@ -11,3 +11,9 @@ printAndCapture <- function(x)
   paste(capture.output(print(x)), collapse = "\n")
 }
 
+#Get name of parent scenario from result scenario name.
+.getParentName<-function(x){
+  out = strsplit(x," ([",fixed=T)[[1]][1]
+  return(out)
+}
+

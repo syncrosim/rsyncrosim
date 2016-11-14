@@ -441,6 +441,8 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
   }
 
   if(names){
+    #ttFrame=allScns
+    ttFrame$parentName = sapply(ttFrame$name,.getParentName,simplify=T)
     return(ttFrame)
   }
   ttList = list()
@@ -598,10 +600,45 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project=NULL,scen
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
   #x = myResults[[1]];project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=T;empty=F;dependsAsFactors=F
-  x = .getFromXProjScn(x,project,scenario)
+
+  allProjects=NULL;allScns=NULL
+  passScenario = scenario;passProject = project
+  if((length(project)>0)){
+    passProject = NULL
+    pid=project
+    if(class(project[[1]])=="Project"){
+      pid = names(project)
+    }
+    if(class(project[[1]])=="character"){
+      #x=myLibrary
+      allProjects = projects(x,names=T)
+      pid = allProjects$id[is.element(name,project)]
+    }
+  }
+  if((length(scenario)>0)){
+    passScenario = NULL
+    sid=scenario
+    if(class(scenario[[1]])=="Scenario"){
+      sid = names(scenario)
+    }
+    if(class(scenario[[1]])=="character"){
+      allScns = scenarios(x,names=T)
+      sid = allScenarios$id[is.element(name,scenario)]
+    }
+  }
+
+  x = .getFromXProjScn(x,passProject,passScenario)
+  if(is.null(scenario)||(length(scenario)==1)){
+    if(class(x)=="Scenario"){sid=.id(x)}else{sid=NULL}
+  }
+  if(is.null(project)||(length(project)==1)){
+    pid=NULL
+    if(class(x)=="Scenario"){pid=.pid(x)}
+    if(class(x)=="Project"){pid=.id(x)}
+  }
 
   rmId = strsplit(name,"_")[[1]][2]
-  rmCols = c(paste0(rmId,"ID"),"ProjectID","ScenarioID")
+  rmCols = c(paste0(rmId,"ID"))
 
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
 
@@ -609,36 +646,32 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     #try to load directly from the database
     # Connect to the ssim database
     #install.packages("RSQLite");library(RSQLite)
-    drv = dbDriver("SQLite")
-    con = dbConnect(drv,.filepath(x))
-    sheet = dbReadTable(con, name)
-    dbDisconnect(con)
-
-    if(is.element("ScenarioID",names(sheet))){
-      if(class(x)=="Scenario"){
-        sheet=subset(sheet,ScenarioID==.id(x))
-        sheet$ScenarioID = NULL
-      }else{
+    #x=myLibrary;name="STSim_OutputStratumState";sid=c(6)
+    drv = DBI::dbDriver('SQLite')
+    con = DBI::dbConnect(drv,.filepath(x))
+    fields = DBI::dbListFields(con,name)
+    if(length(intersect(fields,c("ScenarioID","ProjectID")))==0){
+      sheet = DBI::dbReadTable(con, name)
+    }
+    if(is.element("ScenarioID",fields)){
+      if(is.null(sid)){
         stop("Specify a scenario.")
-      }
-    }
-
-    if(is.element("ProjectID",names(sheet))){
-      id=NULL
-      if(class(x)=="Project"){
-        id = .id(x)
-      }
-      if(class(x)=="Scenario"){
-        id = .pid(x)
-      }
-
-      if(!is.null(id)){
-        sheet=subset(sheet,ProjectID==id)
-        sheet$ProjectID = NULL
       }else{
-        stop("Specify a project.")
+        #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
+        #and http://www.sqlitetutorial.net/sqlite-in/
+        sql = paste0("SELECT * FROM ",name," WHERE ScenarioID IN (",paste(sid,collapse=","),")")
+        sheet = DBI::dbGetQuery(con,sql)
       }
     }
+    if(is.element("ProjectID",fields)){
+      if(is.null(pid)){
+        stop("Specify a project.")
+      }else{
+        sql = paste0("SELECT * FROM ",name," WHERE ProjectID IN (",paste(pid,collapse=","),")")
+        sheet = DBI::dbGetQuery(con,sql)
+      }
+    }
+    DBI::dbDisconnect(con)
   }else{
     sheet=data.frame(temp=NA)
   }
@@ -677,7 +710,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         if(dependsAsFactors){
           #if a number, ignore - SyncroSim will do the checking
           #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
-          dependSheet = datasheet(x,name=cRow$formula1,dependsAsFactors=F)
+          dependSheet = datasheet(x,project,scenario,name=cRow$formula1,dependsAsFactors=F)
           if((nrow(dependSheet)==0)&(cRow$optional=="No")){
             warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
           }
@@ -704,6 +737,31 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       sheet = sheet[order(sheet$cOrder),]
     }
     sheet = subset(sheet,select=sheetInfo$name)
+  }
+  if(is.element("ProjectID",names(sheet))){
+    if(length(pid)==1){
+      sheet$ProjectID = NULL
+    }else{
+      if(is.null(allProjects)){
+        allProjects = projects(x,names=T)
+      }
+      names(allProjects) = c("ProjectID","ProjectName")
+      sheet=merge(allProjects,sheet,all.y=T)
+      ?merge
+    }
+  }
+
+  if(is.element("ScenarioID",names(sheet))){
+    if(length(sid)==1){
+      sheet$ScenarioID = NULL
+    }else{
+      if(is.null(allScns)){
+        allScns = scenarios(x,names=T)
+      }
+      allScns$isResult=NULL
+      names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
+      sheet=merge(allScns,sheet,all.Y=T)
+    }
   }
 
   return(sheet)

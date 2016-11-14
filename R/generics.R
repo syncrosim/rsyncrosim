@@ -6,7 +6,6 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' @param x An SSimLibrary or Project object, or an SSimLibrary name.
 #' @param project A project name, id, or object.
 #' @param names If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.
-#' @return By default returns a list of scenarios identified by id. Each element of the list contains a SyncroSim Scenario object. If names=T, returns a dataframe containing the name, id, and project id of each scenario.
 #' @examples
 #' myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
 #' @export
@@ -130,21 +129,24 @@ setMethod('datasheets', signature(x="character"), function(x,project=NULL,scenar
 #' Gets Syncrosim datasheet.
 #'
 #' @details
-#' If x is a list of Scenario objects (e.g. output from run()), adds a scenario column and binds sheets from multiple scenarios.
 #' \itemize{
 #'   \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
 #'   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
 #'   \item {If empty=F and dependsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
+#'   \item {If x is a list of Scenario or Project objects (output from run(), scenarios() or projects()): }{Adds ScenarioID/ProjectID column if appropriate.}
+#'   \item {If length(scenario)>1: }{Adds ScenarioID/ProjectID column if appropriate.}
+#'   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
+#'   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 #' }
 #'
-#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario objects.
+#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.
 #' @param name The sheet name
-#' @param project Project name or id.
-#' @param scenario Scenario name or id.
+#' @param project One or more Project names, id or objects.
+#' @param scenario One or more Scenario names, id or objects.
 #' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
 #' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
-#' @return A dataframe.
+#' @return A dataframe representing a SyncroSim datasheet.
 #' @examples
 #'
 #' @export
@@ -156,25 +158,23 @@ setMethod('datasheet', signature(x="character"), function(x,name,project,scenari
   return(out)
 })
 
-#Handles case where x is a path to an SyncroSim library on disk.
+#Handles case where x is list of Scenario or Project objects
 setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
+  project = c();scenario=c()
   for(i in seq(length.out=length(x))){
-    cName = names(x)[i]
-    cScn = x[[cName]]
-    if(class(cScn)!="Scenario"){
+    cScn = x[[i]]
+    if(!is.element(class(cScn),c("Scenario","Project"))){
       stop("x must be an SSimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
     }
-    project=NULL
-    scenario=NULL
-    cOut = .datasheet(cScn,name,project,scenario,optional,empty,dependsAsFactors)
-    cOut$scenario = cName
-
-    if(i==1){
-      out=cOut
-    }else{
-      out=rbind(out,cOut)
+    if(class(cScn)=="Scenario"){
+      project=c(project,.pid(cScn))
+      scenario=c(scenario,.id(cScn))
+    }
+    if(class(cScn)=="Project"){
+      project=c(project,.id(cScn))
     }
   }
+  out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,dependsAsFactors)
   return(out)
 })
 

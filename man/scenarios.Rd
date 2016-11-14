@@ -13,9 +13,6 @@ scenarios(x, ...)
 
 \item{names}{If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.}
 }
-\value{
-By default returns a list of scenarios identified by id. Each element of the list contains a SyncroSim Scenario object. If names=T, returns a dataframe containing the name, id, and project id of each scenario.
-}
 \description{
 Get a list of scenarios in a SSimLibrary or Project.
 }

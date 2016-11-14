@@ -11,5 +11,4 @@
 #'
 #' @docType package
 #' @name rsyncrosim
-#' @import RSQLite
 NULL
