@@ -4,7 +4,7 @@
 \alias{deleteProjects}
 \title{Delete projects from a Library}
 \usage{
-deleteProjects(x, ...)
+deleteProjects(x, project = NULL, force = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario associated with a library.}

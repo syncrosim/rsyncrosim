@@ -22,15 +22,14 @@ version(mySsim) # Lists the version of syncrosim session
 modules(mySsim) # Dataframe of the modules installed with this verions of SyncroSim.
 models(mySsim) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
-# devtools::document();devtools::load_all()
 
 # Add/remove modules
+# NOTE: this works but causes problems because I am working with dev version of SyncroSim
 #removeModules(mySsim) = "stsim-stock-flow"
 #is.element("stsim-stock-flow",modules(mySsim)$name)
 #addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
 #addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
 #is.element("stsim-stock-flow",modules(mySsim)$name)
-#NOTE: this works but causes problems because I am working with dev version of SyncroSim
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
@@ -55,7 +54,7 @@ addons(myLibrary,all=T)
 addons(myLibrary)
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim", addons=c("stsim-ecological-departure"))
 addons(myLibrary)
-#TO DO: apply updates to a library from the command line?
+#TO DO: apply updates to a library from the command line.
 
 myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
 
@@ -82,7 +81,6 @@ addons(myLibrary)
 ###################################
 # Projects
 # Create a new project
-# devtools::document();devtools::load_all()
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 myProject = project(ssimLibrary=myLibrary, name="My new project name")
@@ -160,7 +158,7 @@ myScenario = scenario(myLibrary, id=1) # By ID directly from the library - retur
 
 # Delete a scenario
 scenarios(myLibrary,names=T)
-deleteScenarios(myLibrary, scenario=c(3))
+deleteScenarios(myLibrary, scenario=c(3),force=T)
 scenarios(myLibrary,names=T)
 
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
@@ -196,7 +194,7 @@ myScenario = scenario(myLibrary,id=1)
 # x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 myProjectDataframes = datasheets(myLibrary, project=1, names=F) # A named list of all the project and library datasheets for project id 2.
-#myScenarioDataframes = datasheets(myScenario,names=F) #This takes 5 minutes to run.
+#myScenarioDataframes = datasheets(myScenario,names=F) #This takes a long time to run - so don't.
 myProjectSheetNames = datasheets("C:/Temp/NewLibrary.ssim", project=1, names=T,scope="project") # A dataframe of datasheet names for project id 1.
 myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a single dataframe
 #myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
@@ -215,11 +213,11 @@ myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition",dependsAsFactors=F) # This option returns characters instead of factors
 #myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F)
 
-#TO DO - not clear to me what this one is about
+#TO DO
 #myScenarioDataframes = datasheets(myProject, scope="scenario", keepId=T) # This option returns a dataframe with IDs, not factors
 
 # Alternatively a datasheet can be provided as a Datasheet object  - skip this for now
-myScenarioDatasheets = datasheets(scenario=myScenario, dataframe=FALSE, empty=FALSE)    # named vector of datasheet objects, instead of default dataframes
+#myScenarioDatasheets = datasheets(scenario=myScenario, dataframe=FALSE, empty=FALSE)    # named vector of datasheet objects, instead of default dataframes
 #DISCUSS - not sure exactly what a datasheet object should be, or why we need one.
 
 # Similarly we can get dataframes of project definitions
@@ -228,8 +226,9 @@ projects(myLibrary,names=T)
 myProjectDataframes = datasheets(myLibrary, project="Project", scope="project")  # same as above
 
 # Get empty template dataframes for each scenario datafeed in a project - lookup columns are expressed as factors with only valid values
-emptyScenarioDataframes = datasheets(myProject, scope="library",empty=T,names=F)     # returns empty versions of all the scenario datafeeds for this project
-emptyScenarioDataframes = datasheets(myLibrary, project=1, scope="library",empty=T,names=F)     # same as above
+# NOTE: slow. don't do it.
+#emptyScenarioDataframes = datasheets(myProject, scope="scenario",empty=T,names=F)     # returns empty versions of all the scenario datafeeds for this project
+#emptyScenarioDataframes = datasheets(myLibrary, project=1, scope="scenario",empty=T,names=F)     # same as above
 emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_DeterministicTransition",empty=T)
 
 # Similarly also get empty dataframes for project definitions
@@ -237,47 +236,48 @@ emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_Determ
 #emptyProjectDataframes = definitions(myProject)    # same as above
 
 # Update the values for project definitions - see tutorial for examples.
-existingStateClassDefinitionDataframe = datasheet(myProject, name="STSim_StateClass")
-newStateClassDefinitionDataframe = existingStateClassDefinitionDataframe
+stateClassDefinition = datasheet(myProject, name="STSim_StateLabelX")
+addRows(stateClassDefinition) = data.frame(Name=c('Coniferous','Deciduous','Mixed'))
 #newStateClassDefinitionDataframe = rbind(existingStateClassDefinitionDataframe, c(NA, "Forest", "All", NA, NA, NA))
+# NOTE: rbind does not preserve types and factor levels
+# NOTE CHANGE: addRows does in place modification of dataframe. This requires less typing. Can be changed.
 
 # Then save the updated project definitions back to the library
-result = loadDatasheets(myLibrary, newStateClassDefinitionDataframe, project=1, name="STSim_StateClass")
-# DISCUSS: was written in plural, but need name/frame to be linked in that case.
+loadDatasheets(myLibrary, stateClassDefinition, project=1, name="STSim_StateLabelX")
+# DISCUSS: This was written in plural, but need name/frame to be linked in that case.
 
 # Update the values of an existing scenario datasheet (after the definitions have been added)
-myScenario = scenario(project=myProject, scenario=509)
-myDeterminisiticTransitionDataframe = datasheets(scenario=myScenario, name="STSim_DeterministicTransition")
-myDeterminisiticTransitionDataframe$AgeMin = c(50, 60, NA)    # change the AgeMin field for 3 rows - character to allow blanks
+scenarios(myProject,names=T)
+myScenario = scenario(myProject, id=1)
+myDeterminisiticTransitions = datasheet(myScenario, name="STSim_DeterministicTransition",optional=T)
+myDeterminisiticTransitions[1:3,"AgeMin"] = c(50, 60, NA)    # change the AgeMin field for 3 rows - character to allow blanks
+#NOTE CHANGE: this syntax preserves types and factor levels, and adds new rows if necessary.
 
-# Then save the updated scenario datasheet back to the library  - committed to db immediately
-result = loadDatasheets(myDeterminisiticTransitionDataframe, library=mySsimLibrary, scenario=myScenario, datasheets="STSim_DeterministicTransition")
+# Then save the updated scenario datasheet back to the library
+#loadDatasheets(myLibrary,myDeterminisiticTransitions, scenario=myScenario, name="STSim_DeterministicTransition")
+# NOTE: this fails because myDeterministicTransitions is not complete.
+# See commandLineTutorial for working example
 
 #################
 # Run
 # Run a scenario and return the results scenario  - note that it is up to user to save changes to db before running
-myResultsScenario = run(myScenario)
-myResultsScenario = run(scenario=509)    # run scenario by ID
-myResultsScenarios= run(myScenarios)  # Run a vector of scenarios (or a vector of IDs)  - skip this for now
+# See commandLineTutorial for working examples
+#myResultsScenario = run(myScenario)
+#myResultsScenario = run(scenario=509)    # run scenario by ID
+#myResultsScenarios= run(myScenarios)  # Run a vector of scenarios (or a vector of IDs)  - skip this for now
+
 
 # Get the output from the results scenario - note that only results scenarios have scenario output datafeeds
-myoutputDataframe = datasheets(scenario=myResultsScenario, name="STSim_OutputStratumState")
+#myoutputDataframe = datasheets(scenario=myResultsScenario, name="STSim_OutputStratumState")
 
 # Need to figure out how to deal with raster scenario datafeeds (both input and output)...
 
-# Not done.
-# To do:
-# - Project revisions: Safe modification of existing libraries?
-# - Parallel processing
-
-#*****************
-# To do:
-#*********************
-# - break points
 
 ####################
 # Other examples
 # Create a library called <model>.ssim in the current working directory.
+# devtools::document();devtools::load_all()
+
 myLib = ssimLibrary(model="stsim")
 session(myLib) # The SycroSim session
 filepath(myLib) # Path to the file on disk.
@@ -293,5 +293,6 @@ myLib = ssimLibrary(name="stsim",model="stsim")
 myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
 
 # Create or load a library using a specific session
-mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
+#mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
+mySession=session()
 myLib = ssimLibrary(name="stsim",session=mySession)

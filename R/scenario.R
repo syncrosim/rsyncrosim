@@ -245,6 +245,18 @@ setMethod('readOnly', signature(x="Scenario"), function(x) {
   return(x)
 })
 
+#' The parent scenario id of a SyncroSim Scenario.
+#'
+#' The id of the parent of a SyncroSim results scenario.
+#' 0 if x is not a results scenario.
+#'
+#' @param x A Scenario object.
+#' @export
+setGeneric('parentId',function(x) standardGeneric('parentId'))
+setMethod('parentId', signature(x="Scenario"), function(x) {
+  return(x@parentId)
+})
+
 
 #' The pid of a SyncroSim Scenario.
 #'

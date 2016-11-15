@@ -21,6 +21,7 @@
 .dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T){
   #colNames=c("name","description","version");
   #x=c("Property,Value","Size:,\"35,526 KB\"");csv=T;colNames=NULL;localNames=T
+  #x=tt;localNames=T
   if(is.null(colNames)){
     header=T
   }else{
@@ -35,8 +36,16 @@
     while(max(grepl("   ",x))){
       x = gsub("   ","  ",x)
     }
+    x = gsub("  ",",",x,fixed=T)
     con = textConnection(x)
-    out = read.csv(con,stringsAsFactors=F,header=header,sep="  ")
+    out = read.csv(con,stringsAsFactors=F,header=header,sep=",")
+    if(!is.null(colNames)){
+      lastName = names(out)[length(names(out))]
+      if((ncol(out)>length(colNames))&(sum(!is.na(out[[lastName]]))==0)){
+        out[[lastName]]=NULL
+      }
+      names(out)=colNames
+    }
     close(con)
   }
   if(localNames){

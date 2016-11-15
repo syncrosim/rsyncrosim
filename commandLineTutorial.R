@@ -178,26 +178,25 @@ myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 
 scenarios(myProject,names=T)
 
+# deleteScenarios(myProject,3,force=T)
+# myResults=scenarios(myProject,results=T)
 
 #********************************
 # See results
 #******************************
 # devtools::document();devtools::load_all()
-# deleteScenarios(myProject,3,force=T)
-# myResults=scenarios(myProject,results=T)
-
-# When given a list of Scenario objects, datasheet() binds over scenarios.
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
 str(outStates)
 unique(outStates$ScenarioParent)
 # NOTE: querying dependencies here is slow (1 database query per dependendency) but necessary -
-# Output table dependencies are IDs in the database, rather than labels. The same is not true for input tables.
+# Output table dependencies are IDs in the database, rather than labels - not true for input tables.
+# This would be much faster if the database held labels, rather than IDs
 #
 # NOTE CHANGE: can query multiple projects or scenarios - see ?datasheet for details.
 # Requires 1 database query and 1 console call, regardless of the number of scenarios included in myResults
 #
-# NOTE: We can also query the database more precisely.
-# The full output table in this small toy example is >400,000 record.
+# NOTE: We can also query the database more precisely to avoid load unecessary information.
+# This will help avoid trouble with very large tables. >400,000 records in this small example.
 sheetName = "STSim_OutputStratumState"
 varNames = names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
 varNames #see column names
@@ -219,7 +218,7 @@ library(ggplot2);library(plyr)
 # QUESTION: what to do about id() masking by plyr?
 
 #Example visualization - mean and 95% confidence bands for area in each state over time.
-outStatesSummary = ddply(check,.(Timestep,StateLabelXID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
 base = ggplot(outStatesSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
 base=base+facet_grid(StateLabelXID~ScenarioParent)+ theme_bw()
 base=base+ylab("area (acres)")
@@ -236,13 +235,18 @@ print(base)
 # TO DISCUSS
 #*********************
 # devtools::document();devtools::load_all()
-# NOTE: At present we depend on DBI and RSQLite (Wickham package)
+# NOTE: At present we depend on DBI and RSQLite (which is a Wickham package)
+
+# NOTE: To export a datasheet we query the database directly. Otherwise, we use the console.
 
 # DISCUSS: datasheets()
 # When is it necessary/desireable to load all datasheets?
-# Is minimal syntax (e.g. myDatasheets[["STSim_StateClass"]]) the main motivation?
-# If so, we could define a Datasheets object that contains datasheet names and info required for datasheet retreival (libraryPath/Session/scenarioIds/projectIds).
-# We could then overwrite names(), [[]], etc for the Datasheets object - [[]] would get the datasheet from SyncroSim.
+# Is minimal syntax (e.g. myDatasheets[["STSim_StateClass"]]) the main goal?
+# If so, we could define a Datasheets object that contains datasheet names and info required for retreival (libraryPath/Session/scenarioIds/projectIds).
+# We could then overwrite names(), [[]] to get list-like behaviour. [[]] would get the datasheet from SyncroSim.
+
+# DISCUSS: StochasticTime chart and map UI
+# What features do we need?
 
 showMethods(class="SSimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
 anotherProject = project(myLibrary,name="AnotherProject")
@@ -260,8 +264,8 @@ anotherProject = project(myLibrary,name="AnotherProject")
 #  - projects(): only SSimLibraries can contain more than one project.
 #  - scenarios(): only SSimLibraries and Projects can contain more than one scenario.
 #
-# And I am unsure what to do with these methods:
-#  - info() returns library info
+# And I am unsure about these methods:
+#  - info(): returns library info
 #  - session<-: When should users be allowed to change the version of SyncroSim they are using?
 
 myScenarios = scenarios(myProject) #returns list - names are scenario ids.
@@ -281,19 +285,23 @@ myScenario = scenario(myLibrary)
 
 # QUESTION: Default names for new projects and scenarios???
 
+myScenario=scenario(myProject,name="Harvest")
 # NOTE: To be consistent with project() I have used name/id in scenario().
 
+parentId(myScenario)
 # QUESTION: Should I disable assignment functions for result scenarios?
 
 # DISCUSS: What exactly is a datasheet object, and why do we need one?
 
-# DISCUSS datasheet(..,keepId=T): Why would we return a dataframe with IDs not factors?
-
 # DISCUSS addRow<-: should this be an assignment function or a normal function?
 
-# DISCUSS blanks and NA values in datasheets: I have
+# DISCUSS blanks and NA values in datasheets: I have handled the cases in this tutorial. What else gave you trouble?
+
 ################
 # TO DO:
+# - update()
+# - scenario(myLibrary): handle case with only one project
+# - datasheet(,keepId=T)
 # - get/set summary information (name,author,description,readOnly): Alex is working on this.
 # - handle raster datasheets (input and output)
 # - tests

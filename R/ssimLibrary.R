@@ -97,6 +97,9 @@ setMethod(f="initialize",signature="SSimLibrary",
     args = list(list=NULL,library=NULL,csv=NULL,lib=path)
     tt = command(args,session)
     tt = .dataframeFromSSim(tt)
+    if(ncol(tt)<2){
+      stop(command(args,session))
+    }
 
     if(!is.null(model)){
       expectedModule = modelOptions$name[modelOptions$shortName==model]
@@ -290,8 +293,8 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
 #' projects(myLibrary,names=T)
 #'
 #' @export
-setGeneric('deleteProjects',function(x,...) standardGeneric('deleteProjects'))
-setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project=NULL,...) {
+setGeneric('deleteProjects',function(x,project=NULL,force=F) standardGeneric('deleteProjects'))
+setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,force) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
   #project = "TempProject"
@@ -323,7 +326,11 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project=NULL,
       print(paste0("Cannot remove the project ",cProj," from the library because it does not exist."))
       next
     }
-    answer <- readline(prompt=paste0("Do you really want to delete project ",allProjects$name[allProjects$id==id],"(",id,")? (y/n): "))
+    if(force){
+      answer="y"
+    }else{
+      answer <- readline(prompt=paste0("Do you really want to delete project ",allProjects$name[allProjects$id==id],"(",id,")? (y/n): "))
+    }
     if(answer=="y"){
       outBit = command(list(delete=NULL,project=NULL,lib=.filepath(x),pid=id,force=NULL),.session(x))
     }else{
@@ -600,7 +607,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements) {
-  #x = myLibrary;project=NULL;scenario=c(5,6);name="STSim_OutputStratumState";optional=F;empty=F;dependsAsFactors=F;sqlStatements=mySQL
+  #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=F;empty=T;dependsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -747,11 +754,13 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
           dependLevels = dependSheet$Name
           if(is.numeric(sheet[[cRow$name]])){
-            dependMerge = subset(dependSheet,select=c(cRow$name,"Name"))
-            names(dependMerge) = c(cRow$name,"dependName")
-            sheet=merge(sheet,dependMerge, all.x=T)
-            sheet[[cRow$name]]=sheet$dependName
-            sheet$dependName=NULL
+            if(nrow(dependSheet)>0){
+              dependMerge = subset(dependSheet,select=c(cRow$name,"Name"))
+              names(dependMerge) = c(cRow$name,"dependName")
+              sheet=merge(sheet,dependMerge, all.x=T)
+              sheet[[cRow$name]]=sheet$dependName
+              sheet$dependName=NULL
+            }
           }
           sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=dependLevels)
           #TO DO: handle formula1/formula2
@@ -776,11 +785,12 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     }
     sheet = subset(sheet,select=outNames)
   }
-  if(nrow(sheet)>0){
-    if(is.element("ProjectID",names(sheet))){
-      if(length(pid)==1){
-        sheet$ProjectID = NULL
-      }else{
+
+  if(is.element("ProjectID",names(sheet))){
+    if(length(pid)==1){
+      sheet$ProjectID = NULL
+    }else{
+      if(nrow(sheet)>0){
         if(is.null(allProjects)){
           allProjects = projects(x,names=T)
         }
@@ -788,11 +798,13 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         sheet=merge(allProjects,sheet,all.y=T)
       }
     }
+  }
 
-    if(is.element("ScenarioID",names(sheet))){
-      if(length(sid)==1){
-        sheet$ScenarioID = NULL
-      }else{
+  if(is.element("ScenarioID",names(sheet))){
+    if(length(sid)==1){
+      sheet$ScenarioID = NULL
+    }else{
+      if(nrow(sheet)>0){
         if(is.null(allScns)){
           allScns = scenarios(x,names=T)
         }

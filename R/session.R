@@ -119,6 +119,7 @@ setMethod('version', signature(x="Session"), function(x) {return(command(list(ve
 #' @export
 setGeneric('modules',function(x) standardGeneric('modules'))
 setMethod('modules', signature(x="Session"), function(x) {
+  #x=mySsim
   tt = command(c("listmodules"),x,program="/SyncroSim.ModuleManager.exe")
   out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
   return(out)

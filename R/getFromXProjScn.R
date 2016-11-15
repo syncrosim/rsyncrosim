@@ -1,6 +1,6 @@
 #Internal helper - return uniquely identified and valid SyncroSim object
 .getFromXProjScn<-function(x,project=NULL,scenario=NULL){
-  #x=myLibrary
+  #x=myLibrary;scenario=myScenario
   #If x is scenario, ignore project and scenario arguments
   if(class(x)=="Scenario"){
     if(!is.null(scenario)){
@@ -22,7 +22,7 @@
 
   if(!is.null(scenario)){
     if(class(scenario)=="Scenario"){
-      return(Scenario)
+      return(scenario)
     }
     if(class(scenario)=="character"){
       return(.scenario(x,project,name=scenario))
