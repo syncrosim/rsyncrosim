@@ -6,18 +6,15 @@
 # Date 2016.11.10
 # **********************************************************
 # devtools::document();devtools::load_all()
-?datasheet
-# The working directory path and the name of the library you will create
-workingDir = "C:/Temp"
 
 #*************************************
 # Create the project definition
-myLibrary = ssimLibrary(model="stsim",name=paste0(workingDir,"/ST-Sim-Command-Line.ssim"))
+myLibrary = ssimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim")
 myProject = project(myLibrary,name="ST-Sim Demonstration")
-datasheets(myProject,names=T)
 
 #***********************************
 # Cover types and state classes
+datasheets(myProject,names=T)
 sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"Name"]="Entire Forest"
 loadDatasheets(myProject,mySheet,name=sheetName)
@@ -56,7 +53,6 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 # DISCUSS: dependencies. Is this enough? If not, what else is needed?
 # DISCUSS: special knowledge needed to construct Name here?
-# LOW PRIORITY: Defaults for primary and secondary strata?
 
 #***********************************
 # Transitions
@@ -84,8 +80,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # Add No Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,name="No Harvest")
-sheetNames = datasheets(myScenario,names=T)
-sheetNames$name[sheetNames$dataScope=="scenario"]
+datasheets(myScenario,names=T,scope="scenario")$name
 
 #**************
 # Run control
@@ -178,42 +173,59 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 # By default, returns a named list of result Scenario objects.
-# If onlyIds = TRUE (faster), returns result scenario ids instead of objects
+# If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
 # NOTE: jobs is passed through to SyncroSim which handles multithreading.
-# TO DO: break points etc.
 
 scenarios(myProject,names=T)
 
-# deleteScenarios(myProject,4,force=T)
 
 #********************************
 # See results
 #******************************
 # devtools::document();devtools::load_all()
+# deleteScenarios(myProject,3,force=T)
 # myResults=scenarios(myProject,results=T)
 
 # When given a list of Scenario objects, datasheet() binds over scenarios.
-outStates = datasheet(myResults,name="STSim_OutputStratumState",dependsAsFactors=F)
+outStates = datasheet(myResults,name="STSim_OutputStratumState")
 str(outStates)
 unique(outStates$ScenarioParent)
-outTransitions = datasheet(myResults,name="STSim_OutputStratumTransition",dependsAsFactors=F)
+# NOTE: querying dependencies here is slow (1 database query per dependendency) but necessary -
+# Output table dependencies are IDs in the database, rather than labels. The same is not true for input tables.
+#
 # NOTE CHANGE: can query multiple projects or scenarios - see ?datasheet for details.
 # Requires 1 database query and 1 console call, regardless of the number of scenarios included in myResults
+#
+# NOTE: We can also query the database more precisely.
+# The full output table in this small toy example is >400,000 record.
+sheetName = "STSim_OutputStratumState"
+varNames = names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
+varNames #see column names
+mySQL = sqlStatements(varNames,drop=c("AgeMin","AgeMax","AgeClass"),aggregate=c("Amount"))
+mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite. Adventuruous users can get creative.
+outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
+str(outStatesAllAges)
 
-# DISCUSS: to what extent (if any) do we want to reimplement ggplot2/plyr functionality for summarizing and visualizing output?
+sheetName = "STSim_OutputStratumTransition"
+varNames = names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
+mySQL = sqlStatements(varNames,drop=c("AgeMin","AgeMax","AgeClass"),aggregate=c("Amount"))
+outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
+str(outTransitionsAllAges)
+
+# NOTE: In the following example I use existing R tools (ggplot2/plyr) to visualize the output.
+# DISCUSS: What (if any) summary/visualization functions do we need in rsyncrosim?
 # install.packages("ggplot2");install.packages("plyr")
 library(ggplot2);library(plyr)
+# QUESTION: what to do about id() masking by plyr?
 
 #Example visualization - mean and 95% confidence bands for area in each state over time.
-outStatesAllAges = ddply(outStates,.(Timestep,StateLabelXID,ScenarioParent,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
-outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+outStatesSummary = ddply(check,.(Timestep,StateLabelXID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
 base = ggplot(outStatesSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
 base=base+facet_grid(StateLabelXID~ScenarioParent)+ theme_bw()
 base=base+ylab("area (acres)")
 print(base)
 
 #Example visualization - mean and 95% confidence bands for transitions over time.
-outTransitionsAllAges = ddply(outTransitions,.(Timestep,TransitionGroupID,ScenarioParent,Iteration),summarize,Amount=sum(Amount)) #summarize over ages
 outTransitionsSummary = ddply(outTransitionsAllAges,.(Timestep,TransitionGroupID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
 base = ggplot(outTransitionsSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
 base=base+facet_grid(TransitionGroupID~ScenarioParent,scales="free_y")+ theme_bw()
@@ -221,11 +233,16 @@ base=base+ylab("area (acres)")
 print(base)
 
 #*********************
-# For information and discussion:
+# TO DISCUSS
 #*********************
 # devtools::document();devtools::load_all()
-# NOTE: dependencies are DBI and RSQLite (Wickham package)
+# NOTE: At present we depend on DBI and RSQLite (Wickham package)
+
 # DISCUSS: datasheets()
+# When is it necessary/desireable to load all datasheets?
+# Is minimal syntax (e.g. myDatasheets[["STSim_StateClass"]]) the main motivation?
+# If so, we could define a Datasheets object that contains datasheet names and info required for datasheet retreival (libraryPath/Session/scenarioIds/projectIds).
+# We could then overwrite names(), [[]], etc for the Datasheets object - [[]] would get the datasheet from SyncroSim.
 
 showMethods(class="SSimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
 anotherProject = project(myLibrary,name="AnotherProject")
@@ -253,7 +270,7 @@ names(myScenarios)
 
 deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
 # QUESTION: Do we want to be consistent about "project" vs "projects" here?
-# QUESTION: consistency with enable/disableAddons? Assignment operators.
+# QUESTION: consistency with enable/disableAddons? When should I use assignment operators?
 # QUESTION: generic delete method?
 
 myScenario = scenario(myLibrary)
@@ -272,8 +289,9 @@ myScenario = scenario(myLibrary)
 
 # DISCUSS datasheet(..,keepId=T): Why would we return a dataframe with IDs not factors?
 
-# addRow<-: should this be an assignment function or a normal function?
+# DISCUSS addRow<-: should this be an assignment function or a normal function?
 
+# DISCUSS blanks and NA values in datasheets: I have
 ################
 # TO DO:
 # - get/set summary information (name,author,description,readOnly): Alex is working on this.
@@ -283,6 +301,7 @@ myScenario = scenario(myLibrary)
 # - Project revisions: Safe modification of existing libraries?
 # - break points
 # - help/documentation
+# - ??
 
 ###############
 # LOW PRIORITY
@@ -291,3 +310,4 @@ myScenario = scenario(myLibrary)
 # LATER: Create own model from scratch in R. Inputs, output and calculations
 # Backup and restore libraries.
 # LOW PRIORITY - datafeeds
+# LOW PRIORITY: Defaults for primary and secondary strata in STSim models?

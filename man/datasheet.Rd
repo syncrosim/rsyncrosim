@@ -5,7 +5,8 @@
 \title{Get a datasheet}
 \usage{
 datasheet(x, name, project = NULL, scenario = NULL, optional = F,
-  empty = F, dependsAsFactors = T)
+  empty = F, dependsAsFactors = T, sqlStatements = list(select =
+  "SELECT *", groupBy = ""))
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.}
@@ -21,6 +22,8 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
 \item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
 
 \item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
+
+\item{sqlStatements}{SELECT and GROUP BY SQL statements passed to SQLite database.}
 }
 \value{
 A dataframe representing a SyncroSim datasheet.

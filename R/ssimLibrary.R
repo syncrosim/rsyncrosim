@@ -561,7 +561,7 @@ setReplaceMethod(
   }
 )
 
-setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors,addScenario) {
+setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=F;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
@@ -599,8 +599,8 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
-  #x = myScenario;project=NULL;scenario=NULL;name="STSim_Transition";optional=T;empty=T;dependsAsFactors=T
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements) {
+  #x = myLibrary;project=NULL;scenario=c(5,6);name="STSim_OutputStratumState";optional=F;empty=F;dependsAsFactors=F;sqlStatements=mySQL
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -636,6 +636,9 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     pid=NULL
     if(class(x)=="Scenario"){pid=.pid(x)}
     if(class(x)=="Project"){pid=.id(x)}
+    if((class(x)=="SSimLibrary")&(length(scenario)>0)){
+
+    }
   }
 
   rmId = strsplit(name,"_")[[1]][2]
@@ -651,32 +654,36 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     drv = DBI::dbDriver('SQLite')
     con = DBI::dbConnect(drv,.filepath(x))
     fields = DBI::dbListFields(con,name)
-    if(length(intersect(fields,c("ScenarioID","ProjectID")))==0){
-      sheet = DBI::dbReadTable(con, name)
-    }
+
+    sqlStatements$where = ""
+    sqlStatements$from = paste("FROM",name)
     if(is.element("ScenarioID",fields)){
       if(is.null(sid)){
         stop("Specify a scenario.")
       }else{
         #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
         #and http://www.sqlitetutorial.net/sqlite-in/
-        sql = paste0("SELECT * FROM ",name," WHERE ScenarioID IN (",paste(sid,collapse=","),")")
-        sheet = DBI::dbGetQuery(con,sql)
+        sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
       }
     }
     if(is.element("ProjectID",fields)){
       if(is.null(pid)){
         stop("Specify a project.")
       }else{
-        sql = paste0("SELECT * FROM ",name," WHERE ProjectID IN (",paste(pid,collapse=","),")")
-        sheet = DBI::dbGetQuery(con,sql)
+        sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
       }
     }
+    #  sheet = DBI::dbReadTable(con, name)
+    sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+    #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+    sheet = DBI::dbGetQuery(con,sql)
     DBI::dbDisconnect(con)
   }else{
     sheet=data.frame(temp=NA)
   }
-
+  if(nrow(sheet)>0){
+    sheet[sheet==""]=NA
+  }
   if(empty|dependsAsFactors){
     tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
     sheetInfo = .dataframeFromSSim(tt)
@@ -695,12 +702,18 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       sheet[1,1]=NA
     }
 
+    outNames = c()
     for(i in seq(length.out=nrow(sheetInfo))){
-      #i =2
+      #i =4
       cRow = sheetInfo[i,]
       if(!is.element(cRow$name,colnames(sheet))){
-        sheet[[cRow$name]] = NA
+        if(sqlStatements$select=="SELECT *"){
+          sheet[[cRow$name]] = NA
+        }else{
+          next
+        }
       }
+      outNames = c(outNames,cRow$name)
       if((is.element(cRow$type,c("Integer","Double","Single")))&(cRow$valType!="DataSheet")){
         sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
       }
@@ -717,11 +730,29 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         if(dependsAsFactors){
           #if a number, ignore - SyncroSim will do the checking
           #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
-          dependSheet = datasheet(x,project,scenario,name=cRow$formula1,dependsAsFactors=F)
-          if((nrow(dependSheet)==0)&(cRow$optional=="No")){
-            warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
+          if(identical(pid,NULL)&!identical(sid,NULL)){
+            if(is.null(allScns)){
+              allScns = scenarios(x,names=T)
+            }
+            findPrjs = allScns$pid[is.element(allScns$id,sid)]
+          }else{
+            findPrjs = pid
           }
+          dependSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,dependsAsFactors=F)
+          if((nrow(dependSheet)==0)&(cRow$optional=="No")){
+            if(!grepl("Output",name)){
+              warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
+            }
+          }
+
           dependLevels = dependSheet$Name
+          if(is.numeric(sheet[[cRow$name]])){
+            dependMerge = subset(dependSheet,select=c(cRow$name,"Name"))
+            names(dependMerge) = c(cRow$name,"dependName")
+            sheet=merge(sheet,dependMerge, all.x=T)
+            sheet[[cRow$name]]=sheet$dependName
+            sheet$dependName=NULL
+          }
           sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=dependLevels)
           #TO DO: handle formula1/formula2
         }else{
@@ -743,34 +774,34 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       sheet=subset(sheet,!is.na(colOne))
       sheet = sheet[order(sheet$cOrder),]
     }
-    sheet = subset(sheet,select=sheetInfo$name)
+    sheet = subset(sheet,select=outNames)
   }
-  if(is.element("ProjectID",names(sheet))){
-    if(length(pid)==1){
-      sheet$ProjectID = NULL
-    }else{
-      if(is.null(allProjects)){
-        allProjects = projects(x,names=T)
+  if(nrow(sheet)>0){
+    if(is.element("ProjectID",names(sheet))){
+      if(length(pid)==1){
+        sheet$ProjectID = NULL
+      }else{
+        if(is.null(allProjects)){
+          allProjects = projects(x,names=T)
+        }
+        names(allProjects) = c("ProjectID","ProjectName")
+        sheet=merge(allProjects,sheet,all.y=T)
       }
-      names(allProjects) = c("ProjectID","ProjectName")
-      sheet=merge(allProjects,sheet,all.y=T)
-      ?merge
+    }
+
+    if(is.element("ScenarioID",names(sheet))){
+      if(length(sid)==1){
+        sheet$ScenarioID = NULL
+      }else{
+        if(is.null(allScns)){
+          allScns = scenarios(x,names=T)
+        }
+        allScns$isResult=NULL
+        names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
+        sheet=merge(allScns,sheet,all.Y=T)
+      }
     }
   }
-
-  if(is.element("ScenarioID",names(sheet))){
-    if(length(sid)==1){
-      sheet$ScenarioID = NULL
-    }else{
-      if(is.null(allScns)){
-        allScns = scenarios(x,names=T)
-      }
-      allScns$isResult=NULL
-      names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
-      sheet=merge(allScns,sheet,all.Y=T)
-    }
-  }
-
   return(sheet)
 })
 
@@ -797,11 +828,11 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
     #i=1
     cName = names(data)[i]
     cDat = data[[cName]]
-    for(i in seq(length.out=nrow(cDat))){
-      if(is.factor(cDat[[i]])){cDat[[i]]=as.character(cDat[[i]])}
-      if(is.logical(cDat[[i]])){
-        inCol = cDat[[i]]
-        cDat[[i]][inCol]=-1;cDat[[i]][!inCol]=0
+    for(j in seq(length.out=ncol(cDat))){
+      if(is.factor(cDat[[j]])){cDat[[j]]=as.character(cDat[[j]])}
+      if(is.logical(cDat[[j]])){
+        inCol = cDat[[j]]
+        cDat[[j]][inCol]=-1;cDat[[j]][!inCol]=0
       }
     }
     cDat[is.na(cDat)]=""

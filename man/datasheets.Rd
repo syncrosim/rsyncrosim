@@ -5,8 +5,7 @@
 \title{datasheets}
 \usage{
 datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
-  optional = F, empty = F, sheetNames = NULL, dependsAsFactors = T,
-  addScenario = F)
+  optional = F, empty = F, sheetNames = NULL, dependsAsFactors = T)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.}
@@ -26,8 +25,6 @@ datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
 \item{sheetNames}{Output from datasheets(). Set to speed calculation or load a subset of datasheets.}
 
 \item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
-
-\item{addScenario}{FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.}
 }
 \value{
 A dataframe of datasheet names, or list of datasheets represented by dataframes.

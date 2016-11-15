@@ -29,6 +29,7 @@ Collate:
     'fullFilename.R'
     'getFromXProjScn.R'
     'internalHelpers.R'
+    'sqlStatements.R'
     'session.R'
     'ssimLibrary.R'
     'project.R'

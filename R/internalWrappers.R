@@ -5,6 +5,7 @@
 #' @include ssimLibrary.R
 #' @include project.R
 #' @include scenario.R
+#' @include sqlStatements.R
 NULL
 #' @export
 .ssimLibrary=ssimLibrary
@@ -32,5 +33,7 @@ NULL
 .name=name
 #' @export
 .datasheets=datasheets
+#' @export
+.sqlStatements=sqlStatements
 
 

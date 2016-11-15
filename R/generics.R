@@ -110,21 +110,20 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
 #' @param sheetNames Output from datasheets(). Set to speed calculation or load a subset of datasheets.
 #' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
-#' @param addScenario FALSE by default. If TRUE adds a column with the scenario name. Useful for comparing output from different scenarios.
 #' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
 #' @examples
 #'
 #' @export
-setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T,addScenario=F) standardGeneric('datasheets'))
+setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T) standardGeneric('datasheets'))
 #' definitions
 #'
 #' Alias for \code{\link{datasheets}} function
 #' @export
 definitions=datasheets
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors,addScenario) {
+setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheets(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors,addScenario)
+  out = .datasheets(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors)
   return(out)
 })
 
@@ -150,20 +149,21 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
 #' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
+#' @param sqlStatements SELECT and GROUP BY SQL statements passed to SQLite database.
 #' @return A dataframe representing a SyncroSim datasheet.
 #' @examples
 #'
 #' @export
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,dependsAsFactors=T) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,dependsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy="")) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name,project,scenario,optional,empty,dependsAsFactors)
+  out = .datasheet(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements)
   return(out)
 })
 
 #Handles case where x is list of Scenario or Project objects
-setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,dependsAsFactors) {
+setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements) {
   project = c();scenario=c()
   for(i in seq(length.out=length(x))){
     cScn = x[[i]]
@@ -178,7 +178,7 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
       project=c(project,.id(cScn))
     }
   }
-  out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,dependsAsFactors)
+  out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,dependsAsFactors,sqlStatements)
   return(out)
 })
 
