@@ -3,7 +3,7 @@
 # Following the steps in Leo's PowerShell script using rsyncrosim.
 # **********************************************************
 # Author Josie Hughes, ApexRMS
-# Date 2016.11.10
+# Date 2016.11.15
 # **********************************************************
 # devtools::document();devtools::load_all()
 
@@ -195,19 +195,18 @@ unique(outStates$ScenarioParent)
 # NOTE CHANGE: can query multiple projects or scenarios - see ?datasheet for details.
 # Requires 1 database query and 1 console call, regardless of the number of scenarios included in myResults
 #
-# NOTE: We can also query the database more precisely to avoid load unecessary information.
+# NOTE: We can also query the database more precisely to avoid pulling unecessary information.
 # This will help avoid trouble with very large tables. >400,000 records in this small example.
 sheetName = "STSim_OutputStratumState"
-varNames = names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
-varNames #see column names
-mySQL = sqlStatements(varNames,drop=c("AgeMin","AgeMax","AgeClass"),aggregate=c("Amount"))
+names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
+mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"))
 mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite. Adventuruous users can get creative.
 outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
-str(outStatesAllAges)
+str(outStatesAllAges) #Much faster because fewer dependencies and fewer records.
 
 sheetName = "STSim_OutputStratumTransition"
-varNames = names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
-mySQL = sqlStatements(varNames,drop=c("AgeMin","AgeMax","AgeClass"),aggregate=c("Amount"))
+names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
+mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","TransitionGroupID"),aggregate=c("Amount"))
 outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
 str(outTransitionsAllAges)
 
@@ -277,12 +276,6 @@ deleteProjects(myLibrary, project="My new project name") # Returns a list of "Su
 # QUESTION: consistency with enable/disableAddons? When should I use assignment operators?
 # QUESTION: generic delete method?
 
-myScenario = scenario(myLibrary)
-# QUESTION: In what cases do we want this to work?
-# At present a project is required to create a scenario
-# Ideas: if no project, create project/scenario?
-# Fail if more than one project.
-
 # QUESTION: Default names for new projects and scenarios???
 
 myScenario=scenario(myProject,name="Harvest")
@@ -299,8 +292,6 @@ parentId(myScenario)
 
 ################
 # TO DO:
-# - update()
-# - scenario(myLibrary): handle case with only one project
 # - datasheet(,keepId=T)
 # - get/set summary information (name,author,description,readOnly): Alex is working on this.
 # - handle raster datasheets (input and output)

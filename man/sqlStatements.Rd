@@ -4,17 +4,14 @@
 \alias{sqlStatements}
 \title{Get SELECT and GROUP BY Statements}
 \usage{
-sqlStatements(varNames, drop = NULL, aggregate = NULL,
-  aggregateFunction = "SUM")
+sqlStatements(groupBy = NULL, aggregate = NULL, aggregateFunction = "SUM")
 }
 \arguments{
-\item{varNames}{Vector of all variables.}
+\item{groupBy}{Vector of variables to GROUP BY.}
+
+\item{aggregate}{Vector of variables to aggregate using aggregateFunction}
 
 \item{aggregateFunction}{An SQL aggregate function (e.g. SUM, COUNT)}
-
-\item{groupVariables}{Vector of variables to GROUP BY.}
-
-\item{aggregateVariables}{Vector of variables to aggregate using aggregateFunction}
 }
 \value{
 A list of SQL SELECT and GROUP BY statements.
@@ -22,5 +19,6 @@ A list of SQL SELECT and GROUP BY statements.
 \description{
 Creates SELECT and GROUP BY SQL Satements.
 Variables are column names.
+Variables not included in groupBy or aggregate will be dropped from the table.
 }
 

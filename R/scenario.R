@@ -25,8 +25,8 @@ Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="nume
 # @rdname Scenario-class
 setMethod(f="initialize",signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL){
-    #ssimLibrary = myProject  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id=8;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
+    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    # id=NULL;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
     if(is.character(id)){id = as.numeric(id)}
 
     .Object@parentId = 0
@@ -67,6 +67,7 @@ setMethod(f="initialize",signature="Scenario",
       cPid = as.character(pid)
       findScn = subset(findScn,pid==cPid)
     }
+    cProjects=NULL
     if((nrow(findScn)!=1)&&(class(pid)=="character")){
       cProjects = projects(x,names=T)
       findProject = subset(cProjects,name==project)
@@ -124,12 +125,21 @@ setMethod(f="initialize",signature="Scenario",
         if(!create){
           stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project and set create=T to create a new scenario."))
         }
-        stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project to create a new scenario."))
+        if(is.null(cProjects)){
+          cProjects = projects(x,names=T)
+        }
+        if(nrow(cProjects)>1){
+          stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project to create a new scenario."))
+        }else{
+          x = project(x)
+        }
       }
       if(nrow(findScn)>1){
         stop(paste0("More than one scenario was identified. Please provide more information. See scenarios(x,names=T) for options."))
       }
-      stop("Something is wrong. Can't identify a unique existing scenario, and need a project to create a new scenario")
+      if(class(x)!="Project"){
+        stop("Something is wrong. Can't identify a unique existing scenario, and need a project to create a new scenario")
+      }
     }
 
     #Now assume we have a project, and are permitted to create a new scenario

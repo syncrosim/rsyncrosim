@@ -6,21 +6,20 @@
 #'
 #' Creates SELECT and GROUP BY SQL Satements.
 #' Variables are column names.
+#' Variables not included in groupBy or aggregate will be dropped from the table.
 #'
-#' @param varNames Vector of all variables.
-#' @param groupVariables Vector of variables to GROUP BY.
-#' @param aggregateVariables Vector of variables to aggregate using aggregateFunction
+#' @param groupBy Vector of variables to GROUP BY.
+#' @param aggregate Vector of variables to aggregate using aggregateFunction
 #' @param aggregateFunction An SQL aggregate function (e.g. SUM, COUNT)
 #' @return A list of SQL SELECT and GROUP BY statements.
 #' @export
-sqlStatements<-function(varNames,drop=NULL,aggregate=NULL,aggregateFunction="SUM"){
-  selectVariables = setdiff(varNames,c(aggregate,drop))
-  selectSQL = paste0("SELECT ",paste(selectVariables,collapse=","))
+sqlStatements<-function(groupBy=NULL,aggregate=NULL,aggregateFunction="SUM"){
+  selectSQL = paste0("SELECT ",paste(groupBy,collapse=","))
   if(!is.null(aggregate)){
     selectSQL=paste0(selectSQL,",",paste(paste0(aggregateFunction,"(",aggregate,") AS ",aggregate),collapse=","))
   }
   if(!is.null(aggregate)){
-    groupBySQL = paste0("GROUP BY ",paste(selectVariables,collapse=","))
+    groupBySQL = paste0("GROUP BY ",paste(groupBy,collapse=","))
   }else{
     groupBySQL = ""
   }

@@ -243,6 +243,21 @@ setReplaceMethod(
   }
 )
 
+#' Apply updates.
+#'
+#' Apply updates to a SyncroSim Library.
+#'
+#' @param x An SSimLibrary object, or a Project or Scenario associated with a Library
+#' @return Success or a failure message from the console.
+#' @export
+setGeneric('update',function(x,...) standardGeneric('update'))
+setMethod('update', signature(x="SSimLibrary"), function(x) {
+  #x= myLibrary
+  command(c("update","help"),.session(x))
+  tt = command(list(update=NULL,lib=.filepath(x)))
+  return(tt[1])
+})
+
 #' The projects in a SyncroSim library.
 #'
 #' Get a list of projects in a SyncroSim library.

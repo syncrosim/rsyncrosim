@@ -54,7 +54,6 @@ addons(myLibrary,all=T)
 addons(myLibrary)
 myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim", addons=c("stsim-ecological-departure"))
 addons(myLibrary)
-#TO DO: apply updates to a library from the command line.
 
 myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
 
@@ -72,6 +71,7 @@ enableAddons(myLibrary) = c("stsim-stock-flow")
 addons(myLibrary)
 disableAddons(myLibrary) = c("stsim-ecological-departure", "stsim-stock-flow")
 addons(myLibrary)
+update(myLibrary)
 
 # Backup a library (with various options) - skip this for now
 #backup(myLibrary)
@@ -115,15 +115,12 @@ deleteProjects(myLibrary, project=c(25),force=T)
 # Scenarios
 # devtools::document();devtools::load_all()
 # Get a named list of Scenario objects
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
+myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary3.ssim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 name(myProject)
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary)
-# QUESTION: In what cases do we want this to work?
-# At present a project is required to create a scenario
-# Ideas: if no project, create project/scenario?
-# Fail if more than one project.
+# NOTE: this works only if there is <= 1 project in Library.
 myScenario = scenario(myProject) #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary,project="My new project name") #Will create project if necessary
