@@ -197,7 +197,7 @@ myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a 
 #myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
 #myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
 # DISCUSS: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
-# A console call is also required for each dependency, so the default datasheet() can be slow.
+# A database query is also required for each dependency, so the default datasheet() can be slow.
 # datasheets(myScenario,names=F) is very slow because there are a lot of scenario datasheets.
 # Setting empty=T eliminates the database query.
 # Setting stringsAsFactors=T eliminates the console call.

@@ -17,19 +17,21 @@ myProject = project(myLibrary,name="ST-Sim Demonstration")
 datasheets(myProject,names=T)
 sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"Name"]="Entire Forest"
+#NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
 loadDatasheets(myProject,mySheet,name=sheetName)
 # NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 #
 # NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
-# A console call is also required for each dependency, so the default datasheet() can be slow.
+# A database query is also required for each dependency, so the default datasheet() can be slow.
 # Setting empty=T eliminates the database query.
 # Setting stringsAsFactors=T eliminates the console call.
-# Getting a datasheet for multiple scenarios or projects requires only 1 extra console call.
-# Do we need more options for speeding the process?
+# Retrieval of output datasheets can be sped up by querying multiple scenarios (1 extra console call),
+# and only querying necessary information (using SELECT and GROUP BY sql statements).
+# See examples below.
 
-# Warns if dependencies are not loaded, and return a factor with 0 levels
+# Warns if dependencies are not loaded, and returns a factor with 0 levels
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
 
@@ -52,7 +54,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 #mySheet = datasheet(myProject,name=sheetName);str(mySheet)
 
 # DISCUSS: dependencies. Is this enough? If not, what else is needed?
-# DISCUSS: special knowledge needed to construct Name here?
+# NOTE: special knowledge needed to construct Name here.
 
 #***********************************
 # Transitions
@@ -80,6 +82,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # Add No Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,name="No Harvest")
+# NOTE: To be consistent with project() I have used name/id in scenario().
 datasheets(myScenario,names=T,scope="scenario")$name
 
 #**************
@@ -106,6 +109,7 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 # mySheet = datasheet(myScenario,name=sheetName,optional=T); str(mySheet) #check what happened
 # addRows() checks validity of column names and factor levels.
 # addRows() fills missing values using factor levels where possible.
+# DISCUSS addRow<-: should this be an assignment function or a normal function?
 
 #*************************
 # Probabilistic transitions
@@ -156,7 +160,7 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 # devtools::document();devtools::load_all()
 # deleteScenarios(myProject,"Harvest",force=T)
 myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
-# Copy "No Harvest" scenario to new "Harvest" scenario
+# Copies "No Harvest" scenario to new "Harvest" scenario
 
 #******************
 # Transition targets
@@ -174,7 +178,7 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 # By default, returns a named list of result Scenario objects.
 # If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
-# NOTE: jobs is passed through to SyncroSim which handles multithreading.
+# NOTE: jobs is passed through to SyncroSim which handles multithreading. (?)
 
 scenarios(myProject,names=T)
 
@@ -190,19 +194,19 @@ str(outStates)
 unique(outStates$ScenarioParent)
 # NOTE: querying dependencies here is slow (1 database query per dependendency) but necessary -
 # Output table dependencies are IDs in the database, rather than labels - not true for input tables.
-# This would be much faster if the database held labels, rather than IDs
+# How should we handle this difference?
 #
-# NOTE CHANGE: can query multiple projects or scenarios - see ?datasheet for details.
+# NOTE: can query multiple projects or scenarios - see ?datasheet for details.
 # Requires 1 database query and 1 console call, regardless of the number of scenarios included in myResults
 #
 # NOTE: We can also query the database more precisely to avoid pulling unecessary information.
-# This will help avoid trouble with very large tables. >400,000 records in this small example.
+# There are >400,000 records in this small example.
 sheetName = "STSim_OutputStratumState"
-names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
+names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting data
 mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"))
-mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite. Adventuruous users can get creative.
+mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite.
 outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
-str(outStatesAllAges) #Much faster because fewer dependencies and fewer records.
+str(outStatesAllAges) #Much faster: fewer dependencies and fewer records.
 
 sheetName = "STSim_OutputStratumTransition"
 names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
@@ -244,9 +248,6 @@ print(base)
 # If so, we could define a Datasheets object that contains datasheet names and info required for retreival (libraryPath/Session/scenarioIds/projectIds).
 # We could then overwrite names(), [[]] to get list-like behaviour. [[]] would get the datasheet from SyncroSim.
 
-# DISCUSS: StochasticTime chart and map UI
-# What features do we need?
-
 showMethods(class="SSimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
 anotherProject = project(myLibrary,name="AnotherProject")
 # DISCUSS: Inheritance
@@ -269,7 +270,7 @@ anotherProject = project(myLibrary,name="AnotherProject")
 
 myScenarios = scenarios(myProject) #returns list - names are scenario ids.
 names(myScenarios)
-# DISCUSS: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
+# NOTE: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
 
 deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
 # QUESTION: Do we want to be consistent about "project" vs "projects" here?
@@ -278,25 +279,22 @@ deleteProjects(myLibrary, project="My new project name") # Returns a list of "Su
 
 # QUESTION: Default names for new projects and scenarios???
 
-myScenario=scenario(myProject,name="Harvest")
-# NOTE: To be consistent with project() I have used name/id in scenario().
-
 parentId(myScenario)
 # QUESTION: Should I disable assignment functions for result scenarios?
 
+# DISCUSS blanks and NA values in datasheets: I have handled the cases in this tutorial. What else gave you trouble?
+
 # DISCUSS: What exactly is a datasheet object, and why do we need one?
 
-# DISCUSS addRow<-: should this be an assignment function or a normal function?
-
-# DISCUSS blanks and NA values in datasheets: I have handled the cases in this tutorial. What else gave you trouble?
+# DISCUSS: StochasticTime chart and map UI - What features do we need?
 
 ################
 # TO DO:
 # - datasheet(,keepId=T)
 # - get/set summary information (name,author,description,readOnly): Alex is working on this.
 # - handle raster datasheets (input and output)
-# - tests
-# - bigger data example.
+# - formal tests
+# - bigger data example?
 # - Project revisions: Safe modification of existing libraries?
 # - break points
 # - help/documentation
