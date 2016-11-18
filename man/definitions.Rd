@@ -5,7 +5,7 @@
 \title{definitions}
 \usage{
 datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
-  optional = F, empty = F, sheetNames = NULL, lookupsAsFactors = T)
+  optional = F, empty = F, lookupsAsFactors = T, refresh = F)
 }
 \description{
 Alias for \code{\link{datasheets}} function

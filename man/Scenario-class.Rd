@@ -15,6 +15,8 @@
 
 \item{\code{filepath}}{The path to the library on disk.}
 
+\item{\code{datasheetNames}}{Names and scope of all datasheets in library.}
+
 \item{\code{pid}}{The project id.}
 
 \item{\code{name}}{The scenario name.}

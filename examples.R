@@ -192,7 +192,7 @@ myScenario = scenario(myLibrary,id=1)
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 myProjectDataframes = datasheets(myLibrary, project=1, names=F) # A named list of all the project and library datasheets for project id 2.
 #myScenarioDataframes = datasheets(myScenario,names=F) #This takes a long time to run - so don't.
-myProjectSheetNames = datasheets("C:/Temp/NewLibrary.ssim", project=1, names=T,scope="project") # A dataframe of datasheet names for project id 1.
+myProjectSheetNames = datasheets("C:/Temp/NewLibrary.ssim", project=1,scope="project") # A dataframe of datasheet names for project id 1.
 myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a single dataframe
 #myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
 #myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
@@ -200,7 +200,7 @@ myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a 
 # A database query is also required for each lookup, so the default datasheet() can be slow.
 # datasheets(myScenario,names=F) is very slow because there are a lot of scenario datasheets.
 # Setting empty=T eliminates the database query.
-# Setting stringsAsFactors=T eliminates the console call.
+# Setting lookupsAsFactors=T eliminates the console call.
 # Getting a datasheet for multiple scenarios or projects requires only 1 extra console call.
 # Even so datasheets() slow.
 

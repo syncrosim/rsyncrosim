@@ -23,15 +23,16 @@ NULL
 #'
 #' @slot session The SyncroSim session.
 #' @slot filepath The path to the library on disk.
+#' @slot datasheetNames The names and scope of all datasheets in the library. Used to speed calculations.
 #' @name SSimLibrary-class
 #' @rdname SSimLibrary-class
 #' @export SSimLibrary
-SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath="character"))
+SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath="character",datasheetNames="data.frame"))
 # @name SSimLibrary
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
     definition=function(.Object,model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T){
-    #model="stsim";name="C:/Temp/NewLibrary.ssim";session=mySsim;backup=F;backupName="backup";backupOverwrite=T;addons=c("stsim-ecological-departure")
+    #model=NULL;name=.filepath(cScn);session=mySsim;backup=F;backupName="backup";backupOverwrite=T;addons=c("stsim-ecological-departure")
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
@@ -124,8 +125,15 @@ setMethod(f="initialize",signature="SSimLibrary",
       }
     }
 
+    tt=command(c("list","datasheets","csv",paste0("lib=",path)),session)
+    datasheets = .dataframeFromSSim(tt)
+    datasheets$dataScope = sapply(datasheets$dataScope,camel)
+    names(datasheets) = c("name","displayName","dataScope")
+    datasheets$isOutput = grepl("utput",datasheets$name)
+
     .Object@session=session
     .Object@filepath=path
+    .Object@datasheetNames=datasheets
     return(.Object)
   }
 )
@@ -535,6 +543,7 @@ setReplaceMethod(
       if(!identical(tt,"Success!")){print(paste(tt[1],cVal))}
     }
 
+    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
     return (x)
   }
 )
@@ -579,24 +588,28 @@ setReplaceMethod(
       if(!identical(tt,"Success!")){print(paste(tt[1],cVal))}
     }
 
+    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
     return (x)
   }
 )
 
-setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,sheetNames,lookupsAsFactors) {
+setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=F;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
   #command(c("export","datasheet","help"),.session(myLibrary))
   #Get datasheet dataframe
-  if(!is.null(sheetNames)){
-    datasheets=sheetNames
+  if(!refresh){
+    datasheets=x@datasheetNames
   }else{
     tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
     datasheets = .dataframeFromSSim(tt)
     datasheets$dataScope = sapply(datasheets$dataScope,camel)
     names(datasheets) = c("name","displayName","dataScope")
-    sheetNames=datasheets
+    datasheets$isOutput = grepl("utput",datasheets$name)
+  }
+  if(!is.null(scope)&&(scope=="all")){
+    return(datasheets)
   }
   if(is.element(class(x),c("Project","SSimLibrary"))){
     datasheets = subset(datasheets,dataScope!="scenario")
@@ -623,7 +636,8 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=F;empty=T;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+  #x = myResults[[1]];project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=F;empty=F;lookupsAsFactors=F;sqlStatements=list(select="SELECT *",groupBy="")
+
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -660,7 +674,6 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     if(class(x)=="Scenario"){pid=.pid(x)}
     if(class(x)=="Project"){pid=.id(x)}
     if((class(x)=="SSimLibrary")&(length(scenario)>0)){
-
     }
   }
 
@@ -670,37 +683,79 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
 
   if(!empty){
-    #try to load directly from the database
-    # Connect to the ssim database
-    #install.packages("RSQLite");library(RSQLite)
-    #x=myLibrary;name="STSim_OutputStratumState";sid=c(6)
-    drv = DBI::dbDriver('SQLite')
-    con = DBI::dbConnect(drv,.filepath(x))
-    fields = DBI::dbListFields(con,name)
+    #Only query database if output
+    cName = name
+    datasheetNames = .datasheets(x,scope="all")
+    sheetInfo= subset(datasheetNames,name==cName)
+    if(nrow(sheetInfo)==0){
+      datasheetNames = .datasheets(x,scope="all",refresh=T)
+      sheetInfo= subset(datasheetNames,name==cName)
+      if(nrow(sheetInfo)==0){
+        stop("Datasheet ",name," not found in library.")
+      }
+    }
 
-    sqlStatements$where = ""
-    sqlStatements$from = paste("FROM",name)
-    if(is.element("ScenarioID",fields)){
-      if(is.null(sid)){
-        stop("Specify a scenario.")
-      }else{
-        #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
-        #and http://www.sqlitetutorial.net/sqlite-in/
-        sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
+    useConsole = (!sheetInfo$isOutput)|((sqlStatements$select=="SELECT *")&(!lookupsAsFactors))
+    useConsole = useConsole&!((sheetInfo$dataScope=="project")&(length(pid)>1))
+    useConsole = useConsole&!((sheetInfo$dataScope=="scenario")&(length(sid)>1))
+
+    if(useConsole){
+
+      #command(c("export","datasheet","help"),.session(x))
+
+      tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
+      unlink(tempFile)
+
+      args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile)
+
+      if(sheetInfo$dataScope=="project"){args[["pid"]]=pid}
+
+      if(is.element(sheetInfo$dataScope,c("project","scenario"))){args[["pid"]]=pid}
+      if(sheetInfo$dataScope=="scenario"){args[["sid"]]=sid}
+
+      tt=command(args,.session(x))
+
+      if(!identical(tt,"Success!")){
+        stop(tt)
       }
-    }
-    if(is.element("ProjectID",fields)){
-      if(is.null(pid)){
-        stop("Specify a project.")
-      }else{
-        sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
+
+      #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
+      sheet = read.csv(tempFile,as.is=T)
+      unlink(tempFile)
+      #print("used console")
+    }else{
+      #query database directly if necessary
+      #install.packages("RSQLite");library(RSQLite)
+      #x=myLibrary;name="STSim_OutputStratumState";sid=c(6)
+
+      drv = DBI::dbDriver('SQLite')
+      con = DBI::dbConnect(drv,.filepath(x))
+      #fields = DBI::dbListFields(con,name)
+
+      sqlStatements$where = ""
+      sqlStatements$from = paste("FROM",name)
+      if(sheetInfo$dataScope=="scenario"){
+        if(is.null(sid)){
+          stop("Specify a scenario.")
+        }else{
+          #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
+          #and http://www.sqlitetutorial.net/sqlite-in/
+          sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
+        }
       }
+      if(sheetInfo$dataScope=="project"){
+        if(is.null(pid)){
+          stop("Specify a project.")
+        }else{
+          sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
+        }
+      }
+      #  sheet = DBI::dbReadTable(con, name)
+      sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+      #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+      sheet = DBI::dbGetQuery(con,sql)
+      DBI::dbDisconnect(con)
     }
-    #  sheet = DBI::dbReadTable(con, name)
-    sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
-    #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
-    sheet = DBI::dbGetQuery(con,sql)
-    DBI::dbDisconnect(con)
   }else{
     sheet=data.frame(temp=NA)
   }
@@ -726,6 +781,11 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     }
 
     outNames = c()
+
+    if(lookupsAsFactors){
+      drv = DBI::dbDriver('SQLite')
+      con = DBI::dbConnect(drv,.filepath(x))
+    }
     for(i in seq(length.out=nrow(sheetInfo))){
       #i =4
       cRow = sheetInfo[i,]
@@ -753,15 +813,25 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         if(lookupsAsFactors){
           #if a number, ignore - SyncroSim will do the checking
           #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
-          if(identical(pid,NULL)&!identical(sid,NULL)){
-            if(is.null(allScns)){
-              allScns = scenarios(x,names=T)
+          lookupSheet =   DBI::dbReadTable(con, name=cRow$formula1)
+          if(is.element("ProjectID",names(lookupSheet))){
+            if(identical(pid,NULL)&!identical(sid,NULL)){
+              if(is.null(allScns)){
+                allScns = scenarios(x,names=T)
+              }
+              findPrjs = allScns$pid[is.element(allScns$id,sid)]
+            }else{
+              findPrjs = pid
             }
-            findPrjs = allScns$pid[is.element(allScns$id,sid)]
-          }else{
-            findPrjs = pid
+            lookupSheet = subset(lookupSheet,is.element(ProjectID,pid))
           }
-          lookupSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,lookupsAsFactors=F)
+          if(is.element("ScenarioID",names(lookupSheet))){
+            if(!is.null(sid)){
+              lookupSheet=subset(lookupSheet,is.element(ScenarioID,sid))
+            }
+          }
+
+          #lookupSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,lookupsAsFactors=F)
           if((nrow(lookupSheet)==0)&(cRow$optional=="No")){
             if(!grepl("Output",name)){
               warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
@@ -788,7 +858,9 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         stop("handle this case")
       }
     }
-
+    if(lookupsAsFactors){
+      DBI::dbDisconnect(con)
+    }
     #TO DO: deal with NA values in sheet
     #put columns in correct order
     sheet$colOne = sheet[,1]
@@ -833,12 +905,12 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   return(sheet)
 })
 
-setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario,sheetNames) {
+setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario) {
   #x = myScenario;project=NULL;scenario=NULL;name="STSim_InitialConditionsNonSpatialDistribution";data=mySheet
   x = .getFromXProjScn(x,project,scenario)
-  if(is.null(sheetNames)){
-    sheetNames = datasheets(x)
-  }
+
+  sheetNames = datasheets(x)
+
   if(class(data)=="data.frame"){
     if(is.null(name)){
       stop("Need a datasheet name.")
@@ -872,7 +944,11 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
     args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)
     scope =sheetNames$dataScope[sheetNames$name==cName]
     if(length(scope)==0){
-      stop("name not found in sheetNames")
+      sheetNames = datasheets(x,refresh=T)
+      scope =sheetNames$dataScope[sheetNames$name==cName]
+      if(length(scope)==0){
+        stop("name not found in datasheetNames")
+      }
     }
 
     if(class(x)=="Project"){

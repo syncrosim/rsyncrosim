@@ -13,6 +13,7 @@ NULL
 #' @seealso See \code{\link{scenario}} for options when creating or loading an SyncroSim Scenario.
 #' @slot session The session associated with the library.
 #' @slot filepath The path to the library on disk.
+#' @slot datasheetNames Names and scope of all datasheets in library.
 #' @slot pid The project id.
 #' @slot name The scenario name.
 #' @slot id The scenario id.
@@ -97,6 +98,7 @@ setMethod(f="initialize",signature="Scenario",
       #Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
+      .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
       .Object@id = as.numeric(findScn$id)
       .Object@name = findScn$name
       .Object@pid = as.numeric(findScn$pid)
@@ -182,6 +184,7 @@ setMethod(f="initialize",signature="Scenario",
 
     .Object@session=.session(x)
     .Object@filepath=.filepath(x)
+    .Object@datasheetNames = .datasheets(x,refresh=T,scope="all")
     .Object@id = as.numeric(id)
     .Object@name = name
     .Object@pid = as.numeric(pid)
@@ -288,6 +291,7 @@ projectId = pid
 
 #' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Scenario.
 setMethod('ssimLibrary', signature(model="Scenario"), function(model) {
+  #model=cScn
   out = .ssimLibrary(name=.filepath(model),session=.session(model))
   return(out)
 })

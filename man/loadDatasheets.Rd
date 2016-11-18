@@ -4,8 +4,7 @@
 \alias{loadDatasheets}
 \title{Set datasheets}
 \usage{
-loadDatasheets(x, data, name = NULL, project = NULL, scenario = NULL,
-  sheetNames = NULL)
+loadDatasheets(x, data, name = NULL, project = NULL, scenario = NULL)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}

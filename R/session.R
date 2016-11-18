@@ -149,6 +149,7 @@ setReplaceMethod(
       tt = command(args=list(queue=cVal),x,program="/SyncroSim.ModuleManager.exe")
     }
     tt = command(args=list(installqueue=NULL),x,program="/SyncroSim.ModuleManager.exe")
+    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
     return (x)
   }
 )
@@ -188,6 +189,7 @@ setReplaceMethod(
         }
       }
     }
+    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
     return (x)
   }
 )

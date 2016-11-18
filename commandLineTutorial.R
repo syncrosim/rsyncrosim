@@ -14,7 +14,7 @@ myProject = project(myLibrary,name="ST-Sim Demonstration")
 
 #***********************************
 # Cover types and state classes
-datasheets(myProject,names=T)
+datasheets(myProject)
 sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"Name"]="Entire Forest"
 #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
@@ -59,7 +59,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 #***********************************
 # Transitions
-datasheets(myProject,names=T,scope="project")$name #See project scope datasheet names
+datasheets(myProject,scope="project")$name #See project scope datasheet names
 sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
 loadDatasheets(myProject,mySheet,name=sheetName)
@@ -84,7 +84,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 #*************************************
 myScenario = scenario(myProject,name="No Harvest")
 # NOTE: To be consistent with project() I have used name/id in scenario().
-datasheets(myScenario,names=T,scope="scenario")$name
+datasheets(myScenario,scope="scenario")$name
 
 #**************
 # Run control
@@ -190,15 +190,15 @@ scenarios(myProject,names=T)
 # See results
 #******************************
 # devtools::document();devtools::load_all()
+?datasheet
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
 str(outStates)
 unique(outStates$ScenarioParent)
 # NOTE: querying lookups here is slow (1 database query per lookup) but necessary -
 # Output table lookups are IDs in the database, rather than labels - not true for input tables.
-# How should we handle this difference?
 #
 # NOTE: can query multiple projects or scenarios - see ?datasheet for details.
-# Requires 1 database query and 1 console call, regardless of the number of scenarios included in myResults
+# Requires 1 database query and 1 console call (+lookup queries), regardless of the number of scenarios included in myResults
 #
 # NOTE: We can also query the database more precisely to avoid pulling unecessary information.
 # There are >400,000 records in this small example.

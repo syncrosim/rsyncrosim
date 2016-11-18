@@ -12,6 +12,7 @@ NULL
 #' @seealso See \code{\link{project}} for options when creating or loading an SyncroSim Project.
 #' @slot session The session associated with the library.
 #' @slot filepath The path to the library on disk.
+#' @slot datasheetNames Names and scopes of datasheets in the library.
 #' @slot name The project name
 #' @slot id The project id
 #' @name Project-class
@@ -58,6 +59,7 @@ setMethod(f="initialize",signature="Project",
       #Go ahead and create the Projects object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
+      .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
       .Object@id = as.numeric(findPrj$id)
       .Object@name = findPrj$name
       return(.Object)
@@ -92,6 +94,7 @@ setMethod(f="initialize",signature="Project",
 
     .Object@session=.session(x)
     .Object@filepath=.filepath(x)
+    .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
     .Object@id = as.numeric(id)
     .Object@name = name
     return(.Object)

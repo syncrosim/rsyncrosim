@@ -105,25 +105,25 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' @param project Project name or id. Ignored if x is a Project.
 #' @param scenario Scenario name or id. Ignored if x is a Scenario.
 #' @param names If TRUE (default) returns dataframe of sheet names, ignoring remaining arguments. If FALSE returns a named list of dataframes representing each datasheet.
-#' @param scope "scenario","project", "library", or NULL.
+#' @param scope "scenario","project", "library", "all", or NULL.
 #' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
-#' @param sheetNames Output from datasheets(). Set to speed calculation or load a subset of datasheets.
 #' @param lookupsAsFactors If TRUE (default) lookups are returned as factors with allowed values (levels). Set FALSE to speed calculations.
+#' @param refresh If FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call (slower).
 #' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
 #' @examples
 #'
 #' @export
-setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,lookupsAsFactors=T) standardGeneric('datasheets'))
+setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,lookupsAsFactors=T,refresh=F) standardGeneric('datasheets'))
 #' definitions
 #'
 #' Alias for \code{\link{datasheets}} function
 #' @export
 definitions=datasheets
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,sheetNames,lookupsAsFactors) {
+setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheets(x,project,scenario,names,scope,optional,empty,sheetNames,lookupsAsFactors)
+  out = .datasheets(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh)
   return(out)
 })
 
@@ -164,21 +164,69 @@ setMethod('datasheet', signature(x="character"), function(x,name,project,scenari
 
 #Handles case where x is list of Scenario or Project objects
 setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  project = c();scenario=c()
-  for(i in seq(length.out=length(x))){
-    cScn = x[[i]]
-    if(!is.element(class(cScn),c("Scenario","Project"))){
-      stop("x must be an SSimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
-    }
-    if(class(cScn)=="Scenario"){
-      project=c(project,.pid(cScn))
-      scenario=c(scenario,.id(cScn))
-    }
-    if(class(cScn)=="Project"){
-      project=c(project,.id(cScn))
+  #x=myResults;name="STSim_OutputStratumState";lookupsAsFactors=F;project=NULL;scenario=NULL;optional=F;empty=F
+
+  cScn = x[[i]]
+  if(!is.element(class(cScn),c("Scenario","Project"))){
+    stop("x must be an SSimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
+  }
+
+  cName = name
+  sheetInfo = subset(.datasheets(cScn,scope="all"),name==cName)
+  if(nrow(sheetInfo)==0){
+    sheetInfo = subset(.datasheets(cScn,scope="all",refresh=T),name==cName)
+    if(nrow(sheetInfo)==0){
+      stop("Datasheet ",name, " not found in library.")
     }
   }
-  out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements)
+  if((sheetInfo$dataScope=="library")&(sqlStatements$select=="SELECT *")){
+     out = .datasheet(cScn,name,project=NULL,scenario=NULL,optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements)
+     return(out)
+  }
+
+  forceConsole=!lookupsAsFactors&(sheetInfo$isOutput)&(sqlStatements$select=="SELECT *")&(length(x)<=4)
+  project = c();scenario=c()
+  for(i in seq(length.out=length(x))){
+    #i=1
+    cScn = x[[i]]
+    if(class(cScn)=="Scenario"){
+      cPid = .pid(cScn)
+      project=c(project,cPid)
+      cSid = .id(cScn)
+      scenarioParent = strsplit(.name(cScn)," ([",fixed=T)[[1]][1]
+      mergeInfo = data.frame(ScenarioID=cSid,ProjectID=cPid,ScenarioName=.name(cScn),ScenarioParent=scenarioParent,stringsAsFactors=F)
+      scenario=c(scenario,cSid)
+    }
+    if(class(cScn)=="Project"){
+      cPid= .id(cScn)
+      mergeInfo =data.frame(ProjectID = cPid,ProjectName=.name(cScn),stringsAsFactors=F)
+      project=c(project,cPid)
+    }
+
+    if(forceConsole){
+       outBit = .datasheet(cScn,name,project=NULL,scenario=NULL,optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements)
+       if(nrow(outBit)>0){
+         if(sheetInfo$dataScope=="project"){
+           outBit$ProjectID = cPid
+           outBit = merge(mergeInfo,outBit)
+         }
+         if(sheetInfo$dataScope=="scenario"){
+           outBit$ScenarioID = cSid
+           outBit = merge(mergeInfo,outBit)
+         }
+       }
+       if(i==1){
+         out=outBit
+       }else{
+         out=rbind(out,outBit)
+       }
+    }
+  }
+  if(!forceConsole){
+    out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements)
+  }else{
+    out=unique(out)
+  }
   return(out)
 })
 
@@ -195,11 +243,11 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 #' @examples
 #'
 #' @export
-setGeneric('loadDatasheets',function(x,data,name=NULL,project=NULL,scenario=NULL,sheetNames=NULL) standardGeneric('loadDatasheets'))
+setGeneric('loadDatasheets',function(x,data,name=NULL,project=NULL,scenario=NULL) standardGeneric('loadDatasheets'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,sheetNames) {
+setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,data,name,project,scenario,sheetNames)
+  out = .datasheet(x,data,name,project,scenario)
   return(out)
 })
 

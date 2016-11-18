@@ -5,7 +5,7 @@
 \title{datasheets}
 \usage{
 datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
-  optional = F, empty = F, sheetNames = NULL, lookupsAsFactors = T)
+  optional = F, empty = F, lookupsAsFactors = T, refresh = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.}
@@ -16,15 +16,15 @@ datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
 
 \item{names}{If TRUE (default) returns dataframe of sheet names, ignoring remaining arguments. If FALSE returns a named list of dataframes representing each datasheet.}
 
-\item{scope}{"scenario","project", "library", or NULL.}
+\item{scope}{"scenario","project", "library", "all", or NULL.}
 
 \item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.}
 
 \item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
 
-\item{sheetNames}{Output from datasheets(). Set to speed calculation or load a subset of datasheets.}
-
 \item{lookupsAsFactors}{If TRUE (default) lookups are returned as factors with allowed values (levels). Set FALSE to speed calculations.}
+
+\item{refresh}{If FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call (slower).}
 }
 \value{
 A dataframe of datasheet names, or list of datasheets represented by dataframes.

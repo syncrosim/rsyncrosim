@@ -15,6 +15,8 @@
 
 \item{\code{filepath}}{The path to the library on disk.}
 
+\item{\code{datasheetNames}}{Names and scopes of datasheets in the library.}
+
 \item{\code{name}}{The project name}
 
 \item{\code{id}}{The project id}
