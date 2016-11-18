@@ -583,10 +583,11 @@ setReplaceMethod(
   }
 )
 
-setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors) {
+setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,sheetNames,lookupsAsFactors) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=F;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
+  #command(c("export","datasheet","help"),.session(myLibrary))
   #Get datasheet dataframe
   if(!is.null(sheetNames)){
     datasheets=sheetNames
@@ -616,13 +617,13 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   ttList = list()
   for(i in seq(length.out=nrow(datasheets))){
     #i = 1
-    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,dependsAsFactors=dependsAsFactors)
+    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors)
   }
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements) {
-  #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=F;empty=T;dependsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
+  #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=F;empty=T;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -706,7 +707,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   if(nrow(sheet)>0){
     sheet[sheet==""]=NA
   }
-  if(empty|dependsAsFactors){
+  if(empty|lookupsAsFactors){
     tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
     sheetInfo = .dataframeFromSSim(tt)
     sheetInfo$id = seq(length.out=nrow(sheetInfo))
@@ -749,7 +750,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         }
       }
       if(cRow$valType=="DataSheet"){
-        if(dependsAsFactors){
+        if(lookupsAsFactors){
           #if a number, ignore - SyncroSim will do the checking
           #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
           if(identical(pid,NULL)&!identical(sid,NULL)){
@@ -760,24 +761,24 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
           }else{
             findPrjs = pid
           }
-          dependSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,dependsAsFactors=F)
-          if((nrow(dependSheet)==0)&(cRow$optional=="No")){
+          lookupSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,lookupsAsFactors=F)
+          if((nrow(lookupSheet)==0)&(cRow$optional=="No")){
             if(!grepl("Output",name)){
               warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
             }
           }
 
-          dependLevels = dependSheet$Name
+          lookupLevels = lookupSheet$Name
           if(is.numeric(sheet[[cRow$name]])){
-            if(nrow(dependSheet)>0){
-              dependMerge = subset(dependSheet,select=c(cRow$name,"Name"))
-              names(dependMerge) = c(cRow$name,"dependName")
-              sheet=merge(sheet,dependMerge, all.x=T)
-              sheet[[cRow$name]]=sheet$dependName
-              sheet$dependName=NULL
+            if(nrow(lookupSheet)>0){
+              lookupMerge = subset(lookupSheet,select=c(cRow$name,"Name"))
+              names(lookupMerge) = c(cRow$name,"lookupName")
+              sheet=merge(sheet,lookupMerge, all.x=T)
+              sheet[[cRow$name]]=sheet$lookupName
+              sheet$lookupName=NULL
             }
           }
-          sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=dependLevels)
+          sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=lookupLevels)
           #TO DO: handle formula1/formula2
         }else{
           sheet[[cRow$name]]=as.character(sheet[[cRow$name]])

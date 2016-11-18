@@ -94,7 +94,7 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' Gets datasheets from an SSimLibrary, Project or Scenario.
 #'
 #' @details
-#' See \code{\link{datasheet}} for discussion of optional/empty/sheetName/dependsAsFactors arguments.
+#' See \code{\link{datasheet}} for discussion of optional/empty/sheetName/lookupsAsFactors arguments.
 #' \itemize{
 #'   \item {If x/project/scenario identify a scenario: }{Returns library, project, and scenario scope datasheets.}
 #'   \item {If x/project/scenario identify a project (but not a scenario): }{Returns library and project scope datasheets.}
@@ -106,24 +106,24 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #' @param scenario Scenario name or id. Ignored if x is a Scenario.
 #' @param names If TRUE (default) returns dataframe of sheet names, ignoring remaining arguments. If FALSE returns a named list of dataframes representing each datasheet.
 #' @param scope "scenario","project", "library", or NULL.
-#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
+#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
 #' @param sheetNames Output from datasheets(). Set to speed calculation or load a subset of datasheets.
-#' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
+#' @param lookupsAsFactors If TRUE (default) lookups are returned as factors with allowed values (levels). Set FALSE to speed calculations.
 #' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
 #' @examples
 #'
 #' @export
-setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,dependsAsFactors=T) standardGeneric('datasheets'))
+setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,sheetNames=NULL,lookupsAsFactors=T) standardGeneric('datasheets'))
 #' definitions
 #'
 #' Alias for \code{\link{datasheets}} function
 #' @export
 definitions=datasheets
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors) {
+setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,sheetNames,lookupsAsFactors) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheets(x,project,scenario,names,scope,optional,empty,sheetNames,dependsAsFactors)
+  out = .datasheets(x,project,scenario,names,scope,optional,empty,sheetNames,lookupsAsFactors)
   return(out)
 })
 
@@ -133,9 +133,9 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #'
 #' @details
 #' \itemize{
-#'   \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
+#'   \item {If lookupsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
 #'   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
-#'   \item {If empty=F and dependsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
+#'   \item {If empty=F and lookupsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
 #'   \item {If x is a list of Scenario or Project objects (output from run(), scenarios() or projects()): }{Adds ScenarioID/ProjectID column if appropriate.}
 #'   \item {If length(scenario)>1: }{Adds ScenarioID/ProjectID column if appropriate.}
 #'   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
@@ -146,24 +146,24 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #' @param name The sheet name
 #' @param project One or more Project names, id or objects.
 #' @param scenario One or more Scenario names, id or objects.
-#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.
+#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
-#' @param dependsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
+#' @param lookupsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
 #' @param sqlStatements SELECT and GROUP BY SQL statements passed to SQLite database.
 #' @return A dataframe representing a SyncroSim datasheet.
 #' @examples
 #'
 #' @export
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,dependsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy="")) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy="")) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements)
+  out = .datasheet(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements)
   return(out)
 })
 
 #Handles case where x is list of Scenario or Project objects
-setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,dependsAsFactors,sqlStatements) {
+setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
   project = c();scenario=c()
   for(i in seq(length.out=length(x))){
     cScn = x[[i]]
@@ -178,7 +178,7 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
       project=c(project,.id(cScn))
     }
   }
-  out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,dependsAsFactors,sqlStatements)
+  out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements)
   return(out)
 })
 

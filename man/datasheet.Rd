@@ -5,7 +5,7 @@
 \title{Get a datasheet}
 \usage{
 datasheet(x, name, project = NULL, scenario = NULL, optional = F,
-  empty = F, dependsAsFactors = T, sqlStatements = list(select =
+  empty = F, lookupsAsFactors = T, sqlStatements = list(select =
   "SELECT *", groupBy = ""))
 }
 \arguments{
@@ -17,11 +17,11 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
 
 \item{scenario}{One or more Scenario names, id or objects.}
 
-\item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and dependsAsFactors=F.}
+\item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.}
 
 \item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
 
-\item{dependsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
+\item{lookupsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
 
 \item{sqlStatements}{SELECT and GROUP BY SQL statements passed to SQLite database.}
 }
@@ -33,9 +33,9 @@ Gets Syncrosim datasheet.
 }
 \details{
 \itemize{
-  \item {If dependsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the dependency has not yet been set.}
+  \item {If lookupsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
-  \item {If empty=F and dependsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
+  \item {If empty=F and lookupsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
   \item {If x is a list of Scenario or Project objects (output from run(), scenarios() or projects()): }{Adds ScenarioID/ProjectID column if appropriate.}
   \item {If length(scenario)>1: }{Adds ScenarioID/ProjectID column if appropriate.}
   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}

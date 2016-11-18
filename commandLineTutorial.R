@@ -24,14 +24,14 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 #
 # NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
-# A database query is also required for each dependency, so the default datasheet() can be slow.
+# A database query is also required for each lookup, so the default datasheet() can be slow.
 # Setting empty=T eliminates the database query.
 # Setting stringsAsFactors=T eliminates the console call.
 # Retrieval of output datasheets can be sped up by querying multiple scenarios (1 extra console call),
 # and only querying necessary information (using SELECT and GROUP BY sql statements).
 # See examples below.
 
-# Warns if dependencies are not loaded, and returns a factor with 0 levels
+# Warns if lookups are not loaded, and returns a factor with 0 levels
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
 mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
@@ -44,17 +44,17 @@ sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,em
 mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
 loadDatasheets(myProject,mySheet,name=sheetName)
 
-# Now dependencies are loaded we can set StateClass
+# Now lookups are loaded we can set StateClass
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
-mySheet[1,"StateLabelXID"] ="hi" #Invalid value for a column with dependency
+mySheet[1,"StateLabelXID"] ="hi" #Invalid value for a lookup column
 mySheet[1:3,"StateLabelXID"]=levels(mySheet$StateLabelXID) #Valid values
 mySheet$StateLabelYID = levels(mySheet$StateLabelYID)[1] #Valid values
 mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
 loadDatasheets(myProject,mySheet,name=sheetName)
 #mySheet = datasheet(myProject,name=sheetName);str(mySheet)
 
-# DISCUSS: dependencies. Is this enough? If not, what else is needed?
+# DISCUSS: lookups. Is this enough? If not, what else is needed?
 # NOTE: special knowledge needed to construct Name here. - come back to this later.
 
 #***********************************
@@ -193,8 +193,8 @@ scenarios(myProject,names=T)
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
 str(outStates)
 unique(outStates$ScenarioParent)
-# NOTE: querying dependencies here is slow (1 database query per dependendency) but necessary -
-# Output table dependencies are IDs in the database, rather than labels - not true for input tables.
+# NOTE: querying lookups here is slow (1 database query per lookup) but necessary -
+# Output table lookups are IDs in the database, rather than labels - not true for input tables.
 # How should we handle this difference?
 #
 # NOTE: can query multiple projects or scenarios - see ?datasheet for details.
@@ -203,14 +203,14 @@ unique(outStates$ScenarioParent)
 # NOTE: We can also query the database more precisely to avoid pulling unecessary information.
 # There are >400,000 records in this small example.
 sheetName = "STSim_OutputStratumState"
-names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting data
+names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting data
 mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"))
 mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite.
 outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
-str(outStatesAllAges) #Much faster: fewer dependencies and fewer records.
+str(outStatesAllAges) #Much faster: fewer lookups and fewer records.
 
 sheetName = "STSim_OutputStratumTransition"
-names(datasheet(myResults,name=sheetName,dependsAsFactors=F,empty=T)) #Get column names without getting any data
+names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting any data
 mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","TransitionGroupID"),aggregate=c("Amount"))
 outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
 str(outTransitionsAllAges)
