@@ -925,12 +925,15 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
     #now assume we have a single scenario
     if(!is.numeric(cScn)){stop("Something is wrong.")}
 
+    print(paste0("Running scenario ",inScn,"..."))
+
     #TO DO: handle jobs, transformer and inpl.
     tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
 
     resultId = strsplit(tt,": ",fixed=T)[[1]][2]
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
       out[[inScn]]=tt
+      print(tt)
     }else{
       if(onlyIds){
         out[[inScn]] = as.numeric(resultId)

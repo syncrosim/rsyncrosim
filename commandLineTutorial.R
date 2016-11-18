@@ -33,6 +33,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 # Warns if dependencies are not loaded, and returns a factor with 0 levels
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
+str(mySheet)
 mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
 
 sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
@@ -54,7 +55,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 #mySheet = datasheet(myProject,name=sheetName);str(mySheet)
 
 # DISCUSS: dependencies. Is this enough? If not, what else is needed?
-# NOTE: special knowledge needed to construct Name here.
+# NOTE: special knowledge needed to construct Name here. - come back to this later.
 
 #***********************************
 # Transitions
@@ -290,14 +291,14 @@ parentId(myScenario)
 
 ################
 # TO DO:
+# - handle raster datasheets (input and output)
 # - datasheet(,keepId=T)
 # - get/set summary information (name,author,description,readOnly): Alex is working on this.
-# - handle raster datasheets (input and output)
 # - formal tests
+# - help/documentation
 # - bigger data example?
 # - Project revisions: Safe modification of existing libraries?
 # - break points
-# - help/documentation
 # - ??
 
 ###############
