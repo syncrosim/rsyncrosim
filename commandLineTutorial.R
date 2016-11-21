@@ -23,16 +23,15 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 #
-# NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
-# A database query is also required for each lookup, so the default datasheet() can be slow.
-# Setting empty=T eliminates the database query.
-# Setting stringsAsFactors=T eliminates the console call.
-# Retrieval of output datasheets can be sped up by querying multiple scenarios (1 extra console call),
+# NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires 2 console calls
+# Setting empty=T eliminates one console call (or database query for some outputs)
+# Setting stringsAsFactors=T eliminates a console call.
+# Retrieval of output datasheets can be sped up by querying multiple scenarios (no extra calls),
 # and only querying necessary information (using SELECT and GROUP BY sql statements).
 # See examples below.
 
 # Warns if lookups are not loaded, and returns a factor with 0 levels
-sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
+sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=F)
 str(mySheet)
 mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
 
@@ -40,7 +39,7 @@ sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
 mySheet[1,"Name"]="All"
 loadDatasheets(myProject,mySheet,name=sheetName)
 
-sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=T)
+sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=F)
 mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
 loadDatasheets(myProject,mySheet,name=sheetName)
 
@@ -193,7 +192,7 @@ scenarios(myProject,names=T)
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
 str(outStates)
 unique(outStates$ScenarioParent)
-# NOTE: querying lookups here is slow (1 database query per lookup) but necessary -
+# NOTE: For outputs, use lookupsAsFactors=T
 # Output table lookups are IDs in the database, rather than labels - not true for input tables.
 #
 # NOTE: can query multiple projects or scenarios - see ?datasheet for details.
