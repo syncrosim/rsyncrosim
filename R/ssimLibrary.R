@@ -128,8 +128,10 @@ setMethod(f="initialize",signature="SSimLibrary",
     tt=command(c("list","datasheets","csv",paste0("lib=",path)),session)
     datasheets = .dataframeFromSSim(tt)
     datasheets$dataScope = sapply(datasheets$dataScope,camel)
-    names(datasheets) = c("name","displayName","dataScope")
-    datasheets$isOutput = grepl("utput",datasheets$name)
+    names(datasheets) = c("name","displayName","dataScope","isOutput")
+    datasheets$isOutput[datasheets$isOutput=="No"]=F
+    datasheets$isOutput[datasheets$isOutput=="Yes"]=T
+    datasheets$isOutput=as.logical(datasheets$isOutput)
 
     .Object@session=session
     .Object@filepath=path
@@ -602,11 +604,14 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   if(!refresh){
     datasheets=x@datasheetNames
   }else{
+    #x=myLibrary
     tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
     datasheets = .dataframeFromSSim(tt)
     datasheets$dataScope = sapply(datasheets$dataScope,camel)
-    names(datasheets) = c("name","displayName","dataScope")
-    datasheets$isOutput = grepl("utput",datasheets$name)
+    names(datasheets) = c("name","displayName","dataScope","isOutput")
+    datasheets$isOutput[datasheets$isOutput=="No"]=F
+    datasheets$isOutput[datasheets$isOutput=="Yes"]=T
+    datasheets$isOutput=as.logical(datasheets$isOutput)
   }
   if(!is.null(scope)&&(scope=="all")){
     return(datasheets)
@@ -636,7 +641,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myResults[[1]];project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=F;empty=F;lookupsAsFactors=F;sqlStatements=list(select="SELECT *",groupBy="")
+  #x = myProject;project=NULL;scenario=NULL;name=sheetName;optional=F;empty=T;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
 
   allProjects=NULL;allScns=NULL

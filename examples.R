@@ -130,10 +130,9 @@ scenarios(myLibrary,names=T)
 myScenario = scenario(myProject, name="My new scenario name")
 scenarios(myLibrary,names=T)
 
-# TO DO - Alex is working on this.
-myScenario = scenario(myLibrary, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
+myScenario = scenario(myProject, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
+id(myScenario)
 # NOTE: Returns and error if "Another scenario" already exists, but has different properties?
-
 myScenarios = scenarios(myLibrary)
 names(myScenarios)
 scenarios(myLibrary,names=T)
@@ -165,8 +164,12 @@ name(myScenario) = "New scenario name"
 ssimLibrary(myScenario)  # Returns a SyncroSimLibrary object for the scenario
 projectId(myScenario)  # Returns the project ID for the scenario
 
-#TO DO
+#Get/set scenario properties
 readOnly(myScenario)    # Returns TRUE/FALSE
+author(myScenario)
+description(myScenario)
+setProperties(myScenario, author="Colin Daniel",description="A great scenario.")
+author(myScenario)
 
 #TO DO
 hasResults(myScenario)    # Returns TRUE/FALSE

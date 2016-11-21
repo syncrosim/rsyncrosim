@@ -164,9 +164,9 @@ setMethod('datasheet', signature(x="character"), function(x,name,project,scenari
 
 #Handles case where x is list of Scenario or Project objects
 setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x=myResults;name="STSim_OutputStratumState";lookupsAsFactors=F;project=NULL;scenario=NULL;optional=F;empty=F
+  #x=myResults;name="STSim_OutputStratumState";lookupsAsFactors=T;project=NULL;scenario=NULL;optional=F;empty=F
 
-  cScn = x[[i]]
+  cScn = x[[1]]
   if(!is.element(class(cScn),c("Scenario","Project"))){
     stop("x must be an SSimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
   }

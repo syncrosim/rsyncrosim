@@ -25,10 +25,11 @@ Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="nume
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f="initialize",signature="Scenario",
-    definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL){
+    definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL,author=NULL,description=NULL,readOnly=NULL){
     #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id=NULL;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
     if(is.character(id)){id = as.numeric(id)}
+
 
     .Object@parentId = 0
     x=NULL
@@ -86,6 +87,15 @@ setMethod(f="initialize",signature="Scenario",
         findScn = subset(findScn,name==cName)
     }
 
+    propertyArgs = list(setprop=NULL,lib=.filepath(x))
+    if(!is.null(author)){propertyArgs$author=author}
+    if(!is.null(description)){propertyArgs$description=description}
+    if(!is.null(readOnly)){
+      if(readOnly){propertyArgs$readonly="yes"}else{
+        propertyArgs$readonly="no"
+      }
+    }
+
     if(nrow(findScn)==1){
       if(!is.null(sourceScenario)){
         stop("Scenario ",name," already exists. Delete the scenario before replacing it.")
@@ -95,6 +105,14 @@ setMethod(f="initialize",signature="Scenario",
         parent = strsplit(parentBit,"]",fixed=T)[[1]][1]
         .Object@parentId = as.numeric(parent)
       }
+      if(length(propertyArgs)>2){
+        propertyArgs$sid = findScn$id
+        tt = command(propertyArgs,.session(x))
+        if(tt!="Success!"){
+          stop("Failed to set properties:",tt)
+        }
+      }
+
       #Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
@@ -182,6 +200,10 @@ setMethod(f="initialize",signature="Scenario",
     }
     id = as.numeric(strsplit(tt,": ")[[1]][2])
 
+    if(length(propertyArgs)>2){
+      propertArgs$sid = id
+      tt = command(propertyArgs,.session(x))
+    }
     .Object@session=.session(x)
     .Object@filepath=.filepath(x)
     .Object@datasheetNames = .datasheets(x,refresh=T,scope="all")
@@ -211,6 +233,9 @@ setMethod(f="initialize",signature="Scenario",
 #' @param create If TRUE, create scenario if one does not exist. If FALSE, only return an existing scenario
 #' @param scenarios A dataframe of existing scenarios produced by scenarios(). Use to speed processing.
 #' @param sourceScenario The name or id of a scenario to copy.
+#' @param author Optional.
+#' @param description Optional.
+#' @param readOnly By default scenarios are not readOnly.
 #' @return A \code{Scenario} object representing a SyncroSim scenario.
 #' @examples
 #' # Create a new default scenario
@@ -221,7 +246,7 @@ setMethod(f="initialize",signature="Scenario",
 #' @name scenario
 # @rdname Scenario-class
 #' @export
-scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL) new("Scenario",ssimLibrary,project,name,id,create,scenarios,sourceScenario)
+scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL,author=NULL,description=NULL,readOnly=NULL) new("Scenario",ssimLibrary,project,name,id,create,scenarios,sourceScenario,author,description,readOnly)
 
 setMethod('name', signature(x="Scenario"), function(x) {
   return(x@name)
@@ -231,7 +256,7 @@ setReplaceMethod(
   signature="Scenario",
   definition=function(x,value){
     #x=myScenario;value="New Name"
-    tt = command(list(rename=NULL,scenario=NULL,lib=.filepath(x),sid=.id(x),name=value),.session(x))
+    tt = command(list(setprop=NULL,lib=.filepath(x),sid=.id(x),name=value),.session(x))
     if(!identical(tt,"Success!")){
       stop(tt)
     }
@@ -254,9 +279,66 @@ setMethod('id', signature(x="Scenario"), function(x) {
 setGeneric('readOnly',function(x) standardGeneric('readOnly'))
 setMethod('readOnly', signature(x="Scenario"), function(x) {
   #x=myScenario
-  stop("not done yet")
-  return(x)
+  info = scenarios(x,names=T)
+  answer = info$readOnly[info$id==.id(x)]=="Yes"
+  return(answer)
 })
+
+#' The author of a Scenario
+#'
+#' @param x An Scenario object.
+#' @return The author name.
+#' @export
+setGeneric('author',function(x) standardGeneric('author'))
+setMethod('author', signature(x="Scenario"), function(x) {
+  #x=myScenario
+  info = scenarios(x,names=T)
+  answer = info$author[info$id==.id(x)]
+  return(answer)
+})
+
+#' The description of a Scenario
+#'
+#' @param x An Scenario object.
+#' @return The description.
+#' @export
+setGeneric('description',function(x) standardGeneric('description'))
+setMethod('description', signature(x="Scenario"), function(x) {
+  #x=myScenario
+  info = scenarios(x,names=T)
+  answer = info$description[info$id==.id(x)]
+  return(answer)
+})
+
+#' Set the properties of a scenario.
+#'
+#' Set the author, description and/or readOnly status of a scenario.
+#'
+#' @param x An Scenario object.
+#' @param author An author name.
+#' @param description A description.
+#' @param readOnly TRUE or FALSE.
+#' @return Success or a failure message
+#' @export
+setGeneric('setProperties',function(x,author=NULL,description=NULL,readOnly=NULL) standardGeneric('setProperties'))
+setMethod('setProperties', signature(x="Scenario"), function(x,author,description,readOnly) {
+  #x=myScenario
+  propertyArgs = list(setprop=NULL,lib=.filepath(x),sid=.id(x))
+  if(!is.null(author)){propertyArgs$author=author}
+  if(!is.null(description)){propertyArgs$description=description}
+  if(!is.null(readOnly)){
+    if(readOnly){propertyArgs$readonly="yes"}else{
+      propertyArgs$readonly="no"
+    }
+  }
+  if(length(propertyArgs)==3){
+    stop("Specify at least one of author, description and readOnly")
+  }
+
+  tt = command(propertyArgs,.session(x))
+  return(tt)
+})
+
 
 #' The parent scenario id of a SyncroSim Scenario.
 #'

@@ -190,7 +190,6 @@ scenarios(myProject,names=T)
 # See results
 #******************************
 # devtools::document();devtools::load_all()
-?datasheet
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
 str(outStates)
 unique(outStates$ScenarioParent)

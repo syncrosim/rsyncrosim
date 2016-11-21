@@ -17,7 +17,9 @@ Imports:
     RSQLite
 Suggests:
     plyr,
-    ggplot2
+    ggplot2,
+    knitr,
+    rmarkdown
 Collate:
     'generics.R'
     'ServerController.R'
@@ -39,3 +41,4 @@ Collate:
     'setRows.R'
     'trim.R'
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

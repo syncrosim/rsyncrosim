@@ -155,7 +155,7 @@ setReplaceMethod(
   signature="Project",
   definition=function(x,value){
     #x=myProject;value="New Name"
-    tt = command(list(rename=NULL,project=NULL,lib=.filepath(x),pid=.id(x),name=value),.session(x))
+    tt = command(list(setprop=NULL,lib=.filepath(x),pid=.id(x),name=value),.session(x))
     if(!identical(tt,"Success!")){
       stop(tt)
     }

@@ -5,7 +5,8 @@
 \title{Create or open a scenario}
 \usage{
 scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
-  create = T, scenarios = NULL, sourceScenario = NULL)
+  create = T, scenarios = NULL, sourceScenario = NULL, author = NULL,
+  description = NULL, readOnly = NULL)
 }
 \arguments{
 \item{ssimLibrary}{An SSimLibrary object or name, or an object that contains an SSimLibrary. If a name is given, the library will be opened using the default session.}
@@ -21,6 +22,12 @@ scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
 \item{scenarios}{A dataframe of existing scenarios produced by scenarios(). Use to speed processing.}
 
 \item{sourceScenario}{The name or id of a scenario to copy.}
+
+\item{author}{Optional.}
+
+\item{description}{Optional.}
+
+\item{readOnly}{By default scenarios are not readOnly.}
 }
 \value{
 A \code{Scenario} object representing a SyncroSim scenario.
