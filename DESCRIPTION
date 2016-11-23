@@ -19,7 +19,8 @@ Suggests:
     plyr,
     ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 Collate:
     'generics.R'
     'ServerController.R'

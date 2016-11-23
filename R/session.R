@@ -189,7 +189,6 @@ setReplaceMethod(
         }
       }
     }
-    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
     return (x)
   }
 )

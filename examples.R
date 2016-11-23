@@ -1,6 +1,7 @@
 # Readme-Development.txt explains how to install the rsyncrosim package from github
 # This script demonstrates how to use the rsyncrosim package.
 # devtools::document();devtools::load_all()
+# devtools::test()
 library(rsyncrosim)
 
 #################################
@@ -24,6 +25,7 @@ models(mySsim) # Dataframe of the models installed with this version of syncrosi
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
 
 # Add/remove modules
+removeModules(mySsim) = "hi"
 # NOTE: this works but causes problems because I am working with dev version of SyncroSim
 #removeModules(mySsim) = "stsim-stock-flow"
 #is.element("stsim-stock-flow",modules(mySsim)$name)
@@ -37,6 +39,7 @@ command("help")
 command(c("list","help"),mySsim,printCmd=T)
 # LOW PRIORITY: Better explain command with help examples: c("list","models")
 
+# devtools::test()
 # LATER: Create own model from scratch in R. Inputs, output and calculations
 
 ################################
