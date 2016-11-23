@@ -151,7 +151,7 @@ setMethod('id', signature(x="Project"), function(x) {
 })
 
 setReplaceMethod(
-  f="name",
+  f='name',
   signature="Project",
   definition=function(x,value){
     #x=myProject;value="New Name"

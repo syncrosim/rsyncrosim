@@ -11,7 +11,7 @@ ssimLibrary(model = NULL, ...)
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(model = NULL, name = NULL,
   session = NULL, addons = NULL, backup = F, backupName = "backup",
-  backupOverwrite = T)
+  backupOverwrite = T, forceUpdate = F)
 
 \S4method{ssimLibrary}{Project}(model)
 
@@ -31,6 +31,8 @@ ssimLibrary(model = NULL, ...)
 \item{backupName}{Added to a library filepath to create a backup library.}
 
 \item{backupOverwrite}{If TRUE, the existing backup of a library (if any) will be overwritten.}
+
+\item{forceUpdate}{If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.}
 }
 \value{
 An \code{SSimLibrary} object representing a SyncroSim library.

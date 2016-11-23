@@ -91,7 +91,7 @@ sheetName = "STSim_RunControl"; mySheet = datasheet(myScenario,name=sheetName,em
 str(mySheet)
 mySheet[1,"MinimumIteration"] = 1
 mySheet[1,"MaximumIteration"] = 40
-mySheet[1,"MaximumTimestep"] = 0
+mySheet[1,"MinimumTimestep"] = 0
 mySheet[1,"MaximumTimestep"] = 50
 loadDatasheets(myScenario,mySheet,name=sheetName)
 

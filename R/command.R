@@ -43,8 +43,11 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe")
     outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)
     print(outCmd)
   }
-  if(silent(session)){stderr=F}else{stderr=""}
-  out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE,stderr=stderr)
+  if(silent(session)){
+    out = suppressWarnings(system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE))
+  }else{
+    out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE)
+  }
   if(identical(out,character(0))){
     out="Success!"
   }else{

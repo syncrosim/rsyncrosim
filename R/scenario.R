@@ -201,7 +201,7 @@ setMethod(f="initialize",signature="Scenario",
     id = as.numeric(strsplit(tt,": ")[[1]][2])
 
     if(length(propertyArgs)>2){
-      propertArgs$sid = id
+      propertyArgs$sid = id
       tt = command(propertyArgs,.session(x))
     }
     .Object@session=.session(x)

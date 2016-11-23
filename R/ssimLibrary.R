@@ -31,13 +31,14 @@ SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath
 # @name SSimLibrary
 # @rdname SSimLibrary-class
 setMethod(f="initialize",signature="SSimLibrary",
-    definition=function(.Object,model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T){
-    #model=NULL;name=.filepath(cScn);session=mySsim;backup=F;backupName="backup";backupOverwrite=T;addons=c("stsim-ecological-departure")
+    definition=function(.Object,model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T,forceUpdate=F){
+    #model="stsim";name=NULL;session=ssimSession;backup=F;backupName="backup";backupOverwrite=T;addons=NULL;forceUpdate=F
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
     }
 
+    inName = name
     modelOptions = models(session)
     if(!is.null(model)){
       model=gsub(":model-transformer","",model,fixed=T)
@@ -97,6 +98,22 @@ setMethod(f="initialize",signature="SSimLibrary",
     #path =.filepath(myLibrary);session=.session(myLibrary)
     args = list(list=NULL,library=NULL,csv=NULL,lib=path)
     tt = command(args,session)
+    if(grepl("The library has unapplied updates",tt[[1]])){
+      if(is.null(inName)|forceUpdate){answer ="y"}else{
+        answer <- readline(prompt=paste0("The library has unapplied updates. Do you want to update ",path,"? (y/n): "))
+      }
+      if(answer=="y"){
+        updateMessage = command(list(update=NULL,lib=path),session)
+
+        if(!identical(updateMessage,"Success!")){
+          stop(updateMessage)
+        }
+
+      }else{
+        stop("Cannot open a library with unapplied updates.")
+      }
+      tt = command(args,session)
+    }
     tt = .dataframeFromSSim(tt)
     if(ncol(tt)<2){
       stop(command(args,session))
@@ -128,6 +145,9 @@ setMethod(f="initialize",signature="SSimLibrary",
     tt=command(c("list","datasheets","csv",paste0("lib=",path)),session)
     datasheets = .dataframeFromSSim(tt)
     datasheets$dataScope = sapply(datasheets$dataScope,camel)
+    if(length(names(datasheets))<4){
+      stop("rsyncrosim requires SyncroSim version >= 1.0.37.0")
+    }
     names(datasheets) = c("name","displayName","dataScope","isOutput")
     datasheets$isOutput[datasheets$isOutput=="No"]=F
     datasheets$isOutput[datasheets$isOutput=="Yes"]=T
@@ -155,6 +175,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' @param backup If TRUE, a backup copy is made when an existing library is opened.
 #' @param backupName Added to a library filepath to create a backup library.
 #' @param backupOverwrite If TRUE, the existing backup of a library (if any) will be overwritten.
+#' @param forceUpdate If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
 #' @return An \code{SSimLibrary} object representing a SyncroSim library.
 #' @examples
 #' # See the installed models
@@ -185,7 +206,7 @@ setMethod(f="initialize",signature="SSimLibrary",
 #' @name ssimLibrary
 # @rdname SSimLibrary-class
 setMethod('ssimLibrary',signature(model="missingOrNULLOrChar"),
-          function(model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T) new("SSimLibrary",model,name,session,addons,backup,backupName,backupOverwrite))
+          function(model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T,forceUpdate=F) new("SSimLibrary",model,name,session,addons,backup,backupName,backupOverwrite,forceUpdate))
 
 setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
@@ -263,8 +284,8 @@ setReplaceMethod(
 setGeneric('update',function(x,...) standardGeneric('update'))
 setMethod('update', signature(x="SSimLibrary"), function(x) {
   #x= myLibrary
-  command(c("update","help"),.session(x))
-  tt = command(list(update=NULL,lib=.filepath(x)))
+  #args = list(update=NULL,lib=.filepath(x));session=.session(x)
+  tt = command(list(update=NULL,lib=.filepath(x)),.session(x))
   return(tt[1])
 })
 

@@ -40,6 +40,7 @@ Session <- setClass("Session", representation(filepath="character",silent="logic
 # @name Session
 # @rdname Session-class
 setMethod(f="initialize",signature="Session",definition=function(.Object,path,silent=F){
+  #path = NULL;silent=F;.Object=ssimSession
   #Check validity of console filepath.
   if(!is.null(path)){
     if(!grepl("SyncroSim.Console.exe",path,fixed=T)){
@@ -65,8 +66,23 @@ setMethod(f="initialize",signature="Session",definition=function(.Object,path,si
   if(is.null(path)){
     stop('SyncroSim.Console.exe not found. Please set consolePath to the location of the SyncroSim console.')
   }
+
   .Object@filepath=gsub("/SyncroSim.Console.exe","",path,fixed=T)
   .Object@silent=silent
+
+  vs = command(list(version=NULL),.Object)
+  vs = gsub("Core Assembly Version: ","",vs[[2]],fixed=T)
+  vs = as.numeric(gsub(".","",vs,fixed=T))
+  if(vs<10370){
+    stop("rsyncrosim requires at least SyncroSim version 1.0.37.0.")
+  }else{
+    #check for development versions that do not have all required functionality
+    checkCmd =command(list(export=NULL,datasheet=NULL,help=NULL),.Object)
+    if(max(grepl("allsheets",checkCmd))==0){
+      stop("rsyncrosim requires a more recent version of SyncroSim.")
+    }
+  }
+
   return(.Object)
 })
 

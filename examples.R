@@ -39,7 +39,6 @@ command("help")
 command(c("list","help"),mySsim,printCmd=T)
 # LOW PRIORITY: Better explain command with help examples: c("list","models")
 
-# devtools::test()
 # LATER: Create own model from scratch in R. Inputs, output and calculations
 
 ################################
@@ -180,6 +179,8 @@ results(myScenario)     # returns a named vector (by char ID) of the results sce
 
 # LOW PRIORITY - datafeeds
 # TO DO: disable assignment functions for result scenarios?
+
+# devtools::test()
 
 #############################
 # Datasheets
