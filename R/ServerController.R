@@ -38,7 +38,7 @@ setMethod('connection',signature(x="missingOrNULLOrChar"),
   return(con)
 })
 setReplaceMethod(
-  f="connection",
+  f='connection',
   signature="ServerController",
   definition=function(x,value){
     if(!is.element("sockconn",class(value))){

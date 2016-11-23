@@ -24,7 +24,7 @@ NULL
 Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric"))
 # @name Scenario
 # @rdname Scenario-class
-setMethod(f="initialize",signature="Scenario",
+setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL,author=NULL,description=NULL,readOnly=NULL){
     #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id=NULL;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
@@ -252,7 +252,7 @@ setMethod('name', signature(x="Scenario"), function(x) {
   return(x@name)
 })
 setReplaceMethod(
-  f="name",
+  f='name',
   signature="Scenario",
   definition=function(x,value){
     #x=myScenario;value="New Name"

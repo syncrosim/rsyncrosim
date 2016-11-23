@@ -17,7 +17,7 @@
 #' output
 #' @export
 command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe") {
-  # args=myArgs;session=mySsim;printCmd=F
+  # args=args;session=mySsim;printCmd=F
   # TO DO: check validity of args
 
   #if a syncrosim session is not provided, make one
@@ -37,7 +37,10 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe")
       sysArgs[i] = paste0(sysArgs[i],'="',args[[i]],'"')
     }
   }else{
-    sysArgs=paste0("--",args)
+    fixPaths = grepl(" ",args)
+    args[fixPaths] = gsub('=','="',args[fixPaths],fixed=T)
+    args[fixPaths] = paste0(args[fixPaths],'"')
+    sysArgs=paste0('--',args)
   }
   if(printCmd){
     outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)

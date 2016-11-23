@@ -39,7 +39,7 @@ NULL
 Session <- setClass("Session", representation(filepath="character",silent="logical"))
 # @name Session
 # @rdname Session-class
-setMethod(f="initialize",signature="Session",definition=function(.Object,path,silent=F){
+setMethod(f='initialize',signature="Session",definition=function(.Object,path,silent=F){
   #path = NULL;silent=F;.Object=ssimSession
   #Check validity of console filepath.
   if(!is.null(path)){
@@ -150,7 +150,7 @@ setMethod('modules', signature(x="Session"), function(x) {
 #' @export
 setGeneric('addModules<-',function(x,value) standardGeneric('addModules<-'))
 setReplaceMethod(
-  f="addModules",
+  f='addModules',
   signature="Session",
   definition=function(x,value){
     #x=mySsim
@@ -182,7 +182,7 @@ setReplaceMethod(
 #' @export
 setGeneric('removeModules<-',function(x,value) standardGeneric('removeModules<-'))
 setReplaceMethod(
-  f="removeModules",
+  f='removeModules',
   signature="Session",
   definition=function(x,value){
     #value = "stsim-stock-flow";x=mySsim

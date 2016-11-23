@@ -30,9 +30,9 @@ NULL
 SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath="character",datasheetNames="data.frame"))
 # @name SSimLibrary
 # @rdname SSimLibrary-class
-setMethod(f="initialize",signature="SSimLibrary",
+setMethod(f='initialize',signature="SSimLibrary",
     definition=function(.Object,model=NULL,name=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T,forceUpdate=F){
-    #model="stsim";name=NULL;session=ssimSession;backup=F;backupName="backup";backupOverwrite=T;addons=NULL;forceUpdate=F
+    #model="stsim";name="New Lib";session=NULL;backup=F;backupName="backup";backupOverwrite=T;addons=NULL;forceUpdate=F
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
@@ -141,7 +141,8 @@ setMethod(f="initialize",signature="SSimLibrary",
         tt = command(list(create=NULL,addon=NULL,lib=path,name=paste0(addons[i],":add-on-transformer")),session)
       }
     }
-
+#RESUME HERE
+    #args = c("list","datasheets","csv",paste0("lib=",path))
     tt=command(c("list","datasheets","csv",paste0("lib=",path)),session)
     datasheets = .dataframeFromSSim(tt)
     datasheets$dataScope = sapply(datasheets$dataScope,camel)
@@ -263,7 +264,7 @@ setMethod('modelVersion', signature(x="SSimLibrary"), function(x) {
 #' @export
 setGeneric('session<-',function(x,value) standardGeneric('session<-'))
 setReplaceMethod(
-  f="session",
+  f='session',
   signature="SSimLibrary",
   definition=function(x,value){
     if(class(value)!="Session"){
@@ -542,7 +543,7 @@ setMethod('addons', signature(x="SSimLibrary"), function(x,all=F) {
 #' @export
 setGeneric('enableAddons<-',function(x,value) standardGeneric('enableAddons<-'))
 setReplaceMethod(
-  f="enableAddons",
+  f='enableAddons',
   signature="SSimLibrary",
   definition=function(x,value){
     #x=myLibrary
@@ -587,7 +588,7 @@ setReplaceMethod(
 #' @export
 setGeneric('disableAddons<-',function(x,value) standardGeneric('disableAddons<-'))
 setReplaceMethod(
-  f="disableAddons",
+  f='disableAddons',
   signature="SSimLibrary",
   definition=function(x,value){
     #x=myLibrary

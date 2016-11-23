@@ -10,7 +10,7 @@ NULL
 #' @rdname ExternalClient-class
 #' @export ExternalClient
 ExternalClient <- setClass("ExternalClient",contains="ServerController")
-setMethod(f="initialize",signature="ExternalClient",
+setMethod(f='initialize',signature="ExternalClient",
           definition=function(.Object,connect=T,...){
             if(connect){
               .Object@connection=connection(...)

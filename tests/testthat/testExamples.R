@@ -1,3 +1,4 @@
+retDir = getwd()
 unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
@@ -15,7 +16,7 @@ test_that("Tests of Session", {
 
 test_that("Tests of command", {
   expect_equal(command("help")[1],"System Console [Arguments]")
-  expect_equal(command(c("list","help"),mySsim,printCmd=T)[1],"Lists existing items")
+  expect_equal(command(c("list","help"),mySsim)[1],"Lists existing items")
 })
 
 test_that("Tests of Library", {
@@ -32,6 +33,7 @@ test_that("Tests of Library", {
   # Open an existing ST-Sim library on a SyncroSim connection
   myLibrary = ssimLibrary(model="stsim",name="stsim", backup=TRUE)
   expect_equal(file.exists(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T)),TRUE)
+  unlink(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T))
 
   # Get/set the various properties of the library
   expect_equal(file.exists(filepath(session(myLibrary))),TRUE)
@@ -42,13 +44,15 @@ test_that("Tests of Library", {
 
   enableAddons(myLibrary) = c("stsim-stock-flow")
   expect_equal(is.element("stsim-stock-flow",addons(myLibrary)$shortName),TRUE)
-  disableAddons(myLibrary) = c("stsim-ecological-departure", "stsim-stock-flow")
+  disableAddons(myLibrary) = c("stsim-stock-flow")
   expect_equal(is.element("stsim-stock-flow",addons(myLibrary)$shortName),FALSE)
   session(myLibrary)=session(silent=T)
   expect_equal(update(myLibrary),"The library has no unapplied updates.")
+  unlink(filepath(myLibrary))
 })
 
 test_that("Tests of Project", {
+  myLibrary = ssimLibrary(name="New Lib",model="stsim")
   myProject = project(myLibrary) #If no name is given, creates a project named "Project".
   myProject = project(ssimLibrary=myLibrary, name="My new project name")
 
@@ -72,9 +76,11 @@ test_that("Tests of Project", {
   myProjectNames = projects(myLibrary,names=T)
   expect_equal(names(myProjectNames),c("id","name"))
   expect_equal(is.element("New project name",myProjectNames$name),FALSE)
+  unlink(filepath(myLibrary))
 })
 
 test_that("Tests of Scenario", {
+  myLibrary = ssimLibrary(name="Another Lib",model="stsim")
   myProject = project(myLibrary)
   expect_is(scenario(myLibrary),"Scenario")  # NOTE: this works only if there is <= 1 project in Library.
   expect_is(scenario(myProject),"Scenario") #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
@@ -114,16 +120,8 @@ test_that("Tests of Scenario", {
   # Delete scenarios
   ret = deleteScenarios(myLibrary, scenario=scenarios(myLibrary,names=T)$id,force=T)
   expect_equal(nrow(scenarios(myLibrary,names=T)),0)
-
+  unlink(filepath(myLibrary))
 })
 
-
-
-# Get a list of existing results scenarios for a particular project
-#myScenarios = scenarios(myProject, results=TRUE)
-#myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project="My new project name", results=TRUE)
-#myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=1, results=TRUE)
-# NOTE CHANGE: scenarios() is a generic method defined for Project, SSimLibrary, and character object. If given a character string, queries an SSimLibrary of that name.
-
-setwd('..')
-unlink(".\testLibs",recursive=T)
+setwd(retDir)
+unlink("testLibs",recursive=T)

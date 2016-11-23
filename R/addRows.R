@@ -14,7 +14,7 @@
 #' @export
 setGeneric('addRows<-',function(x,value) standardGeneric('addRows<-'))
 setReplaceMethod(
-  f="addRows",
+  f='addRows',
   signature="data.frame",
   definition=function(x,value){
     #x=mySheet;value=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",TransitionTypeID="Fire",Probability=0.01)
@@ -41,7 +41,6 @@ setReplaceMethod(
     #Note - will not add row if that exact row already exists.
     out=merge(x,value,all=T)
 
-    str(out)
     #Now fill in missing factor values if possible
     for(i in seq(length.out=ncol(out))){
       #i=5

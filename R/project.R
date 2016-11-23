@@ -21,7 +21,7 @@ NULL
 Project <- setClass("Project", contains="SSimLibrary",representation(name="character",id="numeric"))
 # @name Project
 # @rdname Project-class
-setMethod(f="initialize",signature="Project",
+setMethod(f='initialize',signature="Project",
     definition=function(.Object,ssimLibrary,name=NULL,id=NULL,create=T,projects=NULL){
     #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id = NULL;name=NULL;projects=NULL;create=T
