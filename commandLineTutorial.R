@@ -6,6 +6,7 @@
 # Date 2016.11.15
 # **********************************************************
 # devtools::document();devtools::load_all()
+# devtools::test()
 
 #*************************************
 # Create the project definition

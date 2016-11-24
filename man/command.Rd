@@ -5,7 +5,7 @@
 \title{SyncroSim console command}
 \usage{
 command(args, session = NULL, printCmd = F,
-  program = "/SyncroSim.Console.exe")
+  program = "/SyncroSim.Console.exe", silent = NULL)
 }
 \arguments{
 \item{args}{A list of arguments to the SyncroSim console.}
@@ -13,6 +13,8 @@ command(args, session = NULL, printCmd = F,
 \item{session}{A SyncroSim session object. If NULL, a default session will be used.}
 
 \item{printCmd}{If T, the command string is printed.}
+
+\item{silent}{If NULL (default) use session@silent. If T suppress warnings from console.}
 }
 \value{
 Output from the SyncroSim console.

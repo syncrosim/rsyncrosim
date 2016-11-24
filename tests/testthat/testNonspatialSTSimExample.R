@@ -205,11 +205,11 @@ test_that("Test simple non-spatial STSim example", {
   #******************************
   # devtools::document();devtools::load_all()
   sheetName = "STSim_OutputStratumState"
-  names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting data
+  #names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting data
   mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"))
-  mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite.
+  #mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite.
   outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
-  str(outStatesAllAges) #Much faster: fewer lookups and fewer records.
+  #str(outStatesAllAges) #Much faster: fewer lookups and fewer records.
   expect_equal(setdiff(unique(outStatesAllAges$Timestep),seq(from=0,to=10)),numeric(0))
   expect_equal(setdiff(unique(outStatesAllAges$Iteration),seq(from=1,to=2)),numeric(0))
   expect_equal(setdiff(unique(outStatesAllAges$ScenarioParent),c("Harvest","No Harvest")),character(0))
@@ -217,13 +217,12 @@ test_that("Test simple non-spatial STSim example", {
   checkSums = ddply(outStatesAllAges,.(ScenarioParent,Iteration,Timestep),summarize,Amount=sum(Amount))
   expect_equal(unique(checkSums$Amount),100)
 
-
   ####
   #misc example checks
   # Get a list of existing results scenarios for a particular project
   expect_equal(nrow(scenarios(myProject, results=TRUE,names=T)),2)
 
-
+  #RESUME HERE - test datasheet stuff from examples.R
 
 
 })

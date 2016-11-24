@@ -7,20 +7,20 @@
 \alias{ssimLibrary,Scenario-method}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(model = NULL, ...)
+ssimLibrary(name = NULL, ...)
 
-\S4method{ssimLibrary}{missingOrNULLOrChar}(model = NULL, name = NULL,
+\S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, model = NULL,
   session = NULL, addons = NULL, backup = F, backupName = "backup",
   backupOverwrite = T, forceUpdate = F)
 
-\S4method{ssimLibrary}{Project}(model)
+\S4method{ssimLibrary}{Project}(name)
 
-\S4method{ssimLibrary}{Scenario}(model)
+\S4method{ssimLibrary}{Scenario}(name)
 }
 \arguments{
-\item{model}{A model type or a SyncroSim Project or Scenario. Optional when loading an existing library using a name.}
+\item{name}{A file name, model type, SyncroSim Project or Scenario. Optional.}
 
-\item{name}{A library file name or library file path. If not a path library is created or opened in the current working directory.}
+\item{model}{The model type. Optional when loading an existing library.}
 
 \item{session}{A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.}
 
@@ -42,11 +42,12 @@ Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim li
 }
 \details{
 \itemize{
-  \item {If model is SyncroSim Project or Scenario: }{Returns the \code{\link{SSimLibrary}} associated with the Project or Scenario.}
+  \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SSimLibrary}} associated with the Project or Scenario.}
   \item {If given no name and no model: }{Opens an existing SyncroSim library in
   the current working directory - returns an error if more than one library exists. If library does not exist and only one model is installed - creates a library of that type.}
   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
-  \item {If given a name but no model: }{Attempts to open a library of that name. Returns an error if that library does not already exist.}
+  \item {If given a name but no model and name is a valid model type: }{Attempts to open a library of that name. If library does not exist creates a library of type <name> in the current working directory.}
+  \item {If given a name but no model and name is not a valid model type: }{Attempts to open a library of that name. Returns an error if that library does not already exist.}
   \item {If given a name and a model: }{Opens or creates a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 }
 }

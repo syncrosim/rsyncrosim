@@ -15,11 +15,13 @@ test_that("Tests of Session", {
 
 
 test_that("Tests of command", {
+  mySsim = session() # Creates a session using the default installation of syncrosim
   expect_equal(command("help")[1],"System Console [Arguments]")
   expect_equal(command(c("list","help"),mySsim)[1],"Lists existing items")
 })
 
 test_that("Tests of Library", {
+  mySsim = session() # Creates a session using the default installation of syncrosim
   myLibrary = ssimLibrary(model="stsim",name="stsim")
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(names(addons(myLibrary)),c("name","displayName","enabled","shortName")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns

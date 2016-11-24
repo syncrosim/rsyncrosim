@@ -32,14 +32,14 @@ NULL
 #' myLib = ssimLibrary(name="stsim",model="stsim")
 #' session(myLib)
 #' @slot filepath The path to SyncroSim
-#' @slot silent If TRUE, warnings from the console are ignored. Otherwise they are printed.
+#' @slot silent If TRUE (default), warnings from the console are ignored. Otherwise they are printed.
 #' @name Session-class
 #' @rdname Session-class
 #' @export Session
 Session <- setClass("Session", representation(filepath="character",silent="logical"))
 # @name Session
 # @rdname Session-class
-setMethod(f='initialize',signature="Session",definition=function(.Object,path,silent=F){
+setMethod(f='initialize',signature="Session",definition=function(.Object,path,silent=T){
   #path = NULL;silent=F;.Object=ssimSession
   #Check validity of console filepath.
   if(!is.null(path)){
@@ -87,7 +87,7 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
 })
 
 # @describeIn session Create a SyncroSim Session from a filepath or get default Session.
-setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent=F) {
+setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent=T) {
   return(new("Session",x,silent))
 })
 

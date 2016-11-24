@@ -19,9 +19,9 @@ setMethod('scenarios', signature(x="character"), function(x,...) {
 #'
 #' Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim library.
 #'
-#' @param model A model type or a SyncroSim Project or Scenario. Optional when loading an existing library using a name.
+#' @param name A file name, model type, SyncroSim Project or Scenario. Optional.
 #' @export
-setGeneric('ssimLibrary',function(model=NULL,...) standardGeneric('ssimLibrary'))
+setGeneric('ssimLibrary',function(name=NULL,...) standardGeneric('ssimLibrary'))
 
 #' The name of a SyncroSim project or scenario.
 #'

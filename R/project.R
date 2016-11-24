@@ -165,8 +165,8 @@ setReplaceMethod(
 )
 
 #' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Project.
-setMethod('ssimLibrary', signature(model="Project"), function(model) {
-  out = .ssimLibrary(name=.filepath(model),session=.session(model))
+setMethod('ssimLibrary', signature(name="Project"), function(name) {
+  out = .ssimLibrary(name=.filepath(name),session=.session(name))
   return(out)
 })
 

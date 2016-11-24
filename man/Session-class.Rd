@@ -14,7 +14,7 @@ A SyncroSim Session object contains a link to SyncroSim.
 \describe{
 \item{\code{filepath}}{The path to SyncroSim}
 
-\item{\code{silent}}{If TRUE, warnings from the console are ignored. Otherwise they are printed.}
+\item{\code{silent}}{If TRUE (default), warnings from the console are ignored. Otherwise they are printed.}
 }}
 \examples{
 # Create or load a library using a non-default Session

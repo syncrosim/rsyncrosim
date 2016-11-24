@@ -9,6 +9,7 @@
 #' @param args A list of arguments to the SyncroSim console.
 #' @param session A SyncroSim session object. If NULL, a default session will be used.
 #' @param printCmd If T, the command string is printed.
+#' @param silent If NULL (default) use session@silent. If T suppress warnings from console.
 #' @return Output from the SyncroSim console.
 #' @examples
 #' # Use a default session to creat a new library
@@ -16,9 +17,12 @@
 #' output = command(args)
 #' output
 #' @export
-command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe") {
+command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",silent=NULL) {
   # args=args;session=mySsim;printCmd=F
   # TO DO: check validity of args
+  if(!is.null(silent)){
+    session@silent =silent
+  }
 
   #if a syncrosim session is not provided, make one
   if(is.null(session)){

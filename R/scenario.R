@@ -372,9 +372,9 @@ setMethod('pid', signature(x="Scenario"), function(x) {
 projectId = pid
 
 #' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Scenario.
-setMethod('ssimLibrary', signature(model="Scenario"), function(model) {
+setMethod('ssimLibrary', signature(name="Scenario"), function(name) {
   #model=cScn
-  out = .ssimLibrary(name=.filepath(model),session=.session(model))
+  out = .ssimLibrary(name=.filepath(name),session=.session(name))
   return(out)
 })
 
