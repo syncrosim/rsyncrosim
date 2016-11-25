@@ -54,7 +54,7 @@ test_that("Tests of Library", {
 })
 
 test_that("Tests of Project", {
-  myLibrary = ssimLibrary(name="New Lib",model="stsim")
+  myLibrary = ssimLibrary(name="New Lib5",model="stsim")
   myProject = project(myLibrary) #If no name is given, creates a project named "Project".
   myProject = project(ssimLibrary=myLibrary, name="My new project name")
 
@@ -126,4 +126,6 @@ test_that("Tests of Scenario", {
 })
 
 setwd(retDir)
+#setwd('..')
 unlink("testLibs",recursive=T)
+#getwd()

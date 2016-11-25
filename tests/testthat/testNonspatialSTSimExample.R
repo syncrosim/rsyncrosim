@@ -88,7 +88,7 @@ test_that("Test simple non-spatial STSim example", {
   myScenario = scenario(myProject,name="No Harvest")
   expect_is(myScenario,"Scenario")
   # NOTE: To be consistent with project() I have used name/id in scenario().
-  expect_equal(names(datasheets(myScenario,scope="scenario")),c("name","displayName","dataScope","isOutput"))
+  expect_equal(names(datasheets(myScenario,scope="scenario")),c("name","displayName","dataScope","isOutput","isSpatial"))
 
   #**************
   # Run control
@@ -230,3 +230,4 @@ test_that("Test simple non-spatial STSim example", {
 #setwd('..')
 setwd(retDir)
 unlink("testLibs",recursive=T)
+#getwd()

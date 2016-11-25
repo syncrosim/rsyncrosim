@@ -18,7 +18,7 @@
 #' output
 #' @export
 command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",silent=NULL) {
-  # args=args;session=mySsim;printCmd=F
+  # args=args;session=bugSession;printCmd=T;program="/SyncroSim.Console.exe"
   # TO DO: check validity of args
   if(!is.null(silent)){
     session@silent =silent
@@ -50,11 +50,22 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",
     outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)
     print(outCmd)
   }
+
+  tempCmd = paste(c(paste0('\"\"',.filepath(session),program,'\"'),sysArgs,'\"'),collapse=" ")
+
   if(silent(session)){
-    out = suppressWarnings(system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE))
+    out=suppressWarnings(shell(tempCmd,intern=T))
+    #out = suppressWarnings(system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE))
   }else{
-    out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE)
+    #out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE)
+    out = shell(tempCmd,intern=T)
   }
+  #if(grepl("0x80131515",out,fixed=T)){
+    # handle a problem with permission to run
+    #https://blogs.msdn.microsoft.com/brada/2009/12/11/visual-studio-project-sample-loading-error-assembly-could-not-be-loaded-and-will-be-ignored-could-not-load-file-or-assembly-or-one-of-its-dependencies-operation-is-not-supported-exception-from/
+    #shell would probably also work
+    #out = system2("cmd",args=c('/c',paste0('\"\"',.filepath(session),program,'\"'),sysArgs,'\"'))
+  #}
   if(identical(out,character(0))){
     out="Success!"
   }else{

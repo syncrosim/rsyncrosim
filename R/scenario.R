@@ -378,6 +378,50 @@ setMethod('ssimLibrary', signature(name="Scenario"), function(name) {
   return(out)
 })
 
+#' Modify the grouping of spatial layers.
+#'
+#' Modify the grouping of spatial output layers in a SyncroSim results scenario.
+#'
+#' @examples
+#' # Update an old scenario to allow rsyncrosim to access spatial output
+#' multiband(myResultScenario,action="rebuild")
+#'
+#' # Combine spatial outputs into multi-band rasters containing a layer for each timetep.
+#' multiband(myResultScenario,action="apply",grouping="Timestep")
+#'
+#' # Combine spatial outputs into multi-band rasters containing a layer for each iteration.
+#' multiband(myResultScenario,action="apply",grouping="Iteration")
+#'
+#' # Combine spatial outputs into multi-band rasters containing a layer for each timestep and iteration.
+#' multiband(myResultScenario,action="apply",grouping="All")
+#'
+#' # Remove multi-banding
+#' multiband(myResultScenario,action="remove")
+#'
+#' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
+#' @param action Options are: apply, remove, rebuild
+#' @param grouping Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
+#' @return "Success!" or an error message from SyncroSim.
+#' @export
+setGeneric('multiband',function(x,action,grouping=NULL) standardGeneric('multiband'))
+setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
+  #x=myResult;action="rebuild";grouping=NULL
+  if(parentId(myResult)==0){
+    stop("Need a result Scenario.")
+  }
+
+  #command(c("help"),program="/SyncroSim.MultiBand.exe")
+  args = list(lib=.filepath(x),sid=.id(x))
+  args[[action]]=NA
+  if(action=="apply"){
+    if(!is.null(grouping)){
+      args$grp = grouping
+    }
+  }
+  tt = command(args,.session(x),program="/SyncroSim.MultiBand.exe")
+  return(tt)
+})
+
 
 
 

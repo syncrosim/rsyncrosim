@@ -6,7 +6,7 @@
 # Date 2016.11.15
 # **********************************************************
 # devtools::document();devtools::load_all()
-# devtools::test()
+# devtools::test() #to test a particular version of SyncroSim modify consolePathPossibilities in session.R
 
 #*************************************
 # Create the project definition

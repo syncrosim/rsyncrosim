@@ -57,7 +57,7 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
     if(is.null(path)){
       #TO DO: what is best way to find console on all systems
       #Default installation locations?
-      consolePathPossibilities = c("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
+      consolePathPossibilities = c("C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64 (bug)","C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64","C:/Program Files/SyncroSim/1","C:/Program Files/SyncroSim/1")
       for(i in seq(length.out=length(consolePathPossibilities))){
         if(file.exists(consolePathPossibilities[i])){path=consolePathPossibilities[i];break}
       }
@@ -73,8 +73,8 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   vs = command(list(version=NULL),.Object)
   vs = gsub("Core Assembly Version: ","",vs[[2]],fixed=T)
   vs = as.numeric(gsub(".","",vs,fixed=T))
-  if(vs<10370){
-    stop("rsyncrosim requires at least SyncroSim version 1.0.37.0.")
+  if(vs<10380){
+    stop("rsyncrosim requires at least SyncroSim version 1.0.38.0.")
   }else{
     #check for development versions that do not have all required functionality
     checkCmd =command(list(export=NULL,datasheet=NULL,help=NULL),.Object)

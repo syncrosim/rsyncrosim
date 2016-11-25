@@ -14,7 +14,8 @@ License: ?
 LazyData: TRUE
 Imports:
     DBI,
-    RSQLite
+    RSQLite,
+    raster
 Suggests:
     plyr,
     ggplot2,
@@ -40,6 +41,5 @@ Collate:
     'internalWrappers.R'
     'rsyncrosim.R'
     'setRows.R'
-    'trim.R'
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

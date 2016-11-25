@@ -24,7 +24,7 @@ Project <- setClass("Project", contains="SSimLibrary",representation(name="chara
 setMethod(f='initialize',signature="Project",
     definition=function(.Object,ssimLibrary,name=NULL,id=NULL,create=T,projects=NULL){
     #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id = NULL;name=NULL;projects=NULL;create=T
+    # id = NULL;name=NULL;projects=NULL;create=T;projects=NULL
     x=ssimLibrary
     if(is.character(x)){
       x=.ssimLibrary(name=x)
@@ -48,7 +48,9 @@ setMethod(f='initialize',signature="Project",
         stop(paste0("The library already contains a project id ",id," with a different name ",pre$name))
       }
     }
-
+    if(is.null(id)&is.null(name)&(nrow(findPrj)==1)){
+      name = findPrj$name
+    }
     if(is.null(id)&is.null(name)&(nrow(findPrj)>0)){
       name = "Project"
       cName = name
@@ -90,6 +92,10 @@ setMethod(f='initialize',signature="Project",
       name="Project"
     }
     tt = command(list(create=NULL,project=NULL,lib=.filepath(x),name=name),.session(x))
+    if(!grepl("Project ID is:",tt,fixed=T)){
+      stop(tt)
+    }
+
     id = as.numeric(strsplit(tt,": ")[[1]][2])
 
     .Object@session=.session(x)

@@ -156,6 +156,7 @@ setMethod(f='initialize',signature="SSimLibrary",
     datasheets$isOutput[datasheets$isOutput=="No"]=F
     datasheets$isOutput[datasheets$isOutput=="Yes"]=T
     datasheets$isOutput=as.logical(datasheets$isOutput)
+    datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
 
     .Object@session=session
     .Object@filepath=path
@@ -650,6 +651,8 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
     datasheets$isOutput[datasheets$isOutput=="No"]=F
     datasheets$isOutput[datasheets$isOutput=="Yes"]=T
     datasheets$isOutput=as.logical(datasheets$isOutput)
+    datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
+    #TO DO - export this info from SyncroSim
   }
   if(!is.null(scope)&&(scope=="all")){
     return(datasheets)
@@ -679,8 +682,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myScenario;project=NULL;scenario=NULL;name=sheetName;optional=F;empty=T;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
-
+  #x = myResult;project=NULL;scenario=NULL;name="STSim_OutputSpatialState";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -742,7 +744,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   if(!empty){
     #Only query database if output or multiple scenarios/project or complex sql
 
-    useConsole = (!sheetNames$isOutput)
+    useConsole = (!sheetNames$isOutput)|(sheetNames$isSpatial)
     useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
     useConsole = useConsole&!((sheetNames$dataScope=="project")&(length(pid)>1))
     useConsole = useConsole&!((sheetNames$dataScope=="scenario")&(length(sid)>1))
@@ -807,6 +809,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   }else{
     sheet=data.frame(temp=NA)
   }
+
   if(nrow(sheet)>0){
     sheet[sheet==""]=NA
   }
@@ -850,7 +853,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       }
     }
     for(i in seq(length.out=nrow(sheetInfo))){
-      #i =4
+      #i =3
       cRow = sheetInfo[i,]
       if(!is.element(cRow$name,colnames(sheet))){
         if(sqlStatements$select=="SELECT *"){
@@ -860,7 +863,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         }
       }
       outNames = c(outNames,cRow$name)
-      if((is.element(cRow$type,c("Integer","Double","Single")))&(cRow$valType!="DataSheet")){
+      if((is.element(cRow$type,c("Integer","Double","Single")))&!is.element(cRow$valType,c("DataSheet","List"))){
         sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
       }
       if(cRow$type=="String"){
@@ -871,6 +874,15 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
           sheet[[cRow$name]]=as.logical(abs(sheet[[cRow$name]]))
           #stop("handle this case")
         }
+      }
+      if((cRow$valType=="List")&lookupsAsFactors){
+        opts = cRow$formula1
+        opts = strsplit(opts,"|",fixed=T)[[1]]
+        cLevels = c()
+        for(j in seq(length.out=length(opts))){
+          cLevels=c(cLevels,strsplit(opts[j],":",fixed=T)[[1]][2])
+        }
+        sheet[[cRow$name]] = factor(sheet[[cRow$name]],levels=cLevels)
       }
       if(cRow$valType=="DataSheet"){
         if(lookupsAsFactors){
