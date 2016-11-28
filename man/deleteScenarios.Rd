@@ -10,6 +10,8 @@ deleteScenarios(x, ...)
 \item{x}{An SSimLibrary, Project or Scenario.}
 
 \item{scenario}{One or more scenario names or ids.}
+
+\item{force}{If FALSE (default) user is prompted to confirm deletions.}
 }
 \value{
 A list of "Success!" or failure messages for each scenario.

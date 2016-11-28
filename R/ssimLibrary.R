@@ -415,6 +415,7 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,force
 #'
 #' @param x An SSimLibrary, Project or Scenario.
 #' @param scenario One or more scenario names or ids.
+#' @param force If FALSE (default) user is prompted to confirm deletions.
 #' @return A list of "Success!" or failure messages for each scenario.
 #' @examples
 #' myLibrary = ssimLibrary(model="stsim")
@@ -682,7 +683,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myResult;project=NULL;scenario=NULL;name="STSim_OutputSpatialState";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+  #x = myResult;project=NULL;scenario=NULL;name="STSim_OutputStateAttribute";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -835,7 +836,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
     directQuery=F
     if(lookupsAsFactors&!useConsole){
-      directQuery = (length(pid)>1)|(length(sid)>1)
+      directQuery = TRUE#(length(pid)>1)|(length(sid)>1)
       if(directQuery){
         drv = DBI::dbDriver('SQLite')
         con = DBI::dbConnect(drv,.filepath(x))
@@ -853,7 +854,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       }
     }
     for(i in seq(length.out=nrow(sheetInfo))){
-      #i =3
+      #i =4
       cRow = sheetInfo[i,]
       if(!is.element(cRow$name,colnames(sheet))){
         if(sqlStatements$select=="SELECT *"){
@@ -924,7 +925,15 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
           lookupLevels = lookupSheet$Name
           if(is.numeric(sheet[[cRow$name]])){
             if(nrow(lookupSheet)>0){
-              lookupMerge = subset(lookupSheet,select=c(cRow$name,"Name"))
+              if(length(intersect(c(cRow$name,"ID"),names(lookupSheet)))==0){
+                stop("Something is wrong. Expecting ID or ",cRow$name," in lookup table.")
+              }
+              if(is.element(cRow$name,names(lookupSheet))){
+                lookupMerge = subset(lookupSheet,select=c(cRow$name,"Name"))
+              }else{
+                lookupMerge = subset(lookupSheet,select=c("ID","Name"))
+              }
+
               names(lookupMerge) = c(cRow$name,"lookupName")
               sheet=merge(sheet,lookupMerge, all.x=T)
               sheet[[cRow$name]]=sheet$lookupName

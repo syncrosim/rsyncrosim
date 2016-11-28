@@ -6,6 +6,7 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' @param x An SSimLibrary or Project object, or an SSimLibrary name.
 #' @param project A project name, id, or object.
 #' @param names If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.
+#' @param results If TRUE only return result scenarios.
 #' @examples
 #' myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
 #' @export

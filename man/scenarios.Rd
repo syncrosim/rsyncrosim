@@ -12,6 +12,8 @@ scenarios(x, ...)
 \item{project}{A project name, id, or object.}
 
 \item{names}{If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.}
+
+\item{results}{If TRUE only return result scenarios.}
 }
 \description{
 Get a list of scenarios in a SSimLibrary or Project.
