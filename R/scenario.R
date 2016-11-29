@@ -422,6 +422,95 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
   return(tt)
 })
 
+#' Get spatial inputs or outputs from a SyncroSim scenario.
+#'
+#' Get spatial inputs or outputs from a SyncroSim scenario.
+#'
+#' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
+#' @param sheet The name of a spatial datasheet. See subset(datasheets(myResultScenario),isSpatial)$name for options.
+#' @param iterations A vector of iterations. If NULL(default) all available iterations will be included
+#' @param timesteps A vector of timesteps. If NULL(default) all available timesteps will be included.
+#' @return A RasterStack or RasterBrick object. See raster package documentation for details.
+#' @export
+setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL) standardGeneric('spatialData'))
+setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps) {
+  # x= myResult; sheet="STSim_OutputSpatialState";iterations=seq(1,5);timesteps = seq(0,10,by=2)
+
+  cSheets = datasheets(x)
+  if(!is.element(sheet,cSheets$name)){
+    cSheets = datasheets(x,refresh=T)
+  }
+  cSheets=subset(cSheets,isSpatial)
+  if(!is.element(sheet,cSheets$name)){
+    stop(sheet," is not a spatial data sheet.")
+  }
+
+  cMeta = datasheet(x,name=sheet)
+  if(nrow(cMeta)==0){
+    multiband(myResult,action="rebuild")
+    cMeta = datasheet(x,name=sheet)
+  }
+
+  if(!is.null(timesteps)&is.element("Timestep",names(cMeta))){
+    timesteps=as.numeric(timesteps)
+    missSteps = setdiff(timesteps,cMeta$Timestep)
+    if(length(missSteps)>0){
+      warning("Selected timesteps not available: ",paste(missSteps,collapse=","))
+    }
+    cMeta = subset(cMeta,is.element(Timestep,timesteps))
+  }
+
+  if(!is.null(iterations)&is.element("Iteration",names(cMeta))){
+    iterations=as.numeric(iterations)
+    missSteps = setdiff(iterations,cMeta$Iteration)
+    if(length(missSteps)>0){
+      warning("Selected iterations not available: ",paste(missSteps,collapse=","))
+    }
+    cMeta = subset(cMeta,is.element(Iteration,iterations))
+  }
+
+  if(nrow(cMeta)==0){
+    stop("No data available.")
+  }
+
+  nFiles = unique(cMeta$Filename)
+  if(length(nFiles)==1){
+    stop("Handle this case - make a brick")
+  }else{
+    for(i in 1:nrow(cMeta)){
+      #i =1
+
+      #install.packages("rgdal")
+      cRow =cMeta[i,]
+      if(!file.exists(cRow$Filename)){
+        #TO DO: path should already be there...
+        addPath = paste0(.filepath(x),".output/Scenario-",.id(x),"/Spatial/",cRow$Filename)
+        if(!file.exists(addPath)){
+          stop("Output not found: ",cRow$Filename)
+        }
+        cRow$Filename=addPath
+      }
+      if(is.na(cRow$Band)){
+        cRaster = raster::raster(cRow$Filename)
+      }else{
+        cRaster= raster::raster(cRow$Filename,band=cRow$Band)
+      }
+
+      nameBit = paste0(sheet,".Scn",.id(x),".It",cRow$Iteration,".Ts",cRow$Timestep)
+      cRaster@title = nameBit
+      if(i==1){
+        cStack = raster::stack(cRaster)
+        names(cStack) = c(nameBit)
+        #TO DO: consider options for storing this info in a less hokey way
+      }else{
+        oldNames = names(cStack)
+        cStack = raster::addLayer(cStack,cRaster)
+        names(cStack)=c(oldNames,nameBit)
+      }
+    }
+  }
+  return(cStack)
+})
 
 
 

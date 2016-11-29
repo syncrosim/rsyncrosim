@@ -837,6 +837,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     directQuery=F
     if(lookupsAsFactors&!useConsole){
       directQuery = TRUE#(length(pid)>1)|(length(sid)>1)
+      #TO DO: must export IDs in lookup tables.
       if(directQuery){
         drv = DBI::dbDriver('SQLite')
         con = DBI::dbConnect(drv,.filepath(x))
