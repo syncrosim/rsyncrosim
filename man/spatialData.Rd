@@ -4,7 +4,7 @@
 \alias{spatialData}
 \title{Get spatial inputs or outputs from a SyncroSim scenario.}
 \usage{
-spatialData(x, sheet, iterations = NULL, timesteps = NULL)
+spatialData(x, sheet, iterations = NULL, timesteps = NULL, rat = NULL)
 }
 \arguments{
 \item{x}{A SyncroSim results Scenario or list of SyncroSim result Scenarios.}
@@ -14,6 +14,8 @@ spatialData(x, sheet, iterations = NULL, timesteps = NULL)
 \item{iterations}{A vector of iterations. If NULL(default) all available iterations will be included}
 
 \item{timesteps}{A vector of timesteps. If NULL(default) all available timesteps will be included.}
+
+\item{rat}{An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.}
 }
 \value{
 A RasterStack or RasterBrick object. See raster package documentation for details.

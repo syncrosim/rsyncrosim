@@ -430,11 +430,12 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 #' @param sheet The name of a spatial datasheet. See subset(datasheets(myResultScenario),isSpatial)$name for options.
 #' @param iterations A vector of iterations. If NULL(default) all available iterations will be included
 #' @param timesteps A vector of timesteps. If NULL(default) all available timesteps will be included.
+#' @param rat An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @return A RasterStack or RasterBrick object. See raster package documentation for details.
 #' @export
-setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL) standardGeneric('spatialData'))
-setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps) {
-  # x= myResult; sheet="STSim_OutputSpatialState";iterations=seq(1,5);timesteps = seq(0,10,by=2)
+setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL,rat=NULL) standardGeneric('spatialData'))
+setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,rat) {
+  # x= myResult; sheet="STSim_OutputSpatialState";iterations=seq(1,5);timesteps = seq(0,10,by=2);rat=rat
 
   cSheets = datasheets(x)
   if(!is.element(sheet,cSheets$name)){
@@ -496,6 +497,30 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
         cRaster= raster::raster(cRow$Filename,band=cRow$Band)
       }
 
+      if(!is.null(rat)){
+        obsVals = freq(cRaster)[,"value"]
+        missingVals = setdiff(obsVals,c(NA,rat$ID))
+        if(length(missingVals)>0){
+          stop("Raster values not found in legend$ID: ",paste(missingVals,collapse=","))
+        }
+        #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
+        #See colortable() for details
+        r = ratify(cRaster)
+        #rat <- levels(r)[[1]]
+        #rat=merge(rat,subset(legend,select=),all.x=T)
+        rat=subset(rat,select=c("ID",setdiff(names(rat),c("ID"))))
+        levels(r) <- rat
+        cRaster=r
+
+        if(is.element("Color",names(rat))){
+          legend$rgb=NA
+          for(j in seq(length.out=nrow(legend))){
+            cCol = as.numeric(strsplit(legend$Color[j],split=",")[[1]])
+            rat$rgb[j] = rgb(red=cCol[1],green=cCol[2],blue=cCol[3],maxColorValue=255)
+          }
+          colortable(cRaster)=rat$rgb
+        }
+      }
       nameBit = paste0(sheet,".Scn",.id(x),".It",cRow$Iteration,".Ts",cRow$Timestep)
       cRaster@title = nameBit
       if(i==1){

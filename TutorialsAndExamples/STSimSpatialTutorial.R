@@ -18,26 +18,33 @@ myProject = project(myLibrary)
 
 scenarios(myProject,names=T)
 myResult = scenario(myProject,id=6)
-subset(datasheets(myResult),isSpatial)$name
+subset(datasheets(myResult),!isSpatial)$name
+
+
+rat = datasheet(myResult,name="STSim_StateClass",optional=T)
+#NOTE: special knowledge here of which lookup to use for legend
+#QUESTION: How to interpret rat$Color?
+
+# devtools::document();devtools::load_all()
+myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
+                        iterations=seq(1,5),timesteps = seq(0,10,by=2),rat=rat)
+names(myRasters)
+#NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialOutput() and the relevant datasheet is empty.
 #TO DO: export isSpatial from SyncroSim.
 #TO DO: multiband() and spatialData() for lists of Scenarios.
 #DO TO: trim conflict between rsyncrosim and raster
-
-myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",iterations=seq(1,5),timesteps = seq(0,10,by=2))
-names(myRasters)
-#NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialOutput() and the relevant datasheet is empty.
 #TO DO: also make this work for spatial inputs
-#TO DO: consider options for storing stack metadata in a less hokey way
+#TO DO: consider options for storing raster metadata
 #TO DO: get filepaths from SyncroSim.
+#TO DO: unit tests and elsewhere tests. Use A176 instance for testing.
 
-library(raster)
+#install.packages("rasterVis")
+library(raster);library(rasterVis)
 #DISCUSS: dependency on raster/rdgal: only spatialData() depends on these packages. Could suggest, and complain when the function is called if the packages are missing.
 #NOTE: myRasters is a normal RasterStack object.
 
-viewName = names(myRasters)[1]
-viewRaster = myRasters[[viewName]]
-viewRaster@title
-plot(viewRaster,main=viewRaster@title)
+viewRaster = myRasters[[1]]
+levelplot(viewRaster,att="StateLabelXID",col.regions=colortable(viewRaster),main=viewRaster@title)
 
 ###############
 # Rearrange spatial outputs in a result scenario
