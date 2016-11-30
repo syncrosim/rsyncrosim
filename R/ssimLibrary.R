@@ -646,6 +646,9 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   }else{
     #x=myLibrary
     tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
+    if(grepl("The library has unapplied updates",tt)){
+      stop(tt)
+    }
     datasheets = .dataframeFromSSim(tt)
     datasheets$dataScope = sapply(datasheets$dataScope,camel)
     names(datasheets) = c("name","displayName","dataScope","isOutput")
@@ -683,7 +686,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myResult;project=NULL;scenario=NULL;name="STSim_OutputStateAttribute";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+  #x = myResult;project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -757,7 +760,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
       unlink(tempFile)
 
-      args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL)
+      args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)
 
       if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
 
@@ -836,7 +839,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
     directQuery=F
     if(lookupsAsFactors&!useConsole){
-      directQuery = TRUE#(length(pid)>1)|(length(sid)>1)
+      directQuery = (length(pid)>1)|(length(sid)>1)
       #TO DO: must export IDs in lookup tables.
       if(directQuery){
         drv = DBI::dbDriver('SQLite')
@@ -844,7 +847,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         #console export can't handle multiple scenarios/projects - so query database directly
       }else{
         tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
-        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,valonly=NULL)
+        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,valonly=NULL,includepk=NULL)
         if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
         if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
         if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
@@ -852,6 +855,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         if(!identical(tt,"Success!")){
           stop(tt)
         }
+        #command(c("export","sheet","help"))
       }
     }
     for(i in seq(length.out=nrow(sheetInfo))){
@@ -926,14 +930,14 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
           lookupLevels = lookupSheet$Name
           if(is.numeric(sheet[[cRow$name]])){
             if(nrow(lookupSheet)>0){
-              if(length(intersect(c(cRow$name,"ID"),names(lookupSheet)))==0){
-                stop("Something is wrong. Expecting ID or ",cRow$name," in lookup table.")
+              if(length(intersect(c(cRow$name),names(lookupSheet)))==0){
+                stop("Something is wrong. Expecting ",cRow$name," in lookup table.")
               }
-              if(is.element(cRow$name,names(lookupSheet))){
-                lookupMerge = subset(lookupSheet,select=c(cRow$name,"Name"))
-              }else{
-                lookupMerge = subset(lookupSheet,select=c("ID","Name"))
-              }
+              #if(is.element(cRow$name,names(lookupSheet))){
+              lookupMerge = subset(lookupSheet,select=c(cRow$name,"Name"))
+              #}else{
+              #  lookupMerge = subset(lookupSheet,select=c("ID","Name"))
+              #}
 
               names(lookupMerge) = c(cRow$name,"lookupName")
               sheet=merge(sheet,lookupMerge, all.x=T)

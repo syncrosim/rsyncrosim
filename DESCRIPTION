@@ -19,6 +19,7 @@ Imports:
 Suggests:
     plyr,
     ggplot2,
+    rasterVis,
     knitr,
     rmarkdown,
     testthat

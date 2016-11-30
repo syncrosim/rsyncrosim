@@ -23,4 +23,12 @@ A RasterStack or RasterBrick object. See raster package documentation for detail
 \description{
 Get spatial inputs or outputs from a SyncroSim scenario.
 }
+\details{
+The Color column of a rat table should have one of these formats:
+\itemize{
+  \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
+  \item {R colour names: } {See colors() for options.}
+  \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
+}
+}
 

@@ -425,6 +425,14 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 #' Get spatial inputs or outputs from a SyncroSim scenario.
 #'
 #' Get spatial inputs or outputs from a SyncroSim scenario.
+#' @details
+#'
+#' The Color column of a rat table should have one of these formats:
+#' \itemize{
+#'   \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
+#'   \item {R colour names: } {See colors() for options.}
+#'   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
+#' }
 #'
 #' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
 #' @param sheet The name of a spatial datasheet. See subset(datasheets(myResultScenario),isSpatial)$name for options.
@@ -474,10 +482,77 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     stop("No data available.")
   }
 
+  if(!is.null(rat)){
+    rat=subset(rat,select=c("ID",setdiff(names(rat),c("ID"))))
+
+    if(is.element("Color",names(rat))){
+      rat$rgb=NA
+      if(length(strsplit(rat$Color[1],split=",")[[1]])==4){
+        for(j in seq(length.out=nrow(rat))){
+          cCol = as.numeric(strsplit(rat$Color[j],split=",")[[1]])
+          rat$rgb[j] = rgb(red=cCol[1],green=cCol[2],blue=cCol[3],alpha=cCol[4],maxColorValue=255)
+        }
+      }else{
+        if(!grepl("#",rat$Color[1],fixed=T)){
+          rgbTab= col2rgb(rat$Color)
+          rat$rgb=rgb(rgbTab["red",],rgbTab["green",],rgbTab["blue",],255,maxColorValue=255)
+        }
+      }
+    }
+  }
+
+  cMeta$outName = paste0(sheet,".Scn",.id(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
+
   nFiles = unique(cMeta$Filename)
   if(length(nFiles)==1){
-    stop("Handle this case - make a brick")
+    if(!file.exists(nFiles)){
+      #TO DO: path should already be there...
+      addPath = paste0(.filepath(x),".output/Scenario-",.id(x),"/Spatial/",nFiles)
+      if(!file.exists(addPath)){
+        stop("Output not found: ",nFiles)
+      }
+      cMeta$Filename=addPath
+    }
+
+    cStack=raster::brick(cMeta$Filename[1])
+
+    cMeta$layerName = paste0(strsplit(nFiles,".",fixed=T)[[1]][1],".",cMeta$Band)
+
+    keepLayers = intersect(names(cStack),cMeta$layerName)
+    cStack = raster::subset(cStack,keepLayers)
+    missing=setdiff(cMeta$layerName,names(cStack))
+    if(length(missing)>0){
+      warning("Some layers not found: ",paste(cMeta$outName[is.element(cMeta$layerName,missing)]))
+    }
+    cMeta=subset(cMeta,is.element(layerName,names(cStack)))
+
+    for(i in 1:nrow(cMeta)){
+      #i =1
+
+      cRow =cMeta[i,]
+      cName = cRow$layerName
+
+
+      if(!is.null(rat)){
+        obsVals = freq(cStack[[cName]])[,"value"]
+        missingVals = setdiff(obsVals,c(NA,rat$ID))
+        if(length(missingVals)>0){
+          stop("Raster values not found in legend$ID: ",paste(missingVals,collapse=","))
+        }
+        #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
+        #See colortable() for details
+        cStack[[cName]] = raster::ratify(cStack[[cName]])
+        levels(cStack[[cName]])=rat
+        colortable(cStack[[cName]])=rat$rgb
+      }
+      cStack[[cName]]@title = cRow$outName
+
+      names(cStack)[names(cStack)==cRow$layerName]=cRow$outName
+
+    }
+    #cStack = raster::brick(cStack)
   }else{
+
     for(i in 1:nrow(cMeta)){
       #i =1
 
@@ -505,32 +580,20 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
         }
         #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
         #See colortable() for details
-        r = ratify(cRaster)
-        #rat <- levels(r)[[1]]
-        #rat=merge(rat,subset(legend,select=),all.x=T)
-        rat=subset(rat,select=c("ID",setdiff(names(rat),c("ID"))))
-        levels(r) <- rat
+        r = raster::ratify(cRaster)
+        levels(r)=rat
         cRaster=r
-
-        if(is.element("Color",names(rat))){
-          legend$rgb=NA
-          for(j in seq(length.out=nrow(legend))){
-            cCol = as.numeric(strsplit(legend$Color[j],split=",")[[1]])
-            rat$rgb[j] = rgb(red=cCol[1],green=cCol[2],blue=cCol[3],maxColorValue=255)
-          }
-          colortable(cRaster)=rat$rgb
-        }
+        colortable(cRaster)=rat$rgb
       }
-      nameBit = paste0(sheet,".Scn",.id(x),".It",cRow$Iteration,".Ts",cRow$Timestep)
-      cRaster@title = nameBit
+      cRaster@title = cRow$layerName
       if(i==1){
         cStack = raster::stack(cRaster)
-        names(cStack) = c(nameBit)
+        names(cStack) = c(cRow$layerName)
         #TO DO: consider options for storing this info in a less hokey way
       }else{
         oldNames = names(cStack)
         cStack = raster::addLayer(cStack,cRaster)
-        names(cStack)=c(oldNames,nameBit)
+        names(cStack)=c(oldNames,cRow$layerName)
       }
     }
   }
