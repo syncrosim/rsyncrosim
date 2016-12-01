@@ -449,11 +449,12 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   if(!is.element(sheet,cSheets$name)){
     cSheets = datasheets(x,refresh=T)
   }
-  cSheets=subset(cSheets,isSpatial)
-  if(!is.element(sheet,cSheets$name)){
-    stop(sheet," is not a spatial data sheet.")
-  }
+  #cSheets=subset(cSheets,isSpatial)
+  #if(!is.element(sheet,cSheets$name)){
+  #  stop(sheet," is not a spatial data sheet.")
+  #}
 
+  #TO DO: make sure datasheet is spatial after opening
   cMeta = datasheet(x,name=sheet)
   if(nrow(cMeta)==0){
     multiband(myResult,action="rebuild")
@@ -484,6 +485,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 
   if(!is.null(rat)){
     rat=subset(rat,select=c("ID",setdiff(names(rat),c("ID"))))
+    rat=rat[order(-rat$ID),]
 
     if(is.element("Color",names(rat))){
       rat$rgb=NA
@@ -500,11 +502,10 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
       }
     }
   }
-
   cMeta$outName = paste0(sheet,".Scn",.id(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
 
   nFiles = unique(cMeta$Filename)
-  if(length(nFiles)==1){
+  if((length(nFiles)==1)&(nrow(cMeta)>1)){
     if(!file.exists(nFiles)){
       #TO DO: path should already be there...
       addPath = paste0(.filepath(x),".output/Scenario-",.id(x),"/Spatial/",nFiles)
@@ -585,15 +586,15 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
         cRaster=r
         colortable(cRaster)=rat$rgb
       }
-      cRaster@title = cRow$layerName
+      cRaster@title = cRow$outName
       if(i==1){
         cStack = raster::stack(cRaster)
-        names(cStack) = c(cRow$layerName)
+        names(cStack) = c(cRow$outName)
         #TO DO: consider options for storing this info in a less hokey way
       }else{
         oldNames = names(cStack)
         cStack = raster::addLayer(cStack,cRaster)
-        names(cStack)=c(oldNames,cRow$layerName)
+        names(cStack)=c(oldNames,cRow$outName)
       }
     }
   }

@@ -57,7 +57,7 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
     if(is.null(path)){
       #TO DO: what is best way to find console on all systems
       #Default installation locations?
-      consolePathPossibilities = c("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64 (bug)","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64","C:/Program Files/SyncroSim/1","C:/Program Files/SyncroSim/1")
+      consolePathPossibilities = c("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64 (bug)","C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64","C:/Program Files/SyncroSim/1","C:/Program Files/SyncroSim/1")
       for(i in seq(length.out=length(consolePathPossibilities))){
         if(file.exists(consolePathPossibilities[i])){path=consolePathPossibilities[i];break}
       }

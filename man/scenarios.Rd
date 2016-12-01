@@ -4,16 +4,18 @@
 \alias{scenarios}
 \title{The scenarios in a SyncroSim library or project.}
 \usage{
-scenarios(x, ...)
+scenarios(x, project = NULL, names = F, results = NULL, select = NULL)
 }
 \arguments{
 \item{x}{An SSimLibrary or Project object, or an SSimLibrary name.}
 
-\item{project}{A project name, id, or object.}
+\item{project}{An optional project name, id, or object.}
 
 \item{names}{If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.}
 
 \item{results}{If TRUE only return result scenarios.}
+
+\item{select}{An (optional) vector of scenario ids or names to include}
 }
 \description{
 Get a list of scenarios in a SSimLibrary or Project.

@@ -156,7 +156,7 @@ setMethod(f='initialize',signature="SSimLibrary",
     datasheets$isOutput[datasheets$isOutput=="No"]=F
     datasheets$isOutput[datasheets$isOutput=="Yes"]=T
     datasheets$isOutput=as.logical(datasheets$isOutput)
-    datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
+    #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
 
     .Object@session=session
     .Object@filepath=path
@@ -475,7 +475,7 @@ setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario=NUL
   return(out)
 })
 
-setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names=F,results=NULL,...) {
+setMethod('scenarios', signature(x="SSimLibrary"), function(x,project,names,results,select) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary;names=T
   #command(list(create=NULL,scenario=NULL,lib=.filepath(x),pid=85,name="Another scenario"),.session(x))
@@ -510,6 +510,14 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project=NULL,names
       ttFrame = subset(ttFrame,isResult=="Yes")
     }else{
       ttFrame = subset(ttFrame,isResult=="No")
+    }
+  }
+  if(!is.null(select)){
+    #subset=c(1,2,3)
+    if(is.numeric(select)){
+      ttFrame=subset(ttFrame,is.element(id,select))
+    }else{
+      ttFrame = subset(ttFrame,is.element(name,select))
     }
   }
 
@@ -646,7 +654,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   }else{
     #x=myLibrary
     tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
-    if(grepl("The library has unapplied updates",tt)){
+    if(grepl("The library has unapplied updates",tt[[1]])){
       stop(tt)
     }
     datasheets = .dataframeFromSSim(tt)
@@ -655,7 +663,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
     datasheets$isOutput[datasheets$isOutput=="No"]=F
     datasheets$isOutput[datasheets$isOutput=="Yes"]=T
     datasheets$isOutput=as.logical(datasheets$isOutput)
-    datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
+    #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
     #TO DO - export this info from SyncroSim
   }
   if(!is.null(scope)&&(scope=="all")){
@@ -686,7 +694,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myResult;project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+  #x = myResult;project=NULL;scenario=NULL;name="STSim_InitialConditionsSpatial";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -748,7 +756,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   if(!empty){
     #Only query database if output or multiple scenarios/project or complex sql
 
-    useConsole = (!sheetNames$isOutput)|(sheetNames$isSpatial)
+    useConsole = (!sheetNames$isOutput)
     useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
     useConsole = useConsole&!((sheetNames$dataScope=="project")&(length(pid)>1))
     useConsole = useConsole&!((sheetNames$dataScope=="scenario")&(length(sid)>1))

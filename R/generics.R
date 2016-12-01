@@ -4,16 +4,17 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' Get a list of scenarios in a SSimLibrary or Project.
 #'
 #' @param x An SSimLibrary or Project object, or an SSimLibrary name.
-#' @param project A project name, id, or object.
+#' @param project An optional project name, id, or object.
 #' @param names If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.
 #' @param results If TRUE only return result scenarios.
+#' @param select An (optional) vector of scenario ids or names to include
 #' @examples
 #' myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
 #' @export
-setGeneric('scenarios',function(x,...) standardGeneric('scenarios'))
-setMethod('scenarios', signature(x="character"), function(x,...) {
+setGeneric('scenarios',function(x,project=NULL,names=F,results=NULL,select=NULL) standardGeneric('scenarios'))
+setMethod('scenarios', signature(x="character"), function(x,project,names,results,select) {
   x = .ssimLibrary(name=x)
-  out = scenarios(x,...)
+  out = scenarios(x,project,names,results,select)
   return(out)
 })
 #' Create or open a library.

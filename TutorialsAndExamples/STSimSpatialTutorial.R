@@ -20,7 +20,10 @@ myProject = project(myLibrary)
 
 scenarios(myProject,names=T)
 myResult = scenario(myProject,id=6)
-subset(datasheets(myResult),isSpatial)$name
+subset(datasheets(myResult))$name
+
+spInput = datasheet(myResult,"STSim_InitialConditionsSpatial")
+str(spInput)
 
 # Add an (optional) raster attribute table. This is dataframe with ID, (optional) Color, and descriptor columns.
 # In this example, we load StateClass attributes from the library, then override the Colors.
@@ -44,7 +47,6 @@ viewRaster = myRasters[[1]]
 levelplot(viewRaster,att="StateLabelXID",col.regions=colortable(viewRaster),main=viewRaster@title)
 
 #NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialOutput() and the relevant datasheet is empty.
-#TO DO: export isSpatial from SyncroSim.
 #TO DO: multiband() and spatialData() for lists of Scenarios.
 #TO DO: also make this work for spatial inputs
 #TO DO: get filepaths from SyncroSim.
@@ -62,6 +64,6 @@ mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps comb
 loadDatasheets(myProject,mySheet,name=sheetName)
 
 multiband(myResult,action="apply")
-
+#Combining all spatial results into one multiband file will speed up loading.
 
 
