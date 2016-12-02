@@ -48,7 +48,7 @@ levelplot(viewRaster,att="StateLabelXID",col.regions=colortable(viewRaster),main
 
 #NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialOutput() and the relevant datasheet is empty.
 #TO DO: multiband() and spatialData() for lists of Scenarios.
-#TO DO: also make this work for spatial inputs
+#TO DO: handle non-stsim spatial inputs
 #TO DO: get filepaths from SyncroSim.
 #TO DO: unit tests and elsewhere tests. Use A176 instance for testing.
 #NOTE: special knowledge of lookup to use for legend

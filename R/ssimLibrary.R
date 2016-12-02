@@ -694,7 +694,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myResult;project=NULL;scenario=NULL;name="STSim_InitialConditionsSpatial";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+  #x = myResult;project=NULL;scenario=NULL;name="STSim_StateAttributeValue";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -867,7 +867,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       }
     }
     for(i in seq(length.out=nrow(sheetInfo))){
-      #i =4
+      #i =2
       cRow = sheetInfo[i,]
       if(!is.element(cRow$name,colnames(sheet))){
         if(sqlStatements$select=="SELECT *"){
@@ -935,14 +935,15 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
               warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
             }
           }
+          lookupSheet=lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]),]
           lookupLevels = lookupSheet$Name
           if(is.numeric(sheet[[cRow$name]])){
             if(nrow(lookupSheet)>0){
-              if(length(intersect(c(cRow$name),names(lookupSheet)))==0){
-                stop("Something is wrong. Expecting ",cRow$name," in lookup table.")
+              if(length(intersect("Name",names(lookupSheet)))==0){
+                stop("Something is wrong. Expecting Name in lookup table.")
               }
               #if(is.element(cRow$name,names(lookupSheet))){
-              lookupMerge = subset(lookupSheet,select=c(cRow$name,"Name"))
+              lookupMerge = subset(lookupSheet,select=c(names(lookupSheet)[1],"Name"))
               #}else{
               #  lookupMerge = subset(lookupSheet,select=c("ID","Name"))
               #}

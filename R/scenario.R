@@ -461,6 +461,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     cMeta = datasheet(x,name=sheet)
   }
 
+
   if(!is.null(timesteps)&is.element("Timestep",names(cMeta))){
     timesteps=as.numeric(timesteps)
     missSteps = setdiff(timesteps,cMeta$Timestep)
@@ -483,26 +484,31 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     stop("No data available.")
   }
 
-  if(!is.null(rat)){
-    rat=subset(rat,select=c("ID",setdiff(names(rat),c("ID"))))
-    rat=rat[order(-rat$ID),]
 
-    if(is.element("Color",names(rat))){
-      rat$rgb=NA
-      if(length(strsplit(rat$Color[1],split=",")[[1]])==4){
-        for(j in seq(length.out=nrow(rat))){
-          cCol = as.numeric(strsplit(rat$Color[j],split=",")[[1]])
-          rat$rgb[j] = rgb(red=cCol[1],green=cCol[2],blue=cCol[3],alpha=cCol[4],maxColorValue=255)
-        }
-      }else{
-        if(!grepl("#",rat$Color[1],fixed=T)){
-          rgbTab= col2rgb(rat$Color)
-          rat$rgb=rgb(rgbTab["red",],rgbTab["green",],rgbTab["blue",],255,maxColorValue=255)
-        }
-      }
+  if(!is.element("FileName",names(cMeta))){
+    if(nrow(cMeta)>1){
+      stop("Handle this case.")
     }
+    #handle spatial inputs by making cMeta table of correct format
+
+    cMIn = cMeta
+    cFNames = data.frame(t(cMeta[1,]),stringsAsFactors=F)
+    names(cFNames)=c("Filename")
+    cFNames$Band=NA
+    cMeta =cFNames
+    cMeta$outName = paste0(sheet,".Scn",.id(x),".",cMeta$Filename)
+    cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.id(x),"/STSim_InitialConditionsSpatial/",cMeta$Filename)
+  }else{
+    cMeta$outName = paste0(sheet,".Scn",.id(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
+
   }
-  cMeta$outName = paste0(sheet,".Scn",.id(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
+  otherCols = setdiff(names(cMeta),c("Iteration","Timestep","Filename","Band","outName"))
+  for(i in seq(length.out=length(otherCols))){
+    #special characters not tolerated in titles
+    addBit = gsub(" ","",cMeta[[otherCols[i]]],fixed=T)
+    addBit = gsub("-","",addBit,fixed=T)
+    cMeta$outName=paste0(cMeta$outName,".",addBit)
+  }
 
   nFiles = unique(cMeta$Filename)
   if((length(nFiles)==1)&(nrow(cMeta)>1)){
@@ -542,9 +548,8 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
         }
         #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
         #See colortable() for details
-        cStack[[cName]] = raster::ratify(cStack[[cName]])
-        levels(cStack[[cName]])=rat
-        colortable(cStack[[cName]])=rat$rgb
+        cStack[[Name]]=addAttributes(cStack[[Name]],rat)
+
       }
       cStack[[cName]]@title = cRow$outName
 
@@ -581,10 +586,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
         }
         #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
         #See colortable() for details
-        r = raster::ratify(cRaster)
-        levels(r)=rat
-        cRaster=r
-        colortable(cRaster)=rat$rgb
+        cRaster=addAttributes(cRaster,rat)
       }
       cRaster@title = cRow$outName
       if(i==1){
