@@ -187,6 +187,9 @@ scenarios(myProject,names=T)
 # deleteScenarios(myProject,3,force=T)
 # myResults=scenarios(myProject,results=T)
 
+# run with breakpoints, multiprocessing.
+
+
 #********************************
 # See results
 #******************************

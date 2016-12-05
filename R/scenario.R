@@ -443,7 +443,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 #' @export
 setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL,rat=NULL) standardGeneric('spatialData'))
 setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,rat) {
-  # x= myResult; sheet="STSim_OutputSpatialStateAttribute";iterations=seq(1);timesteps = c(100);rat=rat
+  # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=seq(1);timesteps = c(100);rat=rat
 
   cSheets = datasheets(x)
   if(!is.element(sheet,cSheets$name)){
@@ -484,7 +484,6 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     stop("No data available.")
   }
 
-
   if(!is.element("Filename",names(cMeta))){
     if(nrow(cMeta)>1){
       stop("Handle this case.")
@@ -494,10 +493,12 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     cMIn = cMeta
     cFNames = data.frame(t(cMeta[1,]),stringsAsFactors=F)
     names(cFNames)=c("Filename")
+    cFNames = subset(cFNames,!is.na(Filename))
     cFNames$Band=NA
     cMeta =cFNames
-    cMeta$outName = paste0(sheet,".Scn",.id(x),".",cMeta$Filename)
-    cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.id(x),"/STSim_InitialConditionsSpatial/",cMeta$Filename)
+    cMeta$outName = paste0(sheet,".Scn",.id(x),".",gsub(".tif","",cMeta$Filename,fixed=T))
+    cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.id(x),"/",sheet,"/",cMeta$Filename)
+
   }else{
     cMeta$outName = paste0(sheet,".Scn",.id(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
 
@@ -548,7 +549,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
         }
         #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
         #See colortable() for details
-        cStack[[Name]]=addAttributes(cStack[[Name]],rat)
+        rasterAttributes(cStack[[cName]])=rat
 
       }
       cStack[[cName]]@title = cRow$outName
@@ -564,6 +565,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 
       #install.packages("rgdal")
       cRow =cMeta[i,]
+      if(is.na(cRow$Filename)){next}
       if(!file.exists(cRow$Filename)){
         #TO DO: path should already be there...
         addPath = paste0(.filepath(x),".output/Scenario-",.id(x),"/Spatial/",cRow$Filename)
@@ -586,7 +588,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
         }
         #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
         #See colortable() for details
-        cRaster=addAttributes(cRaster,rat)
+        rasterAttributes(cRaster)=rat
       }
       cRaster@title = cRow$outName
       if(i==1){
@@ -600,6 +602,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
       }
     }
   }
+  print(names(cStack))
   return(cStack)
 })
 
