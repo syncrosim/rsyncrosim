@@ -157,6 +157,7 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #' @examples
 #'
 #' @export
+#' @import RSQLite
 setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
 setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
