@@ -6,7 +6,7 @@
 \usage{
 datasheet(x, name, project = NULL, scenario = NULL, optional = F,
   empty = F, lookupsAsFactors = T, sqlStatements = list(select =
-  "SELECT *", groupBy = ""))
+  "SELECT *", groupBy = ""), includeKey = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.}
@@ -24,6 +24,8 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
 \item{lookupsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
 
 \item{sqlStatements}{SELECT and GROUP BY SQL statements passed to SQLite database.}
+
+\item{includeKey}{If TRUE include primary key in output table.}
 }
 \value{
 A dataframe representing a SyncroSim datasheet.

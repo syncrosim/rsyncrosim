@@ -443,7 +443,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 #' @export
 setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL,rat=NULL) standardGeneric('spatialData'))
 setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,rat) {
-  # x= myResult; sheet="STSim_OutputSpatialState";iterations=seq(1,5);timesteps = seq(0,10,by=2);rat=rat
+  # x= myResult; sheet="STSim_OutputSpatialStateAttribute";iterations=seq(1);timesteps = c(100);rat=rat
 
   cSheets = datasheets(x)
   if(!is.element(sheet,cSheets$name)){
@@ -485,7 +485,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   }
 
 
-  if(!is.element("FileName",names(cMeta))){
+  if(!is.element("Filename",names(cMeta))){
     if(nrow(cMeta)>1){
       stop("Handle this case.")
     }

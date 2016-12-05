@@ -693,8 +693,8 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
-  #x = myResult;project=NULL;scenario=NULL;name="STSim_StateAttributeValue";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
+  #x = myResult;project=NULL;scenario=NULL;name="STSim_SecondaryStratum";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -734,8 +734,12 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     }
   }
 
-  rmId = strsplit(name,"_")[[1]][2]
-  rmCols = c(paste0(rmId,"ID"))
+  if(!includeKey){
+    rmId = strsplit(name,"_")[[1]][2]
+    rmCols = c(paste0(rmId,"ID"))
+  }else{
+    rmCols=c()
+  }
 
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
 
@@ -821,7 +825,6 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   }else{
     sheet=data.frame(temp=NA)
   }
-
   if(nrow(sheet)>0){
     sheet[sheet==""]=NA
   }
@@ -867,7 +870,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       }
     }
     for(i in seq(length.out=nrow(sheetInfo))){
-      #i =2
+      #i =6
       cRow = sheetInfo[i,]
       if(!is.element(cRow$name,colnames(sheet))){
         if(sqlStatements$select=="SELECT *"){
@@ -1013,6 +1016,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       }
     }
   }
+
   return(sheet)
 })
 

@@ -152,20 +152,21 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
 #' @param lookupsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
 #' @param sqlStatements SELECT and GROUP BY SQL statements passed to SQLite database.
+#' @param includeKey If TRUE include primary key in output table.
 #' @return A dataframe representing a SyncroSim datasheet.
 #' @examples
 #'
 #' @export
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy="")) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements)
+  out = .datasheet(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey)
   return(out)
 })
 
 #Handles case where x is list of Scenario or Project objects
-setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements) {
+setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
   #x=myResults;name="STSim_OutputStratumState";lookupsAsFactors=T;project=NULL;scenario=NULL;optional=F;empty=F
 
   cScn = x[[1]]
@@ -206,7 +207,7 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
     }
 
     if(forceConsole){
-       outBit = .datasheet(cScn,name,project=NULL,scenario=NULL,optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements)
+       outBit = .datasheet(cScn,name,project=NULL,scenario=NULL,optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey)
        if(nrow(outBit)>0){
          if(sheetInfo$dataScope=="project"){
            outBit$ProjectID = cPid
@@ -225,7 +226,7 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
     }
   }
   if(!forceConsole){
-    out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements)
+    out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey)
   }else{
     out=unique(out)
   }

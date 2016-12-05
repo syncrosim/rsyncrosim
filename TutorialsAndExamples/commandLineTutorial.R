@@ -10,9 +10,10 @@
 
 #*************************************
 # Create the project definition
-myLibrary = ssimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim")
+myLibrary = ssimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
 myProject = project(myLibrary,name="ST-Sim Demonstration")
 
+scenarios(myLibrary,names=T)
 #***********************************
 # Cover types and state classes
 datasheets(myProject)
