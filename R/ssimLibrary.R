@@ -1099,7 +1099,7 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
     #i =1
     cScn = scenario[[i]]
     inScn = as.character(cScn)
-    if(!identical(cScn,suppressWarnings(as.character(as.numeric(cScn))))){
+    if(!identical(inScn,suppressWarnings(as.character(as.numeric(cScn))))){
       if(is.null(scenarios)){
         scenarios = .scenarios(x,names=T)
       }

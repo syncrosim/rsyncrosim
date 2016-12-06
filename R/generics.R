@@ -282,3 +282,80 @@ setMethod('run', signature(x="list"), function(x,scenario,onlyIds,jobs) {
   }
   return(out)
 })
+
+#' Get spatial inputs or outputs from a SyncroSim scenario.
+#'
+#' Get spatial inputs or outputs from a SyncroSim scenario.
+#' @details
+#'
+#' The Color column of a rat table should have one of these formats:
+#' \itemize{
+#'   \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
+#'   \item {R colour names: } {See colors() for options.}
+#'   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
+#' }
+#'
+#' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
+#' @param sheet The name of a spatial datasheet. See subset(datasheets(myResultScenario),isSpatial)$name for options.
+#' @param iterations A vector of iterations. If NULL(default) all available iterations will be included
+#' @param timesteps A vector of timesteps. If NULL(default) all available timesteps will be included.
+#' @param rat An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
+#' @return A RasterStack or RasterBrick object. See raster package documentation for details.
+#' @export
+setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL,rat=NULL) standardGeneric('spatialData'))
+setMethod('spatialData', signature(x="list"), function(x,sheet,iterations,timesteps,rat) {
+  # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL
+  if(class(x[[1]])!="Scenario"){
+    stop("Expecting a Scenario object or list of scenario objects.")
+  }
+  for(i in 1:length(x)){
+    #i=1
+    cScn = x[[i]]
+    cOut = spatialData(cScn,sheet,iterations,timesteps,rat)
+
+    if(i == 1){out=cOut}else{out=raster::stack(out,cOut)}
+  }
+  return(out)
+})
+
+#' Modify the grouping of spatial layers.
+#'
+#' Modify the grouping of spatial output layers in a SyncroSim results scenario.
+#'
+#' @examples
+#' # Update an old scenario to allow rsyncrosim to access spatial output
+#' multiband(myResultScenario,action="rebuild")
+#'
+#' # Combine spatial outputs into multi-band rasters containing a layer for each timetep.
+#' multiband(myResultScenario,action="apply",grouping="Timestep")
+#'
+#' # Combine spatial outputs into multi-band rasters containing a layer for each iteration.
+#' multiband(myResultScenario,action="apply",grouping="Iteration")
+#'
+#' # Combine spatial outputs into multi-band rasters containing a layer for each timestep and iteration.
+#' multiband(myResultScenario,action="apply",grouping="All")
+#'
+#' # Remove multi-banding
+#' multiband(myResultScenario,action="remove")
+#'
+#' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
+#' @param action Options are: apply, remove, rebuild
+#' @param grouping Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
+#' @return "Success!" or an error message from SyncroSim.
+#' @export
+setGeneric('multiband',function(x,action,grouping=NULL) standardGeneric('multiband'))
+setMethod('multiband', signature(x="list"), function(x,action,grouping) {
+  #x=myResult;action="rebuild";grouping=NULL
+
+  if(class(x[[1]])!="Scenario"){
+    stop("Expecting a Scenario object or list of scenario objects.")
+  }
+  out=list()
+  for(i in 1:length(x)){
+    #i=1
+    cScn = x[[i]]
+    cOut = multiband(cScn,action,grouping)
+    out[[as.character(.id(cScn))]]=cOut
+  }
+  return(out)
+})

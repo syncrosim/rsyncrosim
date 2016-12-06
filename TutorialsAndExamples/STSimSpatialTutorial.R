@@ -30,24 +30,23 @@ if(!file.exists(libPath)){
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
 myProject = project(myLibrary)
+run(myProject,5,onlyIds=T)
 
 scenarios(myProject,names=T)
-myResult = scenario(myProject,id=6)
-subset(datasheets(myResult))$name
+myResult = scenarios(myProject,select=c(6,7))
+datasheets(myResult[[1]])$name
 
 #*************************************
 # View state class output
 # Add an (optional) raster attribute table. This is dataframe with ID, (optional) Color, and descriptor columns.
 # In this example, we load StateClass attributes from the library, then override the Colors.
-rat = datasheet(myResult,name="STSim_StateClass",optional=T)
+rat = datasheet(myResult[[1]],name="STSim_StateClass",optional=T)
 rat$Color#We could use Colors from the library. But 2 of these colors are transparent. So override.
 rat$Color = c("darkgreen","brown","wheat")
 # The (optional) Color column of a rat table should have one of these formats:
 #   R,G,B,alpha: 4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.
 #   R colour names: See colors() for options.
 #   hexadecimal colors: As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.
-
-# devtools::document();devtools::load_all()
 
 myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
                         iterations=seq(1),timesteps = seq(0,10,by=5),rat=rat)
@@ -64,15 +63,14 @@ newRat = levels(view)[[1]]
 newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
 rasterAttributes(view) = newRat
 
-filename=paste0(dirname(filepath(myResult)),"/youngMap.pdf")
+filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
 pdf(filename)
 levelplot(view,att="StateLabelXID",col.regions=colortable(view),main=view@title)
 dev.off()
 
 #*************************************
 # View spatial inputs
-datasheets(myResult)$name
-datasheet(myResult,"STSim_InitialConditionsSpatial")
+datasheets(myResult[[1]])$name
 
 mySpatialInputs = spatialData(myResult,sheet="STSim_InitialConditionsSpatial")
 names(mySpatialInputs)
@@ -89,20 +87,19 @@ rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
 rasterAttributes(age0) = rat
 # devtools::document();devtools::load_all()
 
-filename=paste0(dirname(filepath(myResult)),"/youngMap.pdf")
+filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
 pdf(filename)
 view=age0;levelplot(view,att="isYoung",col.regions=colortable(view),main=view@title)
 dev.off()
 
 #NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialOutput() and the relevant datasheet is empty.
-#TO DO: multiband() and spatialData() for lists of Scenarios.
-#TO DO: handle non-stsim spatial inputs
-#TO DO: unit tests and elsewhere tests. Use A176 instance for testing.
+#TO DO: check non-stsim spatial inputs
+#TO DO: unit tests.
 #TO DO: spatial inputs
-#NOTE: special knowledge of lookup to use for legend
+#NOTE: special knowledge of lookups to use for legends
 #DISCUSS: dependency on raster/rdgal: only spatialData() and rasterAttributes() depend on these packages. Could suggest, and complain when the function is called if the packages are missing.
 #DISCUSS: options for storing raster metadata
-#CLARIFY: What exactly is ID? When is it used? My impression is that output tables contain primary keys, but output maps contain IDs. Why?
+#CLARIFY: Output tables contain primary keys, but output maps contain IDs. Why?
 
 ###############
 # Rearrange spatial outputs in a result scenario
@@ -112,7 +109,6 @@ levels(mySheet$MultibandGroupingInternal)
 mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
 loadDatasheets(myProject,mySheet,name=sheetName)
 
-multiband(myResult,action="apply")
 #Combining all spatial results into one multiband file will speed up loading.
-
+multiband(myResult,action="apply")
 
