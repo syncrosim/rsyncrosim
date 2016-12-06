@@ -7,7 +7,7 @@ library(rsyncrosim)
 # http://syncrosim.com/index.php?title=Getting_Started#Spatial_models_in_ST-Sim:_getting_from_non-spatial_to_spatial
 # **********************************************************
 # Author Josie Hughes, ApexRMS
-# Date 2016.11.24
+# Date 2016.12.06
 # **********************************************************
 
 #install.packages("rasterVis")
@@ -22,7 +22,7 @@ if(!file.exists(libPath)){
     libURL = "http://www.apexrms.com//downloads/syncrosim/ST-Sim%20Spatial%20Tutorial.zip"
     download.file(libURL, zipPath)
   }
-  unzip(zipPath,exdir=paste0(libRoot,"/ST-Sim Spatial Tutorial"))
+  unzip(zipPath,exdir=paste0(libRoot,"/ST-Sim Spatial Tutorial"),overwrite=T,unzip = "unzip")
 }
 
 #*************************************
@@ -96,10 +96,12 @@ dev.off()
 #TO DO: check non-stsim spatial inputs
 #TO DO: unit tests.
 #TO DO: spatial inputs
+#TO DO: write colors back to SyncroSim
+#TO DO: make ?rasterAttributes work
+#TO DO: get full paths from SyncroSim
 #NOTE: special knowledge of lookups to use for legends
 #DISCUSS: dependency on raster/rdgal: only spatialData() and rasterAttributes() depend on these packages. Could suggest, and complain when the function is called if the packages are missing.
 #DISCUSS: options for storing raster metadata
-#CLARIFY: Output tables contain primary keys, but output maps contain IDs. Why?
 
 ###############
 # Rearrange spatial outputs in a result scenario
