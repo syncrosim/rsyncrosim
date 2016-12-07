@@ -14,15 +14,16 @@ library(rsyncrosim)
 library(raster);library(rasterVis)
 
 libRoot = "C:/Temp"
-libPath = paste0(libRoot,"/ST-Sim Spatial Tutorial/ST-Sim Spatial Tutorial.ssim")
+libName = "ST-Sim Spatial Tutorial"
+libPath = paste0(libRoot,"/",libName,"/",libName,"/.ssim")
 #download library if necessary.
 if(!file.exists(libPath)){
-  zipPath = paste0(libRoot,"/ST-Sim Spatial Tutorial.zip")
+  zipPath = paste0(libRoot,"/",libName,".zip")
   if(!file.exists(zipPath)){
     libURL = "http://www.apexrms.com//downloads/syncrosim/ST-Sim%20Spatial%20Tutorial.zip"
     download.file(libURL, zipPath)
   }
-  unzip(zipPath,exdir=paste0(libRoot,"/ST-Sim Spatial Tutorial"),overwrite=T,unzip = "unzip")
+  unzip(zipPath,exdir=paste0(libRoot,"/",libName),overwrite=T,unzip = "unzip")
 }
 
 #*************************************
