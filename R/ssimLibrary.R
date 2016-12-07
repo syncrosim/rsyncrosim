@@ -727,7 +727,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     if(class(x)=="Scenario"){sid=.id(x)}else{sid=scenario}
   }
   if(is.null(project)||(length(project)==1)){
-    pid=NULL
+    pid=project
     if(class(x)=="Scenario"){pid=.pid(x)}
     if(class(x)=="Project"){pid=.id(x)}
     if((class(x)=="SSimLibrary")&(length(scenario)>0)){
