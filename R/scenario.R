@@ -18,10 +18,11 @@ NULL
 #' @slot name The scenario name.
 #' @slot id The scenario id.
 #' @slot parentId For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.
+#' @slot breakpointInfo An (optional) list of breakpoint information. See ?breakpointInfo for details.
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric"))
+Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric",breakpointInfo="list"))
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
@@ -557,6 +558,61 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     }
   }
   return(cStack)
+})
+
+#' Set breakpointInfo of a Scenario.
+#'
+#' Set breakpointInfo for a SyncroSim Scenario.
+#'
+#' @details
+#' breakpointInfo is a list of the following form:
+#' list(breakpoints=myVectorOfBreakpoints,breakpointFunction = myBreakpointFunction)
+#'
+#' myVectorOfBreakpoints is a vector of integers representing timesteps. SyncroSim will apply myBreakpointFunction at each timestep.
+#' myBreakpointFunction is the function to apply. See STSimBreakpointsTutorial.R for details.
+#'
+#' @param x A SyncroSim Scenario
+#' @param value A list of breakpoint information. See details.
+#' @return An SyncroSim Scenario object containing breakpoints
+#' @export
+setGeneric('breakpointInfo<-',function(x,value) standardGeneric('breakpointInfo<-'))
+setReplaceMethod(
+  f='breakpointInfo',
+  signature="Scenario",
+  definition=function(x,value){
+    if(class(value)!="list"){
+      stop("Supply a list containing breakpoints and a breakpoint function")
+    }
+    if(length(setdiff(c("breakpoints","breakpointFunction"),names(value)))>0){
+      stop("List must contain breakpoints and breakpointFunction")
+    }
+    if(class(value$breakpoints)!="numeric"){
+      stop('breakpoints must be a vector of timestep integers.')
+    }
+    if(class(value$breakpointFunction)!="function"){
+      stop('breakpointFunction must be a function')
+    }
+    x@breakpointInfo = value
+    return (x)
+  }
+)
+
+#' The breakpointInfo of a Scenario
+#'
+#' The breakpointInfo of a Scenario
+#' @details
+#' breakpointInfo is a list of the following form:
+#' list(breakpoints=myVectorOfBreakpoints,breakpointFunction = myBreakpointFunction)
+#'
+#' myVectorOfBreakpoints is a vector of integers representing timesteps. SyncroSim will apply myBreakpointFunction at each timestep.
+#' myBreakpointFunction is the function to apply. See STSimBreakpointsTutorial.R for details.
+#' @param x A Scenario object.
+#' @return A list of breakpointInfo.
+#' @export
+setGeneric('breakpointInfo',function(x) standardGeneric('breakpointInfo'))
+setMethod('breakpointInfo', signature(x="Scenario"), function(x) {
+  #x=myScenario
+  return(x@breakpointInfo)
 })
 
 

@@ -724,7 +724,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
   x = .getFromXProjScn(x,passProject,passScenario)
   if(is.null(scenario)||(length(scenario)==1)){
-    if(class(x)=="Scenario"){sid=.id(x)}else{sid=NULL}
+    if(class(x)=="Scenario"){sid=.id(x)}else{sid=scenario}
   }
   if(is.null(project)||(length(project)==1)){
     pid=NULL
@@ -1083,7 +1083,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
 
 setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
   #x=myScenario;scenario="Harvest"
-  command(c("run","help"),.session(x))
+  #command(c("run","help"),.session(x))
 
 
   if(is.null(scenario)){
@@ -1119,19 +1119,26 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
 
     print(paste0("Running scenario ",inScn,"..."))
 
-    #TO DO: handle jobs, transformer and inpl.
-    tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
+    #x=myScenario
+    breakpointInfo = .breakpointInfo(x)
+    if(class(breakpointInfo)!="list"){
+      #TO DO: handle jobs, transformer and inpl.
+      tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
 
-    resultId = strsplit(tt,": ",fixed=T)[[1]][2]
-    if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
-      out[[inScn]]=tt
-      print(tt)
-    }else{
-      if(onlyIds){
-        out[[inScn]] = as.numeric(resultId)
+      resultId = strsplit(tt,": ",fixed=T)[[1]][2]
+      if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
+        out[[inScn]]=tt
+        print(tt)
       }else{
-        out[[inScn]] = .scenario(x,id=as.numeric(resultId))
+        if(onlyIds){
+          out[[inScn]] = as.numeric(resultId)
+        }else{
+          out[[inScn]] = .scenario(x,id=as.numeric(resultId))
+        }
       }
+    }else{
+      #handle breakpoints
+      stop("in progress")
     }
   }
   return(out)

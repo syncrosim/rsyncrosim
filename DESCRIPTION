@@ -24,14 +24,12 @@ Suggests:
     rmarkdown,
     testthat
 Collate:
-    'generics.R'
-    'ServerController.R'
     'addRows.R'
     'allCombos.R'
     'command.R'
     'dataframeFromSSim.R'
-    'externalClient.R'
     'fullFilename.R'
+    'generics.R'
     'getFromXProjScn.R'
     'internalHelpers.R'
     'sqlStatements.R'

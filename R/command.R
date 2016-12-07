@@ -10,6 +10,7 @@
 #' @param session A SyncroSim session object. If NULL, a default session will be used.
 #' @param printCmd If T, the command string is printed.
 #' @param silent If NULL (default) use session@silent. If T suppress warnings from console.
+#' @param wait If TRUE (default) R will wait for the command to finish before proceeding.
 #' @return Output from the SyncroSim console.
 #' @examples
 #' # Use a default session to creat a new library
@@ -17,7 +18,7 @@
 #' output = command(args)
 #' output
 #' @export
-command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",silent=NULL) {
+command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",silent=NULL,wait=T) {
   # args=args;session=bugSession;printCmd=T;program="/SyncroSim.Console.exe"
   # TO DO: check validity of args
   if(!is.null(silent)){
@@ -53,12 +54,17 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",
 
   tempCmd = paste(c(paste0('\"\"',.filepath(session),program,'\"'),sysArgs,'\"'),collapse=" ")
 
-  if(silent(session)){
-    out=suppressWarnings(shell(tempCmd,intern=T))
-    #out = suppressWarnings(system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE))
+  if(wait){
+    if(silent(session)){
+      out=suppressWarnings(shell(tempCmd,intern=T))
+      #out = suppressWarnings(system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE))
+    }else{
+      #out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE)
+      out = shell(tempCmd,intern=T)
+    }
   }else{
-    #out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE)
-    out = shell(tempCmd,intern=T)
+    #Special case used for breakpoints
+    out=suppressWarnings(shell(tempCmd,wait=F))
   }
   #if(grepl("0x80131515",out,fixed=T)){
     # handle a problem with permission to run

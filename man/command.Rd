@@ -5,7 +5,7 @@
 \title{SyncroSim console command}
 \usage{
 command(args, session = NULL, printCmd = F,
-  program = "/SyncroSim.Console.exe", silent = NULL)
+  program = "/SyncroSim.Console.exe", silent = NULL, wait = T)
 }
 \arguments{
 \item{args}{A list of arguments to the SyncroSim console.}
@@ -15,6 +15,8 @@ command(args, session = NULL, printCmd = F,
 \item{printCmd}{If T, the command string is printed.}
 
 \item{silent}{If NULL (default) use session@silent. If T suppress warnings from console.}
+
+\item{wait}{If TRUE (default) R will wait for the command to finish before proceeding.}
 }
 \value{
 Output from the SyncroSim console.

@@ -35,5 +35,7 @@ NULL
 .datasheets=datasheets
 #' @export
 .sqlStatements=sqlStatements
+#' @export
+.breakpointInfo=breakpointInfo
 
 
