@@ -15,7 +15,7 @@ library(raster);library(rasterVis)
 
 libRoot = "C:/Temp"
 libName = "ST-Sim Spatial Tutorial"
-libPath = paste0(libRoot,"/",libName,"/",libName,"/.ssim")
+libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
 #download library if necessary.
 if(!file.exists(libPath)){
   zipPath = paste0(libRoot,"/",libName,".zip")
