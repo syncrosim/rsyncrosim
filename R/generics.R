@@ -25,6 +25,7 @@ setMethod('scenarios', signature(x="character"), function(x,project,names,result
 #' @export
 setGeneric('ssimLibrary',function(name=NULL,...) standardGeneric('ssimLibrary'))
 
+
 #' The name of a SyncroSim project or scenario.
 #'
 #' The name of a SyncroSim Project or Scenario.
@@ -359,3 +360,24 @@ setMethod('multiband', signature(x="list"), function(x,action,grouping) {
   }
   return(out)
 })
+
+#' @export
+setGeneric('connection',function(x,...) standardGeneric('connection'))
+setMethod('connection',signature(x="missingOrNULLOrChar"),
+          function(x='127.0.0.1',port=13000) {
+            #port=13000;ipAddress='127.0.0.1'
+            ipAddress = x
+            con = socketConnection(host = ipAddress, port=port,open="w+",encoding="UTF-8")
+            ## S3 method for class 'connection'
+            #open(con, open = "r", blocking = TRUE, ...)
+            ## S3 method for class 'connection'
+            #close(con, type = "rw", ...)
+            #flush(con)
+            #isOpen(con, rw = "")
+            #isIncomplete(con)
+            if(!isOpen(con)){
+              stop(paste0('Problem connecting to the SyncroSim server. IP:',ipAddress," Port:",port))
+            }
+            return(con)
+          })
+

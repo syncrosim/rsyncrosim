@@ -15,7 +15,8 @@ LazyData: TRUE
 Imports:
     DBI,
     RSQLite,
-    raster
+    raster,
+    parallel
 Suggests:
     plyr,
     ggplot2,
@@ -26,17 +27,20 @@ Suggests:
 Collate:
     'addRows.R'
     'allCombos.R'
-    'command.R'
-    'dataframeFromSSim.R'
-    'fullFilename.R'
+    'bindToEnv.R'
     'generics.R'
-    'getFromXProjScn.R'
-    'internalHelpers.R'
-    'sqlStatements.R'
     'session.R'
     'ssimLibrary.R'
     'project.R'
     'scenario.R'
+    'breakpointSession.R'
+    'breakpoint.R'
+    'command.R'
+    'dataframeFromSSim.R'
+    'fullFilename.R'
+    'getFromXProjScn.R'
+    'internalHelpers.R'
+    'sqlStatements.R'
     'internalWrappers.R'
     'rasterAttributes.R'
     'rsyncrosim.R'
