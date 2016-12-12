@@ -1120,8 +1120,13 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
     print(paste0("Running scenario ",inScn,"..."))
 
     #x=myScenario
-    breakpointInfo = .breakpointInfo(x)
-    if(class(breakpointInfo)!="list"){
+    if(class(x)=="Scenario"){
+      breakpoints = breakpoints(x)
+    }else{
+      breakpoints=NULL
+      class(NULL)
+    }
+    if(class(breakpoints)!="list"){
       #TO DO: handle jobs, transformer and inpl.
       tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
 

@@ -24,8 +24,8 @@ setMethod(f='initialize',signature="BreakpointSession",
   location = filepath(session(scenario)) #guaranteed to be valid
 
   #start the server
-  args = list(ipaddress=ipAddress,port=port,quiet=quiet)
-  tt = command(args,.session(scenario),program="/SyncroSim.Server.exe",wait=F)
+  #args = list(ipaddress=ipAddress,port=port,quiet=quiet)
+  #tt = command(args,.session(scenario),program="/SyncroSim.Server.exe",wait=F)
 
   .Object@connection = connection(ipAddress,port)
   .Object@scenario = scenario
@@ -56,12 +56,18 @@ setReplaceMethod(
 #' @export
 setGeneric('remoteCall',function(x,message,getResponse=T) standardGeneric('remoteCall'))
 setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getResponse) {
-  #x = cBreakpointSession;message=message;getResponse=T
+  #x = cBreakpointSession;message=msg;getResponse=T
   if(!getResponse){stop("handle this case")}
   tt = writeLines(message, connection(x),sep = "") #Gives an error
   ret=""
+
   while(getResponse){
-    res=readLines(connection(x))
+    #?readChar
+    #readChar(connection(x),1024,useBytes=T)
+    #scan(connection(x),sep = "",what="character")
+
+    res=readLines(connection(x),1,skipNul=T)
+
     if(length(res)>0){
       stop("handle this case")
       cmd=strsplit(res,"|")[[1]][2]
@@ -134,51 +140,39 @@ runJobParallel<- function(cPars) {
 }
 
 setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,jobs) {
+  #x=cBreakpointSession;jobs=1
+
   if(jobs==1){
-    stop("handle this")
+    #make 1 job work first.
+    msg = paste0('run-scenario --sid=',.id(x@scenario),' --jobs=1')
+    ret = remoteCall(x,msg)
   }else{
-    #x=cBreakpointSession;jobs=3
-    msg = paste0('split-scenario --sid=',.id(x@scenario),' --jobs=',jobs)
+    msg = paste0('split-scenario --sid=',id(x@scenario),' --jobs=',jobs)
     remoteCall(x,msg)
     threads = c()
 
     jobs = min(jobs,parallel::detectCores())
 
-    files = paste0(.filepath(x@scenario),".temp/Scenario-",.id(x@scenario),"/SSimJobs/Job-",seq(1:jobs),".ssim")
+    files = paste0(filepath(x@scenario),".temp/Scenario-",id(x@scenario),"/SSimJobs/Job-",seq(1:jobs),".ssim")
 
     port =   as.numeric(strsplit(summary(x@connection)[[1]],":")[[1]][2])
-
-    #Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
-    parallelCluster = parallel::makeCluster(jobs)
-    print(parallelCluster)
-
     ports=port+ seq(1,jobs)
-
     #make list of arguments for parLapply()
     args = list()
     for(i in 1:length(files)){
       args[[i]]=list(x=x@scenario,f=files[i],port=ports[i])
     }
-
-    #RESUME HERE
-
-    #tryCatch(
-      models <- parallel::parLapply(parallelCluster,args,runJobParallel)
-    #  error = function(e) print(e)
-    #)
-    #runJob(args[[1]]$f)
-    #RESUME HERE
-
-
+    #Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
+    parallelCluster = parallel::makeCluster(jobs)
+    print(parallelCluster)
+    ret =  parallel::parLapply(parallelCluster,args,runJobParallel)
     # Shutdown cluster neatly
     if(!is.null(parallelCluster)) {
       parallel::stopCluster(parallelCluster)
       parallelCluster = c()
     }
-
-    msg = paste0('merge-scenario --sid=',.id(x@scenario))
+    msg = paste0('merge-scenario --sid=',id(x@scenario))
     ret = remoteCall(x,msg)
     return(ret)
   }
-
 })
