@@ -772,7 +772,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
       unlink(tempFile)
 
-      args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)
+      args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
 
       if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
 
@@ -1124,27 +1124,41 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
       breakpoints = breakpoints(x)
     }else{
       breakpoints=NULL
-      class(NULL)
     }
     if(class(breakpoints)!="list"){
       #TO DO: handle jobs, transformer and inpl.
       tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
 
       resultId = strsplit(tt,": ",fixed=T)[[1]][2]
-      if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
-        out[[inScn]]=tt
-        print(tt)
-      }else{
-        if(onlyIds){
-          out[[inScn]] = as.numeric(resultId)
-        }else{
-          out[[inScn]] = .scenario(x,id=as.numeric(resultId))
-        }
-      }
     }else{
       #handle breakpoints
-      stop("in progress")
+      # create a session
+      cBreakpointSession=breakpointSession(x)
+      #TO DO: multiple tries in connection
+
+      # load a library
+      msg =paste0('load-library --lib=\"',filepath(x),'\"')
+      ret=remoteCall(cBreakpointSession,msg)
+
+      # set breakpoints
+      ret = setBreakpoints(cBreakpointSession)
+
+      resultId = run(cBreakpointSession,jobs=1)
+
+      resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
+      close(connection(cBreakpointSession)) # Close the connection.
     }
+    if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
+      out[[inScn]]=tt
+      print(tt)
+    }else{
+      if(onlyIds){
+        out[[inScn]] = as.numeric(resultId)
+      }else{
+        out[[inScn]] = .scenario(x,id=as.numeric(resultId))
+      }
+    }
+
   }
   return(out)
 })

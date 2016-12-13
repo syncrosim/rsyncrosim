@@ -399,7 +399,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 })
 
 setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,rat) {
-  # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=seq(1);timesteps = c(100);rat=rat
+  # x= myResult[[1]]; sheet="STSim_InitialConditionsSpatial";iterations=seq(1);timesteps = c(100);rat=rat
 
   cSheets = datasheets(x)
   if(!is.element(sheet,cSheets$name)){
@@ -412,11 +412,11 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 
   #TO DO: make sure datasheet is spatial after opening
   cMeta = datasheet(x,name=sheet)
+
   if(nrow(cMeta)==0){
     multiband(x,action="rebuild")
     cMeta = datasheet(x,name=sheet)
   }
-
 
   if(!is.null(timesteps)&is.element("Timestep",names(cMeta))){
     timesteps=as.numeric(timesteps)
@@ -585,7 +585,7 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, tra
   }
   breakpointName = types[[breakpointType]]
   if(is.element(breakpointName,names(breakpoints(x)))){
-    stop('A breakpoint has already been set for: ', breakpointName,' -> ',transformerName)
+    warning('Resetting breakpoint for: ', breakpointName,' -> ',transformerName)
   }
   x@breakpoints[[breakpointName]] = breakpoint(breakpointName,transformerName,arguments,callback)
   return(x)

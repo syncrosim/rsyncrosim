@@ -33,7 +33,7 @@ myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 myProject = project(myLibrary)
 run(myProject,5,onlyIds=T)
 
-scenarios(myProject,names=T)
+#scenarios(myProject,names=T)
 myResult = scenarios(myProject,select=c(6,7))
 datasheets(myResult[[1]])$name
 
@@ -52,6 +52,10 @@ rat$Color = c("darkgreen","brown","wheat")
 myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
                         iterations=seq(1),timesteps = seq(0,10,by=5),rat=rat)
 names(myRasters)
+
+#TO DO: set up an example of querying particular iterations/timesteps
+
+str(myRasters[[1]])
 #NOTE: myRasters is a RasterStack object. See raster package documentation for details.
 #NOTE: loading is faster if all sheets are contained in a single multiband file. See below for example.
 
@@ -73,9 +77,13 @@ dev.off()
 # View spatial inputs
 datasheets(myResult[[1]])$name
 
+check = (datasheet(myResult[[1]],"STSim_OutputSpatialTransition"))
+
+#TO DO: helper for pulling particular transition groups, etc? later.
 mySpatialInputs = spatialData(myResult,sheet="STSim_InitialConditionsSpatial")
 names(mySpatialInputs)
 age0=mySpatialInputs[["STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.age"]]
+#TO DO:show example of pulling sheet without writing full name
 
 #see all ages
 plot(age0,main=age0@title)
@@ -86,20 +94,20 @@ rat$isYoung[rat$ID<36]="young" #check young forest definition
 rat$isYoung[rat$ID>=36]="not young" #check young forest definition
 rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
 rasterAttributes(age0) = rat
-# devtools::document();devtools::load_all()
 
 filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
 pdf(filename)
 view=age0;levelplot(view,att="isYoung",col.regions=colortable(view),main=view@title)
 dev.off()
 
-#NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialOutput() and the relevant datasheet is empty.
+?`rasterAttributes<-`
+
+#NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialData() and the relevant datasheet is empty.
 #TO DO: check non-stsim spatial inputs
-#TO DO: unit tests.
 #TO DO: spatial inputs
 #TO DO: write colors back to SyncroSim
 #TO DO: make ?rasterAttributes work
-#TO DO: get full paths from SyncroSim
+#TO DO: get full paths from SyncroSim - special handling of output files that are spatial?
 #NOTE: special knowledge of lookups to use for legends
 #DISCUSS: dependency on raster/rdgal: only spatialData() and rasterAttributes() depend on these packages. Could suggest, and complain when the function is called if the packages are missing.
 #DISCUSS: options for storing raster metadata
@@ -111,7 +119,7 @@ sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
 levels(mySheet$MultibandGroupingInternal)
 mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
 loadDatasheets(myProject,mySheet,name=sheetName)
-
+?multiband
 #Combining all spatial results into one multiband file will speed up loading.
 multiband(myResult,action="apply")
 

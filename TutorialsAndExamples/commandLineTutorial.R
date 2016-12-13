@@ -292,17 +292,24 @@ parentId(myScenario)
 
 # DISCUSS: StochasticTime chart and map UI - What features do we need?
 
+# DISCUSS: Examples in help files - some examples are difficult to set up.
 ################
 # TO DO:
-# - handle raster datasheets (input and output)
+# - handle raster datasheets (inputs)
 # - datasheet(,keepId=T)
-# - get/set summary information (name,author,description,readOnly): Alex is working on this.
-# - formal tests
 # - help/documentation
-# - bigger data example?
 # - Project revisions: Safe modification of existing libraries?
 # - break points
-# - ??
+# - long names in  models() ?
+
+###################
+# Handoff notes:
+# - Clean up argument defaults in generics so help displays properly (...)
+# - Clean up namespace. Don't export internalWrapper.R functions. Scan for other unnecessary exports.
+# - Put examples in help files. Figure out what to do about difficult examples.
+# - Review help files.
+# - linux testing
+# - vanilla windows testing
 
 ###############
 # LOW PRIORITY

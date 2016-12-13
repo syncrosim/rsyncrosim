@@ -367,7 +367,7 @@ setMethod('connection',signature(x="missingOrNULLOrChar"),
           function(x='127.0.0.1',port=13000) {
             #port=13000;ipAddress='127.0.0.1'
             ipAddress = x
-            con = socketConnection(host = ipAddress, port=port,open="w+",encoding="UTF-8")
+            con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=2)
             ## S3 method for class 'connection'
             #open(con, open = "r", blocking = TRUE, ...)
             ## S3 method for class 'connection'

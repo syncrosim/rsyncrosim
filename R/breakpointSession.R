@@ -24,8 +24,8 @@ setMethod(f='initialize',signature="BreakpointSession",
   location = filepath(session(scenario)) #guaranteed to be valid
 
   #start the server
-  #args = list(ipaddress=ipAddress,port=port,quiet=quiet)
-  #tt = command(args,.session(scenario),program="/SyncroSim.Server.exe",wait=F)
+  args = list(ipaddress=ipAddress,port=port,quiet=quiet)
+  tt = command(args,.session(scenario),program="/SyncroSim.Server.exe",wait=F)
 
   .Object@connection = connection(ipAddress,port)
   .Object@scenario = scenario
@@ -58,33 +58,59 @@ setGeneric('remoteCall',function(x,message,getResponse=T) standardGeneric('remot
 setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getResponse) {
   #x = cBreakpointSession;message=msg;getResponse=T
   if(!getResponse){stop("handle this case")}
-  tt = writeLines(message, connection(x),sep = "") #Gives an error
+
   ret=""
+  tt = writeLines(message, connection(x),sep = "") #Gives an error
 
   while(getResponse){
-    #?readChar
-    #readChar(connection(x),1024,useBytes=T)
-    #scan(connection(x),sep = "",what="character")
+    #res=""
+    #cRes = character(0)
+    #while((res=="")|(length(cRes)>0)){
+    #  cRes =  readChar(connection(x),1024,useBytes=F)
+    #  res=paste0(res,cRes)
+    #  if(res==""){
+    #    Sys.sleep(1)
+    #  }
+    #}
+    res = readChar(connection(x),1024,useBytes=F)
 
-    res=readLines(connection(x),1,skipNul=T)
+    #while(isIncomplete(connection(x))){
+    #  Sys.sleep(1)
+    #}
+    #Sys.sleep(1)
+    #res = scan(connection(x),sep = "|",what="character",nlines=1)
+    #res=readLines(connection(x),n=1,ok=T)
+    #RESUME HERE
 
-    if(length(res)>0){
-      stop("handle this case")
-      cmd=strsplit(res,"|")[[1]][2]
+    if(length(res)==0){
+      warning("No return message received")
+      Sys.sleep(10)
     }else{
-      cmd=F
-    }
-    if(!cmd){break}#not (cmd and cmd.strip())s
-    if(cmd=='breakpoint-hit'){
-      split = strsplit(res,"|")[[1]]
+      cmd=strsplit(res,"|",fixed=T)[[1]][1]
+      #if(!cmd){break}#not (cmd and cmd.strip())s
+      if(cmd=='breakpoint-hit'){
+        #res="breakpoint-hit|syncrosim-stochastic-time:break-before-iteration|stsim:core-transformer|1"
+        split = strsplit(res,"|",fixed=T)[[1]]
 
-      stop("handle this case")
-      #remember python indices start from 0
-      #self.on_breakpoint_hit(split[1], split[2], split[3])
-      #self.sock.sendall(remote_msg_breakpoint_continue)
-    }else{
-      if(cmd=='call-complete'){
-        split = strsplit(res,"|")[[1]]
+        cBreak = x@scenario@breakpoints[[split[2]]]
+        #need timestep and iteration arguments
+        if(grepl("iteration",cBreak@breakpointName)){
+          iteration = as.numeric(split[4])
+          timestep = 0
+        } else if (grepl("timestep",cBreak@breakpointName)){
+          stop("handle this")
+        } else {
+          stop("need timestep/iteration")
+        }
+
+        #need result scenario id
+        cResult = scenario(.project(x@scenario),id=8)
+
+        warning("remember to handle timestep/iteration/scenario id properly")
+        cBreak@callback(cResult,iteration,timestep)
+        tt=writeLines('breakpoint-continue',connection(x),sep="")
+      }else if(cmd=='call-complete'){
+        split = strsplit(res,"|",fixed=T)[[1]]
         if (split[2] == 'FAILURE'){
           stop("Server returned a failure: ",split[3])
         }else{
