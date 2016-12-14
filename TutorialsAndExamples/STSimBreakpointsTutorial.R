@@ -1,5 +1,4 @@
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-# library(rsyncrosim)
 library(raster);library(rasterVis)
 
 # **********************************************************

@@ -163,7 +163,7 @@ setMethod('setBreakpoints',signature(x="BreakpointSession"),function(x) {
 })
 
 #' @export
-#' The single argument function for parallel
+# The single argument function for parallel
 runJobParallel<- function(cPars) {
   #bindToEnv(objNames=c('breakpointSession','remoteCall','setBreakpoints'))
   #function(cPars) {
