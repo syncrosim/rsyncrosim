@@ -61,7 +61,8 @@ myBreakpointFunction<-function(x,iteration,timestep){
                               TransitionGroupID="Fire",Amount=iteration*timestep+1.5)
   mySheet=unique(mySheet)
   loadDatasheets(x,mySheet,name=sheetName,breakpoint=T)
-  # NOTE: breakpoint=T. Writes csv to expected temporary data directory. Does not load into database. Appends to existing sheet.
+  # NOTE: breakpoint=T. Writes csv to expected temporary data directory. Does not load into database.
+  # NOTE: If breakpoint = T append to existing sheet.
 
   # NOTE: User is responsible for ensuring that queries make sense given breakpoints.
   # For example - output will be empty before iteration.
@@ -89,9 +90,19 @@ myResult = run(myScenario,jobs=1) #run handles breakpoints automatically
 # DISCUSS: communication failures can stall rather than returning helpful messages. Do I need to put more time into this?
 # NOTE: Fewer helpful messages are returned for parallel processing. Use jobs=1 for debugging.
 
-#Check what happened
+# Check what happened
 multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
 subset(multipliers,select=c(Iteration,Timestep,Amount))
+# QUESTION: How to confirm the datasheet had appropriate effects on the simulation?
+
+# Run again with parallel processing
+# Remember - must install properly from github and load libarary to test parallel
+#myResult = run(myScenario,jobs=2)
+# NOTE: no helpful messages with parallel processing
+
+#Check what happened
+#multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
+#subset(multipliers,select=c(Iteration,Timestep,Amount))
 
 ###########
 # TO DO:

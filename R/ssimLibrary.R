@@ -1140,7 +1140,7 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
 
       resultId = strsplit(tt,": ",fixed=T)[[1]][2]
     }else{
-      #x=myScenario;jobs=1
+      #x=myScenario;jobs=2
       # devtools::document();devtools::load_all()
 
       # create a session

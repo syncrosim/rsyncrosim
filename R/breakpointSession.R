@@ -163,16 +163,11 @@ setMethod('setBreakpoints',signature(x="BreakpointSession"),function(x) {
 })
 
 #' @export
-#build the single argument function we are going to pass to parallel
+#' The single argument function for parallel
 runJobParallel<- function(cPars) {
-  #SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath="character",datasheetNames="data.frame"))
-  #Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric",breakpoints="list"))
-  #BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character"))
   #bindToEnv(objNames=c('breakpointSession','remoteCall','setBreakpoints'))
   #function(cPars) {
-    #SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath="character",datasheetNames="data.frame"))
-    #Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric",breakpoints="list"))
-    #BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character"))
+  #cPars=args[[1]]
     library(rsyncrosim) #NOTE: rsyncrosim must be installed properly in order for this to work.
     #cPars is a list, where x is a scenario,f is a new filepath, and port is a new port
     #f = files[1];port=ports[1]
@@ -186,18 +181,20 @@ runJobParallel<- function(cPars) {
 }
 
 setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,jobs) {
-  #x=cBreakpointSession;jobs=1
+  #x=cBreakpointSession;jobs=2
 
   if(jobs==1){
     #make 1 job work first.
     msg = paste0('run-scenario --sid=',.id(x@scenario),' --jobs=1')
     ret = remoteCall(x,msg)
   }else{
+    #x=cBreakpointSession;jobs=2
+
     msg = paste0('split-scenario --sid=',id(x@scenario),' --jobs=',jobs)
     tt = remoteCall(x,msg)
-    if(tt!="NONE"){
-      stop("Something is wrong: ",tt)
-    }
+    #if(tt!="NONE"){
+    #  stop("Something is wrong: ",tt)
+    #}
     threads = c()
 
     jobs = min(jobs,parallel::detectCores())
@@ -209,6 +206,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     #make list of arguments for parLapply()
     args = list()
     for(i in 1:length(files)){
+      #i = 1
       args[[i]]=list(x=x@scenario,f=files[i],port=ports[i])
     }
     #Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
