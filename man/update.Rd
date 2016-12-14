@@ -4,7 +4,7 @@
 \alias{update}
 \title{Apply updates.}
 \usage{
-update(x, ...)
+update(x)
 }
 \arguments{
 \item{x}{An SSimLibrary object, or a Project or Scenario associated with a Library}

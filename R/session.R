@@ -86,7 +86,7 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   return(.Object)
 })
 
-# @describeIn session Create a SyncroSim Session from a filepath or get default Session.
+#' @describeIn session Create a SyncroSim Session from a filepath or get default Session.
 setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent=T) {
   return(new("Session",x,silent))
 })

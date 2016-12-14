@@ -17,7 +17,7 @@
 #' myOutput = command(args=myArgs,mySsim,printCmd=T)
 #' myDataframe = dataframeFromSSim(myOutput)
 #' myDataframe
-#' @export
+# @export
 .dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T){
   #colNames=c("name","description","version");
   #x=c("Property,Value","Size:,\"35,526 KB\"");csv=T;colNames=NULL;localNames=T

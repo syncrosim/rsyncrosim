@@ -361,13 +361,18 @@ setMethod('multiband', signature(x="list"), function(x,action,grouping) {
   return(out)
 })
 
+#' Get or set a socket connection.
+#'
+#' @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
+#' @param port For new connections only - a port number.
 #' @export
 setGeneric('connection',function(x,...) standardGeneric('connection'))
+#' @describeIn connection Get a new connection.
 setMethod('connection',signature(x="missingOrNULLOrChar"),
           function(x='127.0.0.1',port=13000) {
             #port=13000;ipAddress='127.0.0.1'
             ipAddress = x
-            con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=2)
+            con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=4)
             ## S3 method for class 'connection'
             #open(con, open = "r", blocking = TRUE, ...)
             ## S3 method for class 'connection'

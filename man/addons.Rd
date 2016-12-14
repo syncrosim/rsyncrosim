@@ -4,7 +4,7 @@
 \alias{addons}
 \title{addons of an SSimLibrary}
 \usage{
-addons(x, ...)
+addons(x, all = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, or a Project/Scenario object associated with an SSimLibrary.}

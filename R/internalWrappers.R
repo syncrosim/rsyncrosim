@@ -7,37 +7,37 @@
 #' @include scenario.R
 #' @include sqlStatements.R
 NULL
-#' @export
+# @export
 .ssimLibrary=ssimLibrary
-#' @export
+# @export
 .id=id
-#' @export
+# @export
 .pid=pid
-#' @export
+# @export
 .filepath=filepath
-#' @export
+# @export
 .session=session
-#' @export
+# @export
 .project = project
-#' @export
+# @export
 .scenario = scenario
-#' @export
+# @export
 .addons=addons
-#' @export
+# @export
 .scenarios=scenarios
-#' @export
+# @export
 .projects=projects
-#' @export
+# @export
 .datasheet=datasheet
-#' @export
+# @export
 .name=name
-#' @export
+# @export
 .datasheets=datasheets
-#' @export
+# @export
 .sqlStatements=sqlStatements
-#' @export
+# @export
 .breakpoints=breakpoints
-#' @export
+# @export
 .breakpoint=breakpoint
 
 

@@ -4,7 +4,7 @@
 \alias{deleteScenarios}
 \title{Delete scenarios}
 \usage{
-deleteScenarios(x, ...)
+deleteScenarios(x, scenario = NULL, force = FALSE)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario.}

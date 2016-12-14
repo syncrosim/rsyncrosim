@@ -228,6 +228,7 @@ setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
 
 setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
 
+#' @describeIn session Get the Session associated with a SSimLibrary.
 setMethod('session', signature(x="SSimLibrary"), function(x) x@session)
 
 setMethod('info', signature(x="SSimLibrary"), function(x) {
@@ -299,7 +300,7 @@ setReplaceMethod(
 #' @param x An SSimLibrary object, or a Project or Scenario associated with a Library
 #' @return Success or a failure message from the console.
 #' @export
-setGeneric('update',function(x,...) standardGeneric('update'))
+setGeneric('update',function(x) standardGeneric('update'))
 setMethod('update', signature(x="SSimLibrary"), function(x) {
   #x= myLibrary
   #args = list(update=NULL,lib=.filepath(x));session=.session(x)
@@ -317,8 +318,8 @@ setMethod('update', signature(x="SSimLibrary"), function(x) {
 #' @examples
 #' myProjects = projects(ssimLibrary(model="stsim",name="stsim"))
 #' @export
-setGeneric('projects',function(x,...) standardGeneric('projects'))
-setMethod('projects', signature(x="SSimLibrary"), function(x,names=F,...) {
+setGeneric('projects',function(x,names=F) standardGeneric('projects'))
+setMethod('projects', signature(x="SSimLibrary"), function(x,names) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
 
@@ -424,8 +425,8 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,force
 #' deleteScenarios(myLibrary,scenario="Scenario")
 #' scenarios(myLibrary,names=T)
 #' @export
-setGeneric('deleteScenarios',function(x,...) standardGeneric('deleteScenarios'))
-setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario=NULL,force=FALSE,...) {
+setGeneric('deleteScenarios',function(x,scenario=NULL,force=FALSE) standardGeneric('deleteScenarios'))
+setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario,force) {
   #x = myLibrary
   #scenario = "Scenario"
   if(is.null(scenario)){
@@ -544,8 +545,8 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project,names,resu
 #' @examples
 #' addons(ssimLibrary(model="stsim",name="stsim"))
 #' @export
-setGeneric('addons',function(x,...) standardGeneric('addons'))
-setMethod('addons', signature(x="SSimLibrary"), function(x,all=F) {
+setGeneric('addons',function(x,all=F) standardGeneric('addons'))
+setMethod('addons', signature(x="SSimLibrary"), function(x,all) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(x)),.session(x))
   tt = .dataframeFromSSim(tt)
@@ -1131,7 +1132,9 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
 
       resultId = strsplit(tt,": ",fixed=T)[[1]][2]
     }else{
-      #handle breakpoints
+      #x=myScenario;jobs=1
+      # devtools::document();devtools::load_all()
+
       # create a session
       cBreakpointSession=breakpointSession(x)
       #TO DO: multiple tries in connection
@@ -1143,7 +1146,7 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
       # set breakpoints
       ret = setBreakpoints(cBreakpointSession)
 
-      resultId = run(cBreakpointSession,jobs=1)
+      resultId = run(cBreakpointSession,jobs=jobs)
 
       resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
       close(connection(cBreakpointSession)) # Close the connection.

@@ -180,15 +180,12 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 # By default, returns a named list of result Scenario objects.
 # If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
-# NOTE: jobs is passed through to SyncroSim which handles multithreading. (?)
+# NOTE: jobs is passed through to SyncroSim which handles multithreading.
 
 scenarios(myProject,names=T)
 
 # deleteScenarios(myProject,3,force=T)
 # myResults=scenarios(myProject,results=T)
-
-# run with breakpoints, multiprocessing.
-
 
 #********************************
 # See results
@@ -218,8 +215,7 @@ mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","TransitionG
 outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
 str(outTransitionsAllAges)
 
-# NOTE: In the following example I use existing R tools (ggplot2/plyr) to visualize the output.
-# DISCUSS: What (if any) summary/visualization functions do we need in rsyncrosim?
+# NOTE: In the following example we use existing R tools (ggplot2/plyr) to visualize the output.
 # install.packages("ggplot2");install.packages("plyr")
 library(ggplot2);library(plyr)
 # QUESTION: what to do about id() masking by plyr?
@@ -241,11 +237,6 @@ print(base)
 #*********************
 # TO DISCUSS
 #*********************
-# devtools::document();devtools::load_all()
-# NOTE: At present we depend on DBI and RSQLite (which is a Wickham package)
-
-# NOTE: To export a datasheet we query the database directly. Otherwise, we use the console.
-
 # DISCUSS: datasheets()
 # When is it necessary/desireable to load all datasheets?
 # Is minimal syntax (e.g. myDatasheets[["STSim_StateClass"]]) the main goal?
@@ -286,28 +277,27 @@ deleteProjects(myLibrary, project="My new project name") # Returns a list of "Su
 parentId(myScenario)
 # QUESTION: Should I disable assignment functions for result scenarios?
 
-# DISCUSS blanks and NA values in datasheets: I have handled the cases in this tutorial. What else gave you trouble?
-
 # DISCUSS: What exactly is a datasheet object, and why do we need one?
 
 # DISCUSS: StochasticTime chart and map UI - What features do we need?
 
 # DISCUSS: Examples in help files - some examples are difficult to set up.
+
+# DISCUSS: How to acknowledge code bits scooped from web pages? search 'http' to see them...
+
 ################
 # TO DO:
 # - handle raster datasheets (inputs)
 # - datasheet(,keepId=T)
 # - help/documentation
 # - Project revisions: Safe modification of existing libraries?
-# - break points
 # - long names in  models() ?
 
 ###################
 # Handoff notes:
-# - Clean up argument defaults in generics so help displays properly (...)
 # - Clean up namespace. Don't export internalWrapper.R functions. Scan for other unnecessary exports.
-# - Put examples in help files. Figure out what to do about difficult examples.
 # - Review help files.
+# - Put examples in help files. Figure out what to do about difficult examples.
 # - linux testing
 # - vanilla windows testing
 

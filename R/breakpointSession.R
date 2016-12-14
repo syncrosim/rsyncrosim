@@ -40,6 +40,7 @@ breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,na
 
 #' @export
 setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
+#' @describeIn connection Get the connection of a BreakpointSession.
 setMethod('connection', signature(x="BreakpointSession"), function(x) return(x@connection))
 setReplaceMethod(
   f='connection',
@@ -63,6 +64,7 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
   tt = writeLines(message, connection(x),sep = "") #Gives an error
 
   while(getResponse){
+    #TO DO: less stupid way of finding EOL.
     #res=""
     #cRes = character(0)
     #while((res=="")|(length(cRes)>0)){
@@ -72,42 +74,37 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
     #    Sys.sleep(1)
     #  }
     #}
-    res = readChar(connection(x),1024,useBytes=F)
-
+    #res = readChar(connection(x),1024,useBytes=F)
+    #readChar(connection(x),30,useBytes=F)
     #while(isIncomplete(connection(x))){
     #  Sys.sleep(1)
     #}
     #Sys.sleep(1)
-    #res = scan(connection(x),sep = "|",what="character",nlines=1)
+    #res = scan(connection(x),sep = "\n",what="character",nlines=1)
     #res=readLines(connection(x),n=1,ok=T)
     #RESUME HERE
 
-    if(length(res)==0){
-      warning("No return message received")
-      Sys.sleep(10)
+    cRes = readChar(connection(x),1,useBytes=F)
+    if(length(cRes)==0){
+      #warning("No return message received")
+      Sys.sleep(1) #try again in a while
     }else{
+      #read the rest of the message
+      res=""
+      while(cRes!="\n"){
+        res = paste0(res,cRes)
+        cRes = readChar(connection(x),1,useBytes=F)
+      }
+
+
       cmd=strsplit(res,"|",fixed=T)[[1]][1]
       #if(!cmd){break}#not (cmd and cmd.strip())s
       if(cmd=='breakpoint-hit'){
         #res="breakpoint-hit|syncrosim-stochastic-time:break-before-iteration|stsim:core-transformer|1"
         split = strsplit(res,"|",fixed=T)[[1]]
-
         cBreak = x@scenario@breakpoints[[split[2]]]
-        #need timestep and iteration arguments
-        if(grepl("iteration",cBreak@breakpointName)){
-          iteration = as.numeric(split[4])
-          timestep = 0
-        } else if (grepl("timestep",cBreak@breakpointName)){
-          stop("handle this")
-        } else {
-          stop("need timestep/iteration")
-        }
-
-        #need result scenario id
-        cResult = scenario(.project(x@scenario),id=8)
-
-        warning("remember to handle timestep/iteration/scenario id properly")
-        cBreak@callback(cResult,iteration,timestep)
+        cResult = scenario(.project(x@scenario),id=as.numeric(split[4]))
+        cBreak@callback(cResult,iteration=as.numeric(split[5]),timestep=as.numeric(split[6]))
         tt=writeLines('breakpoint-continue',connection(x),sep="")
       }else if(cmd=='call-complete'){
         split = strsplit(res,"|",fixed=T)[[1]]

@@ -4,7 +4,7 @@
 \alias{projects}
 \title{The projects in a SyncroSim library.}
 \usage{
-projects(x, ...)
+projects(x, names = F)
 }
 \arguments{
 \item{x}{An SSimLibrary object, or a Project or Scenario associated with a Library}

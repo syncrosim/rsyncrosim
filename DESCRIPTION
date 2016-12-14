@@ -26,8 +26,6 @@ Suggests:
     testthat
 Collate:
     'addRows.R'
-    'allCombos.R'
-    'bindToEnv.R'
     'generics.R'
     'session.R'
     'ssimLibrary.R'
@@ -44,6 +42,5 @@ Collate:
     'internalWrappers.R'
     'rasterAttributes.R'
     'rsyncrosim.R'
-    'setRows.R'
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

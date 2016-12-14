@@ -35,12 +35,13 @@ if(!is.element("breakpoint test",scenarios(myProject,names=T)$name)){
 }else{
   myScenario = scenario(myProject,name="breakpoint test")
 }
-#TO DO: make this work internally
+
+datasheets(myScenario)$name
 
 myBreakpointFunction<-function(x,iteration,timestep){
   #x=scenario(myProject,id=6);iteration=2;timestep=3
-  #The first argument of a breakpoint function is a SyncroSim Scenario.
-  #We can pull info from the Scenario database in the usual manner.
+  #The first argument of a breakpoint function is a SyncroSim results Scenario.
+  #We can pull/push info from the Scenario database in the usual manner.
   myState = spatialData(x,sheet="STSim_InitialConditionsSpatial",
                           iterations=iteration,timesteps = timestep)[[1]]
   print(paste0("Iteration:",iteration," Timestep:",timestep," Composition:",paste(freq(myState)[,"count"],collapse=",")))
@@ -63,7 +64,6 @@ breakpoints(myScenario)
 # devtools::document();devtools::load_all()
 
 myResult = run(myScenario,jobs=1) #run handles breakpoints automatically
-
 
 
 
