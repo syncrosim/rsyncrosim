@@ -244,15 +244,16 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 #' @param name The sheet name - required if data is a dataframe, ignored otherwise.
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
+#' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
 #' @return A named list of success or failure reports.
 #' @examples
 #'
 #' @export
-setGeneric('loadDatasheets',function(x,data,name=NULL,project=NULL,scenario=NULL) standardGeneric('loadDatasheets'))
+setGeneric('loadDatasheets',function(x,data,name=NULL,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadDatasheets'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario) {
+setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,data,name,project,scenario)
+  out = .datasheet(x,data,name,project,scenario,breakpoint)
   return(out)
 })
 

@@ -4,7 +4,8 @@
 \alias{loadDatasheets}
 \title{Set datasheets}
 \usage{
-loadDatasheets(x, data, name = NULL, project = NULL, scenario = NULL)
+loadDatasheets(x, data, name = NULL, project = NULL, scenario = NULL,
+  breakpoint = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
@@ -16,6 +17,8 @@ loadDatasheets(x, data, name = NULL, project = NULL, scenario = NULL)
 \item{project}{Project name or id.}
 
 \item{scenario}{Scenario name or id.}
+
+\item{breakpoint}{Set to TRUE when modifying datasheets in a breakpoint function.}
 }
 \value{
 A named list of success or failure reports.

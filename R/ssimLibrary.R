@@ -1023,8 +1023,8 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   return(sheet)
 })
 
-setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario) {
-  #x = myScenario;project=NULL;scenario=NULL;name="STSim_InitialConditionsNonSpatialDistribution";data=mySheet
+setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario,breakpoint) {
+  #x = myScenario;project=NULL;scenario=NULL;name=sheetName;data=mySheet;breakpoint=T
   x = .getFromXProjScn(x,project,scenario)
 
   sheetNames = datasheets(x)
@@ -1055,10 +1055,17 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
     }
     cDat[is.na(cDat)]=""
 
-    dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
-    tempFile = paste0(dirname(.filepath(x)),"/Temp/",cName,".csv")
+    if(breakpoint){pathBit = paste0(.filepath(x),'.temp/Data')}else{pathBit = paste0(dirname(.filepath(x)),'/Temp')}
+
+    dir.create(pathBit, showWarnings = FALSE,recursive=T)
+    tempFile = paste0(pathBit,"/",cName,".csv")
 
     write.csv(cDat,file=tempFile,row.names=F,quote=F)
+    if(breakpoint){
+      out[[cName]] = "Success!"
+      next
+    }
+
     args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)
     scope =sheetNames$dataScope[sheetNames$name==cName]
     if(length(scope)==0){
@@ -1143,14 +1150,22 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
       # load a library
       msg =paste0('load-library --lib=\"',filepath(x),'\"')
       ret=remoteCall(cBreakpointSession,msg)
+      if(ret!="NONE"){
+        stop("Something is wrong: ",ret)
+      }
 
       # set breakpoints
       ret = setBreakpoints(cBreakpointSession)
+      if(ret!="NONE"){
+        stop("Something is wrong: ",ret)
+      }
 
+      #resultId=ret
       resultId = run(cBreakpointSession,jobs=jobs)
 
       resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
       close(connection(cBreakpointSession)) # Close the connection.
+      cBreakpointSession=NULL
     }
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
       out[[inScn]]=tt

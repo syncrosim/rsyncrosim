@@ -35,35 +35,49 @@ if(!is.element("breakpoint test",scenarios(myProject,names=T)$name)){
 }else{
   myScenario = scenario(myProject,name="breakpoint test")
 }
-# devtools::document();devtools::load_all()
 
-datasheets(myScenario)$name
+#datasheets(myScenario)$name
 sheetName = "STSim_RunControl"; mySheet = datasheet(myScenario,name=sheetName,empty=F)
-str(mySheet)
 mySheet[1,"MaximumIteration"] = 2
 mySheet[1,"MaximumTimestep"] = 3
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
-
-
+# devtools::document();devtools::load_all()
 myBreakpointFunction<-function(x,iteration,timestep){
-  #x=scenario(myProject,id=6);iteration=2;timestep=3
+  #x=scenario(myProject,id=8);iteration=2;timestep=1
   #The first argument of a breakpoint function is a SyncroSim results Scenario.
-  #We can pull/push info from the Scenario database in the usual manner.
-  myState = spatialData(x,sheet="STSim_InitialConditionsSpatial",
-                          iterations=iteration,timesteps = timestep)[[1]]
-  print(paste0("Iteration:",iteration," Timestep:",timestep," Composition:",paste(freq(myState)[,"count"],collapse=",")))
-  #TO DO: modify state, replace in the database, and request reload by SyncroSim
 
+  print('Breakpoint Hit')
+  print(paste0('Scenario ID: ',id(x)))
+  print(paste0('Iteration: ',iteration))
+  print(paste0('Timestep: ',timestep))
+  print(paste0('Out Dir: ',filepath(x),".temp/Data"))
+  print("")
+
+  #We can pull info from the Scenario database in the usual manner.
+  sheetName = "STSim_TransitionMultiplierValue"
+  mySheet = datasheet(x,sheetName,optional=T,empty=T)
+  addRows(mySheet)=data.frame(Iteration=iteration,Timestep=timestep,
+                              TransitionGroupID="Fire",Amount=iteration*timestep+1.5)
+  mySheet=unique(mySheet)
+  loadDatasheets(x,mySheet,name=sheetName,breakpoint=T)
+  # NOTE: breakpoint=T. Writes csv to expected temporary data directory. Does not load into database. Appends to existing sheet.
+
+  # NOTE: User is responsible for ensuring that queries make sense given breakpoints.
+  # For example - output will be empty before iteration.
+
+  # NOTE: I have put the 'data-ready' call in onBreakpointHit(), rather than in the callback function - users can't muck it up there.
+
+  # TO DO: Example modifying spatial state.
+  #myState = spatialData(x,sheet="STSim_InitialConditionsSpatial",
+  #                        iterations=iteration,timesteps = timestep)[[1]]
+  #print(paste0("Iteration:",iteration," Timestep:",timestep," Composition:",paste(freq(myState)[,"count"],collapse=",")))
 }
-
-#NOTE: User is responsible for ensuring that queries make sense given breakpoints.
-#For example - output will be empty before iteration.
 
 ?setBreakpoint
 
-myScenario = setBreakpoint(myScenario,"bi","stsim:core-transformer",c(1,2),myBreakpointFunction)
-breakpoints(myScenario)
+myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBreakpointFunction)
+#breakpoints(myScenario)
 
 #TO DO: check target is valid
 #DISCUSS: Should we store breakpoint information in the database? For the time being I have put it in the Scenario object.
@@ -72,6 +86,15 @@ breakpoints(myScenario)
 # devtools::document();devtools::load_all()
 
 myResult = run(myScenario,jobs=1) #run handles breakpoints automatically
+# DISCUSS: communication failures can stall rather than returning helpful messages. Do I need to put more time into this?
+# NOTE: Fewer helpful messages are returned for parallel processing. Use jobs=1 for debugging.
 
+#Check what happened
+multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
+subset(multipliers,select=c(Iteration,Timestep,Amount))
 
+###########
+# TO DO:
+# - speed up scenario construction when called from onBreakpointHit()
+# - less stupid way of finding EOL in remoteCall
 

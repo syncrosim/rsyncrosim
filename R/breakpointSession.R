@@ -100,12 +100,14 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
       cmd=strsplit(res,"|",fixed=T)[[1]][1]
       #if(!cmd){break}#not (cmd and cmd.strip())s
       if(cmd=='breakpoint-hit'){
+        #TO DO: move this to onBreakpointHit function
+        #self.on_breakpoint_hit(res.split('|'))
         #res="breakpoint-hit|syncrosim-stochastic-time:break-before-iteration|stsim:core-transformer|1"
         split = strsplit(res,"|",fixed=T)[[1]]
-        cBreak = x@scenario@breakpoints[[split[2]]]
-        cResult = scenario(.project(x@scenario),id=as.numeric(split[4]))
-        cBreak@callback(cResult,iteration=as.numeric(split[5]),timestep=as.numeric(split[6]))
+
+        tt = onBreakpointHit(x,split)
         tt=writeLines('breakpoint-continue',connection(x),sep="")
+
       }else if(cmd=='call-complete'){
         split = strsplit(res,"|",fixed=T)[[1]]
         if (split[2] == 'FAILURE'){
@@ -120,6 +122,27 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
     }
   }
   return(ret)
+})
+
+#' @export
+setGeneric('onBreakpointHit',function(x,split) standardGeneric('onBreakpointHit'))
+setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
+  cBreak = x@scenario@breakpoints[[split[2]]]
+  #TO DO: consider ways to speed up scenario construction here.
+  cResult = scenario(.project(x@scenario),id=as.numeric(split[4]))
+  cBreak@callback(cResult,iteration=as.numeric(split[5]),timestep=as.numeric(split[6]))
+
+  #load modified data if availabl
+  dataDir = paste0(.filepath(cResult),'.temp/Data')
+  if(file.exists(dataDir)){
+    msg = 'execute-command --name=data-ready'
+    tt=remoteCall(x,msg)
+    if(tt!="NONE"){
+      stop("Something is wrong: ",tt)
+    }
+    unlink(dataDir,recursive=T)
+  }
+  NULL
 })
 
 #' @export
@@ -171,7 +194,10 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     ret = remoteCall(x,msg)
   }else{
     msg = paste0('split-scenario --sid=',id(x@scenario),' --jobs=',jobs)
-    remoteCall(x,msg)
+    tt = remoteCall(x,msg)
+    if(tt!="NONE"){
+      stop("Something is wrong: ",tt)
+    }
     threads = c()
 
     jobs = min(jobs,parallel::detectCores())
