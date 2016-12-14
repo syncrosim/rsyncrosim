@@ -35,8 +35,16 @@ if(!is.element("breakpoint test",scenarios(myProject,names=T)$name)){
 }else{
   myScenario = scenario(myProject,name="breakpoint test")
 }
+# devtools::document();devtools::load_all()
 
 datasheets(myScenario)$name
+sheetName = "STSim_RunControl"; mySheet = datasheet(myScenario,name=sheetName,empty=F)
+str(mySheet)
+mySheet[1,"MaximumIteration"] = 2
+mySheet[1,"MaximumTimestep"] = 3
+loadDatasheets(myScenario,mySheet,name=sheetName)
+
+
 
 myBreakpointFunction<-function(x,iteration,timestep){
   #x=scenario(myProject,id=6);iteration=2;timestep=3

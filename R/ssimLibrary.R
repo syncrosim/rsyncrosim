@@ -889,7 +889,9 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       }
       if(cRow$type=="Boolean"){
         if(length(setdiff(unique(sheet[[cRow$name]]),c(NA)))>0){
-          sheet[[cRow$name]]=as.logical(abs(sheet[[cRow$name]]))
+          sheet[[cRow$name]] = gsub("Yes","1",sheet[[cRow$name]])
+          sheet[[cRow$name]] = gsub("No","0",sheet[[cRow$name]])
+          sheet[[cRow$name]]=as.logical(abs(as.numeric(sheet[[cRow$name]])))
           #stop("handle this case")
         }
       }
@@ -1048,7 +1050,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
       if(is.factor(cDat[[j]])){cDat[[j]]=as.character(cDat[[j]])}
       if(is.logical(cDat[[j]])){
         inCol = cDat[[j]]
-        cDat[[j]][inCol]=-1;cDat[[j]][!inCol]=0
+        cDat[[j]][inCol]="Yes";cDat[[j]][!inCol]="No"
       }
     }
     cDat[is.na(cDat)]=""
@@ -1076,7 +1078,6 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
     }
     tt=command(args,.session(x))
     unlink(tempFile)
-    #RESUME HERE - remember to remove temporary csv file when finished.
     out[[cName]] = tt
   }
   return(out)
