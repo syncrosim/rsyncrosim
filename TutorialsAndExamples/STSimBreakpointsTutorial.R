@@ -41,10 +41,15 @@ mySheet[1,"MaximumIteration"] = 2
 mySheet[1,"MaximumTimestep"] = 3
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
-# devtools::document();devtools::load_all()
+# Do a comparison run without breakpoints
+myComparison = run(myScenario,jobs=1) #run handles breakpoints automatically
+
+#TO DO: backup library before using breakpoints - wierd things can happen when breakpoint runs are interrupted.
+
+# Write a breakpoint funtion
+# The first argument of a breakpoint function is a SyncroSim results Scenario.
 myBreakpointFunction<-function(x,iteration,timestep){
-  #x=scenario(myProject,id=8);iteration=2;timestep=1
-  #The first argument of a breakpoint function is a SyncroSim results Scenario.
+  #x=myComparison;iteration=2;timestep=1
 
   print('Breakpoint Hit')
   print(paste0('Scenario ID: ',id(x)))
@@ -54,6 +59,10 @@ myBreakpointFunction<-function(x,iteration,timestep){
   print("")
 
   #We can pull info from the Scenario database in the usual manner.
+  myState = spatialData(x,sheet="STSim_InitialConditionsSpatial",
+                          iterations=iteration,timesteps = 0)[[1]]
+
+
   sheetName = "STSim_TransitionMultiplierValue"
   mySheet = datasheet(x,sheetName,optional=T,empty=T)
   addRows(mySheet)=data.frame(Iteration=iteration,Timestep=timestep,
@@ -89,19 +98,23 @@ myResult = run(myScenario,jobs=1) #run handles breakpoints automatically
 # DISCUSS: communication failures can stall rather than returning helpful messages. Do I need to put more time into this?
 # NOTE: Fewer helpful messages are returned for parallel processing. Use jobs=1 for debugging.
 
+datasheets(myScenario)$name
+datasheet(myScenario,"STSim_TransitionSpatialMultiplier",optional=T)
 # Check what happened
 multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
-subset(multipliers,select=c(Iteration,Timestep,Amount))
+subset(multipliers,select=c(Iteration,Timestep,TransitionGroupID,Amount))
 # QUESTION: How to confirm the datasheet had appropriate effects on the simulation?
+# Compare - more fires in second case?
 
 # Run again with parallel processing
 # Remember - must install properly from github and load libarary to test parallel
-#myResult = run(myScenario,jobs=2)
+myResult = run(myScenario,jobs=2)
 # NOTE: no helpful messages with parallel processing
 
 #Check what happened
-#multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
-#subset(multipliers,select=c(Iteration,Timestep,Amount))
+multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
+subset(multipliers,select=c(Iteration,Timestep,TransitionGroupID,Amount))
+# RESUME HERE: it runs, but not sure what happened.
 
 ###########
 # TO DO:

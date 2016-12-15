@@ -1134,7 +1134,7 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
     }else{
       breakpoints=NULL
     }
-    if(class(breakpoints)!="list"){
+    if((class(breakpoints)!="list")|(length(breakpoints)==0)){
       #TO DO: handle jobs, transformer and inpl.
       tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
 
