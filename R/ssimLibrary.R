@@ -683,6 +683,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
     datasheets=subset(datasheets,dataScope==scope)
   }
   if(names){
+    datasheets= datasheets[order(datasheets$name),]
     return(datasheets)
   }
 

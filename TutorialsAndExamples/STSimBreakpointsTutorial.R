@@ -41,70 +41,111 @@ mySheet[1,"MaximumIteration"] = 2
 mySheet[1,"MaximumTimestep"] = 3
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
+sheetName = "STSim_Transition"; mySheet = datasheet(myScenario,name=sheetName,empty=F,optional=T)
+mySheet$Probability[mySheet$TransitionTypeID=="Fire"]=0.9
+loadDatasheets(myScenario,mySheet,name=sheetName)
+
 # Do a comparison run without breakpoints
-myComparison = run(myScenario,jobs=1) #run handles breakpoints automatically
+myComparison = run(myScenario,jobs=1)
 
 #TO DO: backup library before using breakpoints - wierd things can happen when breakpoint runs are interrupted.
 
 # Write a breakpoint funtion
 # The first argument of a breakpoint function is a SyncroSim results Scenario.
 myBreakpointFunction<-function(x,iteration,timestep){
-  #x=myComparison;iteration=2;timestep=1
+  #x=myComparison[[1]];iteration=2;timestep=3
 
   print('Breakpoint Hit')
   print(paste0('Scenario ID: ',id(x)))
   print(paste0('Iteration: ',iteration))
   print(paste0('Timestep: ',timestep))
-  print(paste0('Out Dir: ',filepath(x),".temp/Data"))
   print("")
 
-  #We can pull info from the Scenario database in the usual manner.
-  myState = spatialData(x,sheet="STSim_InitialConditionsSpatial",
-                          iterations=iteration,timesteps = 0)[[1]]
+  # We can pull info from the Scenario database in the usual manner.
 
+  # Use initial conditions as a base map for TransitionSpatialMultipliers
+  myState = spatialData(x,sheet="STSim_InitialConditionsSpatial")[[1]]
 
-  sheetName = "STSim_TransitionMultiplierValue"
-  mySheet = datasheet(x,sheetName,optional=T,empty=T)
-  addRows(mySheet)=data.frame(Iteration=iteration,Timestep=timestep,
-                              TransitionGroupID="Fire",Amount=iteration*timestep+1.5)
-  mySheet=unique(mySheet)
-  loadDatasheets(x,mySheet,name=sheetName,breakpoint=T)
-  # NOTE: breakpoint=T. Writes csv to expected temporary data directory. Does not load into database.
+  myMultipliers=myState
+  sel =data.frame(id = seq(0,dim(myState)[1]))
+  sel$step = floor((sel$id)/7)
+  myMultipliers[subset(sel,is.element(step,seq(0,timestep)*2))$id,subset(sel,is.element(step,seq(0,iteration-1)*2))$id]=0
+
+  # datasheets(x,scope="project")$name[grepl("Spatial",datasheets(x,scope="project")$name)]
+  sheetName = "STSim_TransitionSpatialMultiplier"
+  myMetadata = datasheet(x,sheetName,optional=T)
+  addRows(myMetadata)=data.frame(Iteration=iteration,Timestep=timestep,
+                              TransitionGroupID="Fire",TransitionMultiplierTypeID="Temporal",
+                              MultiplierFileName = paste0(sheetName,".Scn",id(x),".It",iteration,".Ts",timestep,".tif"))
+  myMetadata$RasterLayerName = names(myMultipliers)
+  myMetadata$SheetName = sheetName
+  loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T)
+
+  # NOTE: loadSpatialData is incomplete - it only works for breakpoint=T, metadata!=NULL, sheetName= "STSim_TransitionSpatialMultiplier"
+  # NOTE: breakpoint=T. Writes csv and tif to expected temporary data directory. Does not load into database.
   # NOTE: If breakpoint = T append to existing sheet.
-
   # NOTE: User is responsible for ensuring that queries make sense given breakpoints.
-  # For example - output will be empty before iteration.
-
   # NOTE: I have put the 'data-ready' call in onBreakpointHit(), rather than in the callback function - users can't muck it up there.
 
-  # TO DO: Example modifying spatial state.
-  #myState = spatialData(x,sheet="STSim_InitialConditionsSpatial",
-  #                        iterations=iteration,timesteps = timestep)[[1]]
-  #print(paste0("Iteration:",iteration," Timestep:",timestep," Composition:",paste(freq(myState)[,"count"],collapse=",")))
+  # Non-spatial example
+  #sheetName = "STSim_TransitionMultiplierValue"
+  #mySheet = datasheet(x,sheetName,optional=T,empty=T)
+  #addRows(mySheet)=data.frame(Iteration=iteration,Timestep=timestep,
+  #                            TransitionGroupID="Fire",Amount=iteration*timestep+1.5)
+  #mySheet=unique(mySheet)
+  #loadDatasheets(x,mySheet,name=sheetName,breakpoint=T)
 }
+
+# Test breakpoint function before proceeding. If it doesn't work here, it definitely won't work later.
+myBreakpointFunction(x=myComparison[[1]],iteration=2,timestep=3)
 
 ?setBreakpoint
 
+# Set a breakpoint in the scenario
 myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBreakpointFunction)
 #breakpoints(myScenario)
 
-#TO DO: check target is valid
-#DISCUSS: Should we store breakpoint information in the database? For the time being I have put it in the Scenario object.
-#NOTE: breakpoints and breakpoint functions are not copied when a new scenario is created from an old one.
-
-# devtools::document();devtools::load_all()
+# TO DO: check target is valid
+# DISCUSS: Should we store breakpoint information in the database? For the time being I have put it in the Scenario object.
+# NOTE: breakpoints and breakpoint functions are not copied when a new scenario is created from an old one.
 
 myResult = run(myScenario,jobs=1) #run handles breakpoints automatically
-# DISCUSS: communication failures can stall rather than returning helpful messages. Do I need to put more time into this?
-# NOTE: Fewer helpful messages are returned for parallel processing. Use jobs=1 for debugging.
+# DISCUSS: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
+# NOTE: Fewer helpful messages are returned during parallel processing. Use jobs=1 for debugging.
 
-datasheets(myScenario)$name
-datasheet(myScenario,"STSim_TransitionSpatialMultiplier",optional=T)
 # Check what happened
-multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
-subset(multipliers,select=c(Iteration,Timestep,TransitionGroupID,Amount))
-# QUESTION: How to confirm the datasheet had appropriate effects on the simulation?
-# Compare - more fires in second case?
+datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated
+
+# See multipliers
+rat = data.frame(ID=c(1,0))
+rat$isIn = as.logical(rat$ID)
+rat$Color = c("red","wheat")
+myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat)
+filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",id(myResult[[1]]),".pdf")
+pdf(filename)
+view=myMultipliers;names(view)=gsub("STSim_TransitionSpatialMultiplier.","",names(view),fixed=T)
+levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
+dev.off()
+
+# subset(datasheets(myResult[[1]]),grepl("STSim_",name)&isOutput)$name
+
+# Now check transitions - there should be less fire in iteration 2, timestep 2
+myTransitions = spatialData(myResult,"STSim_OutputSpatialTransition",rat=rat,nameFilters=c("Fire"))
+for(i in 1:length(names(myTransitions))){
+  #i= 1
+  cName = names(myTransitions)[i]
+  cFreq = freq(myTransitions[[cName]])
+  cSplit = strsplit(cName,".",fixed=T)[[1]]
+  bit = data.frame(name=cName,time = cSplit[4],iteration=cSplit[3],count=cFreq[1,'count'][[1]])
+  if(i==1){counts = bit}else{counts=rbind(counts,bit)}
+}
+counts # Less fire for Ts3 It2?
+
+filename=paste0(dirname(filepath(myResult[[1]])),"/Transitions.Scn",id(myResult[[1]]),".pdf")
+pdf(filename)
+view=myTransitions;names(view)=gsub("STSim_OutputSpatialTransition.","",names(view),fixed=T)
+levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
+dev.off()
 
 # Run again with parallel processing
 # Remember - must install properly from github and load libarary to test parallel

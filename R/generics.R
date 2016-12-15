@@ -249,13 +249,45 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 #' @examples
 #'
 #' @export
-setGeneric('loadDatasheets',function(x,data,name=NULL,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadDatasheets'))
+setGeneric('loadDatasheets',function(x,data,name,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadDatasheets'))
 #Handles case where x is a path to an SyncroSim library on disk.
 setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,data,name,project,scenario,breakpoint)
+  out = loadDatasheets(x,data,name,project,scenario,breakpoint)
   return(out)
 })
+
+#' Set spatial data
+#'
+#' Loads spatial data into the SyncroSim library.
+#'
+#' @details
+#'
+#' If metadata=NULL or sheetName=NULL assume each raster layer has names() metadata - see spatialData() for details.
+#'
+#' Otherwise, metadata should be a dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer of data.
+#' "SheetName" and "RasterLayerName" columns are expected in metadata, and will be removed before appending to the datasheet.
+#'
+#' INCOMPLETE: this method has only been implemented for breakpoint=T and sheet name is STSim_TransitionSpatialMultiplier
+#'
+#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
+#' @param data A RasterLayer or RasterStack to load.
+#' @param metadata A dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer - see details. If NULL, use names(data) metadata.
+#' @param project Project name or id.
+#' @param scenario Scenario name or id.
+#' @param breakpoint Set to TRUE when setting spatial data in a breakpoint function.
+#' @return A named list of success or failure reports.
+#' @examples
+#'
+#' @export
+setGeneric('loadSpatialData',function(x,data,metadata=NULL,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadSpatialData'))
+#Handles case where x is a path to an SyncroSim library on disk.
+setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,project,scenario,breakpoint) {
+  x = .getFromXProjScn(x,project,scenario)
+  out = loadSpatialData(x,data,metadata,project,scenario,breakpoint)
+  return(out)
+})
+
 
 #' Run scenarios
 #'
@@ -297,15 +329,20 @@ setMethod('run', signature(x="list"), function(x,scenario,onlyIds,jobs) {
 #'   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
 #' }
 #'
+#' The names() of the returned raster stack contain metadata.
+#' For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
+#' For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)
+#'
 #' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
 #' @param sheet The name of a spatial datasheet. See subset(datasheets(myResultScenario),isSpatial)$name for options.
 #' @param iterations A vector of iterations. If NULL(default) all available iterations will be included
+#' @param nameFilters A vector of strings. Only layer name that include these terms will be returned.
 #' @param timesteps A vector of timesteps. If NULL(default) all available timesteps will be included.
 #' @param rat An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @return A RasterStack or RasterBrick object. See raster package documentation for details.
 #' @export
-setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL,rat=NULL) standardGeneric('spatialData'))
-setMethod('spatialData', signature(x="list"), function(x,sheet,iterations,timesteps,rat) {
+setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL,nameFilters=NULL,rat=NULL) standardGeneric('spatialData'))
+setMethod('spatialData', signature(x="list"), function(x,sheet,iterations,timesteps,nameFilters,rat) {
   # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL
   if(class(x[[1]])!="Scenario"){
     stop("Expecting a Scenario object or list of scenario objects.")
@@ -313,7 +350,7 @@ setMethod('spatialData', signature(x="list"), function(x,sheet,iterations,timest
   for(i in 1:length(x)){
     #i=1
     cScn = x[[i]]
-    cOut = spatialData(cScn,sheet,iterations,timesteps,rat)
+    cOut = spatialData(cScn,sheet,iterations,timesteps,nameFilters,rat)
 
     if(i == 1){out=cOut}else{out=raster::stack(out,cOut)}
   }

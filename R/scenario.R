@@ -398,8 +398,8 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
   return(tt)
 })
 
-setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,rat) {
-  # x= myResult[[1]]; sheet="STSim_InitialConditionsSpatial";iterations=seq(1);timesteps = c(100);rat=rat
+setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,nameFilters,rat) {
+  # x= myComparison[[1]]; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL;nameFilters=NULL
 
   cSheets = datasheets(x)
   if(!is.element(sheet,cSheets$name)){
@@ -411,11 +411,21 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   #}
 
   #TO DO: make sure datasheet is spatial after opening
-  cMeta = datasheet(x,name=sheet)
+  cMeta = datasheet(x,name=sheet,optional=T)
 
   if(nrow(cMeta)==0){
     multiband(x,action="rebuild")
-    cMeta = datasheet(x,name=sheet)
+    cMeta = datasheet(x,name=sheet,optional=T)
+  }
+
+  expectCols = c("Iteration","Timestep","Filename","Band","outName")
+  checkCols = setdiff(names(cMeta),expectCols)
+  for(i in seq(length.out=length(checkCols))){
+    #i=1
+    cSum = sum(!is.na(cMeta[[checkCols[i]]]))
+    if(cSum==0){
+      cMeta[[checkCols[i]]]=NULL
+    }
   }
 
   if(!is.null(timesteps)&is.element("Timestep",names(cMeta))){
@@ -441,6 +451,17 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   }
 
   if(!is.element("Filename",names(cMeta))){
+    tempFilename = names(cMeta)[grepl("FileName",names(cMeta))]
+    if(length(tempFilename)==1){
+      names(cMeta)[names(cMeta)==tempFilename]="Filename"
+      cMeta$Band=NA
+
+      cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.id(x),"/",sheet,"/",cMeta$Filename)
+
+    }
+  }
+
+  if(!is.element("Filename",names(cMeta))){
     if(nrow(cMeta)>1){
       stop("Handle this case.")
     }
@@ -459,12 +480,18 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     cMeta$outName = paste0(sheet,".Scn",.id(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
 
   }
-  otherCols = setdiff(names(cMeta),c("Iteration","Timestep","Filename","Band","outName"))
+  otherCols = setdiff(names(cMeta),expectCols)
   for(i in seq(length.out=length(otherCols))){
     #special characters not tolerated in titles
     addBit = gsub(" ","",cMeta[[otherCols[i]]],fixed=T)
     addBit = gsub("-","",addBit,fixed=T)
     cMeta$outName=paste0(cMeta$outName,".",addBit)
+  }
+
+  if(!is.null(nameFilters)){
+    for(i in seq(length.out=length(nameFilters))){
+      cMeta= subset(cMeta,grepl(nameFilters[i],cMeta$outName,fixed=T))
+    }
   }
 
   nFiles = unique(cMeta$Filename)
@@ -560,6 +587,58 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   }
   return(cStack)
 })
+
+setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadata,project,scenario,breakpoint) {
+  #x = x;project=NULL;scenario=NULL;metadata=myMetadata;data=myMultipliers;breakpoint=T
+  x = .getFromXProjScn(x,project,scenario)
+
+  # get metadata
+  if(is.null(metadata)){
+    stop("Get metadata from names(data)")
+  }
+
+  if(nrow(metadata)==0){
+    stop("Expecting metadata or names(data): loadDatasheets")
+  }
+
+  if(length(unique(metadata$SheetName))>1){
+    stop("Metadata can contain only one SheetName.")
+  }
+  cSheetName =  metadata$SheetName[1];metadata$SheetName=NULL
+  #Check that metadata is valid
+  cSheet = datasheet(x,cSheetName,optional=T)
+  check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
+  if(inherits(check, "try-error")){
+    stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
+  }
+  if(breakpoint){
+    outDir = paste0(filepath(x),'.temp/Data')
+    dir.create(outDir, showWarnings = FALSE,recursive=T)
+  }
+
+  for(i in 1:nrow(metadata)){
+    #i =1
+    cRow = metadata[i,]
+    cDat = data[[cRow$RasterLayerName]]
+    cRow$RasterLayerName=NULL
+
+    if(!breakpoint){
+      stop("Handle this: loadSpatialData when breakpoint=F")
+    }else{
+      if(cSheetName != "STSim_TransitionSpatialMultiplier"){
+        stop("Handle this: loadSpatialData when sheet name != STSim_TransitionSpatialMultiplier")
+      }
+      cFileCol = names(cRow)[grepl("FileName",names(cRow))]
+
+      cRow[[cFileCol]] = basename(cRow[[cFileCol]])
+      cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
+
+      raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
+      loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
+    }
+  }
+})
+
 
 #' Set breakpoint of a Scenario.
 #'
