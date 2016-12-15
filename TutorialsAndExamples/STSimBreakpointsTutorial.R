@@ -46,23 +46,21 @@ mySheet$Probability[mySheet$TransitionTypeID=="Fire"]=0.9
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
 # Do a comparison run without breakpoints
-myComparison = run(myScenario,jobs=1)
+# myComparison = run(myScenario,jobs=1)
 
 #TO DO: backup library before using breakpoints - wierd things can happen when breakpoint runs are interrupted.
 
 # Write a breakpoint funtion
 # The first argument of a breakpoint function is a SyncroSim results Scenario.
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 myBreakpointFunction<-function(x,iteration,timestep){
   #x=myComparison[[1]];iteration=2;timestep=3
 
-  if(1){
   print('Breakpoint Hit')
   print(paste0('Scenario ID: ',id(x)))
   print(paste0('Iteration: ',iteration))
   print(paste0('Timestep: ',timestep))
   print("")
-  }
-
   # We can pull info from the Scenario database in the usual manner.
 
   # Use initial conditions as a base map for TransitionSpatialMultipliers
@@ -75,13 +73,33 @@ myBreakpointFunction<-function(x,iteration,timestep){
 
   # datasheets(x,scope="project")$name[grepl("Spatial",datasheets(x,scope="project")$name)]
   sheetName = "STSim_TransitionSpatialMultiplier"
-  myMetadata = datasheet(x,sheetName,optional=T)
-  addRows(myMetadata)=data.frame(Iteration=iteration,Timestep=timestep,
+  #myMetadata = datasheet(x,sheetName,optional=T) #This fails in parallel processing???
+  myMetadata=data.frame(Iteration=iteration,Timestep=timestep,
                               TransitionGroupID="Fire",TransitionMultiplierTypeID="Temporal",
                               MultiplierFileName = paste0(sheetName,".Scn",id(x),".It",iteration,".Ts",timestep,".tif"))
   myMetadata$RasterLayerName = names(myMultipliers)
   myMetadata$SheetName = sheetName
-  loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T)
+
+  #debug loadSpatialData
+  metadata=myMetadata
+  outDir = paste0(filepath(x),'.temp/Data')
+  dir.create(outDir, showWarnings = FALSE,recursive=T)
+    i =1
+    cRow = metadata[i,]
+    cDat = data[[cRow$RasterLayerName]]
+    cRow$RasterLayerName=NULL
+  if(0){
+
+    cFileCol = names(cRow)[grepl("FileName",names(cRow))]
+
+    cRow[[cFileCol]] = basename(cRow[[cFileCol]])
+    cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
+
+    #raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
+    #loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
+
+  }
+  #loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T)
 
   # NOTE: loadSpatialData is incomplete - it only works for breakpoint=T, metadata!=NULL, sheetName= "STSim_TransitionSpatialMultiplier"
   # NOTE: breakpoint=T. Writes csv and tif to expected temporary data directory. Does not load into database.
@@ -99,7 +117,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
 }
 
 # Test breakpoint function before proceeding. If it doesn't work here, it definitely won't work later.
-myBreakpointFunction(x=myComparison[[1]],iteration=2,timestep=3)
+#myBreakpointFunction(x=myComparison[[1]],iteration=2,timestep=3)
 
 ?setBreakpoint
 
@@ -114,6 +132,7 @@ myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBre
 myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
 # DISCUSS: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
 # NOTE: Fewer helpful messages are returned during parallel processing. Use jobs=1 for debugging.
+# TO DO: Method for cleanup/recovery when server is left running.
 
 # Check what happened
 datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated

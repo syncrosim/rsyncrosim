@@ -18,15 +18,16 @@ BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scena
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f='initialize',signature="BreakpointSession",
-          definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main"){
+          definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T){
   #scenario = myScenario;ipAddress=NULL;port=NULL;quiet=F
 
   location = filepath(session(scenario)) #guaranteed to be valid
 
   #start the server
-  args = list(ipaddress=ipAddress,port=port,quiet=quiet)
-  tt = command(args,.session(scenario),program="/SyncroSim.Server.exe",wait=F)
-
+  if(startServer){
+    args = list(ipaddress=ipAddress,port=port,quiet=quiet)
+    tt = command(args,.session(scenario),program="/SyncroSim.Server.exe",wait=F)
+  }
   .Object@connection = connection(ipAddress,port)
   .Object@scenario = scenario
   .Object@name = name
@@ -34,8 +35,8 @@ setMethod(f='initialize',signature="BreakpointSession",
   return(.Object)
 })
 #' @export
-breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main"){
-  return(new("BreakpointSession",scenario,ipAddress,port,quiet,name))
+breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T){
+  return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer))
 }
 
 #' @export
@@ -174,7 +175,7 @@ runJobParallel<- function(cPars) {
     # TO DO: if slow, consider ways to speed up scenario/library construction
     cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
     cScn@breakpoints = cPars$breaks
-    sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port))
+    sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=F)
     ret=remoteCall(sess,paste0('load-library --lib=\"',filepath(cScn),'\"'))
     ret = setBreakpoints(sess)
     ret=remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
