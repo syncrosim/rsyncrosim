@@ -175,7 +175,7 @@ runJobParallel<- function(cPars) {
     # TO DO: if slow, consider ways to speed up scenario/library construction
     cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
     cScn@breakpoints = cPars$breaks
-    sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=F)
+    sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
     ret=remoteCall(sess,paste0('load-library --lib=\"',filepath(cScn),'\"'))
     ret = setBreakpoints(sess)
     ret=remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))

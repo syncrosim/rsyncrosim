@@ -82,21 +82,21 @@ myBreakpointFunction<-function(x,iteration,timestep){
 
   #debug loadSpatialData
   metadata=myMetadata
+  data=myMultipliers
   outDir = paste0(filepath(x),'.temp/Data')
   dir.create(outDir, showWarnings = FALSE,recursive=T)
     i =1
     cRow = metadata[i,]
     cDat = data[[cRow$RasterLayerName]]
     cRow$RasterLayerName=NULL
-  if(0){
 
     cFileCol = names(cRow)[grepl("FileName",names(cRow))]
 
     cRow[[cFileCol]] = basename(cRow[[cFileCol]])
     cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
 
-    #raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
-    #loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
+    raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
+    loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
 
   }
   #loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T)
