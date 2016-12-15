@@ -55,11 +55,13 @@ myComparison = run(myScenario,jobs=1)
 myBreakpointFunction<-function(x,iteration,timestep){
   #x=myComparison[[1]];iteration=2;timestep=3
 
+  if(1){
   print('Breakpoint Hit')
   print(paste0('Scenario ID: ',id(x)))
   print(paste0('Iteration: ',iteration))
   print(paste0('Timestep: ',timestep))
   print("")
+  }
 
   # We can pull info from the Scenario database in the usual manner.
 
@@ -129,7 +131,7 @@ dev.off()
 
 # subset(datasheets(myResult[[1]]),grepl("STSim_",name)&isOutput)$name
 
-# Now check transitions - there should be less fire in iteration 2, timestep 2
+# Check transitions - there should be less fire in iteration 2, timestep 3
 myTransitions = spatialData(myResult,"STSim_OutputSpatialTransition",rat=rat,nameFilters=c("Fire"))
 for(i in 1:length(names(myTransitions))){
   #i= 1
@@ -140,7 +142,6 @@ for(i in 1:length(names(myTransitions))){
   if(i==1){counts = bit}else{counts=rbind(counts,bit)}
 }
 counts # Less fire for Ts3 It2?
-
 filename=paste0(dirname(filepath(myResult[[1]])),"/Transitions.Scn",id(myResult[[1]]),".pdf")
 pdf(filename)
 view=myTransitions;names(view)=gsub("STSim_OutputSpatialTransition.","",names(view),fixed=T)
@@ -153,12 +154,10 @@ myResult = run(myScenario,jobs=2)
 # NOTE: no helpful messages with parallel processing
 
 #Check what happened
-multipliers = datasheet(myResult,"STSim_TransitionMultiplierValue",optional=T)
-subset(multipliers,select=c(Iteration,Timestep,TransitionGroupID,Amount))
-# RESUME HERE: it runs, but not sure what happened.
+
 
 ###########
 # TO DO:
 # - speed up scenario construction when called from onBreakpointHit()
-# - less stupid way of finding EOL in remoteCall
+# - better method for finding EOL in remoteCall
 
