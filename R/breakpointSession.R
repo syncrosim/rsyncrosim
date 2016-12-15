@@ -213,7 +213,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
       args[[i]]=list(x=files[i],session=session(x@scenario),port=ports[i],breaks = breakpoints(x@scenario))
     }
     #Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
-    parallelCluster = parallel::makeCluster(jobs,outfile=paste0(dirname(x@scenario),"/parallelLog.txt"))
+    parallelCluster = parallel::makeCluster(jobs,outfile=paste0(dirname(filepath(x@scenario)),"/parallelLog.txt"))
 
     print(parallelCluster)
     ret =  parallel::parLapply(parallelCluster,args,runJobParallel)

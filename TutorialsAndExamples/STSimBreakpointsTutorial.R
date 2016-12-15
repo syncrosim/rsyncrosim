@@ -111,7 +111,7 @@ myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBre
 # DISCUSS: Should we store breakpoint information in the database? For the time being I have put it in the Scenario object.
 # NOTE: breakpoints and breakpoint functions are not copied when a new scenario is created from an old one.
 
-myResult = run(myScenario,jobs=1) #run handles breakpoints automatically
+myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
 # DISCUSS: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
 # NOTE: Fewer helpful messages are returned during parallel processing. Use jobs=1 for debugging.
 
