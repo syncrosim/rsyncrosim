@@ -55,6 +55,7 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 myBreakpointFunction<-function(x,iteration,timestep){
   #x=myComparison[[1]];iteration=2;timestep=3
+  #library(raster)
 
   print('Breakpoint Hit')
   print(paste0('Scenario ID: ',id(x)))
@@ -76,7 +77,8 @@ myBreakpointFunction<-function(x,iteration,timestep){
   #myMetadata = datasheet(x,sheetName,optional=T) #This fails in parallel processing???
   myMetadata=data.frame(Iteration=iteration,Timestep=timestep,
                               TransitionGroupID="Fire",TransitionMultiplierTypeID="Temporal",
-                              MultiplierFileName = paste0(sheetName,".Scn",id(x),".It",iteration,".Ts",timestep,".tif"))
+                              MultiplierFileName = paste0(sheetName,".Scn",id(x),".It",iteration,".Ts",timestep,".tif"),
+                        stringsAsFactors=F)
   myMetadata$RasterLayerName = names(myMultipliers)
   myMetadata$SheetName = sheetName
 
@@ -87,6 +89,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
   dir.create(outDir, showWarnings = FALSE,recursive=T)
     i =1
     cRow = metadata[i,]
+    cRow$SheetName=NULL
     cDat = data[[cRow$RasterLayerName]]
     cRow$RasterLayerName=NULL
 
@@ -96,9 +99,8 @@ myBreakpointFunction<-function(x,iteration,timestep){
     cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
 
     raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
-    loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
+    ret=loadDatasheets(x,cRow,name=sheetName,breakpoint=T)
 
-  }
   #loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T)
 
   # NOTE: loadSpatialData is incomplete - it only works for breakpoint=T, metadata!=NULL, sheetName= "STSim_TransitionSpatialMultiplier"
