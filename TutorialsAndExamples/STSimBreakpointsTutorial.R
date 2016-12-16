@@ -46,13 +46,13 @@ mySheet$Probability[mySheet$TransitionTypeID=="Fire"]=0.9
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
 # Do a comparison run without breakpoints
-# myComparison = run(myScenario,jobs=1)
+myComparison = run(myScenario,jobs=1)
 
 #TO DO: backup library before using breakpoints - wierd things can happen when breakpoint runs are interrupted.
 
-# Write a breakpoint funtion
-# The first argument of a breakpoint function is a SyncroSim results Scenario.
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+# Write a breakpoint function
+# NOTE: The first argument of a breakpoint function is a SyncroSim results Scenario.
+# NOTE: Within the breakpoint function, functions from base and rsyncrosim libraries are available. Use library() within the function to load any other required packages.
 myBreakpointFunction<-function(x,iteration,timestep){
   #x=myComparison[[1]];iteration=2;timestep=3
   #library(raster)
@@ -82,38 +82,6 @@ myBreakpointFunction<-function(x,iteration,timestep){
   myMetadata$RasterLayerName = names(myMultipliers)
   myMetadata$SheetName = sheetName
 
-  if(0){
-  #debug loadSpatialData
-  metadata=myMetadata
-  data=myMultipliers
-  outDir = paste0(filepath(x),'.temp/Data')
-  dir.create(outDir, showWarnings = FALSE,recursive=T)
-
-  breakpoint=T
-  x = .getFromXProjScn(x,project,scenario)
-
-  cSheetName =  metadata$SheetName[1];metadata$SheetName=NULL
-  #Check that metadata is valid
-  cSheet = datasheet(x,cSheetName,optional=T,lookupsAsFactors=F)
-  check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
-  if(inherits(check, "try-error")){
-    stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
-  }
-
-    i =1
-    cRow = metadata[i,]
-    cRow$SheetName=NULL
-    cDat = data[[cRow$RasterLayerName]]
-    cRow$RasterLayerName=NULL
-
-    cFileCol = names(cRow)[grepl("FileName",names(cRow))]
-
-    cRow[[cFileCol]] = basename(cRow[[cFileCol]])
-    cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
-
-    raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
-    ret=loadDatasheets(x,cRow,name=sheetName,breakpoint=T)
-  }
   loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T,check=F)
   # NOTE: set check=F to speed calculations. Assume metadata is valid
 
@@ -140,22 +108,23 @@ myBreakpointFunction<-function(x,iteration,timestep){
 # Set a breakpoint in the scenario
 myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBreakpointFunction)
 #breakpoints(myScenario)
-
 # TO DO: check target is valid
 # DISCUSS: Should we store breakpoint information in the database? For the time being I have put it in the Scenario object.
 # NOTE: breakpoints and breakpoint functions are not copied when a new scenario is created from an old one.
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 myResult=NULL
 myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
 # DISCUSS: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
 # NOTE: Fewer helpful messages are returned during parallel processing. Use jobs=1 for debugging.
 # TO DO: Use fork clusters on linux? Better memory use.
+# TO DO: Figure out logging to output file during parallel processing. Not sure where the print messages are going...
 # NOTE: must install properly from github and load libarary to test parallel
-# NOTE: Figure out logging to output file during parallel processing. Not sure where the print messages are going...
+# TO DO: handle connection failure - on first try only. Why? Probably timing.
 
 # Check what happened
 # Check transitions - there should be less fire in iteration 2, timestep 3
+rat = data.frame(ID=c(1,0),isIn=c(T,F),Color=c("red","wheat"),stringsAsFactors=F)
+#TO DO: handle Color as factor...
 myTransitions = spatialData(myResult,"STSim_OutputSpatialTransition",rat=rat,nameFilters=c("Fire"))
 for(i in 1:length(names(myTransitions))){
   #i= 1
@@ -177,9 +146,6 @@ datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet wa
 # NOTE: Not updated in parallel processing. But effects can be seen in transitions
 
 # See multipliers
-rat = data.frame(ID=c(1,0))
-rat$isIn = as.logical(rat$ID)
-rat$Color = c("red","wheat")
 myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat)
 filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",id(myResult[[1]]),".pdf")
 pdf(filename)
