@@ -30,6 +30,7 @@ setReplaceMethod(
   rat=rat[order(rat$ID),]
 
   if(is.element("Color",names(rat))){
+    rat$Color=as.character(rat$Color)
     rat$rgb=rat$Color
     if(length(strsplit(rat$Color[1],split=",")[[1]])==4){
       for(j in seq(length.out=nrow(rat))){

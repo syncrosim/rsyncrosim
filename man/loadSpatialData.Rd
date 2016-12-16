@@ -5,7 +5,7 @@
 \title{Set spatial data}
 \usage{
 loadSpatialData(x, data, metadata = NULL, project = NULL, scenario = NULL,
-  breakpoint = F)
+  breakpoint = F, check = T)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
@@ -19,6 +19,8 @@ loadSpatialData(x, data, metadata = NULL, project = NULL, scenario = NULL,
 \item{scenario}{Scenario name or id.}
 
 \item{breakpoint}{Set to TRUE when setting spatial data in a breakpoint function.}
+
+\item{check}{Default is TRUE. Set FALSE to speed calculations my assuming metadata is valid.}
 }
 \value{
 A named list of success or failure reports.

@@ -1,13 +1,13 @@
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-library(raster);library(rasterVis)
-
 # **********************************************************
 # STSimBreakpointsTutorial.R
 # Getting started with breakpoints using rsyncrosim
 # **********************************************************
 # Author Josie Hughes, ApexRMS
-# Date 2016.12.07
+# Last modified 2016.12.16
 # **********************************************************
+
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+library(raster);library(rasterVis)
 
 libRoot = "C:/Temp"
 
@@ -48,31 +48,30 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 # Do a comparison run without breakpoints
 myComparison = run(myScenario,jobs=1)
 
-#TO DO: backup library before using breakpoints - wierd things can happen when breakpoint runs are interrupted.
+# TO DO: backup library before using breakpoints?
 
 # Write a breakpoint function
 # NOTE: The first argument of a breakpoint function is a SyncroSim results Scenario.
 # NOTE: Within the breakpoint function, functions from base and rsyncrosim libraries are available. Use library() within the function to load any other required packages.
 myBreakpointFunction<-function(x,iteration,timestep){
   #x=myComparison[[1]];iteration=2;timestep=3
-  #library(raster)
 
   print('Breakpoint Hit')
   print(paste0('Scenario ID: ',id(x)))
   print(paste0('Iteration: ',iteration))
   print(paste0('Timestep: ',timestep))
   print("")
-  # We can pull info from the Scenario database in the usual manner.
 
-  # Use initial conditions as a base map for TransitionSpatialMultipliers
+  # Now we can pull info from the Scenario database in the usual manner.
+
+  # Generate new TransitionSpatialMultipliers, using initial conditions as a base map
   myState = spatialData(x,sheet="STSim_InitialConditionsSpatial")[[1]]
-
   myMultipliers=myState
   sel =data.frame(id = seq(0,dim(myState)[1]))
   sel$step = floor((sel$id)/7)
   myMultipliers[subset(sel,is.element(step,seq(0,timestep)*2))$id,subset(sel,is.element(step,seq(0,iteration-1)*2))$id]=0
 
-  # datasheets(x,scope="project")$name[grepl("Spatial",datasheets(x,scope="project")$name)]
+  # Write metadata for the new layer.
   sheetName = "STSim_TransitionSpatialMultiplier"
   #myMetadata = datasheet(x,sheetName,optional=T) #Save time by skipping this step
   myMetadata=data.frame(Iteration=iteration,Timestep=timestep,
@@ -82,9 +81,10 @@ myBreakpointFunction<-function(x,iteration,timestep){
   myMetadata$RasterLayerName = names(myMultipliers)
   myMetadata$SheetName = sheetName
 
+  # Load the new layer and associated metadata.
   loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T,check=F)
-  # NOTE: set check=F to speed calculations. Assume metadata is valid
 
+  # NOTE: set check=F to speed calculations. Assume metadata is valid
   # NOTE: loadSpatialData is incomplete - it only works for breakpoint=T, metadata!=NULL, sheetName= "STSim_TransitionSpatialMultiplier"
   # NOTE: breakpoint=T. Writes csv and tif to expected temporary data directory. Does not load into database.
   # NOTE: If breakpoint = T append to existing sheet.
@@ -101,7 +101,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
 }
 
 # Test breakpoint function before proceeding. If it doesn't work here, it definitely won't work later.
-#myBreakpointFunction(x=myComparison[[1]],iteration=2,timestep=3)
+myBreakpointFunction(x=myComparison[[1]],iteration=2,timestep=3)
 
 ?setBreakpoint
 
@@ -114,17 +114,19 @@ myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBre
 
 myResult=NULL
 myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
-# DISCUSS: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
+# NOTE: If connection error during parallel processing - Try again. I am working on a fix for this bug.
+# TO DO: handle connection failure - on first try only. Why? Probably timing.
 # NOTE: Fewer helpful messages are returned during parallel processing. Use jobs=1 for debugging.
+# NOTE: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
 # TO DO: Use fork clusters on linux? Better memory use.
 # TO DO: Figure out logging to output file during parallel processing. Not sure where the print messages are going...
 # NOTE: must install properly from github and load libarary to test parallel
-# TO DO: handle connection failure - on first try only. Why? Probably timing.
+# TO DO: speed up scenario construction when called from onBreakpointHit()
+# TO DO: better handling of EOL in remoteCall
 
 # Check what happened
 # Check transitions - there should be less fire in iteration 2, timestep 3
-rat = data.frame(ID=c(1,0),isIn=c(T,F),Color=c("red","wheat"),stringsAsFactors=F)
-#TO DO: handle Color as factor...
+rat = data.frame(ID=c(1),isIn=c("Fire"),Color=c("red"))
 myTransitions = spatialData(myResult,"STSim_OutputSpatialTransition",rat=rat,nameFilters=c("Fire"))
 for(i in 1:length(names(myTransitions))){
   #i= 1
@@ -141,20 +143,12 @@ view=myTransitions;names(view)=gsub("STSim_OutputSpatialTransition.","",names(vi
 levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
 dev.off()
 
-# NOTE: "STSim_TransitionSpatialMultiplier" is not updated properly during parallel processing.
+# NOTE: "STSim_TransitionSpatialMultiplier" is not updated properly during parallel processing. But effects can be seen in transitions.
 datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated
-# NOTE: Not updated in parallel processing. But effects can be seen in transitions
-
-# See multipliers
 myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat)
 filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",id(myResult[[1]]),".pdf")
 pdf(filename)
 view=myMultipliers;names(view)=gsub("STSim_TransitionSpatialMultiplier.","",names(view),fixed=T)
 levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
 dev.off()
-
-###########
-# TO DO:
-# - speed up scenario construction when called from onBreakpointHit()
-# - better method for finding EOL in remoteCall
 
