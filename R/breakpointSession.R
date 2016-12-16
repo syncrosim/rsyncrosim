@@ -189,7 +189,7 @@ runJobParallel<- function(cPars) {
       resp = writeLines("shutdown", connection(sess),sep = "")
       close(connection(sess)) # Close the connection.
     })
-    resp = writeLines("shutdown", sess,sep = "")
+    resp = writeLines("shutdown", connection(sess),sep = "")
     close(connection(sess)) # Close the connection.
     NULL
   #}

@@ -157,6 +157,7 @@ myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBre
 # NOTE: breakpoints and breakpoint functions are not copied when a new scenario is created from an old one.
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
+myResult=NULL
 myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
 
 # TO DO: Use fork clusters on linux? Better memory use.
