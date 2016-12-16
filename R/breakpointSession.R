@@ -189,7 +189,6 @@ runJobParallel<- function(cPars) {
       resp = writeLines("shutdown", connection(sess),sep = "")
       close(connection(sess)) # Close the connection.
     })
-    NULL
   #}
 }
 
@@ -233,6 +232,9 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
       parallel::stopCluster(parallelCluster)
       parallelCluster = c()
     }
+    print(ret)
+
+
     msg = paste0('merge-scenario --sid=',id(x@scenario))
     ret = remoteCall(x,msg)
     return(ret)
