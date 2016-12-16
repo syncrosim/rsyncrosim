@@ -1,4 +1,5 @@
 #Internal helper - return uniquely identified and valid SyncroSim object
+#' @export
 .getFromXProjScn<-function(x,project=NULL,scenario=NULL){
   #x=myLibrary;scenario=myScenario
   #If x is scenario, ignore project and scenario arguments

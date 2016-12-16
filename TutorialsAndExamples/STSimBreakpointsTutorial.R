@@ -87,6 +87,30 @@ myBreakpointFunction<-function(x,iteration,timestep){
   data=myMultipliers
   outDir = paste0(filepath(x),'.temp/Data')
   dir.create(outDir, showWarnings = FALSE,recursive=T)
+
+  breakpoint=T
+  x = .getFromXProjScn(x,project,scenario)
+
+  # get metadata
+  if(is.null(metadata)){
+    stop("Get metadata from names(data)")
+  }
+
+  if(nrow(metadata)==0){
+    stop("Expecting metadata or names(data): loadDatasheets")
+  }
+
+  if(length(unique(metadata$SheetName))>1){
+    stop("Metadata can contain only one SheetName.")
+  }
+  cSheetName =  metadata$SheetName[1];metadata$SheetName=NULL
+  #Check that metadata is valid
+  cSheet = datasheet(x,cSheetName,optional=T)
+  check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
+  if(inherits(check, "try-error")){
+    stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
+  }
+
     i =1
     cRow = metadata[i,]
     cRow$SheetName=NULL
@@ -101,6 +125,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
     raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
     ret=loadDatasheets(x,cRow,name=sheetName,breakpoint=T)
 
+  #RESUME HERE: This works. So why does loadSpatialData fail in parallel processing?
   #loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T)
 
   # NOTE: loadSpatialData is incomplete - it only works for breakpoint=T, metadata!=NULL, sheetName= "STSim_TransitionSpatialMultiplier"
@@ -138,6 +163,7 @@ myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
 
 # Check what happened
 datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated
+# NOTE: Not updated in parallel processing. But effects can be seen in transitions
 
 # See multipliers
 rat = data.frame(ID=c(1,0))
