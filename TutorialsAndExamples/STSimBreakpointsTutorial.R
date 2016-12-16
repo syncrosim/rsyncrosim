@@ -155,13 +155,9 @@ myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBre
 # TO DO: check target is valid
 # DISCUSS: Should we store breakpoint information in the database? For the time being I have put it in the Scenario object.
 # NOTE: breakpoints and breakpoint functions are not copied when a new scenario is created from an old one.
-myResult=NULL
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
 myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
-if(is.null(myResult)){
-  #If run fails, clean up stray server instances before proceeding.
-
-
-}
 
 # TO DO: Use fork clusters on linux? Better memory use.
 # DISCUSS: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
