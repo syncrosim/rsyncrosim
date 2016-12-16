@@ -91,21 +91,9 @@ myBreakpointFunction<-function(x,iteration,timestep){
   breakpoint=T
   x = .getFromXProjScn(x,project,scenario)
 
-  # get metadata
-  if(is.null(metadata)){
-    stop("Get metadata from names(data)")
-  }
-
-  if(nrow(metadata)==0){
-    stop("Expecting metadata or names(data): loadDatasheets")
-  }
-
-  if(length(unique(metadata$SheetName))>1){
-    stop("Metadata can contain only one SheetName.")
-  }
   cSheetName =  metadata$SheetName[1];metadata$SheetName=NULL
   #Check that metadata is valid
-  cSheet = datasheet(x,cSheetName,optional=T)
+  cSheet = datasheet(x,cSheetName,optional=T,dependsAsFactors=F)
   check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
   if(inherits(check, "try-error")){
     stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))

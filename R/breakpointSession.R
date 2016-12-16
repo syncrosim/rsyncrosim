@@ -234,7 +234,6 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     }
     print(ret)
 
-
     msg = paste0('merge-scenario --sid=',id(x@scenario))
     ret = remoteCall(x,msg)
     return(ret)
