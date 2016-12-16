@@ -1173,8 +1173,6 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
         close(connection(cBreakpointSession)) # Close the connection.
       })
 
-      resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
-      close(connection(cBreakpointSession)) # Close the connection.
       cBreakpointSession=NULL
     }
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
