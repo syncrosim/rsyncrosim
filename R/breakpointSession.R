@@ -169,7 +169,7 @@ runJobParallel<- function(cPars) {
   #bindToEnv(objNames=c('breakpointSession','remoteCall','setBreakpoints'))
   #function(cPars) {
   #cPars=args[[2]]
-    library(rsyncrosim) #NOTE: rsyncrosim must be installed properly in order for this to work.
+    #library(rsyncrosim) #NOTE: rsyncrosim must be installed properly in order for this to work.
     #cPars is a list, where x is path to the temporary library, session is the current session, port is a new port, and breaks are the current breakpoints
     #f = files[1];port=ports[1]
     # TO DO: if slow, consider ways to speed up scenario/library construction
@@ -178,7 +178,18 @@ runJobParallel<- function(cPars) {
     sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
     ret=remoteCall(sess,paste0('load-library --lib=\"',filepath(cScn),'\"'))
     ret = setBreakpoints(sess)
-    ret=remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
+
+    ret = tryCatch({
+      remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
+    }, warning = function(w) {
+      return(w)
+    }, error = function(e) {
+      return(e)
+    }, finally = {
+      resp = writeLines("shutdown", sess,sep = "")
+      close(connection(sess)) # Close the connection.
+    })
+    resp = writeLines("shutdown", sess,sep = "")
     close(connection(sess)) # Close the connection.
     NULL
   #}
@@ -215,7 +226,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     }
     #Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
     parallelCluster = parallel::makeCluster(jobs,outfile=paste0(dirname(filepath(x@scenario)),"/parallelLog.txt"))
-
+    clusterEvalQ(cl, library(rsyncrosim))
     print(parallelCluster)
     ret =  parallel::parLapply(parallelCluster,args,runJobParallel)
     # Shutdown cluster neatly
