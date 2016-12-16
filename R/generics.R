@@ -276,15 +276,16 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name,proje
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
 #' @param breakpoint Set to TRUE when setting spatial data in a breakpoint function.
+#' @param check Default is TRUE. Set FALSE to speed calculations my assuming metadata is valid.
 #' @return A named list of success or failure reports.
 #' @examples
 #'
 #' @export
-setGeneric('loadSpatialData',function(x,data,metadata=NULL,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadSpatialData'))
+setGeneric('loadSpatialData',function(x,data,metadata=NULL,project=NULL,scenario=NULL,breakpoint=F,check=T) standardGeneric('loadSpatialData'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,project,scenario,breakpoint) {
+setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,project,scenario,breakpoint,check) {
   x = .getFromXProjScn(x,project,scenario)
-  out = loadSpatialData(x,data,metadata,project,scenario,breakpoint)
+  out = loadSpatialData(x,data,metadata,project,scenario,breakpoint,check)
   return(out)
 })
 

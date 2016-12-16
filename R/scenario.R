@@ -588,7 +588,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   return(cStack)
 })
 
-setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadata,project,scenario,breakpoint) {
+setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
   #x = x;project=NULL;scenario=NULL;metadata=myMetadata;data=myMultipliers;breakpoint=T
   x = .getFromXProjScn(x,project,scenario)
 
@@ -605,11 +605,13 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
     stop("Metadata can contain only one SheetName.")
   }
   cSheetName =  metadata$SheetName[1];metadata$SheetName=NULL
-  #Check that metadata is valid
-  cSheet = datasheet(x,cSheetName,optional=T)
-  check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
-  if(inherits(check, "try-error")){
-    stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
+  if(check){
+    #Check that metadata is valid
+    cSheet = datasheet(x,cSheetName,optional=T)
+    check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
+    if(inherits(check, "try-error")){
+      stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
+    }
   }
   if(breakpoint){
     outDir = paste0(filepath(x),'.temp/Data')

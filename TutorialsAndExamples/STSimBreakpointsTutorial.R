@@ -74,7 +74,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
 
   # datasheets(x,scope="project")$name[grepl("Spatial",datasheets(x,scope="project")$name)]
   sheetName = "STSim_TransitionSpatialMultiplier"
-  #myMetadata = datasheet(x,sheetName,optional=T) #This fails in parallel processing???
+  #myMetadata = datasheet(x,sheetName,optional=T) #Save time by skipping this step
   myMetadata=data.frame(Iteration=iteration,Timestep=timestep,
                               TransitionGroupID="Fire",TransitionMultiplierTypeID="Temporal",
                               MultiplierFileName = paste0(sheetName,".Scn",id(x),".It",iteration,".Ts",timestep,".tif"),
@@ -82,6 +82,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
   myMetadata$RasterLayerName = names(myMultipliers)
   myMetadata$SheetName = sheetName
 
+  if(0){
   #debug loadSpatialData
   metadata=myMetadata
   data=myMultipliers
@@ -93,7 +94,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
 
   cSheetName =  metadata$SheetName[1];metadata$SheetName=NULL
   #Check that metadata is valid
-  cSheet = datasheet(x,cSheetName,optional=T,dependsAsFactors=F)
+  cSheet = datasheet(x,cSheetName,optional=T,lookupsAsFactors=F)
   check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
   if(inherits(check, "try-error")){
     stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
@@ -112,9 +113,9 @@ myBreakpointFunction<-function(x,iteration,timestep){
 
     raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
     ret=loadDatasheets(x,cRow,name=sheetName,breakpoint=T)
-
-  #RESUME HERE: This works. So why does loadSpatialData fail in parallel processing?
-  #loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T)
+  }
+  loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T,check=F)
+  # NOTE: set check=F to speed calculations. Assume metadata is valid
 
   # NOTE: loadSpatialData is incomplete - it only works for breakpoint=T, metadata!=NULL, sheetName= "STSim_TransitionSpatialMultiplier"
   # NOTE: breakpoint=T. Writes csv and tif to expected temporary data directory. Does not load into database.

@@ -181,8 +181,6 @@ runJobParallel<- function(cPars) {
 
     ret = tryCatch({
       remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
-    }, warning = function(w) {
-      return(w)
     }, error = function(e) {
       return(e)
     }, finally = {
