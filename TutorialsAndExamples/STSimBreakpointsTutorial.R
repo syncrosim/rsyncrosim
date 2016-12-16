@@ -148,29 +148,13 @@ myScenario = setBreakpoint(myScenario,"bt","stsim:core-transformer",c(1,2),myBre
 
 myResult=NULL
 myResult = run(myScenario,jobs=2) #run handles breakpoints automatically
-
-# TO DO: Use fork clusters on linux? Better memory use.
 # DISCUSS: Communication failures can stall rather than returning helpful messages. I am reluctant to put a time limit on the socket connection because simulations can take a long time. But let me know if this is a problem that needs solving.
 # NOTE: Fewer helpful messages are returned during parallel processing. Use jobs=1 for debugging.
-# TO DO: Method for cleanup/recovery when server is left running.
+# TO DO: Use fork clusters on linux? Better memory use.
+# NOTE: must install properly from github and load libarary to test parallel
+# NOTE: Figure out logging to output file during parallel processing. Not sure where the print messages are going...
 
 # Check what happened
-datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated
-# NOTE: Not updated in parallel processing. But effects can be seen in transitions
-
-# See multipliers
-rat = data.frame(ID=c(1,0))
-rat$isIn = as.logical(rat$ID)
-rat$Color = c("red","wheat")
-myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat)
-filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",id(myResult[[1]]),".pdf")
-pdf(filename)
-view=myMultipliers;names(view)=gsub("STSim_TransitionSpatialMultiplier.","",names(view),fixed=T)
-levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
-dev.off()
-
-# subset(datasheets(myResult[[1]]),grepl("STSim_",name)&isOutput)$name
-
 # Check transitions - there should be less fire in iteration 2, timestep 3
 myTransitions = spatialData(myResult,"STSim_OutputSpatialTransition",rat=rat,nameFilters=c("Fire"))
 for(i in 1:length(names(myTransitions))){
@@ -188,13 +172,20 @@ view=myTransitions;names(view)=gsub("STSim_OutputSpatialTransition.","",names(vi
 levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
 dev.off()
 
-# Run again with parallel processing
-# Remember - must install properly from github and load libarary to test parallel
-myResult = run(myScenario,jobs=2)
-# NOTE: no helpful messages with parallel processing
+# NOTE: "STSim_TransitionSpatialMultiplier" is not updated properly during parallel processing.
+datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated
+# NOTE: Not updated in parallel processing. But effects can be seen in transitions
 
-#Check what happened
-
+# See multipliers
+rat = data.frame(ID=c(1,0))
+rat$isIn = as.logical(rat$ID)
+rat$Color = c("red","wheat")
+myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat)
+filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",id(myResult[[1]]),".pdf")
+pdf(filename)
+view=myMultipliers;names(view)=gsub("STSim_TransitionSpatialMultiplier.","",names(view),fixed=T)
+levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
+dev.off()
 
 ###########
 # TO DO:

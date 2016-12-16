@@ -173,14 +173,15 @@ runJobParallel<- function(cPars) {
     #cPars is a list, where x is path to the temporary library, session is the current session, port is a new port, and breaks are the current breakpoints
     #f = files[1];port=ports[1]
     # TO DO: if slow, consider ways to speed up scenario/library construction
-    cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
-    cScn@breakpoints = cPars$breaks
-    sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
-    ret=remoteCall(sess,paste0('load-library --lib=\"',filepath(cScn),'\"'))
-    ret = setBreakpoints(sess)
-
     ret = tryCatch({
-      remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
+
+      cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
+      cScn@breakpoints = cPars$breaks
+      sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
+      ret=remoteCall(sess,paste0('load-library --lib=\"',filepath(cScn),'\"'))
+      ret = setBreakpoints(sess)
+      ret = remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
+      "Success!"
     }, error = function(e) {
       return(e)
     }, finally = {
