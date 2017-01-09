@@ -52,7 +52,7 @@ responsibility for using git properly.
 1) Set up Git: https://help.github.com/articles/set-up-git/
 2) Setup Git on RStudio and Associate with GitHub: https://www.r-bloggers.com/rstudio-and-github/
 3) Clone the GitHub project to new RStudio project: https://www.r-bloggers.com/rstudio-and-github/.
-The repository url is https://[username]:[password]@github.com/ApexRMS/rsyncrosim.git and the remote origin
+The repository url is https://[username]@github.com/ApexRMS/rsyncrosim.git and the remote origin
 url is git@github.com:ApexRMS/rsyncrosim.git
 4) Add the development branch. In the git bash:
    git checkout -b dev
