@@ -696,7 +696,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
-  #x = myResult;project=NULL;scenario=NULL;name="STSim_SecondaryStratum";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="")
+  #x = myResults[[1]];project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=mySQL#list(select="SELECT *",groupBy="")
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -799,8 +799,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       drv = DBI::dbDriver('SQLite')
       con = DBI::dbConnect(drv,.filepath(x))
       #fields = DBI::dbListFields(con,name)
-
-      sqlStatements$where = ""
+      if(is.null(sqlStatements$where)){sqlStatements$where = ""}
       sqlStatements$from = paste("FROM",name)
       if(sheetNames$dataScope=="scenario"){
         if(is.null(sid)){
@@ -808,19 +807,28 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         }else{
           #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
           #and http://www.sqlitetutorial.net/sqlite-in/
-          sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
+          if(sqlStatements$where==""){
+            sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
+          }else{
+            sqlStatements$where = paste0(sqlStatements$where," AND (ScenarioID IN (",paste(sid,collapse=","),"))")
+          }
         }
       }
       if(sheetNames$dataScope=="project"){
         if(is.null(pid)){
           stop("Specify a project.")
         }else{
-          sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
+          if(sqlStatements$where==""){
+            sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
+          }else{
+            sqlStatements$where = paste0(sqlStatements$where," AND (ProjectID IN (",paste(pid,collapse=","),"))")
+          }
         }
       }
       #  sheet = DBI::dbReadTable(con, name)
       sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
       #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+      print(sql)
       sheet = DBI::dbGetQuery(con,sql)
       DBI::dbDisconnect(con)
     }

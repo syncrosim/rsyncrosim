@@ -40,7 +40,7 @@ Session <- setClass("Session", representation(filepath="character",silent="logic
 # @name Session
 # @rdname Session-class
 setMethod(f='initialize',signature="Session",definition=function(.Object,path,silent=T){
-  #path = NULL;silent=F;.Object=ssimSession
+  #path = NULL;silent=F;.Object=session()
   #Check validity of console filepath.
   if(!is.null(path)){
     if(!grepl("SyncroSim.Console.exe",path,fixed=T)){
@@ -57,9 +57,9 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
     if(is.null(path)){
       #TO DO: what is best way to find console on all systems
       #Default installation locations?
-      consolePathPossibilities = c("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64 (bug)","C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64","C:/Program Files/SyncroSim/1","C:/Program Files/SyncroSim/1")
+      consolePathPossibilities = c("C:/svnprojects/SyncroSim-1/WinForm/bin/x64/Debug","C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64 (bug)","C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug","C:/Users/Josie Hughes/SyncroSim/syncrosim-windows-1-0-38-x64","C:/Program Files/SyncroSim/1","C:/Program Files/SyncroSim/1")
       for(i in seq(length.out=length(consolePathPossibilities))){
-        if(file.exists(consolePathPossibilities[i])){path=consolePathPossibilities[i];break}
+        if(file.exists(paste0(consolePathPossibilities[i],"/SyncroSim.Console.exe"))){path=consolePathPossibilities[i];break}
       }
     }
   }
@@ -71,6 +71,8 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   .Object@silent=silent
 
   vs = command(list(version=NULL),.Object)
+  #if(!grepl("Core Assembly Version",vs[[1]])){stop(vs)}
+  
   vs = gsub("Core Assembly Version: ","",vs[[2]],fixed=T)
   vs = as.numeric(gsub(".","",vs,fixed=T))
   if(vs<10380){

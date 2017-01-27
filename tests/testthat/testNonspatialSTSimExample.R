@@ -217,6 +217,7 @@ test_that("Test simple non-spatial STSim example", {
   checkSums = ddply(outStatesAllAges,.(ScenarioParent,Iteration,Timestep),summarize,Amount=sum(Amount))
   expect_equal(unique(checkSums$Amount),100)
 
+  ?sqlStatements
   ####
   #misc example checks
   # Get a list of existing results scenarios for a particular project

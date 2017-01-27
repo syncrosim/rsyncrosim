@@ -4,7 +4,8 @@
 \alias{sqlStatements}
 \title{Get SELECT and GROUP BY Statements}
 \usage{
-sqlStatements(groupBy = NULL, aggregate = NULL, aggregateFunction = "SUM")
+sqlStatements(groupBy = NULL, aggregate = NULL, aggregateFunction = "SUM",
+  where = NULL)
 }
 \arguments{
 \item{groupBy}{Vector of variables to GROUP BY.}
@@ -12,6 +13,8 @@ sqlStatements(groupBy = NULL, aggregate = NULL, aggregateFunction = "SUM")
 \item{aggregate}{Vector of variables to aggregate using aggregateFunction}
 
 \item{aggregateFunction}{An SQL aggregate function (e.g. SUM, COUNT)}
+
+\item{where}{A list of subset variables.}
 }
 \value{
 A list of SQL SELECT and GROUP BY statements.

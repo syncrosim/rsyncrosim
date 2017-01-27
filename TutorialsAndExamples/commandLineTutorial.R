@@ -5,8 +5,7 @@
 # Author Josie Hughes, ApexRMS
 # Date 2016.11.15
 # **********************************************************
-# devtools::document();devtools::load_all()
-# devtools::test() #to test a particular version of SyncroSim modify consolePathPossibilities in session.R
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 #*************************************
 # Create the project definition
@@ -64,10 +63,9 @@ datasheets(myProject,scope="project")$name #See project scope datasheet names
 sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
 loadDatasheets(myProject,mySheet,name=sheetName)
-loadDatasheets(myProject,mySheet,name="STSim_TransitionType")
+loadDatasheets(myProject,subset(mySheet,select=Name),name="STSim_TransitionType")
 
 sheetName = "STSim_TransitionTypeGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
-str(mySheet)
 mySheet[1:3,"TransitionTypeID"]=levels(mySheet$TransitionTypeID)
 mySheet[1:3,"TransitionGroupID"]=levels(mySheet$TransitionGroupID)
 loadDatasheets(myProject,mySheet,name=sheetName)
@@ -204,11 +202,12 @@ unique(outStates$ScenarioParent)
 # There are >400,000 records in this small example.
 sheetName = "STSim_OutputStratumState"
 names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting data
-mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"))
-mySQL # A list of SELECT and GROUP BY SQL statements passed to SQLite.
+unique(outStates$Iteration)
+
+mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"),where=list(Timestep=c(0,1,2),Iteration=c(3,4)))
+mySQL # A list of SELECT, WHERE and GROUP BY SQL statements passed to SQLite.
 outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
 str(outStatesAllAges) #Much faster: fewer lookups and fewer records.
-
 sheetName = "STSim_OutputStratumTransition"
 names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting any data
 mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","TransitionGroupID"),aggregate=c("Amount"))
