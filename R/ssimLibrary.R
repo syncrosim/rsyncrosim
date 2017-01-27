@@ -828,7 +828,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       #  sheet = DBI::dbReadTable(con, name)
       sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
       #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
-      print(sql)
+     # print(sql)
       sheet = DBI::dbGetQuery(con,sql)
       DBI::dbDisconnect(con)
     }
