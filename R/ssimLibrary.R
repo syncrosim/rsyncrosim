@@ -1100,7 +1100,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
 })
 
 setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
-  #x=myScenario;scenario="Harvest"
+  #x=myScenario;jobs=1;scenario=NULL
   #command(c("run","help"),.session(x))
 
 

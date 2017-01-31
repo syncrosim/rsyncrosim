@@ -131,6 +131,9 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   cBreak = x@scenario@breakpoints[[split[2]]]
   #TO DO: consider ways to speed up scenario construction here.
   cResult = scenario(.project(x@scenario),id=as.numeric(split[4]))
+  
+  #multiband(cResult,"rebuild")
+
   cBreak@callback(cResult,iteration=as.numeric(split[5]),timestep=as.numeric(split[6]))
 
   #load modified data if availabl
@@ -192,7 +195,7 @@ runJobParallel<- function(cPars) {
 }
 
 setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,jobs) {
-  #x=cBreakpointSession;jobs=2
+  #x=cBreakpointSession;jobs=1
 
   if(jobs==1){
     #make 1 job work first.

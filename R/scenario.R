@@ -418,38 +418,49 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     cMeta = datasheet(x,name=sheet,optional=T)
   }
 
-  expectCols = c("Iteration","Timestep","Filename","Band","outName")
-  checkCols = setdiff(names(cMeta),expectCols)
-  for(i in seq(length.out=length(checkCols))){
-    #i=1
-    cSum = sum(!is.na(cMeta[[checkCols[i]]]))
-    if(cSum==0){
-      cMeta[[checkCols[i]]]=NULL
+  tryCount = 0
+  while(tryCount <=1){
+    expectCols = c("Iteration","Timestep","Filename","Band","outName")
+    checkCols = setdiff(names(cMeta),expectCols)
+    for(i in seq(length.out=length(checkCols))){
+      #i=1
+      cSum = sum(!is.na(cMeta[[checkCols[i]]]))
+      if(cSum==0){
+        cMeta[[checkCols[i]]]=NULL
+      }
     }
-  }
 
-  if(!is.null(timesteps)&is.element("Timestep",names(cMeta))){
-    timesteps=as.numeric(timesteps)
-    missSteps = setdiff(timesteps,cMeta$Timestep)
-    if(length(missSteps)>0){
-      warning("Selected timesteps not available: ",paste(missSteps,collapse=","))
+    warningMsg = ""
+    if(!is.null(timesteps)&is.element("Timestep",names(cMeta))){
+      timesteps=as.numeric(timesteps)
+      missSteps = setdiff(timesteps,cMeta$Timestep)
+      if(length(missSteps)>0){
+        warningMsg = paste0("Selected timesteps not available: ",paste(missSteps,collapse=","))
+      }
+      cMeta = subset(cMeta,is.element(Timestep,timesteps))
     }
-    cMeta = subset(cMeta,is.element(Timestep,timesteps))
-  }
 
-  if(!is.null(iterations)&is.element("Iteration",names(cMeta))){
-    iterations=as.numeric(iterations)
-    missSteps = setdiff(iterations,cMeta$Iteration)
-    if(length(missSteps)>0){
-      warning("Selected iterations not available: ",paste(missSteps,collapse=","))
+    if(!is.null(iterations)&is.element("Iteration",names(cMeta))){
+      iterations=as.numeric(iterations)
+      missSteps = setdiff(iterations,cMeta$Iteration)
+      if(length(missSteps)>0){
+        warningMsg = paste0(warningMsg," Selected iterations not available: ",paste(missSteps,collapse=","))
+      }
+      cMeta = subset(cMeta,is.element(Iteration,iterations))
     }
-    cMeta = subset(cMeta,is.element(Iteration,iterations))
-  }
 
-  if(nrow(cMeta)==0){
-    stop("No data available.")
+    if((nchar(warningMsg)>0)|(nrow(cMeta)==0)){
+      if(tryCount == 1){
+        if(nrow(cMeta)==0){stop("No data available.")}else{
+          warning(warningMsg)
+        }
+      }else{
+        multiband(x,action="rebuild")
+        cMeta = datasheet(x,name=sheet,optional=T)
+      }
+    }
+    tryCount = tryCount+1
   }
-
   if(!is.element("Filename",names(cMeta))){
     tempFilename = names(cMeta)[grepl("FileName",names(cMeta))]
     if(length(tempFilename)==1){
