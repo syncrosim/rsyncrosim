@@ -179,18 +179,26 @@ runJobParallel<- function(cPars) {
     ret = tryCatch({
 
       cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
-      if(is.null(cScn)){
-        stop("Problem with split-scenario: The library ",cPars$x," does not exist.")
+      if(!exists("cScn")){
+        stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
       }
       cScn@breakpoints = cPars$breaks
-
       sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
-      if(is.null(sess)){
+      if(!exists("sess")){
         stop("Problem creating breakpoint session.")
       }
-      ret=remoteCall(sess,paste0('load-library --lib=\"',filepath(cScn),'\"'))
+      msg = paste0('load-library --lib=\"',filepath(cScn),'\"')
+      ret=remoteCall(sess,msg)
+      if(ret!="NONE"){
+        stop("Problem with ",msg," :",ret)
+      }
       ret = setBreakpoints(sess)
-      ret = remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
+      
+      msg = paste0('run-scenario --sid=',1,' --jobs=1')
+      ret = remoteCall(sess,msg)
+      if(ret!="NONE"){
+        stop("Problem with ",msg," :",ret)
+      }
       "Success!"
     }, error = function(e) {
       return(paste(e," Extra info: ",ret))
