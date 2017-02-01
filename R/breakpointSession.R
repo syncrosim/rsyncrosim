@@ -179,14 +179,21 @@ runJobParallel<- function(cPars) {
     ret = tryCatch({
 
       cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
+      if(is.null(cScn)){
+        stop("Problem with split-scenario: The library ",cPars$x," does not exist.")
+      }
       cScn@breakpoints = cPars$breaks
+
       sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
+      if(is.null(sess)){
+        stop("Problem creating breakpoint session.")
+      }
       ret=remoteCall(sess,paste0('load-library --lib=\"',filepath(cScn),'\"'))
       ret = setBreakpoints(sess)
       ret = remoteCall(sess,paste0('run-scenario --sid=',1,' --jobs=1'))
       "Success!"
     }, error = function(e) {
-      return(e)
+      return(paste(e," Extra info: ",ret))
     }, finally = {
       resp = writeLines("shutdown", connection(sess),sep = "")
       close(connection(sess)) # Close the connection.
@@ -195,17 +202,43 @@ runJobParallel<- function(cPars) {
 }
 
 setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,jobs) {
-  #x=cBreakpointSession;jobs=1
-
+  #x=cBreakpointSession;jobs=2
+  
   if(jobs==1){
     #make 1 job work first.
     msg = paste0('run-scenario --sid=',.id(x@scenario),' --jobs=1')
     ret = remoteCall(x,msg)
   }else{
-    #x=cBreakpointSession;jobs=2
-
+    #jobs=2
+    if(0){
+      #PARALLEL DEBUG
+      #use for debugging - setup code from 'run' function, signature(x="SSimLibrary")
+      x=myScenario;jobs=2
+      cBreakpointSession=breakpointSession(x)
+      msg =paste0('load-library --lib=\"',filepath(x),'\"')
+      ret=remoteCall(cBreakpointSession,msg)
+      if(ret!="NONE"){
+        stop("Something is wrong: ",ret)
+      }
+      ret = setBreakpoints(cBreakpointSession)
+      if(ret!="NONE"){
+        stop("Something is wrong: ",ret)
+      }
+      x=cBreakpointSession
+    }
+    
     msg = paste0('split-scenario --sid=',id(x@scenario),' --jobs=',jobs)
-    tt = remoteCall(x,msg)
+    
+    tt = tryCatch({
+      remoteCall(x,msg)
+    }, warning = function(w) {
+      print(w)
+    }, error = function(e) {
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
+      stop(e)
+    })
+    
     #if(tt!="NONE"){
     #  stop("Something is wrong: ",tt)
     #}
@@ -228,7 +261,19 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     parallelCluster = parallel::makeCluster(jobs,outfile=paste0(dirname(filepath(x@scenario)),"/parallelLog.txt"))
     parallel::clusterEvalQ(parallelCluster, library(rsyncrosim))
     print(parallelCluster)
-    ret =  parallel::parLapply(parallelCluster,args,runJobParallel)
+    
+    ret = tryCatch({
+      parallel::parLapply(parallelCluster,args,runJobParallel)
+    }, warning = function(w) {
+      print(tt)
+      print(w)
+    }, error = function(e) {
+      print(tt)
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
+      stop(e)
+    })
+    
     # Shutdown cluster neatly
     if(!is.null(parallelCluster)) {
       parallel::stopCluster(parallelCluster)
@@ -237,7 +282,15 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     print(ret)
 
     msg = paste0('merge-scenario --sid=',id(x@scenario))
-    ret = remoteCall(x,msg)
+    ret = tryCatch({
+      remoteCall(x,msg)
+    }, warning = function(w) {
+      print(w)
+    }, error = function(e) {
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
+      stop(e)
+    })
     return(ret)
   }
 })

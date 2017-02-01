@@ -7,6 +7,7 @@
 # **********************************************************
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+install.packages("rasterVis")
 library(raster);library(rasterVis)
 
 libRoot = "C:/Temp"
@@ -17,11 +18,12 @@ libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
 if(!file.exists(libPath)){
   zipPath = paste0(libRoot,"/",libName,".zip")
   if(!file.exists(zipPath)){
-    libURL = "http://www.apexrms.com/downloads/syncrosim/ST-Sim%20Tutorial.zip"
+    libURL = "http://www.apexrms.com/downloads/syncrosim/ST-Sim%20Spatial%20Tutorial.zip"
     download.file(libURL, zipPath)
   }
   unzip(zipPath,exdir=paste0(libRoot,"/",libName),overwrite=T,unzip = "unzip")
 }
+#If unzip fails (status 127) ensure that a zip program is installed. Installing RTools will solve the problem.
 
 #*************************************
 # Create a new scenario with breakpoints

@@ -291,6 +291,8 @@ parentId(myScenario)
 # - help/documentation
 # - Project revisions: Safe modification of existing libraries?
 # - long names in  models() ?
+# - Dependency functions: command(list(create=NULL,dependency=NULL,lib=.filepath(myLibrary),sid=.id(myScenario),did=.id(myDependency)))
+
 
 ###################
 # Handoff notes:

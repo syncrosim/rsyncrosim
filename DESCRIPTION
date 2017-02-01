@@ -16,7 +16,9 @@ Imports:
     DBI,
     RSQLite,
     raster,
-    parallel
+    parallel,
+    Rcpp,
+    rgdal
 Suggests:
     plyr,
     ggplot2,

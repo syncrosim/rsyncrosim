@@ -1100,7 +1100,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
 })
 
 setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
-  #x=myScenario;jobs=1;scenario=NULL
+  #x=myScenario;jobs=2;scenario=NULL
   #command(c("run","help"),.session(x))
 
 
@@ -1149,7 +1149,7 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
 
       resultId = strsplit(tt,": ",fixed=T)[[1]][2]
     }else{
-      #x=myScenario;jobs=2
+      #x=myFlatScenario;jobs=2
       # devtools::document();devtools::load_all()
 
       # create a session
