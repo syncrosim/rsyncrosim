@@ -202,7 +202,7 @@ runJobParallel<- function(cPars) {
       "Success!"
     }, error = function(e) {
       print(e)
-      stop(e)
+      return(e)
     }, finally = {
       resp = writeLines("shutdown", connection(sess),sep = "")
       close(connection(sess)) # Close the connection.
