@@ -179,9 +179,9 @@ runJobParallel<- function(cPars) {
     ret = tryCatch({
 
       cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
-      if(!exists("cScn")){
-        error("Problem with split-scenario: Can't find the library ",cPars$x,".")
-      }
+      #if(!exists("cScn")){
+        stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
+      #}
       cScn@breakpoints = cPars$breaks
       sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
       if(!exists("sess")){
@@ -271,6 +271,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     parallel::clusterEvalQ(parallelCluster, library(rsyncrosim))
     print(parallelCluster)
     
+    #TO DO: catch error messages properly in parallel processing...
     ret = tryCatch({
       parallel::parLapply(parallelCluster,args,runJobParallel)
     }, warning = function(w) {
