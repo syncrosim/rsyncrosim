@@ -196,7 +196,7 @@ runJobParallel<- function(cPars) {
       
       msg = paste0('run-scenario --sid=',1,' --jobs=1')
       ret = remoteCall(sess,msg)
-      if(ret!="NONE"){
+      if(as.character(as.numeric(ret))!=ret){
         stop("Problem with ",msg," :",ret)
       }
       "Success!"
@@ -222,7 +222,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     if(0){
       #PARALLEL DEBUG
       #use for debugging - setup code from 'run' function, signature(x="SSimLibrary")
-      x=myScenario;jobs=2
+      x=myFlatScenario;jobs=2
       cBreakpointSession=breakpointSession(x)
       msg =paste0('load-library --lib=\"',filepath(x),'\"')
       ret=remoteCall(cBreakpointSession,msg)
@@ -247,6 +247,17 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
       close(connection(x)) # Close the connection.
       stop(e)
     })
+    
+    tempPath = paste0(filepath(x@scenario),".temp/Scenario-",.id(x@scenario),"/SSimJobs")
+    tempFiles = list.files(tempPath,include.dirs=F)
+    tempFiles = tempFiles[grepl(".ssim",tempFiles,fixed=T)&!grepl(".ssim.input",tempFiles,fixed=T)&!grepl(".ssim.output",tempFiles,fixed=T)]
+    if(length(tempFiles)<=1){
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
+      stop("Problem with split-scenario: only one job was created. This is known problem caused by dependencies that has not yet been fixed.")
+    }else{
+      jobs = length(tempFiles)
+    }
     
     #if(tt!="NONE"){
     #  stop("Something is wrong: ",tt)
