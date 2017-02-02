@@ -212,29 +212,36 @@ runJobParallel<- function(cPars) {
 
 setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,jobs) {
   #x=cBreakpointSession;jobs=2
-  
+  if(0){
+    #PARALLEL DEBUG
+    #use for debugging - setup code from 'run' function, signature(x="SSimLibrary")
+    x=myScenario;jobs=2
+    cBreakpointSession=breakpointSession(x)
+    msg =paste0('load-library --lib=\"',filepath(x),'\"')
+    ret=remoteCall(cBreakpointSession,msg)
+    if(ret!="NONE"){
+      stop("Something is wrong: ",ret)
+    }
+    ret = setBreakpoints(cBreakpointSession)
+    if(ret!="NONE"){
+      stop("Something is wrong: ",ret)
+    }
+    x=cBreakpointSession
+  }
   if(jobs==1){
     #make 1 job work first.
     msg = paste0('run-scenario --sid=',.id(x@scenario),' --jobs=1')
-    ret = remoteCall(x,msg)
+    ret = tryCatch({
+      remoteCall(x,msg)
+    }, warning = function(w) {
+      print(w)
+    }, error = function(e) {
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
+      stop(e)
+    })
   }else{
     #jobs=2
-    if(0){
-      #PARALLEL DEBUG
-      #use for debugging - setup code from 'run' function, signature(x="SSimLibrary")
-      x=myFlatScenario;jobs=2
-      cBreakpointSession=breakpointSession(x)
-      msg =paste0('load-library --lib=\"',filepath(x),'\"')
-      ret=remoteCall(cBreakpointSession,msg)
-      if(ret!="NONE"){
-        stop("Something is wrong: ",ret)
-      }
-      ret = setBreakpoints(cBreakpointSession)
-      if(ret!="NONE"){
-        stop("Something is wrong: ",ret)
-      }
-      x=cBreakpointSession
-    }
     
     msg = paste0('split-scenario --sid=',id(x@scenario),' --jobs=',jobs)
     

@@ -1171,17 +1171,8 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
 
       #resultId=ret
       resultId =   run(cBreakpointSession,jobs=jobs)
-    
-      #tryCatch({
-      #}, warning = function(w) {
-      #  print(w)
-      #}, error = function(e) {
-      #  stop(e)
-      #}, finally = {
-      #  resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
-      #  close(connection(cBreakpointSession)) # Close the connection.
-      #})
-
+      resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
+      close(connection(cBreakpointSession)) # Close the connection.
       cBreakpointSession=NULL
     }
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
