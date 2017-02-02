@@ -228,6 +228,14 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     }
     x=cBreakpointSession
   }
+  
+  msg = paste0('create-result --sid=',id(x@scenario))
+  ret = remoteCall(x,msg)
+  breaks = x@scenario@breakpoints
+  newScn = scenario(x@scenario,id=as.numeric(ret))
+  newScn@breakpoints = breaks
+  x@scenario = newScn
+  
   if(jobs==1){
     #make 1 job work first.
     msg = paste0('run-scenario --sid=',.id(x@scenario),' --jobs=1')
@@ -242,7 +250,6 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     })
   }else{
     #jobs=2
-    
     msg = paste0('split-scenario --sid=',id(x@scenario),' --jobs=',jobs)
     
     tt = tryCatch({
@@ -319,6 +326,10 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
       close(connection(x)) # Close the connection.
       stop(e)
     })
+    
+    #remove temporary directory
+    unlink(paste0(filepath(x@scenario),".temp/Scenario-",id(x@scenario)),recursive=T)
+    
     return(ret)
   }
 })
