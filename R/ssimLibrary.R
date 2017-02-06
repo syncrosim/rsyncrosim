@@ -1181,8 +1181,10 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
     }else{
       if(onlyIds){
         out[[inScn]] = as.numeric(resultId)
+        multiband(.scenario(x,id=as.numeric(resultId)),action="apply")
       }else{
         out[[inScn]] = .scenario(x,id=as.numeric(resultId))
+        multiband(out[[inScn]],action="apply")
       }
     }
 
