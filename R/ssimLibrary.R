@@ -1069,7 +1069,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
     dir.create(pathBit, showWarnings = FALSE,recursive=T)
     tempFile = paste0(pathBit,"/",cName,".csv")
 
-    write.csv(cDat,file=tempFile,row.names=F,quote=F)
+    write.csv(cDat,file=tempFile,row.names=F,quote=T)
     if(breakpoint){
       out[[cName]] = "Success!"
       next
@@ -1092,7 +1092,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
       if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
       if(scope=="scenario"){args[["sid"]]=.id(x)}
     }
-    tt=command(args,.session(x))
+    tt=command(args,.session(x),printCmd=F)
     unlink(tempFile)
     out[[cName]] = tt
   }
