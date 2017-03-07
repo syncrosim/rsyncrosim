@@ -1180,6 +1180,8 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
       close(connection(cBreakpointSession)) # Close the connection.
       cBreakpointSession=NULL
     }
+    #Resume here.
+    #stop()
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
       out[[inScn]]=tt
       print(tt)

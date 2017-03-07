@@ -54,7 +54,7 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",
 
   tempCmd = paste(c(paste0('\"\"',.filepath(session),program,'\"'),sysArgs,'\"'),collapse=" ")
 
-  print(filepath(session))
+  #print(filepath(session))
   if(Sys.info()['sysname'][[1]]!="Windows"){
     warning("Handle this case. May need to add mono for Server. See session.py for detail")
   }
