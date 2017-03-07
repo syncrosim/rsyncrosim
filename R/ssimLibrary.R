@@ -150,7 +150,7 @@ setMethod(f='initialize',signature="SSimLibrary",
     datasheets = .dataframeFromSSim(tt)
     datasheets$dataScope = sapply(datasheets$dataScope,camel)
     if(length(names(datasheets))<4){
-      stop("rsyncrosim requires SyncroSim version >= 1.0.37.0")
+      stop("rsyncrosim requires SyncroSim version >= 1.0.38.0")
     }
     names(datasheets) = c("name","displayName","dataScope","isOutput")
     datasheets$isOutput[datasheets$isOutput=="No"]=F
@@ -976,7 +976,12 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         }
       }
       if(cRow$formula2!="N/A"){
-        stop("handle this case")
+        if(cRow$valCond=="Between"){
+          print(paste0("Note: ",cRow$name," should be between ",cRow$formula1," and ",cRow$formula2))
+           
+        }else{
+          stop("handle this case")
+        }
       }
     }
     if(lookupsAsFactors&&!useConsole&&directQuery){

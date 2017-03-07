@@ -295,7 +295,11 @@ parentId(myScenario)
 # - warning: loadDatasheet() appends to library and project scope datasheets, rather than overwriting. To start fresh, delete project or library and begin again. We likely need a better way to modify project scope datasheets...
 # - Note - I spend a lot of time trying to figure out how GUI naming corresponds to datasheet names here.
 #   e.g. I need Transition Pathways -> Transitions. What sheet is that, exactly?
-# - Can't loadDatasheet() STSim_StateClass or STSim_Stratum containing Color. ??? See A178/LibraryCleanup.R script for example.
+#   Solution: subset(datasheets(myScenario,names=T),displayName=="Transitions",select=c(name))
+# - Copy a scenario from one project to another?
+# - Check which datasheets have data.
+# - How to access results more efficiently. E.G. Transitions table.
+# - More graceful failure given insufficient version of SyncroSim. Colin got a wierd failure error (indexing?) from 0.24.
 
 ###################
 # Handoff notes:
