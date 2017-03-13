@@ -66,4 +66,4 @@ setwd("D:/git/dev.rsyncrosim")
 devtools::document()     # builds documentation from the local copy
 devtools::load_all()     # replaces library command for use with local copy
 # Note: library(rsyncrosim) will go back to the github copy, so don't invoke this command!
-
+#TO DO: JH will explain this last step more clearly
