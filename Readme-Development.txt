@@ -60,10 +60,9 @@ url is git@github.com:ApexRMS/rsyncrosim.git
    git pull private dev
    git push -u private dev
 5) Use the RStudio GUI to commit and push changes to github. Please ensure you are committing to the dev branch, not the master.
-
-# To build from local copy of repository
-setwd("D:/git/dev.rsyncrosim")
-devtools::document()     # builds documentation from the local copy
-devtools::load_all()     # replaces library command for use with local copy
-# Note: library(rsyncrosim) will go back to the github copy, so don't invoke this command!
-#TO DO: JH will explain this last step more clearly
+6) To run build and run the package from local files (instead of the github repository), use the following lines of code:
+   # To build from local copy of repository
+   setwd("Path to your local copy of the package source files")
+   devtools::document()     # builds documentation from the local copy
+   devtools::load_all()     # replaces library command for use with local copy
+   # Note: library(rsyncrosim) will invoke the github copy. Don't invoke if working with a local copy!

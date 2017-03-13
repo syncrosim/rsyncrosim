@@ -300,6 +300,7 @@ parentId(myScenario)
 # - Check which datasheets have data.
 # - How to access results more efficiently. E.G. Transitions table.
 # - More graceful failure given insufficient version of SyncroSim. Colin got a wierd failure error (indexing?) from 0.24.
+# - Automatic installation of missing dependencies
 
 ###################
 # Handoff notes:
