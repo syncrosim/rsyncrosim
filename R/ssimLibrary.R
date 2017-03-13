@@ -37,6 +37,9 @@ setMethod(f='initialize',signature="SSimLibrary",
     if(is.null(session)){
       session = .session()
     }
+    if(is.character(session)){
+      session=.session(session)
+    }
 
     inName = name
     modelOptions = models(session)
@@ -696,7 +699,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
-  #x = myResults[[1]];project=NULL;scenario=NULL;name="STSim_OutputStratumState";optional=F;empty=F;lookupsAsFactors=T;sqlStatements=mySQL#list(select="SELECT *",groupBy="")
+  #x = myResult;project=NULL;scenario=NULL;name="DGSim_OutputPopulationSize";optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F
 
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -880,7 +883,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       }
     }
     for(i in seq(length.out=nrow(sheetInfo))){
-      #i =6
+      #i =5
       cRow = sheetInfo[i,]
       if(!is.element(cRow$name,colnames(sheet))){
         if(sqlStatements$select=="SELECT *"){
@@ -908,10 +911,21 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         opts = cRow$formula1
         opts = strsplit(opts,"|",fixed=T)[[1]]
         cLevels = c()
+        cIDs = c()
         for(j in seq(length.out=length(opts))){
           cLevels=c(cLevels,strsplit(opts[j],":",fixed=T)[[1]][2])
+          cIDs = as.numeric(c(cIDs,strsplit(opts[j],":",fixed=T)[[1]][1]))
+        }
+        #Sometimes input is factors, and output is  IDs
+        if(length(setdiff(sheet[[cRow$name]],cIDs))==0){
+          warning(paste0("Converting ",cRow$name," IDs to factor levels"))
+          mergeBit=data.frame(oLev = cLevels)
+          mergeBit[[cRow$name]]=cIDs
+          sheet=merge(sheet,mergeBit,all.x=T)
+          sheet[[cRow$name]]=sheet$oLev;sheet$oLev=NULL
         }
         sheet[[cRow$name]] = factor(sheet[[cRow$name]],levels=cLevels)
+        
       }
       if(cRow$valType=="DataSheet"){
         if(lookupsAsFactors){
@@ -1153,6 +1167,10 @@ setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
       tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
 
       resultId = strsplit(tt,": ",fixed=T)[[1]][2]
+      if(is.na(resultId)){
+        stop(print(tt))
+      }
+      
     }else{
       #x=myFlatScenario;jobs=2
       # devtools::document();devtools::load_all()
