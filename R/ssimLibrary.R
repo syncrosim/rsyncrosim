@@ -698,7 +698,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
+setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey,printCmd) {
   #x = myResult;project=NULL;scenario=NULL;name="DGSim_OutputPopulationSize";optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F
 
   allProjects=NULL;allScns=NULL
@@ -784,7 +784,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
       if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
 
-      tt=command(args,.session(x))
+      tt=command(args,.session(x),printCmd=printCmd)
 
       if(!identical(tt,"Success!")){
         stop(tt)
@@ -842,7 +842,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     sheet[sheet==""]=NA
   }
   if(empty|lookupsAsFactors){
-    tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
+    tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x),printCmd)
     sheetInfo = .dataframeFromSSim(tt)
     sheetInfo$id = seq(length.out=nrow(sheetInfo))
     sheetInfo = subset(sheetInfo,!is.element(name,rmCols))
@@ -875,7 +875,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
         if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
         if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
-        tt=command(args,.session(x))
+        tt=command(args,.session(x),printCmd=printCmd)
         if(!identical(tt,"Success!")){
           stop(tt)
         }
@@ -1017,6 +1017,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       sheet = sheet[order(sheet$cOrder),]
     }
     sheet = subset(sheet,select=outNames)
+    
   }
 
   if(is.element("ProjectID",names(sheet))){
@@ -1051,7 +1052,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   return(sheet)
 })
 
-setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario,breakpoint) {
+setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario,breakpoint,printCmd) {
   #x = myScenario;project=NULL;scenario=NULL;name=sheetName;data=mySheet;breakpoint=T
   x = .getFromXProjScn(x,project,scenario)
 
@@ -1111,9 +1112,8 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
       if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
       if(scope=="scenario"){args[["sid"]]=.id(x)}
     }
-    tt=command(args,.session(x),printCmd=F)
-    unlink(tempFile)
-    if(tt=="Success!"){tt="Saved"}
+    tt=command(args,.session(x),printCmd=printCmd)
+    if(tt=="Success!"){tt="Saved"; unlink(tempFile)}
     out[[cName]] = tt
   }
   return(out)

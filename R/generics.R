@@ -154,16 +154,16 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #' @param lookupsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
 #' @param sqlStatements SELECT and GROUP BY SQL statements passed to SQLite database.
 #' @param includeKey If TRUE include primary key in output table.
+#' @param printCmd Set to TRUE to see SyncrSim command line arguments. Helpful for debugging.
 #' @return A dataframe representing a SyncroSim datasheet.
 #' @examples
 #'
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,printCmd=F) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey,printCmd) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheet(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey)
   return(out)
 })
 
@@ -245,15 +245,16 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
 #' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
+#' @param printCmd Set to TRUE to see the SyncroSim command line arguments. Helpful for debugging.
 #' @return A named list of success or failure reports.
 #' @examples
 #'
 #' @export
-setGeneric('loadDatasheets',function(x,data,name,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadDatasheets'))
+setGeneric('loadDatasheets',function(x,data,name,project=NULL,scenario=NULL,breakpoint=F,printCmd=F) standardGeneric('loadDatasheets'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint) {
+setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint,printCmd) {
   x = .getFromXProjScn(x,project,scenario)
-  out = loadDatasheets(x,data,name,project,scenario,breakpoint)
+  out = loadDatasheets(x,data,name,project,scenario,breakpoint,printCmd)
   return(out)
 })
 
