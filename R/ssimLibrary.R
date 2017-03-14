@@ -1090,7 +1090,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
 
     write.csv(cDat,file=tempFile,row.names=F,quote=T)
     if(breakpoint){
-      out[[cName]] = "Success!"
+      out[[cName]] = "Saved"
       next
     }
 
@@ -1113,6 +1113,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
     }
     tt=command(args,.session(x),printCmd=F)
     unlink(tempFile)
+    if(tt=="Success!"){tt="Saved"}
     out[[cName]] = tt
   }
   return(out)
