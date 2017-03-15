@@ -5,7 +5,7 @@
 \title{Set datasheets}
 \usage{
 loadDatasheets(x, data, name, project = NULL, scenario = NULL,
-  breakpoint = F)
+  breakpoint = F, printCmd = F)
 }
 \arguments{
 \item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
@@ -19,6 +19,8 @@ loadDatasheets(x, data, name, project = NULL, scenario = NULL,
 \item{scenario}{Scenario name or id.}
 
 \item{breakpoint}{Set to TRUE when modifying datasheets in a breakpoint function.}
+
+\item{printCmd}{Set to TRUE to see the SyncroSim command line arguments. Helpful for debugging.}
 }
 \value{
 A named list of success or failure reports.

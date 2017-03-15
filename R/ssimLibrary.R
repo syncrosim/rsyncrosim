@@ -1113,7 +1113,7 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
       if(scope=="scenario"){args[["sid"]]=.id(x)}
     }
     tt=command(args,.session(x),printCmd=printCmd)
-    if(tt=="Success!"){tt="Saved"; unlink(tempFile)}
+    if(tt[[1]]=="Success!"){tt="Saved"; unlink(tempFile)}
     out[[cName]] = tt
   }
   return(out)

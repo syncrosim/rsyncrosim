@@ -162,6 +162,7 @@ scenarios(myLibrary,names=T)
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
 name(myScenario)
 id(myScenario)
+
 name(myScenario) = "New scenario name"
 ssimLibrary(myScenario)  # Returns a SyncroSimLibrary object for the scenario
 projectId(myScenario)  # Returns the project ID for the scenario
