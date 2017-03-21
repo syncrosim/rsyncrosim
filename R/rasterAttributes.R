@@ -44,7 +44,7 @@ setReplaceMethod(
       }
     }
     colortable(x)=rat$rgb
-    rat$rgb=NULL
+    #rat$rgb=NULL
   }
 
   x = raster::ratify(x)
