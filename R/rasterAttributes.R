@@ -7,7 +7,7 @@
 #'
 #' The (optional) Color column of a rat table should have one of these formats:
 #' \itemize{
-#'   \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
+#'   \item {alpha,R,G,B: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
 #'   \item {R colour names: } {See colors() for options.}
 #'   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
 #' }
@@ -35,7 +35,7 @@ setReplaceMethod(
     if(length(strsplit(rat$Color[1],split=",")[[1]])==4){
       for(j in seq(length.out=nrow(rat))){
         cCol = as.numeric(strsplit(rat$Color[j],split=",")[[1]])
-        rat$rgb[j] = rgb(red=cCol[1],green=cCol[2],blue=cCol[3],alpha=cCol[4],maxColorValue=255)
+        rat$rgb[j] = rgb(red=cCol[2],green=cCol[3],blue=cCol[4],alpha=cCol[1],maxColorValue=255)
       }
     }else{
       if(!grepl("#",rat$Color[1],fixed=T)){

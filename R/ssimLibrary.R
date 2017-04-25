@@ -651,7 +651,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=T;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
-  #command(c("export","datasheet","help"),.session(myLibrary))
+  #command(c("list","datasheets","help"),.session(myLibrary))
   #Get datasheet dataframe
   if(!refresh){
     datasheets=x@datasheetNames
@@ -726,7 +726,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
       sid = allScenarios$id[is.element(name,scenario)]
     }
   }
-
+  
   x = .getFromXProjScn(x,passProject,passScenario)
   if(is.null(scenario)||(length(scenario)==1)){
     if(class(x)=="Scenario"){sid=.id(x)}else{sid=scenario}

@@ -74,11 +74,13 @@ addons(myLibrary)
 disableAddons(myLibrary) = c("stsim-ecological-departure", "stsim-stock-flow")
 addons(myLibrary)
 update(myLibrary)
+info(myLibrary)
 
 # Backup a library (with various options) - skip this for now
 #backup(myLibrary)
 #restore(myLibrary)
 # LOW PRIORITY
+
 
 ###################################
 # Projects

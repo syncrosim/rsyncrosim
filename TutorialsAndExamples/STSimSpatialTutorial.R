@@ -42,12 +42,13 @@ datasheets(myResult[[1]])$name
 # Add an (optional) raster attribute table. This is dataframe with ID, (optional) Color, and descriptor columns.
 # In this example, we load StateClass attributes from the library, then override the Colors.
 rat = datasheet(myResult[[1]],name="STSim_StateClass",optional=T)
-rat$Color#We could use Colors from the library. But 2 of these colors are transparent. So override.
+rat$Color#We could use Colors from the library. Or override.
 rat$Color = c("darkgreen","brown","wheat")
 # The (optional) Color column of a rat table should have one of these formats:
-#   R,G,B,alpha: 4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.
+#   alpha,R,G,B: 4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.
 #   R colour names: See colors() for options.
 #   hexadecimal colors: As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.
+
 
 myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
                         iterations=seq(1),timesteps = seq(0,10,by=5),rat=rat)

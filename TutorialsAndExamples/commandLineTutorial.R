@@ -38,6 +38,7 @@ mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has 
 
 sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
 mySheet[1,"Name"]="All"
+?loadDatasheets
 loadDatasheets(myProject,mySheet,name=sheetName)
 
 sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=F)
@@ -286,6 +287,7 @@ parentId(myScenario)
 
 # DISCUSS: How to acknowledge code bits scooped from web pages? search 'http' to see them...
 
+
 ################
 # TO DO:
 # - handle raster datasheets (inputs)
@@ -302,7 +304,6 @@ parentId(myScenario)
 # - Check which datasheets have data.
 # - How to access results more efficiently. E.G. Transitions table.
 # - More graceful failure given insufficient version of SyncroSim. Colin got a wierd failure error (indexing?) from 0.24.
-# - Automatic installation of missing dependencies
 # - Problems with default transition type groups:
 #    sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T,printCmd=T)
 #    mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
@@ -320,6 +321,22 @@ parentId(myScenario)
 #     outVals[4]=inVals[1]
 #     return(paste(outVals,collapse=","))
 #   }
+# - Update plotting examples. This code will assign the right colors to the right classes
+#   view=stateClass
+#   myCols = unique(subset(levels(view)[[1]],select=c(Name,rgb,Color)));myCols=myCols[order(myCols$Name),]
+#   levelplot(view,att="Name",at=myCols$Name,col.regions=myCols$rgb,par.settings=myCols,main=view@title)
+# - resolve id() conflict between dplyr and rsyncrosim.
+# - loadSpatialData() when breakpoint=F. See A76/ChangeResolutionOfInputs.R. But note there may be more elegant ways to do this.
+# - bug in datasheet(). See line 43 of A176/ChangeTimestep.R
+# - flag for Alex. If the dependency scenario does not exist, syncrosim creates a blank scenario. command(list(create=NULL,dependency=NULL,lib=filepath(myProject),sid=id(newRunScenario),did=id(newInitialConditions)))
+# - better errors from syncrosim - display log entries by default
+# - Used "Saved" instead of "Success", where appropriate
+# - saveDatasheet(): handle named vectors
+# - datasheet(): return named vector for single row datasheets
+# - datasheets(): default is object scope
+# - combine datasheet() and datasheets()? Reconsider plurals more generally.
+# - saveDatasheet() instead of loadDatasheet()
+
 
 ###################
 # Handoff notes:
