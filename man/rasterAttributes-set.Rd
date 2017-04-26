@@ -18,7 +18,7 @@ This is a wrapper around ratify() and colortable() functions from the raster pac
 \details{
 The (optional) Color column of a rat table should have one of these formats:
 \itemize{
-  \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
+  \item {alpha,R,G,B: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
   \item {R colour names: } {See colors() for options.}
   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
 }

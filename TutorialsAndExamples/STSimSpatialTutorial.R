@@ -1,5 +1,5 @@
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-library(rsyncrosim)
+#library(rsyncrosim)
 
 # **********************************************************
 # STSimSpatialTutorial.R
@@ -31,10 +31,12 @@ if(!file.exists(libPath)){
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
 myProject = project(myLibrary)
+#scenarios(myProject,names=T)
 run(myProject,5,onlyIds=T)
 
-#scenarios(myProject,names=T)
-myResult = scenarios(myProject,select=c(6,7))
+resultScns = scenarios(myProject,results=T,names=T)
+myResult = scenarios(myProject,select=tail(resultScns,n=2)$id)
+
 datasheets(myResult[[1]])$name
 
 #*************************************
@@ -45,10 +47,9 @@ rat = datasheet(myResult[[1]],name="STSim_StateClass",optional=T)
 rat$Color#We could use Colors from the library. Or override.
 rat$Color = c("darkgreen","brown","wheat")
 # The (optional) Color column of a rat table should have one of these formats:
-#   alpha,R,G,B: 4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.
+#   alpha,R,G,B: 4 numbers representing alpha, red, green, and blue, separated by commas, and scaled between 0 and 255. See rgb() for details.
 #   R colour names: See colors() for options.
 #   hexadecimal colors: As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.
-
 
 myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
                         iterations=seq(1),timesteps = seq(0,10,by=5),rat=rat)
@@ -61,17 +62,24 @@ str(myRasters[[1]])
 #NOTE: loading is faster if all sheets are contained in a single multiband file. See below for example.
 
 #plot iteration 1 timestep 0
-view = myRasters[[1]]
-levelplot(view,att="StateLabelXID",col.regions=colortable(view),main=view@title)
+?ratify
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
+levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
+#This is a wrapper for the levelplot() function of the rasterVis package:
+#  view = myRasters[[1]];attribute="StateLabelXID"
+#  myCols = unique(subset(levels(view)[[1]],select=c(attribute,"hexColor")));myCols=myCols[order(myCols[,1]),]
+#  levelplot(view,att=attribute,at=myCols$Name,col.regions=myCols$hexColor,par.settings=myCols,main=view@title)
+#Is this function sufficiently useful? Otherwise rasterVis is not a recommended or required package. 
 
 #Change to automatically selected colors and save plot to pdf.
-newRat = levels(view)[[1]]
+newRat = levels(myRasters[[1]])[[1]]
 newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
-rasterAttributes(view) = newRat
+rasterAttributes(myRasters[[1]]) = newRat
 
-filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
+filename=paste0(dirname(filepath(myResult[[1]])),"/XIDMap.pdf")
 pdf(filename)
-levelplot(view,att="StateLabelXID",col.regions=colortable(view),main=view@title)
+levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
 dev.off()
 
 #*************************************
@@ -83,7 +91,7 @@ check = (datasheet(myResult[[1]],"STSim_OutputSpatialTransition"))
 #TO DO: helper for pulling particular transition groups, etc? later.
 mySpatialInputs = spatialData(myResult,sheet="STSim_InitialConditionsSpatial")
 names(mySpatialInputs)
-age0=mySpatialInputs[["STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.age"]]
+age0=mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.age"]]
 #TO DO:show example of pulling sheet without writing full name
 
 #see all ages
@@ -98,7 +106,7 @@ rasterAttributes(age0) = rat
 
 filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
 pdf(filename)
-view=age0;levelplot(view,att="isYoung",col.regions=colortable(view),main=view@title)
+levelplotCategorical(age0,attribute="isYoung")
 dev.off()
 
 ?`rasterAttributes<-`
@@ -112,6 +120,33 @@ dev.off()
 #NOTE: special knowledge of lookups to use for legends
 #DISCUSS: dependency on raster/rdgal: only spatialData() and rasterAttributes() depend on these packages. Could suggest, and complain when the function is called if the packages are missing.
 #DISCUSS: options for storing raster metadata
+
+##################
+#Set spatial inputs in a new library.
+if(is.element("NewScn",scenarios(myProject,names=T)$name)){
+  deleteScenarios(myProject,scenario="NewScn",force=T)
+}
+newScenario = scenario(myProject,name="NewScn")
+
+metadata = data.frame(StratumFileName="It0000-Ts0000-str.tif",StateClassFileName="It0000-Ts0000-sc.tif",AgeFileName="It0000-Ts0000-age.tif")
+metadata$SheetName="STSim_InitialConditionsSpatial"
+data=stack(mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.age"]],
+          mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.sc"]],
+          mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.str"]])
+names(data)=gsub("STSim_InitialConditionsSpatial.Scn7.","",names(data),fixed=T)
+names(data)=paste0(names(data),".tif")
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
+spatialProperties = loadSpatialData(newScenario,data,metadata)
+#Set spatial metadata - this is specific to stsim initial conditions
+#If using a different model the user is responsible for ensuring that spatialProperties data returned by loadSpatialData() is sufficient and appropriate.
+sheetName = "STSim_InitialConditionsSpatialProperties"; mySheet = datasheet(newScenario,name=sheetName,optional=F,empty=T)
+spatialProperties$CellArea=spatialProperties$CellSize^2/10000
+addRows(mySheet)=spatialProperties
+loadDatasheets(newScenario,mySheet,name=sheetName)
+
+#TO DO: check if this worked.
+#TO DO: overwrite or append? Load single input layers.
 
 ###############
 # Rearrange spatial outputs in a result scenario

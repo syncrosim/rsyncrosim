@@ -42,6 +42,7 @@ Collate:
     'internalHelpers.R'
     'sqlStatements.R'
     'internalWrappers.R'
+    'levelplotCategorical.R'
     'rasterAttributes.R'
     'rsyncrosim.R'
 RoxygenNote: 5.0.1

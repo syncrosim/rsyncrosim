@@ -84,7 +84,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
   myMetadata$SheetName = sheetName
 
   # Load the new layer and associated metadata.
-  loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T,check=F)
+  temp = loadSpatialData(x,myMultipliers,metadata=myMetadata,breakpoint=T,check=F)
 
   # NOTE: set check=F to speed calculations. Assume metadata is valid
   # NOTE: loadSpatialData is incomplete - it only works for breakpoint=T, metadata!=NULL, sheetName= "STSim_TransitionSpatialMultiplier"

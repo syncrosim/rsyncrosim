@@ -12,7 +12,7 @@ loadSpatialData(x, data, metadata = NULL, project = NULL, scenario = NULL,
 
 \item{data}{A RasterLayer or RasterStack to load.}
 
-\item{metadata}{A dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer - see details. If NULL, use names(data) metadata.}
+\item{metadata}{A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details. If NULL, use names(data) metadata.}
 
 \item{project}{Project name or id.}
 

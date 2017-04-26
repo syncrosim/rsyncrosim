@@ -399,7 +399,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 })
 
 setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,nameFilters,rat) {
-  # x= myComparison[[1]]; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL;nameFilters=NULL
+  # x= myResult[[1]]; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL;nameFilters=NULL
 
   cSheets = datasheets(x)
   if(!is.element(sheet,cSheets$name)){
@@ -601,6 +601,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 
 setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
   #x = x;project=NULL;scenario=NULL;metadata=myMetadata;data=myMultipliers;breakpoint=T
+  #breakpoint=F;check=T
   x = .getFromXProjScn(x,project,scenario)
 
   # get metadata
@@ -616,40 +617,72 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
     stop("Metadata can contain only one SheetName.")
   }
   cSheetName =  metadata$SheetName[1];metadata$SheetName=NULL
-  if(check){
+  if(is.null(cSheetName)){
+    stop("metadata should include 'SheetName' column")
+  }
+  if(check|(!breakpoint)){
     #Check that metadata is valid
     cSheet = datasheet(x,cSheetName,optional=T)
-    check = try('addRows<-'(cSheet,subset(metadata,select=-RasterLayerName)))
+    
+    check = try('addRows<-'(cSheet,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName")))))
     if(inherits(check, "try-error")){
       stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
     }
+    if(!breakpoint){
+      loadDatasheets(x,check,name=cSheetName)
+    }
   }
   if(breakpoint){
-    outDir = paste0(filepath(x),'.temp/Data')
-    dir.create(outDir, showWarnings = FALSE,recursive=T)
+    outDir = paste0(.filepath(x),'.temp/Data')
+  }else{
+    outDir=paste0(.filepath(x),".input/Scenario-",.id(x),"/",cSheetName)
   }
-
-  for(i in 1:nrow(metadata)){
+  dir.create(outDir, showWarnings = FALSE,recursive=T)
+  
+  cMeta = metadata
+  if(!is.element("Filename",names(cMeta))){
+    if(nrow(cMeta)>1){
+      stop("Handle this case.")
+    }
+    #handle spatial inputs by making cMeta table of correct format
+    
+    cMIn = cMeta
+    cFNames = data.frame(t(cMeta[1,]),stringsAsFactors=F)
+    names(cFNames)=c("FileName")
+    cFNames = subset(cFNames,!is.na(FileName))
+    cFNames$Band=NA
+    cMeta =cFNames
+    cMeta$RasterLayerName = gsub("-",".",cMeta$FileName,fixed=T)
+    cMeta$FileName = paste0(.filepath(x),".input/Scenario-",.id(x),"/",sheet,"/",cMeta$FileName)
+  }
+  
+  for(i in 1:nrow(cMeta)){
     #i =1
-    cRow = metadata[i,]
+    cRow = cMeta[i,]
     cDat = data[[cRow$RasterLayerName]]
     cRow$RasterLayerName=NULL
-
+    cFileCol = names(cRow)[grepl("FileName",names(cRow))]
+    cRow[[cFileCol]] = basename(cRow[[cFileCol]])
+    cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
+    
     if(!breakpoint){
-      stop("Handle this: loadSpatialData when breakpoint=F")
+      raster::writeRaster(cDat, filename=cRow[[cFileCol]], format="GTiff", overwrite=TRUE)
+      
     }else{
       if(cSheetName != "STSim_TransitionSpatialMultiplier"){
         stop("Handle this: loadSpatialData when sheet name != STSim_TransitionSpatialMultiplier")
       }
-      cFileCol = names(cRow)[grepl("FileName",names(cRow))]
-
-      cRow[[cFileCol]] = basename(cRow[[cFileCol]])
-      cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
-
       raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
       loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
     }
   }
+  
+  spatialProperties=data.frame(NumRows=dim(cDat)[1],
+                               NumColumns=dim(cDat)[2],
+                               NumCells=dim(cDat)[1]*dim(cDat)[2],
+                               CellSize=res(cDat)[1])
+  return(spatialProperties)
+  
 })
 
 

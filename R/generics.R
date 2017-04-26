@@ -273,7 +273,7 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name,proje
 #'
 #' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
 #' @param data A RasterLayer or RasterStack to load.
-#' @param metadata A dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer - see details. If NULL, use names(data) metadata.
+#' @param metadata A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details. If NULL, use names(data) metadata.
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
 #' @param breakpoint Set to TRUE when setting spatial data in a breakpoint function.

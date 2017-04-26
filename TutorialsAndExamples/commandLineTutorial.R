@@ -312,19 +312,6 @@ parentId(myScenario)
 #   We should be careful about omitting fields for definitions on export because when you import a definition it updates existing records with the new data.  For example, if you omit the "Description" field then existing description will be overwritten with NULL if you import that same file.  I'm not sure if this is what is happening in the R scripts, but just something to be aware of.  Of course we could change things so data is never overwritten with NULL for definition imports (and Cut/Paste...) but then you would not be able to replace an existing definition with NULL which seems a bit wrong.
 #   Ensure that factor levels are passed through from invisible datasheet
 # - Add index page to reference manual.
-# - Reconcile SyncroSim and R colors: Syncrosim puts the alph in the first position, R expects it in the last position.
-#   rat$Color = sapply(rat$Color,fixSyncroSimColors,simplify=T)
-#   fixSyncroSimColors<-function(inCol){
-#     inVals = strsplit(inCol,",")[[1]]
-#     outVals=inVals
-#     outVals[1:3]=inVals[2:4]
-#     outVals[4]=inVals[1]
-#     return(paste(outVals,collapse=","))
-#   }
-# - Update plotting examples. This code will assign the right colors to the right classes
-#   view=stateClass
-#   myCols = unique(subset(levels(view)[[1]],select=c(Name,rgb,Color)));myCols=myCols[order(myCols$Name),]
-#   levelplot(view,att="Name",at=myCols$Name,col.regions=myCols$rgb,par.settings=myCols,main=view@title)
 # - resolve id() conflict between dplyr and rsyncrosim.
 # - loadSpatialData() when breakpoint=F. See A76/ChangeResolutionOfInputs.R. But note there may be more elegant ways to do this.
 # - bug in datasheet(). See line 43 of A176/ChangeTimestep.R
@@ -336,6 +323,22 @@ parentId(myScenario)
 # - datasheets(): default is object scope
 # - combine datasheet() and datasheets()? Reconsider plurals more generally.
 # - saveDatasheet() instead of loadDatasheet()
+
+####################
+#DONE
+# - Reconcile SyncroSim and R colors: Syncrosim puts the alph in the first position, R expects it in the last position.
+#   rat$Color = sapply(rat$Color,fixSyncroSimColors,simplify=T)
+#   fixSyncroSimColors<-function(inCol){
+#     inVals = strsplit(inCol,",")[[1]]
+#     outVals=inVals
+#     outVals[1:3]=inVals[2:4]
+#     outVals[4]=inVals[1]
+#     return(paste(outVals,collapse=","))
+#   }
+# - Update plotting examples. This code will assign the right colors to the right classes
+#   view=stateClass
+#   myCols = unique(subset(levels(view)[[1]],select=c(Name,hexColor,Color)));myCols=myCols[order(myCols$Name),]
+#   levelplot(view,att="Name",at=myCols$Name,col.regions=myCols$hexColor,par.settings=myCols,main=view@title)
 
 
 ###################

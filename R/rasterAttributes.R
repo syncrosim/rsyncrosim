@@ -31,19 +31,19 @@ setReplaceMethod(
 
   if(is.element("Color",names(rat))){
     rat$Color=as.character(rat$Color)
-    rat$rgb=rat$Color
+    rat$hexColor=rat$Color
     if(length(strsplit(rat$Color[1],split=",")[[1]])==4){
       for(j in seq(length.out=nrow(rat))){
         cCol = as.numeric(strsplit(rat$Color[j],split=",")[[1]])
-        rat$rgb[j] = rgb(red=cCol[2],green=cCol[3],blue=cCol[4],alpha=cCol[1],maxColorValue=255)
+        rat$hexColor[j] = rgb(red=cCol[2],green=cCol[3],blue=cCol[4],alpha=cCol[1],maxColorValue=255)
       }
     }else{
       if(!grepl("#",rat$Color[1],fixed=T)){
         rgbTab= col2rgb(rat$Color)
-        rat$rgb=rgb(rgbTab["red",],rgbTab["green",],rgbTab["blue",],255,maxColorValue=255)
+        rat$hexColor=rgb(rgbTab["red",],rgbTab["green",],rgbTab["blue",],255,maxColorValue=255)
       }
     }
-    colortable(x)=rat$rgb
+    colortable(x)=rat$hexColor
     #rat$rgb=NULL
   }
 
