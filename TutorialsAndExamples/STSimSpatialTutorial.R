@@ -67,15 +67,20 @@ str(myRasters[[1]])
 
 levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
 #This is a wrapper for the levelplot() function of the rasterVis package:
-#  view = myRasters[[1]];attribute="StateLabelXID"
-#  myCols = unique(subset(levels(view)[[1]],select=c(attribute,"hexColor")));myCols=myCols[order(myCols[,1]),]
-#  levelplot(view,att=attribute,at=myCols$Name,col.regions=myCols$hexColor,par.settings=myCols,main=view@title)
+
+  view = myRasters[[1]];attribute="StateLabelXID"
+  levels(view)
+  myCols = unique(subset(levels(view)[[1]],select=c(attribute,"hexColor")));myCols=myCols[order(myCols[,1]),]
+  levelplot(view,att=attribute,at=myCols$Name,col.regions=myCols$hexColor,par.settings=myCols,main=view@title)
+
 #Is this function sufficiently useful? Otherwise rasterVis is not a recommended or required package. 
 
 #Change to automatically selected colors and save plot to pdf.
 newRat = levels(myRasters[[1]])[[1]]
 newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
 rasterAttributes(myRasters[[1]]) = newRat
+
+?'rasterAttributes<-'
 
 filename=paste0(dirname(filepath(myResult[[1]])),"/XIDMap.pdf")
 pdf(filename)
@@ -138,6 +143,7 @@ names(data)=paste0(names(data),".tif")
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 spatialProperties = loadSpatialData(newScenario,data,metadata)
+
 #Set spatial metadata - this is specific to stsim initial conditions
 #If using a different model the user is responsible for ensuring that spatialProperties data returned by loadSpatialData() is sufficient and appropriate.
 sheetName = "STSim_InitialConditionsSpatialProperties"; mySheet = datasheet(newScenario,name=sheetName,optional=F,empty=T)

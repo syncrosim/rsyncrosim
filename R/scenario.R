@@ -600,19 +600,19 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 })
 
 setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
-  #x = x;project=NULL;scenario=NULL;metadata=myMetadata;data=myMultipliers;breakpoint=T
-  #breakpoint=F;check=T
+  #x = myScenario;project=NULL;scenario=NULL;metadata=cMeta;data=cLayer;breakpoint=F;check=T
+  #.filepath=filepath;.id=id
   x = .getFromXProjScn(x,project,scenario)
-
+  
   # get metadata
   if(is.null(metadata)){
     stop("Get metadata from names(data)")
   }
-
+  
   if(nrow(metadata)==0){
     stop("Expecting metadata or names(data): loadDatasheets")
   }
-
+  
   if(length(unique(metadata$SheetName))>1){
     stop("Metadata can contain only one SheetName.")
   }
@@ -628,9 +628,6 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
     if(inherits(check, "try-error")){
       stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
     }
-    if(!breakpoint){
-      loadDatasheets(x,check,name=cSheetName)
-    }
   }
   if(breakpoint){
     outDir = paste0(.filepath(x),'.temp/Data')
@@ -640,28 +637,34 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
   dir.create(outDir, showWarnings = FALSE,recursive=T)
   
   cMeta = metadata
-  if(!is.element("Filename",names(cMeta))){
-    if(nrow(cMeta)>1){
-      stop("Handle this case.")
+  #There can be more than one FileName column - make long file
+  fileCols = names(cMeta)[grepl("FileName",names(cMeta),fixed=T)]
+  if(length(fileCols)==1){
+    names(cMeta)[names(cMeta)==fileCols]="FileName"
+  }else{
+    #Make wide file long
+    #Make a long file by brute force - because reshape() function in the base package is awful
+    for(i in 1:length(fileCols)){
+      #i=1
+      cRow = subset(cMeta,select=c(fileCols[i],setdiff(names(cMeta),fileCols)))
+      names(cRow)[names(cRow)==fileCols[i]]="FileName"
+      if(i==1){
+        cMTemp=cRow
+      }else{
+        cMTemp=rbind(cMTemp,cRow)
+      }
     }
-    #handle spatial inputs by making cMeta table of correct format
-    
-    cMIn = cMeta
-    cFNames = data.frame(t(cMeta[1,]),stringsAsFactors=F)
-    names(cFNames)=c("FileName")
-    cFNames = subset(cFNames,!is.na(FileName))
-    cFNames$Band=NA
-    cMeta =cFNames
-    cMeta$RasterLayerName = gsub("-",".",cMeta$FileName,fixed=T)
-    cMeta$FileName = paste0(.filepath(x),".input/Scenario-",.id(x),"/",sheet,"/",cMeta$FileName)
+    cMeta=cMTemp
   }
-  
+  if(!is.element("RasterLayerName",names(cMeta))){
+    cMeta$RasterLayerName = gsub("-",".",cMeta$FileName,fixed=T)
+  }
   for(i in 1:nrow(cMeta)){
     #i =1
     cRow = cMeta[i,]
     cDat = data[[cRow$RasterLayerName]]
     cRow$RasterLayerName=NULL
-    cFileCol = names(cRow)[grepl("FileName",names(cRow))]
+    cFileCol = "FileName"#names(cRow)[grepl("FileName",names(cRow))]
     cRow[[cFileCol]] = basename(cRow[[cFileCol]])
     cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
     
@@ -675,6 +678,9 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
       raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
       loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
     }
+  }
+  if(!breakpoint){
+    loadDatasheets(x,check,name=cSheetName)
   }
   
   spatialProperties=data.frame(NumRows=dim(cDat)[1],
