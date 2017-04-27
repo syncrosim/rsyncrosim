@@ -143,6 +143,7 @@ names(data)=paste0(names(data),".tif")
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 spatialProperties = loadSpatialData(newScenario,data,metadata)
+#TO DO: deal with appending spatial metadata when there are multiple filenames in a single row.
 
 #Set spatial metadata - this is specific to stsim initial conditions
 #If using a different model the user is responsible for ensuring that spatialProperties data returned by loadSpatialData() is sufficient and appropriate.

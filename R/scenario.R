@@ -659,6 +659,7 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
   if(!is.element("RasterLayerName",names(cMeta))){
     cMeta$RasterLayerName = gsub("-",".",cMeta$FileName,fixed=T)
   }
+  cMeta$FileName=as.character(cMeta$FileName)
   for(i in 1:nrow(cMeta)){
     #i =1
     cRow = cMeta[i,]
