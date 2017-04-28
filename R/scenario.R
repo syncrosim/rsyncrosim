@@ -600,7 +600,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 })
 
 setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
-  #x = myScenario;project=NULL;scenario=NULL;metadata=cMeta;data=cLayer;breakpoint=F;check=T
+  #x = myScenario;project=NULL;scenario=NULL;metadata=metadata;data=data;breakpoint=F;check=T
   #.filepath=filepath;.id=id
   x = .getFromXProjScn(x,project,scenario)
   
@@ -620,14 +620,26 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
   if(is.null(cSheetName)){
     stop("metadata should include 'SheetName' column")
   }
+  fileCols = names(metadata)[grepl("FileName",names(metadata),fixed=T)]
   if(check|(!breakpoint)){
     #Check that metadata is valid
     cSheet = datasheet(x,cSheetName,optional=T)
+    empty = subset(cSheet,cSheet[[1]]=="not likely")
     
-    check = try('addRows<-'(cSheet,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName")))))
+    check = try('addRows<-'(empty,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName")))))
+    
     if(inherits(check, "try-error")){
       stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
     }
+    #if non-FileName columns differ then append. Otherwise overwrite.
+    
+    inF = subset(cSheet,select=setdiff(names(cSheet),fileCols))
+    outF = subset(check,select=setdiff(names(check),fileCols))
+    
+    outF$isOut = 1
+    cSheet = merge(cSheet,outF,all.x=T)
+    cSheet = subset(cSheet,is.na(isOut));cSheet$isOut=NULL
+    check = 'addRows<-'(cSheet,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName"))))
   }
   if(breakpoint){
     outDir = paste0(.filepath(x),'.temp/Data')
@@ -638,7 +650,7 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
   
   cMeta = metadata
   #There can be more than one FileName column - make long file
-  fileCols = names(cMeta)[grepl("FileName",names(cMeta),fixed=T)]
+  
   if(length(fileCols)==1){
     names(cMeta)[names(cMeta)==fileCols]="FileName"
   }else{

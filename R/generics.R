@@ -264,16 +264,16 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name,proje
 #'
 #' @details
 #'
-#' If metadata=NULL or sheetName=NULL assume each raster layer has names() metadata - see spatialData() for details.
-#'
-#' Otherwise, metadata should be a dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer of data.
-#' "SheetName" and "RasterLayerName" columns are expected in metadata, and will be removed before appending to the datasheet.
-#'
-#' INCOMPLETE: this method has only been implemented for breakpoint=T and sheet name is STSim_TransitionSpatialMultiplier
+#' Metadata should be a dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer of data.
+#' "SheetName" and at least one "FileName" columns are expected in metadata.
+#' A "RasterLayerName" column in metadata is optional. If present, it should contain the name of each layer in the data raster stack.
+#' If "RasterLayerName" is not included in metadata, names(data) should correspond to the FileNames in metadata.
+#' 
+#' Note: Spatial data will be appended if non-FileName columns (e.g. Iteration, Timestep, etc) differ between metadata and datasheet(x,metadata$SheetName[1]). Otherwise, the new spatial data will overwrite the old spatial data.
 #'
 #' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
 #' @param data A RasterLayer or RasterStack to load.
-#' @param metadata A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details. If NULL, use names(data) metadata.
+#' @param metadata A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details. 
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
 #' @param breakpoint Set to TRUE when setting spatial data in a breakpoint function.
@@ -282,7 +282,7 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name,proje
 #' @examples
 #'
 #' @export
-setGeneric('loadSpatialData',function(x,data,metadata=NULL,project=NULL,scenario=NULL,breakpoint=F,check=T) standardGeneric('loadSpatialData'))
+setGeneric('loadSpatialData',function(x,data,metadata,project=NULL,scenario=NULL,breakpoint=F,check=T) standardGeneric('loadSpatialData'))
 #Handles case where x is a path to an SyncroSim library on disk.
 setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,project,scenario,breakpoint,check) {
   x = .getFromXProjScn(x,project,scenario)
