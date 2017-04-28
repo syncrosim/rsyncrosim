@@ -323,6 +323,7 @@ parentId(myScenario)
 # - datasheets(): default is object scope
 # - combine datasheet() and datasheets()? Reconsider plurals more generally.
 # - saveDatasheet() instead of loadDatasheet()
+# - delete datasheet - start again. Currently can overwrite, but cannot start from scratch.
 
 ####################
 #DONE

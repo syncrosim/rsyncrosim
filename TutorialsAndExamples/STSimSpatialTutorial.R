@@ -143,7 +143,6 @@ names(data)=paste0(names(data),".tif")
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 spatialProperties = loadSpatialData(newScenario,data,metadata)
-#TO DO: deal with appending spatial metadata when there are multiple filenames in a single row.
 
 #Set spatial metadata - this is specific to stsim initial conditions
 #If using a different model the user is responsible for ensuring that spatialProperties data returned by loadSpatialData() is sufficient and appropriate.
@@ -152,8 +151,7 @@ spatialProperties$CellArea=spatialProperties$CellSize^2/10000
 addRows(mySheet)=spatialProperties
 loadDatasheets(newScenario,mySheet,name=sheetName)
 
-#TO DO: check if this worked.
-#TO DO: overwrite or append? Load single input layers.
+#NOTE: This does not work. Throws exception. Trying to figure out why.
 
 ###############
 # Rearrange spatial outputs in a result scenario
