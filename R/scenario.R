@@ -699,7 +699,10 @@ setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadat
   spatialProperties=data.frame(NumRows=dim(cDat)[1],
                                NumColumns=dim(cDat)[2],
                                NumCells=dim(cDat)[1]*dim(cDat)[2],
-                               CellSize=res(cDat)[1])
+                               CellSize=res(cDat)[1],
+                               XLLCorner=xmin(cDat),
+                               YLLCorner=ymin(cDat))
+                               
   return(spatialProperties)
   
 })
