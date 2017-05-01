@@ -24,6 +24,8 @@ TO INSTALL OR UPDATE THE DEVELOPMENT VERSION OF THE PACKAGE
   installSet = setdiff(c("devtools"),installed.packages()[,"Package"])
   if(length(installSet)) install.packages(installSet)
   devtools::install_github("ApexRMS/dev.rsyncrosim",ref="dev",auth_token="yourPAT")
+3b) To install the first legacy version of the package (April 2017), follow step (3), but replace the last line with:
+  devtools::install_github("ApexRMS/dev.rsyncrosim",ref="first.working.version",auth_token="yourPAT")
 4) Run installRSyncroSim.R at the beginning of each session to update rsyncrosim.
 
 Note that reinstalling rsyncrosim during a session may corrupt the help files. If this occurs the solution is to restart R: Ctrl+Shift+10 in RStudio
