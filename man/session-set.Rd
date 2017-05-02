@@ -13,7 +13,7 @@ session(x) <- value
 An SyncroSim object containing a Session.
 }
 \description{
-Set the Session of a SSimLibrary, Project or Scenario object.
+Set the Session of a SsimLibrary, Project or Scenario object.
 }
 \examples{
 myLibrary = ssimLibrary()

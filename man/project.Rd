@@ -8,7 +8,7 @@ project(ssimLibrary, name = NULL, id = NULL, create = T,
   projects = NULL)
 }
 \arguments{
-\item{ssimLibrary}{An SSimLibrary object, representing the library that contains the project.}
+\item{ssimLibrary}{An SsimLibrary object, representing the library that contains the project.}
 
 \item{name}{The project name.}
 

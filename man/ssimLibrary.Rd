@@ -35,14 +35,14 @@ ssimLibrary(name = NULL, ...)
 \item{forceUpdate}{If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.}
 }
 \value{
-An \code{SSimLibrary} object representing a SyncroSim library.
+An \code{SsimLibrary} object representing a SyncroSim library.
 }
 \description{
-Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim library.
+Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim library.
 }
 \details{
 \itemize{
-  \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SSimLibrary}} associated with the Project or Scenario.}
+  \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SsimLibrary}} associated with the Project or Scenario.}
   \item {If given no name and no model: }{Opens an existing SyncroSim library in
   the current working directory - returns an error if more than one library exists. If library does not exist and only one model is installed - creates a library of that type.}
   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
@@ -53,9 +53,9 @@ Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim li
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{Project}: Get the SSimLibrary associated with a SyncroSim Project.
+\item \code{Project}: Get the SsimLibrary associated with a SyncroSim Project.
 
-\item \code{Scenario}: Get the SSimLibrary associated with a SyncroSim Scenario.
+\item \code{Scenario}: Get the SsimLibrary associated with a SyncroSim Scenario.
 }}
 \examples{
 # See the installed models

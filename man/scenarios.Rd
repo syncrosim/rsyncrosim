@@ -7,7 +7,7 @@
 scenarios(x, project = NULL, names = F, results = NULL, select = NULL)
 }
 \arguments{
-\item{x}{An SSimLibrary or Project object, or an SSimLibrary name.}
+\item{x}{An SsimLibrary or Project object, or an SsimLibrary name.}
 
 \item{project}{An optional project name, id, or object.}
 
@@ -18,7 +18,7 @@ scenarios(x, project = NULL, names = F, results = NULL, select = NULL)
 \item{select}{An (optional) vector of scenario ids or names to include}
 }
 \description{
-Get a list of scenarios in a SSimLibrary or Project.
+Get a list of scenarios in a SsimLibrary or Project.
 }
 \examples{
 myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))

@@ -9,7 +9,7 @@ scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
   description = NULL, readOnly = NULL)
 }
 \arguments{
-\item{ssimLibrary}{An SSimLibrary object or name, or an object that contains an SSimLibrary. If a name is given, the library will be opened using the default session.}
+\item{ssimLibrary}{An SsimLibrary object or name, or an object that contains an SsimLibrary. If a name is given, the library will be opened using the default session.}
 
 \item{project}{A Project object, project name, or project id.}
 

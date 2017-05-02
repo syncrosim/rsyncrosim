@@ -3,7 +3,7 @@
 \docType{methods}
 \name{session}
 \alias{session}
-\alias{session,SSimLibrary-method}
+\alias{session,SsimLibrary-method}
 \alias{session,missingOrNULLOrChar-method}
 \title{Start or get a SyncroSim session.}
 \usage{
@@ -11,7 +11,7 @@ session(x = NULL, ...)
 
 \S4method{session}{missingOrNULLOrChar}(x, silent = T)
 
-\S4method{session}{SSimLibrary}(x)
+\S4method{session}{SsimLibrary}(x)
 }
 \arguments{
 \item{x}{A path to SyncroSim.Console.exe or an object containing a Session.
@@ -23,13 +23,13 @@ If NULL the usual locations are searched.}
 An SyncroSim Session object containing a valid console path.
 }
 \description{
-Methods to create a Syncrosim session or fetch one from a SSimLibrary, Project or Scenario object.
+Methods to create a Syncrosim session or fetch one from a SsimLibrary, Project or Scenario object.
 }
 \section{Methods (by class)}{
 \itemize{
 \item \code{missingOrNULLOrChar}: Create a SyncroSim Session from a filepath or get default Session.
 
-\item \code{SSimLibrary}: Get the Session associated with a SSimLibrary.
+\item \code{SsimLibrary}: Get the Session associated with a SsimLibrary.
 }}
 \examples{
 # Look for SyncroSim in the usual places
@@ -39,7 +39,7 @@ path(mySession)
 # Specify a SyncroSim version
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 
-# Get the session from an SSimLibrary
+# Get the session from an SsimLibrary
 myLib = ssimLibrary(name="stsim",model="stsim")
 session(myLib)
 

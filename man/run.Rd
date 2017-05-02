@@ -7,7 +7,7 @@
 run(x, scenario = NULL, onlyIds = F, jobs = 1)
 }
 \arguments{
-\item{x}{One or more SSimLibrary, Projects or Scenario objects. Or the path to a library on disk.}
+\item{x}{One or more SsimLibrary, Projects or Scenario objects. Or the path to a library on disk.}
 
 \item{scenario}{One or more scenario objects, names or ids.}
 

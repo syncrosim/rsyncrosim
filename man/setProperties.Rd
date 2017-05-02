@@ -16,7 +16,7 @@ setProperties(x, author = NULL, description = NULL, readOnly = NULL)
 \item{readOnly}{TRUE or FALSE.}
 }
 \value{
-Success or a failure message
+"saved" or a failure message
 }
 \description{
 Set the author, description and/or readOnly status of a scenario.

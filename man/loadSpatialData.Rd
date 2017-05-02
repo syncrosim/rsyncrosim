@@ -8,7 +8,7 @@ loadSpatialData(x, data, metadata, project = NULL, scenario = NULL,
   breakpoint = F, check = T)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
+\item{x}{An SsimLibrary, Project or Scenario object. Or the path to a library on disk.}
 
 \item{data}{A RasterLayer or RasterStack to load.}
 

@@ -2,12 +2,12 @@
 % Please edit documentation in R/ssimLibrary.R
 \name{addons}
 \alias{addons}
-\title{addons of an SSimLibrary}
+\title{addons of an SsimLibrary}
 \usage{
 addons(x, all = F)
 }
 \arguments{
-\item{x}{An SSimLibrary, or a Project/Scenario object associated with an SSimLibrary.}
+\item{x}{An SsimLibrary, or a Project/Scenario object associated with an SsimLibrary.}
 
 \item{all}{If T, all available addons are returned. Otherwise, only enabled addons.}
 }
@@ -15,7 +15,7 @@ addons(x, all = F)
 A dataframe of addons.
 }
 \description{
-The addons of an SSimLibrary.
+The addons of an SsimLibrary.
 }
 \examples{
 addons(ssimLibrary(model="stsim",name="stsim"))

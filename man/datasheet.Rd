@@ -9,7 +9,7 @@ datasheet(x, name, project = NULL, scenario = NULL, optional = F,
   "SELECT *", groupBy = ""), includeKey = F, printCmd = F)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.}
+\item{x}{An SsimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.}
 
 \item{name}{The sheet name}
 

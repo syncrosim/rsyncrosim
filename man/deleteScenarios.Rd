@@ -7,14 +7,14 @@
 deleteScenarios(x, scenario = NULL, force = FALSE)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario.}
+\item{x}{An SsimLibrary, Project or Scenario.}
 
 \item{scenario}{One or more scenario names or ids.}
 
 \item{force}{If FALSE (default) user is prompted to confirm deletions.}
 }
 \value{
-A list of "Success!" or failure messages for each scenario.
+A list of "saved" or failure messages for each scenario.
 }
 \description{
 Deletes one or more scenarios from a SyncroSim library.

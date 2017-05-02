@@ -13,7 +13,7 @@ NULL
 #' @slot name A name
 #' @name BreakpointSession-class
 #' @rdname BreakpointSession-class
-#' @export BreakpointSession
+# @export BreakpointSession
 BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character"))
 # @name Scenario
 # @rdname Scenario-class
@@ -39,7 +39,7 @@ breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,na
   return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer))
 }
 
-#' @export
+# @export
 setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
 #' @describeIn connection Get the connection of a BreakpointSession.
 setMethod('connection', signature(x="BreakpointSession"), function(x) return(x@connection))
@@ -149,7 +149,7 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   NULL
 })
 
-#' @export
+# @export
 setGeneric('setBreakpoints',function(x) standardGeneric('setBreakpoints'))
 setMethod('setBreakpoints',signature(x="BreakpointSession"),function(x) {
   #x=cBreakpointSession

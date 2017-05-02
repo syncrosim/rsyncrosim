@@ -401,7 +401,7 @@ setMethod('multiband', signature(x="list"), function(x,action,grouping) {
 #'
 #' @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
 #' @param port For new connections only - a port number.
-#' @export
+# @export
 setGeneric('connection',function(x,...) standardGeneric('connection'))
 #' @describeIn connection Get a new connection.
 setMethod('connection',signature(x="missingOrNULLOrChar"),

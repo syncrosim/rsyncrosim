@@ -14,7 +14,7 @@ NULL
 #' @slot callback The function to apply. See STSimBreakpointsTutorial.R for details.
 #' @name Breakpoint-class
 #' @rdname Breakpoint-class
-#' @export Breakpoint
+# @export Breakpoint
 Breakpoint <- setClass("Breakpoint",representation(arguments="character",breakpointName="character",name="character",transformerName="character",callback="function"))
 setMethod(f='initialize',signature="Breakpoint",
           definition=function(.Object,breakpointName,transformerName,arguments,callback,name="Main"){
@@ -26,7 +26,7 @@ setMethod(f='initialize',signature="Breakpoint",
             .Object@name = name
             return(.Object)
           })
-#' @export
+# @export
 breakpoint<-function(breakpointName,transformerName,arguments,callback,name="Main"){
   return(new("Breakpoint",breakpointName,transformerName,arguments,callback,name))
 }

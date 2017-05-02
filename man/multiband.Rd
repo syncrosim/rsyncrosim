@@ -14,7 +14,7 @@ multiband(x, action, grouping = NULL)
 \item{grouping}{Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All}
 }
 \value{
-"Success!" or an error message from SyncroSim.
+"saved" or an error message from SyncroSim.
 }
 \description{
 Modify the grouping of spatial output layers in a SyncroSim results scenario.

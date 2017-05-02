@@ -718,7 +718,7 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
 #' @param arguments A vector of timesteps or iterations e.g. c(1,2)
 #' @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
 #' @return An SyncroSim Scenario object containing breakpoints
-#' @export
+# @export
 setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
 setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, transformerName, arguments, callback) {
   #x=myScenario
@@ -743,7 +743,7 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, tra
 #' The breakpoints of a Scenario
 #' @param x A Scenario object.
 #' @return A list of Breakpoint objects.
-#' @export
+# @export
 setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
 setMethod('breakpoints', signature(x="Scenario"), function(x) {
   #x=myScenario

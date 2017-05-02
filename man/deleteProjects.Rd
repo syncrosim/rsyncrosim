@@ -7,12 +7,12 @@
 deleteProjects(x, project = NULL, force = F)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario associated with a library.}
+\item{x}{An SsimLibrary, Project or Scenario associated with a library.}
 
 \item{project}{One or more project names or ids.}
 }
 \value{
-A list of "Success!" or failure messages for each project.
+A list of "saved" or failure messages for each project.
 }
 \description{
 Deletes one or more projects from a SyncroSim library.

@@ -7,13 +7,13 @@
 enableAddons(x) <- value
 }
 \arguments{
-\item{x=}{A SSimLibrary, Project or Scenario.}
+\item{x=}{A SsimLibrary, Project or Scenario.}
 }
 \value{
 x
 }
 \description{
-Enable addons of an SSimLibrary, or Project/Scenario with an associated SSimLibrary.
+Enable addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 }
 \examples{
 myLibrary = ssimLibrary()

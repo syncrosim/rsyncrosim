@@ -8,7 +8,7 @@ loadDatasheets(x, data, name, project = NULL, scenario = NULL,
   breakpoint = F, printCmd = F)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario object. Or the path to a library on disk.}
+\item{x}{An SsimLibrary, Project or Scenario object. Or the path to a library on disk.}
 
 \item{data}{A dataframe or named list of dataframes to load.}
 

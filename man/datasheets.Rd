@@ -8,7 +8,7 @@ datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
   optional = F, empty = F, lookupsAsFactors = T, refresh = F)
 }
 \arguments{
-\item{x}{An SSimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.}
+\item{x}{An SsimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.}
 
 \item{project}{Project name or id. Ignored if x is a Project.}
 
@@ -30,7 +30,7 @@ datasheets(x, project = NULL, scenario = NULL, names = T, scope = NULL,
 A dataframe of datasheet names, or list of datasheets represented by dataframes.
 }
 \description{
-Gets datasheets from an SSimLibrary, Project or Scenario.
+Gets datasheets from an SsimLibrary, Project or Scenario.
 }
 \details{
 See \code{\link{datasheet}} for discussion of optional/empty/sheetName/lookupsAsFactors arguments.

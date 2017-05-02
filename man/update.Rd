@@ -7,10 +7,10 @@
 update(x)
 }
 \arguments{
-\item{x}{An SSimLibrary object, or a Project or Scenario associated with a Library}
+\item{x}{An SsimLibrary object, or a Project or Scenario associated with a Library}
 }
 \value{
-Success or a failure message from the console.
+"saved" or a failure message from the console.
 }
 \description{
 Apply updates to a SyncroSim Library.

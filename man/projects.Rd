@@ -7,7 +7,7 @@
 projects(x, names = F)
 }
 \arguments{
-\item{x}{An SSimLibrary object, or a Project or Scenario associated with a Library}
+\item{x}{An SsimLibrary object, or a Project or Scenario associated with a Library}
 
 \item{names}{If FALSE, a list of \code{\link{Project}} objects is returned. If TRUE returns a dataframe containing the name and id of each project.}
 }
