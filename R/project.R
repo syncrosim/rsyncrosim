@@ -18,7 +18,7 @@ NULL
 #' @name Project-class
 #' @rdname Project-class
 #' @export Project
-Project <- setClass("Project", contains="SSimLibrary",representation(name="character",id="numeric"))
+Project <- setClass("Project", contains="SsimLibrary",representation(name="character",id="numeric"))
 # @name Project
 # @rdname Project-class
 setMethod(f='initialize',signature="Project",
@@ -118,7 +118,7 @@ setMethod(f='initialize',signature="Project",
 #'   \item {If name/id don't identify an existing project, and name is specified: }{Creates a new Project called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
 #' }
 #'
-#' @param ssimLibrary An SSimLibrary object, representing the library that contains the project.
+#' @param ssimLibrary An SsimLibrary object, representing the library that contains the project.
 #' @param name The project name.
 #' @param id The project id.
 #' @param create If TRUE, create project if one does not exist. If FALSE, only return an existing project
@@ -162,7 +162,7 @@ setReplaceMethod(
   definition=function(x,value){
     #x=myProject;value="New Name"
     tt = command(list(setprop=NULL,lib=.filepath(x),pid=.id(x),name=value),.session(x))
-    if(!identical(tt,"Success!")){
+    if(!identical(tt,"saved")){
       stop(tt)
     }
     x@name = value
@@ -170,7 +170,7 @@ setReplaceMethod(
   }
 )
 
-#' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Project.
+#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Project.
 setMethod('ssimLibrary', signature(name="Project"), function(name) {
   out = .ssimLibrary(name=.filepath(name),session=.session(name))
   return(out)

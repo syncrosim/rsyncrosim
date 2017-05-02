@@ -7,8 +7,8 @@ library(rsyncrosim)
 #################################
 # Examples - querying the package
 ?session # Help for the Session object constructor
-?ssimLibrary # Help for the SSimLibrary object constructor.
-showMethods(class="SSimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
+?ssimLibrary # Help for the SsimLibrary object constructor.
+showMethods(class="SsimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
 getMethod("modules","Session") # See code for the filepath method of the Session object.
 showMethods("filepath") # See the objects for which filepath is defined.
 ?filepath # Help for the filepath function
@@ -42,7 +42,7 @@ command(c("list","help"),mySsim,printCmd=T)
 # LATER: Create own model from scratch in R. Inputs, output and calculations
 
 ################################
-# Create a new SSimLibrary
+# Create a new SsimLibrary
 # If no primary model and only one model installed, use that.
 models(session())
 myLibrary = ssimLibrary(model="stsim",name="stsim")
@@ -109,7 +109,7 @@ myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the p
 
 # Delete projects
 projects(myLibrary,names=T)
-deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
+deleteProjects(myLibrary, project="My new project name") # Returns a list of "saved" or a failure messages for each project.
 deleteProjects(myLibrary, project=c(25),force=T)
 # QUESTION: Do we want to be consistent about "project" vs "projects" here?
 # QUESTION: consistency with enable/disableAddons? Assignment operators.
@@ -148,7 +148,7 @@ scenarios(myProject,names=T)
 myScenarios = scenarios(myProject, results=TRUE)
 myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project="My new project name", results=TRUE)
 myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=1, results=TRUE)
-# NOTE CHANGE: scenarios() is a generic method defined for Project, SSimLibrary, and character object. If given a character string, queries an SSimLibrary of that name.
+# NOTE CHANGE: scenarios() is a generic method defined for Project, SsimLibrary, and character object. If given a character string, queries an SsimLibrary of that name.
 
 # Get an existing scenario by ID
 myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - returns a single scenario object
@@ -187,7 +187,7 @@ results(myScenario)     # returns a named vector (by char ID) of the results sce
 
 #############################
 # Datasheets
-# Get datasheet from an SSimLibrary, Projects or Scenarios.
+# Get datasheet from an SsimLibrary, Projects or Scenarios.
 # NOTE CHANGE: can query multiple projects or scenarios - see ?datasheet for details.
 # Datasheets are provided in dataframe format
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
@@ -198,7 +198,7 @@ scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary,id=1)
 
 # NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
-# x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
+# x is a SyncroSim object (SsimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 myProjectDataframes = datasheets(myLibrary, project=1, names=F) # A named list of all the project and library datasheets for project id 2.
 #myScenarioDataframes = datasheets(myScenario,names=F) #This takes a long time to run - so don't.

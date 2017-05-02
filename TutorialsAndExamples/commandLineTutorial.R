@@ -7,9 +7,11 @@
 # **********************************************************
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
+?command
+
 #*************************************
 # Create the project definition
-myLibrary = ssimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
+myLibrary = SsimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
 myProject = project(myLibrary,name="ST-Sim Demonstration")
 
 scenarios(myLibrary,names=T)
@@ -21,7 +23,7 @@ mySheet[1,"Name"]="Entire Forest"
 #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
 loadDatasheets(myProject,mySheet,name=sheetName)
 # NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
-# x is a SyncroSim object (SSimLibrary,Project or Scenario) or name/path of a library on disk.
+# x is a SyncroSim object (SsimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 #
 # NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires 2 console calls
@@ -245,10 +247,10 @@ print(base)
 # If so, we could define a Datasheets object that contains datasheet names and info required for retreival (libraryPath/Session/scenarioIds/projectIds).
 # We could then overwrite names(), [[]] to get list-like behaviour. [[]] would get the datasheet from SyncroSim.
 
-showMethods(class="SSimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
+showMethods(class="SsimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
 anotherProject = project(myLibrary,name="AnotherProject")
 # DISCUSS: Inheritance
-# Project and Scenario objects inherit from SSimLibrary.
+# Project and Scenario objects inherit from SsimLibrary.
 # For some methods, this is helpful:
 #  - datasheet(), datasheets(), loadDatasheets(): do sensible things with x/project/scenario arguments - see help for details.
 #  - run(): does sensible things with x/scenario arguments
@@ -256,8 +258,8 @@ anotherProject = project(myLibrary,name="AnotherProject")
 #
 # Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.
 #  - enableAddons<-,disableAddons<- : side effects for other projects/scenarios
-#  - deleteScenarios(): only let a parent (Project or SSimLibrary) delete a scenario?
-#  - deleteProjects(): only let parent SSimLibrary delete a project?
+#  - deleteScenarios(): only let a parent (Project or SsimLibrary) delete a scenario?
+#  - deleteProjects(): only let parent SsimLibrary delete a project?
 #  - projects(): only SSimLibraries can contain more than one project.
 #  - scenarios(): only SSimLibraries and Projects can contain more than one scenario.
 #
@@ -269,7 +271,7 @@ myScenarios = scenarios(myProject) #returns list - names are scenario ids.
 names(myScenarios)
 # NOTE: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
 
-deleteProjects(myLibrary, project="My new project name") # Returns a list of "Success!" or a failure messages for each project.
+deleteProjects(myLibrary, project="My new project name") # Returns a list of "saved" or a failure messages for each project.
 # QUESTION: Do we want to be consistent about "project" vs "projects" here?
 # QUESTION: consistency with enable/disableAddons? When should I use assignment operators?
 # QUESTION: generic delete method?
@@ -317,7 +319,6 @@ parentId(myScenario)
 # - bug in datasheet(). See line 43 of A176/ChangeTimestep.R
 # - flag for Alex. If the dependency scenario does not exist, syncrosim creates a blank scenario. command(list(create=NULL,dependency=NULL,lib=filepath(myProject),sid=id(newRunScenario),did=id(newInitialConditions)))
 # - better errors from syncrosim - display log entries by default
-# - Used "Saved" instead of "Success", where appropriate
 # - saveDatasheet(): handle named vectors
 # - datasheet(): return named vector for single row datasheets
 # - datasheets(): default is object scope
@@ -340,6 +341,7 @@ parentId(myScenario)
 #   view=stateClass
 #   myCols = unique(subset(levels(view)[[1]],select=c(Name,hexColor,Color)));myCols=myCols[order(myCols$Name),]
 #   levelplot(view,att="Name",at=myCols$Name,col.regions=myCols$hexColor,par.settings=myCols,main=view@title)
+# - Used "Saved" instead of "Success", where appropriate
 
 
 ###################

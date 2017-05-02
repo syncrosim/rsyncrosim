@@ -22,7 +22,7 @@ NULL
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains="SSimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric",breakpoints="list"))
+Scenario <- setClass("Scenario", contains="SsimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric",breakpoints="list"))
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
@@ -110,7 +110,7 @@ setMethod(f='initialize',signature="Scenario",
       if(length(propertyArgs)>2){
         propertyArgs$sid = findScn$id
         tt = command(propertyArgs,.session(x))
-        if(tt!="Success!"){
+        if(tt!="saved"){
           stop("Failed to set properties:",tt)
         }
       }
@@ -129,7 +129,7 @@ setMethod(f='initialize',signature="Scenario",
     #x can be either a project or a library - but need a project in order to create a new scenario
 
     if(create){
-      if(!is.null(pid)&(class(x)=="SSimLibrary")){
+      if(!is.null(pid)&(class(x)=="SsimLibrary")){
         if(length(pid)>1){
           stop(paste0("The library contains more than one project called ",project,". Specify a project id:",paste(pid,collapse=",")))
         }
@@ -142,7 +142,7 @@ setMethod(f='initialize',signature="Scenario",
     }
 
     #if given a library, can only open an existing scenario
-    if((class(x)=="SSimLibrary")||!create||(nrow(findScn)>0)){
+    if((class(x)=="SsimLibrary")||!create||(nrow(findScn)>0)){
       if(nrow(findScn)==0){
         if(!create){
           stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project and set create=T to create a new scenario."))
@@ -228,7 +228,7 @@ setMethod(f='initialize',signature="Scenario",
 #'   \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
 #' }
 #'
-#' @param ssimLibrary An SSimLibrary object or name, or an object that contains an SSimLibrary. If a name is given, the library will be opened using the default session.
+#' @param ssimLibrary An SsimLibrary object or name, or an object that contains an SsimLibrary. If a name is given, the library will be opened using the default session.
 #' @param project A Project object, project name, or project id.
 #' @param name The scenario name.
 #' @param id The scenario id.
@@ -259,7 +259,7 @@ setReplaceMethod(
   definition=function(x,value){
     #x=myScenario;value="New Name"
     tt = command(list(setprop=NULL,lib=.filepath(x),sid=.id(x),name=value),.session(x))
-    if(!identical(tt,"Success!")){
+    if(!identical(tt,"saved")){
       stop(tt)
     }
     x@name = value
@@ -320,7 +320,7 @@ setMethod('description', signature(x="Scenario"), function(x) {
 #' @param author An author name.
 #' @param description A description.
 #' @param readOnly TRUE or FALSE.
-#' @return Success or a failure message
+#' @return "saved" or a failure message
 #' @export
 setGeneric('setProperties',function(x,author=NULL,description=NULL,readOnly=NULL) standardGeneric('setProperties'))
 setMethod('setProperties', signature(x="Scenario"), function(x,author,description,readOnly) {
@@ -373,7 +373,7 @@ setMethod('pid', signature(x="Scenario"), function(x) {
 #' @export
 projectId = pid
 
-#' @describeIn ssimLibrary Get the SSimLibrary associated with a SyncroSim Scenario.
+#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Scenario.
 setMethod('ssimLibrary', signature(name="Scenario"), function(name) {
   #model=cScn
   out = .ssimLibrary(name=.filepath(name),session=.session(name))
@@ -599,7 +599,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   return(cStack)
 })
 
-setMethod('loadSpatialData', signature(x="SSimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
+setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
   #x = myScenario;project=NULL;scenario=NULL;metadata=metadata;data=data;breakpoint=F;check=T
   #.filepath=filepath;.id=id
   x = .getFromXProjScn(x,project,scenario)

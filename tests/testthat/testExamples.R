@@ -39,7 +39,7 @@ test_that("Tests of Library", {
 
   # Get/set the various properties of the library
   expect_equal(file.exists(filepath(session(myLibrary))),TRUE)
-  expect_is("session<-"(myLibrary,session()),"SSimLibrary")
+  expect_is("session<-"(myLibrary,session()),"SsimLibrary")
 
   expect_equal(is.element(modelName(myLibrary),models(mySsim)$name),TRUE) # Returns the name of the library's model - can't change this once the library is created.
   expect_match(modelVersion(myLibrary),"Source Module Version:",fixed=T)   # Returns the version of the library's model
@@ -71,7 +71,7 @@ test_that("Tests of Project", {
   name(myProject) = "New project name"
   expect_equal(name(myProject),"New project name")
 
-  expect_is(ssimLibrary(myProject),"SSimLibrary") # Returns a SyncroSimLibrary object for the project
+  expect_is(ssimLibrary(myProject),"SsimLibrary") # Returns a SyncroSimLibrary object for the project
 
   # Delete projects
   expect_output(deleteProjects(myLibrary, project=c("New project name","hi"),force=T),"Cannot remove the project hi from the library because it does not exist.")
@@ -109,7 +109,7 @@ test_that("Tests of Scenario", {
   name(myScenario) = "New scenario name"
   expect_equal(name(myScenario),"New scenario name")
 
-  expect_is(ssimLibrary(myScenario),"SSimLibrary")  # Returns a SyncroSimLibrary object for the scenario
+  expect_is(ssimLibrary(myScenario),"SsimLibrary")  # Returns a SyncroSimLibrary object for the scenario
   expect_is(projectId(myScenario),"numeric")  # Returns the project ID for the scenario
 
   #Get/set scenario properties

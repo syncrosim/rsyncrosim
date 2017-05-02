@@ -1,9 +1,9 @@
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' The scenarios in a SyncroSim library or project.
 #'
-#' Get a list of scenarios in a SSimLibrary or Project.
+#' Get a list of scenarios in a SsimLibrary or Project.
 #'
-#' @param x An SSimLibrary or Project object, or an SSimLibrary name.
+#' @param x An SsimLibrary or Project object, or an SsimLibrary name.
 #' @param project An optional project name, id, or object.
 #' @param names If FALSE, a list of \code{\link{Scenario}} objects is returned. If TRUE returns a dataframe containing the name,id and project id of each scenario.
 #' @param results If TRUE only return result scenarios.
@@ -19,7 +19,7 @@ setMethod('scenarios', signature(x="character"), function(x,project,names,result
 })
 #' Create or open a library.
 #'
-#' Creates or opens an \code{\link{SSimLibrary}} object representing a SyncroSim library.
+#' Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim library.
 #'
 #' @param name A file name, model type, SyncroSim Project or Scenario. Optional.
 #' @export
@@ -70,7 +70,7 @@ setGeneric('info',function(x) standardGeneric('info'))
 
 #' Start or get a SyncroSim session.
 #'
-#' Methods to create a Syncrosim session or fetch one from a SSimLibrary, Project or Scenario object.
+#' Methods to create a Syncrosim session or fetch one from a SsimLibrary, Project or Scenario object.
 #' @param x A path to SyncroSim.Console.exe or an object containing a Session.
 #'  If NULL the usual locations are searched.
 #' @param silent Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
@@ -83,7 +83,7 @@ setGeneric('info',function(x) standardGeneric('info'))
 #' # Specify a SyncroSim version
 #' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 #'
-#' # Get the session from an SSimLibrary
+#' # Get the session from an SsimLibrary
 #' myLib = ssimLibrary(name="stsim",model="stsim")
 #' session(myLib)
 #'
@@ -94,7 +94,7 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 
 #' datasheets
 #'
-#' Gets datasheets from an SSimLibrary, Project or Scenario.
+#' Gets datasheets from an SsimLibrary, Project or Scenario.
 #'
 #' @details
 #' See \code{\link{datasheet}} for discussion of optional/empty/sheetName/lookupsAsFactors arguments.
@@ -104,7 +104,7 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #'   \item {If x/project/scenario identify a library (but not a project or scenario): }{Returns library scope datasheets.}
 #' }
 #'
-#' @param x An SSimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.
+#' @param x An SsimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.
 #' @param project Project name or id. Ignored if x is a Project.
 #' @param scenario Scenario name or id. Ignored if x is a Scenario.
 #' @param names If TRUE (default) returns dataframe of sheet names, ignoring remaining arguments. If FALSE returns a named list of dataframes representing each datasheet.
@@ -145,7 +145,7 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #'   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 #' }
 #'
-#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.
+#' @param x An SsimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.
 #' @param name The sheet name
 #' @param project One or more Project names, id or objects.
 #' @param scenario One or more Scenario names, id or objects.
@@ -173,7 +173,7 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 
   cScn = x[[1]]
   if(!is.element(class(cScn),c("Scenario","Project"))){
-    stop("x must be an SSimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
+    stop("x must be an SsimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
   }
 
   cName = name
@@ -239,7 +239,7 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 #'
 #' Loads datasheets into the SyncroSim library.
 #'
-#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
+#' @param x An SsimLibrary, Project or Scenario object. Or the path to a library on disk.
 #' @param data A dataframe or named list of dataframes to load.
 #' @param name The sheet name - required if data is a dataframe, ignored otherwise.
 #' @param project Project name or id.
@@ -271,7 +271,7 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name,proje
 #' 
 #' Note: Spatial data will be appended if non-FileName columns (e.g. Iteration, Timestep, etc) differ between metadata and datasheet(x,metadata$SheetName[1]). Otherwise, the new spatial data will overwrite the old spatial data.
 #'
-#' @param x An SSimLibrary, Project or Scenario object. Or the path to a library on disk.
+#' @param x An SsimLibrary, Project or Scenario object. Or the path to a library on disk.
 #' @param data A RasterLayer or RasterStack to load.
 #' @param metadata A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details. 
 #' @param project Project name or id.
@@ -295,7 +295,7 @@ setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,
 #'
 #' Run one or more SyncroSim scenarios
 #'
-#' @param x One or more SSimLibrary, Projects or Scenario objects. Or the path to a library on disk.
+#' @param x One or more SsimLibrary, Projects or Scenario objects. Or the path to a library on disk.
 #' @param scenario One or more scenario objects, names or ids.
 #' @param onlyIds If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
 #' @param jobs The number of jobs to run. Passed to SyncroSim where multithreading is handled.
@@ -382,7 +382,7 @@ setMethod('spatialData', signature(x="list"), function(x,sheet,iterations,timest
 #' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
 #' @param action Options are: apply, remove, rebuild
 #' @param grouping Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
-#' @return "Success!" or an error message from SyncroSim.
+#' @return "saved" or an error message from SyncroSim.
 #' @export
 setGeneric('multiband',function(x,action,grouping=NULL) standardGeneric('multiband'))
 setMethod('multiband', signature(x="list"), function(x,action,grouping) {

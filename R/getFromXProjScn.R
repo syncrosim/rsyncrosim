@@ -56,5 +56,5 @@
       return(.project(x,id=project))
     }
   }
-  stop(paste0("Could not identify a SSimLibrary, Project or Scenario from x, project, and scenario arguments."))
+  stop(paste0("Could not identify a SsimLibrary, Project or Scenario from x, project, and scenario arguments."))
 }

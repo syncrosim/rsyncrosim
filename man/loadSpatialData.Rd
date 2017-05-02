@@ -4,7 +4,7 @@
 \alias{loadSpatialData}
 \title{Set spatial data}
 \usage{
-loadSpatialData(x, data, metadata = NULL, project = NULL, scenario = NULL,
+loadSpatialData(x, data, metadata, project = NULL, scenario = NULL,
   breakpoint = F, check = T)
 }
 \arguments{
@@ -12,7 +12,7 @@ loadSpatialData(x, data, metadata = NULL, project = NULL, scenario = NULL,
 
 \item{data}{A RasterLayer or RasterStack to load.}
 
-\item{metadata}{A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details. If NULL, use names(data) metadata.}
+\item{metadata}{A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details.}
 
 \item{project}{Project name or id.}
 
@@ -29,12 +29,12 @@ A named list of success or failure reports.
 Loads spatial data into the SyncroSim library.
 }
 \details{
-If metadata=NULL or sheetName=NULL assume each raster layer has names() metadata - see spatialData() for details.
+Metadata should be a dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer of data.
+"SheetName" and at least one "FileName" columns are expected in metadata.
+A "RasterLayerName" column in metadata is optional. If present, it should contain the name of each layer in the data raster stack.
+If "RasterLayerName" is not included in metadata, names(data) should correspond to the FileNames in metadata.
 
-Otherwise, metadata should be a dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer of data.
-"SheetName" and "RasterLayerName" columns are expected in metadata, and will be removed before appending to the datasheet.
-
-INCOMPLETE: this method has only been implemented for breakpoint=T and sheet name is STSim_TransitionSpatialMultiplier
+Note: Spatial data will be appended if non-FileName columns (e.g. Iteration, Timestep, etc) differ between metadata and datasheet(x,metadata$SheetName[1]). Otherwise, the new spatial data will overwrite the old spatial data.
 }
 \examples{
 

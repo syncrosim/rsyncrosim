@@ -199,7 +199,7 @@ runJobParallel<- function(cPars) {
       if(as.character(as.numeric(ret))!=ret){
         stop("Problem with ",msg," :",ret)
       }
-      "Success!"
+      "saved"
     }, error = function(e) {
       print(e)
       return(e)
@@ -214,7 +214,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
   #x=cBreakpointSession;jobs=2
   if(0){
     #PARALLEL DEBUG
-    #use for debugging - setup code from 'run' function, signature(x="SSimLibrary")
+    #use for debugging - setup code from 'run' function, signature(x="SsimLibrary")
     x=myScenario;jobs=2
     cBreakpointSession=breakpointSession(x)
     msg =paste0('load-library --lib=\"',filepath(x),'\"')

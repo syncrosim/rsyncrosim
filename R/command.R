@@ -77,7 +77,7 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",
     #out = system2("cmd",args=c('/c',paste0('\"\"',.filepath(session),program,'\"'),sysArgs,'\"'))
   #}
   if(identical(out,character(0))){
-    out="Success!"
+    out="saved"
   }else{
     if(!is.null(attr(out,"status"))){
     }

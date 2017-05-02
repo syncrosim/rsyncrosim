@@ -7,7 +7,7 @@
 NULL
 #' SyncroSim Library class
 #'
-#' \code{SSimLibrary} object representing a SyncroSim Library.
+#' \code{SsimLibrary} object representing a SyncroSim Library.
 #'
 #' @seealso See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
 #' @examples
@@ -24,13 +24,13 @@ NULL
 #' @slot session The SyncroSim session.
 #' @slot filepath The path to the library on disk.
 #' @slot datasheetNames The names and scope of all datasheets in the library. Used to speed calculations.
-#' @name SSimLibrary-class
-#' @rdname SSimLibrary-class
-#' @export SSimLibrary
-SSimLibrary <- setClass("SSimLibrary", representation(session="Session",filepath="character",datasheetNames="data.frame"))
-# @name SSimLibrary
-# @rdname SSimLibrary-class
-setMethod(f='initialize',signature="SSimLibrary",
+#' @name SsimLibrary-class
+#' @rdname SsimLibrary-class
+#' @export SsimLibrary
+SsimLibrary <- setClass("SsimLibrary", representation(session="Session",filepath="character",datasheetNames="data.frame"))
+# @name SsimLibrary
+# @rdname SsimLibrary-class
+setMethod(f='initialize',signature="SsimLibrary",
     definition=function(.Object,name=NULL,model=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T,forceUpdate=F){
     #model="stsim";name="New Lib";session=NULL;backup=F;backupName="backup";backupOverwrite=T;addons=NULL;forceUpdate=F
     #if a syncrosim session is not provided, make one
@@ -109,10 +109,10 @@ setMethod(f='initialize',signature="SSimLibrary",
         updateMessage = command(list(update=NULL,lib=path),session)
 
         if(grepl("Update complete",updateMessage,fixed=T)){
-          updateMessage = "Success!"
+          updateMessage = "saved"
         }
 
-        if(!identical(updateMessage,"Success!")){
+        if(!identical(updateMessage,"saved")){
           stop(updateMessage)
         }
 
@@ -169,7 +169,7 @@ setMethod(f='initialize',signature="SSimLibrary",
 )
 #' @details
 #' \itemize{
-#'   \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SSimLibrary}} associated with the Project or Scenario.}
+#'   \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SsimLibrary}} associated with the Project or Scenario.}
 #'   \item {If given no name and no model: }{Opens an existing SyncroSim library in
 #'   the current working directory - returns an error if more than one library exists. If library does not exist and only one model is installed - creates a library of that type.}
 #'   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
@@ -185,7 +185,7 @@ setMethod(f='initialize',signature="SSimLibrary",
 #' @param backupName Added to a library filepath to create a backup library.
 #' @param backupOverwrite If TRUE, the existing backup of a library (if any) will be overwritten.
 #' @param forceUpdate If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
-#' @return An \code{SSimLibrary} object representing a SyncroSim library.
+#' @return An \code{SsimLibrary} object representing a SyncroSim library.
 #' @examples
 #' # See the installed models
 #' models(session())
@@ -226,15 +226,15 @@ setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
         model=name
       }
     }
-    new("SSimLibrary",name,model,session,addons,backup,backupName,backupOverwrite,forceUpdate)
+    new("SsimLibrary",name,model,session,addons,backup,backupName,backupOverwrite,forceUpdate)
 })
 
-setMethod('filepath', signature(x="SSimLibrary"), function(x) x@filepath)
+setMethod('filepath', signature(x="SsimLibrary"), function(x) x@filepath)
 
-#' @describeIn session Get the Session associated with a SSimLibrary.
-setMethod('session', signature(x="SSimLibrary"), function(x) x@session)
+#' @describeIn session Get the Session associated with a SsimLibrary.
+setMethod('session', signature(x="SsimLibrary"), function(x) x@session)
 
-setMethod('info', signature(x="SSimLibrary"), function(x) {
+setMethod('info', signature(x="SsimLibrary"), function(x) {
   #x=myLibrary
   args = list(list=NULL,library=NULL,csv=NULL,lib=.filepath(x))
   tt = command(args,.session(x))
@@ -250,7 +250,7 @@ setMethod('info', signature(x="SSimLibrary"), function(x) {
 #' @return A model name
 #' @export
 setGeneric('modelName',function(x) standardGeneric('modelName'))
-setMethod('modelName', signature(x="SSimLibrary"), function(x) {
+setMethod('modelName', signature(x="SsimLibrary"), function(x) {
   #x = myLibrary
   cInfo = info(x)
   out=cInfo$value[cInfo$property=="Model Name:"]
@@ -265,7 +265,7 @@ setMethod('modelName', signature(x="SSimLibrary"), function(x) {
 #' @return A model version.
 #' @export
 setGeneric('modelVersion',function(x) standardGeneric('modelVersion'))
-setMethod('modelVersion', signature(x="SSimLibrary"), function(x) {
+setMethod('modelVersion', signature(x="SsimLibrary"), function(x) {
   #x = myLibrary
   cInfo = info(x)
   out=paste(cInfo$property[cInfo$property=="Source Module Version:"],cInfo$value[cInfo$property=="Source Module Version:"])
@@ -274,7 +274,7 @@ setMethod('modelVersion', signature(x="SSimLibrary"), function(x) {
 
 #' Set a SyncroSim session.
 #'
-#' Set the Session of a SSimLibrary, Project or Scenario object.
+#' Set the Session of a SsimLibrary, Project or Scenario object.
 #'
 #' @param x= A SyncroSim Session.
 #' @return An SyncroSim object containing a Session.
@@ -286,7 +286,7 @@ setMethod('modelVersion', signature(x="SSimLibrary"), function(x) {
 setGeneric('session<-',function(x,value) standardGeneric('session<-'))
 setReplaceMethod(
   f='session',
-  signature="SSimLibrary",
+  signature="SsimLibrary",
   definition=function(x,value){
     if(class(value)!="Session"){
       stop('Must assign a Session object.')
@@ -300,11 +300,11 @@ setReplaceMethod(
 #'
 #' Apply updates to a SyncroSim Library.
 #'
-#' @param x An SSimLibrary object, or a Project or Scenario associated with a Library
-#' @return Success or a failure message from the console.
+#' @param x An SsimLibrary object, or a Project or Scenario associated with a Library
+#' @return "saved" or a failure message from the console.
 #' @export
 setGeneric('update',function(x) standardGeneric('update'))
-setMethod('update', signature(x="SSimLibrary"), function(x) {
+setMethod('update', signature(x="SsimLibrary"), function(x) {
   #x= myLibrary
   #args = list(update=NULL,lib=.filepath(x));session=.session(x)
   tt = command(list(update=NULL,lib=.filepath(x)),.session(x))
@@ -315,19 +315,19 @@ setMethod('update', signature(x="SSimLibrary"), function(x) {
 #'
 #' Get a list of projects in a SyncroSim library.
 #'
-#' @param x An SSimLibrary object, or a Project or Scenario associated with a Library
+#' @param x An SsimLibrary object, or a Project or Scenario associated with a Library
 #' @param names If FALSE, a list of \code{\link{Project}} objects is returned. If TRUE returns a dataframe containing the name and id of each project.
 #' @return By default returns a list of projects identified by the project id. Each element of the list contains a SyncroSim Project object. If names=T, returns a dataframe containing the name and id of each project.
 #' @examples
 #' myProjects = projects(ssimLibrary(model="stsim",name="stsim"))
 #' @export
 setGeneric('projects',function(x,names=F) standardGeneric('projects'))
-setMethod('projects', signature(x="SSimLibrary"), function(x,names) {
+setMethod('projects', signature(x="SsimLibrary"), function(x,names) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
 
   tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(x)),.session(x))
-  if(identical(tt,"Success!")){
+  if(identical(tt,"saved")){
     ttFrame = data.frame(id=NA,name=NA)
     ttFrame=subset(ttFrame,!is.na(id))
   }else{
@@ -350,9 +350,9 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names) {
 #'
 #' Deletes one or more projects from a SyncroSim library.
 #'
-#' @param x An SSimLibrary, Project or Scenario associated with a library.
+#' @param x An SsimLibrary, Project or Scenario associated with a library.
 #' @param project One or more project names or ids.
-#' @return A list of "Success!" or failure messages for each project.
+#' @return A list of "saved" or failure messages for each project.
 #' @examples
 #' myLibrary = ssimLibrary(model="stsim",session=devSession)
 #' myProject = project(myLibrary)
@@ -362,7 +362,7 @@ setMethod('projects', signature(x="SSimLibrary"), function(x,names) {
 #'
 #' @export
 setGeneric('deleteProjects',function(x,project=NULL,force=F) standardGeneric('deleteProjects'))
-setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,force) {
+setMethod('deleteProjects', signature(x="SsimLibrary"), function(x,project,force) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary
   #project = "TempProject"
@@ -417,10 +417,10 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,force
 #'
 #' Deletes one or more scenarios from a SyncroSim library.
 #'
-#' @param x An SSimLibrary, Project or Scenario.
+#' @param x An SsimLibrary, Project or Scenario.
 #' @param scenario One or more scenario names or ids.
 #' @param force If FALSE (default) user is prompted to confirm deletions.
-#' @return A list of "Success!" or failure messages for each scenario.
+#' @return A list of "saved" or failure messages for each scenario.
 #' @examples
 #' myLibrary = ssimLibrary(model="stsim")
 #' myScenario = scenario(project(myLibrary))
@@ -429,7 +429,7 @@ setMethod('deleteProjects', signature(x="SSimLibrary"), function(x,project,force
 #' scenarios(myLibrary,names=T)
 #' @export
 setGeneric('deleteScenarios',function(x,scenario=NULL,force=FALSE) standardGeneric('deleteScenarios'))
-setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario,force) {
+setMethod('deleteScenarios', signature(x="SsimLibrary"), function(x,scenario,force) {
   #x = myLibrary
   #scenario = "Scenario"
   if(is.null(scenario)){
@@ -479,10 +479,9 @@ setMethod('deleteScenarios', signature(x="SSimLibrary"), function(x,scenario,for
   return(out)
 })
 
-setMethod('scenarios', signature(x="SSimLibrary"), function(x,project,names,results,select) {
+setMethod('scenarios', signature(x="SsimLibrary"), function(x,project,names,results,select) {
   #x = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
   #x = myLibrary;names=T
-  #command(list(create=NULL,scenario=NULL,lib=.filepath(x),pid=85,name="Another scenario"),.session(x))
   tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(x)),.session(x))
   ttFrame=.dataframeFromSSim(tt,localNames=T)
   names(ttFrame)[names(ttFrame)=="scenarioID"]="id"
@@ -538,18 +537,18 @@ setMethod('scenarios', signature(x="SSimLibrary"), function(x,project,names,resu
   return(ttList)
 })
 
-#' addons of an SSimLibrary
+#' addons of an SsimLibrary
 #'
-#' The addons of an SSimLibrary.
+#' The addons of an SsimLibrary.
 #'
-#' @param x An SSimLibrary, or a Project/Scenario object associated with an SSimLibrary.
+#' @param x An SsimLibrary, or a Project/Scenario object associated with an SsimLibrary.
 #' @param all If T, all available addons are returned. Otherwise, only enabled addons.
 #' @return A dataframe of addons.
 #' @examples
 #' addons(ssimLibrary(model="stsim",name="stsim"))
 #' @export
 setGeneric('addons',function(x,all=F) standardGeneric('addons'))
-setMethod('addons', signature(x="SSimLibrary"), function(x,all) {
+setMethod('addons', signature(x="SsimLibrary"), function(x,all) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(x)),.session(x))
   tt = .dataframeFromSSim(tt)
@@ -562,9 +561,9 @@ setMethod('addons', signature(x="SSimLibrary"), function(x,all) {
 
 #' Enable addons.
 #'
-#' Enable addons of an SSimLibrary, or Project/Scenario with an associated SSimLibrary.
+#' Enable addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 #'
-#' @param x= A SSimLibrary, Project or Scenario.
+#' @param x= A SsimLibrary, Project or Scenario.
 #' @return x
 #' @examples
 #' myLibrary = ssimLibrary()
@@ -574,7 +573,7 @@ setMethod('addons', signature(x="SSimLibrary"), function(x,all) {
 setGeneric('enableAddons<-',function(x,value) standardGeneric('enableAddons<-'))
 setReplaceMethod(
   f='enableAddons',
-  signature="SSimLibrary",
+  signature="SsimLibrary",
   definition=function(x,value){
     #x=myLibrary
     #value = c("stsim-ecological-departure", "stsim-stock-flow")
@@ -594,7 +593,7 @@ setReplaceMethod(
       }
 
       tt=command(list(create=NULL,addon=NULL,lib=.filepath(x),name=paste0(cVal,":add-on-transformer")),.session(x))
-      if(!identical(tt,"Success!")){print(paste(tt[1],cVal))}
+      if(!identical(tt,"saved")){print(paste(tt[1],cVal))}
     }
 
     x@datasheetNames = .datasheets(x,scope="all",refresh=T)
@@ -604,9 +603,9 @@ setReplaceMethod(
 
 #' Disable addons.
 #'
-#' Disable addons an SSimLibrary, or Project/Scenario with an associated SSimLibrary.
+#' Disable addons an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 #'
-#' @param x= A SSimLibrary, Project or Scenario.
+#' @param x= A SsimLibrary, Project or Scenario.
 #' @return x
 #' @examples
 #' myLibrary = ssimLibrary()
@@ -619,7 +618,7 @@ setReplaceMethod(
 setGeneric('disableAddons<-',function(x,value) standardGeneric('disableAddons<-'))
 setReplaceMethod(
   f='disableAddons',
-  signature="SSimLibrary",
+  signature="SsimLibrary",
   definition=function(x,value){
     #x=myLibrary
     #value = c("stsim-ecological-departure", "stsim-stock-flow")
@@ -639,7 +638,7 @@ setReplaceMethod(
       }
 
       tt=command(list(delete=NULL,addon=NULL,force=NULL,lib=.filepath(x),name=paste0(cVal,":add-on-transformer")),.session(x))
-      if(!identical(tt,"Success!")){print(paste(tt[1],cVal))}
+      if(!identical(tt,"saved")){print(paste(tt[1],cVal))}
     }
 
     x@datasheetNames = .datasheets(x,scope="all",refresh=T)
@@ -647,7 +646,7 @@ setReplaceMethod(
   }
 )
 
-setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh) {
+setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=T;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
@@ -673,10 +672,10 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   if(!is.null(scope)&&(scope=="all")){
     return(datasheets)
   }
-  if(is.element(class(x),c("Project","SSimLibrary"))){
+  if(is.element(class(x),c("Project","SsimLibrary"))){
     datasheets = subset(datasheets,dataScope!="scenario")
   }
-  if(is.element(class(x),c("SSimLibrary"))){
+  if(is.element(class(x),c("SsimLibrary"))){
     datasheets = subset(datasheets,dataScope!="project")
   }
   if(!is.null(scope)){
@@ -698,7 +697,7 @@ setMethod('datasheets', signature(x="SSimLibrary"), function(x,project,scenario,
   return(ttList)
 })
 
-setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey,printCmd) {
+setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey,printCmd) {
   #x = myResult;project=NULL;scenario=NULL;name="DGSim_OutputPopulationSize";optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F
 
   allProjects=NULL;allScns=NULL
@@ -735,7 +734,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
     pid=project
     if(class(x)=="Scenario"){pid=.pid(x)}
     if(class(x)=="Project"){pid=.id(x)}
-    if((class(x)=="SSimLibrary")&(length(scenario)>0)){
+    if((class(x)=="SsimLibrary")&(length(scenario)>0)){
     }
   }
 
@@ -772,9 +771,6 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
 
     if(useConsole){
-
-      #command(c("export","datasheet","help"),.session(x))
-
       unlink(tempFile)
 
       args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
@@ -786,7 +782,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
 
       tt=command(args,.session(x),printCmd=printCmd)
 
-      if(!identical(tt,"Success!")){
+      if(!identical(tt,"saved")){
         stop(tt)
       }
 
@@ -876,10 +872,9 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
         if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
         if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
         tt=command(args,.session(x),printCmd=printCmd)
-        if(!identical(tt,"Success!")){
+        if(!identical(tt,"saved")){
           stop(tt)
         }
-        #command(c("export","sheet","help"))
       }
     }
     for(i in seq(length.out=nrow(sheetInfo))){
@@ -1052,7 +1047,7 @@ setMethod('datasheet', signature(x="SSimLibrary"), function(x,name,project,scena
   return(sheet)
 })
 
-setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,project,scenario,breakpoint,printCmd) {
+setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,project,scenario,breakpoint,printCmd) {
   #x = myScenario;project=NULL;scenario=NULL;name=sheetName;data=mySheet;breakpoint=T
   x = .getFromXProjScn(x,project,scenario)
 
@@ -1113,17 +1108,14 @@ setMethod('loadDatasheets', signature(x="SSimLibrary"), function(x,data,name,pro
       if(scope=="scenario"){args[["sid"]]=.id(x)}
     }
     tt=command(args,.session(x),printCmd=printCmd)
-    if(tt[[1]]=="Success!"){tt="Saved"; unlink(tempFile)}
+    if(tt[[1]]=="saved"){unlink(tempFile)}
     out[[cName]] = tt
   }
   return(out)
 })
 
-setMethod('run', signature(x="SSimLibrary"), function(x,scenario,onlyIds,jobs) {
+setMethod('run', signature(x="SsimLibrary"), function(x,scenario,onlyIds,jobs) {
   #x=myScenario;jobs=2;scenario=NULL
-  #command(c("run","help"),.session(x))
-
-
   if(is.null(scenario)){
     if(class(x)!="Scenario"){
       stop("Need a scenario to run.")
