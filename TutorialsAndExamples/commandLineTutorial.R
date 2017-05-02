@@ -311,7 +311,7 @@ parentId(myScenario)
 #    mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
 #    loadDatasheets(myProject,mySheet,name=sheetName,printCmd=T)
 #   I've added an "IsVisible" column property to --list --columns so Josie can check for this as well.
-#   We should be careful about omitting fields for definitions on export because when you import a definition it updates existing records with the new data.  For example, if you omit the "Description" field then existing description will be overwritten with NULL if you import that same file.  I'm not sure if this is what is happening in the R scripts, but just something to be aware of.  Of course we could change things so data is never overwritten with NULL for definition imports (and Cut/Paste...) but then you would not be able to replace an existing definition with NULL which seems a bit wrong.
+#   We should be careful about omitting fields for datasheets on export because when you import a datasheet it updates existing records with the new data.  For example, if you omit the "Description" field then existing description will be overwritten with NULL if you import that same file.  I'm not sure if this is what is happening in the R scripts, but just something to be aware of.  Of course we could change things so data is never overwritten with NULL for definition imports (and Cut/Paste...) but then you would not be able to replace an existing definition with NULL which seems a bit wrong.
 #   Ensure that factor levels are passed through from invisible datasheet
 # - Add index page to reference manual.
 # - resolve id() conflict between dplyr and rsyncrosim.

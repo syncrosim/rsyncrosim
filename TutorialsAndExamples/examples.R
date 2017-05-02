@@ -227,8 +227,7 @@ myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition
 #myScenarioDatasheets = datasheets(scenario=myScenario, dataframe=FALSE, empty=FALSE)    # named vector of datasheet objects, instead of default dataframes
 #DISCUSS - not sure exactly what a datasheet object should be, or why we need one.
 
-# Similarly we can get dataframes of project definitions
-myProjectDataframes = definitions(myProject)   # same as above - just an alternative function that matches UI terminology
+# Similarly we can get dataframes of project datasheets
 projects(myLibrary,names=T)
 myProjectDataframes = datasheets(myLibrary, project="Project", scope="project")  # same as above
 
@@ -238,18 +237,17 @@ myProjectDataframes = datasheets(myLibrary, project="Project", scope="project") 
 #emptyScenarioDataframes = datasheets(myLibrary, project=1, scope="scenario",empty=T,names=F)     # same as above
 emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_DeterministicTransition",empty=T)
 
-# Similarly also get empty dataframes for project definitions
+# Similarly also get empty dataframes for project datasheets
 #emptyProjectDataframes = datasheets(myProject, scope="project")
-#emptyProjectDataframes = definitions(myProject)    # same as above
 
-# Update the values for project definitions - see tutorial for examples.
+# Update the values for project datasheet - see tutorial for examples.
 stateClassDefinition = datasheet(myProject, name="STSim_StateLabelX")
 addRows(stateClassDefinition) = data.frame(Name=c('Coniferous','Deciduous','Mixed'))
 #newStateClassDefinitionDataframe = rbind(existingStateClassDefinitionDataframe, c(NA, "Forest", "All", NA, NA, NA))
 # NOTE: rbind does not preserve types and factor levels
 # NOTE CHANGE: addRows does in place modification of dataframe. This requires less typing. Can be changed.
 
-# Then save the updated project definitions back to the library
+# Then save the updated project datasheets back to the library
 loadDatasheets(myLibrary, stateClassDefinition, project=1, name="STSim_StateLabelX")
 # DISCUSS: This was written in plural, but need name/frame to be linked in that case.
 

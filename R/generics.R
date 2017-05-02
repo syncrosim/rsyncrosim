@@ -118,11 +118,7 @@ setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 #'
 #' @export
 setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,lookupsAsFactors=T,refresh=F) standardGeneric('datasheets'))
-#' definitions
-#'
-#' Alias for \code{\link{datasheets}} function
-#' @export
-definitions=datasheets
+
 #Handles case where x is a path to an SyncroSim library on disk.
 setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh) {
   x = .getFromXProjScn(x,project,scenario)
