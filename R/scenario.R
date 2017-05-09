@@ -626,7 +626,7 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
     cSheet = datasheet(x,cSheetName,optional=T)
     empty = subset(cSheet,cSheet[[1]]=="not likely")
     
-    check = try('addRows<-'(empty,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName")))))
+    check = try(addRows(empty,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName")))))
     
     if(inherits(check, "try-error")){
       stop("Metadata is not valid. Unexpected columns include: ",paste(setdiff(names(metadata),c("RasterLayerName",names(cSheet))),collapse=","))
@@ -639,7 +639,7 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
     outF$isOut = 1
     cSheet = merge(cSheet,outF,all.x=T)
     cSheet = subset(cSheet,is.na(isOut));cSheet$isOut=NULL
-    check = 'addRows<-'(cSheet,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName"))))
+    check = addRows(cSheet,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName"))))
   }
   if(breakpoint){
     outDir = paste0(.filepath(x),'.temp/Data')

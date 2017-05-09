@@ -63,6 +63,7 @@ str(myRasters[[1]])
 
 #plot iteration 1 timestep 0
 ?ratify
+?scenario
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
@@ -148,7 +149,7 @@ spatialProperties = loadSpatialData(newScenario,data,metadata)
 #If using a different model the user is responsible for ensuring that spatialProperties data returned by loadSpatialData() is sufficient and appropriate.
 sheetName = "STSim_InitialConditionsSpatialProperties"; mySheet = datasheet(newScenario,name=sheetName,optional=F,empty=T)
 spatialProperties$CellArea=spatialProperties$CellSize^2/10000
-addRows(mySheet)=spatialProperties
+mySheet=addRows(mySheet,spatialProperties)
 loadDatasheets(newScenario,mySheet,name=sheetName)
 
 #NOTE: This does not work. Throws exception. Trying to figure out why.

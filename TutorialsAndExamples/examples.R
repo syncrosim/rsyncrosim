@@ -242,10 +242,9 @@ emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_Determ
 
 # Update the values for project datasheet - see tutorial for examples.
 stateClassDefinition = datasheet(myProject, name="STSim_StateLabelX")
-addRows(stateClassDefinition) = data.frame(Name=c('Coniferous','Deciduous','Mixed'))
+stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
 #newStateClassDefinitionDataframe = rbind(existingStateClassDefinitionDataframe, c(NA, "Forest", "All", NA, NA, NA))
 # NOTE: rbind does not preserve types and factor levels
-# NOTE CHANGE: addRows does in place modification of dataframe. This requires less typing. Can be changed.
 
 # Then save the updated project datasheets back to the library
 loadDatasheets(myLibrary, stateClassDefinition, project=1, name="STSim_StateLabelX")

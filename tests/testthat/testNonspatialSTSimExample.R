@@ -105,10 +105,10 @@ test_that("Test simple non-spatial STSim example", {
   # Deterministic transitions
   # devtools::document();devtools::load_all()
   sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-  addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1")
+  mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1"))
   expect_equal(mySheet$Location,"C1")
-  addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1")
-  addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1")
+  mySheet = addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
+  mySheet = addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
   expect_equal(mySheet$AgeMin,c(21,NA,11))
   expect_equal(levels(mySheet$StateClassIDSource),c("Coniferous:All","Deciduous:All","Mixed:All"))
   ret = loadDatasheets(myScenario,mySheet,name=sheetName)
@@ -117,18 +117,18 @@ test_that("Test simple non-spatial STSim example", {
   # Probabilistic transitions
   sheetName = "STSim_Transition"
   #mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-  #addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
-  #                            TransitionTypeID="Fire",Probability=0.01)
-  #addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
-  #                            TransitionTypeID="Harvest",Probability=1,AgeMin=40)
-  #addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
-  #                            TransitionTypeID="Fire",Probability=0.002)
-  #addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
-  #                            TransitionTypeID="Succession",Probability=0.1,AgeMin=10)
-  #addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
-  #                            TransitionTypeID="Fire",Probability=0.005)
-  #addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
-  #                            TransitionTypeID="Succession",Probability=0.1,AgeMin=20)
+  #mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+  #                            TransitionTypeID="Fire",Probability=0.01))
+  #mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+  #                            TransitionTypeID="Harvest",Probability=1,AgeMin=40))
+  #mySheet=addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
+  #                            TransitionTypeID="Fire",Probability=0.002))
+  #mySheet=addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
+  #                            TransitionTypeID="Succession",Probability=0.1,AgeMin=10))
+  #mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
+  #                            TransitionTypeID="Fire",Probability=0.005))
+  #mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
+  #                            TransitionTypeID="Succession",Probability=0.1,AgeMin=20))
   mySheet = data.frame(
     StateClassIDSource=c("Coniferous:All","Coniferous:All","Deciduous:All","Deciduous:All","Mixed:All","Mixed:All"),
     StateClassIDDest=c("Deciduous:All","Deciduous:All","Deciduous:All","Mixed:All","Coniferous:All","Deciduous:All"),
@@ -153,9 +153,9 @@ test_that("Test simple non-spatial STSim example", {
 
   sheetName = "STSim_InitialConditionsNonSpatialDistribution"
   #mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-  #addRows(mySheet)=data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20)
-  #addRows(mySheet)=data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40)
-  #addRows(mySheet)=data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40)
+  #mySheet=addRows(mySheet,data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20))
+  #mySheet=addRows(mySheet,data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40))
+  #mySheet=addRows(mySheet,data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40))
   mySheet=data.frame(
     StateClassID = c("Coniferous:All","Deciduous:All","Mixed:All"),
     AgeMin = c(20,NA,11),

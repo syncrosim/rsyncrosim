@@ -6,12 +6,11 @@
 # Date 2016.11.15
 # **********************************************************
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-?command
+#library(rsyncrosim)
 
 #*************************************
 # Create the project definition
-myLibrary = SsimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
+myLibrary = SSimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
 myProject = project(myLibrary,name="ST-Sim Demonstration")
 
 scenarios(myLibrary,names=T)
@@ -106,32 +105,31 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
 str(mySheet)
 levels(mySheet$StateClassIDSource)
-addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1")
-addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1")
-addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1")
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1"))
+mySheet=addRows(mySheet,list(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
 mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName)
 # mySheet = datasheet(myScenario,name=sheetName,optional=T); str(mySheet) #check what happened
 # addRows() checks validity of column names and factor levels.
 # addRows() fills missing values using factor levels where possible.
-# DISCUSS addRow<-: should this be an assignment function or a normal function?
 
 #*************************
 # Probabilistic transitions
 sheetName = "STSim_Transition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
 str(mySheet)
-addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
-                           TransitionTypeID="Fire",Probability=0.01)
-addRows(mySheet)=data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
-                           TransitionTypeID="Harvest",Probability=1,AgeMin=40)
-addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
-                           TransitionTypeID="Fire",Probability=0.002)
-addRows(mySheet)=data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
-                           TransitionTypeID="Succession",Probability=0.1,AgeMin=10)
-addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
-                           TransitionTypeID="Fire",Probability=0.005)
-addRows(mySheet)=data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
-                           TransitionTypeID="Succession",Probability=0.1,AgeMin=20)
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Fire",Probability=0.01))
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Harvest",Probability=1,AgeMin=40))
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Fire",Probability=0.002))
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
+                           TransitionTypeID="Succession",Probability=0.1,AgeMin=10))
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
+                           TransitionTypeID="Fire",Probability=0.005))
+mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
+                           TransitionTypeID="Succession",Probability=0.1,AgeMin=20))
 mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName)
 #mySheet = datasheet(myScenario,name=sheetName,optional=T); mySheet #check what happened
@@ -145,9 +143,9 @@ mySheet[1,"NumCells"]=1000
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
 sheetName = "STSim_InitialConditionsNonSpatialDistribution"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-addRows(mySheet)=data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20)
-addRows(mySheet)=data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40)
-addRows(mySheet)=data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40)
+mySheet=addRows(mySheet,data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20))
+mySheet=addRows(mySheet,data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40))
+mySheet=addRows(mySheet,data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40))
 mySheet
 loadDatasheets(myScenario,mySheet,name=sheetName)
 
