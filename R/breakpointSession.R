@@ -26,7 +26,7 @@ setMethod(f='initialize',signature="BreakpointSession",
   #start the server
   if(startServer){
     args = list(ipaddress=ipAddress,port=port,quiet=quiet)
-    tt = command(args,.session(scenario),program="/SyncroSim.Server.exe",wait=F)
+    tt = command(args,.session(scenario),program="SyncroSim.Server.exe",wait=F)
   }
   .Object@connection = connection(ipAddress,port)
   .Object@scenario = scenario

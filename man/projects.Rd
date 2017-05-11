@@ -18,6 +18,6 @@ By default returns a list of projects identified by the project id. Each element
 Get a list of projects in a SyncroSim library.
 }
 \examples{
-myProjects = projects(ssimLibrary(model="stsim",name="stsim"))
+myProjects = projects(ssimLibrary(name="stsim"))
 }
 

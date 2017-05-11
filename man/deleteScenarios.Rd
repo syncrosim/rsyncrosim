@@ -20,7 +20,7 @@ A list of "saved" or failure messages for each scenario.
 Deletes one or more scenarios from a SyncroSim library.
 }
 \examples{
-myLibrary = ssimLibrary(model="stsim")
+myLibrary = ssimLibrary()
 myScenario = scenario(project(myLibrary))
 scenarios(myLibrary,names=T)
 deleteScenarios(myLibrary,scenario="Scenario")

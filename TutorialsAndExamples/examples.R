@@ -15,7 +15,7 @@ showMethods("filepath") # See the objects for which filepath is defined.
 ##########################
 # Create and query a session
 mySsim = session() # Creates a session using the default installation of syncrosim
-devSsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a silent session using a particular version (i.e. folder) of syncrosim
+devSsim = session("C:/svnprojects/SyncroSim-1/WinForm/bin/x86/Debug",silent=F) # Creates a non-silent session using a particular version (i.e. folder) of syncrosim
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim) # Lists the folder location of syncrosim session
 version(mySsim) # Lists the version of syncrosim session
@@ -36,7 +36,7 @@ removeModules(mySsim) = "hi"
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
 command("help")
-command(c("list","help"),mySsim,printCmd=T)
+command(c("list","help"),session(printCmd=T))
 # LOW PRIORITY: Better explain command with help examples: c("list","models")
 
 # LATER: Create own model from scratch in R. Inputs, output and calculations
@@ -45,22 +45,22 @@ command(c("list","help"),mySsim,printCmd=T)
 # Create a new SsimLibrary
 # If no primary model and only one model installed, use that.
 models(session())
-myLibrary = ssimLibrary(model="stsim",name="stsim")
+myLibrary = ssimLibrary(name="stsim")
 
-myLibrary = ssimLibrary(model="stsim") # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=session())
+myLibrary = ssimLibrary() # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=session())
 # See ?ssimLibrary for more details and examples.
 
 # With addons
 addons(myLibrary,all=T)
 addons(myLibrary)
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim", addons=c("stsim-ecological-departure"))
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addons=c("stsim-ecological-departure"))
 addons(myLibrary)
 
 myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
 
 # Open an existing ST-Sim library on a SyncroSim connection
-myLibrary = ssimLibrary(model="stsim",name="C:/Temp/NewLibrary.ssim", backup=TRUE)
+myLibrary = ssimLibrary(name="C:/Temp/NewLibrary.ssim", backup=TRUE)
 
 # Get/set the various properties of the library
 session(myLibrary) # returns the SyncroSim Session object associated with the library
@@ -85,7 +85,7 @@ info(myLibrary)
 ###################################
 # Projects
 # Create a new project
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 myProject = project(ssimLibrary=myLibrary, name="My new project name")
 
@@ -119,7 +119,7 @@ deleteProjects(myLibrary, project=c(25),force=T)
 # Scenarios
 # devtools::document();devtools::load_all()
 # Get a named list of Scenario objects
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary3.ssim")
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary3.ssim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 name(myProject)
 scenarios(myLibrary,names=T)
@@ -193,7 +193,7 @@ results(myScenario)     # returns a named vector (by char ID) of the results sce
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
 # We also return each column in the correct data type.
 # devtools::document();devtools::load_all()
-myLibrary = ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim")
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary,id=1)
 
@@ -282,19 +282,19 @@ myDeterminisiticTransitions[1:3,"AgeMin"] = c(50, 60, NA)    # change the AgeMin
 # Create a library called <model>.ssim in the current working directory.
 # devtools::document();devtools::load_all()
 
-myLib = ssimLibrary(model="stsim")
+myLib = ssimLibrary()
 session(myLib) # The SycroSim session
 filepath(myLib) # Path to the file on disk.
 info(myLib) # Model type and other library information.
 # Open an existing SyncroSim library in the current working directory.
 myLib = ssimLibrary()
-myLib = ssimLibrary(name="stsim",model="stsim")
+myLib = ssimLibrary(name="stsim")
 
 # Create a library with name in the current working directory
-# myLib2 = ssimLibrary(name="Lib2",model="stsim")
+# myLib2 = ssimLibrary(name="Lib2")
 
 # Create a library with a name and model in another directory
-myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
+myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"))
 
 # Create or load a library using a specific session
 #mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")

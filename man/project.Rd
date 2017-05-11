@@ -34,7 +34,7 @@ Creates or opens an \code{\link{Project}} object representing a SyncroSim projec
 }
 \examples{
 # Create a new project
-myLibrary = ssimLibrary(model="stsim",name="stsim")
+myLibrary = ssimLibrary(name="stsim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
 myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
 

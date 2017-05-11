@@ -23,7 +23,7 @@ Project <- setClass("Project", contains="SsimLibrary",representation(name="chara
 # @rdname Project-class
 setMethod(f='initialize',signature="Project",
     definition=function(.Object,ssimLibrary,name=NULL,id=NULL,create=T,projects=NULL){
-    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id = NULL;name=NULL;projects=NULL;create=T;projects=NULL
     x=ssimLibrary
     if(is.character(x)){
@@ -126,7 +126,7 @@ setMethod(f='initialize',signature="Project",
 #' @return A \code{Project} object representing a SyncroSim project.
 #' @examples
 #' # Create a new project
-#' myLibrary = ssimLibrary(model="stsim",name="stsim")
+#' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
 #' myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
 #'

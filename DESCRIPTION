@@ -27,9 +27,9 @@ Suggests:
     rmarkdown,
     testthat
 Collate:
+    'AAAClassDefinitions.R'
     'addRows.R'
     'generics.R'
-    'session.R'
     'ssimLibrary.R'
     'project.R'
     'scenario.R'
@@ -41,6 +41,7 @@ Collate:
     'getFromXProjScn.R'
     'internalHelpers.R'
     'sqlStatements.R'
+    'session.R'
     'internalWrappers.R'
     'levelplotCategorical.R'
     'rasterAttributes.R'

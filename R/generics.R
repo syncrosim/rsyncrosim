@@ -9,7 +9,7 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' @param results If TRUE only return result scenarios.
 #' @param select An (optional) vector of scenario ids or names to include
 #' @examples
-#' myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
+#' myScenarios = scenarios(ssimLibrary(name="stsim"))
 #' @export
 setGeneric('scenarios',function(x,project=NULL,names=F,results=NULL,select=NULL) standardGeneric('scenarios'))
 setMethod('scenarios', signature(x="character"), function(x,project,names,results,select) {
@@ -68,29 +68,6 @@ setGeneric('filepath',function(x) standardGeneric('filepath'))
 #' @export
 setGeneric('info',function(x) standardGeneric('info'))
 
-#' Start or get a SyncroSim session.
-#'
-#' Methods to create a Syncrosim session or fetch one from a SsimLibrary, Project or Scenario object.
-#' @param x A path to SyncroSim.Console.exe or an object containing a Session.
-#'  If NULL the usual locations are searched.
-#' @param silent Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
-#' @return An SyncroSim Session object containing a valid console path.
-#' @examples
-#' # Look for SyncroSim in the usual places
-#' mySession = session()
-#' path(mySession)
-#'
-#' # Specify a SyncroSim version
-#' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#'
-#' # Get the session from an SsimLibrary
-#' myLib = ssimLibrary(name="stsim",model="stsim")
-#' session(myLib)
-#'
-#' # Assign a session to a SyncroSim library
-#' session(myLib)=session()
-#' @export
-setGeneric('session',function(x=NULL,...) standardGeneric('session'))
 
 #' datasheets
 #'
@@ -150,15 +127,14 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #' @param lookupsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
 #' @param sqlStatements SELECT and GROUP BY SQL statements passed to SQLite database.
 #' @param includeKey If TRUE include primary key in output table.
-#' @param printCmd Set to TRUE to see SyncrSim command line arguments. Helpful for debugging.
 #' @return A dataframe representing a SyncroSim datasheet.
 #' @examples
 #'
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,printCmd=F) standardGeneric('datasheet'))
+setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F) standardGeneric('datasheet'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey,printCmd) {
+setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
   x = .getFromXProjScn(x,project,scenario)
   return(out)
 })
@@ -241,16 +217,15 @@ setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,opt
 #' @param project Project name or id.
 #' @param scenario Scenario name or id.
 #' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
-#' @param printCmd Set to TRUE to see the SyncroSim command line arguments. Helpful for debugging.
 #' @return A named list of success or failure reports.
 #' @examples
 #'
 #' @export
-setGeneric('loadDatasheets',function(x,data,name,project=NULL,scenario=NULL,breakpoint=F,printCmd=F) standardGeneric('loadDatasheets'))
+setGeneric('loadDatasheets',function(x,data,name,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadDatasheets'))
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint,printCmd) {
+setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint) {
   x = .getFromXProjScn(x,project,scenario)
-  out = loadDatasheets(x,data,name,project,scenario,breakpoint,printCmd)
+  out = loadDatasheets(x,data,name,project,scenario,breakpoint)
   return(out)
 })
 

@@ -7,10 +7,23 @@
 # **********************************************************
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
+mySession = session(defaultModel="dgsim")
+defaultModel(mySession)
+
+#Three different ways to provide args to command
+command(c("create","help"))
+command("--create --help")
+command(list(create=NULL,help=NULL))
+
+args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="hello:model-transformer")
+output = command(args,session=session(printCmd=T,silent=F))
+output
+
+myLib=ssimLibrary(name="temp17",session=session(printCmd=T))
 
 #*************************************
 # Create the project definition
-myLibrary = SSimLibrary(model="stsim",name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
+myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
 myProject = project(myLibrary,name="ST-Sim Demonstration")
 
 scenarios(myLibrary,names=T)
@@ -63,10 +76,10 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # Transitions
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 datasheets(myProject,scope="project")$name #See project scope datasheet names
-sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T,printCmd=T)
+sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
-loadDatasheets(myProject,mySheet,name=sheetName,printCmd=T)
+loadDatasheets(myProject,mySheet,name=sheetName)
 loadDatasheets(myProject,subset(mySheet,select=Name),name="STSim_TransitionType")
 
 sheetName = "STSim_TransitionTypeGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
@@ -305,9 +318,9 @@ parentId(myScenario)
 # - How to access results more efficiently. E.G. Transitions table.
 # - More graceful failure given insufficient version of SyncroSim. Colin got a wierd failure error (indexing?) from 0.24.
 # - Problems with default transition type groups:
-#    sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T,printCmd=T)
+#    sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 #    mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
-#    loadDatasheets(myProject,mySheet,name=sheetName,printCmd=T)
+#    loadDatasheets(myProject,mySheet,name=sheetName)
 #   I've added an "IsVisible" column property to --list --columns so Josie can check for this as well.
 #   We should be careful about omitting fields for datasheets on export because when you import a datasheet it updates existing records with the new data.  For example, if you omit the "Description" field then existing description will be overwritten with NULL if you import that same file.  I'm not sure if this is what is happening in the R scripts, but just something to be aware of.  Of course we could change things so data is never overwritten with NULL for definition imports (and Cut/Paste...) but then you would not be able to replace an existing definition with NULL which seems a bit wrong.
 #   Ensure that factor levels are passed through from invisible datasheet

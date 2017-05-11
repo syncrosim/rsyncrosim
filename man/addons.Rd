@@ -18,6 +18,6 @@ A dataframe of addons.
 The addons of an SsimLibrary.
 }
 \examples{
-addons(ssimLibrary(model="stsim",name="stsim"))
+addons(ssimLibrary(name="stsim"))
 }
 

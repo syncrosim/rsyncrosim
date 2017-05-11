@@ -20,7 +20,7 @@ ssimLibrary(name = NULL, ...)
 \arguments{
 \item{name}{A file name, model type, SyncroSim Project or Scenario. Optional.}
 
-\item{model}{The model type. Optional when loading an existing library.}
+\item{model}{Character. The model type. Ignored when loading an existing library. Default is defaultModel(session())}
 
 \item{session}{A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.}
 
@@ -62,7 +62,7 @@ Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim li
 models(session())
 
 # Create a library called <model>.ssim in the current working directory.
-myLibrary = ssimLibrary(model="stsim")
+myLibrary = ssimLibrary()
 session(myLibrary) #The SycroSim session
 filepath(myLibrary) #Path to the file on disk.
 info(myLibrary) #Model type and other library information.
@@ -71,10 +71,10 @@ info(myLibrary) #Model type and other library information.
 myLibrary = ssimLibrary()
 
 # Create a library with a name in the current working directory
-mySecondLibrary = ssimLibrary(name="Lib2",model="stsim")
+mySecondLibrary = ssimLibrary(name="Lib2")
 
 # Create a library with a name in another directory
-myThirdLibrary = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"),model="stsim")
+myThirdLibrary = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"))
 
 # Create or load a library using a specific session
 mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")

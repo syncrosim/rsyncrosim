@@ -6,30 +6,41 @@
 #'
 #' \code{command} issues a command to the SyncroSim console and returns the output.
 #'
-#' @param args A list of arguments to the SyncroSim console.
+#' @details 
+#' Example args, and the resulting character string passed to the SyncroSim console:
+#' \itemize{
+#'    \item Character string e.g. "--create --help": "--create --help" 
+#'    \item Named list or named vector e.g. list(name1=NULL,name2=value2): "--name1 --name2=value2"
+#'    \item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
+#' }
+#' @param args Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.
 #' @param session A SyncroSim session object. If NULL, a default session will be used.
-#' @param printCmd If T, the command string is printed.
-#' @param silent If NULL (default) use session@silent. If T suppress warnings from console.
-#' @param wait If TRUE (default) R will wait for the command to finish before proceeding.
-#' @return Output from the SyncroSim console.
+#' @param program Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.ModuleManager.exe and SyncroSim.Multiband.exe.
+#' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding.
+#' @return Output from the SyncroSim program.
 #' @examples
-#' # Use a default session to creat a new library
-#' args = list(create=NULL,ssimLibrary=NULL,name=paste0(getwd(),"/temp.ssim",model="stsim:model-transformer")
-#' output = command(args)
+#' # Use a default session to creat a new library in the current working directory.
+#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="stsim:model-transformer")
+#' output = command(args,session=session(printCmd=T))
 #' output
+#' 
+#' #Three different ways to provide args to command
+#' command(c("create","help"))
+#' command("--create --help")
+#' command(list(create=NULL,help=NULL))
 #' @export
-command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",silent=NULL,wait=T) {
-  # args=args;session=bugSession;printCmd=T;program="/SyncroSim.Console.exe"
+command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
+  # args=args;session=session(printCmd=T);program="SyncroSim.Console.exe";wait=T
   # TO DO: check validity of args
-  if(!is.null(silent)){
-    session@silent =silent
-  }
-
+ 
   #if a syncrosim session is not provided, make one
   if(is.null(session)){
     session = .session()
   }
-
+  if((class(args)=="list")&is.null(names(args))){
+    args = as.character(args)
+  }
+  
   if(class(args)=="list"){
     sysArgs = c()
     for(i in seq(length.out=length(args))){
@@ -42,17 +53,24 @@ command<-function(args,session=NULL,printCmd=F,program="/SyncroSim.Console.exe",
       sysArgs[i] = paste0(sysArgs[i],'="',args[[i]],'"')
     }
   }else{
+    args=gsub(" --","---",args,fixed=T)
     fixPaths = grepl(" ",args)
     args[fixPaths] = gsub('=','="',args[fixPaths],fixed=T)
     args[fixPaths] = paste0(args[fixPaths],'"')
-    sysArgs=paste0('--',args)
+    args = gsub("---"," --",args,fixed=T)
+    
+    if(sum(grepl("--",args,fixed=T))==0){
+      args=paste0('--',args)
+    }
+    sysArgs=args
   }
-  if(printCmd){
+  sysArgs
+  if(printCmd(session)){
     outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)
     print(outCmd)
   }
 
-  tempCmd = paste(c(paste0('\"\"',.filepath(session),program,'\"'),sysArgs,'\"'),collapse=" ")
+  tempCmd = paste(c(paste0('\"\"',.filepath(session),"/",program,'\"'),sysArgs,'\"'),collapse=" ")
 
   #print(filepath(session))
   if(Sys.info()['sysname'][[1]]!="Windows"){

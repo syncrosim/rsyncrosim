@@ -63,7 +63,7 @@ setMethod('remoteCall', signature(x="ServerController"), function(x,message) {
     #  break
     #  return ret
     return(x)
-  })
+  }})
 
 
 
@@ -78,8 +78,10 @@ library(pryr)
 pryr::otype(con)
 
 myArgs = list(list=NULL,scenarios=NULL,lib=libPath)
-command(args=myArgs,mySsim,printCmd=T)
+command(args=myArgs,mySsim)
 
 myArgs = list(run=NULL,lib=libPath,sid=1)
-command(args=myArgs,mySsim,printCmd=T)
+command(args=myArgs,mySsim)
+
+
 

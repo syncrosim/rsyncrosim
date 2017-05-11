@@ -22,10 +22,10 @@ test_that("Tests of command", {
 
 test_that("Tests of Library", {
   mySsim = session() # Creates a session using the default installation of syncrosim
-  myLibrary = ssimLibrary(model="stsim",name="stsim")
+  myLibrary = ssimLibrary(name="stsim")
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(names(addons(myLibrary)),c("name","displayName","enabled","shortName")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-  myLibrary = ssimLibrary(model="stsim", name= "NewLibrary.ssim", addons=c("stsim-ecological-departure"))
+  myLibrary = ssimLibrary(name= "NewLibrary.ssim", addons=c("stsim-ecological-departure"))
   expect_equal(is.element("stsim-ecological-departure",addons(myLibrary)$shortName),TRUE)
   unlink(filepath(myLibrary))
 
@@ -33,7 +33,7 @@ test_that("Tests of Library", {
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
 
   # Open an existing ST-Sim library on a SyncroSim connection
-  myLibrary = ssimLibrary(model="stsim",name="stsim", backup=TRUE)
+  myLibrary = ssimLibrary(name="stsim", backup=TRUE)
   expect_equal(file.exists(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T)),TRUE)
   unlink(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T))
 
@@ -54,7 +54,7 @@ test_that("Tests of Library", {
 })
 
 test_that("Tests of Project", {
-  myLibrary = ssimLibrary(name="New Lib5",model="stsim")
+  myLibrary = ssimLibrary(name="New Lib5")
   myProject = project(myLibrary) #If no name is given, creates a project named "Project".
   myProject = project(ssimLibrary=myLibrary, name="My new project name")
 
@@ -82,7 +82,7 @@ test_that("Tests of Project", {
 })
 
 test_that("Tests of Scenario", {
-  myLibrary = ssimLibrary(name="Another Lib",model="stsim")
+  myLibrary = ssimLibrary(name="Another Lib")
   myProject = project(myLibrary)
   expect_is(scenario(myLibrary),"Scenario")  # NOTE: this works only if there is <= 1 project in Library.
   expect_is(scenario(myProject),"Scenario") #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.

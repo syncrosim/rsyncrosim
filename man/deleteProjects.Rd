@@ -18,7 +18,7 @@ A list of "saved" or failure messages for each project.
 Deletes one or more projects from a SyncroSim library.
 }
 \examples{
-myLibrary = ssimLibrary(model="stsim",session=devSession)
+myLibrary = ssimLibrary(session=devSession)
 myProject = project(myLibrary)
 projects(myLibrary,names=T)
 deleteProjects(myLibrary,project="Project1")

@@ -14,7 +14,7 @@
 #' @examples
 #' # Use a default session to create a new library
 #' myArgs = list(list=NULL,columns=NULL,lib="C:/Temp/NewLibrary.ssim",sheet="STSim_Stratum",pid=1)
-#' myOutput = command(args=myArgs,mySsim,printCmd=T)
+#' myOutput = command(args=myArgs,mySsim)
 #' myDataframe = dataframeFromSSim(myOutput)
 #' myDataframe
 # @export

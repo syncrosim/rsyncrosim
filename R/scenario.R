@@ -27,7 +27,7 @@ Scenario <- setClass("Scenario", contains="SsimLibrary",representation(pid="nume
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL,author=NULL,description=NULL,readOnly=NULL){
-    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(model="stsim", name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id=NULL;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
     if(is.character(id)){id = as.numeric(id)}
 
@@ -241,7 +241,7 @@ setMethod(f='initialize',signature="Scenario",
 #' @return A \code{Scenario} object representing a SyncroSim scenario.
 #' @examples
 #' # Create a new default scenario
-#' myLibrary = ssimLibrary(model="stsim",name="stsim")
+#' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 #' myScenario = scenario(myProject)
 #'
@@ -386,7 +386,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
     stop("Need a result Scenario.")
   }
 
-  #command(c("help"),program="/SyncroSim.MultiBand.exe")
+  #command(c("help"),program="SyncroSim.MultiBand.exe")
   args = list(lib=.filepath(x),sid=.id(x))
   args[[action]]=NA
   if(action=="apply"){
@@ -394,7 +394,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
       args$grp = grouping
     }
   }
-  tt = command(args,.session(x),program="/SyncroSim.MultiBand.exe")
+  tt = command(args,.session(x),program="SyncroSim.MultiBand.exe")
   return(tt)
 })
 
@@ -652,7 +652,8 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
   #There can be more than one FileName column - make long file
   
   if(length(fileCols)==1){
-    names(cMeta)[names(cMeta)==fileCols]="FileName"
+    #names(cMeta)[names(cMeta)==fileCols]="FileName"
+    FileCol = fileCols
   }else{
     #Make wide file long
     #Make a long file by brute force - because reshape() function in the base package is awful
@@ -666,18 +667,19 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
         cMTemp=rbind(cMTemp,cRow)
       }
     }
+    fileCol="FileName"
     cMeta=cMTemp
   }
   if(!is.element("RasterLayerName",names(cMeta))){
-    cMeta$RasterLayerName = gsub("-",".",cMeta$FileName,fixed=T)
+    cMeta$RasterLayerName = gsub("-",".",cMeta[[FileCol]],fixed=T)
   }
-  cMeta$FileName=as.character(cMeta$FileName)
+  cMeta[[FileCol]]=as.character(cMeta[[FileCol]])
   for(i in 1:nrow(cMeta)){
     #i =1
     cRow = cMeta[i,]
     cDat = data[[cRow$RasterLayerName]]
     cRow$RasterLayerName=NULL
-    cFileCol = "FileName"#names(cRow)[grepl("FileName",names(cRow))]
+    cFileCol = names(cRow)[grepl("FileName",names(cRow))]
     cRow[[cFileCol]] = basename(cRow[[cFileCol]])
     cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
     

@@ -46,7 +46,7 @@ Creates or opens a \code{\link{Scenario}} object representing a SyncroSim scenar
 }
 \examples{
 # Create a new default scenario
-myLibrary = ssimLibrary(model="stsim",name="stsim")
+myLibrary = ssimLibrary(name="stsim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project".
 myScenario = scenario(myProject)
 

@@ -21,6 +21,6 @@ scenarios(x, project = NULL, names = F, results = NULL, select = NULL)
 Get a list of scenarios in a SsimLibrary or Project.
 }
 \examples{
-myScenarios = scenarios(ssimLibrary(model="stsim",name="stsim"))
+myScenarios = scenarios(ssimLibrary(name="stsim"))
 }
 

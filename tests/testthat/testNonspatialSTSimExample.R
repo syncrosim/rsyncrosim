@@ -18,7 +18,7 @@ setwd("./testLibs")
 test_that("Test simple non-spatial STSim example", {
   #*************************************
   # Create the project definition
-  myLibrary = ssimLibrary(model="stsim",name="ST-Sim-Command-Line.ssim")
+  myLibrary = ssimLibrary(name="ST-Sim-Command-Line.ssim")
   myProject = project(myLibrary,name="ST-Sim Demonstration")
 
   #***********************************
