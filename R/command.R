@@ -16,7 +16,7 @@
 #' @param args Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.
 #' @param session A SyncroSim session object. If NULL, a default session will be used.
 #' @param program Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.ModuleManager.exe and SyncroSim.Multiband.exe.
-#' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding.
+#' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=F.
 #' @return Output from the SyncroSim program.
 #' @examples
 #' # Use a default session to creat a new library in the current working directory.
@@ -30,7 +30,7 @@
 #' command(list(create=NULL,help=NULL))
 #' @export
 command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
-  # args=args;session=session(printCmd=T);program="SyncroSim.Console.exe";wait=T
+  # args=args;session=session(printCmd=T,silent=F);program="SyncroSim.Console.exe";wait=T
   # TO DO: check validity of args
  
   #if a syncrosim session is not provided, make one
@@ -77,13 +77,12 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     warning("Handle this case. May need to add mono for Server. See session.py for detail")
   }
   if(wait){
-    if(silent(session)){
-      out=suppressWarnings(shell(tempCmd,intern=T))
-      #out = suppressWarnings(system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE))
-    }else{
-      #out = system2(paste0(.filepath(session),program), args=sysArgs,stdout=TRUE)
-      out = shell(tempCmd,intern=T)
-    }
+    tryCatch(out<-shell(tempCmd,intern=T),warning=function(w){
+      if(!silent(session)){
+        print(paste0("SyncroSim Error (status ",attr(out,"status"),"): ",as.character(out)))
+      }
+    },error = function(e) stop(e))
+    #errs = suppressWarnings(system2(paste0(.filepath(session),"/",program), args=sysArgs,stdout=TRUE,stderr=TRUE))
   }else{
     #Special case used for breakpoints
     out=suppressWarnings(shell(tempCmd,wait=F))
@@ -96,9 +95,6 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
   #}
   if(identical(out,character(0))){
     out="saved"
-  }else{
-    if(!is.null(attr(out,"status"))){
-    }
   }
   return(out)
 }

@@ -12,14 +12,19 @@ defaultModel(mySession)
 
 #Three different ways to provide args to command
 command(c("create","help"))
-command("--create --help")
+myOut = command("--create --help",session=session(printCmd=T,silent=F))
+str(myOut)
 command(list(create=NULL,help=NULL))
 
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="hello:model-transformer")
 output = command(args,session=session(printCmd=T,silent=F))
 output
+args=c("create","help")
 
-myLib=ssimLibrary(name="temp17",session=session(printCmd=T))
+
+myLib=ssimLibrary(name="temp17",session=session(printCmd=T,silent=F))
+
+
 
 #*************************************
 # Create the project definition
