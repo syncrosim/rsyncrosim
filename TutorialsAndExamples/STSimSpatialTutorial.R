@@ -30,7 +30,7 @@ if(!file.exists(libPath)){
 # View  "STSim_OutputSpatialState" results
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
-myProject = project(myLibrary)
+myProject = project(myLibrary,project="a project")
 #scenarios(myProject,names=T)
 run(myProject,5,onlyIds=T)
 

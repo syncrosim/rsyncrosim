@@ -28,7 +28,7 @@ if(!file.exists(libPath)){
 #*************************************
 # Create a new scenario with breakpoints
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
-myProject = project(myLibrary)
+myProject = project(myLibrary,project="a project")
 scenarios(myProject,names=T)
 
 if(!is.element("breakpoint test",scenarios(myProject,names=T)$name)){

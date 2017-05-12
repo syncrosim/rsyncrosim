@@ -54,13 +54,13 @@ myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=session())
 # With addons
 addons(myLibrary,all=T)
 addons(myLibrary)
-myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addons=c("stsim-ecological-departure"))
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-ecological-departure"))
 addons(myLibrary)
 
 myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
 
 # Open an existing ST-Sim library on a SyncroSim connection
-myLibrary = ssimLibrary(name="C:/Temp/NewLibrary.ssim", backup=TRUE)
+myLibrary = ssimLibrary(name="C:/Temp/NewLibrary.ssim")
 
 # Get/set the various properties of the library
 session(myLibrary) # returns the SyncroSim Session object associated with the library
@@ -86,20 +86,18 @@ info(myLibrary)
 # Projects
 # Create a new project
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
-myProject = project(myLibrary) #If no name is given, creates a project named "Project".
-myProject = project(ssimLibrary=myLibrary, name="My new project name")
+myProject = project(ssimLibrary=myLibrary, project="My new project name")
 
 # Get a named list of existing projects
-myProjects = projects(myLibrary) # Each element in the list is named by a character version of the project ID
+myProjects = project(myLibrary,summary=F) # Each element in the list is named by a character version of the project ID
 
-myProjects =projects(myLibrary) # Returns a data frame containing project names and ids.
 str(myProjects)
-names(myProjects)   # vector of the project names (using base R names function)
-# DISCUSS: base R function names returns project id's, not names. I don't recommend overwriting the base function for List objects.
+names(myProjects)   # vector of the project ids (using base R names function)
+myProjects =project(myLibrary) # Returns a data frame containing project names and ids.
 
 # Get an existing project. Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[["1"]]
-myProject = project(myLibrary, name="TempProject")
+myProject = project(myLibrary, project="TempProject")
 
 # Get/set the project properties - for now we can only set the name
 name(myProject)
@@ -108,7 +106,7 @@ name(myProject) = "New project name"
 myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
 
 # Delete projects
-projects(myLibrary,names=T)
+project(myLibrary)
 deleteProjects(myLibrary, project="My new project name") # Returns a list of "saved" or a failure messages for each project.
 deleteProjects(myLibrary, project=c(25),force=T)
 # QUESTION: Do we want to be consistent about "project" vs "projects" here?
@@ -120,8 +118,7 @@ deleteProjects(myLibrary, project=c(25),force=T)
 # devtools::document();devtools::load_all()
 # Get a named list of Scenario objects
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary3.ssim")
-myProject = project(myLibrary) #If no name is given, creates a project named "Project".
-name(myProject)
+myProject = project(myLibrary,project="a project")
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary)
 # NOTE: this works only if there is <= 1 project in Library.
@@ -140,7 +137,7 @@ id(myScenario)
 myScenarios = scenarios(myLibrary)
 names(myScenarios)
 scenarios(myLibrary,names=T)
-projects(myLibrary,names=T)
+project(myLibrary)
 
 scenarios(myProject,names=T)
 
@@ -154,7 +151,6 @@ myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=1, results=TRUE)
 myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - returns a single scenario object
 scenarios(myLibrary,names=T)
 myScenario = scenario(myLibrary, id=1) # By ID directly from the library - return a single scenario object
-# NOTE: To be consistent with project() I have used name/id in scenario().
 
 # Delete a scenario
 scenarios(myLibrary,names=T)
@@ -228,7 +224,7 @@ myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition
 #DISCUSS - not sure exactly what a datasheet object should be, or why we need one.
 
 # Similarly we can get dataframes of project datasheets
-projects(myLibrary,names=T)
+project(myLibrary)
 myProjectDataframes = datasheets(myLibrary, project="Project", scope="project")  # same as above
 
 # Get empty template dataframes for each scenario datafeed in a project - lookup columns are expressed as factors with only valid values

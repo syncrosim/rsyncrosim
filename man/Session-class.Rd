@@ -14,7 +14,7 @@ A SyncroSim Session object contains a link to SyncroSim.
 \describe{
 \item{\code{filepath}}{The path to SyncroSim}
 
-\item{\code{silent}}{If TRUE, warnings from the console are ignored. Otherwise they are printed. Default is FALSE.}
+\item{\code{silent}}{If FALSE, all SyncroSim output with non-zero exit status is printed. Helpful for debugging. Default=TRUE.}
 
 \item{\code{printCmd}}{If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.}
 

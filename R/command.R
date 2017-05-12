@@ -79,7 +79,7 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
   if(wait){
     tryCatch(out<-shell(tempCmd,intern=T),warning=function(w){
       if(!silent(session)){
-        print(paste0("SyncroSim Error (status ",attr(out,"status"),"): ",as.character(out)))
+        print(paste0("SyncroSim Error: ",as.character(out)))
       }
     },error = function(e) stop(e))
     #errs = suppressWarnings(system2(paste0(.filepath(session),"/",program), args=sysArgs,stdout=TRUE,stderr=TRUE))

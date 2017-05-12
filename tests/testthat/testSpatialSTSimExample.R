@@ -36,7 +36,7 @@ test_that("Test simple spatial STSim example", {
   # View  "STSim_OutputSpatialState" results
   myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
-  myProject = project(myLibrary)
+  myProject = project(myLibrary,summary=F,forceElements=T)[[1]]
 
   if(!is.element(7,scenarios(myProject,names=T)$id)){
     temp = run(myProject,5,onlyIds=T)

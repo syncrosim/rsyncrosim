@@ -11,13 +11,14 @@
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The SyncroSim session.}
+\item{\code{session}}{The SyncroSim Session.}
 
 \item{\code{filepath}}{The path to the library on disk.}
 
 \item{\code{datasheetNames}}{The names and scope of all datasheets in the library. Used to speed calculations.}
 }}
 \examples{
+#TODO – update examples
 # Create or load and query a SyncroSim Library.
 myLibrary = ssimLibrary()
 session(myLibrary)

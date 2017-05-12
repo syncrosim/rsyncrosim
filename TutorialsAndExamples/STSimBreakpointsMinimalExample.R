@@ -6,7 +6,7 @@ libRoot = "C:/Temp/ST-Sim Spatial Tutorial2"
 libName = "ST-Sim Spatial Tutorial"
 libPath = paste0(libRoot,"/",libName,".ssim")
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
-myProject = project(myLibrary)
+myProject = project(myLibrary,project="a project")
 scenarios(myProject,names=T)
 
 myBreakpointFunction<-function(x,iteration,timestep){

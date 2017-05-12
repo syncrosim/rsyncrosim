@@ -43,7 +43,15 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   .Object@filepath=gsub("\\","/",gsub("/SyncroSim.Console.exe","",path,fixed=T),fixed=T)
   .Object@silent=silent
   .Object@printCmd=printCmd
-  .Object@defaultModel=defaultModel
+  
+  #check default model is valid
+  modelOptions = models(.Object)
+  model=gsub(":model-transformer","",defaultModel,fixed=T)
+  if(!is.element(model,modelOptions$shortName)){
+    stop(paste("Model type",defaultModel,"not recognized. Options are:",paste0(modelOptions$shortName,collapse=",")))
+  }
+  
+  .Object@defaultModel=model
 
   vs = command(list(version=NULL),.Object)
   if(!grepl("Core Assembly Version",vs[[2]])){stop(vs)}

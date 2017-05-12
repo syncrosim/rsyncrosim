@@ -25,7 +25,7 @@ test_that("Tests of Library", {
   myLibrary = ssimLibrary(name="stsim")
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(names(addons(myLibrary)),c("name","displayName","enabled","shortName")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-  myLibrary = ssimLibrary(name= "NewLibrary.ssim", addons=c("stsim-ecological-departure"))
+  myLibrary = ssimLibrary(name= "NewLibrary.ssim", addon=c("stsim-ecological-departure"))
   expect_equal(is.element("stsim-ecological-departure",addons(myLibrary)$shortName),TRUE)
   unlink(filepath(myLibrary))
 
@@ -33,9 +33,9 @@ test_that("Tests of Library", {
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
 
   # Open an existing ST-Sim library on a SyncroSim connection
-  myLibrary = ssimLibrary(name="stsim", backup=TRUE)
-  expect_equal(file.exists(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T)),TRUE)
-  unlink(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T))
+  #myLibrary = ssimLibrary(name="stsim", backup=TRUE)
+  #expect_equal(file.exists(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T)),TRUE)
+  #unlink(gsub(".ssim","_backup.ssim",filepath(myLibrary),fixed=T))
 
   # Get/set the various properties of the library
   expect_equal(file.exists(filepath(session(myLibrary))),TRUE)
@@ -55,16 +55,15 @@ test_that("Tests of Library", {
 
 test_that("Tests of Project", {
   myLibrary = ssimLibrary(name="New Lib5")
-  myProject = project(myLibrary) #If no name is given, creates a project named "Project".
-  myProject = project(ssimLibrary=myLibrary, name="My new project name")
+  myProject = project(ssimLibrary=myLibrary, project="My new project name")
 
   # Get a named list of existing projects
-  myProjects = projects(myLibrary) # Each element in the list is named by a character version of the project ID
-  expect_output(str(myProjects),"List of 2")
+  myProjects = project(myLibrary,summary=F,forceElements=T) # Each element in the list is named by a character version of the project ID
+  expect_output(str(myProjects),"List of 1")
   expect_is(myProjects[[1]],"Project")
 
   # Get an existing project. Assume that name uniquely identifies a single project - give error if not
-  myProject = project(myLibrary, name="My new project name")
+  myProject = project(myLibrary, project="My new project name")
   expect_is(myProject,"Project")
 
   # Get/set the project properties - for now we can only set the name
@@ -75,7 +74,7 @@ test_that("Tests of Project", {
 
   # Delete projects
   expect_output(deleteProjects(myLibrary, project=c("New project name","hi"),force=T),"Cannot remove the project hi from the library because it does not exist.")
-  myProjectNames = projects(myLibrary,names=T)
+  myProjectNames = project(myLibrary)
   expect_equal(names(myProjectNames),c("id","name"))
   expect_equal(is.element("New project name",myProjectNames$name),FALSE)
   unlink(filepath(myLibrary))
@@ -83,7 +82,7 @@ test_that("Tests of Project", {
 
 test_that("Tests of Scenario", {
   myLibrary = ssimLibrary(name="Another Lib")
-  myProject = project(myLibrary)
+  myProject = project(myLibrary,project="a project")
   expect_is(scenario(myLibrary),"Scenario")  # NOTE: this works only if there is <= 1 project in Library.
   expect_is(scenario(myProject),"Scenario") #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
 

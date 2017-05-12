@@ -49,12 +49,7 @@
     if(class(project)=="Project"){
       return(project)
     }
-    if(class(project)=="character"){
-      return(.project(x,name=project))
-    }
-    if(class(project)=="numeric"){
-      return(.project(x,id=project))
-    }
+    return(.project(x,project=project))    
   }
   stop(paste0("Could not identify a SsimLibrary, Project or Scenario from x, project, and scenario arguments."))
 }

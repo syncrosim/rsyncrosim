@@ -26,8 +26,6 @@ NULL
 # @export
 .scenarios=scenarios
 # @export
-.projects=projects
-# @export
 .datasheet=datasheet
 # @export
 .name=name

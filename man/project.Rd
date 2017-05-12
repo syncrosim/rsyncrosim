@@ -2,44 +2,46 @@
 % Please edit documentation in R/project.R
 \name{project}
 \alias{project}
-\title{Create or open a project.}
+\title{Create or open a project or projects.}
 \usage{
-project(ssimLibrary, name = NULL, id = NULL, create = T,
-  projects = NULL)
+project(ssimObject, project = NULL, sourceProject = NULL, summary = NULL,
+  forceElements = F)
 }
 \arguments{
-\item{ssimLibrary}{An SsimLibrary object, representing the library that contains the project.}
+\item{ssimObject}{SsimLibrary/Scenario or character. An ssimObject containing a filepath to a library, or a filepath.}
 
-\item{name}{The project name.}
+\item{project}{Character, integer, or vector of these. Names or ids of one or more projects.}
 
-\item{id}{The project id.}
+\item{sourceProject}{Character or integer. If not NULL, new projects will be copies of the sourceProject.}
 
-\item{create}{If TRUE, create project if one does not exist. If FALSE, only return an existing project}
+\item{summary}{Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL, FALSE otherwise.}
 
-\item{projects}{A dataframe of existing projects produced by projects(). Use to speed processing.}
+\item{forceElements}{Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.}
 }
 \value{
-A \code{Project} object representing a SyncroSim project.
+A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.
 }
 \description{
-Creates or opens an \code{\link{Project}} object representing a SyncroSim project.
+If summary = FALSE, returns one or more \code{\link{Project}} objects representing a SyncroSim projects.
+If summary = TRUE, returns project summary info.
 }
 \details{
+For each element of project:
 \itemize{
-  \item {If name/id uniquely identify an existing project: }{Returns the existing Project}
-  \item {If name/id identify more than one project: }{Error}
-  \item {If name/id don't identify an existing project, and name is not specified: }{Creates a new Project called "Project". The id argument is ignored, as SyncroSim automatically assigns an id.}
-  \item {If name/id don't identify an existing project, and name is specified: }{Creates a new Project called <name>. The id argument is ignored, as SyncroSim automatically assigns an id.}
+  \item {If element identifies an existing project: }{Returns the existing Project}
+  \item {If element identifies more than one project: }{Error}
+  \item {If element does not identify an existing project: }{Creates a new Project named element. Note that SyncroSim automatically assign an id to a new project.}
 }
 }
 \examples{
+#TODO – update examples
 # Create a new project
 myLibrary = ssimLibrary(name="stsim")
 myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
 myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
 
 # Get a named list of existing projects
-myProjects = projects(myLibrary) # Each element in the list is named by a character version of the project ID
+myProjects = project(myLibrary,summary=F) # Each element in the list is named by a character version of the project ID
 names(myProjects)   # vector of the project names (using base R names function)
 #TO DO: base R function names returns project id's, not names. Do we want to overwrite the base function?
 

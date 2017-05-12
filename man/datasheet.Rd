@@ -38,7 +38,7 @@ Gets Syncrosim datasheet.
   \item {If lookupsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
   \item {If empty=F and lookupsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
-  \item {If x is a list of Scenario or Project objects (output from run(), scenarios() or projects()): }{Adds ScenarioID/ProjectID column if appropriate.}
+  \item {If x is a list of Scenario or Project objects (output from run(), scenarios() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
   \item {If length(scenario)>1: }{Adds ScenarioID/ProjectID column if appropriate.}
   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}

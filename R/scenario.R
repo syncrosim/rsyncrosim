@@ -3,31 +3,15 @@
 # Version 0.1
 # Licence GPL v3
 #' @include generics.R
+#' @include AAAClassDefinitions.R
 #' @include ssimLibrary.R
 #' @include project.R
 NULL
-#' SyncroSim Scenario class
-#'
-#' \code{Scenario} object representing a SyncroSim Project.
-#'
-#' @seealso See \code{\link{scenario}} for options when creating or loading an SyncroSim Scenario.
-#' @slot session The session associated with the library.
-#' @slot filepath The path to the library on disk.
-#' @slot datasheetNames Names and scope of all datasheets in library.
-#' @slot pid The project id.
-#' @slot name The scenario name.
-#' @slot id The scenario id.
-#' @slot parentId For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.
-#' @slot breakpoints An (optional) list of Breakpoint objects. See ?breakpoints for details.
-#' @name Scenario-class
-#' @rdname Scenario-class
-#' @export Scenario
-Scenario <- setClass("Scenario", contains="SsimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric",breakpoints="list"))
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL,author=NULL,description=NULL,readOnly=NULL){
-    #ssimLibrary = myLibrary  #.project(myLibrary,id=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    #ssimLibrary = myLibrary  #.project(myLibrary,project=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id=NULL;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
     if(is.character(id)){id = as.numeric(id)}
 
@@ -73,7 +57,7 @@ setMethod(f='initialize',signature="Scenario",
     }
     cProjects=NULL
     if((nrow(findScn)!=1)&&(class(pid)=="character")){
-      cProjects = projects(x,names=T)
+      cProjects = .project(x)
       findProject = subset(cProjects,name==project)
       findScn = subset(findScn,is.element(pid,findProject$id))
       if(nrow(findProject)>0){
@@ -148,12 +132,12 @@ setMethod(f='initialize',signature="Scenario",
           stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project and set create=T to create a new scenario."))
         }
         if(is.null(cProjects)){
-          cProjects = projects(x,names=T)
+          cProjects = .project(x)
         }
         if(nrow(cProjects)>1){
           stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project to create a new scenario."))
         }else{
-          x = project(x)
+          x = .project(x,summary=F)
         }
       }
       if(nrow(findScn)>1){
@@ -242,7 +226,7 @@ setMethod(f='initialize',signature="Scenario",
 #' @examples
 #' # Create a new default scenario
 #' myLibrary = ssimLibrary(name="stsim")
-#' myProject = project(myLibrary) #If no name is given, creates a project named "Project".
+#' myProject = project(myLibrary,project="a project") 
 #' myScenario = scenario(myProject)
 #'
 #' @name scenario
@@ -372,13 +356,6 @@ setMethod('pid', signature(x="Scenario"), function(x) {
 #' @param x An Scenario object.
 #' @export
 projectId = pid
-
-#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Scenario.
-setMethod('ssimLibrary', signature(name="Scenario"), function(name) {
-  #model=cScn
-  out = .ssimLibrary(name=.filepath(name),session=.session(name))
-  return(out)
-})
 
 setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL

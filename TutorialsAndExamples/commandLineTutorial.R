@@ -12,24 +12,24 @@ defaultModel(mySession)
 
 #Three different ways to provide args to command
 command(c("create","help"))
-myOut = command("--create --help",session=session(printCmd=T,silent=F))
-str(myOut)
+command("--create --help",session=session(printCmd=T))
 command(list(create=NULL,help=NULL))
 
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="hello:model-transformer")
 output = command(args,session=session(printCmd=T,silent=F))
 output
-args=c("create","help")
 
+mySession =session(printCmd=T,silent=F)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
-myLib=ssimLibrary(name="temp17",session=session(printCmd=T,silent=F))
-
-
+myLib=ssimLibrary(name="temp24",session=mySession)
+myProject = project(myLib,project="temp")
+project(myLib)
 
 #*************************************
 # Create the project definition
 myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
-myProject = project(myLibrary,name="ST-Sim Demonstration")
+myProject = project(myLibrary,project="ST-Sim Demonstration")
 
 scenarios(myLibrary,names=T)
 #***********************************
@@ -104,7 +104,6 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # Add No Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,name="No Harvest")
-# NOTE: To be consistent with project() I have used name/id in scenario().
 datasheets(myScenario,scope="scenario")$name
 
 #**************
@@ -264,7 +263,7 @@ print(base)
 # We could then overwrite names(), [[]] to get list-like behaviour. [[]] would get the datasheet from SyncroSim.
 
 showMethods(class="SsimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
-anotherProject = project(myLibrary,name="AnotherProject")
+anotherProject = project(myLibrary,project="AnotherProject")
 # DISCUSS: Inheritance
 # Project and Scenario objects inherit from SsimLibrary.
 # For some methods, this is helpful:
@@ -276,7 +275,6 @@ anotherProject = project(myLibrary,name="AnotherProject")
 #  - enableAddons<-,disableAddons<- : side effects for other projects/scenarios
 #  - deleteScenarios(): only let a parent (Project or SsimLibrary) delete a scenario?
 #  - deleteProjects(): only let parent SsimLibrary delete a project?
-#  - projects(): only SSimLibraries can contain more than one project.
 #  - scenarios(): only SSimLibraries and Projects can contain more than one scenario.
 #
 # And I am unsure about these methods:

@@ -19,7 +19,7 @@ test_that("Test simple non-spatial STSim example", {
   #*************************************
   # Create the project definition
   myLibrary = ssimLibrary(name="ST-Sim-Command-Line.ssim")
-  myProject = project(myLibrary,name="ST-Sim Demonstration")
+  myProject = project(myLibrary,project="ST-Sim Demonstration")
 
   #***********************************
   # Cover types and state classes
@@ -87,7 +87,6 @@ test_that("Test simple non-spatial STSim example", {
   #*************************************
   myScenario = scenario(myProject,name="No Harvest")
   expect_is(myScenario,"Scenario")
-  # NOTE: To be consistent with project() I have used name/id in scenario().
   expect_equal(names(datasheets(myScenario,scope="scenario")),c("name","displayName","dataScope","isOutput"))
 
   #**************

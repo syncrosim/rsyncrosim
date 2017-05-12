@@ -8,8 +8,8 @@ NULL
 # @name SsimLibrary
 # @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
-    definition=function(.Object,name=NULL,model=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T,forceUpdate=F){
-    #name="New Lib";session=NULL;backup=F;backupName="backup";backupOverwrite=T;addons=NULL;forceUpdate=F
+    definition=function(.Object,name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F){
+    #name="New Lib";session=NULL;addon=NULL;forceUpdate=F
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
@@ -19,43 +19,21 @@ setMethod(f='initialize',signature="SsimLibrary",
     }
 
     inName = name
-    modelOptions = models(session)
-    
-    if(is.null(model)){
-      model=defaultModel(session)
+    inModel=model
+    if(is.null(name)){
+      name="SsimLibrary.ssim"
     }
     
-    if(!is.null(model)){
+    if(is.null(model)){
+      model=defaultModel(session) #assume validity of session object has already been checked.
+    }else{
+      modelOptions = models(session)
       model=gsub(":model-transformer","",model,fixed=T)
       if(!is.element(model,modelOptions$shortName)){
         stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$shortName,collapse=",")))
       }
     }
-
-    #If no name is provided, search for a library in the current working directory
-    #If there is one library, set name to that library.
-    #If there is more than one library, complain.
-    #If there are no libraries, set name to model - if model is NULL complain.
-    if(is.null(name)){
-      fList = list.files(pattern="\\.ssim")
-      if(length(fList)>1){
-        stop(paste0("The working directory contains more than one SyncroSimLibrary - specify a name:",paste(fList,collapse=",")))
-      }
-      if(length(fList)==1){
-        name = fList[1]
-      }
-      if(length(fList)==0){
-        if(is.null(model)){
-          if(nrow(modelOptions)==1){
-            model = modelOptions$shortName
-          }else{
-            stop(paste0("Please specify a model type for a new library. Options are:",paste(modelOptions$shortName,collapse=",")))
-          }
-        }
-        name=model
-      }
-    }
-
+    
     path <- .fullFilename(name)
     if(!grepl(".ssim",path)) path=paste0(path,".ssim")
 
@@ -66,23 +44,27 @@ setMethod(f='initialize',signature="SsimLibrary",
       }
       pathBits = strsplit(path,"/")[[1]]
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
+      
+      if(!exists("modelOptions")){
+        modelOptions = models(session)
+      }
 
       args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$shortName==model])
       cStatus = command(args,session)
-    }else{
+    }#else{
       #x="C:/Temp/NewLibrary.ssim"
-      if(backup){
-        backupName = gsub(".ssim",paste0("_",backupName,".ssim"),path,fixed=T)
-        if(file.exists(backupName)&!backupOverwrite){
-          stop(paste0('Backup ',backupName,' already exists. Set backupOverwrite=T or provide a different backupName.'))
-        }
-        file.copy(path, backupName, overwrite=T)
-      }
-    }
+      #if(backup){
+      #  backupName = gsub(".ssim",paste0("_",backupName,".ssim"),path,fixed=T)
+      #  if(file.exists(backupName)&!backupOverwrite){
+      #    stop(paste0('Backup ',backupName,' already exists. Set backupOverwrite=T or provide a different backupName.'))
+      #  }
+      #  file.copy(path, backupName, overwrite=T)
+      #}
+    #}
     #ensure the primaryModule specified matches the primaryModule on disk
     #path =.filepath(myLibrary);session=.session(myLibrary)
-    args = list(list=NULL,library=NULL,csv=NULL,lib=path)
-    tt = command(args,session)
+    args = c("list","datasheets","csv",paste0("lib=",path))
+    tt=command(args,session)
     if(grepl("The library has unapplied updates",tt[[1]])){
       if(is.null(inName)|forceUpdate){answer ="y"}else{
         answer <- readline(prompt=paste0("The library has unapplied updates. Do you want to update ",path,"? (y/n): "))
@@ -103,12 +85,23 @@ setMethod(f='initialize',signature="SsimLibrary",
       }
       tt = command(args,session)
     }
-    tt = .dataframeFromSSim(tt)
-    if(ncol(tt)<2){
-      stop(command(args,session))
-    }
+    datasheets = .dataframeFromSSim(tt)
+    datasheets$dataScope = sapply(datasheets$dataScope,camel)
+    names(datasheets) = c("name","displayName","dataScope","isOutput")
+    datasheets$isOutput[datasheets$isOutput=="No"]=F
+    datasheets$isOutput[datasheets$isOutput=="Yes"]=T
+    datasheets$isOutput=as.logical(datasheets$isOutput)
+    #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
 
-    if(!is.null(model)){
+    if(!is.null(inModel)){
+      args = list(list=NULL,library=NULL,csv=NULL,lib=path)
+      tt = command(args,session)
+      tt = .dataframeFromSSim(tt)
+      if(ncol(tt)<2){
+        stop(command(args,session))
+      }
+      
+      if(!exists("modelOptions")){modelOptions=models(session)}
       expectedModule = modelOptions$name[modelOptions$shortName==model]
       if(!grepl(expectedModule,tt$value[tt$property=="Model Name:"])){
         stop(paste0("A library of that name and a different model type ",tt$value[tt$property=="Model Name:"]," already exists."))
@@ -116,32 +109,20 @@ setMethod(f='initialize',signature="SsimLibrary",
     }
 
     #addons=c("stsim-ecological-departure", "stsim-stock-flow")
-    if(!is.null(addons)){
-      addons=gsub(":add-on-transformer","",addons,fixed=T)
+    if(!is.null(addon)){
+      addon=gsub(":add-on-transformer","",addon,fixed=T)
 
       tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=path),session)
       tt = .dataframeFromSSim(tt)
       cAdds = subset(tt,enabled=="Yes")
-      addons=setdiff(addons,gsub(":add-on-transformer","",cAdds$name,fixed=T))
+      addon=setdiff(addon,gsub(":add-on-transformer","",cAdds$name,fixed=T))
 
-      for(i in seq(length.out=length(addons))){
+      for(i in seq(length.out=length(addon))){
         #i=1
 
-        tt = command(list(create=NULL,addon=NULL,lib=path,name=paste0(addons[i],":add-on-transformer")),session)
+        tt = command(list(create=NULL,addon=NULL,lib=path,name=paste0(addon[i],":add-on-transformer")),session)
       }
     }
-    #args = c("list","datasheets","csv",paste0("lib=",path))
-    tt=command(c("list","datasheets","csv",paste0("lib=",path)),session)
-    datasheets = .dataframeFromSSim(tt)
-    datasheets$dataScope = sapply(datasheets$dataScope,camel)
-    if(length(names(datasheets))<4){
-      stop("rsyncrosim requires SyncroSim version >= 1.0.38.0")
-    }
-    names(datasheets) = c("name","displayName","dataScope","isOutput")
-    datasheets$isOutput[datasheets$isOutput=="No"]=F
-    datasheets$isOutput[datasheets$isOutput=="Yes"]=T
-    datasheets$isOutput=as.logical(datasheets$isOutput)
-    #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
 
     .Object@session=session
     .Object@filepath=path
@@ -149,26 +130,33 @@ setMethod(f='initialize',signature="SsimLibrary",
     return(.Object)
   }
 )
+
+#' Create or open a library.
+#'
+#' Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim library.
+#'
+#' @param name Character string, Project/Scenario. A file name or SyncroSim Project or Scenario. Optional.
+#' @export
+setGeneric('ssimLibrary',function(name=NULL,...) standardGeneric('ssimLibrary'))
+
 #' @details
+#' 
 #' \itemize{
 #'   \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SsimLibrary}} associated with the Project or Scenario.}
-#'   \item {If given no name and no model: }{Opens an existing SyncroSim library in
-#'   the current working directory - returns an error if more than one library exists. If library does not exist and only one model is installed - creates a library of that type.}
-#'   \item {If given a model but no name: }{Opens or creates a library called <model>.ssim in the current working directory.}
-#'   \item {If given a name but no model and name is a valid model type: }{Attempts to open a library of that name. If library does not exist creates a library of type <name> in the current working directory.}
-#'   \item {If given a name but no model and name is not a valid model type: }{Attempts to open a library of that name. Returns an error if that library does not already exist.}
-#'   \item {If given a name and a model: }{Opens or creates a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
+#'   \item {If name is NULL: }{Create/open a SsimLibrary in the current working directory with the filename SsimLibrary.ssim.}
+#'   \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type model in the current working directory.}
+#'   \item {If given a name and a model: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 #' }
-#' @param model Character. The model type. Ignored when loading an existing library. Default is defaultModel(session())
-# @param name A library file name or library file path. If not a path library is created or opened in the current working directory.
-#' @param session A SyncroSim \code{Session}. If NULL, the default SyncroSim Session will be used.
-#' @param addons One or more addons. See addons() for options.
-#' @param backup If TRUE, a backup copy is made when an existing library is opened.
-#' @param backupName Added to a library filepath to create a backup library.
-#' @param backupOverwrite If TRUE, the existing backup of a library (if any) will be overwritten.
-#' @param forceUpdate If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
+#' @param model Character. The model type. If NULL, defaultModel(session()) will be used.
+#' @param session Session. If NULL, session() will be used.
+#' @param addon Character or character vector. One or more addons. See addons() for options.
+# @param backup Logical. If TRUE, a backup copy is made when an existing library is opened.
+# @param backupName Character. Added to a library filepath to create a backup library.
+# @param backupOverwrite Logical. If TRUE, the existing backup of a library (if any) will be overwritten.
+#' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
 #' @return An \code{SsimLibrary} object representing a SyncroSim library.
 #' @examples
+#' #TODO – update examples
 #' # See the installed models
 #' models(session())
 #'
@@ -192,20 +180,25 @@ setMethod(f='initialize',signature="SsimLibrary",
 #' myLibrary = ssimLibrary(name="Lib2",session=mySession)
 #'
 #' # Add a project and get the library associated with that project
-#' myProject = project(myLibrary)
+#' myProject = project(myLibrary,project="a project")
 #' myLibrary = ssimLibrary(myProject)
 #' @name ssimLibrary
 setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
-          function(name=NULL,model=NULL,session=NULL,addons=NULL,backup=F,backupName="backup",backupOverwrite=T,forceUpdate=F) {
+          function(name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) {
+    new("SsimLibrary",name,model,session,addon,forceUpdate)
+})
 
-    if(is.character(name)){
-      if(!grepl(".ssim",name,fixed=T)){
-        nameCheck = paste0(name,".ssim")
-      }else{
-        nameCheck =name
-      }
-    }
-    new("SsimLibrary",name,model,session,addons,backup,backupName,backupOverwrite,forceUpdate)
+#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Scenario.
+setMethod('ssimLibrary', signature(name="Scenario"), function(name) {
+  #model=cScn
+  out = .ssimLibrary(name=.filepath(name),session=.session(name))
+  return(out)
+})
+
+#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Project.
+setMethod('ssimLibrary', signature(name="Project"), function(name) {
+  out = .ssimLibrary(name=.filepath(name),session=.session(name))
+  return(out)
 })
 
 
@@ -264,41 +257,6 @@ setMethod('update', signature(x="SsimLibrary"), function(x) {
   return(tt[1])
 })
 
-#' The projects in a SyncroSim library.
-#'
-#' Get a list of projects in a SyncroSim library.
-#'
-#' @param x An SsimLibrary object, or a Project or Scenario associated with a Library
-#' @param names If FALSE, a list of \code{\link{Project}} objects is returned. If TRUE returns a dataframe containing the name and id of each project.
-#' @return By default returns a list of projects identified by the project id. Each element of the list contains a SyncroSim Project object. If names=T, returns a dataframe containing the name and id of each project.
-#' @examples
-#' myProjects = projects(ssimLibrary(name="stsim"))
-#' @export
-setGeneric('projects',function(x,names=F) standardGeneric('projects'))
-setMethod('projects', signature(x="SsimLibrary"), function(x,names) {
-  #x = ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-  #x = myLibrary
-
-  tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(x)),.session(x))
-  if(identical(tt,"saved")){
-    ttFrame = data.frame(id=NA,name=NA)
-    ttFrame=subset(ttFrame,!is.na(id))
-  }else{
-    ttFrame=.dataframeFromSSim(tt)
-    names(ttFrame)[names(ttFrame)=="iD"]="id"
-  }
-
-  if(names){
-    return(ttFrame)
-  }
-  ttList = list()
-  for(i in seq(length.out=nrow(ttFrame))){
-    #i = 1
-    ttList[[as.character(ttFrame$id[i])]]=project(x,id=ttFrame$id[i],create=F,projects=ttFrame)
-  }
-  return(ttList)
-})
-
 #' Delete projects from a Library
 #'
 #' Deletes one or more projects from a SyncroSim library.
@@ -308,10 +266,10 @@ setMethod('projects', signature(x="SsimLibrary"), function(x,names) {
 #' @return A list of "saved" or failure messages for each project.
 #' @examples
 #' myLibrary = ssimLibrary(session=devSession)
-#' myProject = project(myLibrary)
-#' projects(myLibrary,names=T)
-#' deleteProjects(myLibrary,project="Project1")
-#' projects(myLibrary,names=T)
+#' myProject = project(myLibrary,project="a project")
+#' project(myLibrary)
+#' deleteProjects(myLibrary,project="a project")
+#' project(myLibrary)
 #'
 #' @export
 setGeneric('deleteProjects',function(x,project=NULL,force=F) standardGeneric('deleteProjects'))
@@ -330,7 +288,7 @@ setMethod('deleteProjects', signature(x="SsimLibrary"), function(x,project,force
     project=id(project)
   }
 
-  allProjects = projects(x,names=T)
+  allProjects = .project(x)
   out = list()
   for(i in seq(length.out=length(project))){
     #i = 1
@@ -448,7 +406,7 @@ setMethod('scenarios', signature(x="SsimLibrary"), function(x,project,names,resu
     if(class(project)=="Project") pid = .id(project)
     if(class(project)=="numeric") pid = project
     if(class(project)=="character"){
-      cProjects = projects(x,names=T)
+      cProjects = .project(x)
       pid = cProjects$id[cProjects$name==project]
       if(length(pid)>1){
         stop(paste0("There is more than one project called ",project,". Please specify a project id:",paste(pid,collapse=",")))
@@ -663,7 +621,7 @@ setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scena
     }
     if(class(project[[1]])=="character"){
       #x=myLibrary
-      allProjects = projects(x,names=T)
+      allProjects = .project(x)
       pid = allProjects$id[is.element(name,project)]
     }
   }
@@ -974,7 +932,7 @@ setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scena
     }else{
       if(nrow(sheet)>0){
         if(is.null(allProjects)){
-          allProjects = projects(x,names=T)
+          allProjects = .project(x)
         }
         names(allProjects) = c("ProjectID","ProjectName")
         sheet=merge(allProjects,sheet,all.y=T)
