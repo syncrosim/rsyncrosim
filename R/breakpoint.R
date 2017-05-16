@@ -5,15 +5,15 @@
 #' @include generics.R
 #' @include breakpointSession.R
 NULL
-#' Breakpoint class
-#'
-#' @slot arguments Timesteps or iterations e.g. "1,2"
-#' @slot breakpointName Breakpoint name
-#' @slot name Name
-#' @slot transformerName 'stsim:core-transformer' or?
-#' @slot callback The function to apply. See STSimBreakpointsTutorial.R for details.
-#' @name Breakpoint-class
-#' @rdname Breakpoint-class
+# Breakpoint class
+#
+# @slot arguments Timesteps or iterations e.g. "1,2"
+# @slot breakpointName Breakpoint name
+# @slot name Name
+# @slot transformerName 'stsim:core-transformer' or?
+# @slot callback The function to apply. See STSimBreakpointsTutorial.R for details.
+# @name Breakpoint-class
+# @rdname Breakpoint-class
 # @export Breakpoint
 Breakpoint <- setClass("Breakpoint",representation(arguments="character",breakpointName="character",name="character",transformerName="character",callback="function"))
 setMethod(f='initialize',signature="Breakpoint",

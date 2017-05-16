@@ -4,42 +4,50 @@
 \alias{datasheet}
 \title{Get a datasheet}
 \usage{
-datasheet(x, name, project = NULL, scenario = NULL, optional = F,
-  empty = F, lookupsAsFactors = T, sqlStatements = list(select =
-  "SELECT *", groupBy = ""), includeKey = F)
+datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
+  summary = NULL, optional = F, empty = F, lookupsAsFactors = T,
+  sqlStatements = list(select = "SELECT *", groupBy = ""), includeKey = F,
+  forceElements = F)
 }
 \arguments{
-\item{x}{An SsimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.}
+\item{ssimObject}{SsimLibrary/Project/Scenario, list of objects, or path to a library. Note that all objects in a list must be of the same type, and belong to the same library.}
 
-\item{name}{The sheet name}
+\item{name}{Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=F and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.}
 
-\item{project}{One or more Project names, id or objects.}
+\item{project}{Character, numeric, or vector of these. One or more Project names, id or objects.}
 
-\item{scenario}{One or more Scenario names, id or objects.}
+\item{scenario}{Character, numeric, or vector of these. One or more Scenario names, id or objects.}
 
-\item{optional}{If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.}
+\item{summary}{Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes.}
 
-\item{empty}{If FALSE (default) returns data (if any). If TRUE returns empty dataframe.}
+\item{optional}{Logical. If TRUE returns all of the datasheet's columns, including the optional columns; otherwise returns only those columns that are mandatory and/or contain data. Ignored if summary=T, or if empty=F and lookupsAsFactors=F.}
 
-\item{lookupsAsFactors}{If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.}
+\item{empty}{Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.}
 
-\item{sqlStatements}{SELECT and GROUP BY SQL statements passed to SQLite database.}
+\item{lookupsAsFactors}{Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.}
 
-\item{includeKey}{If TRUE include primary key in output table.}
+\item{sqlStatements}{List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.}
+
+\item{includeKey}{Logical. If TRUE include primary key in output table.}
+
+\item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.}
 }
 \value{
-A dataframe representing a SyncroSim datasheet.
+If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe or list of dataframes representing SyncroSim datasheets.
 }
 \description{
 Gets Syncrosim datasheet.
 }
 \details{
+If summary=T or summary and name=NULL, a dataframe listing datasheet names and other info is returned. All other arguments are ignored.
+
+Otherwise, for each element in name a datasheet is returned as follows:
 \itemize{
   \item {If lookupsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
   \item {If empty=F and lookupsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
-  \item {If x is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
-  \item {If length(scenario)>1: }{Adds ScenarioID/ProjectID column if appropriate.}
+  \item {If ssimObject is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
+  \item {If scenario/project is a vector: }{Adds ScenarioID/ProjectID column as necessary.}
   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 }

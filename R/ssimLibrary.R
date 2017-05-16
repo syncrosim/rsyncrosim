@@ -499,7 +499,7 @@ setReplaceMethod(
   }
 )
 
-setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh) {
+setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,scope,refresh) {
   #x = myLibrary;project=1;scenario=NULL;names=T;empty=T;scope="project"
   x = .getFromXProjScn(x,project,scenario)
 
@@ -537,22 +537,43 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
     }
     datasheets=subset(datasheets,dataScope==scope)
   }
-  if(names){
-    datasheets= datasheets[order(datasheets$name),]
-    return(datasheets)
-  }
-
-  ttList = list()
-  for(i in seq(length.out=nrow(datasheets))){
-    #i = 1
-    ttList[[datasheets$name[i]]]=datasheet(x,name=datasheets$name[i],optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors)
-  }
-  return(ttList)
+  return(datasheets)
 })
 
-setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
-  #x = myResult;project=NULL;scenario=NULL;name="DGSim_OutputPopulationSize";optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F
+setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
+  #ssimObject = myScn;project=NULL;scenario=scenario(myLib,summary=F);summary=F;name=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
+  x=ssimObject
+  allNames=name
+  
+  if(is.null(summary)){
+    if(is.null(name)){summary=T}else{summary=F}
+  }
+  
+  #if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
+  if(summary|is.null(name)){
+    sumInfo = .datasheets(x,project[[1]],scenario[[1]])
+    if(summary){
+      if(is.null(name)){
+        return(sumInfo)
+      }
+      missingSheets = setdiff(name,sumInfo$name)
+      if(length(missingSheets)>0){
+        sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
+        missingSheets = setdiff(name,sumInfo$name)
+        if(length(missingSheets)>0){
+          stop(paste0("Datasheets not found: ",paste(missingSheets,collapse=",")))
+        }
+      }
+      sumInfo=subset(sumInfo,is.element(name,allNames))
+      return(sumInfo)
+    }
+    name=sumInfo$name
+  }
 
+  #now assume we have one or more names and summary is F
+  if(is.null(name)){stop("Something is wrong in datasheet().")}
+  if(summary){stop("Something is wrong in datasheet().")}
+  
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
   if((length(project)>0)){
@@ -590,314 +611,324 @@ setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scena
     if((class(x)=="SsimLibrary")&(length(scenario)>0)){
     }
   }
-
-  if(!includeKey){
-    rmId = strsplit(name,"_")[[1]][2]
-    rmCols = c(paste0(rmId,"ID"))
-  }else{
-    rmCols=c()
-  }
-
+  
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
 
-  cName = name
-  datasheetNames = .datasheets(x,scope="all")
-  sheetNames= subset(datasheetNames,name==cName)
-  if(nrow(sheetNames)==0){
-    datasheetNames = .datasheets(x,scope="all",refresh=T)
+  outSheetList = list()
+  for(kk in seq(length.out=length(allNames))){
+    name=allNames[kk]
+    
+    if(!includeKey){
+      rmId = strsplit(name,"_")[[1]][2]
+      rmCols = c(paste0(rmId,"ID"))
+    }else{
+      rmCols=c()
+    }
+    
+    cName = name
+    datasheetNames = .datasheets(x,scope="all")
     sheetNames= subset(datasheetNames,name==cName)
     if(nrow(sheetNames)==0){
-      stop("Datasheet ",name," not found in library.")
-    }
-  }
-
-  useConsole=F
-  tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
-
-  if(!empty){
-    #Only query database if output or multiple scenarios/project or complex sql
-
-    useConsole = (!sheetNames$isOutput)
-    useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
-    useConsole = useConsole&!((sheetNames$dataScope=="project")&(length(pid)>1))
-    useConsole = useConsole&!((sheetNames$dataScope=="scenario")&(length(sid)>1))
-
-
-    if(useConsole){
-      unlink(tempFile)
-
-      args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
-
-      if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
-
-      if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
-      if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
-
-      tt=command(args,.session(x))
-
-      if(!identical(tt,"saved")){
-        stop(tt)
+      datasheetNames = .datasheets(x,scope="all",refresh=T)
+      sheetNames= subset(datasheetNames,name==cName)
+      if(nrow(sheetNames)==0){
+        stop("Datasheet ",name," not found in library.")
       }
-
-      #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
-      sheet = read.csv(tempFile,as.is=T)
-      unlink(tempFile)
-      #print("used console")
-    }else{
-      #query database directly if necessary
-      #install.packages("RSQLite");library(RSQLite)
-      #x=myLibrary;name="STSim_OutputStratumState";sid=c(6)
-
-      drv = DBI::dbDriver('SQLite')
-      con = DBI::dbConnect(drv,.filepath(x))
-      #fields = DBI::dbListFields(con,name)
-      if(is.null(sqlStatements$where)){sqlStatements$where = ""}
-      sqlStatements$from = paste("FROM",name)
-      if(sheetNames$dataScope=="scenario"){
-        if(is.null(sid)){
-          stop("Specify a scenario.")
-        }else{
-          #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
-          #and http://www.sqlitetutorial.net/sqlite-in/
-          if(sqlStatements$where==""){
-            sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
-          }else{
-            sqlStatements$where = paste0(sqlStatements$where," AND (ScenarioID IN (",paste(sid,collapse=","),"))")
-          }
-        }
-      }
-      if(sheetNames$dataScope=="project"){
-        if(is.null(pid)){
-          stop("Specify a project.")
-        }else{
-          if(sqlStatements$where==""){
-            sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
-          }else{
-            sqlStatements$where = paste0(sqlStatements$where," AND (ProjectID IN (",paste(pid,collapse=","),"))")
-          }
-        }
-      }
-      #  sheet = DBI::dbReadTable(con, name)
-      sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
-      #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
-     # print(sql)
-      sheet = DBI::dbGetQuery(con,sql)
-      DBI::dbDisconnect(con)
     }
-  }else{
-    sheet=data.frame(temp=NA)
-  }
-  if(nrow(sheet)>0){
-    sheet[sheet==""]=NA
-  }
-  if(empty|lookupsAsFactors){
-    tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
-    sheetInfo = .dataframeFromSSim(tt)
-    sheetInfo$id = seq(length.out=nrow(sheetInfo))
-    sheetInfo = subset(sheetInfo,!is.element(name,rmCols))
-
-    if(!optional){
-      if(!empty){
-        sheetInfo$Optional[is.element(sheetInfo$name,colnames(sheet))]="Present"
-      }
-      sheetInfo = subset(sheetInfo,is.element(optional,c("No","Present")))
-    }
-    sheetInfo = sheetInfo[order(sheetInfo$id),]
-
-    if(nrow(sheet)==0){
-      sheet[1,1]=NA
-    }
-
-    outNames = c()
-
-    directQuery=F
-    if(lookupsAsFactors&!useConsole){
-      directQuery = (length(pid)>1)|(length(sid)>1)
-      #TO DO: must export IDs in lookup tables.
-      if(directQuery){
-        drv = DBI::dbDriver('SQLite')
-        con = DBI::dbConnect(drv,.filepath(x))
-        #console export can't handle multiple scenarios/projects - so query database directly
-      }else{
-        tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
-        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,valonly=NULL,includepk=NULL)
+    
+    useConsole=F
+    tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
+    
+    if(!empty){
+      #Only query database if output or multiple scenarios/project or complex sql
+      
+      useConsole = (!sheetNames$isOutput)
+      useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
+      useConsole = useConsole&!((sheetNames$dataScope=="project")&(length(pid)>1))
+      useConsole = useConsole&!((sheetNames$dataScope=="scenario")&(length(sid)>1))
+      
+      
+      if(useConsole){
+        unlink(tempFile)
+        
+        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
+        
         if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
+        
         if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
         if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
+        
         tt=command(args,.session(x))
+        
         if(!identical(tt,"saved")){
           stop(tt)
         }
-      }
-    }
-    for(i in seq(length.out=nrow(sheetInfo))){
-      #i =5
-      cRow = sheetInfo[i,]
-      if(!is.element(cRow$name,colnames(sheet))){
-        if(sqlStatements$select=="SELECT *"){
-          sheet[[cRow$name]] = NA
-        }else{
-          next
-        }
-      }
-      outNames = c(outNames,cRow$name)
-      if((is.element(cRow$type,c("Integer","Double","Single")))&!is.element(cRow$valType,c("DataSheet","List"))){
-        sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
-      }
-      if(cRow$type=="String"){
-        sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
-      }
-      if(cRow$type=="Boolean"){
-        if(length(setdiff(unique(sheet[[cRow$name]]),c(NA)))>0){
-          sheet[[cRow$name]] = gsub("Yes","1",sheet[[cRow$name]])
-          sheet[[cRow$name]] = gsub("No","0",sheet[[cRow$name]])
-          sheet[[cRow$name]]=as.logical(abs(as.numeric(sheet[[cRow$name]])))
-          #stop("handle this case")
-        }
-      }
-      if((cRow$valType=="List")&lookupsAsFactors){
-        opts = cRow$formula1
-        opts = strsplit(opts,"|",fixed=T)[[1]]
-        cLevels = c()
-        cIDs = c()
-        for(j in seq(length.out=length(opts))){
-          cLevels=c(cLevels,strsplit(opts[j],":",fixed=T)[[1]][2])
-          cIDs = as.numeric(c(cIDs,strsplit(opts[j],":",fixed=T)[[1]][1]))
-        }
-        #Sometimes input is factors, and output is  IDs
-        if(length(setdiff(sheet[[cRow$name]],cIDs))==0){
-          warning(paste0("Converting ",cRow$name," IDs to factor levels"))
-          mergeBit=data.frame(oLev = cLevels)
-          mergeBit[[cRow$name]]=cIDs
-          sheet=merge(sheet,mergeBit,all.x=T)
-          sheet[[cRow$name]]=sheet$oLev;sheet$oLev=NULL
-        }
-        sheet[[cRow$name]] = factor(sheet[[cRow$name]],levels=cLevels)
         
-      }
-      if(cRow$valType=="DataSheet"){
-        if(lookupsAsFactors){
-          #if a number, ignore - SyncroSim will do the checking
-          #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
-          #console export can't handle multiple projects/scenarios - so query database directly if necessary.
-          if(directQuery){
-            lookupSheet =   DBI::dbReadTable(con, name=cRow$formula1)
+        #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
+        sheet = read.csv(tempFile,as.is=T)
+        unlink(tempFile)
+        #print("used console")
+      }else{
+        #query database directly if necessary
+        #install.packages("RSQLite");library(RSQLite)
+        #x=myLibrary;name="STSim_OutputStratumState";sid=c(6)
+        
+        drv = DBI::dbDriver('SQLite')
+        con = DBI::dbConnect(drv,.filepath(x))
+        #fields = DBI::dbListFields(con,name)
+        if(is.null(sqlStatements$where)){sqlStatements$where = ""}
+        sqlStatements$from = paste("FROM",name)
+        if(sheetNames$dataScope=="scenario"){
+          if(is.null(sid)){
+            stop("Specify a scenario.")
           }else{
-            lookupPath = gsub(name,cRow$formula1,tempFile,fixed=T)
-            if(!file.exists(lookupPath)){
-              lookupSheet=data.frame(Name=NULL)
+            #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
+            #and http://www.sqlitetutorial.net/sqlite-in/
+            if(sqlStatements$where==""){
+              sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
             }else{
-              lookupSheet = read.csv(lookupPath,as.is=T)
+              sqlStatements$where = paste0(sqlStatements$where," AND (ScenarioID IN (",paste(sid,collapse=","),"))")
             }
           }
-          if(is.element("ProjectID",names(lookupSheet))){
-            if(identical(pid,NULL)&!identical(sid,NULL)){
-              if(is.null(allScns)){
-                allScns = scenario(x)
-              }
-              findPrjs = allScns$pid[is.element(allScns$id,sid)]
+        }
+        if(sheetNames$dataScope=="project"){
+          if(is.null(pid)){
+            stop("Specify a project.")
+          }else{
+            if(sqlStatements$where==""){
+              sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
             }else{
-              findPrjs = pid
-            }
-            lookupSheet = subset(lookupSheet,is.element(ProjectID,pid))
-          }
-          if(is.element("ScenarioID",names(lookupSheet))){
-            if(!is.null(sid)){
-              lookupSheet=subset(lookupSheet,is.element(ScenarioID,sid))
+              sqlStatements$where = paste0(sqlStatements$where," AND (ProjectID IN (",paste(pid,collapse=","),"))")
             }
           }
-          #lookupSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,lookupsAsFactors=F)
-          if((nrow(lookupSheet)==0)&(cRow$optional=="No")){
-            if(!grepl("Output",name)){
-              warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
-            }
-          }
-          lookupSheet=lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]),]
-          lookupLevels = lookupSheet$Name
-          if(is.numeric(sheet[[cRow$name]])){
-            if(nrow(lookupSheet)>0){
-              if(length(intersect("Name",names(lookupSheet)))==0){
-                stop("Something is wrong. Expecting Name in lookup table.")
-              }
-              #if(is.element(cRow$name,names(lookupSheet))){
-              lookupMerge = subset(lookupSheet,select=c(names(lookupSheet)[1],"Name"))
-              #}else{
-              #  lookupMerge = subset(lookupSheet,select=c("ID","Name"))
-              #}
-
-              names(lookupMerge) = c(cRow$name,"lookupName")
-              sheet=merge(sheet,lookupMerge, all.x=T)
-              sheet[[cRow$name]]=sheet$lookupName
-              sheet$lookupName=NULL
-            }
-          }
-          sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=lookupLevels)
-          #TO DO: handle formula1/formula2
-        }else{
-          sheet[[cRow$name]]=as.character(sheet[[cRow$name]])
         }
+        #  sheet = DBI::dbReadTable(con, name)
+        sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+        #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+        # print(sql)
+        sheet = DBI::dbGetQuery(con,sql)
+        DBI::dbDisconnect(con)
       }
-      if(cRow$formula2!="N/A"){
-        if(cRow$valCond=="Between"){
-          print(paste0("Note: ",cRow$name," should be between ",cRow$formula1," and ",cRow$formula2))
-           
-        }else{
-          stop("handle this case")
-        }
-      }
-    }
-    if(lookupsAsFactors&&!useConsole&&directQuery){
-      DBI::dbDisconnect(con)
-    }
-    rmSheets = unique(sheetInfo$formula1[sheetInfo$valType=="DataSheet"])
-    for(i in seq(length.out=length(rmSheets))){
-      unlink(gsub(name,rmSheets[i],tempFile,fixed=T))
-    }
-
-    #TO DO: deal with NA values in sheet
-    #put columns in correct order
-    sheet$colOne = sheet[,1]
-    sheet$cOrder=seq(1,nrow(sheet))
-    if(empty){
-      sheet= subset(sheet,is.null(colOne))
     }else{
-      sheet=subset(sheet,!is.na(colOne))
-      sheet = sheet[order(sheet$cOrder),]
+      sheet=data.frame(temp=NA)
     }
-    sheet = subset(sheet,select=outNames)
+    if(nrow(sheet)>0){
+      sheet[sheet==""]=NA
+    }
+    if(empty|lookupsAsFactors){
+      tt=command(c("list","columns","csv",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
+      sheetInfo = .dataframeFromSSim(tt)
+      sheetInfo$id = seq(length.out=nrow(sheetInfo))
+      sheetInfo = subset(sheetInfo,!is.element(name,rmCols))
+      
+      if(!optional){
+        if(!empty){
+          sheetInfo$Optional[is.element(sheetInfo$name,colnames(sheet))]="Present"
+        }
+        sheetInfo = subset(sheetInfo,is.element(optional,c("No","Present")))
+      }
+      sheetInfo = sheetInfo[order(sheetInfo$id),]
+      
+      if(nrow(sheet)==0){
+        sheet[1,1]=NA
+      }
+      
+      outNames = c()
+      
+      directQuery=F
+      if(lookupsAsFactors&!useConsole){
+        directQuery = (length(pid)>1)|(length(sid)>1)
+        #TO DO: must export IDs in lookup tables.
+        if(directQuery){
+          drv = DBI::dbDriver('SQLite')
+          con = DBI::dbConnect(drv,.filepath(x))
+          #console export can't handle multiple scenarios/projects - so query database directly
+        }else{
+          tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,valonly=NULL,includepk=NULL)
+          if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
+          if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
+          if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
+          tt=command(args,.session(x))
+          if(!identical(tt,"saved")){
+            stop(tt)
+          }
+        }
+      }
+      for(i in seq(length.out=nrow(sheetInfo))){
+        #i =5
+        cRow = sheetInfo[i,]
+        if(!is.element(cRow$name,colnames(sheet))){
+          if(sqlStatements$select=="SELECT *"){
+            sheet[[cRow$name]] = NA
+          }else{
+            next
+          }
+        }
+        outNames = c(outNames,cRow$name)
+        if((is.element(cRow$type,c("Integer","Double","Single")))&!is.element(cRow$valType,c("DataSheet","List"))){
+          sheet[[cRow$name]] = as.numeric(sheet[[cRow$name]])
+        }
+        if(cRow$type=="String"){
+          sheet[[cRow$name]] = as.character(sheet[[cRow$name]])
+        }
+        if(cRow$type=="Boolean"){
+          if(length(setdiff(unique(sheet[[cRow$name]]),c(NA)))>0){
+            sheet[[cRow$name]] = gsub("Yes","1",sheet[[cRow$name]])
+            sheet[[cRow$name]] = gsub("No","0",sheet[[cRow$name]])
+            sheet[[cRow$name]]=as.logical(abs(as.numeric(sheet[[cRow$name]])))
+            #stop("handle this case")
+          }
+        }
+        if((cRow$valType=="List")&lookupsAsFactors){
+          opts = cRow$formula1
+          opts = strsplit(opts,"|",fixed=T)[[1]]
+          cLevels = c()
+          cIDs = c()
+          for(j in seq(length.out=length(opts))){
+            cLevels=c(cLevels,strsplit(opts[j],":",fixed=T)[[1]][2])
+            cIDs = as.numeric(c(cIDs,strsplit(opts[j],":",fixed=T)[[1]][1]))
+          }
+          #Sometimes input is factors, and output is  IDs
+          if(length(setdiff(sheet[[cRow$name]],cIDs))==0){
+            warning(paste0("Converting ",cRow$name," IDs to factor levels"))
+            mergeBit=data.frame(oLev = cLevels)
+            mergeBit[[cRow$name]]=cIDs
+            sheet=merge(sheet,mergeBit,all.x=T)
+            sheet[[cRow$name]]=sheet$oLev;sheet$oLev=NULL
+          }
+          sheet[[cRow$name]] = factor(sheet[[cRow$name]],levels=cLevels)
+          
+        }
+        if(cRow$valType=="DataSheet"){
+          if(lookupsAsFactors){
+            #if a number, ignore - SyncroSim will do the checking
+            #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
+            #console export can't handle multiple projects/scenarios - so query database directly if necessary.
+            if(directQuery){
+              lookupSheet =   DBI::dbReadTable(con, name=cRow$formula1)
+            }else{
+              lookupPath = gsub(name,cRow$formula1,tempFile,fixed=T)
+              if(!file.exists(lookupPath)){
+                lookupSheet=data.frame(Name=NULL)
+              }else{
+                lookupSheet = read.csv(lookupPath,as.is=T)
+              }
+            }
+            if(is.element("ProjectID",names(lookupSheet))){
+              if(identical(pid,NULL)&!identical(sid,NULL)){
+                if(is.null(allScns)){
+                  allScns = scenario(x)
+                }
+                findPrjs = allScns$pid[is.element(allScns$id,sid)]
+              }else{
+                findPrjs = pid
+              }
+              lookupSheet = subset(lookupSheet,is.element(ProjectID,pid))
+            }
+            if(is.element("ScenarioID",names(lookupSheet))){
+              if(!is.null(sid)){
+                lookupSheet=subset(lookupSheet,is.element(ScenarioID,sid))
+              }
+            }
+            #lookupSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,lookupsAsFactors=F)
+            if((nrow(lookupSheet)==0)&(cRow$optional=="No")){
+              if(!grepl("Output",name)){
+                warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
+              }
+            }
+            lookupSheet=lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]),]
+            lookupLevels = lookupSheet$Name
+            if(is.numeric(sheet[[cRow$name]])){
+              if(nrow(lookupSheet)>0){
+                if(length(intersect("Name",names(lookupSheet)))==0){
+                  stop("Something is wrong. Expecting Name in lookup table.")
+                }
+                #if(is.element(cRow$name,names(lookupSheet))){
+                lookupMerge = subset(lookupSheet,select=c(names(lookupSheet)[1],"Name"))
+                #}else{
+                #  lookupMerge = subset(lookupSheet,select=c("ID","Name"))
+                #}
+                
+                names(lookupMerge) = c(cRow$name,"lookupName")
+                sheet=merge(sheet,lookupMerge, all.x=T)
+                sheet[[cRow$name]]=sheet$lookupName
+                sheet$lookupName=NULL
+              }
+            }
+            sheet[[cRow$name]]=factor(sheet[[cRow$name]],levels=lookupLevels)
+            #TO DO: handle formula1/formula2
+          }else{
+            sheet[[cRow$name]]=as.character(sheet[[cRow$name]])
+          }
+        }
+        if(cRow$formula2!="N/A"){
+          if(cRow$valCond=="Between"){
+            print(paste0("Note: ",cRow$name," should be between ",cRow$formula1," and ",cRow$formula2))
+            
+          }else{
+            stop("handle this case")
+          }
+        }
+      }
+      if(lookupsAsFactors&&!useConsole&&directQuery){
+        DBI::dbDisconnect(con)
+      }
+      rmSheets = unique(sheetInfo$formula1[sheetInfo$valType=="DataSheet"])
+      for(i in seq(length.out=length(rmSheets))){
+        unlink(gsub(name,rmSheets[i],tempFile,fixed=T))
+      }
+      
+      #TO DO: deal with NA values in sheet
+      #put columns in correct order
+      sheet$colOne = sheet[,1]
+      sheet$cOrder=seq(1,nrow(sheet))
+      if(empty){
+        sheet= subset(sheet,is.null(colOne))
+      }else{
+        sheet=subset(sheet,!is.na(colOne))
+        sheet = sheet[order(sheet$cOrder),]
+      }
+      sheet = subset(sheet,select=outNames)
+      
+    }
     
-  }
-
-  if(is.element("ProjectID",names(sheet))){
-    if(length(pid)==1){
-      sheet$ProjectID = NULL
-    }else{
-      if(nrow(sheet)>0){
-        if(is.null(allProjects)){
-          allProjects = .project(x)
+    if(is.element("ProjectID",names(sheet))){
+      if(length(pid)==1){
+        sheet$ProjectID = NULL
+      }else{
+        if(nrow(sheet)>0){
+          if(is.null(allProjects)){
+            allProjects = .project(x)
+          }
+          names(allProjects) = c("ProjectID","ProjectName")
+          sheet=merge(allProjects,sheet,all.y=T)
         }
-        names(allProjects) = c("ProjectID","ProjectName")
-        sheet=merge(allProjects,sheet,all.y=T)
       }
     }
-  }
-
-  if(is.element("ScenarioID",names(sheet))){
-    if(length(sid)==1){
-      sheet$ScenarioID = NULL
-    }else{
-      if(nrow(sheet)>0){
-        if(is.null(allScns)){
-          allScns = scenario(x)
+    
+    if(is.element("ScenarioID",names(sheet))){
+      if(length(sid)==1){
+        sheet$ScenarioID = NULL
+      }else{
+        if(nrow(sheet)>0){
+          if(is.null(allScns)){
+            allScns = scenario(x)
+          }
+          allScns=subset(allScns,select=c(id,pid,name,parentName))
+          names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
+          sheet=merge(allScns,sheet,all.Y=T)
         }
-        allScns=subset(allScns,select=c(id,pid,name,parentName))
-        names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
-        sheet=merge(allScns,sheet,all.Y=T)
       }
     }
+    outSheetList[[cName]]=sheet
+  }  
+  
+  if(!forceElements&(length(outSheetList)==1)){
+    outSheetList=outSheetList[[1]]  
   }
-
-  return(sheet)
+  
+  return(outSheetList)
 })
 
 setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,project,scenario,breakpoint) {

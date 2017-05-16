@@ -42,10 +42,31 @@ scenario(myLib)
 #myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Note wrong project. Test this with new SyncroSim.
 #scenario(myLib)
 #myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
+scenario(myScn) #return summary info
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+allSheets = datasheet(myScn) #returns datasheet names etc.
+str(allSheets)
+subset(allSheets,dataScope=="scenario")
 
-scenario(myScn) #return summary info
+aSheet = datasheet(myScn,"SSim_Processing") #returns a datasheet
+str(aSheet)
+
+aSheet = datasheet(myScn,"SSim_Processing",forceElements=T) #returns a list
+str(aSheet)
+
+someSheets = datasheet(myScn,c("SSim_Processing","SSim_Files")) #returns a list
+str(someSheets)
+
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+allScns = scenario(myLib,summary=F)
+names(allScns)
+someSheets = datasheet(myLib,c("STSim_RunControl","STSim_Transition"),scenario=as.numeric(names(allScns))) #returns a list - each sheet contains scenario info if appropriate
+str(someSheets)
+someSheets = datasheet(allScns,c("STSim_RunControl","STSim_Transition")) #returns a list - each sheet contains scenario info if appropriate
+str(someSheets)
+
+#RESUME HERE: Test for failure/warnings if there is a mismatch between ssimObject, scenario and project.
 
 #*************************************
 # Create the project definition

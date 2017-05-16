@@ -156,7 +156,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
     cPid=.id(ssimObject)
     scnSet = subset(scnSet,pid==cPid)
   }
-
+  
   if(is.null(scenario)){
     if(summary){
       scnSet$exists=NULL
@@ -297,7 +297,8 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   return(scnSetOut)
 } 
 setMethod('name', signature(x="Scenario"), function(x) {
-  return(x@name)
+  scnInfo = scenario(x,summary=T)
+  return(scnInfo$name)
 })
 setReplaceMethod(
   f='name',
@@ -748,17 +749,16 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
   
 })
 
-
-#' Set breakpoint of a Scenario.
-#'
-#' Add a Breakpoint object to breakpoints of a Scenario.
-#'
-#' @param x A SyncroSim Scenario
-#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: aftertimestep
-#' @param transformerName 'stsim:core-transformer' or?
-#' @param arguments A vector of timesteps or iterations e.g. c(1,2)
-#' @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
-#' @return An SyncroSim Scenario object containing breakpoints
+# Set breakpoint of a Scenario.
+#
+# Add a Breakpoint object to breakpoints of a Scenario.
+#
+# @param x A SyncroSim Scenario
+# @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: aftertimestep
+# @param transformerName 'stsim:core-transformer' or?
+# @param arguments A vector of timesteps or iterations e.g. c(1,2)
+# @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
+# @return An SyncroSim Scenario object containing breakpoints
 # @export
 setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
 setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, transformerName, arguments, callback) {
@@ -779,11 +779,11 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, tra
   return(x)
 })
 
-#' The breakpoints of a Scenario
-#'
-#' The breakpoints of a Scenario
-#' @param x A Scenario object.
-#' @return A list of Breakpoint objects.
+# The breakpoints of a Scenario
+#
+# The breakpoints of a Scenario
+# @param x A Scenario object.
+# @return A list of Breakpoint objects.
 # @export
 setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
 setMethod('breakpoints', signature(x="Scenario"), function(x) {

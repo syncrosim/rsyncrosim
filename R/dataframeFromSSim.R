@@ -2,21 +2,21 @@
 # Date : October 2016
 # Version 0.1
 # Licence GPL v3
-#' Dataframe from SyncroSim output
-#'
-#' \code{dataframeFromSSim} converts output from SyncroSim to a dataframe.
-#'
-#' @param x Output from \code{\link{command()}}
-#' @param colNames A vector of column names.
-#' @param csv If T assume comma separation. Otherwise, assume undefined white space separation.
-#' @param localNames If T, remove spaces from column names and make camelCase.
-#' @return A data frame of output from the SyncroSim console.
-#' @examples
-#' # Use a default session to create a new library
-#' myArgs = list(list=NULL,columns=NULL,lib="C:/Temp/NewLibrary.ssim",sheet="STSim_Stratum",pid=1)
-#' myOutput = command(args=myArgs,mySsim)
-#' myDataframe = dataframeFromSSim(myOutput)
-#' myDataframe
+# Dataframe from SyncroSim output
+#
+# \code{dataframeFromSSim} converts output from SyncroSim to a dataframe.
+#
+# @param x Output from \code{\link{command()}}
+# @param colNames A vector of column names.
+# @param csv If T assume comma separation. Otherwise, assume undefined white space separation.
+# @param localNames If T, remove spaces from column names and make camelCase.
+# @return A data frame of output from the SyncroSim console.
+# @examples
+# # Use a default session to create a new library
+# myArgs = list(list=NULL,columns=NULL,lib="C:/Temp/NewLibrary.ssim",sheet="STSim_Stratum",pid=1)
+# myOutput = command(args=myArgs,mySsim)
+# myDataframe = dataframeFromSSim(myOutput)
+# myDataframe
 # @export
 .dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T){
   #colNames=c("name","description","version");

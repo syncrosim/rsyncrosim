@@ -42,37 +42,34 @@ setGeneric('filepath',function(x) standardGeneric('filepath'))
 setGeneric('info',function(x) standardGeneric('info'))
 
 
-#' datasheets
-#'
-#' Gets datasheets from an SsimLibrary, Project or Scenario.
-#'
-#' @details
-#' See \code{\link{datasheet}} for discussion of optional/empty/sheetName/lookupsAsFactors arguments.
-#' \itemize{
-#'   \item {If x/project/scenario identify a scenario: }{Returns library, project, and scenario scope datasheets.}
-#'   \item {If x/project/scenario identify a project (but not a scenario): }{Returns library and project scope datasheets.}
-#'   \item {If x/project/scenario identify a library (but not a project or scenario): }{Returns library scope datasheets.}
-#' }
-#'
-#' @param x An SsimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.
-#' @param project Project name or id. Ignored if x is a Project.
-#' @param scenario Scenario name or id. Ignored if x is a Scenario.
-#' @param names If TRUE (default) returns dataframe of sheet names, ignoring remaining arguments. If FALSE returns a named list of dataframes representing each datasheet.
-#' @param scope "scenario","project", "library", "all", or NULL.
-#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.
-#' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
-#' @param lookupsAsFactors If TRUE (default) lookups are returned as factors with allowed values (levels). Set FALSE to speed calculations.
-#' @param refresh If FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call (slower).
-#' @return A dataframe of datasheet names, or list of datasheets represented by dataframes.
-#' @examples
-#'
-#' @export
-setGeneric('datasheets',function(x,project=NULL,scenario=NULL,names=T,scope=NULL,optional=F,empty=F,lookupsAsFactors=T,refresh=F) standardGeneric('datasheets'))
+# datasheets
+#
+# Gets datasheet summary info from an SsimLibrary, Project or Scenario.
+#
+# @details
+# See \code{\link{datasheet}} for discussion of optional/empty/sheetName/lookupsAsFactors arguments.
+# \itemize{
+#   \item {If x/project/scenario identify a scenario: }{Returns library, project, and scenario scope datasheets.}
+#   \item {If x/project/scenario identify a project (but not a scenario): }{Returns library and project scope datasheets.}
+#   \item {If x/project/scenario identify a library (but not a project or scenario): }{Returns library scope datasheets.}
+# }
+#
+# @param x An SsimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.
+# @param project Project name or id. Ignored if x is a Project.
+# @param scenario Scenario name or id. Ignored if x is a Scenario.
+# @param scope "scenario","project", "library", "all", or NULL.
+# @param refresh If FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call (slower).
+# @return A dataframe of datasheet names.
+# @examples
+#
+# @export
+#Note: this function is now internal. Should now only be called from datasheet.
+setGeneric('datasheets',function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F) standardGeneric('datasheets'))
 
 #Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheets', signature(x="character"), function(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh) {
+setMethod('datasheets', signature(x="character"), function(x,project,scenario,scope,refresh) {
   x = .getFromXProjScn(x,project,scenario)
-  out = .datasheets(x,project,scenario,names,scope,optional,empty,lookupsAsFactors,refresh)
+  out = .datasheets(x,project,scenario,scope,refresh)
   return(out)
 })
 
@@ -81,102 +78,82 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,na
 #' Gets Syncrosim datasheet.
 #'
 #' @details
+#' If summary=T or summary and name=NULL, a dataframe listing datasheet names and other info is returned. All other arguments are ignored.
+#' 
+#' Otherwise, for each element in name a datasheet is returned as follows:
 #' \itemize{
 #'   \item {If lookupsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
 #'   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
 #'   \item {If empty=F and lookupsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
-#'   \item {If x is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
-#'   \item {If length(scenario)>1: }{Adds ScenarioID/ProjectID column if appropriate.}
+#'   \item {If ssimObject is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
+#'   \item {If scenario/project is a vector: }{Adds ScenarioID/ProjectID column as necessary.}
 #'   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
 #'   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 #' }
 #'
-#' @param x An SsimLibrary, Project or Scenario object. Or the path to a library on disk. Or a list of Scenario or Project objects.
-#' @param name The sheet name
-#' @param project One or more Project names, id or objects.
-#' @param scenario One or more Scenario names, id or objects.
-#' @param optional If FALSE (default) returns only required columns. If TRUE returns optional columns also. Ignored if empty=F and lookupsAsFactors=F.
-#' @param empty If FALSE (default) returns data (if any). If TRUE returns empty dataframe.
-#' @param lookupsAsFactors If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations.
-#' @param sqlStatements SELECT and GROUP BY SQL statements passed to SQLite database.
-#' @param includeKey If TRUE include primary key in output table.
-#' @return A dataframe representing a SyncroSim datasheet.
+#' @param ssimObject SsimLibrary/Project/Scenario, list of objects, or path to a library. Note that all objects in a list must be of the same type, and belong to the same library.
+#' @param name Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=F and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.
+#' @param project Character, numeric, or vector of these. One or more Project names, id or objects.
+#' @param scenario Character, numeric, or vector of these. One or more Scenario names, id or objects.
+#' @param summary Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes. 
+#' @param optional Logical. If TRUE returns all of the datasheet's columns, including the optional columns; otherwise returns only those columns that are mandatory and/or contain data. Ignored if summary=T, or if empty=F and lookupsAsFactors=F.
+#' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.
+#' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
+#' @param sqlStatements List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
+#' @param includeKey Logical. If TRUE include primary key in output table.
+#' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.
+#' @return If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe or list of dataframes representing SyncroSim datasheets.
 #' @examples
 #'
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(x,name,project=NULL,scenario=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F) standardGeneric('datasheet'))
-#Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(x="character"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
-  x = .getFromXProjScn(x,project,scenario)
+setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
+#Handles case where ssimObject is a path to an SyncroSim library on disk.
+setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
+  ssimObject = .getFromXProjScn(ssimObject,project,scenario)
+  out = datasheet(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements)
   return(out)
 })
 
-#Handles case where x is list of Scenario or Project objects
-setMethod('datasheet', signature(x="list"), function(x,name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey) {
+#Handles case where ssimObject is list of Scenario or Project objects
+setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
   #x=myResults;name="STSim_OutputStratumState";lookupsAsFactors=T;project=NULL;scenario=NULL;optional=F;empty=F
 
-  cScn = x[[1]]
+  cScn = ssimObject[[1]]
   if(!is.element(class(cScn),c("Scenario","Project"))){
-    stop("x must be an SsimLibrary, Project, Scenario object. Or a list of Scenario objects. Or the path to a library on disk.")
+    stop("ssimObject must be an SsimLibrary, Project or Scenario object. Or a list of Project/Scenario objects. Or the path to a library on disk.")
+  }
+  
+  if(!is.null(project)|!is.null(scenario)){
+    warning("project and scenario arguments are ignored when ssimObject is a Project/Scenario or list of these.")
   }
 
-  cName = name
-  sheetInfo = subset(.datasheets(cScn,scope="all"),name==cName)
-  if(nrow(sheetInfo)==0){
-    sheetInfo = subset(.datasheets(cScn,scope="all",refresh=T),name==cName)
-    if(nrow(sheetInfo)==0){
-      stop("Datasheet ",name, " not found in library.")
+  ids = c()
+  for(i in seq(length.out=length(ssimObject))){
+    cScn = ssimObject[[1]]
+    if(class(cScn)!=class(ssimObject[[1]])){
+      stop("Elements of ssimObject must all be of the same type (Project or Scenario).")
     }
-  }
-  if((sheetInfo$dataScope=="library")&(sqlStatements$select=="SELECT *")){
-     out = .datasheet(cScn,name,project=NULL,scenario=NULL,optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements)
-     return(out)
-  }
-
-  forceConsole=!lookupsAsFactors&(sheetInfo$isOutput)&(sqlStatements$select=="SELECT *")&(length(x)<=4)
-  project = c();scenario=c()
-  for(i in seq(length.out=length(x))){
-    #i=1
-    cScn = x[[i]]
-    if(class(cScn)=="Scenario"){
-      cPid = .pid(cScn)
-      project=c(project,cPid)
-      cSid = .id(cScn)
-      scenarioParent = strsplit(.name(cScn)," ([",fixed=T)[[1]][1]
-      mergeInfo = data.frame(ScenarioID=cSid,ProjectID=cPid,ScenarioName=.name(cScn),ScenarioParent=scenarioParent,stringsAsFactors=F)
-      scenario=c(scenario,cSid)
+    if(.filepath(cScn)!=.filepath(ssimObject[[1]])){
+      stop("Elements of ssimObject must all be contained in the same library.")
     }
-    if(class(cScn)=="Project"){
-      cPid= .id(cScn)
-      mergeInfo =data.frame(ProjectID = cPid,ProjectName=.name(cScn),stringsAsFactors=F)
-      project=c(project,cPid)
-    }
-
-    if(forceConsole){
-       outBit = .datasheet(cScn,name,project=NULL,scenario=NULL,optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey)
-       if(nrow(outBit)>0){
-         if(sheetInfo$dataScope=="project"){
-           outBit$ProjectID = cPid
-           outBit = merge(mergeInfo,outBit)
-         }
-         if(sheetInfo$dataScope=="scenario"){
-           outBit$ScenarioID = cSid
-           outBit = merge(mergeInfo,outBit)
-         }
-       }
-       if(i==1){
-         out=outBit
-       }else{
-         out=rbind(out,outBit)
-       }
-    }
+    ids = c(ids,.id(cScn))  
   }
-  if(!forceConsole){
-    out = .datasheet(.ssimLibrary(cScn),name,project,scenario,optional,empty,lookupsAsFactors,sqlStatements,includeKey)
-  }else{
-    out=unique(out)
+  
+  
+  #get list of scenario/projects and pass to datasheet again
+  if(class(cScn)=="Scenario"){
+    project=NULL
+    scenario=ids
   }
+  
+  if(class(cScn)=="Project"){
+    project=ids
+    scenario=NULL
+  }
+  
+  out = .datasheet(.ssimLibrary(cScn),name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey,forceElements=forceElements)
+  
   return(out)
 })
 
@@ -345,13 +322,13 @@ setMethod('multiband', signature(x="list"), function(x,action,grouping) {
   return(out)
 })
 
-#' Get or set a socket connection.
-#'
-#' @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
-#' @param port For new connections only - a port number.
+# Get or set a socket connection.
+#
+# @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
+# @param port For new connections only - a port number.
 # @export
 setGeneric('connection',function(x,...) standardGeneric('connection'))
-#' @describeIn connection Get a new connection.
+# @describeIn connection Get a new connection.
 setMethod('connection',signature(x="missingOrNULLOrChar"),
           function(x='127.0.0.1',port=13000) {
             #port=13000;ipAddress='127.0.0.1'

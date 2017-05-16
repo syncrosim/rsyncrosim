@@ -6,13 +6,13 @@ setOldClass("sockconn")
 #' @include generics.R
 #' @include scenario.R
 NULL
-#' BreakpointSession class
-#'
-#' @slot scenario A SyncroSim scenario
-#' @slot connection A socket connection to the SyncroSim server.
-#' @slot name A name
-#' @name BreakpointSession-class
-#' @rdname BreakpointSession-class
+# BreakpointSession class
+#
+# @slot scenario A SyncroSim scenario
+# @slot connection A socket connection to the SyncroSim server.
+# @slot name A name
+# @name BreakpointSession-class
+# @rdname BreakpointSession-class
 # @export BreakpointSession
 BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character"))
 # @name Scenario
@@ -41,7 +41,7 @@ breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,na
 
 # @export
 setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
-#' @describeIn connection Get the connection of a BreakpointSession.
+# @describeIn connection Get the connection of a BreakpointSession.
 setMethod('connection', signature(x="BreakpointSession"), function(x) return(x@connection))
 setReplaceMethod(
   f='connection',
