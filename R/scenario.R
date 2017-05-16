@@ -113,15 +113,11 @@ setMethod(f='initialize',signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
-  #ssimObject= myLib;scenario=NULL;summary=NULL;forceElements=F;sourceScenario=NULL;results=F;overwrite=F
+  #ssimObject= myScn;scenario=NULL;summary=NULL;forceElements=F;sourceScenario=NULL;results=F;overwrite=F
   if(!is.element(class(ssimObject),c("character","SsimLibrary","Project","Scenario"))){
     stop("ssimObject should be a filepath or an SsimLibrary/Project object.")
   }
-  #if ssimObject is a scenario, return the scenario
-  if((class(ssimObject)=="Scenario")&is.null(scenario)){
-    if(is.null(summary)){summary=F}
-    scenario=.id(ssimObject)
-  }
+
   if(class(ssimObject)=="character"){
     ssimObject=.ssimLibrary(ssimObject)
   }
@@ -151,6 +147,11 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   
   #Get pid 
   cPid=NA
+  if((class(ssimObject)=="Scenario")){
+    scenario=.id(ssimObject)
+    cPid = .pid(ssimObject)
+    scnSet = subset(scnSet,id==scenario)
+  }
   if(class(ssimObject)=="Project"){
     cPid=.id(ssimObject)
     scnSet = subset(scnSet,pid==cPid)
@@ -183,7 +184,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
       stop("Scenario ids (",paste(makeProblems$id,collapse=",") ,") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument. SyncroSim will automatically assign scenario ids.")
     }
   }
-
+  
   #For scenarios that need to be made, assign project or fail  
   #cPid=NA
   makeSum = sum(!is.na(fullScnSet$order)&is.na(fullScnSet$exists))
@@ -237,7 +238,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   #make scnenarios/scenario objects
   scnsToMake = subset(fullScnSet,!is.na(order))
   if(overwrite){
-    for (i in 1:nrow(scnsToMake)){
+    for (i in seq(length.out=nrow(scnsToMake))){
       if(is.na(scnsToMake$exists[i])){
         next
       }
@@ -248,6 +249,11 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
     }
   }
   if(summary|results){scnsToMake=subset(scnsToMake,is.na(exists))}
+  if(nrow(scnsToMake)==0){
+    fullScnSet=fullScnSet[order(fullScnSet$order),]
+    fullScnSet$exists=NULL;fullScnSet$order=NULL
+    return(fullScnSet)
+  }
   if(results&(nrow(scnsToMake)>0)){
     stop(paste0("Could not find these scenarios in the ssimObject. To create them, set results=F: ",paste(scnsToMake$name,collapse=",")))
   }

@@ -22,23 +22,30 @@ output
 mySession =session(printCmd=T,silent=F)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
-myLib=ssimLibrary(name="temp25",session=mySession)
+
+myLib=ssimLibrary(name="temp26",session=mySession)
+unlink(.filepath(myLib))
+myLib=ssimLibrary(name="temp26",session=mySession)
+
 myProject = project(myLib,project="temp")
 project(myLib)
 
-scenario(myLib,scenario=1) # Fail: need a name to create a scenario
+#scenario(myLib,scenario=1) # Fail: need a name to create a scenario
 myScn = scenario(myLib,scenario="one") #Ok because only one project in the library.
 myProject = project(myLib,project="temp2")
 myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
 myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
-myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
+#myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
 scenario(myLib)
 myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
 scenario(myLib)
-myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Note wrong project. Test this with new SyncroSim.
-scenario(myLib)
-myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
-#RESUME HERE - update scenario/scenarios syntax throughout.
+#myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Note wrong project. Test this with new SyncroSim.
+#scenario(myLib)
+#myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
+
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
+scenario(myScn) #return summary info
 
 #*************************************
 # Create the project definition
