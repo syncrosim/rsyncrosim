@@ -2,53 +2,48 @@
 % Please edit documentation in R/scenario.R
 \name{scenario}
 \alias{scenario}
-\title{Create or open a scenario}
+\title{Create or open a scenario or scenarios.}
 \usage{
-scenario(ssimLibrary = NULL, project = NULL, name = NULL, id = NULL,
-  create = T, scenarios = NULL, sourceScenario = NULL, author = NULL,
-  description = NULL, readOnly = NULL)
+scenario(ssimObject, scenario = NULL, sourceScenario = NULL,
+  summary = NULL, results = F, overwrite = F, forceElements = F)
 }
 \arguments{
-\item{ssimLibrary}{An SsimLibrary object or name, or an object that contains an SsimLibrary. If a name is given, the library will be opened using the default session.}
+\item{ssimObject}{SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.}
 
-\item{project}{A Project object, project name, or project id.}
+\item{scenario}{Character, integer, or vector of these. Names or ids of one or more scenarios.}
 
-\item{name}{The scenario name.}
+\item{sourceScenario}{Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.}
 
-\item{id}{The scenario id.}
+\item{summary}{Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentId. Default is TRUE if scenario=NULL, FALSE otherwise.}
 
-\item{create}{If TRUE, create scenario if one does not exist. If FALSE, only return an existing scenario}
+\item{results}{Logical. If TRUE only return result scenarios.}
 
-\item{scenarios}{A dataframe of existing scenarios produced by scenarios(). Use to speed processing.}
+\item{overwrite}{Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.}
 
-\item{sourceScenario}{The name or id of a scenario to copy.}
-
-\item{author}{Optional.}
-
-\item{description}{Optional.}
-
-\item{readOnly}{By default scenarios are not readOnly.}
+\item{forceElements}{Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.}
 }
 \value{
-A \code{Scenario} object representing a SyncroSim scenario.
+A \code{Scenario} object representing a SyncroSim scenario, or a dataframe of scenario names and descriptions.
 }
 \description{
-Creates or opens a \code{\link{Scenario}} object representing a SyncroSim scenario.
+If summary = FALSE, returns one or more \code{\link{Scenario}} objects representing a SyncroSim scenarios.
+If summary = TRUE, returns scenario summary info.
 }
 \details{
+For each element of scenario:
 \itemize{
-  \item {If name/id/project uniquely identifies an existing scenario: }{Returns the existing Scenario}
-  \item {If name/id/project uniquely identifies more than one existing scenario: }{Error}
-  \item {If project is NULL, and name/id do not uniquely idenfity an existing scenario: }{Error}
-  \item {If project is not NULL, name is NULL, and id/project do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
-  \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
+  \item {If element/project/ssimObject uniquely identifies an existing scenario: }{Returns the existing Scenario}
+  \item {If element/project/ssimObject uniquely identifies more than one existing scenario: }{Error}
+  \item {If element/project/ssimObject do not identify an existing scenario or project: }{Error}
+  \item {If element/project/ssimObject do not identify an existing scenario and element is numeric: }{Error - a name is required for new scenarios. SyncroSim will automatically assign an id when a scenario is created.}
+  \item {If element/project/ssimObject do not identify an existing scenario and do identify a project, and element is a character string: }{Creates a new Scenario named element in the project. SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
 }
 }
 \examples{
-# Create a new default scenario
+# Create a new scenario
 myLibrary = ssimLibrary(name="stsim")
-myProject = project(myLibrary) #If no name is given, creates a project named "Project".
-myScenario = scenario(myProject)
+myProject = project(myLibrary,project="a project") 
+myScenario = scenario(myProject,scenario="a scenario")
 
 }
 

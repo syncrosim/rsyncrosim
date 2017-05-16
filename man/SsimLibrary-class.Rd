@@ -26,7 +26,8 @@ filepath(myLibrary)
 info(myLibrary)
 
 # Add or load a project, then get the SyncroSim Library associated with that Project
-myProject = project(myLibrary)
+myProject = project(myLibrary,project="a project")
+
 myLibrary = ssimLibrary(myProject)
 
 }

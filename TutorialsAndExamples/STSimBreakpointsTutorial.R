@@ -29,12 +29,12 @@ if(!file.exists(libPath)){
 # Create a new scenario with breakpoints
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 myProject = project(myLibrary,project="a project")
-scenarios(myProject,names=T)
+scenario(myProject)
 
-if(!is.element("breakpoint test",scenarios(myProject,names=T)$name)){
-  myScenario = scenario(myProject,name="breakpoint test",sourceScenario = 5,author="Josie Hughes")
+if(!is.element("breakpoint test",scenario(myProject)$name)){
+  myScenario = scenario(myProject,scenario="breakpoint test",sourceScenario = 5)
 }else{
-  myScenario = scenario(myProject,name="breakpoint test")
+  myScenario = scenario(myProject,scenario="breakpoint test")
 }
 
 #datasheets(myScenario)$name

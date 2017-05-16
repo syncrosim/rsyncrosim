@@ -83,25 +83,22 @@ test_that("Tests of Project", {
 test_that("Tests of Scenario", {
   myLibrary = ssimLibrary(name="Another Lib")
   myProject = project(myLibrary,project="a project")
-  expect_is(scenario(myLibrary),"Scenario")  # NOTE: this works only if there is <= 1 project in Library.
-  expect_is(scenario(myProject),"Scenario") #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
-
-  myScenarios =scenarios(myLibrary)
+  myScenario = scenario(myProject, scenario="Scenario")
+  expect_is(myScenario,"Scenario")  #returns dataframe
+  
+  myScenarios =scenario(myLibrary,summary=F,forceElements=T)
   expect_is(myScenarios[[1]],"Scenario")
 
-  myScenario = scenario(myLibrary,project="My new project name") #Will create project if necessary
-  myScenario = scenario(myProject, name="My new scenario name")
+  myScenario = scenario(myProject, scenario="My new scenario name")
 
-  myScnNames  =   scenarios(myLibrary,names=T)
+  myScnNames  =   scenario(myLibrary)
   expect_equal(names(myScnNames),c("id","pid","name","isResult","author","description","readOnly","lastModified","parentName"))
-  expect_equal(myScnNames$name,c("Scenario","Scenario","My new scenario name"))
+  expect_equal(myScnNames$name,c("Scenario","My new scenario name"))
 
-  myScenario = scenario(myProject, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
   expect_is(id(myScenario),"numeric")
-  # NOTE: Returns and error if "Another scenario" already exists, but has different properties?
 
   # Get an existing scenario by ID
-  expect_is(scenario(myLibrary, id=1),"Scenario") # By ID directly from the library - return a single scenario object
+  expect_is(scenario(myLibrary, scenario=1),"Scenario") # By ID directly from the library - return a single scenario object
 
   # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
   expect_equal(name(myScenario),"Another scenario")
@@ -119,8 +116,8 @@ test_that("Tests of Scenario", {
   expect_equal(author(myScenario),"Colin Daniel")
 
   # Delete scenarios
-  ret = deleteScenarios(myLibrary, scenario=scenarios(myLibrary,names=T)$id,force=T)
-  expect_equal(nrow(scenarios(myLibrary,names=T)),0)
+  ret = deleteScenarios(myLibrary, scenario=scenario(myLibrary)$id,force=T)
+  expect_equal(nrow(scenario(myLibrary)),0)
   unlink(filepath(myLibrary))
 })
 

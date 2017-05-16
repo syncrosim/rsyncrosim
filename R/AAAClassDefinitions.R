@@ -72,14 +72,13 @@ SsimLibrary <- setClass("SsimLibrary", representation(session="Session",filepath
 #' @slot filepath The path to the library on disk.
 #' @slot datasheetNames Names and scope of all datasheets in library.
 #' @slot pid The project id.
-#' @slot name The scenario name.
 #' @slot id The scenario id.
 #' @slot parentId For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.
 #' @slot breakpoints An (optional) list of Breakpoint objects. See ?breakpoints for details.
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains="SsimLibrary",representation(pid="numeric",name="character",id="numeric",parentId="numeric",breakpoints="list"))
+Scenario <- setClass("Scenario", contains="SsimLibrary",representation(pid="numeric",id="numeric",parentId="numeric",breakpoints="list"))
 
 #' SyncroSim Project class
 #'

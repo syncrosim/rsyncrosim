@@ -10,78 +10,29 @@ NULL
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
-    definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL,author=NULL,description=NULL,readOnly=NULL){
-    #ssimLibrary = myLibrary  #.project(myLibrary,project=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id=NULL;name=NULL;project=NULL;scenarios=NULL;create=T;sourceScenario=NULL
-    if(is.character(id)){id = as.numeric(id)}
-
+    definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,sourceScenario=NULL,scenarios=NULL){
+    #ssimLibrary = ssimObject; project=cRow$pid;id=cRow$id;scenarios=cRow
+    #assume this is being called from scenario fn. ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
+      
     .Object@breakpoints=list()
 
     .Object@parentId = 0
-    x=NULL
-    if(!is.null(ssimLibrary)){
-      x=ssimLibrary
-    }else{
-      x=project
-    }
-    if(is.null(x)){
-      stop("Specify a library and (optional) project to create or open a scenario.")
-    }
-    if(is.character(x)){
-      x=.ssimLibrary(name=x)
-    }
+    x=ssimLibrary
 
-    #For fast processing - quickly return without system calls if scenario exists and can be easily identified
+    #For fast processing - quickly return without system calls if scenario exists
     if(is.null(scenarios)){
-      scenarios = .scenarios(x,names=T)
+      scenarios = .scenario(x)      
     }
-    findScn = scenarios
-    if(!is.null(name)){
-      cName=name
-      findScn = subset(findScn,name==cName)
+    if(!is.null(name)){cName=name;scenarios=subset(scenarios,name==cName)}
+    if(!is.null(id)){cId = id; scenarios=subset(scenarios,id==id)}
+    if(!is.null(project)){scenarios=subset(scenarios,pid==project)}
+    
+    findScn = subset(scenarios,!is.na(id))
+    if(nrow(findScn)>1){
+      stop("Something is wrong.")
     }
-    if(!is.null(id)){
-      cId = as.character(id)
-      findScn = subset(findScn,id==cId)
-    }
-    pid=project
-    if(class(x)=="Project"){
-      pid = .id(x)
-    }
-    if(class(project)=="Project"){
-      pid = .id(project)
-    }
-    if(!is.null(pid)){
-      cPid = as.character(pid)
-      findScn = subset(findScn,pid==cPid)
-    }
-    cProjects=NULL
-    if((nrow(findScn)!=1)&&(class(pid)=="character")){
-      cProjects = .project(x)
-      findProject = subset(cProjects,name==project)
-      findScn = subset(findScn,is.element(pid,findProject$id))
-      if(nrow(findProject)>0){
-        pid = as.numeric(findProject$id)
-      }
-    }
+
     #If found only one, open it.
-    if(nrow(findScn)==1){name=findScn$name}
-
-    if(is.null(id)&is.null(name)&(nrow(findScn)>0)){
-        name = "Scenario"
-        cName=name
-        findScn = subset(findScn,name==cName)
-    }
-
-    propertyArgs = list(setprop=NULL,lib=.filepath(x))
-    if(!is.null(author)){propertyArgs$author=author}
-    if(!is.null(description)){propertyArgs$description=description}
-    if(!is.null(readOnly)){
-      if(readOnly){propertyArgs$readonly="yes"}else{
-        propertyArgs$readonly="no"
-      }
-    }
-
     if(nrow(findScn)==1){
       if(!is.null(sourceScenario)){
         stop("Scenario ",name," already exists. Delete the scenario before replacing it.")
@@ -91,149 +42,254 @@ setMethod(f='initialize',signature="Scenario",
         parent = strsplit(parentBit,"]",fixed=T)[[1]][1]
         .Object@parentId = as.numeric(parent)
       }
-      if(length(propertyArgs)>2){
-        propertyArgs$sid = findScn$id
-        tt = command(propertyArgs,.session(x))
-        if(tt!="saved"){
-          stop("Failed to set properties:",tt)
-        }
-      }
 
       #Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
       .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
       .Object@id = as.numeric(findScn$id)
-      .Object@name = findScn$name
       .Object@pid = as.numeric(findScn$pid)
       return(.Object)
     }
-
-    #Now go ahead to handle odder cases
-    #x can be either a project or a library - but need a project in order to create a new scenario
-
-    if(create){
-      if(!is.null(pid)&(class(x)=="SsimLibrary")){
-        if(length(pid)>1){
-          stop(paste0("The library contains more than one project called ",project,". Specify a project id:",paste(pid,collapse=",")))
-        }
-        if(class(pid)=="numeric"){
-          x = .project(x,id=pid)
-        }else{
-          x = .project(x,name=pid)
-        }
-      }
-    }
-
-    #if given a library, can only open an existing scenario
-    if((class(x)=="SsimLibrary")||!create||(nrow(findScn)>0)){
-      if(nrow(findScn)==0){
-        if(!create){
-          stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project and set create=T to create a new scenario."))
-        }
-        if(is.null(cProjects)){
-          cProjects = .project(x)
-        }
-        if(nrow(cProjects)>1){
-          stop(paste0("Scenario ",name," (id=",id,") does not exist. Provide a project to create a new scenario."))
-        }else{
-          x = .project(x,summary=F)
-        }
-      }
-      if(nrow(findScn)>1){
-        stop(paste0("More than one scenario was identified. Please provide more information. See scenarios(x,names=T) for options."))
-      }
-      if(class(x)!="Project"){
-        stop("Something is wrong. Can't identify a unique existing scenario, and need a project to create a new scenario")
-      }
-    }
-
-    #Now assume we have a project, and are permitted to create a new scenario
-    pid=.id(x) #If pid conflicts with project id, ignore pid.
-    if(nrow(findScn)>0){stop("Something is wrong")}
-
+    
     #If given an id for a scenario that does not yet exist, complain
-    if(!is.null(id)){
+    if(is.null(name)){
       stop(paste0("The library does not contain scenario id ",id,". Please provide a name for the new scenario - the id will be assigned automatically by SyncroSim."))
     }
+    
+    #Now go ahead to handle odder cases
+    #Assume pid is valid, and name is defined, not duplicated, etc
+    #x can be either a project or a library - but need a project in order to create a new scenario
+    pid=project
 
     #Create a new scenario
-    if(is.null(name)){
-      #allScenarios = scenarios(.ssimLibrary(x),names=T)
-      #if(nrow(allScenarios)==0){
-      #  name = "Scenario1"
-      #}else{
-      #  name =paste0("Scenario",max(allScenarios$id)+1)
-      #}
-      name="Scenario"
-    }
     if(is.null(sourceScenario)){
       tt = command(list(create=NULL,scenario=NULL,lib=.filepath(x),name=name,pid=pid),.session(x))
     }else{
-      if(is.character(sourceScenario)){
-        findSource = subset(scenarios,name==sourceScenario)
-      }else{
-        findSource = subset(scenarios,id==sourceScenario)
-      }
-      findSource=subset(findSource,isResult=No)
-      if(nrow(findSource)==0){
-        stop("Source scenario ",sourceScenario," not found.")
-      }
-      if(nrow(findSource)>1){
-        stop("There is more than one scenario named ",sourceScenario,". Specify an id: ",paste(findSource$id,collapse=","))
-      }
-      tt = command(list(copy=NULL,scenario=NULL,lib=.filepath(x),name=name,sid=findSource$id),.session(x))
+      tt = command(list(copy=NULL,scenario=NULL,lib=.filepath(x),name=name,sid=sourceScenario),.session(x))
     }
     id = as.numeric(strsplit(tt,": ")[[1]][2])
 
-    if(length(propertyArgs)>2){
-      propertyArgs$sid = id
-      tt = command(propertyArgs,.session(x))
-    }
     .Object@session=.session(x)
     .Object@filepath=.filepath(x)
     .Object@datasheetNames = .datasheets(x,refresh=T,scope="all")
     .Object@id = as.numeric(id)
-    .Object@name = name
     .Object@pid = as.numeric(pid)
     return(.Object)
   }
 )
-#' Create or open a scenario
+
+#' Create or open a scenario or scenarios.
 #'
-#' Creates or opens a \code{\link{Scenario}} object representing a SyncroSim scenario.
+#' If summary = FALSE, returns one or more \code{\link{Scenario}} objects representing a SyncroSim scenarios.
+#' If summary = TRUE, returns scenario summary info.
+#'
 #' @details
 #'
+#' For each element of scenario:
 #' \itemize{
-#'   \item {If name/id/project uniquely identifies an existing scenario: }{Returns the existing Scenario}
-#'   \item {If name/id/project uniquely identifies more than one existing scenario: }{Error}
-#'   \item {If project is NULL, and name/id do not uniquely idenfity an existing scenario: }{Error}
-#'   \item {If project is not NULL, name is NULL, and id/project do not idenfity an existing scenario: }{Creates a new Scenario called "Scenario". The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
-#'   \item {If project is not NULL, name is not NULL, and name/id/project do not idenfity an existing scenario: }{Creates a new Scenario called <name>. The id argument is ignored, as SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
+#'   \item {If element/project/ssimObject uniquely identifies an existing scenario: }{Returns the existing Scenario}
+#'   \item {If element/project/ssimObject uniquely identifies more than one existing scenario: }{Error}
+#'   \item {If element/project/ssimObject do not identify an existing scenario or project: }{Error}
+#'   \item {If element/project/ssimObject do not identify an existing scenario and element is numeric: }{Error - a name is required for new scenarios. SyncroSim will automatically assign an id when a scenario is created.}
+#'   \item {If element/project/ssimObject do not identify an existing scenario and do identify a project, and element is a character string: }{Creates a new Scenario named element in the project. SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
 #' }
 #'
-#' @param ssimLibrary An SsimLibrary object or name, or an object that contains an SsimLibrary. If a name is given, the library will be opened using the default session.
-#' @param project A Project object, project name, or project id.
-#' @param name The scenario name.
-#' @param id The scenario id.
-#' @param create If TRUE, create scenario if one does not exist. If FALSE, only return an existing scenario
-#' @param scenarios A dataframe of existing scenarios produced by scenarios(). Use to speed processing.
-#' @param sourceScenario The name or id of a scenario to copy.
-#' @param author Optional.
-#' @param description Optional.
-#' @param readOnly By default scenarios are not readOnly.
-#' @return A \code{Scenario} object representing a SyncroSim scenario.
+#' @param ssimObject SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.
+#' @param scenario Character, integer, or vector of these. Names or ids of one or more scenarios.
+#' @param sourceScenario Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.
+#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentId. Default is TRUE if scenario=NULL, FALSE otherwise.
+#' @param results Logical. If TRUE only return result scenarios.
+#' @param overwrite Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.
+#' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.
+#' @return A \code{Scenario} object representing a SyncroSim scenario, or a dataframe of scenario names and descriptions.
 #' @examples
-#' # Create a new default scenario
+#' # Create a new scenario
 #' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(myLibrary,project="a project") 
-#' myScenario = scenario(myProject)
+#' myScenario = scenario(myProject,scenario="a scenario")
 #'
 #' @name scenario
 # @rdname Scenario-class
 #' @export
-scenario <- function(ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,create=T,scenarios=NULL,sourceScenario=NULL,author=NULL,description=NULL,readOnly=NULL) new("Scenario",ssimLibrary,project,name,id,create,scenarios,sourceScenario,author,description,readOnly)
+scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
+  #ssimObject= myLib;scenario=NULL;summary=NULL;forceElements=F;sourceScenario=NULL;results=F;overwrite=F
+  if(!is.element(class(ssimObject),c("character","SsimLibrary","Project","Scenario"))){
+    stop("ssimObject should be a filepath or an SsimLibrary/Project object.")
+  }
+  #if ssimObject is a scenario, return the scenario
+  if((class(ssimObject)=="Scenario")&is.null(scenario)){
+    if(is.null(summary)){summary=F}
+    scenario=.id(ssimObject)
+  }
+  if(class(ssimObject)=="character"){
+    ssimObject=.ssimLibrary(ssimObject)
+  }
+  
+  #get current scenario info
+  tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
+  scnSet=.dataframeFromSSim(tt,localNames=T)
+  names(scnSet)[names(scnSet)=="scenarioID"]="id"
+  names(scnSet)[names(scnSet)=="projectID"]="pid"
+  if(nrow(scnSet)==0){
+    scnSet=merge(scnSet,data.frame(id=NA,exists=NA),all=T)
+    scnSet=subset(scnSet,!is.na(id))
+  }else{
+    scnSet$exists=T
+  }
+  libScns = scnSet
+  
+  #Note
+  if(results){
+    scnSet = subset(scnSet,!is.element(isResult,c(NA,F)))
+  }
+  
+  #set summary default
+  if(is.null(summary)){
+    if(is.null(scenario)){summary=T}else{summary=F}
+  }
+  
+  #Get pid 
+  cPid=NA
+  if(class(ssimObject)=="Project"){
+    cPid=.id(ssimObject)
+    scnSet = subset(scnSet,pid==cPid)
+  }
 
+  if(is.null(scenario)){
+    if(summary){
+      scnSet$exists=NULL
+      return(scnSet)
+    }
+    scenario=scnSet$id 
+  }
+  
+  #Now assume scenario is defined
+  #distinguish existing scenarios from those that need to be made
+  areIds = is.numeric(scenario)#suppressWarnings(sum(as.numeric(as.character(scenario))!=scenario,na.rm=T))
+  if(areIds){
+    mergeBit = data.frame(id=scenario)
+  }else{
+    mergeBit = data.frame(name=scenario,stringsAsFactors=F)
+  }
+  if(!is.na(cPid)){
+    mergeBit$pid = cPid
+  }
+  mergeBit$order = seq(1:length(scenario))
+  fullScnSet = merge(scnSet,mergeBit,all=T)
+  if(areIds){
+    makeProblems = subset(fullScnSet,is.na(name)&!is.na(order))
+    if(nrow(makeProblems)>0){
+      stop("Scenario ids (",paste(makeProblems$id,collapse=",") ,") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument. SyncroSim will automatically assign scenario ids.")
+    }
+  }
+
+  #For scenarios that need to be made, assign project or fail  
+  #cPid=NA
+  makeSum = sum(!is.na(fullScnSet$order)&is.na(fullScnSet$exists))
+  if(makeSum>0){
+    if(is.na(cPid)){
+      allProjects = project(ssimObject,summary=T)
+      if(nrow(allProjects)>1){
+        stop("Can't create new scenarios because there is more than one project in the SsimLibrary. Please specify the Project ssimObject to which new scenarios should belong.")
+      }
+      if(nrow(allProjects)==0){
+        cPid = .pid(project(ssimObject,project="project1"))
+      }else{
+        cPid = allProjects$id
+      }
+    }
+    if(is.na(cPid)){
+      stop("Something is wrong")
+    }
+    fullScnSet$pid[!is.na(fullScnSet$order)&is.na(fullScnSet$exists)]=cPid
+    
+    if(!is.null(sourceScenario)){
+      if(is.numeric(sourceScenario)){
+        if(!is.element(sourceScenario,libScns$id)){
+          stop("Source scenario id ",sourceScenario," not found in SsimLibrary.")
+        }
+      }else{
+        sourceOptions = subset(libScns,name==sourceScenario)
+        if(nrow(sourceOptions)==0){
+          stop(paste0("Source scenario name ",sourceScenario," not found in SsimLibrary."))
+        }
+        if(nrow(sourceOptions)>1){
+          stop(paste0("There is more than one scenario called ",sourceScenario," in the SsimLibrary. Please provide a sourceScenario id: ",paste(sourceOptions$id,collapse=",")))
+        }
+        sourceScenario=sourceOptions$id
+      }
+    }
+  }
+    
+  #Stop if an element of scenarios corresponds to more than one existing row of the scenario list
+  if(!areIds){
+    checkDups = subset(fullScnSet,!is.na(order))
+    dupNames = subset(as.data.frame(table(checkDups$name)),Freq>1)
+    if(nrow(dupNames)>0){
+      #report the first error only
+      cName = dupNames$Var1[1]
+      cIds = checkDups$id[checkDups$name==cName]
+      stop(paste0("The ssimObject contains more than one scenario called ",cName,". Specify a scenario id: ",paste(cIds,collapse=",")))
+    }
+  }  
+  
+  #make scnenarios/scenario objects
+  scnsToMake = subset(fullScnSet,!is.na(order))
+  if(overwrite){
+    for (i in 1:nrow(scnsToMake)){
+      if(is.na(scnsToMake$exists[i])){
+        next
+      }
+      ret = deleteScenarios(ssimObject,scenario=scnsToMake$id[i],force=T)
+      cRow=scnsToMake[i,]
+      scnsToMake[i,]=NA
+      scnsToMake$name[i]=cRow$name;scnsToMake$pid[i]=cRow$pid;scnsToMake$order[i]=cRow$order
+    }
+  }
+  if(summary|results){scnsToMake=subset(scnsToMake,is.na(exists))}
+  if(results&(nrow(scnsToMake)>0)){
+    stop(paste0("Could not find these scenarios in the ssimObject. To create them, set results=F: ",paste(scnsToMake$name,collapse=",")))
+  }
+  scnsToMake=scnsToMake[order(scnsToMake$order),]
+  scnList = list()
+  for(i in seq(length.out=nrow(scnsToMake))){
+    #i = 1
+    cRow = scnsToMake[i,]
+    if(!is.na(cRow$exists)){
+      scnList[[as.character(scnsToMake$id[i])]]=new("Scenario",ssimObject,project=cRow$pid,id=cRow$id,scenarios=cRow)
+      
+    }else{
+      scnList[[as.character(scnsToMake$id[i])]]=new("Scenario",ssimObject,project=cRow$pid,name=cRow$name,sourceScenario=sourceScenario,scenarios=cRow)
+    }
+  }
+  
+  if(!summary){
+    if((length(scnList)==1)&!forceElements){
+      scnList=scnList[[1]]
+    }
+    return(scnList)
+    
+  }
+  
+  tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
+  scnSetOut=.dataframeFromSSim(tt,localNames=T)
+  names(scnSetOut)[names(scnSetOut)=="scenarioID"]="id"
+  names(scnSetOut)[names(scnSetOut)=="projectID"]="pid"
+  if(class(ssimObject)=="Project"){
+    scnSetOut = subset(scnSetOut,pid==cPid)
+  }
+  
+  idList=data.frame(id = as.numeric(names(scnList)),order=seq(1:length(scnList)))
+  scnSetOut =merge(idList,scnSetOut,all.x=T)
+  if(sum(is.na(scnSetOut$name))>0){
+    stop("Something is wrong with scenario()")
+  }
+  
+  scnSetOut=scnSetOut[order(scnSetOut$order),]
+  scnSetOut$order=NULL
+  return(scnSetOut)
+} 
 setMethod('name', signature(x="Scenario"), function(x) {
   return(x@name)
 })
@@ -265,7 +321,7 @@ setMethod('id', signature(x="Scenario"), function(x) {
 setGeneric('readOnly',function(x) standardGeneric('readOnly'))
 setMethod('readOnly', signature(x="Scenario"), function(x) {
   #x=myScenario
-  info = scenarios(x,names=T)
+  info = scenario(x,summary=T)
   answer = info$readOnly[info$id==.id(x)]=="Yes"
   return(answer)
 })
@@ -278,7 +334,7 @@ setMethod('readOnly', signature(x="Scenario"), function(x) {
 setGeneric('author',function(x) standardGeneric('author'))
 setMethod('author', signature(x="Scenario"), function(x) {
   #x=myScenario
-  info = scenarios(x,names=T)
+  info = scenario(x,summary=T)
   answer = info$author[info$id==.id(x)]
   return(answer)
 })
@@ -291,7 +347,7 @@ setMethod('author', signature(x="Scenario"), function(x) {
 setGeneric('description',function(x) standardGeneric('description'))
 setMethod('description', signature(x="Scenario"), function(x) {
   #x=myScenario
-  info = scenarios(x,names=T)
+  info = scenario(x,summary=T)
   answer = info$description[info$id==.id(x)]
   return(answer)
 })

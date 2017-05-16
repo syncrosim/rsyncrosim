@@ -19,8 +19,6 @@
 
 \item{\code{pid}}{The project id.}
 
-\item{\code{name}}{The scenario name.}
-
 \item{\code{id}}{The scenario id.}
 
 \item{\code{parentId}}{For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.}

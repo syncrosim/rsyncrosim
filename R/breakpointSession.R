@@ -130,7 +130,7 @@ setGeneric('onBreakpointHit',function(x,split) standardGeneric('onBreakpointHit'
 setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   cBreak = x@scenario@breakpoints[[split[2]]]
   #TO DO: consider ways to speed up scenario construction here.
-  cResult = scenario(.project(x@scenario),id=as.numeric(split[4]))
+  cResult = scenario(.project(x@scenario),scenario=as.numeric(split[4]))
   
   #multiband(cResult,"rebuild")
 
@@ -178,7 +178,7 @@ runJobParallel<- function(cPars) {
     # TO DO: if slow, consider ways to speed up scenario/library construction
     ret = tryCatch({
 
-      cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),id=1)
+      cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),scenario=1)
       if(!exists("cScn")){
         stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
       }
@@ -232,7 +232,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
   msg = paste0('create-result --sid=',id(x@scenario))
   ret = remoteCall(x,msg)
   breaks = x@scenario@breakpoints
-  newScn = scenario(x@scenario,id=as.numeric(ret))
+  newScn = scenario(x@scenario,scenario=as.numeric(ret))
   newScn@breakpoints = breaks
   x@scenario = newScn
   

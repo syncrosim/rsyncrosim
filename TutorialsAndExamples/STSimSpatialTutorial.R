@@ -31,11 +31,11 @@ if(!file.exists(libPath)){
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
 myProject = project(myLibrary,project="a project")
-#scenarios(myProject,names=T)
+#scenario(myProject)
 run(myProject,5,onlyIds=T)
 
-resultScns = scenarios(myProject,results=T,names=T)
-myResult = scenarios(myProject,select=tail(resultScns,n=2)$id)
+resultScns = scenario(myProject,results=T)
+myResult = scenario(myProject,scenario=tail(resultScns,n=2)$id)
 
 datasheets(myResult[[1]])$name
 
@@ -129,10 +129,10 @@ dev.off()
 
 ##################
 #Set spatial inputs in a new library.
-if(is.element("NewScn",scenarios(myProject,names=T)$name)){
+if(is.element("NewScn",scenario(myProject)$name)){
   deleteScenarios(myProject,scenario="NewScn",force=T)
 }
-newScenario = scenario(myProject,name="NewScn")
+newScenario = scenario(myProject,scenario="NewScn")
 
 metadata = data.frame(StratumFileName="It0000-Ts0000-str.tif",StateClassFileName="It0000-Ts0000-sc.tif",AgeFileName="It0000-Ts0000-age.tif")
 metadata$SheetName="STSim_InitialConditionsSpatial"

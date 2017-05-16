@@ -19,10 +19,10 @@ Deletes one or more projects from a SyncroSim library.
 }
 \examples{
 myLibrary = ssimLibrary(session=devSession)
-myProject = project(myLibrary)
-projects(myLibrary,names=T)
-deleteProjects(myLibrary,project="Project1")
-projects(myLibrary,names=T)
+myProject = project(myLibrary,project="a project")
+project(myLibrary)
+deleteProjects(myLibrary,project="a project")
+project(myLibrary)
 
 }
 

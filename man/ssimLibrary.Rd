@@ -72,7 +72,7 @@ mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 myLibrary = ssimLibrary(name="Lib2",session=mySession)
 
 # Add a project and get the library associated with that project
-myProject = project(myLibrary)
+myProject = project(myLibrary,project="a project")
 myLibrary = ssimLibrary(myProject)
 }
 

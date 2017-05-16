@@ -38,10 +38,10 @@ test_that("Test simple spatial STSim example", {
 
   myProject = project(myLibrary,summary=F,forceElements=T)[[1]]
 
-  if(!is.element(7,scenarios(myProject,names=T)$id)){
+  if(!is.element(7,scenario(myProject)$id)){
     temp = run(myProject,5,onlyIds=T)
   }
-  myResult = scenarios(myProject,select=c(6,7))
+  myResult = scenario(myProject,scenario=c(6,7))
 
   expect_equal(length(myResult),2)
   expect_is(myResult[[1]],"Scenario")

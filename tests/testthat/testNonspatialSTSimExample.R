@@ -85,7 +85,7 @@ test_that("Test simple non-spatial STSim example", {
   #*************************************
   # Add No Harvest Scenario
   #*************************************
-  myScenario = scenario(myProject,name="No Harvest")
+  myScenario = scenario(myProject,scenario="No Harvest")
   expect_is(myScenario,"Scenario")
   expect_equal(names(datasheets(myScenario,scope="scenario")),c("name","displayName","dataScope","isOutput"))
 
@@ -178,7 +178,7 @@ test_that("Test simple non-spatial STSim example", {
   #*************************************
   # devtools::document();devtools::load_all()
   # deleteScenarios(myProject,"Harvest",force=T)
-  myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
+  myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
   expect_is(myScenario,"Scenario")
   # Copies "No Harvest" scenario to new "Harvest" scenario
 
@@ -220,7 +220,7 @@ test_that("Test simple non-spatial STSim example", {
   ####
   #misc example checks
   # Get a list of existing results scenarios for a particular project
-  expect_equal(nrow(scenarios(myProject, results=TRUE,names=T)),2)
+  expect_equal(nrow(scenario(myProject, results=TRUE)),2)
 
   #RESUME HERE - test datasheet stuff from examples.R
 

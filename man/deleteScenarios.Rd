@@ -21,9 +21,9 @@ Deletes one or more scenarios from a SyncroSim library.
 }
 \examples{
 myLibrary = ssimLibrary()
-myScenario = scenario(project(myLibrary))
-scenarios(myLibrary,names=T)
+myScenario = scenario(project(myLibrary),scenario="Scenario")
+scenario(myLibrary)
 deleteScenarios(myLibrary,scenario="Scenario")
-scenarios(myLibrary,names=T)
+scenario(myLibrary)
 }
 

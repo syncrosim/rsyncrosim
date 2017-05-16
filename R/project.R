@@ -60,7 +60,7 @@ setMethod(f='initialize',signature="Project",
 
     #Create a new project
     if(is.null(name)){
-      #allScenarios = scenarios(.ssimLibrary(x),names=T)
+      #allScenarios = scenario(.ssimLibrary(x))
       #if(nrow(allScenarios)==0){
       #  name = "Scenario1"
       #}else{
@@ -116,7 +116,7 @@ setMethod(f='initialize',signature="Project",
 #' @param ssimObject SsimLibrary/Scenario or character. An ssimObject containing a filepath to a library, or a filepath.
 #' @param project Character, integer, or vector of these. Names or ids of one or more projects.
 #' @param sourceProject Character or integer. If not NULL, new projects will be copies of the sourceProject.
-#' @param summary Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL, FALSE otherwise.
+#' @param summary Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.
 #' @param forceElements Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.
 #' @return A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.
 #' @examples
@@ -175,26 +175,30 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     projectSet$exists = T
   }
 
-  #if project = NULL, simply return the current projects 
+  #set summary default
   if(is.null(summary)){
     if(is.null(project)){summary=T}else{summary=F}
   }
 
   #projects aren't specified, simply return the project list without opening or creating any projects
-  if(is.null(project)&summary){
+  if(is.null(project)){
+    if(summary){
       projectSet$exists = NULL
       return(projectSet)
+    }else{
+      project = projectSet$id
+    }
   }
   
 #project=c(1,2)
   #Now assume project is defined
   #distinguish existing projects from those that need to be made
-  areIds = suppressWarnings(sum(as.numeric(as.character(project))!=project,na.rm=T))
+  areIds = suppressWarnings(sum(as.character(as.numeric(project))!=as.character(project),na.rm=T))
   
   if(areIds){
     mergeBit = data.frame(id=as.numeric(as.character(project)))
   }else{
-    mergeBit = data.frame(name=project)
+    mergeBit = data.frame(name=project,stringsAsFactors=F)
   }
   mergeBit$order = seq(1:length(project))
   fullProjectSet = merge(projectSet,mergeBit,all=T)

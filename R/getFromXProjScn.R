@@ -25,12 +25,7 @@
     if(class(scenario)=="Scenario"){
       return(scenario)
     }
-    if(class(scenario)=="character"){
-      return(.scenario(x,project,name=scenario))
-    }
-    if(class(scenario)=="numeric"){
-      return(.scenario(x,project,id=scenario))
-    }
+    return(.scenario(x,project,scenario=scenario))
   }
 
   if(class(x)=="Project"){

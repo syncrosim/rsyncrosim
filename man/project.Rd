@@ -14,7 +14,7 @@ project(ssimObject, project = NULL, sourceProject = NULL, summary = NULL,
 
 \item{sourceProject}{Character or integer. If not NULL, new projects will be copies of the sourceProject.}
 
-\item{summary}{Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL, FALSE otherwise.}
+\item{summary}{Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.}
 
 \item{forceElements}{Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.}
 }
@@ -37,8 +37,7 @@ For each element of project:
 #TODO – update examples
 # Create a new project
 myLibrary = ssimLibrary(name="stsim")
-myProject = project(myLibrary) #If no name is given, creates a project named "Project<ID>".
-myProject = project(ssimLibrary=mySsimLibrary, name="My new project name")
+myProject = project(ssimLibrary=mySsimLibrary, project="My new project name")
 
 # Get a named list of existing projects
 myProjects = project(myLibrary,summary=F) # Each element in the list is named by a character version of the project ID
@@ -47,7 +46,7 @@ names(myProjects)   # vector of the project names (using base R names function)
 
 # Get an existing project. Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[[1]]
-myProject = project(myLibrary, name="My new project name")
+myProject = project(myLibrary, project="My new project name")
 
 # Get/set the project properties - for now we can only set the name
 name(myProject)

@@ -22,16 +22,30 @@ output
 mySession =session(printCmd=T,silent=F)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
-myLib=ssimLibrary(name="temp24",session=mySession)
+myLib=ssimLibrary(name="temp25",session=mySession)
 myProject = project(myLib,project="temp")
 project(myLib)
+
+scenario(myLib,scenario=1) # Fail: need a name to create a scenario
+myScn = scenario(myLib,scenario="one") #Ok because only one project in the library.
+myProject = project(myLib,project="temp2")
+myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
+myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
+myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
+scenario(myLib)
+myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
+scenario(myLib)
+myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Note wrong project. Test this with new SyncroSim.
+scenario(myLib)
+myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
+#RESUME HERE - update scenario/scenarios syntax throughout.
 
 #*************************************
 # Create the project definition
 myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
 myProject = project(myLibrary,project="ST-Sim Demonstration")
 
-scenarios(myLibrary,names=T)
+scenario(myLibrary)
 #***********************************
 # Cover types and state classes
 datasheets(myProject)
@@ -103,7 +117,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 #*************************************
 # Add No Harvest Scenario
 #*************************************
-myScenario = scenario(myProject,name="No Harvest")
+myScenario = scenario(myProject,scenario="No Harvest")
 datasheets(myScenario,scope="scenario")$name
 
 #**************
@@ -179,7 +193,7 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 #*************************************
 # devtools::document();devtools::load_all()
 # deleteScenarios(myProject,"Harvest",force=T)
-myScenario = scenario(myProject,name="Harvest",sourceScenario="No Harvest")
+myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
 # Copies "No Harvest" scenario to new "Harvest" scenario
 
 #******************
@@ -200,10 +214,10 @@ myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 # If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
 # NOTE: jobs is passed through to SyncroSim which handles multithreading.
 
-scenarios(myProject,names=T)
+scenario(myProject)
 
 # deleteScenarios(myProject,3,force=T)
-# myResults=scenarios(myProject,results=T)
+# myResults=scenario(myProject,summary=F,results=T)
 
 #********************************
 # See results
@@ -275,13 +289,12 @@ anotherProject = project(myLibrary,project="AnotherProject")
 #  - enableAddons<-,disableAddons<- : side effects for other projects/scenarios
 #  - deleteScenarios(): only let a parent (Project or SsimLibrary) delete a scenario?
 #  - deleteProjects(): only let parent SsimLibrary delete a project?
-#  - scenarios(): only SSimLibraries and Projects can contain more than one scenario.
 #
 # And I am unsure about these methods:
 #  - info(): returns library info
 #  - session<-: When should users be allowed to change the version of SyncroSim they are using?
 
-myScenarios = scenarios(myProject) #returns list - names are scenario ids.
+myScenarios = scenario(myProject,summary=F) #returns list - names are scenario ids.
 names(myScenarios)
 # NOTE: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
 

@@ -119,43 +119,33 @@ deleteProjects(myLibrary, project=c(25),force=T)
 # Get a named list of Scenario objects
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary3.ssim")
 myProject = project(myLibrary,project="a project")
-scenarios(myLibrary,names=T)
-myScenario = scenario(myLibrary)
-# NOTE: this works only if there is <= 1 project in Library.
-myScenario = scenario(myProject) #Creates if no scenarios exist. Opens if 1 scenario exists. Otherwise complains.
-scenarios(myLibrary,names=T)
-myScenario = scenario(myLibrary,project="My new project name") #Will create project if necessary
-scenarios(myLibrary,names=T)
-# QUESTION: Default names for new projects and scenarios???
+scenario(myLibrary)
+myScenario = scenario(myLibrary,scenario="a scenario") #works because there is <= 1 project in library
+scenario(myLibrary)
 
-myScenario = scenario(myProject, name="My new scenario name")
-scenarios(myLibrary,names=T)
+myScenario = scenario(myProject, scenario="My new scenario name")
+scenario(myLibrary)
 
-myScenario = scenario(myProject, name="Another scenario", author="Colin", description="My description", readOnly=FALSE)
 id(myScenario)
-# NOTE: Returns and error if "Another scenario" already exists, but has different properties?
-myScenarios = scenarios(myLibrary)
+myScenarios = scenario(myLibrary,summary=F)
 names(myScenarios)
-scenarios(myLibrary,names=T)
+scenario(myLibrary)
 project(myLibrary)
 
-scenarios(myProject,names=T)
+scenario(myProject)
 
 # Get a list of existing results scenarios for a particular project
-myScenarios = scenarios(myProject, results=TRUE)
-myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project="My new project name", results=TRUE)
-myScenarios = scenarios("C:/Temp/NewLibrary.ssim", project=1, results=TRUE)
-# NOTE CHANGE: scenarios() is a generic method defined for Project, SsimLibrary, and character object. If given a character string, queries an SsimLibrary of that name.
+myScenarios = scenario(myProject, summary=F,results=TRUE)
 
 # Get an existing scenario by ID
 myScenario = myScenarios[["1"]] # By character ID from the list of scenarios - returns a single scenario object
-scenarios(myLibrary,names=T)
-myScenario = scenario(myLibrary, id=1) # By ID directly from the library - return a single scenario object
+scenario(myLibrary)
+myScenario = scenario(myLibrary, scenario=1) # By ID directly from the library - return a single scenario object
 
 # Delete a scenario
-scenarios(myLibrary,names=T)
+scenario(myLibrary)
 deleteScenarios(myLibrary, scenario=c(3),force=T)
-scenarios(myLibrary,names=T)
+scenario(myLibrary)
 
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
 name(myScenario)
@@ -190,8 +180,8 @@ results(myScenario)     # returns a named vector (by char ID) of the results sce
 # We also return each column in the correct data type.
 # devtools::document();devtools::load_all()
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
-scenarios(myLibrary,names=T)
-myScenario = scenario(myLibrary,id=1)
+scenario(myLibrary)
+myScenario = scenario(myLibrary,scenario=1)
 
 # NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SsimLibrary,Project or Scenario) or name/path of a library on disk.
@@ -247,8 +237,8 @@ loadDatasheets(myLibrary, stateClassDefinition, project=1, name="STSim_StateLabe
 # DISCUSS: This was written in plural, but need name/frame to be linked in that case.
 
 # Update the values of an existing scenario datasheet (after the definitions have been added)
-scenarios(myProject,names=T)
-myScenario = scenario(myProject, id=1)
+scenario(myProject)
+myScenario = scenario(myProject, scenario=1)
 myDeterminisiticTransitions = datasheet(myScenario, name="STSim_DeterministicTransition",optional=T)
 myDeterminisiticTransitions[1:3,"AgeMin"] = c(50, 60, NA)    # change the AgeMin field for 3 rows - character to allow blanks
 #NOTE CHANGE: this syntax preserves types and factor levels, and adds new rows if necessary.

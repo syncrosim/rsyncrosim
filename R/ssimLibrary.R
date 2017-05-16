@@ -334,10 +334,10 @@ setMethod('deleteProjects', signature(x="SsimLibrary"), function(x,project,force
 #' @return A list of "saved" or failure messages for each scenario.
 #' @examples
 #' myLibrary = ssimLibrary()
-#' myScenario = scenario(project(myLibrary))
-#' scenarios(myLibrary,names=T)
+#' myScenario = scenario(project(myLibrary),scenario="Scenario")
+#' scenario(myLibrary)
 #' deleteScenarios(myLibrary,scenario="Scenario")
-#' scenarios(myLibrary,names=T)
+#' scenario(myLibrary)
 #' @export
 setGeneric('deleteScenarios',function(x,scenario=NULL,force=FALSE) standardGeneric('deleteScenarios'))
 setMethod('deleteScenarios', signature(x="SsimLibrary"), function(x,scenario,force) {
@@ -354,7 +354,7 @@ setMethod('deleteScenarios', signature(x="SsimLibrary"), function(x,scenario,for
     scenario=id(scenario)
   }
 
-  allScenarios = scenarios(x,names=T)
+  allScenarios = scenario(x)
   out = list()
   for(i in seq(length.out=length(scenario))){
     #i = 1
@@ -388,64 +388,6 @@ setMethod('deleteScenarios', signature(x="SsimLibrary"), function(x,scenario,for
     }
   }
   return(out)
-})
-
-setMethod('scenarios', signature(x="SsimLibrary"), function(x,project,names,results,select) {
-  #x = ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-  #x = myLibrary;names=T
-  tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(x)),.session(x))
-  ttFrame=.dataframeFromSSim(tt,localNames=T)
-  names(ttFrame)[names(ttFrame)=="scenarioID"]="id"
-  names(ttFrame)[names(ttFrame)=="projectID"]="pid"
-
-  if(class(x)=="Project"){
-    ttFrame = subset(ttFrame,pid==.id(x))
-  }
-
-  if(!is.null(project)){
-    if(class(project)=="Project") pid = .id(project)
-    if(class(project)=="numeric") pid = project
-    if(class(project)=="character"){
-      cProjects = .project(x)
-      pid = cProjects$id[cProjects$name==project]
-      if(length(pid)>1){
-        stop(paste0("There is more than one project called ",project,". Please specify a project id:",paste(pid,collapse=",")))
-      }
-    }
-    cPid = pid
-    ttFrame = subset(ttFrame,is.element(pid,cPid))
-  }
-
-  if(class(x)=="Project"){
-    ttFrame=subset(ttFrame,pid==.id(x))
-  }
-  if(!is.null(results)){
-    if(results){
-      ttFrame = subset(ttFrame,isResult=="Yes")
-    }else{
-      ttFrame = subset(ttFrame,isResult=="No")
-    }
-  }
-  if(!is.null(select)){
-    #subset=c(1,2,3)
-    if(is.numeric(select)){
-      ttFrame=subset(ttFrame,is.element(id,select))
-    }else{
-      ttFrame = subset(ttFrame,is.element(name,select))
-    }
-  }
-
-  if(names){
-    #ttFrame=allScns
-    ttFrame$parentName = sapply(ttFrame$name,.getParentName,simplify=T)
-    return(ttFrame)
-  }
-  ttList = list()
-  for(i in seq(length.out=nrow(ttFrame))){
-    #i = 1
-    ttList[[as.character(ttFrame$id[i])]]=scenario(x,id=ttFrame$id[i],project=as.numeric(ttFrame$pid[i]),create=F,scenarios=ttFrame)
-  }
-  return(ttList)
 })
 
 #' addons of an SsimLibrary
@@ -632,7 +574,7 @@ setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scena
       sid = names(scenario)
     }
     if(class(scenario[[1]])=="character"){
-      allScns = scenarios(x,names=T)
+      allScns = scenario(x)
       sid = allScenarios$id[is.element(name,scenario)]
     }
   }
@@ -851,7 +793,7 @@ setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scena
           if(is.element("ProjectID",names(lookupSheet))){
             if(identical(pid,NULL)&!identical(sid,NULL)){
               if(is.null(allScns)){
-                allScns = scenarios(x,names=T)
+                allScns = scenario(x)
               }
               findPrjs = allScns$pid[is.element(allScns$id,sid)]
             }else{
@@ -946,7 +888,7 @@ setMethod('datasheet', signature(x="SsimLibrary"), function(x,name,project,scena
     }else{
       if(nrow(sheet)>0){
         if(is.null(allScns)){
-          allScns = scenarios(x,names=T)
+          allScns = scenario(x)
         }
         allScns=subset(allScns,select=c(id,pid,name,parentName))
         names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
@@ -1042,7 +984,7 @@ setMethod('run', signature(x="SsimLibrary"), function(x,scenario,onlyIds,jobs) {
     inScn = as.character(cScn)
     if(!identical(inScn,suppressWarnings(as.character(as.numeric(cScn))))){
       if(is.null(scenarios)){
-        scenarios = .scenarios(x,names=T)
+        scenarios = .scenario(x)
       }
       findScn = subset(scenarios,name==cScn)
       if(nrow(findScn)==0){
@@ -1110,9 +1052,9 @@ setMethod('run', signature(x="SsimLibrary"), function(x,scenario,onlyIds,jobs) {
     }else{
       if(onlyIds){
         out[[inScn]] = as.numeric(resultId)
-        multiband(.scenario(x,id=as.numeric(resultId)),action="apply")
+        multiband(.scenario(x,scenario=as.numeric(resultId)),action="apply")
       }else{
-        out[[inScn]] = .scenario(x,id=as.numeric(resultId))
+        out[[inScn]] = .scenario(x,scenario=as.numeric(resultId))
         multiband(out[[inScn]],action="apply")
       }
     }
