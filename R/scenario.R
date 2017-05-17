@@ -296,21 +296,20 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   scnSetOut$order=NULL
   return(scnSetOut)
 } 
-setMethod('name', signature(x="Scenario"), function(x) {
-  scnInfo = scenario(x,summary=T)
+setMethod('name', signature(ssimObject="Scenario"), function(ssimObject) {
+  scnInfo = scenario(ssimObject,summary=T)
   return(scnInfo$name)
 })
 setReplaceMethod(
   f='name',
   signature="Scenario",
-  definition=function(x,value){
+  definition=function(ssimObject,value){
     #x=myScenario;value="New Name"
-    tt = command(list(setprop=NULL,lib=.filepath(x),sid=.scenarioId(x),name=value),.session(x))
+    tt = command(list(setprop=NULL,lib=.filepath(ssimObject),sid=.scenarioId(ssimObject),name=value),.session(ssimObject))
     if(!identical(tt,"saved")){
       stop(tt)
     }
-    x@name = value
-    return (x)
+    return (ssimObject)
   }
 )
 

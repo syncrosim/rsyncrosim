@@ -1,20 +1,20 @@
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' The name of a SyncroSim project or scenario.
 #'
-#' The name of a SyncroSim Project or Scenario.
+#' The name of a SyncroSim Project/Scenario.
 #'
-#' @param x An object with a name.
+#' @param ssimObject Project/Scenario.
 #' @export
-setGeneric('name',function(x) standardGeneric('name'))
+setGeneric('name',function(ssimObject) standardGeneric('name'))
 
 #' Set the project or scenario names.
 #'
 #' Set the name of a SyncroSim Project or Scenario.
 #'
-#' @param x A SyncroSim \code{\link{Project}} or \code{\link{Scenario}} object.
+#' @param ssimObject Scenario/Project
 #' @param value The new name.
 #' @export
-setGeneric('name<-',function(x,value) standardGeneric('name<-'))
+setGeneric('name<-',function(ssimObject,value) standardGeneric('name<-'))
 
 
 #' The projectId of a SyncroSim project or scenario.

@@ -258,8 +258,9 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   return(projectSetOut)
 } 
 
-setMethod('name', signature(x="Project"), function(x) {
-  return(x@name)
+setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
+  info = project(ssimObject,summary=T)
+  return(info$name)
 })
 
 setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
@@ -269,14 +270,13 @@ setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
 setReplaceMethod(
   f='name',
   signature="Project",
-  definition=function(x,value){
+  definition=function(ssimObject,value){
     #x=myProject;value="New Name"
-    tt = command(list(setprop=NULL,lib=.filepath(x),pid=.projectId(x),name=value),.session(x))
+    tt = command(list(setprop=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject),name=value),.session(ssimObject))
     if(!identical(tt,"saved")){
       stop(tt)
     }
-    x@name = value
-    return (x)
+    return (ssimObject)
   }
 )
 
