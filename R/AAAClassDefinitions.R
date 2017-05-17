@@ -78,7 +78,7 @@ SsimLibrary <- setClass("SsimLibrary", representation(session="Session",filepath
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains="SsimLibrary",representation(pid="numeric",id="numeric",parentId="numeric",breakpoints="list"))
+Scenario <- setClass("Scenario", contains="SsimLibrary",representation(projectId="numeric",scenarioId="numeric",parentId="numeric",breakpoints="list"))
 
 #' SyncroSim Project class
 #'
@@ -92,4 +92,4 @@ Scenario <- setClass("Scenario", contains="SsimLibrary",representation(pid="nume
 #' @name Project-class
 #' @rdname Project-class
 #' @export Project
-Project <- setClass("Project", contains="SsimLibrary",representation(id="numeric"))
+Project <- setClass("Project", contains="SsimLibrary",representation(projectId="numeric"))

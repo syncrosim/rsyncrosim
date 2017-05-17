@@ -391,13 +391,14 @@ setMethod('setProperties', signature(x="Scenario"), function(x,author,descriptio
 #' The parent scenario id of a SyncroSim Scenario.
 #'
 #' The id of the parent of a SyncroSim results scenario.
-#' 0 if x is not a results scenario.
+#' NA if scenario is not a results scenario.
 #'
-#' @param x A Scenario object.
+#' @param scenario A Scenario object.
 #' @export
-setGeneric('parentId',function(x) standardGeneric('parentId'))
-setMethod('parentId', signature(x="Scenario"), function(x) {
-  return(x@parentId)
+setGeneric('parentId',function(scenario) standardGeneric('parentId'))
+setMethod('parentId', signature(scenario="Scenario"), function(scenario) {
+  if(scenario@parentId==0){return(NA)}
+  return(scenario@parentId)
 })
 
 setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
@@ -413,7 +414,7 @@ projectId = pid
 
 setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL
-  if(parentId(x)==0){
+  if(is.na(parentId(x))){
     stop("Need a result Scenario.")
   }
 

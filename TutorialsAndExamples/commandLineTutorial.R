@@ -332,12 +332,8 @@ deleteProjects(myLibrary, project="My new project name") # Returns a list of "sa
 # QUESTION: consistency with enable/disableAddons? When should I use assignment operators?
 # QUESTION: generic delete method?
 
-# QUESTION: Default names for new projects and scenarios???
-
 parentId(myScenario)
 # QUESTION: Should I disable assignment functions for result scenarios?
-
-# DISCUSS: What exactly is a datasheet object, and why do we need one?
 
 # DISCUSS: StochasticTime chart and map UI - What features do we need?
 
