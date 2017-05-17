@@ -9,6 +9,8 @@
 #library(rsyncrosim)
 mySession = session(defaultModel="dgsim")
 defaultModel(mySession)
+defaultModel(mySession)="stsim"
+defaultModel(mySession)
 
 #Three different ways to provide args to command
 command(c("create","help"))
@@ -20,6 +22,7 @@ output = command(args,session=session(printCmd=T,silent=F))
 output
 
 mySession =session(printCmd=T,silent=F)
+
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 

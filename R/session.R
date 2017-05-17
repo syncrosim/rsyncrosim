@@ -176,7 +176,7 @@ setReplaceMethod(
 #' @export
 setGeneric('defaultModel',function(session=NULL) standardGeneric('defaultModel'))
 setMethod('defaultModel', signature(session="Session"), function(session) session@defaultModel)
-setMethod('defaultModel', signature(session="missingOrNULLOrChar"), function(session) {
+setMethod('defaultModel', signature(session="NULL"), function(session) {
   if(class(session)=="character"){
     session = .session(session)
   }else{
@@ -184,6 +184,29 @@ setMethod('defaultModel', signature(session="missingOrNULLOrChar"), function(ses
   }
   return(defaultModel(session))
 })
+
+#' Set defaultModel of a Session
+#'
+#' Set defaultModel of a session
+#'
+#' @param session Session
+#' @param value character
+#' @export
+setGeneric('defaultModel<-',function(session,value) standardGeneric('defaultModel<-'))
+setReplaceMethod(
+  f='defaultModel',
+  signature="Session",
+  definition=function(session,value){
+    #check default model is valid
+    modelOptions = models(session)
+    model=gsub(":model-transformer","",value,fixed=T)
+    if(!is.element(model,modelOptions$shortName)){
+      stop(paste("Model type",value,"not recognized. Options are:",paste0(modelOptions$shortName,collapse=",")))
+    }
+    session@defaultModel=value
+    return (session)
+  }
+)
 
 #' Get printCmd a \code{\link{Session}}.
 #'

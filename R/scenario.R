@@ -745,6 +745,7 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
 # @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
 # @return An SyncroSim Scenario object containing breakpoints
 # @export
+if(0){
 setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
 setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, transformerName, arguments, callback) {
   #x=myScenario
@@ -763,6 +764,7 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, tra
   x@breakpoints[[breakpointName]] = breakpoint(breakpointName,transformerName,arguments,callback)
   return(x)
 })
+}
 
 # The breakpoints of a Scenario
 #
