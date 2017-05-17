@@ -541,7 +541,7 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject = myScn;project=NULL;scenario=scenario(myLib,summary=F);summary=F;name=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
+  #ssimObject = myScn;project=NULL;scenario=1;summary=F;name="STSim_RunControl";optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
   x=ssimObject
   allNames=name
   
@@ -578,25 +578,39 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   passScenario = scenario;passProject = project
   if((length(project)>0)){
     passProject = NULL
-    pid=project
-    if(class(project[[1]])=="Project"){
-      pid = names(project)
-    }
-    if(class(project[[1]])=="character"){
-      #x=myLibrary
-      allProjects = .project(x)
-      pid = allProjects$id[is.element(name,project)]
+    if(class(x)=="Project"){
+      if((length(project)>1)||(.id(x)!=project)){
+        warning("ssimObject is a Project so the project argument will be ignored.")
+      }
+      pid=.id(x)
+    }else{
+      pid=project
+      if(class(project[[1]])=="Project"){
+        pid = names(project)
+      }
+      if(class(project[[1]])=="character"){
+        #x=myLibrary
+        allProjects = .project(x)
+        pid = allProjects$id[is.element(name,project)]
+      }
     }
   }
   if((length(scenario)>0)){
     passScenario = NULL
-    sid=scenario
-    if(class(scenario[[1]])=="Scenario"){
-      sid = names(scenario)
-    }
-    if(class(scenario[[1]])=="character"){
-      allScns = scenario(x)
-      sid = allScenarios$id[is.element(name,scenario)]
+    if(class(x)=="Scenario"){
+      if((length(scenario)>1)||(.id(x)!=scenario)){
+        warning("ssimObject is a Scenario so the scenario argument will be ignored.")
+      }
+      sid=.id(x)
+    }else{
+      sid=scenario
+      if(class(scenario[[1]])=="Scenario"){
+        sid = names(scenario)
+      }
+      if(class(scenario[[1]])=="character"){
+        allScns = scenario(x)
+        sid = allScenarios$id[is.element(name,scenario)]
+      }
     }
   }
   

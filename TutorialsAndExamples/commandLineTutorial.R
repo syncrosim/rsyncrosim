@@ -58,7 +58,6 @@ str(aSheet)
 someSheets = datasheet(myScn,c("SSim_Processing","SSim_Files")) #returns a list
 str(someSheets)
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 allScns = scenario(myLib,summary=F)
 names(allScns)
 someSheets = datasheet(myLib,c("STSim_RunControl","STSim_Transition"),scenario=as.numeric(names(allScns))) #returns a list - each sheet contains scenario info if appropriate
@@ -66,7 +65,13 @@ str(someSheets)
 someSheets = datasheet(allScns,c("STSim_RunControl","STSim_Transition")) #returns a list - each sheet contains scenario info if appropriate
 str(someSheets)
 
-#RESUME HERE: Test for failure/warnings if there is a mismatch between ssimObject, scenario and project.
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+aSheet = datasheet(myScn,"STSim_RunControl",scenario=1)#Warn of conflict between ssimObject and scenario arguments.
+aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict between ssimObject and project arguments.
+anotherScn = scenario(myProject,"another scn")
+aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
+
+#RESUME HERE: change datasheet/datasheets syntax throughout.
 
 #*************************************
 # Create the project definition
