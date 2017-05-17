@@ -72,7 +72,7 @@ anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
 #RESUME HERE: change datasheet/datasheets syntax throughout.
-
+command("--list --columns --help")
 #*************************************
 # Create the project definition
 myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
@@ -104,7 +104,6 @@ mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has 
 
 sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
 mySheet[1,"Name"]="All"
-?loadDatasheets
 loadDatasheets(myProject,mySheet,name=sheetName)
 
 sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=F)
@@ -120,6 +119,10 @@ mySheet$StateLabelYID = levels(mySheet$StateLabelYID)[1] #Valid values
 mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
 loadDatasheets(myProject,mySheet,name=sheetName)
 #mySheet = datasheet(myProject,name=sheetName);str(mySheet)
+
+datasheet(myProject,sheetName,lookupsAsFactors = F)
+datasheet(myProject,sheetName,lookupsAsFactors = T,optional=T,includeKey=T)
+?datasheet
 
 # DISCUSS: lookups. Is this enough? If not, what else is needed?
 # NOTE: special knowledge needed to construct Name here. - come back to this later.

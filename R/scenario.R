@@ -47,8 +47,8 @@ setMethod(f='initialize',signature="Scenario",
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
       .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
-      .Object@id = as.numeric(findScn$id)
-      .Object@pid = as.numeric(findScn$pid)
+      .Object@scenarioId = as.numeric(findScn$id)
+      .Object@projectId = as.numeric(findScn$pid)
       return(.Object)
     }
     
@@ -73,8 +73,8 @@ setMethod(f='initialize',signature="Scenario",
     .Object@session=.session(x)
     .Object@filepath=.filepath(x)
     .Object@datasheetNames = .datasheets(x,refresh=T,scope="all")
-    .Object@id = as.numeric(id)
-    .Object@pid = as.numeric(pid)
+    .Object@scenarioId = as.numeric(id)
+    .Object@projectId = as.numeric(pid)
     return(.Object)
   }
 )
@@ -314,8 +314,8 @@ setReplaceMethod(
   }
 )
 
-setMethod('id', signature(x="Scenario"), function(x) {
-  return(x@id)
+setMethod('scenarioId', signature(scenario="Scenario"), function(scenario) {
+  return(scenario@scenarioId)
 })
 
 #' The write status of a Scenario

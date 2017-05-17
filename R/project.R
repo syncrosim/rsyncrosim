@@ -44,7 +44,7 @@ setMethod(f='initialize',signature="Project",
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
       .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
-      .Object@id = as.numeric(findPrj$id)
+      .Object@projectId = as.numeric(findPrj$id)
       return(.Object)
     }
 
@@ -96,7 +96,7 @@ setMethod(f='initialize',signature="Project",
     .Object@session=.session(x)
     .Object@filepath=.filepath(x)
     .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
-    .Object@id = as.numeric(id)
+    .Object@projectId = as.numeric(id)
     return(.Object)
   }
 )
@@ -263,8 +263,8 @@ setMethod('name', signature(x="Project"), function(x) {
 })
 
 
-setMethod('id', signature(x="Project"), function(x) {
-  return(x@id)
+setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
+  return(ssimObject@projectId)
 })
 
 setReplaceMethod(

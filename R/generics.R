@@ -17,13 +17,22 @@ setGeneric('name',function(x) standardGeneric('name'))
 setGeneric('name<-',function(x,value) standardGeneric('name<-'))
 
 
-#' The id of a SyncroSim project or scenario.
+#' The projectId of a SyncroSim project or scenario.
 #'
-#' The id of a SyncroSim Project or Scenario.
+#' The projectId of a SyncroSim Project or Scenario.
 #'
-#' @param x An object with an id.
+#' @param ssimObject Project/Scenario.
 #' @export
-setGeneric('id',function(x) standardGeneric('id'))
+setGeneric('projectId',function(ssimObject) standardGeneric('projectId'))
+
+#' The scenarioId of a scenario.
+#'
+#' The scenarioId of a Scenario.
+#'
+#' @param scenario Scenario.
+#' @export
+setGeneric('scenarioId',function(scenario) standardGeneric('scenarioId'))
+
 
 #' The path to a SyncroSim object on disk
 #'
