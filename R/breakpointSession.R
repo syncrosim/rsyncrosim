@@ -210,11 +210,12 @@ runJobParallel<- function(cPars) {
   #}
 }
 
-setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,jobs) {
+setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,scenario,summary,jobs,forceElements) {
   #x=cBreakpointSession;jobs=2
+  x=ssimObject
   if(0){
     #PARALLEL DEBUG
-    #use for debugging - setup code from 'run' function, signature(x="SsimLibrary")
+    #use for debugging - setup code from 'run' function, signature(ssimObject="SsimLibrary")
     x=myScenario;jobs=2
     cBreakpointSession=breakpointSession(x)
     msg =paste0('load-library --lib=\"',filepath(x),'\"')

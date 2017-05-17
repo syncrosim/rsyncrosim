@@ -227,27 +227,40 @@ setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,
 #'
 #' Run one or more SyncroSim scenarios
 #'
-#' @param x One or more SsimLibrary, Projects or Scenario objects. Or the path to a library on disk.
-#' @param scenario One or more scenario objects, names or ids.
-#' @param onlyIds If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
+#' @param ssimObject SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.
+#' @param scenario character, integer, or vector of these. Scenario names or ids. Or NULL.
+#' @param summary Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
 #' @param jobs The number of jobs to run. Passed to SyncroSim where multithreading is handled.
-#' @return A named list of result Scenario objects or ids. The name is the parent scenario for each result.
+#' @param forceElements Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.
+#' @return A result Scenario object or a named list of result Scenario objects or ids. The name is the parent scenario for each result.
 #' @examples
 #'
 #' @export
-setGeneric('run',function(x,scenario=NULL,onlyIds=F,jobs=1) standardGeneric('run'))
-#Handles case where x is a path to an SyncroSim library on disk.
-setMethod('run', signature(x="character"), function(x,scenario,onlyIds,jobs) {
-  x = library(x)
-  out = run(x,scenario,onlyIds,jobs)
+setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
+#Handles case where ssimObject is a path to an SyncroSim library on disk.
+setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
+  ssimObject = .ssimLibrary(ssimObject)
+  out = run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
-#Handles case where x is a list of objects.
-setMethod('run', signature(x="list"), function(x,scenario,onlyIds,jobs) {
-  out=list()
-  for(i in seq(length.out=length(x))){
-    out[[i]]=run(x[[i]],scenario,onlyIds,jobs)
+#Handles case where ssimObject is a list of Scenarios.
+setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,forceElements) {
+  if(!is.null(scenario)){
+    warning("scenario argument is ignored when ssimObject is a list of scenarios.")
   }
+  cLib = .filepath(ssimObject[[1]])
+  ids = c()
+  for(i in seq(length.out=length(ssimObject))){
+    cScn = ssimObject[[i]]
+    if(class(cScn)!="Scenario"){
+      stop("ssimObject must be a SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.")
+    }
+    if(.filepath(cScn)!=cLib){
+      stop("Scenarios in ssimObject must all belong to the same library.")
+    }
+    ids = c(ids,.scenarioId(cScn))
+  }
+  out=run(.ssimLibrary(cScn),scenario=ids,summary=summary,jobs=jobs,forceElements=forceElements)
   return(out)
 })
 

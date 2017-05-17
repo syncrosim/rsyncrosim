@@ -32,7 +32,7 @@ myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
 myProject = project(myLibrary,project="a project")
 #scenario(myProject)
-run(myProject,5,onlyIds=T)
+run(myProject,5,summary=T)
 
 resultScns = scenario(myProject,results=T)
 myResult = scenario(myProject,scenario=tail(resultScns,n=2)$id)

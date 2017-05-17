@@ -238,11 +238,11 @@ datasheet(myScn)
 
 #################
 # Run
-# Run a scenario and return the results scenario  - note that it is up to user to save changes to db before running
+# Run a scenario and return the results scenario
 # See commandLineTutorial for working examples
 #myResultsScenario = run(myScenario)
-#myResultsScenario = run(scenario=509)    # run scenario by ID
-#myResultsScenarios= run(myScenarios)  # Run a vector of scenarios (or a vector of IDs)  - skip this for now
+#myResultsScenario = run(myLibrary,scenario=509)    # run scenario by ID
+#myResultsScenarios= run(myScenarios)  # Run a list of scenarios
 
 
 # Get the output from the results scenario - note that only results scenarios have scenario output datafeeds

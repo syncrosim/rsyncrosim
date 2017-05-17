@@ -1011,8 +1011,14 @@ setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,pro
   return(out)
 })
 
-setMethod('run', signature(x="SsimLibrary"), function(x,scenario,onlyIds,jobs) {
+setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenario,summary,jobs,forceElements) {
   #x=myScenario;jobs=2;scenario=NULL
+  x=ssimObject
+  if((class(x)=="Scenario")&!is.null(scenario)){
+    warning("scenario argument is ignored when ssimObject is a scenario.")
+    scenario=NULL
+  }
+  
   if(is.null(scenario)){
     if(class(x)!="Scenario"){
       stop("Need a scenario to run.")
@@ -1094,7 +1100,7 @@ setMethod('run', signature(x="SsimLibrary"), function(x,scenario,onlyIds,jobs) {
       out[[inScn]]=tt
       print(tt)
     }else{
-      if(onlyIds){
+      if(summary){
         out[[inScn]] = as.numeric(resultId)
         multiband(.scenario(x,scenario=as.numeric(resultId)),action="apply")
       }else{
@@ -1103,6 +1109,10 @@ setMethod('run', signature(x="SsimLibrary"), function(x,scenario,onlyIds,jobs) {
       }
     }
 
+  }
+  
+  if(!forceElements&&(class(out)==list)&&(length(out)==1)){
+    out=out[[1]]
   }
   return(out)
 })

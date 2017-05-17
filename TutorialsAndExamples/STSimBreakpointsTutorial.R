@@ -56,7 +56,7 @@ myComparison = run(myScenario,jobs=1)
 # NOTE: The first argument of a breakpoint function is a SyncroSim results Scenario.
 # NOTE: Within the breakpoint function, functions from base and rsyncrosim libraries are available. Use library() within the function to load any other required packages.
 myBreakpointFunction<-function(x,iteration,timestep){
-  #x=myComparison[[1]];iteration=2;timestep=3
+  #x=myComparison;iteration=2;timestep=3
 
   print('Breakpoint Hit')
   print(paste0('Scenario ID: ',scenarioId(x)))
@@ -103,7 +103,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
 }
 
 # Test breakpoint function before proceeding. If it doesn't work here, it definitely won't work later.
-myBreakpointFunction(x=myComparison[[1]],iteration=2,timestep=3)
+myBreakpointFunction(x=myComparison,iteration=2,timestep=3)
 
 ?setBreakpoint
 
@@ -139,7 +139,7 @@ for(i in 1:length(names(myTransitions))){
   if(i==1){counts = bit}else{counts=rbind(counts,bit)}
 }
 counts # Less fire for Ts3 It2?
-filename=paste0(dirname(filepath(myResult[[1]])),"/Transitions.Scn",scenarioId(myResult[[1]]),".pdf")
+filename=paste0(dirname(filepath(myResult)),"/Transitions.Scn",scenarioId(myResult),".pdf")
 pdf(filename)
 view=myTransitions;names(view)=gsub("STSim_OutputSpatialTransition.","",names(view),fixed=T)
 levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
@@ -148,7 +148,7 @@ dev.off()
 # NOTE: "STSim_TransitionSpatialMultiplier" is not updated properly during parallel processing. But effects can be seen in transitions.
 datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated
 myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat)
-filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",scenarioId(myResult[[1]]),".pdf")
+filename=paste0(dirname(filepath(myResult)),"/TransitionMultipliers.Scn",scenarioId(myResult),".pdf")
 pdf(filename)
 view=myMultipliers;names(view)=gsub("STSim_TransitionSpatialMultiplier.","",names(view),fixed=T)
 levelplot(view,att="isIn",col.regions=colortable(view[[1]]))

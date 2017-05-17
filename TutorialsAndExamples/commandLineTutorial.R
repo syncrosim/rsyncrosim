@@ -311,7 +311,7 @@ anotherProject = project(myLibrary,project="AnotherProject")
 # Project and Scenario objects inherit from SsimLibrary.
 # For some methods, this is helpful:
 #  - datasheet(), loadDatasheets(): do sensible things with x/project/scenario arguments - see help for details.
-#  - run(): does sensible things with x/scenario arguments
+#  - run(): does sensible things with ssimObject/scenario arguments
 #  - session(), modelVersion(), modelName(), filepath(), addons(): provide useful information.
 #
 # Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.

@@ -102,7 +102,7 @@ setMethod(f='initialize',signature="Scenario",
 #' @param results Logical. If TRUE only return result scenarios.
 #' @param overwrite Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.
 #' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.
-#' @return A \code{Scenario} object representing a SyncroSim scenario, or a dataframe of scenario names and descriptions.
+#' @return A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
 #' @examples
 #' # Create a new scenario
 #' myLibrary = ssimLibrary(name="stsim")
