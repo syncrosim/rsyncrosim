@@ -1114,5 +1114,11 @@ setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenar
   if(!forceElements&&(class(out)==list)&&(length(out)==1)){
     out=out[[1]]
   }
+  
+  if(summary&&(class(out)=="list")){
+    #output named vector of ids
+    out = list("1"=2,"3"=4)
+    out=unlist(out)
+  }
   return(out)
 })

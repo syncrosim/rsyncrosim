@@ -232,7 +232,7 @@ setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,
 #' @param summary Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
 #' @param jobs The number of jobs to run. Passed to SyncroSim where multithreading is handled.
 #' @param forceElements Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.
-#' @return A result Scenario object or a named list of result Scenario objects or ids. The name is the parent scenario for each result.
+#' @return If summary=F a result Scenario object or a named list of result Scenarios. If summary=F a scenario id or named vector of ids. The name is the parent scenario for each result.
 #' @examples
 #'
 #' @export

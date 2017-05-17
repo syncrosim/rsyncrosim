@@ -244,7 +244,6 @@ datasheet(myScn)
 #myResultsScenario = run(myLibrary,scenario=509)    # run scenario by ID
 #myResultsScenarios= run(myScenarios)  # Run a list of scenarios
 
-
 # Get the output from the results scenario - note that only results scenarios have scenario output datafeeds
 #myoutputDataframe = datasheet(myResultsScenario, name="STSim_OutputStratumState")
 
