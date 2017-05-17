@@ -281,11 +281,11 @@ setMethod('deleteProjects', signature(x="SsimLibrary"), function(x,project,force
     if(!class(x)=="Project"){
       stop("Please specify one or more projects to delete.")
     }
-    project = id(x)
+    project = projectId(x)
   }
 
   if(class(project)=="Project"){
-    project=id(project)
+    project=projectId(project)
   }
 
   allProjects = .project(x)
@@ -347,11 +347,11 @@ setMethod('deleteScenarios', signature(x="SsimLibrary"), function(x,scenario,for
     if(!class(x)=="Scenario"){
       stop("Please specify one or more scenarios to delete.")
     }
-    scenario = id(x)
+    scenario = scenarioId(x)
   }
 
   if(class(scenario)=="Scenario"){
-    scenario=id(scenario)
+    scenario=scenarioId(scenario)
   }
 
   allScenarios = scenario(x)
@@ -579,10 +579,10 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   if((length(project)>0)){
     passProject = NULL
     if(class(x)=="Project"){
-      if((length(project)>1)||(.id(x)!=project)){
+      if((length(project)>1)||(.projectId(x)!=project)){
         warning("ssimObject is a Project so the project argument will be ignored.")
       }
-      pid=.id(x)
+      pid=.projectId(x)
     }else{
       pid=project
       if(class(project[[1]])=="Project"){
@@ -598,10 +598,10 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   if((length(scenario)>0)){
     passScenario = NULL
     if(class(x)=="Scenario"){
-      if((length(scenario)>1)||(.id(x)!=scenario)){
+      if((length(scenario)>1)||(.scenarioId(x)!=scenario)){
         warning("ssimObject is a Scenario so the scenario argument will be ignored.")
       }
-      sid=.id(x)
+      sid=.scenarioId(x)
     }else{
       sid=scenario
       if(class(scenario[[1]])=="Scenario"){
@@ -616,14 +616,13 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   
   x = .getFromXProjScn(x,passProject,passScenario)
   if(is.null(scenario)||(length(scenario)==1)){
-    if(class(x)=="Scenario"){sid=.id(x)}else{sid=scenario}
+    if(class(x)=="Scenario"){sid=.scenarioId(x)}else{sid=scenario}
   }
   if(is.null(project)||(length(project)==1)){
     pid=project
-    if(class(x)=="Scenario"){pid=.pid(x)}
-    if(class(x)=="Project"){pid=.id(x)}
-    if((class(x)=="SsimLibrary")&(length(scenario)>0)){
-    }
+    if(class(x)=="Scenario"){pid=.projectId(x)}
+    if(class(x)=="Project"){pid=.projectId(x)}
+    #if((class(x)=="SsimLibrary")&(length(scenario)>0)){ stop("What was supposed to happen here?")}
   }
   
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
@@ -999,11 +998,11 @@ setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,pro
     }
 
     if(class(x)=="Project"){
-      if(scope=="project"){args[["pid"]]=.id(x)}
+      if(scope=="project"){args[["pid"]]=.projectId(x)}
     }
     if(class(x)=="Scenario"){
-      if(is.element(scope,c("project","scenario"))){args[["pid"]]=.pid(x)}
-      if(scope=="scenario"){args[["sid"]]=.id(x)}
+      if(is.element(scope,c("project","scenario"))){args[["pid"]]=.projectId(x)}
+      if(scope=="scenario"){args[["sid"]]=.scenarioId(x)}
     }
     tt=command(args,.session(x))
     if(tt[[1]]=="saved"){unlink(tempFile)}
@@ -1018,7 +1017,7 @@ setMethod('run', signature(x="SsimLibrary"), function(x,scenario,onlyIds,jobs) {
     if(class(x)!="Scenario"){
       stop("Need a scenario to run.")
     }
-    scenario = .id(x)
+    scenario = .scenarioId(x)
   }
   #name(x)
   scenarios=NULL

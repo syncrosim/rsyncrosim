@@ -126,7 +126,7 @@ scenario(myLibrary)
 myScenario = scenario(myProject, scenario="My new scenario name")
 scenario(myLibrary)
 
-id(myScenario)
+scenarioId(myScenario)
 myScenarios = scenario(myLibrary,summary=F)
 names(myScenarios)
 scenario(myLibrary)
@@ -149,7 +149,7 @@ scenario(myLibrary)
 
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
 name(myScenario)
-id(myScenario)
+scenarioId(myScenario)
 
 name(myScenario) = "New scenario name"
 ssimLibrary(myScenario)  # Returns a SyncroSimLibrary object for the scenario

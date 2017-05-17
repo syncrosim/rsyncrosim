@@ -136,8 +136,9 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   if(!is.null(project)|!is.null(scenario)){
     warning("project and scenario arguments are ignored when ssimObject is a Project/Scenario or list of these.")
   }
+  project=c();scenario=c()
 
-  ids = c()
+
   for(i in seq(length.out=length(ssimObject))){
     cScn = ssimObject[[1]]
     if(class(cScn)!=class(ssimObject[[1]])){
@@ -146,21 +147,22 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
     if(.filepath(cScn)!=.filepath(ssimObject[[1]])){
       stop("Elements of ssimObject must all be contained in the same library.")
     }
-    ids = c(ids,.id(cScn))  
+
+    #get list of scenario/projects and pass to datasheet again
+    if(class(cScn)=="Scenario"){
+      project=NULL
+      scenario=c(scenario,scenarioId(cScn))
+    }
+    
+    if(class(cScn)=="Project"){
+      project=c(project,projectId(cScn))
+      scenario=NULL
+    }
+    
   }
   
   
-  #get list of scenario/projects and pass to datasheet again
-  if(class(cScn)=="Scenario"){
-    project=NULL
-    scenario=ids
-  }
-  
-  if(class(cScn)=="Project"){
-    project=ids
-    scenario=NULL
-  }
-  
+    
   out = .datasheet(.ssimLibrary(cScn),name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey,forceElements=forceElements)
   
   return(out)
@@ -326,7 +328,7 @@ setMethod('multiband', signature(x="list"), function(x,action,grouping) {
     #i=1
     cScn = x[[i]]
     cOut = multiband(cScn,action,grouping)
-    out[[as.character(.id(cScn))]]=cOut
+    out[[as.character(.scenarioId(cScn))]]=cOut
   }
   return(out)
 })

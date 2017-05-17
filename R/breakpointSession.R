@@ -229,7 +229,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     x=cBreakpointSession
   }
   
-  msg = paste0('create-result --sid=',id(x@scenario))
+  msg = paste0('create-result --sid=',scenarioId(x@scenario))
   ret = remoteCall(x,msg)
   breaks = x@scenario@breakpoints
   newScn = scenario(x@scenario,scenario=as.numeric(ret))
@@ -238,7 +238,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
   
   if(jobs==1){
     #make 1 job work first.
-    msg = paste0('run-scenario --sid=',.id(x@scenario),' --jobs=1')
+    msg = paste0('run-scenario --sid=',.scenarioId(x@scenario),' --jobs=1')
     ret = tryCatch({
       remoteCall(x,msg)
     }, warning = function(w) {
@@ -250,7 +250,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     })
   }else{
     #jobs=2
-    msg = paste0('split-scenario --sid=',id(x@scenario),' --jobs=',jobs)
+    msg = paste0('split-scenario --sid=',scenarioId(x@scenario),' --jobs=',jobs)
     
     tt = tryCatch({
       remoteCall(x,msg)
@@ -262,7 +262,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
       stop(e)
     })
     
-    tempPath = paste0(filepath(x@scenario),".temp/Scenario-",.id(x@scenario),"/SSimJobs")
+    tempPath = paste0(filepath(x@scenario),".temp/Scenario-",.scenarioId(x@scenario),"/SSimJobs")
     tempFiles = list.files(tempPath,include.dirs=F)
     tempFiles = tempFiles[grepl(".ssim",tempFiles,fixed=T)&!grepl(".ssim.input",tempFiles,fixed=T)&!grepl(".ssim.output",tempFiles,fixed=T)]
     if(length(tempFiles)<=1){
@@ -280,7 +280,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
 
     jobs = min(jobs,parallel::detectCores())
 
-    files = paste0(filepath(x@scenario),".temp/Scenario-",id(x@scenario),"/SSimJobs/Job-",seq(1:jobs),".ssim")
+    files = paste0(filepath(x@scenario),".temp/Scenario-",scenarioId(x@scenario),"/SSimJobs/Job-",seq(1:jobs),".ssim")
 
     port =   as.numeric(strsplit(summary(x@connection)[[1]],":")[[1]][2])
     ports=port+ seq(1,jobs)
@@ -316,7 +316,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     }
     print(ret)
 
-    msg = paste0('merge-scenario --sid=',id(x@scenario))
+    msg = paste0('merge-scenario --sid=',scenarioId(x@scenario))
     ret = tryCatch({
       remoteCall(x,msg)
     }, warning = function(w) {
@@ -328,7 +328,7 @@ setMethod('run',signature(x="BreakpointSession"),function(x,scenario,onlyIds,job
     })
     
     #remove temporary directory
-    unlink(paste0(filepath(x@scenario),".temp/Scenario-",id(x@scenario)),recursive=T)
+    unlink(paste0(filepath(x@scenario),".temp/Scenario-",scenarioId(x@scenario)),recursive=T)
     
     return(ret)
   }

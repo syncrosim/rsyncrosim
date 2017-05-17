@@ -10,9 +10,9 @@ NULL
 # @export
 .ssimLibrary=ssimLibrary
 # @export
-.id=id
+.projectId = projectId
 # @export
-.pid=pid
+.scenarioId = scenarioId
 # @export
 .filepath=filepath
 # @export

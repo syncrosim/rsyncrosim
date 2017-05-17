@@ -148,12 +148,12 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   #Get pid 
   cPid=NA
   if((class(ssimObject)=="Scenario")){
-    scenario=.id(ssimObject)
-    cPid = .pid(ssimObject)
+    scenario=.scenarioId(ssimObject)
+    cPid = .projectId(ssimObject)
     scnSet = subset(scnSet,id==scenario)
   }
   if(class(ssimObject)=="Project"){
-    cPid=.id(ssimObject)
+    cPid=.projectId(ssimObject)
     scnSet = subset(scnSet,pid==cPid)
   }
   
@@ -195,7 +195,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
         stop("Can't create new scenarios because there is more than one project in the SsimLibrary. Please specify the Project ssimObject to which new scenarios should belong.")
       }
       if(nrow(allProjects)==0){
-        cPid = .pid(project(ssimObject,project="project1"))
+        cPid = .projectId(project(ssimObject,project="project1"))
       }else{
         cPid = allProjects$id
       }
@@ -305,7 +305,7 @@ setReplaceMethod(
   signature="Scenario",
   definition=function(x,value){
     #x=myScenario;value="New Name"
-    tt = command(list(setprop=NULL,lib=.filepath(x),sid=.id(x),name=value),.session(x))
+    tt = command(list(setprop=NULL,lib=.filepath(x),sid=.scenarioId(x),name=value),.session(x))
     if(!identical(tt,"saved")){
       stop(tt)
     }
@@ -329,7 +329,7 @@ setGeneric('readOnly',function(x) standardGeneric('readOnly'))
 setMethod('readOnly', signature(x="Scenario"), function(x) {
   #x=myScenario
   info = scenario(x,summary=T)
-  answer = info$readOnly[info$id==.id(x)]=="Yes"
+  answer = info$readOnly[info$id==.scenarioId(x)]=="Yes"
   return(answer)
 })
 
@@ -342,7 +342,7 @@ setGeneric('author',function(x) standardGeneric('author'))
 setMethod('author', signature(x="Scenario"), function(x) {
   #x=myScenario
   info = scenario(x,summary=T)
-  answer = info$author[info$id==.id(x)]
+  answer = info$author[info$id==.scenarioId(x)]
   return(answer)
 })
 
@@ -355,7 +355,7 @@ setGeneric('description',function(x) standardGeneric('description'))
 setMethod('description', signature(x="Scenario"), function(x) {
   #x=myScenario
   info = scenario(x,summary=T)
-  answer = info$description[info$id==.id(x)]
+  answer = info$description[info$id==.scenarioId(x)]
   return(answer)
 })
 
@@ -372,7 +372,7 @@ setMethod('description', signature(x="Scenario"), function(x) {
 setGeneric('setProperties',function(x,author=NULL,description=NULL,readOnly=NULL) standardGeneric('setProperties'))
 setMethod('setProperties', signature(x="Scenario"), function(x,author,description,readOnly) {
   #x=myScenario
-  propertyArgs = list(setprop=NULL,lib=.filepath(x),sid=.id(x))
+  propertyArgs = list(setprop=NULL,lib=.filepath(x),sid=.scenarioId(x))
   if(!is.null(author)){propertyArgs$author=author}
   if(!is.null(description)){propertyArgs$description=description}
   if(!is.null(readOnly)){
@@ -401,16 +401,8 @@ setMethod('parentId', signature(x="Scenario"), function(x) {
   return(x@parentId)
 })
 
-
-#' The pid of a SyncroSim Scenario.
-#'
-#' The project id of a SyncroSim Scenario
-#'
-#' @param x An Scenario object.
-#' @export
-setGeneric('pid',function(x) standardGeneric('pid'))
-setMethod('pid', signature(x="Scenario"), function(x) {
-  return(x@pid)
+setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
+  return(ssimObject@projectId)
 })
 #' The project id of a SyncroSim Scenario.
 #'
@@ -427,7 +419,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
   }
 
   #command(c("help"),program="SyncroSim.MultiBand.exe")
-  args = list(lib=.filepath(x),sid=.id(x))
+  args = list(lib=.filepath(x),sid=.scenarioId(x))
   args[[action]]=NA
   if(action=="apply"){
     if(!is.null(grouping)){
@@ -507,7 +499,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
       names(cMeta)[names(cMeta)==tempFilename]="Filename"
       cMeta$Band=NA
 
-      cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.id(x),"/",sheet,"/",cMeta$Filename)
+      cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.scenarioId(x),"/",sheet,"/",cMeta$Filename)
 
     }
   }
@@ -524,11 +516,11 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     cFNames = subset(cFNames,!is.na(Filename))
     cFNames$Band=NA
     cMeta =cFNames
-    cMeta$outName = paste0(sheet,".Scn",.id(x),".",gsub(".tif","",cMeta$Filename,fixed=T))
-    cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.id(x),"/",sheet,"/",cMeta$Filename)
+    cMeta$outName = paste0(sheet,".Scn",.scenarioId(x),".",gsub(".tif","",cMeta$Filename,fixed=T))
+    cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.scenarioId(x),"/",sheet,"/",cMeta$Filename)
 
   }else{
-    cMeta$outName = paste0(sheet,".Scn",.id(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
+    cMeta$outName = paste0(sheet,".Scn",.scenarioId(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
 
   }
   otherCols = setdiff(names(cMeta),expectCols)
@@ -549,7 +541,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   if((length(nFiles)==1)&(nrow(cMeta)>1)){
     if(!file.exists(nFiles)){
       #TO DO: path should already be there...
-      addPath = paste0(.filepath(x),".output/Scenario-",.id(x),"/Spatial/",nFiles)
+      addPath = paste0(.filepath(x),".output/Scenario-",.scenarioId(x),"/Spatial/",nFiles)
       if(!file.exists(addPath)){
         stop("Output not found: ",nFiles)
       }
@@ -602,7 +594,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
       if(is.na(cRow$Filename)){next}
       if(!file.exists(cRow$Filename)){
         #TO DO: path should already be there...
-        addPath = paste0(.filepath(x),".output/Scenario-",.id(x),"/Spatial/",cRow$Filename)
+        addPath = paste0(.filepath(x),".output/Scenario-",.scenarioId(x),"/Spatial/",cRow$Filename)
         if(!file.exists(addPath)){
           stop("Output not found: ",cRow$Filename)
         }
@@ -684,7 +676,7 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
   if(breakpoint){
     outDir = paste0(.filepath(x),'.temp/Data')
   }else{
-    outDir=paste0(.filepath(x),".input/Scenario-",.id(x),"/",cSheetName)
+    outDir=paste0(.filepath(x),".input/Scenario-",.scenarioId(x),"/",cSheetName)
   }
   dir.create(outDir, showWarnings = FALSE,recursive=T)
   

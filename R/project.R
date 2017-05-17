@@ -149,7 +149,7 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   #if ssimObject is a scenario, return the parent project
   if((class(ssimObject)=="Scenario")&is.null(project)){
     if(is.null(summary)){summary=F}
-    project=.pid(ssimObject)
+    project=.projectId(ssimObject)
   }
   #if ssimObject is a project, return it
   if((class(ssimObject)=="Project")&is.null(project)){
@@ -157,7 +157,7 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     if(!summary){
       return(ssimObject)
     }
-    project = .id(ssimObject)
+    project = .projectId(ssimObject)
   }
     
   if(class(ssimObject)=="character"){
@@ -262,7 +262,6 @@ setMethod('name', signature(x="Project"), function(x) {
   return(x@name)
 })
 
-
 setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
   return(ssimObject@projectId)
 })
@@ -272,7 +271,7 @@ setReplaceMethod(
   signature="Project",
   definition=function(x,value){
     #x=myProject;value="New Name"
-    tt = command(list(setprop=NULL,lib=.filepath(x),pid=.id(x),name=value),.session(x))
+    tt = command(list(setprop=NULL,lib=.filepath(x),pid=.projectId(x),name=value),.session(x))
     if(!identical(tt,"saved")){
       stop(tt)
     }

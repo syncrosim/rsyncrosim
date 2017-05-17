@@ -59,7 +59,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
   #x=myComparison[[1]];iteration=2;timestep=3
 
   print('Breakpoint Hit')
-  print(paste0('Scenario ID: ',id(x)))
+  print(paste0('Scenario ID: ',scenarioId(x)))
   print(paste0('Iteration: ',iteration))
   print(paste0('Timestep: ',timestep))
   print("")
@@ -78,7 +78,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
   #myMetadata = datasheet(x,sheetName,optional=T) #Save time by skipping this step
   myMetadata=data.frame(Iteration=iteration,Timestep=timestep,
                               TransitionGroupID="Fire",TransitionMultiplierTypeID="Temporal",
-                              MultiplierFileName = paste0(sheetName,".Scn",id(x),".It",iteration,".Ts",timestep,".tif"),
+                              MultiplierFileName = paste0(sheetName,".Scn",scenarioId(x),".It",iteration,".Ts",timestep,".tif"),
                         stringsAsFactors=F)
   myMetadata$RasterLayerName = names(myMultipliers)
   myMetadata$SheetName = sheetName
@@ -139,7 +139,7 @@ for(i in 1:length(names(myTransitions))){
   if(i==1){counts = bit}else{counts=rbind(counts,bit)}
 }
 counts # Less fire for Ts3 It2?
-filename=paste0(dirname(filepath(myResult[[1]])),"/Transitions.Scn",id(myResult[[1]]),".pdf")
+filename=paste0(dirname(filepath(myResult[[1]])),"/Transitions.Scn",scenarioId(myResult[[1]]),".pdf")
 pdf(filename)
 view=myTransitions;names(view)=gsub("STSim_OutputSpatialTransition.","",names(view),fixed=T)
 levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
@@ -148,7 +148,7 @@ dev.off()
 # NOTE: "STSim_TransitionSpatialMultiplier" is not updated properly during parallel processing. But effects can be seen in transitions.
 datasheet(myResult,"STSim_TransitionSpatialMultiplier",optional=T) #datasheet was updated
 myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat)
-filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",id(myResult[[1]]),".pdf")
+filename=paste0(dirname(filepath(myResult[[1]])),"/TransitionMultipliers.Scn",scenarioId(myResult[[1]]),".pdf")
 pdf(filename)
 view=myMultipliers;names(view)=gsub("STSim_TransitionSpatialMultiplier.","",names(view),fixed=T)
 levelplot(view,att="isIn",col.regions=colortable(view[[1]]))

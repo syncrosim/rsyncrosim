@@ -8,8 +8,8 @@
       if(is.character(scenario)&&!identical(scenario,name(x))){
         stop(paste0("Scenario name mismatch: ",name(x),",",scenario))
       }
-      if(is.numeric(scenario)&&!identical(scenario,id(x))){
-        stop(paste0("Scenario id mismatch: ",id(x),",",scenario))
+      if(is.numeric(scenario)&&!identical(scenario,scenarioId(x))){
+        stop(paste0("Scenario id mismatch: ",scenarioId(x),",",scenario))
       }
     }
     return(x)
@@ -33,8 +33,8 @@
       if(is.character(project)&&!identical(name(x),project)){
         stop(paste0("Project name mismatch: ",name(x),",",project))
       }
-      if(is.numeric(project)&&!identical(id(x),project)){
-        stop(paste0("Project id mismatch: ",id(x),",",project))
+      if(is.numeric(project)&&!identical(projectId(x),project)){
+        stop(paste0("Project id mismatch: ",projectId(x),",",project))
       }
     }
     return(x)

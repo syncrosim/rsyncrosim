@@ -95,7 +95,7 @@ test_that("Tests of Scenario", {
   expect_equal(names(myScnNames),c("id","pid","name","isResult","author","description","readOnly","lastModified","parentName"))
   expect_equal(myScnNames$name,c("Scenario","My new scenario name"))
 
-  expect_is(id(myScenario),"numeric")
+  expect_is(scenarioId(myScenario),"numeric")
 
   # Get an existing scenario by ID
   expect_is(scenario(myLibrary, scenario=1),"Scenario") # By ID directly from the library - return a single scenario object

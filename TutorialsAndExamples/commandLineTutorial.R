@@ -287,7 +287,6 @@ str(outTransitionsAllAges)
 # NOTE: In the following example we use existing R tools (ggplot2/plyr) to visualize the output.
 # install.packages("ggplot2");install.packages("plyr")
 library(ggplot2);library(plyr)
-# QUESTION: what to do about id() masking by plyr?
 
 #Example visualization - mean and 95% confidence bands for area in each state over time.
 outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
@@ -354,7 +353,7 @@ parentId(myScenario)
 # - help/documentation
 # - Project revisions: Safe modification of existing libraries?
 # - long names in  models() ?
-# - Dependency functions: command(list(create=NULL,dependency=NULL,lib=.filepath(myLibrary),sid=.id(myScenario),did=.id(myDependency)))
+# - Dependency functions: command(list(create=NULL,dependency=NULL,lib=.filepath(myLibrary),sid=.scenarioId(myScenario),did=.projectId(myDependency)))
 # - warning: loadDatasheet() appends to library and project scope datasheets, rather than overwriting. To start fresh, delete project or library and begin again. We likely need a better way to modify project scope datasheets...
 # - Note - I spend a lot of time trying to figure out how GUI naming corresponds to datasheet names here.
 #   e.g. I need Transition Pathways -> Transitions. What sheet is that, exactly?
@@ -371,7 +370,6 @@ parentId(myScenario)
 #   We should be careful about omitting fields for datasheets on export because when you import a datasheet it updates existing records with the new data.  For example, if you omit the "Description" field then existing description will be overwritten with NULL if you import that same file.  I'm not sure if this is what is happening in the R scripts, but just something to be aware of.  Of course we could change things so data is never overwritten with NULL for definition imports (and Cut/Paste...) but then you would not be able to replace an existing definition with NULL which seems a bit wrong.
 #   Ensure that factor levels are passed through from invisible datasheet
 # - Add index page to reference manual.
-# - resolve id() conflict between dplyr and rsyncrosim.
 # - loadSpatialData() when breakpoint=F. See A76/ChangeResolutionOfInputs.R. But note there may be more elegant ways to do this.
 # - bug in datasheet(). See line 43 of A176/ChangeTimestep.R
 # - better errors from syncrosim - display log entries by default
