@@ -17,9 +17,9 @@
 
 \item{\code{datasheetNames}}{Names and scope of all datasheets in library.}
 
-\item{\code{pid}}{The project id.}
+\item{\code{projectId}}{The project id.}
 
-\item{\code{id}}{The scenario id.}
+\item{\code{scenarioId}}{The scenario id.}
 
 \item{\code{parentId}}{For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.}
 

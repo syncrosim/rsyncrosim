@@ -4,13 +4,13 @@
 \alias{parentId}
 \title{The parent scenario id of a SyncroSim Scenario.}
 \usage{
-parentId(x)
+parentId(scenario)
 }
 \arguments{
-\item{x}{A Scenario object.}
+\item{scenario}{A Scenario object.}
 }
 \description{
 The id of the parent of a SyncroSim results scenario.
-0 if x is not a results scenario.
+NA if scenario is not a results scenario.
 }
 

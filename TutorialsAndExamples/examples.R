@@ -2,7 +2,7 @@
 # This script demonstrates how to use the rsyncrosim package.
 # devtools::document();devtools::load_all()
 # devtools::test()
-library(rsyncrosim)
+#library(rsyncrosim)
 
 #################################
 # Examples - querying the package
@@ -26,11 +26,11 @@ models(mySsim) # Dataframe of the models installed with this version of syncrosi
 
 # Add/remove modules
 removeModules(mySsim) = "hi"
-# NOTE: this works but causes problems because I am working with dev version of SyncroSim
+# NOTE: this works but causes problems when working with a dev version of syncrosim.
 #removeModules(mySsim) = "stsim-stock-flow"
 #is.element("stsim-stock-flow",modules(mySsim)$name)
-#addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
-#addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
+#addModule("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg",mySsim)
+#addModule(c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg"),mySsim)
 #is.element("stsim-stock-flow",modules(mySsim)$name)
 
 ###########################

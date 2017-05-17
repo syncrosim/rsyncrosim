@@ -17,7 +17,7 @@
 
 \item{\code{datasheetNames}}{Names and scopes of datasheets in the library.}
 
-\item{\code{id}}{The project id}
+\item{\code{projectId}}{The project id}
 }}
 \seealso{
 See \code{\link{project}} for options when creating or loading an SyncroSim Project.

@@ -151,6 +151,22 @@ setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) 
   return(silent(session))
 })
 
+#' Set silent property of a Session
+#'
+#' Set silent property of a sessio to TRUE or FALSE
+#'
+#' @param session Session
+#' @param value logical
+#' @export
+setGeneric('silent<-',function(session,value) standardGeneric('silent<-'))
+setReplaceMethod(
+  f='silent',
+  signature="Session",
+  definition=function(session,value){
+    session@silent=value
+    return (session)
+  }
+)
 
 #' Get the default model from a \code{\link{Session}}.
 #'
@@ -227,30 +243,29 @@ setMethod('modules', signature(x="Session"), function(x) {
 
 #' Add modules
 #'
-#' Add module or modules to this version of SyncroSim
+#' Add module or modules to SyncroSim
 #'
-#' @param x A SyncroSim \code{\link{Session}} object.
-#' @param value The path to an .ssimpkg file on disk, or a vector of filepaths
+#' @param filename The path to an .ssimpkg file on disk, or a vector of filepaths
+#' @param session A SyncroSim \code{\link{Session}} object.
 #' @export
-setGeneric('addModules<-',function(x,value) standardGeneric('addModules<-'))
-setReplaceMethod(
-  f='addModules',
-  signature="Session",
-  definition=function(x,value){
+setGeneric('addModule',function(filename,session=NULL) standardGeneric('addModule'))
+setMethod('addModule', signature(filename="character"), function(filename,session) {
     #x=mySsim
     #value=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
     #value="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
-    for(i in seq(length.out=length(value))){
+  
+  if(is.null(session)){session=.session()}
+    for(i in seq(length.out=length(filename))){
       #i=1
-      cVal = value[i]
+      cVal = filename[i]
       if(!file.exists(cVal)){
         stop(paste0("Cannot find ",cVal,"."))
       }
-      tt = command(args=list(queue=cVal),x,program="SyncroSim.ModuleManager.exe")
+      tt = command(args=list(queue=cVal),session,program="SyncroSim.ModuleManager.exe")
     }
-    tt = command(args=list(installqueue=NULL),x,program="SyncroSim.ModuleManager.exe")
-    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
-    return (x)
+    tt = command(args=list(installqueue=NULL),session,program="SyncroSim.ModuleManager.exe")
+    #session@datasheetNames = .datasheets(x,scope="all",refresh=T)
+    return (tt)
   }
 )
 

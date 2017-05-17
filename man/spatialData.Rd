@@ -10,7 +10,7 @@ spatialData(x, sheet, iterations = NULL, timesteps = NULL,
 \arguments{
 \item{x}{A SyncroSim results Scenario or list of SyncroSim result Scenarios.}
 
-\item{sheet}{The name of a spatial datasheet. See subset(datasheets(myResultScenario),isSpatial)$name for options.}
+\item{sheet}{The name of a spatial datasheet.}
 
 \item{iterations}{A vector of iterations. If NULL(default) all available iterations will be included}
 

@@ -404,13 +404,6 @@ setMethod('parentId', signature(scenario="Scenario"), function(scenario) {
 setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
   return(ssimObject@projectId)
 })
-#' The project id of a SyncroSim Scenario.
-#'
-#' The project id of a SyncroSim Scenario
-#'
-#' @param x An Scenario object.
-#' @export
-projectId = pid
 
 setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL

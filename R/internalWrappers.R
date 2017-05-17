@@ -24,8 +24,6 @@ NULL
 # @export
 .addons=addons
 # @export
-.scenarios=scenarios
-# @export
 .datasheet=datasheet
 # @export
 .name=name

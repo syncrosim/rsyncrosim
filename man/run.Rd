@@ -4,19 +4,22 @@
 \alias{run}
 \title{Run scenarios}
 \usage{
-run(x, scenario = NULL, onlyIds = F, jobs = 1)
+run(ssimObject, scenario = NULL, summary = F, jobs = 1,
+  forceElements = F)
 }
 \arguments{
-\item{x}{One or more SsimLibrary, Projects or Scenario objects. Or the path to a library on disk.}
+\item{ssimObject}{SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.}
 
-\item{scenario}{One or more scenario objects, names or ids.}
+\item{scenario}{character, integer, or vector of these. Scenario names or ids. Or NULL.}
 
-\item{onlyIds}{If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.}
+\item{summary}{Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.}
 
 \item{jobs}{The number of jobs to run. Passed to SyncroSim where multithreading is handled.}
+
+\item{forceElements}{Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.}
 }
 \value{
-A named list of result Scenario objects or ids. The name is the parent scenario for each result.
+If summary=F a result Scenario object or a named list of result Scenarios. If summary=F a scenario id or named vector of ids. The name is the parent scenario for each result.
 }
 \description{
 Run one or more SyncroSim scenarios

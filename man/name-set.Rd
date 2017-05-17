@@ -4,10 +4,10 @@
 \alias{name<-}
 \title{Set the project or scenario names.}
 \usage{
-name(x) <- value
+name(ssimObject) <- value
 }
 \arguments{
-\item{x}{A SyncroSim \code{\link{Project}} or \code{\link{Scenario}} object.}
+\item{ssimObject}{Scenario/Project}
 
 \item{value}{The new name.}
 }

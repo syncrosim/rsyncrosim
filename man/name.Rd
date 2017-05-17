@@ -4,12 +4,12 @@
 \alias{name}
 \title{The name of a SyncroSim project or scenario.}
 \usage{
-name(x)
+name(ssimObject)
 }
 \arguments{
-\item{x}{An object with a name.}
+\item{ssimObject}{Project/Scenario.}
 }
 \description{
-The name of a SyncroSim Project or Scenario.
+The name of a SyncroSim Project/Scenario.
 }
 

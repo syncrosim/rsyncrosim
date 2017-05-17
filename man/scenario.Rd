@@ -23,7 +23,7 @@ scenario(ssimObject, scenario = NULL, sourceScenario = NULL,
 \item{forceElements}{Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.}
 }
 \value{
-A \code{Scenario} object representing a SyncroSim scenario, or a dataframe of scenario names and descriptions.
+A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
 }
 \description{
 If summary = FALSE, returns one or more \code{\link{Scenario}} objects representing a SyncroSim scenarios.
