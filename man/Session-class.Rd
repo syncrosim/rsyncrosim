@@ -31,13 +31,13 @@ showMethods(class="Session",where=loadNamespace("rsyncrosim")) #Methods for the 
 filepath(mySession)   # Lists the folder location of syncrosim session
 version(mySession)   # Lists the version of syncrosim session
 modules(mySession)   # Dataframe of the modules installed with this version of syncrosim.
-models(mySsim) # Dataframe of the models installed with this version of syncrosim.
+models(mySession) # Dataframe of the models installed with this version of syncrosim.
 
 # Add and remove modules
-removeModules(mySsim) = "stsim-stock-flow"
+removeModules(mySession) = "stsim-stock-flow"
 is.element("stsim-stock-flow",modules(mySsim)$shortName)
-addModules(mySsim) = "C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
-addModules(mySsim) = c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
+addModule("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg",mySession)
+addModule(c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg"),mySession)
 is.element("stsim-stock-flow",modules(mySsim)$shortName)
 
 # Create or load a library using a default Session

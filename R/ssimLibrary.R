@@ -390,20 +390,20 @@ setMethod('deleteScenarios', signature(x="SsimLibrary"), function(x,scenario,for
   return(out)
 })
 
-#' addons of an SsimLibrary
+#' addons of an SsimLibrary or Session
 #'
-#' The addons of an SsimLibrary.
+#' The addons of an SsimLibrary or Session.
 #'
-#' @param x An SsimLibrary, or a Project/Scenario object associated with an SsimLibrary.
+#' @param ssimObject An SsimLibrary, or a Project/Scenario object associated with an SsimLibrary.
 #' @param all If T, all available addons are returned. Otherwise, only enabled addons.
 #' @return A dataframe of addons.
 #' @examples
 #' addons(ssimLibrary(name="stsim"))
 #' @export
-setGeneric('addons',function(x,all=F) standardGeneric('addons'))
-setMethod('addons', signature(x="SsimLibrary"), function(x,all) {
+setGeneric('addons',function(ssimObject,all=F) standardGeneric('addons'))
+setMethod('addons', signature(ssimObject="SsimLibrary"), function(ssimObject,all) {
   #x = myLibrary
-  tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(x)),.session(x))
+  tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
   tt = .dataframeFromSSim(tt)
   if(!all){
     tt=subset(tt,enabled=="Yes")
