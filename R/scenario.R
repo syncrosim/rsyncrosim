@@ -441,9 +441,9 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,nameFilters,rat) {
   # x= myResult[[1]]; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL;nameFilters=NULL
 
-  cSheets = datasheets(x)
+  cSheets = datasheet(x)
   if(!is.element(sheet,cSheets$name)){
-    cSheets = datasheets(x,refresh=T)
+    cSheets = datasheet(x,refresh=T)
   }
   #cSheets=subset(cSheets,isSpatial)
   #if(!is.element(sheet,cSheets$name)){

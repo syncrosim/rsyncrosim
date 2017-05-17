@@ -183,48 +183,35 @@ myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
 scenario(myLibrary)
 myScenario = scenario(myLibrary,scenario=1)
 
-# NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
+# NOTE: datasheet() and loadDatasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SsimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
-myProjectDataframes = datasheets(myLibrary, project=1, names=F) # A named list of all the project and library datasheets for project id 2.
-#myScenarioDataframes = datasheets(myScenario,names=F) #This takes a long time to run - so don't.
-myProjectSheetNames = datasheets("C:/Temp/NewLibrary.ssim", project=1,scope="project") # A dataframe of datasheet names for project id 1.
+myProjectDataframes = datasheet(myLibrary, project=1, summary=F) # A named list of all the project and library datasheets for project id 2.
+#myScenarioDataframes = datasheet(myScenario,summary=F) #This takes a long time to run - so don't.
+myProjectSheetNames = subset(datasheet("C:/Temp/NewLibrary.ssim", project=1),dataScope=="project") # A dataframe of datasheet names for project id 1.
 myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a single dataframe
-#myDeterministicTransitionDataframe = datasheets(myScenario)["STSim_DeterministicTransition"]
-#myDeterministicTransitionDataframe = datasheets(ssimLibrary=mySsimLibrary, scenario=509)["STSim_DeterministicTransition"]
 # DISCUSS: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
 # A database query is also required for each lookup, so the default datasheet() can be slow.
-# datasheets(myScenario,names=F) is very slow because there are a lot of scenario datasheets.
+# datasheet(myScenario,summary=F) is very slow because there are a lot of scenario datasheets.
 # Setting empty=T eliminates the database query.
 # Setting lookupsAsFactors=T eliminates the console call.
 # Getting a datasheet for multiple scenarios or projects requires only 1 extra console call.
-# Even so datasheets() slow.
+# Even so datasheet(name=NULL,summary=F) can be very slow, and pull a lot of data - use rarely, with caution.
 
 datasheets(myScenario,scope="scenario")$name
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition")
 
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition",dependsAsFactors=F) # This option returns characters instead of factors
-#myScenarioDataframes = datasheets(myProject, scope="project", names=F, stringAsFactors=F)
 
 #TO DO
-#myScenarioDataframes = datasheets(myProject, scope="scenario", keepId=T) # This option returns a dataframe with IDs, not factors
-
-# Alternatively a datasheet can be provided as a Datasheet object  - skip this for now
-#myScenarioDatasheets = datasheets(scenario=myScenario, dataframe=FALSE, empty=FALSE)    # named vector of datasheet objects, instead of default dataframes
-#DISCUSS - not sure exactly what a datasheet object should be, or why we need one.
+#myScenarioDataframes = datasheet(myProject, summary=F, keepId=T) # This option returns a dataframe with IDs, not factors
 
 # Similarly we can get dataframes of project datasheets
 project(myLibrary)
-myProjectDataframes = datasheets(myLibrary, project="Project", scope="project")  # same as above
+myProjectDataframes = datasheet(myLibrary, project="Project", summary=F)  # same as above
 
-# Get empty template dataframes for each scenario datafeed in a project - lookup columns are expressed as factors with only valid values
-# NOTE: slow. don't do it.
-#emptyScenarioDataframes = datasheets(myProject, scope="scenario",empty=T,names=F)     # returns empty versions of all the scenario datafeeds for this project
-#emptyScenarioDataframes = datasheets(myLibrary, project=1, scope="scenario",empty=T,names=F)     # same as above
+# Get empty template dataframes - lookup columns are expressed as factors with only valid values
 emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_DeterministicTransition",empty=T)
-
-# Similarly also get empty dataframes for project datasheets
-#emptyProjectDataframes = datasheets(myProject, scope="project")
 
 # Update the values for project datasheet - see tutorial for examples.
 stateClassDefinition = datasheet(myProject, name="STSim_StateLabelX")
@@ -243,6 +230,7 @@ myDeterminisiticTransitions = datasheet(myScenario, name="STSim_DeterministicTra
 myDeterminisiticTransitions[1:3,"AgeMin"] = c(50, 60, NA)    # change the AgeMin field for 3 rows - character to allow blanks
 #NOTE CHANGE: this syntax preserves types and factor levels, and adds new rows if necessary.
 
+datasheet(myScn)
 # Then save the updated scenario datasheet back to the library
 #loadDatasheets(myLibrary,myDeterminisiticTransitions, scenario=myScenario, name="STSim_DeterministicTransition")
 # NOTE: this fails because myDeterministicTransitions is not complete.
@@ -258,7 +246,7 @@ myDeterminisiticTransitions[1:3,"AgeMin"] = c(50, 60, NA)    # change the AgeMin
 
 
 # Get the output from the results scenario - note that only results scenarios have scenario output datafeeds
-#myoutputDataframe = datasheets(scenario=myResultsScenario, name="STSim_OutputStratumState")
+#myoutputDataframe = datasheet(myResultsScenario, name="STSim_OutputStratumState")
 
 # Need to figure out how to deal with raster scenario datafeeds (both input and output)...
 

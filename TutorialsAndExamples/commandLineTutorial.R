@@ -81,12 +81,12 @@ myProject = project(myLibrary,project="ST-Sim Demonstration")
 scenario(myLibrary)
 #***********************************
 # Cover types and state classes
-datasheets(myProject)
+datasheet(myProject)
 sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1,"Name"]="Entire Forest"
 #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
 loadDatasheets(myProject,mySheet,name=sheetName)
-# NOTE: datasheet(), datasheets() and loadDatasheets() accept any combination of x, project and scenario arguments.
+# NOTE: datasheet() and loadDatasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SsimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 #
@@ -127,7 +127,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 #***********************************
 # Transitions
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-datasheets(myProject,scope="project")$name #See project scope datasheet names
+subset(datasheet(myProject),dataScope=="project")$name #See project scope datasheet names
 sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
@@ -151,7 +151,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # Add No Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,scenario="No Harvest")
-datasheets(myScenario,scope="scenario")$name
+subset(datasheet(myScenario),dataScope=="scenario")$name
 
 #**************
 # Run control
@@ -303,18 +303,12 @@ print(base)
 #*********************
 # TO DISCUSS
 #*********************
-# DISCUSS: datasheets()
-# When is it necessary/desireable to load all datasheets?
-# Is minimal syntax (e.g. myDatasheets[["STSim_StateClass"]]) the main goal?
-# If so, we could define a Datasheets object that contains datasheet names and info required for retreival (libraryPath/Session/scenarioIds/projectIds).
-# We could then overwrite names(), [[]] to get list-like behaviour. [[]] would get the datasheet from SyncroSim.
-
 showMethods(class="SsimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
 anotherProject = project(myLibrary,project="AnotherProject")
 # DISCUSS: Inheritance
 # Project and Scenario objects inherit from SsimLibrary.
 # For some methods, this is helpful:
-#  - datasheet(), datasheets(), loadDatasheets(): do sensible things with x/project/scenario arguments - see help for details.
+#  - datasheet(), loadDatasheets(): do sensible things with x/project/scenario arguments - see help for details.
 #  - run(): does sensible things with x/scenario arguments
 #  - session(), modelVersion(), modelName(), filepath(), addons(): provide useful information.
 #
@@ -361,7 +355,7 @@ parentId(myScenario)
 # - warning: loadDatasheet() appends to library and project scope datasheets, rather than overwriting. To start fresh, delete project or library and begin again. We likely need a better way to modify project scope datasheets...
 # - Note - I spend a lot of time trying to figure out how GUI naming corresponds to datasheet names here.
 #   e.g. I need Transition Pathways -> Transitions. What sheet is that, exactly?
-#   Solution: subset(datasheets(myScenario,names=T),displayName=="Transitions",select=c(name))
+#   Solution: subset(datasheet(myScenario),displayName=="Transitions",select=c(name))
 # - Copy a scenario from one project to another?
 # - Check which datasheets have data.
 # - How to access results more efficiently. E.G. Transitions table.
@@ -377,12 +371,9 @@ parentId(myScenario)
 # - resolve id() conflict between dplyr and rsyncrosim.
 # - loadSpatialData() when breakpoint=F. See A76/ChangeResolutionOfInputs.R. But note there may be more elegant ways to do this.
 # - bug in datasheet(). See line 43 of A176/ChangeTimestep.R
-# - flag for Alex. If the dependency scenario does not exist, syncrosim creates a blank scenario. command(list(create=NULL,dependency=NULL,lib=filepath(myProject),sid=id(newRunScenario),did=id(newInitialConditions)))
 # - better errors from syncrosim - display log entries by default
 # - saveDatasheet(): handle named vectors
 # - datasheet(): return named vector for single row datasheets
-# - datasheets(): default is object scope
-# - combine datasheet() and datasheets()? Reconsider plurals more generally.
 # - saveDatasheet() instead of loadDatasheet()
 # - delete datasheet - start again. Currently can overwrite, but cannot start from scratch.
 

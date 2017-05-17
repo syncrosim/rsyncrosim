@@ -551,7 +551,7 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   
   #if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if(summary|is.null(name)){
-    sumInfo = .datasheets(x,project[[1]],scenario[[1]])
+    sumInfo = .datasheet(x,project[[1]],scenario[[1]])
     if(summary){
       if(is.null(name)){
         return(sumInfo)
@@ -949,7 +949,7 @@ setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,pro
   #x = myScenario;project=NULL;scenario=NULL;name=sheetName;data=mySheet;breakpoint=T
   x = .getFromXProjScn(x,project,scenario)
 
-  sheetNames = datasheets(x)
+  sheetNames = datasheet(x)
 
   if(class(data)=="data.frame"){
     if(is.null(name)){

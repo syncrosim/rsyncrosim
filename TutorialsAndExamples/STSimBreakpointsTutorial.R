@@ -37,7 +37,7 @@ if(!is.element("breakpoint test",scenario(myProject)$name)){
   myScenario = scenario(myProject,scenario="breakpoint test")
 }
 
-#datasheets(myScenario)$name
+#datasheet(myScenario)$name
 sheetName = "STSim_RunControl"; mySheet = datasheet(myScenario,name=sheetName,empty=F)
 mySheet[1,"MaximumIteration"] = 2
 mySheet[1,"MaximumTimestep"] = 3

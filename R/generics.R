@@ -257,7 +257,7 @@ setMethod('run', signature(x="list"), function(x,scenario,onlyIds,jobs) {
 #' For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)
 #'
 #' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
-#' @param sheet The name of a spatial datasheet. See subset(datasheets(myResultScenario),isSpatial)$name for options.
+#' @param sheet The name of a spatial datasheet.
 #' @param iterations A vector of iterations. If NULL(default) all available iterations will be included
 #' @param nameFilters A vector of strings. Only layer name that include these terms will be returned.
 #' @param timesteps A vector of timesteps. If NULL(default) all available timesteps will be included.

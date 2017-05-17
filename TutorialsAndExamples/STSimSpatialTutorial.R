@@ -37,7 +37,7 @@ run(myProject,5,onlyIds=T)
 resultScns = scenario(myProject,results=T)
 myResult = scenario(myProject,scenario=tail(resultScns,n=2)$id)
 
-datasheets(myResult[[1]])$name
+datasheet(myResult[[1]])$name
 
 #*************************************
 # View state class output
@@ -90,7 +90,7 @@ dev.off()
 
 #*************************************
 # View spatial inputs
-datasheets(myResult[[1]])$name
+datasheet(myResult[[1]])$name
 
 check = (datasheet(myResult[[1]],"STSim_OutputSpatialTransition"))
 

@@ -57,7 +57,7 @@ test_that("Test simple non-spatial STSim example", {
 
   #***********************************
   # Transitions
-  #datasheets(myProject,scope="project")$name #See project scope datasheet names
+  #subset(datasheet(myProject),dataScope=="project")$name #See project scope datasheet names
   sheetName = "STSim_TransitionGroup"
   #mySheet = datasheet(myProject,name=sheetName,empty=T)
   #mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
@@ -87,7 +87,7 @@ test_that("Test simple non-spatial STSim example", {
   #*************************************
   myScenario = scenario(myProject,scenario="No Harvest")
   expect_is(myScenario,"Scenario")
-  expect_equal(names(datasheets(myScenario,scope="scenario")),c("name","displayName","dataScope","isOutput"))
+  expect_equal(names(datasheet(myScenario)),c("name","displayName","dataScope","isOutput"))
 
   #**************
   # Run control
