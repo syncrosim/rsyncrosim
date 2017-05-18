@@ -18,7 +18,7 @@
 # myDataframe = dataframeFromSSim(myOutput)
 # myDataframe
 # @export
-.dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T){
+.dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T,convertToLogical=NULL){
   #colNames=c("name","description","version");
   #x=c("Property,Value","Size:,\"35,526 KB\"");csv=T;colNames=NULL;localNames=T
   #x=tt;localNames=T
@@ -52,6 +52,14 @@
     names(out)=gsub(" ","",names(out))
     names(out)=gsub(".","",names(out),fixed=T)
     names(out)=sapply(names(out),camel)
+  }
+  if(!is.null(convertToLogical)){
+    for(i in seq(length.out=length(convertToLogical))){
+      cName = convertToLogical[[i]]
+      out[[cName]][out[[cName]]=="No"]=F
+      out[[cName]][out[[cName]]=="Yes"]=T
+      out[[cName]]=as.logical(out[[cName]])
+    }
   }
   return(out)
 }

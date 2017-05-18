@@ -66,7 +66,7 @@ setMethod(f='initialize',signature="Scenario",
     if(is.null(sourceScenario)){
       tt = command(list(create=NULL,scenario=NULL,lib=.filepath(x),name=name,pid=pid),.session(x))
     }else{
-      tt = command(list(copy=NULL,scenario=NULL,lib=.filepath(x),name=name,sid=sourceScenario),.session(x))
+      tt = command(list(copy=NULL,scenario=NULL,slib=.filepath(x),name=name,sid=sourceScenario,pid=pid),.session(x))
     }
     id = as.numeric(strsplit(tt,": ")[[1]][2])
 

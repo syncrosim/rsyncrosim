@@ -188,7 +188,7 @@ myScenario = scenario(myLibrary,scenario=1)
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 myProjectDataframes = datasheet(myLibrary, project=1, summary=F) # A named list of all the project and library datasheets for project id 2.
 #myScenarioDataframes = datasheet(myScenario,summary=F) #This takes a long time to run - so don't.
-myProjectSheetNames = subset(datasheet("C:/Temp/NewLibrary.ssim", project=1),dataScope=="project") # A dataframe of datasheet names for project id 1.
+myProjectSheetNames = subset(datasheet("C:/Temp/NewLibrary.ssim", project=1),scope=="project") # A dataframe of datasheet names for project id 1.
 myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a single dataframe
 # DISCUSS: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires a database query and at least 1 console call
 # A database query is also required for each lookup, so the default datasheet() can be slow.

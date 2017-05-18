@@ -58,22 +58,21 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   .Object@defaultModel=model
 
   vs = command(list(version=NULL),.Object)
-  if(!grepl("Version is:",vs)){stop(vs)}
-  
-  #TO DO: use 'version' function here once it is working. Update version requirements.
-  vs = gsub("Core Assembly Version: ","",vs[[2]],fixed=T)
-  vs = as.numeric(gsub(".","",vs,fixed=T))
-  if(vs<10430){#1.0.43.0
-    stop("rsyncrosim requires at least SyncroSim version 1.0.43.0.")
+  if((length(vs)>1)){
+    if(grepl("Core Assembly Version:",vs[[2]],fixed=T)){stop("SyncroSim version 2.0.0 or greater is required.")}
+    stop(vs)
   }
-  #else{
-    #check for development versions that do not have all required functionality
-  #  checkCmd =command(list(export=NULL,datasheet=NULL,help=NULL),.Object)
-  #  if(max(grepl("allsheets",checkCmd))==0){
-  #    stop("rsyncrosim requires a more recent version of SyncroSim.")
-  #  }
-  #}
 
+  if(!grepl("Version is:",vs)){
+    stop(vs)
+  }
+  #TO DO: use 'version' function here once it is working. Update version requirements.
+  vs = gsub("Version is: ","",vs,fixed=T)
+  vs = as.numeric(strsplit(vs,".",fixed=T)[[1]])
+  vs = vs[1]*10000+vs[2]+vs[3]/1000#assume no value >1000 in any position
+  if(vs<20000){#1.0.43.0
+    stop("rsyncrosim requires at least SyncroSim version 2.0.0.")
+  }
   return(.Object)
 })
 

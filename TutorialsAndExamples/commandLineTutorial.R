@@ -17,6 +17,7 @@ command(c("create","help"))
 command("--create --help",session=session(printCmd=T))
 command(list(create=NULL,help=NULL))
 
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="hello:model-transformer")
 output = command(args,session=session(printCmd=T,silent=F))
 output
@@ -25,33 +26,43 @@ mySession =session(printCmd=T,silent=F)
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
-
 myLib=ssimLibrary(name="temp26",session=mySession)
+datasheet(myLib)
 deleteLibrary(myLib,force=T)
-project(myLib) #Fails with message that library does not exist on disk.
+#project(myLib) #Fails with message that library does not exist on disk.
 myLib=ssimLibrary(name="temp26",session=mySession)
 
 myProject = project(myLib,project="temp")
+datasheet(myProject) 
 project(myLib)
 
 #scenario(myLib,scenario=1) # Fail: need a name to create a scenario
 myScn = scenario(myLib,scenario="one") #Ok because only one project in the library.
+scenario(myLib)
 myProject = project(myLib,project="temp2")
 myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
 myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
+
 #myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
 scenario(myLib)
 myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
 scenario(myLib)
-#myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Note wrong project. Test this with new SyncroSim.
-#scenario(myLib)
+myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
+scenario(myLib)
+
+#RESUME HERE: Allow copying scenarios between libraries given sourceScenario is Scenario object.
+#TO DO: add hasData column to datasheet. But don't store it internally.
+#TO DO: return a named vector for single row datasheets.
+#TO DO: review all SyncroSim v2 notes in spreadsheet.
+
+
 #myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
 scenario(myScn) #return summary info
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 allSheets = datasheet(myScn) #returns datasheet names etc.
 str(allSheets)
-subset(allSheets,dataScope=="scenario")
+subset(allSheets,scope=="scenario")
 
 aSheet = datasheet(myScn,"SSim_Processing") #returns a datasheet
 str(aSheet)
@@ -134,7 +145,7 @@ datasheet(myProject,sheetName,lookupsAsFactors = T,optional=T,includeKey=T)
 #***********************************
 # Transitions
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-subset(datasheet(myProject),dataScope=="project")$name #See project scope datasheet names
+subset(datasheet(myProject),scope=="project")$name #See project scope datasheet names
 sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
@@ -158,7 +169,7 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 # Add No Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,scenario="No Harvest")
-subset(datasheet(myScenario),dataScope=="scenario")$name
+subset(datasheet(myScenario),scope=="scenario")$name
 
 #**************
 # Run control

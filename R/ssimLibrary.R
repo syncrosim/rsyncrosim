@@ -85,12 +85,8 @@ setMethod(f='initialize',signature="SsimLibrary",
       }
       tt = command(args,session)
     }
-    datasheets = .dataframeFromSSim(tt)
-    datasheets$dataScope = sapply(datasheets$dataScope,camel)
-    names(datasheets) = c("name","displayName","dataScope","isOutput")
-    datasheets$isOutput[datasheets$isOutput=="No"]=F
-    datasheets$isOutput[datasheets$isOutput=="Yes"]=T
-    datasheets$isOutput=as.logical(datasheets$isOutput)
+    datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
+    datasheets$scope = sapply(datasheets$scope,camel)
     #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
 
     if(!is.null(inModel)){
@@ -547,12 +543,9 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
     if(grepl("The library has unapplied updates",tt[[1]])){
       stop(tt)
     }
-    datasheets = .dataframeFromSSim(tt)
-    datasheets$dataScope = sapply(datasheets$dataScope,camel)
-    names(datasheets) = c("name","displayName","dataScope","isOutput")
-    datasheets$isOutput[datasheets$isOutput=="No"]=F
-    datasheets$isOutput[datasheets$isOutput=="Yes"]=T
-    datasheets$isOutput=as.logical(datasheets$isOutput)
+    datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
+    datasheets$scope = sapply(datasheets$scope,camel)
+    #names(datasheets) = c("name","displayName","dataScope","isOutput")
     #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
     #TO DO - export this info from SyncroSim
   }
@@ -560,22 +553,23 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
     return(datasheets)
   }
   if(is.element(class(x),c("Project","SsimLibrary"))){
-    datasheets = subset(datasheets,dataScope!="scenario")
+    datasheets = subset(datasheets,scope!="scenario")
   }
   if(is.element(class(x),c("SsimLibrary"))){
-    datasheets = subset(datasheets,dataScope!="project")
+    datasheets = subset(datasheets,scope!="project")
   }
   if(!is.null(scope)){
     if(!is.element(scope,c("scenario","project","library"))){
       stop("Invalid scope ",scope,". Valid scopes are 'scenario', 'project', 'library' and NULL.")
     }
-    datasheets=subset(datasheets,dataScope==scope)
+    cScope=scope
+    datasheets=subset(datasheets,scope==cScope)
   }
   return(datasheets)
 })
 
 setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject = myScn;project=NULL;scenario=1;summary=F;name="STSim_RunControl";optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
+  #ssimObject = myLib;project=NULL;scenario=1;summary=NULL;name=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
   x=ssimObject
   allNames=name
   
@@ -585,7 +579,7 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   
   #if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if(summary|is.null(name)){
-    sumInfo = .datasheet(x,project[[1]],scenario[[1]])
+    sumInfo = .datasheets(x,project[[1]],scenario[[1]])
     if(summary){
       if(is.null(name)){
         return(sumInfo)
@@ -691,19 +685,18 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
       
       useConsole = (!sheetNames$isOutput)
       useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
-      useConsole = useConsole&!((sheetNames$dataScope=="project")&(length(pid)>1))
-      useConsole = useConsole&!((sheetNames$dataScope=="scenario")&(length(sid)>1))
-      
+      useConsole = useConsole&!((sheetNames$scope=="project")&(length(pid)>1))
+      useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
       
       if(useConsole){
         unlink(tempFile)
         
         args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
         
-        if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
+        if(sheetNames$scope=="project"){args[["pid"]]=pid}
         
-        if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
-        if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
+        if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
+        if(sheetNames$scope=="scenario"){args[["sid"]]=sid}
         
         tt=command(args,.session(x))
         
@@ -725,7 +718,7 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
         #fields = DBI::dbListFields(con,name)
         if(is.null(sqlStatements$where)){sqlStatements$where = ""}
         sqlStatements$from = paste("FROM",name)
-        if(sheetNames$dataScope=="scenario"){
+        if(sheetNames$scope=="scenario"){
           if(is.null(sid)){
             stop("Specify a scenario.")
           }else{
@@ -738,7 +731,7 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
             }
           }
         }
-        if(sheetNames$dataScope=="project"){
+        if(sheetNames$scope=="project"){
           if(is.null(pid)){
             stop("Specify a project.")
           }else{
@@ -793,9 +786,9 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
         }else{
           tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
           args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,valonly=NULL,includepk=NULL)
-          if(sheetNames$dataScope=="project"){args[["pid"]]=pid}
-          if(is.element(sheetNames$dataScope,c("project","scenario"))){args[["pid"]]=pid}
-          if(sheetNames$dataScope=="scenario"){args[["sid"]]=sid}
+          if(sheetNames$scope=="project"){args[["pid"]]=pid}
+          if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
+          if(sheetNames$scope=="scenario"){args[["sid"]]=sid}
           tt=command(args,.session(x))
           if(!identical(tt,"saved")){
             stop(tt)
@@ -1022,10 +1015,10 @@ setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,pro
     }
 
     args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)
-    scope =sheetNames$dataScope[sheetNames$name==cName]
+    scope =sheetNames$scope[sheetNames$name==cName]
     if(length(scope)==0){
       sheetNames = datasheets(x,refresh=T)
-      scope =sheetNames$dataScope[sheetNames$name==cName]
+      scope =sheetNames$scope[sheetNames$name==cName]
       if(length(scope)==0){
         stop("name not found in datasheetNames")
       }
