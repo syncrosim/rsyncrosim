@@ -27,13 +27,17 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
     if(is.null(path)){
       #TO DO: what is best way to find console on all systems
       #Default installation locations?
+      path="c:/gitprojects/syncrosim/_deploy_/current"
+      
+      if(0){
+      #TO DO: change to default path once SyncroSim v2 is released.
       envVars = Sys.getenv(c("PROGRAMFILES","PROGRAMFILES(X86)"),names=F)
       envVars=envVars[envVars!=""]
       for(i in seq(length.out=length(envVars))){
         #i=1
         cPath = paste0(envVars[i],"\\SyncroSim\\1")
         if(file.exists(paste0(cPath,"\\SyncroSim.Console.exe"))){path=cPath;break}
-      }
+      }}
     }
   }
   if(is.null(path)){
@@ -54,7 +58,7 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   .Object@defaultModel=model
 
   vs = command(list(version=NULL),.Object)
-  if(!grepl("Core Assembly Version",vs[[2]])){stop(vs)}
+  if(!grepl("Version is:",vs)){stop(vs)}
   
   #TO DO: use 'version' function here once it is working. Update version requirements.
   vs = gsub("Core Assembly Version: ","",vs[[2]],fixed=T)

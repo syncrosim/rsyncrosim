@@ -7,7 +7,7 @@
 # **********************************************************
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
-mySession = session(defaultModel="dgsim")
+mySession = session(defaultModel="carep") #note different options in SyncroSim v2
 defaultModel(mySession)
 defaultModel(mySession)="stsim"
 defaultModel(mySession)
