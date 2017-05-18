@@ -257,6 +257,40 @@ setMethod('update', signature(x="SsimLibrary"), function(x) {
   return(tt[1])
 })
 
+#' Delete Library
+#'
+#' Deletes a SyncroSim library. Note this is irreversable.
+#'
+#' @param ssimLibrary SsimLibrary or path to a library
+#' @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
+#' @return "saved" or failure message.
+#' @examples
+#'
+#' @export
+setGeneric('deleteLibrary',function(ssimLibrary,force=F) standardGeneric('deleteLibrary'))
+setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,force) {
+  #ssimLibrary = .ssimLibrary(name="temp26",session=mySession)
+  if(!file.exists(.filepath(ssimLibrary))){
+    return(paste0("Library not found: ",.filepath(ssimLibrary)))
+  }
+  if(force){
+    answer="y"
+  }else{
+    answer <- readline(prompt=paste0("Do you really want to delete library ",.filepath(ssimLibrary),"? (y/n): "))
+  }
+  if(answer=="y"){
+    unlink(.filepath(ssimLibrary))
+    return("saved")
+  }else{
+    return("skipped")
+  }
+})
+setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibrary,force) {
+  ssimLibrary =.ssimLibrary(ssimLibrary)
+  out = deleteLibrary(ssimLibrary,force)
+  return(out)
+})
+
 #' Delete projects from a Library
 #'
 #' Deletes one or more projects from a SyncroSim library.

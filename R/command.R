@@ -42,6 +42,12 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
   }
   
   if(class(args)=="list"){
+    #catch invalid library paths - note this only works for args with names
+    if(is.element("lib",names(args))){
+      if(!exists(args$lib)){
+        stop(paste0("Library does not exist on disk: ",args$lib))
+      }
+    }
     sysArgs = c()
     for(i in seq(length.out=length(args))){
       #i=1

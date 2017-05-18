@@ -27,7 +27,8 @@ mySession =session(printCmd=T,silent=F)
 
 
 myLib=ssimLibrary(name="temp26",session=mySession)
-unlink(.filepath(myLib))
+deleteLibrary(myLib,force=T)
+project(myLib) #Fails with message that library does not exist on disk.
 myLib=ssimLibrary(name="temp26",session=mySession)
 
 myProject = project(myLib,project="temp")
@@ -74,7 +75,7 @@ aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict betw
 anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
-#RESUME HERE: change datasheet/datasheets syntax throughout.
+#RESUME HERE: test run given a list of objects, given forceElements=F, given summary=T.
 command("--list --columns --help")
 #*************************************
 # Create the project definition
