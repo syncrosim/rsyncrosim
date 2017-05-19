@@ -530,7 +530,7 @@ setReplaceMethod(
 )
 
 setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,scope,refresh) {
-  #x = myLibrary;project=1;scenario=NULL;names=T;empty=T;scope="project"
+  #x = myScn;project=NULL;scenario=NULL;empty=T;scope=NULL;refresh=T
   x = .getFromXProjScn(x,project,scenario)
 
   #command(c("list","datasheets","help"),.session(myLibrary))
@@ -549,7 +549,9 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
     #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
     #TO DO - export this info from SyncroSim
   }
+  datasheets$order=seq(1,nrow(datasheets))
   if(!is.null(scope)&&(scope=="all")){
+    datasheets$order=NULL
     return(datasheets)
   }
   if(is.element(class(x),c("Project","SsimLibrary"))){
@@ -565,11 +567,12 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
     cScope=scope
     datasheets=subset(datasheets,scope==cScope)
   }
+  datasheets=datasheets[order(datasheets$order),];datasheets$order=NULL
   return(datasheets)
 })
 
 setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject = myLib;project=NULL;scenario=1;summary=NULL;name=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
+  #ssimObject = myScn;project=NULL;scenario=NULL;summary=NULL;name=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
   x=ssimObject
   allNames=name
   
@@ -580,27 +583,25 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   #if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if(summary|is.null(name)){
     sumInfo = .datasheets(x,project[[1]],scenario[[1]])
-    if(summary){
-      if(is.null(name)){
-        return(sumInfo)
-      }
+    sumInfo$order=seq(1,nrow(sumInfo))
+    if(is.null(name)){
+      name=sumInfo$name
+      allNames=name
+    }
+    missingSheets = setdiff(name,sumInfo$name)
+    if(length(missingSheets)>0){
+      sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
       missingSheets = setdiff(name,sumInfo$name)
       if(length(missingSheets)>0){
-        sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
-        missingSheets = setdiff(name,sumInfo$name)
-        if(length(missingSheets)>0){
-          stop(paste0("Datasheets not found: ",paste(missingSheets,collapse=",")))
-        }
+        stop(paste0("Datasheets not found: ",paste(missingSheets,collapse=",")))
       }
-      sumInfo=subset(sumInfo,is.element(name,allNames))
-      return(sumInfo)
     }
-    name=sumInfo$name
+    sumInfo=subset(sumInfo,is.element(name,allNames))
   }
 
-  #now assume we have one or more names and summary is F
+  #now assume we have one or more names 
   if(is.null(name)){stop("Something is wrong in datasheet().")}
-  if(summary){stop("Something is wrong in datasheet().")}
+  #if(summary){stop("Something is wrong in datasheet().")}
   
   allProjects=NULL;allScns=NULL
   passScenario = scenario;passProject = project
@@ -653,6 +654,51 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
     #if((class(x)=="SsimLibrary")&(length(scenario)>0)){ stop("What was supposed to happen here?")}
   }
   
+  #Now assume we have sid and pid if applicable
+  #Add hasData info - only for scenario scope datasheets if sid is defined
+  if(summary){
+    #if no scenario scope sheets, return sumInfo without checking for hasData
+    scnSheetSum = sum(sumInfo$scope=="scenario")
+    
+    if(scnSheetSum==0){sumInfo[order(sumInfo$order),];sumInfo$order=NULL;return(sumInfo)}
+    for(i in seq(length.out=length(sid))){
+      #i=1
+      cSid = sid[i]
+      tt = command(list(list=NULL,datasources=NULL,lib=.filepath(x),sid=cSid),session=session(x))
+
+      if(grepl("The library has unapplied updates",tt[[1]])){
+        stop(tt)
+      }
+      hasDataInfo = .dataframeFromSSim(tt,csv=F,convertToLogical=c("hasData","dataInherited"))
+      
+      if(length(setdiff(hasDataInfo$name,sumInfo$name))>0){
+        sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
+        sumInfo$order=seq(1,nrow(sumInfo))
+        if(is.null(name)){
+          name=sumInfo$name
+          allNames=name
+        }
+      }
+      if(sum(hasDataInfo$dataInherited)>0){
+        addCols = c("name","hasData","dataInherited","dataSource")
+      }else{
+        addCols=c("name","hasData")
+      }
+      hasDatBit = subset(hasDataInfo,select=addCols)
+      hasDatBit$scenario = i
+
+      if(i ==1){
+        hasDatAll = hasDatBit
+      }else{hasDatAll = rbind(hasDatAll,hasDatBit)}
+    }
+      
+    prevNames=names(sumInfo)
+    sumInfo=merge(sumInfo,hasDatAll,all.x=T)
+    sumInfo=subset(sumInfo,select=c(prevNames,setdiff(names(sumInfo),prevNames)))
+    sumInfo=sumInfo[order(sumInfo$order,sumInfo$scenario),];sumInfo$order=NULL
+    return(sumInfo)
+  }
+
   dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
 
   outSheetList = list()
@@ -975,7 +1021,7 @@ setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,pro
   #x = myScenario;project=NULL;scenario=NULL;name=sheetName;data=mySheet;breakpoint=T
   x = .getFromXProjScn(x,project,scenario)
 
-  sheetNames = datasheet(x)
+  sheetNames = .datasheets(x)
 
   if(class(data)=="data.frame"){
     if(is.null(name)){

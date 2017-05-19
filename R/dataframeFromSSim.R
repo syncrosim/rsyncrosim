@@ -21,7 +21,7 @@
 .dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T,convertToLogical=NULL){
   #colNames=c("name","description","version");
   #x=c("Property,Value","Size:,\"35,526 KB\"");csv=T;colNames=NULL;localNames=T
-  #x=tt;localNames=T
+  #x=tt;localNames=T;colNames=NULL;csv=T;convertToLogical=NULL
   if(is.null(colNames)){
     header=T
   }else{

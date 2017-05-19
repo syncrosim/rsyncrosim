@@ -120,7 +120,7 @@ setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,
 #Handles case where ssimObject is a path to an SyncroSim library on disk.
 setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
   ssimObject = .getFromXProjScn(ssimObject,project,scenario)
-  out = datasheet(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements)
+  out = .datasheet(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements)
   return(out)
 })
 

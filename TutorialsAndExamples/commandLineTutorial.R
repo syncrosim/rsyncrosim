@@ -49,12 +49,20 @@ myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scen
 scenario(myLib)
 myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
 scenario(myLib)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
+sheets = datasheet(myScn)
+str(sheets)
+sheets 
+#NOTE: too many columns for easy viewing. Solutions?
+#NOTE: dataInherited and dataSource columns added if there are dependencies. 
+
+#TO DO: datasheet() for scenario with dependencies.
 
 #RESUME HERE: Allow copying scenarios between libraries given sourceScenario is Scenario object.
-#TO DO: add hasData column to datasheet. But don't store it internally.
 #TO DO: return a named vector for single row datasheets.
 #TO DO: review all SyncroSim v2 notes in spreadsheet.
-
+#TO DO: convert isSingle sheets to named vectors.
 
 #myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
 scenario(myScn) #return summary info
