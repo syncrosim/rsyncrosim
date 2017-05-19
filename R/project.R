@@ -9,7 +9,7 @@ NULL
 # @rdname Project-class
 setMethod(f='initialize',signature="Project",
     definition=function(.Object,ssimLibrary,name=NULL,id=NULL,projects,sourceProject=NULL){
-    #ssimLibrary = myLibrary  #.project(myLibrary,project=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
+    #ssimLibrary = ssimObject;name=cRow$name;projects=projectSet  #.project(myLibrary,project=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id = NULL;name=NULL;projects=NULL;create=T;projects=NULL
       
     #This constructor is only called from projects - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
@@ -40,6 +40,9 @@ setMethod(f='initialize',signature="Project",
     }
 
     if(nrow(findPrj)==1){
+      if(!is.null(sourceProject)){
+        warning("Project ", name," (",findPrj$id,") already exists, so sourceProject argument was ignored.")
+      }
       #Go ahead and create the Projects object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
@@ -70,24 +73,36 @@ setMethod(f='initialize',signature="Project",
     }
     if(!is.null(sourceProject)){
       #complain if source project does not exist.
-      if(is.numeric(sourceProject)){
+      sourcePID = NA
+      slib = .filepath(x)
+      if(class(sourceProject)=="numeric"){
         
         if(!is.element(sourceProject,projects$id)){
           stop(paste0("sourceProject id ",sourceProject," not found in the library."))
         }
         sourcePID = sourceProject
-      }else{
+      }
+      if(class(sourceProject)=="character"){
         if(!is.element(sourceProject,projects$name)){
           stop(paste0("sourceProject name ",sourceProject," not found in the library."))
         }
         sourcePID=projects$id[projects$name==sourceProject]
       }
-      tt = command(list(copy=NULL,project=NULL,lib=.filepath(x),pid=sourcePID,name=name),.session(x))
+      if(class(sourceProject)=="Project"){
+        slib=.filepath(sourceProject)
+        sourcePID = .projectId(sourceProject)
+  
+      } 
+   
+      if(is.na(sourcePID)){
+        stop("Source project must be a number, project name, or Project object.")
+      }
+      tt = command(list(copy=NULL,project=NULL,slib=slib,tlib=.filepath(x),pid=sourcePID,name=name),.session(x))
     }else{
       tt = command(list(create=NULL,project=NULL,lib=.filepath(x),name=name),.session(x))
     }
     
-    if(!grepl("Project ID is:",tt,fixed=T)){
+    if(!grepl("Project ID is:",tt[1],fixed=T)){
       stop(tt)
     }
 
@@ -142,7 +157,7 @@ setMethod(f='initialize',signature="Project",
 # @rdname Project-class
 #' @export
 project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F){
-  #ssimObject= myLib;project=c(1,2);summary=F;forceElements=F
+  #ssimObject= myOtherLib;project="copy";sourceProject=myProject;summary=NULL;forceElements=F
   if(!is.element(class(ssimObject),c("character","SsimLibrary","Project","Scenario"))){
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
   }
@@ -225,8 +240,7 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     #i = 1
     cRow = projectsToMake[i,]
     if(!is.na(cRow$exists)){
-      projectList[[as.character(projectsToMake$id[i])]]=new("Project",ssimObject,id=cRow$id,projects=projectSet)
-      
+      projectList[[as.character(projectsToMake$id[i])]]=new("Project",ssimObject,id=cRow$id,projects=projectSet,sourceProject=sourceProject)
     }else{
       projectList[[as.character(projectsToMake$id[i])]]=new("Project",ssimObject,name=cRow$name,projects=projectSet,sourceProject=sourceProject)
     }

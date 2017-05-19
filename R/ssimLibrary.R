@@ -736,9 +736,8 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
       
       if(useConsole){
         unlink(tempFile)
-        
-        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
-        
+        command("--export --help")
+        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
         if(sheetNames$scope=="project"){args[["pid"]]=pid}
         
         if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
@@ -831,7 +830,7 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
           #console export can't handle multiple scenarios/projects - so query database directly
         }else{
           tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,allsheets=NULL,force=NULL,valonly=NULL,includepk=NULL)
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheetsonly=NULL,force=NULL,includepk=NULL)
           if(sheetNames$scope=="project"){args[["pid"]]=pid}
           if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
           if(sheetNames$scope=="scenario"){args[["sid"]]=sid}
