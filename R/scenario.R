@@ -11,7 +11,7 @@ NULL
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,sourceScenario=NULL,scenarios=NULL){
-    #ssimLibrary = ssimObject; project=cRow$pid;id=cRow$id;scenarios=cRow
+    #ssimLibrary = ssimObject; project=cRow$pid;name=cRow$id;id=NULL;scenarios=cRow
     #assume this is being called from scenario fn. ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
       
     .Object@breakpoints=list()
@@ -66,7 +66,21 @@ setMethod(f='initialize',signature="Scenario",
     if(is.null(sourceScenario)){
       tt = command(list(create=NULL,scenario=NULL,lib=.filepath(x),name=name,pid=pid),.session(x))
     }else{
-      tt = command(list(copy=NULL,scenario=NULL,slib=.filepath(x),name=name,sid=sourceScenario,pid=pid),.session(x))
+      sid=sourceScenario
+      slib=.filepath(x)
+      if(class(sourceScenario)=="character"){
+        allScns = scenario(ssimLibrary(x))
+        if(!is.element(sourceScenario,allScns$name)){
+          stop(paste0("Source scenario not found in library: ",sourceScenario))
+        }
+        sid=allScns$id[allScns$name==sourceScenario]
+      }
+  
+      if(class(sourceScenario)=="Scenario"){
+        sid=.scenarioId(sourceScenario)
+        slib=.filepath(sourceScenario)
+      }
+      tt = command(list(copy=NULL,scenario=NULL,slib=slib,tlib=.filepath(x),name=name,sid=sid,pid=pid),.session(x))
     }
     id = as.numeric(strsplit(tt,": ")[[1]][2])
 
@@ -113,7 +127,7 @@ setMethod(f='initialize',signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
-  #ssimObject= myScn;scenario=NULL;summary=NULL;forceElements=F;sourceScenario=NULL;results=F;overwrite=F
+  #ssimObject= myProject;scenario="other";summary=NULL;forceElements=F;sourceScenario=myOtherScn;results=F;overwrite=T
   if(!is.element(class(ssimObject),c("character","SsimLibrary","Project","Scenario"))){
     stop("ssimObject should be a filepath or an SsimLibrary/Project object.")
   }
@@ -206,11 +220,12 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
     fullScnSet$pid[!is.na(fullScnSet$order)&is.na(fullScnSet$exists)]=cPid
     
     if(!is.null(sourceScenario)){
-      if(is.numeric(sourceScenario)){
+      if(class(sourceScenario)=="numeric"){
         if(!is.element(sourceScenario,libScns$id)){
           stop("Source scenario id ",sourceScenario," not found in SsimLibrary.")
         }
-      }else{
+      }
+      if(class(sourceScenario)=="character"){
         sourceOptions = subset(libScns,name==sourceScenario)
         if(nrow(sourceOptions)==0){
           stop(paste0("Source scenario name ",sourceScenario," not found in SsimLibrary."))
@@ -220,6 +235,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
         }
         sourceScenario=sourceOptions$id
       }
+      #if sourceScenario is Scenario, assume it is valid
     }
   }
     

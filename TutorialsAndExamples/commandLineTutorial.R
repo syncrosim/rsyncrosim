@@ -31,6 +31,8 @@ datasheet(myLib)
 deleteLibrary(myLib,force=T)
 #project(myLib) #Fails with message that library does not exist on disk.
 myLib=ssimLibrary(name="temp26",session=mySession)
+myOtherLib = ssimLibrary(name="temp27",session=mySession)
+myOtherScn = scenario(myOtherLib,scenario="other")
 
 myProject = project(myLib,project="temp")
 datasheet(myProject) 
@@ -49,6 +51,9 @@ myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scen
 scenario(myLib)
 myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
 scenario(myLib)
+myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
+scenario(myLib)
+
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 sheets = datasheet(myScn)
@@ -57,9 +62,8 @@ sheets
 #NOTE: too many columns for easy viewing. Solutions?
 #NOTE: dataInherited and dataSource columns added if there are dependencies. 
 
-#TO DO: datasheet() for scenario with dependencies.
+#TO DO: test datasheet() for scenario with dependencies.
 
-#RESUME HERE: Allow copying scenarios between libraries given sourceScenario is Scenario object.
 #TO DO: return a named vector for single row datasheets.
 #TO DO: review all SyncroSim v2 notes in spreadsheet.
 #TO DO: convert isSingle sheets to named vectors.
