@@ -24,8 +24,6 @@ output
 
 mySession =session(printCmd=T,silent=F)
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
 myLib=ssimLibrary(name="temp26",session=mySession)
 datasheet(myLib)
 deleteLibrary(myLib,force=T)
@@ -33,6 +31,8 @@ deleteLibrary(myLib,force=T)
 myLib=ssimLibrary(name="temp26",session=mySession)
 myOtherLib = ssimLibrary(name="temp27",session=mySession)
 myOtherScn = scenario(myOtherLib,scenario="other")
+project(myOtherLib)
+scenario(myOtherLib)
 
 myProject = project(myLib,project="temp")
 datasheet(myProject) 
@@ -41,6 +41,7 @@ project(myLib)
 #scenario(myLib,scenario=1) # Fail: need a name to create a scenario
 myScn = scenario(myLib,scenario="one") #Ok because only one project in the library.
 scenario(myLib)
+project(myLib)
 myProject = project(myLib,project="temp2")
 myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
 myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
@@ -49,15 +50,16 @@ myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" 
 scenario(myLib)
 myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
 scenario(myLib)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
 scenario(myLib)
 myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
 scenario(myLib)
 
-#NOTE: this fails but shouldn't. Passed bug query to Alex.
-#TO DO: run tests once bug is fixed.
-#myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
-project(myOtherLib)
+myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
+project(myLib)
 myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
 project(myLib)
 myOtherProject=project(myLib,project="temp",sourceProject="temp2")#Warns that sourceProject is ignored because "temp" already exists.
@@ -75,10 +77,11 @@ project(myLib)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 #myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
-scenario(myScn) #return summary info
+scenario(myScn,summary=T) #return summary info
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 allSheets = datasheet(myScn) #returns datasheet names etc.
+#RESUME HERE: fix datasheet. Should return scenario scope sheets. More generally, use getFromXProjScn properly in datasheet.
 str(allSheets)
 subset(allSheets,scope=="scenario")
 
@@ -104,19 +107,24 @@ aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict betw
 anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
+#TO DO: revise x/project/scenario code
 #TO DO: revise datasheet() given new options from --export: --colswithdata --extfilepaths --rawvalues
-#TO DO: test run given a list of objects, given forceElements=F, given summary=T.
-#TO DO: test datasheet() for scenario with dependencies.
-#TO DO: convert isSingle sheets to named vectors.
-#TO DO: addons for Session. command("--list --addons")
 #TO DO: datasheet() if empty=F, optional=F include columns with data that are optional. Maybe also save time by not doing lookups for optional columns?
+#TO DO: convert isSingle sheets to named vectors.
+#TO DO: test datasheet() for scenario with dependencies.
+#TO DO: test run given a list of objects, given forceElements=F, given summary=T.
+#TO DO: addons for Session. command("--list --addons")
 #TO DO: name() support for SsimLibrary, replace Project/Scenario queries with new SyncroSim v2 console command.
 #TO DO: session()  Use version() properly once that function is updated. 
 
+command("--import --help")
 #*************************************
 # Create the project definition
 myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
 myProject = project(myLibrary,project="ST-Sim Demonstration")
+
+anotherLib=ssimLibrary(name="C:/Temp/anotherLib.ssim")
+command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(anotherLib)),.session(anotherLib))
 
 scenario(myLibrary)
 #***********************************

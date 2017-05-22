@@ -8,14 +8,15 @@ NULL
 # @name Project
 # @rdname Project-class
 setMethod(f='initialize',signature="Project",
-    definition=function(.Object,ssimLibrary,name=NULL,id=NULL,projects,sourceProject=NULL){
+    definition=function(.Object,ssimLibrary,name=NULL,id=NULL,projects=NULL,sourceProject=NULL){
     #ssimLibrary = ssimObject;name=cRow$name;projects=projectSet  #.project(myLibrary,project=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
     # id = NULL;name=NULL;projects=NULL;create=T;projects=NULL
       
-    #This constructor is only called from projects - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
+    #This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
     x=ssimLibrary
 
     #For fast processing - quickly return without system calls if projects exists and can be easily identified
+    if(is.null(projects)){projects=getProjectSet(x)}
     findPrj = projects
 
     if(!is.null(id)){
@@ -157,82 +158,69 @@ setMethod(f='initialize',signature="Project",
 # @rdname Project-class
 #' @export
 project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F){
-  #ssimObject= myOtherLib;project="copy";sourceProject=myProject;summary=NULL;forceElements=F
-  if(!is.element(class(ssimObject),c("character","SsimLibrary","Project","Scenario"))){
-    stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
-  }
-  #if ssimObject is a scenario, return the parent project
-  if((class(ssimObject)=="Scenario")&is.null(project)){
-    if(is.null(summary)){summary=F}
-    project=.projectId(ssimObject)
-  }
-  #if ssimObject is a project, return it
-  if((class(ssimObject)=="Project")&is.null(project)){
+  #ssimObject= myLib;project="temp2";sourceProject=NULL;summary=T;forceElements=F
+  
+  #if ssimObject is a scenario or project, return the project
+  if(is.element(class(ssimObject),c("Scenario","Project"))&is.null(project)){
     if(is.null(summary)){summary=F}
     if(!summary){
-      return(ssimObject)
+      convertObject=T
+      returnIds=F
+    }else{
+      convertObject=F
+      returnIds=T
     }
-    project = .projectId(ssimObject)
-  }
-    
-  if(class(ssimObject)=="character"){
-    ssimObject=.ssimLibrary(ssimObject)
+  }else{
+    #set summary default
+    if(is.null(summary)){
+      if(is.null(project)){summary=T}else{summary=F}
+    }
+    convertObject=T
+    returnIds=T
   }
   
-  #get current project info
-  tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  if(identical(tt,"saved")){
-    projectSet = data.frame(id=NA,name=NA,exists=NA)
-    projectSet=subset(projectSet,!is.na(id))
+  xProjScn  =.getFromXProjScn(ssimObject,project=project,scenario=NULL,convertObject=convertObject,returnIds=returnIds,goal="project")
+  
+  if(class(xProjScn)=="Project"){
+    return(xProjScn)
+  }
+
+  if(class(xProjScn)!="list"){
+    stop("something is wrong")
+  }
+  ssimObject=xProjScn$ssimObject
+  project=xProjScn$project
+  allProjects = xProjScn$projectSet
+  if(is.element("order",names(projectSet))){
+    projectSet=subset(allProjects,!is.na(order))
   }else{
-    projectSet=.dataframeFromSSim(tt)
-    names(projectSet)[names(projectSet)=="iD"]="id"
-    projectSet$exists = T
+    projectSet=allProjects
   }
-
-  #set summary default
-  if(is.null(summary)){
-    if(is.null(project)){summary=T}else{summary=F}
-  }
-
-  #projects aren't specified, simply return the project list without opening or creating any projects
-  if(is.null(project)){
+  if(nrow(projectSet)==0){
     if(summary){
       projectSet$exists = NULL
+      projectSet$order=NULL
       return(projectSet)
     }else{
-      project = projectSet$id
+      stop("Error in project(): No projects to get or make.") 
     }
   }
-  
+  #if all projects exist and summary, simply return summary
+  if((sum(is.na(projectSet$exists))==0)&summary){
+    projectSet=subset(projectSet,!is.na(order))
+    projectSet=projectSet[order(projectSet$order),]
+    projectSet$exists = NULL
+    projectSet$order=NULL
+    return(projectSet)
+  }
+
 #project=c(1,2)
   #Now assume project is defined
   #distinguish existing projects from those that need to be made
-  areIds = suppressWarnings(sum(as.character(as.numeric(project))!=as.character(project),na.rm=T))
+  areIds = is.numeric(project)
   
-  if(areIds){
-    mergeBit = data.frame(id=as.numeric(as.character(project)))
-  }else{
-    mergeBit = data.frame(name=project,stringsAsFactors=F)
-  }
-  mergeBit$order = seq(1:length(project))
-  fullProjectSet = merge(projectSet,mergeBit,all=T)
-  fullProjectSet$name[is.na(fullProjectSet$name)]=paste0("project",fullProjectSet$id[is.na(fullProjectSet$name)])
-
-  #Stop if an element of project corresponds to more than one existing row of the project list
-  if(!areIds){
-    checkDups = subset(fullProjectSet,!is.na(order))
-    dupNames = subset(as.data.frame(table(checkDups$name)),Freq>1)
-    if(nrow(dupNames)>0){
-      #report the first error only
-      cName = dupNames$Var1[1]
-      cIds = checkDups$id[checkDups$name==cName]
-      stop(paste0("The library contains more than one project called ",cName,". Specify a project id: ",paste(cIds,collapse=",")))
-    }
-  }  
-    
   #make projects/project objects
-  projectsToMake = subset(fullProjectSet,!is.na(order))
+  projectsToMake = projectSet
   if(summary){projectsToMake=subset(projectsToMake,is.na(exists))}
   projectsToMake=projectsToMake[order(projectsToMake$order),]
   projectList = list()
@@ -240,9 +228,10 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     #i = 1
     cRow = projectsToMake[i,]
     if(!is.na(cRow$exists)){
-      projectList[[as.character(projectsToMake$id[i])]]=new("Project",ssimObject,id=cRow$id,projects=projectSet,sourceProject=sourceProject)
+      projectList[[as.character(projectsToMake$id[i])]]=new("Project",ssimObject,id=cRow$id,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
     }else{
-      projectList[[as.character(projectsToMake$id[i])]]=new("Project",ssimObject,name=cRow$name,projects=projectSet,sourceProject=sourceProject)
+      obj=new("Project",ssimObject,name=cRow$name,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
+      projectList[[as.character(.projectId(obj))]]=obj
     }
   }
   
@@ -253,15 +242,8 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     return(projectList)
     
   }
-  tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  if(identical(tt,"saved")){
-    projectSetOut = data.frame(id=NA,name=NA)
-    projectSetOut=subset(projectSetOut,!is.na(id))
-  }else{
-    projectSetOut=.dataframeFromSSim(tt)
-    names(projectSetOut)[names(projectSetOut)=="iD"]="id"
-  }
-
+  projectSetOut=getProjectSet(ssimObject)
+  projectSetOut$exists = NULL
   idList=data.frame(id = as.numeric(names(projectList)),order=seq(1:length(projectList)))
   projectSetOut =merge(idList,projectSetOut,all.x=T)
   if(sum(is.na(projectSetOut$name))>0){
