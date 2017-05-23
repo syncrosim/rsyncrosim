@@ -8,8 +8,6 @@
 #' @include sqlStatements.R
 NULL
 # @export
-.ssimLibrary=ssimLibrary
-# @export
 .projectId = projectId
 # @export
 .scenarioId = scenarioId

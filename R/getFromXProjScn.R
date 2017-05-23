@@ -1,14 +1,14 @@
 #Internal helper - return uniquely identified and valid SyncroSim object
 #' @export
-.getFromXProjScn<-function(ssimObject,project=NULL,scenario=NULL,convertObject=T,returnIds=F,goal=NULL){
-  #ssimObject=ssimObject;project=NULL;scenario=scenario;goal="scenario"
+.getFromXProjScn<-function(ssimObject,project=NULL,scenario=NULL,convertObject=F,returnIds=NULL,goal=NULL,complainIfMissing=T){
+  #ssimObject=ssimObject;project=project;scenario=scenario;goal="scenario"
   #If x is scenario, ignore project and scenario arguments
   if(!is.element(class(ssimObject),c("character","SsimLibrary","Project","Scenario"))){
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
   }
   
   if(class(ssimObject)=="character"){
-    ssimObject=.ssimLibrary(ssimObject)
+    ssimObject=.ssimLibrary(ssimObject,create=!complainIfMissing)
   }
   
   #Check for conflicts between ssimObject and project/scenario.
@@ -20,6 +20,35 @@
   if(is.element(class(ssimObject),c("Scenario"))&(!is.null(scenario))){
     warning("scenario argument is ignored when ssimObject is a Scenario or list of these.")
     scenario=NULL
+  }
+
+  if(is.null(goal)&(!is.null(project)|(class(ssimObject)=="Project"))&is.null(scenario)){
+    goal="project"
+    if(is.null(returnIds)){
+      if(length(project)>1){
+        returnIds=T
+      }else{
+        returnIds=F
+      }
+    }
+  }
+  
+  if(is.null(goal)&(!is.null(scenario)|(class(ssimObject)=="Scenario"))){
+    goal="scenario"
+    if(is.null(returnIds)){
+      if(length(scenario)>1){
+        returnIds=T
+      }else{
+        returnIds=F
+      }
+    }
+  }
+
+  if(is.null(goal)){
+    if(is.null(project)&is.null(scenario)){
+      return(ssimObject)
+    }
+    stop("Error in getFromXProjScn()")
   }
   
   #If the goal is a project, return one or more, or complain
@@ -33,6 +62,9 @@
     if(is.element(class(ssimObject),c("Project","Scenario"))){
       if(returnIds){
         project=.projectId(ssimObject)
+        if(convertObject){
+          ssimObject=.ssimLibrary(ssimObject)
+        }
       }else{
         return(ssimObject)
       }
@@ -41,6 +73,7 @@
     #if not returned, need to get project
     
     #get current project info
+    
     projectSet = getProjectSet(ssimObject)
 
     if(is.null(project)){
@@ -66,11 +99,21 @@
     }
     mergeBit$order = seq(1:length(project))
     fullProjectSet = merge(projectSet,mergeBit,all=T)
-    missingNames = subset(fullProjectSet, is.na(fullProjectSet$exists)&(!is.na(fullProjectSet$order))&is.na(fullProjectSet$name))
-    if(areIds&(nrow(missingNames)>0)){
-      stop("Project ids (",paste(missingNames$id,collapse=",") ,") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument. SyncroSim will automatically assign project ids.")
+    missingProjects = subset(fullProjectSet, is.na(fullProjectSet$exists)&(!is.na(fullProjectSet$order)))
+    if(complainIfMissing&(nrow(missingProjects)>0)){
+      if(areIds){
+        stop("Project ids (",paste(missingProjects$id,collapse=",") ,") not found in ssimObject. ")
+        
+      }else{
+        stop("Projects (",paste(missingProjects$name,collapse=",") ,") not found in ssimObject. ")
+      }
     }
-
+    
+    missingNames = subset(missingProjects, is.na(missingProjects$name))
+    if(areIds&(nrow(missingNames)>0)){
+      stop("Project ids (",paste(missingNames$id,collapse=",") ,") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument of the project() function. SyncroSim will automatically assign project ids.")
+    }
+    
     #Stop if an element of project corresponds to more than one existing row of the project list
     if(!areIds){
       checkDups = subset(fullProjectSet,!is.na(order))
@@ -91,7 +134,7 @@
       if(!smallProjectSet$exists){
         stop("Project ",project," not found in the ssimObject.")
       }
-      return(new("Project",ssimObject,id=project,projects=fullProjectSet))
+      return(new("Project",ssimObject,id=smallProjectSet$id,projects=fullProjectSet))
     }
     if(sum(is.na(smallProjectSet$exists))==0){
       project=smallProjectSet$id
@@ -111,9 +154,13 @@
         return(ssimObject)
       }
     }
-
+    
     if(class(ssimObject)=="Project"){
       project=.projectId(ssimObject)
+    }
+    
+    if(convertObject&returnIds&is.element(class(ssimObject),c("Scenario","Project"))){
+      ssimObject=.ssimLibrary(ssimObject)
     }
     
     scnSet = getScnSet(ssimObject)
@@ -148,13 +195,21 @@
     }
     mergeBit$order = seq(1:length(scenario))
     fullScnSet = merge(scnSet,mergeBit,all=T)
-    if(areIds){
-      makeProblems = subset(fullScnSet,is.na(name)&!is.na(order))
-      if(nrow(makeProblems)>0){
-        stop("Scenario ids (",paste(makeProblems$id,collapse=",") ,") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument. SyncroSim will automatically assign scenario ids.")
+    missingScns = subset(fullScnSet, is.na(fullScnSet$exists)&(!is.na(fullScnSet$order)))
+    if(complainIfMissing&(nrow(missingScns)>0)){
+      if(areIds){
+        stop("Scenario ids (",paste(missingScns$id,collapse=",") ,") not found in ssimObject. ")
+        
+      }else{
+        stop("Scenarios (",paste(missingScns$name,collapse=",") ,") not found in ssimObject. ")
       }
     }
-
+    
+    missingNames = subset(missingScns, is.na(missingScns$name))
+    if(areIds&(nrow(missingNames)>0)){
+      stop("Scenario ids (",paste(missingNames$id,collapse=",") ,") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.")
+    }
+    
     #For scenarios that need to be made, assign project or fail  
     makeSum = sum(!is.na(fullScnSet$order)&is.na(fullScnSet$exists))
     if(makeSum>0){
@@ -205,49 +260,5 @@
     return(list(ssimObject=ssimObject,project=project,scenario=scenario,scenarioSet=fullScnSet))
     
   }
-
-  if(class(x)=="Scenario"){
-    if(!is.null(scenario)){
-      if(is.character(scenario)&&!identical(scenario,name(x))){
-        stop(paste0("Scenario name mismatch: ",name(x),",",scenario))
-      }
-      if(is.numeric(scenario)&&!identical(scenario,scenarioId(x))){
-        stop(paste0("Scenario id mismatch: ",scenarioId(x),",",scenario))
-      }
-    }
-    return(x)
-  }
-  if(is.character(x)){
-    x = .ssimLibrary(name=x)
-  }
-  if(is.null(project)&is.null(scenario)){
-    return(x)
-  }
-
-  if(!is.null(scenario)){
-    if(class(scenario)=="Scenario"){
-      return(scenario)
-    }
-    return(.scenario(x,project,scenario=scenario))
-  }
-
-  if(class(x)=="Project"){
-    if(!is.null(project)){
-      if(is.character(project)&&!identical(name(x),project)){
-        stop(paste0("Project name mismatch: ",name(x),",",project))
-      }
-      if(is.numeric(project)&&!identical(projectId(x),project)){
-        stop(paste0("Project id mismatch: ",projectId(x),",",project))
-      }
-    }
-    return(x)
-  }
-
-  if(!is.null(project)){
-    if(class(project)=="Project"){
-      return(project)
-    }
-    return(.project(x,project=project))    
-  }
-  stop(paste0("Could not identify a SsimLibrary, Project or Scenario from x, project, and scenario arguments."))
+  stop(paste0("Could not identify a SsimLibrary, Project or Scenario from ssimObject, project, and scenario arguments."))
 }

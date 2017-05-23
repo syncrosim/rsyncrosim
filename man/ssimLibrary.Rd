@@ -3,8 +3,7 @@
 \docType{methods}
 \name{ssimLibrary}
 \alias{ssimLibrary}
-\alias{ssimLibrary,Project-method}
-\alias{ssimLibrary,Scenario-method}
+\alias{ssimLibrary,SsimLibrary-method}
 \title{Create or open a library.}
 \usage{
 ssimLibrary(name = NULL, ...)
@@ -12,9 +11,7 @@ ssimLibrary(name = NULL, ...)
 \S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, model = NULL,
   session = NULL, addon = NULL, forceUpdate = F)
 
-\S4method{ssimLibrary}{Scenario}(name)
-
-\S4method{ssimLibrary}{Project}(name)
+\S4method{ssimLibrary}{SsimLibrary}(name)
 }
 \arguments{
 \item{name}{Character string, Project/Scenario. A file name or SyncroSim Project or Scenario. Optional.}
@@ -43,9 +40,7 @@ Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim li
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{Scenario}: Get the SsimLibrary associated with a SyncroSim Scenario.
-
-\item \code{Project}: Get the SsimLibrary associated with a SyncroSim Project.
+\item \code{SsimLibrary}: Get the SsimLibrary associated with a SyncroSim Object.
 }}
 \examples{
 #TODO – update examples

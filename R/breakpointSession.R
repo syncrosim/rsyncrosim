@@ -178,7 +178,7 @@ runJobParallel<- function(cPars) {
     # TO DO: if slow, consider ways to speed up scenario/library construction
     ret = tryCatch({
 
-      cScn = scenario(ssimLibrary(cPars$x,session=cPars$session),scenario=1)
+      cScn = scenario(.ssimLibrary(cPars$x,session=cPars$session,create=F),scenario=1)
       if(!exists("cScn")){
         stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
       }

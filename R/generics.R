@@ -77,7 +77,7 @@ setGeneric('datasheets',function(x,project=NULL,scenario=NULL,scope=NULL,refresh
 
 #Handles case where x is a path to an SyncroSim library on disk.
 setMethod('datasheets', signature(x="character"), function(x,project,scenario,scope,refresh) {
-  x = .getFromXProjScn(x,project,scenario)
+  x = .ssimLibrary(x,create=F)
   out = .datasheets(x,project,scenario,scope,refresh)
   return(out)
 })
@@ -119,7 +119,7 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,sc
 setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
 #Handles case where ssimObject is a path to an SyncroSim library on disk.
 setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  ssimObject = .getFromXProjScn(ssimObject,project,scenario)
+  ssimObject=.ssimLibrary(ssimObject,create=F)
   out = .datasheet(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements)
   return(out)
 })
@@ -129,41 +129,21 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   #x=myResults;name="STSim_OutputStratumState";lookupsAsFactors=T;project=NULL;scenario=NULL;optional=F;empty=F
 
   cScn = ssimObject[[1]]
-  if(!is.element(class(cScn),c("Scenario","Project"))){
-    stop("ssimObject must be an SsimLibrary, Project or Scenario object. Or a list of Project/Scenario objects. Or the path to a library on disk.")
+  x=NULL
+  if(class(cScn)=="Scenario"){
+    x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario,project=project)
+    scenario=x$objs
+    project=NULL
   }
-  
-  if(!is.null(project)|!is.null(scenario)){
-    warning("project and scenario arguments are ignored when ssimObject is a Project/Scenario or list of these.")
+  if(class(cScn)=="Project"){
+    x = getIdsFromListOfObjects(ssimObject,expecting="Project",scenario=scenario,project=project)
+    project=x$objs
+    scenario=NULL
   }
-  project=c();scenario=c()
-
-
-  for(i in seq(length.out=length(ssimObject))){
-    cScn = ssimObject[[1]]
-    if(class(cScn)!=class(ssimObject[[1]])){
-      stop("Elements of ssimObject must all be of the same type (Project or Scenario).")
-    }
-    if(.filepath(cScn)!=.filepath(ssimObject[[1]])){
-      stop("Elements of ssimObject must all be contained in the same library.")
-    }
-
-    #get list of scenario/projects and pass to datasheet again
-    if(class(cScn)=="Scenario"){
-      project=NULL
-      scenario=c(scenario,scenarioId(cScn))
-    }
+  ssimObject=x$ssimObject
+  #Now have scenario/project ids of same type in same library, and ssimObject is library
     
-    if(class(cScn)=="Project"){
-      project=c(project,projectId(cScn))
-      scenario=NULL
-    }
-    
-  }
-  
-  
-    
-  out = .datasheet(.ssimLibrary(cScn),name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey,forceElements=forceElements)
+  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey,forceElements=forceElements)
   
   return(out)
 })
@@ -185,7 +165,7 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
 setGeneric('loadDatasheets',function(x,data,name,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadDatasheets'))
 #Handles case where x is a path to an SyncroSim library on disk.
 setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint) {
-  x = .getFromXProjScn(x,project,scenario)
+  x = .ssimLibrary(x,create=F)
   out = loadDatasheets(x,data,name,project,scenario,breakpoint)
   return(out)
 })
@@ -217,7 +197,7 @@ setMethod('loadDatasheets', signature(x="character"), function(x,data,name,proje
 setGeneric('loadSpatialData',function(x,data,metadata,project=NULL,scenario=NULL,breakpoint=F,check=T) standardGeneric('loadSpatialData'))
 #Handles case where x is a path to an SyncroSim library on disk.
 setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,project,scenario,breakpoint,check) {
-  x = .getFromXProjScn(x,project,scenario)
+  x = .ssimLibrary(x,create=F)
   out = loadSpatialData(x,data,metadata,project,scenario,breakpoint,check)
   return(out)
 })
@@ -226,6 +206,9 @@ setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,
 #' Run scenarios
 #'
 #' Run one or more SyncroSim scenarios
+#' 
+#' @details
+#' Note that breakpoints are ignored unless ssimObject is a single scenario.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.
 #' @param scenario character, integer, or vector of these. Scenario names or ids. Or NULL.
@@ -239,28 +222,16 @@ setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,
 setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
 #Handles case where ssimObject is a path to an SyncroSim library on disk.
 setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
-  ssimObject = .ssimLibrary(ssimObject)
+  ssimObject = .ssimLibrary(ssimObject,create=F)
   out = run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
 #Handles case where ssimObject is a list of Scenarios.
 setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,forceElements) {
-  if(!is.null(scenario)){
-    warning("scenario argument is ignored when ssimObject is a list of scenarios.")
-  }
-  cLib = .filepath(ssimObject[[1]])
-  ids = c()
-  for(i in seq(length.out=length(ssimObject))){
-    cScn = ssimObject[[i]]
-    if(class(cScn)!="Scenario"){
-      stop("ssimObject must be a SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.")
-    }
-    if(.filepath(cScn)!=cLib){
-      stop("Scenarios in ssimObject must all belong to the same library.")
-    }
-    ids = c(ids,.scenarioId(cScn))
-  }
-  out=run(.ssimLibrary(cScn),scenario=ids,summary=summary,jobs=jobs,forceElements=forceElements)
+  x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
+  ssimObject = x$ssimObject
+  scenario = x$objs
+  out=run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
 

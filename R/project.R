@@ -64,12 +64,6 @@ setMethod(f='initialize',signature="Project",
 
     #Create a new project
     if(is.null(name)){
-      #allScenarios = scenario(.ssimLibrary(x))
-      #if(nrow(allScenarios)==0){
-      #  name = "Scenario1"
-      #}else{
-      #  name =paste0("Scenario",max(allScenarios$id)+1)
-      #}
       name="Project"
     }
     if(!is.null(sourceProject)){
@@ -143,8 +137,7 @@ setMethod(f='initialize',signature="Project",
 #'
 #' # Get a named list of existing projects
 #' myProjects = project(myLibrary,summary=F) # Each element in the list is named by a character version of the project ID
-#' names(myProjects)   # vector of the project names (using base R names function)
-#' #TO DO: base R function names returns project id's, not names. Do we want to overwrite the base function?
+#' names(myProjects)   # vector of the project ids
 #'
 #' # Get an existing project. Assume that name uniquely identifies a single project - give error if not
 #' myProject = myProjects[[1]]
@@ -179,7 +172,7 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     returnIds=T
   }
   
-  xProjScn  =.getFromXProjScn(ssimObject,project=project,scenario=NULL,convertObject=convertObject,returnIds=returnIds,goal="project")
+  xProjScn  =.getFromXProjScn(ssimObject,project=project,scenario=NULL,convertObject=convertObject,returnIds=returnIds,goal="project",complainIfMissing=F)
   
   if(class(xProjScn)=="Project"){
     return(xProjScn)
@@ -191,9 +184,12 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   ssimObject=xProjScn$ssimObject
   project=xProjScn$project
   allProjects = xProjScn$projectSet
-  if(is.element("order",names(projectSet))){
+  if(is.element("order",names(allProjects))){
     projectSet=subset(allProjects,!is.na(order))
   }else{
+    if(nrow(allProjects)>0){
+      allProjects$order=seq(1,nrow(allProjects))
+    }
     projectSet=allProjects
   }
   if(nrow(projectSet)==0){

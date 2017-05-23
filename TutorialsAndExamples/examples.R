@@ -107,11 +107,9 @@ myLibrary = ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the p
 
 # Delete projects
 project(myLibrary)
-deleteProjects(myLibrary, project="My new project name") # Returns a list of "saved" or a failure messages for each project.
-deleteProjects(myLibrary, project=c(25),force=T)
-# QUESTION: Do we want to be consistent about "project" vs "projects" here?
+removeProject(myLibrary, project="My new project name") # Returns "saved" or a failure message, or a list of these for each project.
+removeProject(myLibrary, project=c(25),force=T)
 # QUESTION: consistency with enable/disableAddons? Assignment operators.
-# QUESTION: generic delete method?
 
 #########################
 # Scenarios
@@ -144,7 +142,7 @@ myScenario = scenario(myLibrary, scenario=1) # By ID directly from the library -
 
 # Delete a scenario
 scenario(myLibrary)
-deleteScenarios(myLibrary, scenario=c(3),force=T)
+removeScenario(myLibrary, scenario=c(3),force=T)
 scenario(myLibrary)
 
 # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)

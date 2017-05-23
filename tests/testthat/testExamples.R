@@ -73,7 +73,7 @@ test_that("Tests of Project", {
   expect_is(ssimLibrary(myProject),"SsimLibrary") # Returns a SyncroSimLibrary object for the project
 
   # Delete projects
-  expect_output(deleteProjects(myLibrary, project=c("New project name","hi"),force=T),"Cannot remove the project hi from the library because it does not exist.")
+  expect_output(removeProject(myLibrary, project=c("New project name","hi"),force=T),"Cannot remove the project hi from the library because it does not exist.")
   myProjectNames = project(myLibrary)
   expect_equal(names(myProjectNames),c("id","name"))
   expect_equal(is.element("New project name",myProjectNames$name),FALSE)
@@ -116,7 +116,7 @@ test_that("Tests of Scenario", {
   expect_equal(author(myScenario),"Colin Daniel")
 
   # Delete scenarios
-  ret = deleteScenarios(myLibrary, scenario=scenario(myLibrary)$id,force=T)
+  ret = removeScenario(myLibrary, scenario=scenario(myLibrary)$id,force=T)
   expect_equal(nrow(scenario(myLibrary)),0)
   unlink(filepath(myLibrary))
 })

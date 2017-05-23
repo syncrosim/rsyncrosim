@@ -1,3 +1,43 @@
+getIdsFromListOfObjects<-function(ssimObject,expecting,scenario=NULL,project=NULL){
+  if(class(ssimObject[[1]])!=expecting){
+    if(expecting=="Scenario"){
+      stop("ssimObject should be a SsimLibrary/Project/Scenario, path to a library, or list of Scenarios.")
+    }
+    if(expecting=="Project"){
+      stop("ssimObject should be a SsimLibrary/Project/Scenario, path to a library, or list of Projects.")
+    }
+  }
+  cLib=.ssimLibrary(ssimObject[[1]])
+  if(!is.null(scenario)){
+    warning("scenario argument is ignored when ssimObject is a list of Scenarios.")
+  }
+  if(!is.null(project)){
+    warning("project argument is ignored when ssimObject is a list of Projects or Scenarios.")
+  }
+  objs=c()
+  for(i in seq(length.out=length(ssimObject))){
+    cObj = ssimObject[[i]]
+    if(class(cObj)!=expecting){
+      if(expecting=="Scenario"){
+        stop("ssimObject should be a SsimLibrary/Project/Scenario, path to a library, or list of Scenarios.")
+      }
+      if(expecting=="Project"){
+        stop("ssimObject should be a SsimLibrary/Project/Scenario, path to a library, or list of Projects.")
+      }
+    }
+    if(.filepath(cObj)!=.filepath(cLib)){
+      stop("All elements of ssimObject must belong to the same library.")
+    }
+    if(expecting=="Scenario"){
+      objs=c(objs,.scenarioId(cObj))
+    }
+    if(expecting=="Project"){
+      objs=c(objs,.projectId(cObj))
+    }
+  }
+  ssimObject = cLib
+  return(list(ssimObject=ssimObject,objs=objs))
+}
 #get scnSet
 getScnSet<-function(ssimObject){
   #get current scenario info

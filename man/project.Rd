@@ -41,8 +41,7 @@ myProject = project(ssimLibrary=mySsimLibrary, project="My new project name")
 
 # Get a named list of existing projects
 myProjects = project(myLibrary,summary=F) # Each element in the list is named by a character version of the project ID
-names(myProjects)   # vector of the project names (using base R names function)
-#TO DO: base R function names returns project id's, not names. Do we want to overwrite the base function?
+names(myProjects)   # vector of the project ids
 
 # Get an existing project. Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[[1]]

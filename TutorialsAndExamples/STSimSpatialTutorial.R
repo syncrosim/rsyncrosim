@@ -130,7 +130,7 @@ dev.off()
 ##################
 #Set spatial inputs in a new library.
 if(is.element("NewScn",scenario(myProject)$name)){
-  deleteScenarios(myProject,scenario="NewScn",force=T)
+  removeScenario(myProject,scenario="NewScn",force=T)
 }
 newScenario = scenario(myProject,scenario="NewScn")
 

@@ -17,7 +17,6 @@ command(c("create","help"))
 command("--create --help",session=session(printCmd=T))
 command(list(create=NULL,help=NULL))
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="hello:model-transformer")
 output = command(args,session=session(printCmd=T,silent=F))
 output
@@ -30,12 +29,20 @@ deleteLibrary(myLib,force=T)
 #project(myLib) #Fails with message that library does not exist on disk.
 myLib=ssimLibrary(name="temp26",session=mySession)
 myOtherLib = ssimLibrary(name="temp27",session=mySession)
+deleteLibrary(myOtherLib,force=T)
+myOtherLib = ssimLibrary(name="temp27",session=mySession)
 myOtherScn = scenario(myOtherLib,scenario="other")
+scenario(myOtherLib)
+#removeScenario("myOtherLib",scenario="other",force=T)#Fails if library does not exist
+removeScenario(myOtherLib,scenario="other",force=T)
+
 project(myOtherLib)
 scenario(myOtherLib)
 
 myProject = project(myLib,project="temp")
-datasheet(myProject) 
+datasheet(myProject) #Note hasData info only available for scenario scope datasheets.
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+datasheet(myLib,project="temp") #same thing, but more system calls.
 project(myLib)
 
 #scenario(myLib,scenario=1) # Fail: need a name to create a scenario
@@ -44,13 +51,15 @@ scenario(myLib)
 project(myLib)
 myProject = project(myLib,project="temp2")
 myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
+#removeScenario(myProject,scenario="one",force=T)
 myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
+
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 #myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
 scenario(myLib)
 myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
 scenario(myLib)
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
 scenario(myLib)
 myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
@@ -69,19 +78,18 @@ project(myLib)
 sheets = datasheet(myScn)
 str(sheets)
 sheets 
-#NOTE: hasData column only
+#NOTE: hasData column only available for scenario scope datasheets
 #NOTE: too many columns for easy viewing. Solutions?
 #NOTE: dataInherited and dataSource columns added if there are dependencies. 
 
-project(myLib)
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-#myScn = scenario(myProject,scenario="one",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
+scenario(myLib)
+myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
+myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sourceScenario will be ignored.
+#myScn = scenario(myProject,scenario="two",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
 scenario(myScn,summary=T) #return summary info
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 allSheets = datasheet(myScn) #returns datasheet names etc.
-#RESUME HERE: fix datasheet. Should return scenario scope sheets. More generally, use getFromXProjScn properly in datasheet.
 str(allSheets)
 subset(allSheets,scope=="scenario")
 
@@ -102,17 +110,15 @@ someSheets = datasheet(allScns,c("STSim_RunControl","STSim_Transition")) #return
 str(someSheets)
 
 aSheet = datasheet(myScn,"STSim_RunControl",scenario=1)#Warn of conflict between ssimObject and scenario arguments.
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict between ssimObject and project arguments.
 anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
-#TO DO: revise x/project/scenario code
 #TO DO: revise datasheet() given new options from --export: --colswithdata --extfilepaths --rawvalues
 #TO DO: datasheet() if empty=F, optional=F include columns with data that are optional. Maybe also save time by not doing lookups for optional columns?
 #TO DO: convert isSingle sheets to named vectors.
 #TO DO: test datasheet() for scenario with dependencies.
-#TO DO: test run given a list of objects, given forceElements=F, given summary=T.
+#TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
 #TO DO: addons for Session. command("--list --addons")
 #TO DO: name() support for SsimLibrary, replace Project/Scenario queries with new SyncroSim v2 console command.
 #TO DO: session()  Use version() properly once that function is updated. 
@@ -276,7 +282,7 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 # Add Harvest Scenario
 #*************************************
 # devtools::document();devtools::load_all()
-# deleteScenarios(myProject,"Harvest",force=T)
+# removeScenario(myProject,"Harvest",force=T)
 myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
 # Copies "No Harvest" scenario to new "Harvest" scenario
 
@@ -300,7 +306,7 @@ myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 
 scenario(myProject)
 
-# deleteScenarios(myProject,3,force=T)
+# removeScenario(myProject,3,force=T)
 # myResults=scenario(myProject,summary=F,results=T)
 
 #********************************
@@ -364,8 +370,8 @@ anotherProject = project(myLibrary,project="AnotherProject")
 #
 # Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.
 #  - enableAddons<-,disableAddons<- : side effects for other projects/scenarios
-#  - deleteScenarios(): only let a parent (Project or SsimLibrary) delete a scenario?
-#  - deleteProjects(): only let parent SsimLibrary delete a project?
+#  - removeScenario(): only let a parent (Project or SsimLibrary) delete a scenario?
+#  - removeProject(): only let parent SsimLibrary delete a project?
 #
 # And I am unsure about these methods:
 #  - info(): returns library info
@@ -375,10 +381,8 @@ myScenarios = scenario(myProject,summary=F) #returns list - names are scenario i
 names(myScenarios)
 # NOTE: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
 
-deleteProjects(myLibrary, project="My new project name") # Returns a list of "saved" or a failure messages for each project.
-# QUESTION: Do we want to be consistent about "project" vs "projects" here?
+removeProject(myLibrary, project="My new project name") # Returns "saved" or a failure message, or a list of these for each project.
 # QUESTION: consistency with enable/disableAddons? When should I use assignment operators?
-# QUESTION: generic delete method?
 
 parentId(myScenario)
 # QUESTION: Should I disable assignment functions for result scenarios?

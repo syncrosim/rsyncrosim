@@ -24,6 +24,9 @@ If summary=F a result Scenario object or a named list of result Scenarios. If su
 \description{
 Run one or more SyncroSim scenarios
 }
+\details{
+Note that breakpoints are ignored unless ssimObject is a single scenario.
+}
 \examples{
 
 }

@@ -12,7 +12,7 @@ NULL
 setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,sourceScenario=NULL,scenarios=NULL){
     #ssimLibrary = ssimObject; project=cRow$pid;name=cRow$id;id=NULL;scenarios=cRow
-    #assume this is being called from scenario fn. ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
+    #assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
       
     .Object@breakpoints=list()
 
@@ -135,7 +135,7 @@ setMethod(f='initialize',signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
-  #ssimObject= myLib;scenario="one";summary=NULL;forceElements=F;sourceScenario=NULL;results=F;overwrite=F
+  #ssimObject= myProject;scenario="one";sourceScenario="one";summary=NULL;results=F;overwrite=F;forceElements=F
   
   #if ssimObject is a scenario return the scenario
   if(is.element(class(ssimObject),c("Scenario"))&is.null(scenario)){
@@ -152,11 +152,11 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
     if(is.null(summary)){
       if(is.null(scenario)){summary=T}else{summary=F}
     }
-    convertObject=T
+    convertObject=F
     returnIds=T
   }
   
-  xProjScn  =.getFromXProjScn(ssimObject,project=NULL,scenario=scenario,convertObject=convertObject,returnIds=returnIds,goal="scenario")
+  xProjScn  =.getFromXProjScn(ssimObject,project=NULL,scenario=scenario,convertObject=convertObject,returnIds=returnIds,goal="scenario",complainIfMissing=F)
   
   if(class(xProjScn)=="Scenario"){
     return(xProjScn)
@@ -172,6 +172,9 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   if(is.element("order",names(allScenarios))){
     scnSet=subset(allScenarios,!is.na(order))
   }else{
+    if(nrow(allScenarios)>0){
+      allScenarios$order=seq(1,nrow(allScenarios))
+    }
     scnSet=allScenarios
   }
   #libScns = scnSet  
@@ -210,6 +213,10 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
       libScns = getScnSet(ssimObject) #get all scenarios for library, not just those from ssimObject
       #check validity in new("Scenario",...)
     }
+  }else{
+    if(!is.null(sourceScenario)){
+      warning("sourceScenario was ignored because scenario already exists.")
+    }
   }
 
   #make scnenarios/scenario objects
@@ -219,7 +226,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
       if(is.na(scnsToMake$exists[i])){
         next
       }
-      ret = deleteScenarios(ssimObject,scenario=scnsToMake$id[i],force=T)
+      ret = removeScenario(ssimObject,scenario=scnsToMake$id[i],force=T)
       cRow=scnsToMake[i,]
       scnsToMake[i,]=NA
       scnsToMake$name[i]=cRow$name;scnsToMake$pid[i]=cRow$pid;scnsToMake$order[i]=cRow$order
@@ -599,7 +606,11 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
   #x = myScenario;project=NULL;scenario=NULL;metadata=metadata;data=data;breakpoint=F;check=T
   #.filepath=filepath;.id=id
-  x = .getFromXProjScn(x,project,scenario)
+  x = .getFromXProjScn(x,project,scenario,returnIds=F,convertObject=T,complainIfMissing=T,goal="Scenario")
+  #Expecting a single scenario
+  if(class(x)!="Scenario"){
+    stop("Expecting a x/project/scenario to identify a single scenario in loadSpatialData()")
+  }
   
   # get metadata
   if(is.null(metadata)){
