@@ -2,16 +2,16 @@
 % Please edit documentation in R/generics.R
 \name{name<-}
 \alias{name<-}
-\title{Set the project or scenario names.}
+\title{Set ssimObject name.}
 \usage{
 name(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario/Project}
+\item{ssimObject}{Scenario/Project/SsimLibrary}
 
 \item{value}{The new name.}
 }
 \description{
-Set the name of a SyncroSim Project or Scenario.
+Set the name of a SyncroSim Project, Scenario or Library
 }
 

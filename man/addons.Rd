@@ -7,9 +7,9 @@
 addons(ssimObject, all = F)
 }
 \arguments{
-\item{ssimObject}{An SsimLibrary, or a Project/Scenario object associated with an SsimLibrary.}
+\item{ssimObject}{SsimLibrary/Project/Scenario or Session.}
 
-\item{all}{If T, all available addons are returned. Otherwise, only enabled addons.}
+\item{all}{If TRUE, all available addons are returned. Otherwise, only enabled addons.}
 }
 \value{
 A dataframe of addons.

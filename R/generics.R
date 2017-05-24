@@ -7,11 +7,11 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' @export
 setGeneric('name',function(ssimObject) standardGeneric('name'))
 
-#' Set the project or scenario names.
+#' Set ssimObject name.
 #'
-#' Set the name of a SyncroSim Project or Scenario.
+#' Set the name of a SyncroSim Project, Scenario or Library
 #'
-#' @param ssimObject Scenario/Project
+#' @param ssimObject Scenario/Project/SsimLibrary
 #' @param value The new name.
 #' @export
 setGeneric('name<-',function(ssimObject,value) standardGeneric('name<-'))
@@ -42,14 +42,14 @@ setGeneric('scenarioId',function(scenario) standardGeneric('scenarioId'))
 #' @export
 setGeneric('filepath',function(x) standardGeneric('filepath'))
 
-#' Information about an object
-#'
-#' Get basic information about a SyncroSim Session, SSimLibarary, Project or Scenario
-#'
-#' @param x An object containing info.
-#' @export
+# Information about an library
+#
+# Get basic information about a Library. 
+# Use project(summary==T) and scenario(summary=T) to get similar information about Project/Scenario
+#
+# @param x An object containing info.
+# @export
 setGeneric('info',function(x) standardGeneric('info'))
-
 
 # datasheets
 #

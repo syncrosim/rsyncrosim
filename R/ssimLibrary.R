@@ -233,6 +233,25 @@ setMethod('info', signature(x="SsimLibrary"), function(x) {
   return(out)
 })
 
+setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLibrary
+  cInfo = info(ssimObject)
+  return(subset(cInfo,property=="Name:")$value)
+})
+setReplaceMethod(
+  f='name',
+  signature="SsimLibrary",
+  definition=function(ssimObject,value){
+    #x=myScenario;value="New Name"
+    tt = command(list(setprop=NULL,lib=.filepath(ssimObject),name=value),.session(ssimObject))
+    if(!identical(tt,"saved")){
+      stop(tt)
+    }
+    return (ssimObject)
+  }
+)
+
+
 #' The name of the primary model associate with a SyncroSim object
 #'
 #' The name of the primary model associated with a SSimLibarary, Project or Scenario.
@@ -448,13 +467,21 @@ setMethod('removeScenario', signature(ssimObject="SsimLibrary"), function(ssimOb
 #'
 #' The addons of an SsimLibrary or Session.
 #'
-#' @param ssimObject An SsimLibrary, or a Project/Scenario object associated with an SsimLibrary.
-#' @param all If T, all available addons are returned. Otherwise, only enabled addons.
+#' @param ssimObject SsimLibrary/Project/Scenario or Session.
+#' @param all If TRUE, all available addons are returned. Otherwise, only enabled addons.
 #' @return A dataframe of addons.
 #' @examples
 #' addons(ssimLibrary(name="stsim"))
 #' @export
 setGeneric('addons',function(ssimObject,all=F) standardGeneric('addons'))
+setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
+  #x = myLibrary
+  tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
+  tt = .dataframeFromSSim(tt)
+  tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
+  return(tt)
+})
+
 setMethod('addons', signature(ssimObject="SsimLibrary"), function(ssimObject,all) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))

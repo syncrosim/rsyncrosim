@@ -24,6 +24,9 @@ output
 mySession =session(printCmd=T,silent=F)
 
 myLib=ssimLibrary(name="temp26",session=mySession)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+addons(myLib)
+addons(mySession)
 datasheet(myLib)
 deleteLibrary(myLib,force=T)
 #project(myLib) #Fails with message that library does not exist on disk.
@@ -66,7 +69,6 @@ myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherSc
 scenario(myLib)
 
 myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 project(myLib)
 myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
@@ -114,13 +116,17 @@ anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
 #RESUME HERE
-#DISCUSS: convert isSingle sheets to named vectors.
-#TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
-#TO DO: addons for Session. command("--list --addons")
-#TO DO: name() support for SsimLibrary, replace Project/Scenario queries with new SyncroSim v2 console command.
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+name(myLibrary)
+name(myLibrary)="Fred"
+name(myLibrary) #Note that the filename on disk has not changed
+command("--list --library --help")
+
 #TO DO: session()  Use version() properly once that function is updated. 
+#TO DO: for saveDatasheet() handle data without names.
+#TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
 #TO DO: revise datasheet() given new options from --export: --extfilepaths --rawvalues
-#TO DO: test optional=F, empty=F with database queries (output for multiple scenarios)
+#TO DO: test datasheet() optional=F, empty=F with database queries (output for multiple scenarios)
 #TO DO: test datasheet() for scenario with dependencies.
 
 #*************************************
