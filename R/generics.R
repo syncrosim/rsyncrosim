@@ -87,7 +87,12 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,sc
 #' Gets Syncrosim datasheet.
 #'
 #' @details
-#' If summary=T or summary and name=NULL, a dataframe listing datasheet names and other info is returned. All other arguments are ignored.
+#' 
+#' If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
+#'   If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, hasData. 
+#'   hasData only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
+#'   If optional=F columns include: scope, name, displayName.
+#'   All other arguments are ignored.
 #' 
 #' Otherwise, for each element in name a datasheet is returned as follows:
 #' \itemize{
@@ -105,13 +110,13 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,sc
 #' @param project Character, numeric, or vector of these. One or more Project names, id or objects.
 #' @param scenario Character, numeric, or vector of these. One or more Scenario names, id or objects.
 #' @param summary Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes. 
-#' @param optional Logical. If TRUE returns all of the datasheet's columns, including the optional columns; otherwise returns only those columns that are mandatory and/or contain data. Ignored if summary=T, or if empty=F and lookupsAsFactors=F.
+#' @param optional Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.
 #' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.
 #' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
 #' @param sqlStatements List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
 #' @param includeKey Logical. If TRUE include primary key in output table.
 #' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.
-#' @return If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe or list of dataframes representing SyncroSim datasheets.
+#' @return If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe (for datasheets that allow multiple rows) or named vector (for datasheets that only allow one row), or list of these.
 #' @examples
 #'
 #' @export
@@ -148,25 +153,30 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   return(out)
 })
 
-#' Set datasheets
+#' Save datasheet(s)
 #'
-#' Loads datasheets into the SyncroSim library.
+#' Saves datasheets to a SyncroSim library.
 #'
-#' @param x An SsimLibrary, Project or Scenario object. Or the path to a library on disk.
-#' @param data A dataframe or named list of dataframes to load.
-#' @param name The sheet name - required if data is a dataframe, ignored otherwise.
-#' @param project Project name or id.
-#' @param scenario Scenario name or id.
-#' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
-#' @return A named list of success or failure reports.
+#' @details
+#' ssimObject/project/scenario should identify a single ssimObject.
+#' 
+#' @param ssimObject SsimLibrary/Project/Scenario. Or the path to a library.
+#' @param data A dataframe, vector, or list of these. One or more datasheets to load.
+#' @param name character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.
+#' @param project character or integer. Project name or id.
+#' @param scenario character or integer. Project name or id.
+#' @param append logical. If TRUE, data will be appended to the datasheet, otherwise current values will be overwritten by data. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets. 
+#' @param forceElements logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list. 
+# @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
+#' @return A success or failure message, or a list of these.
 #' @examples
 #'
 #' @export
-setGeneric('loadDatasheets',function(x,data,name,project=NULL,scenario=NULL,breakpoint=F) standardGeneric('loadDatasheets'))
-#Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadDatasheets', signature(x="character"), function(x,data,name,project,scenario,breakpoint) {
-  x = .ssimLibrary(x,create=F)
-  out = loadDatasheets(x,data,name,project,scenario,breakpoint)
+setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,project=NULL,scenario=NULL,append=NULL,forceElements=F) standardGeneric('saveDatasheet'))
+#Handles case where ssimObject is a path to an SyncroSim library on disk.
+setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,project,scenario,append,forceElements) {
+  ssimObject = .ssimLibrary(ssimObject,create=F)
+  out = loadDatasheets(ssimObject,data,name,project,scenario,append,forceElements)
   return(out)
 })
 

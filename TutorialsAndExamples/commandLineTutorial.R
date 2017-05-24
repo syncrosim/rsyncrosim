@@ -79,7 +79,6 @@ sheets = datasheet(myScn)
 str(sheets)
 sheets 
 #NOTE: hasData column only available for scenario scope datasheets
-#NOTE: too many columns for easy viewing. Solutions?
 #NOTE: dataInherited and dataSource columns added if there are dependencies. 
 
 scenario(myLib)
@@ -89,9 +88,10 @@ myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sour
 scenario(myScn,summary=T) #return summary info
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-allSheets = datasheet(myScn) #returns datasheet names etc.
+allSheets = datasheet(myScn) #returns only datasheet names and scope
+allSheets
+allSheets=datasheet(myScn,optional=T)#returns more info about datasheets
 str(allSheets)
-subset(allSheets,scope=="scenario")
 
 aSheet = datasheet(myScn,"SSim_Processing") #returns a datasheet
 str(aSheet)
@@ -114,19 +114,19 @@ aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict betw
 anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
-#TO DO: revise datasheet() given new options from --export: --colswithdata --extfilepaths --rawvalues
-#TO DO: datasheet() if empty=F, optional=F include columns with data that are optional. Maybe also save time by not doing lookups for optional columns?
-#TO DO: convert isSingle sheets to named vectors.
-#TO DO: test datasheet() for scenario with dependencies.
+#RESUME HERE
+#DISCUSS: convert isSingle sheets to named vectors.
 #TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
 #TO DO: addons for Session. command("--list --addons")
 #TO DO: name() support for SsimLibrary, replace Project/Scenario queries with new SyncroSim v2 console command.
 #TO DO: session()  Use version() properly once that function is updated. 
+#TO DO: revise datasheet() given new options from --export: --extfilepaths --rawvalues
+#TO DO: test optional=F, empty=F with database queries (output for multiple scenarios)
+#TO DO: test datasheet() for scenario with dependencies.
 
-command("--import --help")
 #*************************************
 # Create the project definition
-myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T)
+myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T,session=mySession)
 myProject = project(myLibrary,project="ST-Sim Demonstration")
 
 anotherLib=ssimLibrary(name="C:/Temp/anotherLib.ssim")
@@ -136,20 +136,15 @@ scenario(myLibrary)
 #***********************************
 # Cover types and state classes
 datasheet(myProject)
-sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
+sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=F,optional=T)
 mySheet[1,"Name"]="Entire Forest"
+mySheet[1,"Description"]="Another description"
 #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
 loadDatasheets(myProject,mySheet,name=sheetName)
-# NOTE: datasheet() and loadDatasheets() accept any combination of x, project and scenario arguments.
-# x is a SyncroSim object (SsimLibrary,Project or Scenario) or name/path of a library on disk.
-# scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
-#
-# NOTE: Default datasheet() retrieval (empty=F, stringsAsFactors=T) requires 2 console calls
-# Setting empty=T eliminates one console call (or database query for some outputs)
-# Setting stringsAsFactors=T eliminates a console call.
-# Retrieval of output datasheets can be sped up by querying multiple scenarios (no extra calls),
-# and only querying necessary information (using SELECT and GROUP BY sql statements).
-# See examples below.
+
+datasheet(myProject,name=sheetName,empty=T,optional=F) #returns only truly optional columns
+datasheet(myProject,name=sheetName,empty=F,optional=F) #returns optional columns and columns with data
+datasheet(myProject,name=sheetName,empty=F,optional=T) #returns all columns
 
 # Warns if lookups are not loaded, and returns a factor with 0 levels
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=F)
@@ -160,9 +155,10 @@ sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
 mySheet[1,"Name"]="All"
 loadDatasheets(myProject,mySheet,name=sheetName)
 
-sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=F)
+sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
 loadDatasheets(myProject,mySheet,name=sheetName)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 # Now lookups are loaded we can set StateClass
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
@@ -176,9 +172,6 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 datasheet(myProject,sheetName,lookupsAsFactors = F)
 datasheet(myProject,sheetName,lookupsAsFactors = T,optional=T,includeKey=T)
-?datasheet
-
-# DISCUSS: lookups. Is this enough? If not, what else is needed?
 # NOTE: special knowledge needed to construct Name here. - come back to this later.
 
 #***********************************
@@ -198,7 +191,9 @@ loadDatasheets(myProject,mySheet,name=sheetName)
 
 #****************
 # Age type
-sheetName = "STSim_AgeType"; mySheet = datasheet(myProject,name=sheetName,empty=T)
+sheetName = "STSim_AgeType"; mySheet = datasheet(myProject,name=sheetName,empty=F)
+datasheet(myProject,name=sheetName,summary=T,optional=T) #get info about this sheet
+
 str(mySheet)
 mySheet[1,"Frequency"] = 1
 mySheet[1,"MaximumAge"] = 100

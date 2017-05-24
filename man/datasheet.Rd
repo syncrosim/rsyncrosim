@@ -20,7 +20,7 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 
 \item{summary}{Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes.}
 
-\item{optional}{Logical. If TRUE returns all of the datasheet's columns, including the optional columns; otherwise returns only those columns that are mandatory and/or contain data. Ignored if summary=T, or if empty=F and lookupsAsFactors=F.}
+\item{optional}{Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.}
 
 \item{empty}{Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.}
 
@@ -33,13 +33,17 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 \item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.}
 }
 \value{
-If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe or list of dataframes representing SyncroSim datasheets.
+If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe (for datasheets that allow multiple rows) or named vector (for datasheets that only allow one row), or list of these.
 }
 \description{
 Gets Syncrosim datasheet.
 }
 \details{
-If summary=T or summary and name=NULL, a dataframe listing datasheet names and other info is returned. All other arguments are ignored.
+If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
+  If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, hasData. 
+  hasData only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
+  If optional=F columns include: scope, name, displayName.
+  All other arguments are ignored.
 
 Otherwise, for each element in name a datasheet is returned as follows:
 \itemize{

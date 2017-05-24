@@ -596,7 +596,7 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject = myProject;project=NULL;scenario=NULL;summary=NULL;name=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
+  #ssimObject = myProject;name=sheetName;project=NULL;scenario=NULL;summary=NULL;optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
 
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   if(class(xProjScn)=="SsimLibrary"){
@@ -638,6 +638,11 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   #now assume we have one or more names 
   if(is.null(name)){stop("Something is wrong in datasheet().")}
   #if(summary){stop("Something is wrong in datasheet().")}
+  
+  if(summary&!optional){
+    sumInfo=subset(sumInfo,select=c("scope","name","displayName","order"))
+    sumInfo[order(sumInfo$order),];sumInfo$order=NULL;return(sumInfo)
+  }
 
   #Add hasData info - only for scenario scope datasheets if sid is defined
   if(summary){
@@ -720,8 +725,11 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
       
       if(useConsole){
         unlink(tempFile)
-        command("--export --help")
-        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
+        if(!optional){
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL,colswithdata=NULL)#filepath=NULL
+        }else{
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
+        }
         if(sheetNames$scope=="project"){args[["pid"]]=pid}
         
         if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
@@ -777,9 +785,21 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
         # print(sql)
         sheet = DBI::dbGetQuery(con,sql)
         DBI::dbDisconnect(con)
+        
+        #Filter out columns without data
+        if(!optional&&(nrow(sheet)>0)){
+          colNames = names(sheet)
+          for(r in seq(length.out=length(colNames))){
+            cCol = colNames[r]
+            if(sum(!is.na(sheet[[cCol]]))==0){
+              sheet[[cCol]]=NULL
+            }
+          }
+        }
       }
     }else{
       sheet=data.frame(temp=NA)
+      sheet=subset(sheet,!is.na(temp))
     }
     if(nrow(sheet)>0){
       sheet[sheet==""]=NA
@@ -792,7 +812,7 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
       
       if(!optional){
         if(!empty){
-          sheetInfo$Optional[is.element(sheetInfo$name,colnames(sheet))]="Present"
+          sheetInfo$optional[is.element(sheetInfo$name,names(sheet))&(sheetInfo$optional=="Yes")]="Present"
         }
         sheetInfo = subset(sheetInfo,is.element(optional,c("No","Present")))
       }
@@ -906,8 +926,12 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
                 warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))
               }
             }
-            lookupSheet=lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]),]
-            lookupLevels = lookupSheet$Name
+            if(nrow(lookupSheet)>0){
+              lookupSheet=lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]),]
+              lookupLevels = lookupSheet$Name
+            }else{
+              lookupLevels = c()
+            }
             if(is.numeric(sheet[[cRow$name]])){
               if(nrow(lookupSheet)>0){
                 if(length(intersect("Name",names(lookupSheet)))==0){
@@ -991,6 +1015,20 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
       }
     }
     outSheetList[[cName]]=sheet
+    
+    #return single row datasheets as named vectors (if not for multiple scenarios)
+    #note info about data types and lookups will be lost if we do this. so don't.
+    if(FALSE&&sheetNames$isSingle&&(nrow(sheet)<=1)){
+      if(nrow(sheet)==0){
+        vec = rep(" ",ncol(sheet))
+        vec=
+        names(vec)=names(sheet)
+        
+      }else{
+        vec = unlist(sheet[1,])
+      }
+    }
+    
   }  
   
   if(!forceElements&(length(outSheetList)==1)){
@@ -1000,32 +1038,65 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   return(outSheetList)
 })
 
-setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,project,scenario,breakpoint) {
-  #x = myScenario;project=NULL;scenario=NULL;name=sheetName;data=mySheet;breakpoint=T
-  x = .getFromXProjScn(x,project,scenario)
+setMethod('saveDatasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,data,name,project,scenario,append,forceElements) {
+  #ssimObject = myProject;project=NULL;scenario=NULL;name=sheetName;data=mySheet;append=NULL;forceElements=F
+  x = .getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
   if(class(x)=="list"){
     stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")
   }
-
+  if(is.null(append)){
+    if(class(x)=="Scenario"){append=F}else{append=T}
+  }
+  
   sheetNames = .datasheets(x)
 
-  if(class(data)=="data.frame"){
+  #Note - cannot handle a list of named vectors, only a list of dataframes.
+  if((class(data)!="list")|(class(data[[1]])!="data.frame")){
     if(is.null(name)){
       stop("Need a datasheet name.")
+    }
+    if(length(name)>1){
+      stop("If a vector of names is provided, then data must be a list.")
     }
     hdat = data
     data = list()
     data[[name]]=hdat
+  }else{
+    if(!is.null(name)){
+      if(length(name)!=length(data)){
+        stop("Please provide a name for each element of data.")
+      }  
+      warning("name argument will override names(data).")
+      names(data)=name
+    }else{
+      name=names(data)    
+    }
   }
 
-  if((class(data)!="list")||(class(data[[1]])!="data.frame")){
-    stop("data must be a dataframe or list of dataframes.")
-  }
   out=list()
   for(i in seq(length.out=length(data))){
     #i=1
     cName = names(data)[i]
     cDat = data[[cName]]
+    
+    #handle cases when cDat is not a data.frame
+    #cDat = "Coniferous";names(cDat)="Name"
+    if(class(cDat)!="data.frame"){
+      cIn= cDat
+      if(length(cIn)==0){
+        stop("No data found for ",cName)
+      }
+      if(!is.null(names(cDat))){
+        cDat=data.frame(a=cIn[[1]])
+        names(cDat)=names(cIn)[1]
+        for(j in seq(length.out=(length(cIn)-1))){
+          cDat[[names(cIn)[j+1]]]=cIn[[j+1]]
+        }
+      }else{
+        stop("handle this case")
+      }
+    }
+    
     for(j in seq(length.out=ncol(cDat))){
       if(is.factor(cDat[[j]])){cDat[[j]]=as.character(cDat[[j]])}
       if(is.logical(cDat[[j]])){
@@ -1035,13 +1106,13 @@ setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,pro
     }
     cDat[is.na(cDat)]=""
 
-    if(breakpoint){pathBit = paste0(.filepath(x),'.temp/Data')}else{pathBit = paste0(dirname(.filepath(x)),'/Temp')}
+    if(FALSE&&breakpoint){pathBit = paste0(.filepath(x),'.temp/Data')}else{pathBit = paste0(dirname(.filepath(x)),'/Temp')}
 
     dir.create(pathBit, showWarnings = FALSE,recursive=T)
     tempFile = paste0(pathBit,"/",cName,".csv")
 
     write.csv(cDat,file=tempFile,row.names=F,quote=T)
-    if(breakpoint){
+    if(FALSE&&breakpoint){
       out[[cName]] = "Saved"
       next
     }
@@ -1055,17 +1126,44 @@ setMethod('loadDatasheets', signature(x="SsimLibrary"), function(x,data,name,pro
         stop("name not found in datasheetNames")
       }
     }
+    doDelete = F
+    if(scope=="scenario"){
+      if(append){args[["append"]]=NULL}else{
+        if(nrow(cDat)==0){
+          doDelete=T
+        }
+      }
+    }else{
+      if(!append){
+        doDelete=T
+      }
+    }
+    if(doDelete){
+      targs = list(delete=NULL,data=NULL,lib=.filepath(x),sheet=cName,force=NULL)
+      if(scope=="scenario"){
+        targs[["sid"]]=.scenarioId(x)
+      }
+      if(scope=="project"){
+        targs[["pid"]]=.projectId(x)
+      }
+      ttt=command(targs,.session(x))
+      if(ttt[[1]]!="saved"){
+        stop(ttt)
+      }
+    }
 
-    if(class(x)=="Project"){
+    tt="saved"
+    if(nrow(cDat)>0){
       if(scope=="project"){args[["pid"]]=.projectId(x)}
-    }
-    if(class(x)=="Scenario"){
-      if(is.element(scope,c("project","scenario"))){args[["pid"]]=.projectId(x)}
       if(scope=="scenario"){args[["sid"]]=.scenarioId(x)}
+      tt=command(args,.session(x))
     }
-    tt=command(args,.session(x))
     if(tt[[1]]=="saved"){unlink(tempFile)}
     out[[cName]] = tt
+  }
+  
+  if(!forceElements&&(length(out)==1)){
+    out=out[[1]]
   }
   return(out)
 })
