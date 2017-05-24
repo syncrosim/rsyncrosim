@@ -41,11 +41,11 @@ if(!is.element("breakpoint test",scenario(myProject)$name)){
 sheetName = "STSim_RunControl"; mySheet = datasheet(myScenario,name=sheetName,empty=F)
 mySheet[1,"MaximumIteration"] = 2
 mySheet[1,"MaximumTimestep"] = 3
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 
 sheetName = "STSim_Transition"; mySheet = datasheet(myScenario,name=sheetName,empty=F,optional=T)
 mySheet$Probability[mySheet$TransitionTypeID=="Fire"]=0.9
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 
 # Do a comparison run without breakpoints
 myComparison = run(myScenario,jobs=1)
@@ -99,7 +99,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
   #mySheet=addRows(mySheet,data.frame(Iteration=iteration,Timestep=timestep,
   #                            TransitionGroupID="Fire",Amount=iteration*timestep+1.5))
   #mySheet=unique(mySheet)
-  #loadDatasheets(x,mySheet,name=sheetName,breakpoint=T)
+  #saveDatasheet(x,mySheet,name=sheetName,breakpoint=T)
 }
 
 # Test breakpoint function before proceeding. If it doesn't work here, it definitely won't work later.

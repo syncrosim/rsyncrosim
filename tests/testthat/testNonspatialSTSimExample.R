@@ -27,7 +27,7 @@ test_that("Test simple non-spatial STSim example", {
   expect_equal(nrow(mySheet),0)
   mySheet[1,"Name"]="Entire Forest"
   #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
-  ret = loadDatasheets(myProject,mySheet,name=sheetName)
+  ret = saveDatasheet(myProject,mySheet,name=sheetName)
   expect_equal(datasheet(myProject,name=sheetName),data.frame(Name="Entire Forest",stringsAsFactors=F))
 
   # Warns if lookups are not loaded, and returns a factor with 0 levels
@@ -38,13 +38,13 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet = datasheet(myProject,name=sheetName)
   #mySheet[1,"Name"]="All"
   mySheet = data.frame(Name="All")
-  ret = loadDatasheets(myProject,mySheet,name=sheetName)
+  ret = saveDatasheet(myProject,mySheet,name=sheetName)
 
   sheetName = "STSim_StateLabelX"
   #mySheet = datasheet(myProject,name=sheetName,empty=F)
   #mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
   mySheet = data.frame(Name=c('Coniferous','Deciduous','Mixed'))
-  ret = loadDatasheets(myProject,mySheet,name=sheetName)
+  ret = saveDatasheet(myProject,mySheet,name=sheetName)
 
   # Now lookups are loaded we can set StateClass
   sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
@@ -52,7 +52,7 @@ test_that("Test simple non-spatial STSim example", {
   mySheet[1:3,"StateLabelXID"]=levels(mySheet$StateLabelXID) #Valid values
   mySheet$StateLabelYID = levels(mySheet$StateLabelYID)[1] #Valid values
   mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
-  ret = loadDatasheets(myProject,mySheet,name=sheetName)
+  ret = saveDatasheet(myProject,mySheet,name=sheetName)
   #mySheet = datasheet(myProject,name=sheetName);str(mySheet)
 
   #***********************************
@@ -62,8 +62,8 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet = datasheet(myProject,name=sheetName,empty=T)
   #mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
   mySheet = data.frame(Name = c("Fire","Harvest","Succession"))
-  ret = loadDatasheets(myProject,mySheet,name=sheetName)
-  ret = loadDatasheets(myProject,mySheet,name="STSim_TransitionType")
+  ret = saveDatasheet(myProject,mySheet,name=sheetName)
+  ret = saveDatasheet(myProject,mySheet,name="STSim_TransitionType")
 
   sheetName = "STSim_TransitionTypeGroup"
   #mySheet = datasheet(myProject,name=sheetName,empty=T)
@@ -71,7 +71,7 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet[1:3,"TransitionGroupID"]=levels(mySheet$TransitionGroupID)
   mySheet = data.frame(TransitionTypeID = c("Fire","Harvest","Succession"))
   mySheet$TransitionGroupID = mySheet$TransitionTypeID
-  ret = loadDatasheets(myProject,mySheet,name=sheetName)
+  ret = saveDatasheet(myProject,mySheet,name=sheetName)
 
   #****************
   # Age type
@@ -80,7 +80,7 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet[1,"Frequency"] = 1
   #mySheet[1,"MaximumAge"] = 100
   mySheet = data.frame(Frequency=1,MaximumAge=100)
-  ret = loadDatasheets(myProject,mySheet,name=sheetName)
+  ret = saveDatasheet(myProject,mySheet,name=sheetName)
 
   #*************************************
   # Add No Harvest Scenario
@@ -98,7 +98,7 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet[1,"MinimumTimestep"] = 0
   #mySheet[1,"MaximumTimestep"] = 50
   mySheet = data.frame(MinimumIteration=1,MaximumIteration=2,MinimumTimestep=0,MaximumTimestep=10)
-  ret = loadDatasheets(myScenario,mySheet,name=sheetName)
+  ret = saveDatasheet(myScenario,mySheet,name=sheetName)
 
   #**************************
   # Deterministic transitions
@@ -110,7 +110,7 @@ test_that("Test simple non-spatial STSim example", {
   mySheet = addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
   expect_equal(mySheet$AgeMin,c(21,NA,11))
   expect_equal(levels(mySheet$StateClassIDSource),c("Coniferous:All","Deciduous:All","Mixed:All"))
-  ret = loadDatasheets(myScenario,mySheet,name=sheetName)
+  ret = saveDatasheet(myScenario,mySheet,name=sheetName)
 
   #*************************
   # Probabilistic transitions
@@ -137,7 +137,7 @@ test_that("Test simple non-spatial STSim example", {
     )
   mySheet$StratumIDSource="Entire Forest"
   mySheet$StratumIDDest = "Entire Forest"
-  ret = loadDatasheets(myScenario,mySheet,name=sheetName)
+  ret = saveDatasheet(myScenario,mySheet,name=sheetName)
   #mySheet = datasheet(myScenario,name=sheetName,optional=T); mySheet #check what happened
 
   #********************
@@ -148,7 +148,7 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet[1,"TotalAmount"]=1000
   #mySheet[1,"NumCells"]=1000
   mySheet = data.frame(TotalAmount=100,NumCells=100)
-  ret=loadDatasheets(myScenario,mySheet,name=sheetName)
+  ret=saveDatasheet(myScenario,mySheet,name=sheetName)
 
   sheetName = "STSim_InitialConditionsNonSpatialDistribution"
   #mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
@@ -162,7 +162,7 @@ test_that("Test simple non-spatial STSim example", {
     RelativeAmount = c(20,40,40)
     )
   mySheet$StratumID = "Entire Forest"
-  ret = loadDatasheets(myScenario,mySheet,name=sheetName)
+  ret = saveDatasheet(myScenario,mySheet,name=sheetName)
 
   #******************
   # Transition targets
@@ -171,7 +171,7 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet[1,"TransitionGroupID"]="Harvest"
   #mySheet[1,"Amount"]=0
   mySheet=data.frame(TransitionGroupID = "Harvest",Amount=0)
-  ret= loadDatasheets(myScenario,mySheet,name=sheetName)
+  ret= saveDatasheet(myScenario,mySheet,name=sheetName)
 
   #*************************************
   # Add Harvest Scenario
@@ -189,7 +189,7 @@ test_that("Test simple non-spatial STSim example", {
   #mySheet[1,"TransitionGroupID"]="Harvest"
   #mySheet[1,"Amount"]=20
   mySheet=data.frame(TransitionGroupID = "Harvest",Amount=20)
-  ret= loadDatasheets(myScenario,mySheet,name=sheetName)
+  ret= saveDatasheet(myScenario,mySheet,name=sheetName)
 
   #********************************
   # Run scenarios

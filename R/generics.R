@@ -176,7 +176,7 @@ setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,project=NULL,scena
 #Handles case where ssimObject is a path to an SyncroSim library on disk.
 setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,project,scenario,append,forceElements) {
   ssimObject = .ssimLibrary(ssimObject,create=F)
-  out = loadDatasheets(ssimObject,data,name,project,scenario,append,forceElements)
+  out = saveDatasheet(ssimObject,data,name,project,scenario,append,forceElements)
   return(out)
 })
 

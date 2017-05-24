@@ -103,7 +103,7 @@ test_that("Test simple spatial STSim example", {
   #set spatial options
   sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
   mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
-  silent = loadDatasheets(myProject,mySheet,name=sheetName)
+  silent = saveDatasheet(myProject,mySheet,name=sheetName)
 
   #Combining all spatial results into one multiband file will speed up loading.
   ret = multiband(myResult,action="apply")

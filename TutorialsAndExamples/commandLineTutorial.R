@@ -140,7 +140,7 @@ sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=
 mySheet[1,"Name"]="Entire Forest"
 mySheet[1,"Description"]="Another description"
 #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
-loadDatasheets(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,mySheet,name=sheetName)
 
 datasheet(myProject,name=sheetName,empty=T,optional=F) #returns only truly optional columns
 datasheet(myProject,name=sheetName,empty=F,optional=F) #returns optional columns and columns with data
@@ -153,11 +153,11 @@ mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has 
 
 sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
 mySheet[1,"Name"]="All"
-loadDatasheets(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,mySheet,name=sheetName)
 
 sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
-loadDatasheets(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,mySheet,name=sheetName)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 # Now lookups are loaded we can set StateClass
@@ -167,7 +167,7 @@ mySheet[1,"StateLabelXID"] ="hi" #Invalid value for a lookup column
 mySheet[1:3,"StateLabelXID"]=levels(mySheet$StateLabelXID) #Valid values
 mySheet$StateLabelYID = levels(mySheet$StateLabelYID)[1] #Valid values
 mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
-loadDatasheets(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,mySheet,name=sheetName)
 #mySheet = datasheet(myProject,name=sheetName);str(mySheet)
 
 datasheet(myProject,sheetName,lookupsAsFactors = F)
@@ -181,13 +181,13 @@ subset(datasheet(myProject),scope=="project")$name #See project scope datasheet 
 sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
 mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
-loadDatasheets(myProject,mySheet,name=sheetName)
-loadDatasheets(myProject,subset(mySheet,select=Name),name="STSim_TransitionType")
+saveDatasheet(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,subset(mySheet,select=Name),name="STSim_TransitionType")
 
 sheetName = "STSim_TransitionTypeGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 mySheet[1:3,"TransitionTypeID"]=levels(mySheet$TransitionTypeID)
 mySheet[1:3,"TransitionGroupID"]=levels(mySheet$TransitionGroupID)
-loadDatasheets(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,mySheet,name=sheetName)
 
 #****************
 # Age type
@@ -197,7 +197,7 @@ datasheet(myProject,name=sheetName,summary=T,optional=T) #get info about this sh
 str(mySheet)
 mySheet[1,"Frequency"] = 1
 mySheet[1,"MaximumAge"] = 100
-loadDatasheets(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,mySheet,name=sheetName)
 
 #*************************************
 # Add No Harvest Scenario
@@ -213,7 +213,7 @@ mySheet[1,"MinimumIteration"] = 1
 mySheet[1,"MaximumIteration"] = 40
 mySheet[1,"MinimumTimestep"] = 0
 mySheet[1,"MaximumTimestep"] = 50
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 
 #**************************
 # Deterministic transitions
@@ -225,7 +225,7 @@ mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClas
 mySheet=addRows(mySheet,list(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
 mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
 mySheet
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 # mySheet = datasheet(myScenario,name=sheetName,optional=T); str(mySheet) #check what happened
 # addRows() checks validity of column names and factor levels.
 # addRows() fills missing values using factor levels where possible.
@@ -247,7 +247,7 @@ mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDe
 mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
                            TransitionTypeID="Succession",Probability=0.1,AgeMin=20))
 mySheet
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 #mySheet = datasheet(myScenario,name=sheetName,optional=T); mySheet #check what happened
 
 #********************
@@ -256,14 +256,14 @@ loadDatasheets(myScenario,mySheet,name=sheetName)
 sheetName = "STSim_InitialConditionsNonSpatial"; mySheet = datasheet(myScenario,name=sheetName,optional=F,empty=T)
 mySheet[1,"TotalAmount"]=1000
 mySheet[1,"NumCells"]=1000
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 
 sheetName = "STSim_InitialConditionsNonSpatialDistribution"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
 mySheet=addRows(mySheet,data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20))
 mySheet=addRows(mySheet,data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40))
 mySheet=addRows(mySheet,data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40))
 mySheet
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 
 #******************
 # Transition targets
@@ -271,7 +271,7 @@ sheetName = "STSim_TransitionTarget"; mySheet = datasheet(myScenario,name=sheetN
 str(mySheet)
 mySheet[1,"TransitionGroupID"]="Harvest"
 mySheet[1,"Amount"]=0
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 
 #*************************************
 # Add Harvest Scenario
@@ -287,7 +287,7 @@ sheetName = "STSim_TransitionTarget"; mySheet = datasheet(myScenario,name=sheetN
 str(mySheet)
 mySheet[1,"TransitionGroupID"]="Harvest"
 mySheet[1,"Amount"]=20
-loadDatasheets(myScenario,mySheet,name=sheetName)
+saveDatasheet(myScenario,mySheet,name=sheetName)
 
 #********************************
 # Run scenarios
@@ -359,7 +359,7 @@ anotherProject = project(myLibrary,project="AnotherProject")
 # DISCUSS: Inheritance
 # Project and Scenario objects inherit from SsimLibrary.
 # For some methods, this is helpful:
-#  - datasheet(), loadDatasheets(): do sensible things with x/project/scenario arguments - see help for details.
+#  - datasheet(), saveDatasheet(): do sensible things with x/project/scenario arguments - see help for details.
 #  - run(): does sensible things with ssimObject/scenario arguments
 #  - session(), modelVersion(), modelName(), filepath(), addons(): provide useful information.
 #
@@ -408,7 +408,7 @@ parentId(myScenario)
 # - Problems with default transition type groups:
 #    sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 #    mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
-#    loadDatasheets(myProject,mySheet,name=sheetName)
+#    saveDatasheet(myProject,mySheet,name=sheetName)
 #   I've added an "IsVisible" column property to --list --columns so Josie can check for this as well.
 #   We should be careful about omitting fields for datasheets on export because when you import a datasheet it updates existing records with the new data.  For example, if you omit the "Description" field then existing description will be overwritten with NULL if you import that same file.  I'm not sure if this is what is happening in the R scripts, but just something to be aware of.  Of course we could change things so data is never overwritten with NULL for definition imports (and Cut/Paste...) but then you would not be able to replace an existing definition with NULL which seems a bit wrong.
 #   Ensure that factor levels are passed through from invisible datasheet

@@ -181,7 +181,6 @@ myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
 scenario(myLibrary)
 myScenario = scenario(myLibrary,scenario=1)
 
-# NOTE: datasheet() and loadDatasheets() accept any combination of x, project and scenario arguments.
 # x is a SyncroSim object (SsimLibrary,Project or Scenario) or name/path of a library on disk.
 # scenario and project can be names, ids, or SycnroSim objects - loadDatasheets does not handle multiple projects/scenarios.
 myProjectDataframes = datasheet(myLibrary, project=1, summary=F) # A named list of all the project and library datasheets for project id 2.
@@ -218,8 +217,7 @@ stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Coniferous'
 # NOTE: rbind does not preserve types and factor levels
 
 # Then save the updated project datasheets back to the library
-loadDatasheets(myLibrary, stateClassDefinition, project=1, name="STSim_StateLabelX")
-# DISCUSS: This was written in plural, but need name/frame to be linked in that case.
+saveDatasheet(myLibrary, stateClassDefinition, project=1, name="STSim_StateLabelX")
 
 # Update the values of an existing scenario datasheet (after the definitions have been added)
 scenario(myProject)
@@ -230,7 +228,7 @@ myDeterminisiticTransitions[1:3,"AgeMin"] = c(50, 60, NA)    # change the AgeMin
 
 datasheet(myScn)
 # Then save the updated scenario datasheet back to the library
-#loadDatasheets(myLibrary,myDeterminisiticTransitions, scenario=myScenario, name="STSim_DeterministicTransition")
+#saveDatasheet(myLibrary,myDeterminisiticTransitions, scenario=myScenario, name="STSim_DeterministicTransition")
 # NOTE: this fails because myDeterministicTransitions is not complete.
 # See commandLineTutorial for working example
 

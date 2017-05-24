@@ -150,7 +150,7 @@ spatialProperties = loadSpatialData(newScenario,data,metadata)
 sheetName = "STSim_InitialConditionsSpatialProperties"; mySheet = datasheet(newScenario,name=sheetName,optional=F,empty=T)
 spatialProperties$CellArea=spatialProperties$CellSize^2/10000
 mySheet=addRows(mySheet,spatialProperties)
-loadDatasheets(newScenario,mySheet,name=sheetName)
+saveDatasheet(newScenario,mySheet,name=sheetName)
 
 #NOTE: This does not work. Throws exception. Trying to figure out why.
 
@@ -160,7 +160,7 @@ loadDatasheets(newScenario,mySheet,name=sheetName)
 sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
 levels(mySheet$MultibandGroupingInternal)
 mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
-loadDatasheets(myProject,mySheet,name=sheetName)
+saveDatasheet(myProject,mySheet,name=sheetName)
 ?multiband
 #Combining all spatial results into one multiband file will speed up loading.
 multiband(myResult,action="apply")

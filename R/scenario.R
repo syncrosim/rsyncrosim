@@ -699,11 +699,11 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
         stop("Handle this: loadSpatialData when sheet name != STSim_TransitionSpatialMultiplier")
       }
       raster::writeRaster(cDat,cRow[[cFileCol]],overwrite=T)
-      loadDatasheets(x,cRow,name=cSheetName,breakpoint=T)
+      saveDatasheet(x,cRow,name=cSheetName,breakpoint=T)
     }
   }
   if(!breakpoint){
-    loadDatasheets(x,check,name=cSheetName)
+    saveDatasheet(x,check,name=cSheetName)
   }
   
   spatialProperties=data.frame(NumRows=dim(cDat)[1],
