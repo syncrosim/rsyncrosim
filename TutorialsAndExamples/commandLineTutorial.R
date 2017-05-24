@@ -87,7 +87,6 @@ myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sour
 #myScn = scenario(myProject,scenario="two",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
 scenario(myScn,summary=T) #return summary info
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 allSheets = datasheet(myScn) #returns only datasheet names and scope
 allSheets
 allSheets=datasheet(myScn,optional=T)#returns more info about datasheets
@@ -126,13 +125,13 @@ aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that pro
 
 #*************************************
 # Create the project definition
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
 myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T,session=mySession)
 myProject = project(myLibrary,project="ST-Sim Demonstration")
+removeProject(myProject,force=T)
+myProject = project(myLibrary,project="ST-Sim Demonstration")
 
-anotherLib=ssimLibrary(name="C:/Temp/anotherLib.ssim")
-command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(anotherLib)),.session(anotherLib))
-
-scenario(myLibrary)
 #***********************************
 # Cover types and state classes
 datasheet(myProject)
@@ -155,9 +154,23 @@ sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
 mySheet[1,"Name"]="All"
 saveDatasheet(myProject,mySheet,name=sheetName)
 
-sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=T)
-mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
+#include optional columns
+sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=T,optional=T) 
+mySheet[1:2,"Name"]=c('Coniferous','Deciduous')
+mySheet[1:2,"Description"]=c('coniferous forest','deciduous forest')
 saveDatasheet(myProject,mySheet,name=sheetName)
+datasheet(myProject,name=sheetName)
+
+#by default, saveDatasheet appends project/library scope datasheets
+mySheet =  setNames(c('Mixed'), c("Name")) #A named vector
+saveDatasheet(myProject,mySheet,name=sheetName) 
+datasheet(myProject,name=sheetName)
+
+#overwrite existing values
+mySheet=list(Name=c('Coniferous','Deciduous','Mixed'))
+saveDatasheet(myProject,mySheet,name=sheetName,append=F) 
+datasheet(myProject,name=sheetName)
+
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 # Now lookups are loaded we can set StateClass
