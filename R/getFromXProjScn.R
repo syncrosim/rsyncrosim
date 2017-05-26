@@ -46,7 +46,11 @@
 
   if(is.null(goal)){
     if(is.null(project)&is.null(scenario)){
-      return(ssimObject)
+      if(returnIds){
+        return(list(ssimObject=ssimObject,project=NULL,scenario=NULL,goal="library"))
+      }else{
+        return(ssimObject)
+      }
     }
     stop("Error in getFromXProjScn()")
   }
@@ -140,7 +144,7 @@
       project=smallProjectSet$id
     }
     
-    return(list(ssimObject=ssimObject,project=project,scenario=scenario,projectSet=fullProjectSet))
+    return(list(ssimObject=ssimObject,project=project,scenario=scenario,projectSet=fullProjectSet,goal=goal))
     
   }
 

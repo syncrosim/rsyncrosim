@@ -115,13 +115,13 @@ aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict betw
 anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
-#RESUME HERE
+#RESUME HERE - test delete
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 name(myLibrary)
 name(myLibrary)="Fred"
 name(myLibrary) #Note that the filename on disk has not changed
-command("--list --library --help")
 
+#TO DO: test delete()
 #TO DO: session()  Use version() properly once that function is updated. 
 #TO DO: for saveDatasheet() handle data without names.
 #TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.

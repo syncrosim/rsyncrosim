@@ -297,22 +297,172 @@ setMethod('update', signature(x="SsimLibrary"), function(x) {
   return(tt[1])
 })
 
-#' Delete Library
+#' Delete library, project, scenario, datasheet, or list of these
 #'
-#' Deletes a SyncroSim library. Note this is irreversable.
+#' Deletes one or more items. Note this is irreversable.
 #'
-#' @param ssimLibrary SsimLibrary or path to a library
-#' @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
-#' @return "saved" or failure message.
+#' @param ssimObject SsimLibrary/Project/Scenario, path to a library, or list of these. Note that project/scenario arguments are ignored if ssimObject is a list.
+#' @param project character, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list.
+#' @param scenario character, numeric, or vector of these. One or more project names or ids. Note that scenario argument is ignored if ssimObject is a list.
+#' @param datasheet character, numeric, or vector of these. One or more project names or ids.
+#' @param force logical. If FALSE (default), user will be prompted to approve removal of each item.
+#' @return A list of "saved" or failure messages for each item.
 #' @examples
+#' TODO – update examples
+#' myLibrary = ssimLibrary(session=devSession)
+#' myProject = project(myLibrary,project="a project")
+#' project(myLibrary)
+#' removeProject(myLibrary,project="a project")
+#' project(myLibrary)
 #'
 #' @export
-setGeneric('deleteLibrary',function(ssimLibrary,force=F) standardGeneric('deleteLibrary'))
-setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibrary,force) {
-  ssimLibrary=.ssimLibrary(ssimLibrary,create=F)
-  return(deleteLibrary(ssimLibrary,force))
+setGeneric('delete',function(ssimObject,project=NULL,scenario=NULL,datasheet=NULL,force=F) standardGeneric('delete'))
+setMethod('delete', signature(ssimObject="character"), function(ssimObject,project,scenario,datasheet,force) {
+  ssimObject=.ssimLibrary(ssimObject,create=F)
+  return(delete(ssimObject,project,scenario,datasheet,force))
+})
+setMethod('delete', signature(ssimObject="list"), function(ssimObject,project,scenario,datasheet,force) {
+  x = getIdsFromListOfObjects(ssimObject,project=project)
+  ssimObject = x$ssimObject
+  expecting=x$expecting
+  if(expecting=="Project"){
+    return(delete(ssimObject,project=x$objs,scenario=NULL,datasheet=datasheet,force=force))
+  }
+  if(expecting=="Scenario"){
+    return(delete(ssimObject,project=NULL,scenario=x$objs,datasheet=datasheet,force=force))
+  }
+  
+  if(expecting=="SsimLibrary"){
+    out = list()
+    for(i in seq(length.out=length(x$objs))){
+      if(is.null(datasheet)){
+        cObj = x$objs[i]
+        out[[.filepath(cObj)]]=deleteLibrary(cObj,force)
+      }else{
+        out[[.filepath(cObj)]]=delete(cObj,project=NULL,scenario=NULL,datasheet=datasheet,force=force)
+      }
+    }
+    return(out)
+  }
+  stop("Problem with ssimObject: should be a list of SsimLibraries/Projects/Scenarios or paths to libraries.")
 })
 
+setMethod('delete', signature(ssimObject="SsimLibrary"), function(ssimObject,project,scenario,datasheet,force) {
+  #ssimObject = myLibrary; project=.projectId(myProject);datasheet="STSim_StateLabelX";force=F
+  xProjScn=.getFromXProjScn(ssimObject,project=project,scenario=scenario,returnIds=T,convertObject=F,complainIfMissing=T)
+  
+  #expect to have a vector of valid project ids - checking already done
+  x=xProjScn$ssimObject
+  project=xProjScn$project
+  scenario=xProjScn$scenario
+  goal=xProjScn$goal
+  
+  if(goal=="library"){
+    if(is.null(datasheet)){
+      out=deleteLibrary(ssimObject,force)
+    }else{
+      datasheets=.datasheets(ssimObject)
+      out = deleteDatasheet(datasheet,datasheets,cProj=NULL,cScn=NULL,cProjName=NULL,cScnName=NULL,force=force)
+    }
+    return(out)
+  }
+  
+  if(goal=="project"){
+    allProjects = xProjScn$projectSet
+    
+    if(!is.numeric(project)){
+      stop("Error in delete: expect to have valid project ids.")
+    }
+    
+    if(!is.null(datasheet)){
+      if(is.element(class(ssimObject),c("Project","Scenario"))){
+        datasheets=.datasheets(ssimObject,refresh=T)
+      }else{
+        datasheets=.datasheets(.project(ssimObject,project = project[1]))
+      }
+    }
+    
+    out = list()
+    for(i in seq(length.out=length(project))){
+      #i = 1
+      cProj = project[i]
+      name=allProjects$name[allProjects$id==cProj]
+      
+      #If datasheets(s) specified delete them. Otherwise delete the projects.
+      if(!is.null(datasheet)){
+        out = deleteDatasheet(datasheet,datasheets,cProj=cProj,cScn=NULL,cProjName=name,cScnName=NULL,out=out,force=force)
+      }else{
+        if(force){
+          answer="y"
+        }else{
+          answer <- readline(prompt=paste0("Do you really want to delete project ",name,"(",cProj,")? (y/n): "))
+        }
+        if(answer=="y"){
+          outBit = command(list(delete=NULL,project=NULL,lib=.filepath(x),pid=cProj,force=NULL),.session(x))
+        }else{
+          outBit = "skipped"
+        }
+        
+      }
+      out[[as.character(cProj)]]=outBit
+    }
+    return(out)
+  }
+  
+  if(goal=="scenario"){
+    allScenarios = xProjScn$scenarioSet
+    
+    if(!is.numeric(scenario)){
+      stop("Error in delete: expect to have valid scenario ids.")
+    }
+    
+    if(!is.null(datasheet)){
+      if(is.element(class(ssimObject),c("Scenario"))){
+        datasheets=.datasheets(ssimObject,refresh=T)
+        scenarioSet = scenario(.ssimLibrary(ssimObject),summary=T)
+      }else{
+        datasheets=.datasheets(.scenario(ssimObject,scenario = scenario[1]))
+        scenarioSet = scenario(ssimObject,summary=T)
+      }
+    }
+    out = list()
+    for(i in seq(length.out=length(scenario))){
+      #i = 1
+      cScn = scenario[i]
+      name = allScenarios$name[allScenarios$id==cScn]
+      if(!is.null(datasheet)){
+        cProj = subset(scenarioSet,id==cScn)$pid
+        out = deleteDatasheet(datasheet,datasheets,cProj=cProj,cScn=cScn,cProjName="",cScnName=name,out=out,force=force)
+      }else{
+        if(force){
+          answer="y"
+        }else{
+          answer <- readline(prompt=paste0("Do you really want to remove scenario ",name,"(",cScn,")? (y/n): "))
+        }
+        if(answer=="y"){
+          outBit = command(list(delete=NULL,scenario=NULL,lib=.filepath(x),sid=cScn,force=NULL),.session(x))
+        }else{
+          outBit = "skipped"
+        }
+        out[[as.character(cScn)]]=outBit
+      }
+    }
+    return(out)
+  }
+  stop("Error in delete().")
+})
+
+# Delete Library
+#
+# Deletes a SyncroSim library. Note this is irreversable.
+#
+# @param ssimLibrary SsimLibrary or path to a library
+# @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
+# @return "saved" or failure message.
+# @examples
+#
+# @export
+setGeneric('deleteLibrary',function(ssimLibrary,force=F) standardGeneric('deleteLibrary'))
 setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,force) {
   #ssimLibrary = .ssimLibrary(name="temp26",session=mySession,create=T)
   if(!file.exists(.filepath(ssimLibrary))){
@@ -329,138 +479,6 @@ setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLi
   }else{
     return("skipped")
   }
-})
-
-#' Remove projects or projects from a Library
-#'
-#' Removes one or more projects from a SyncroSim library. Note this is irreversable.
-#'
-#' @param ssimObject SsimLibrary/Project or path to a library.
-#' @param project character, numeric, or vector of these. One or more project names or ids. If NULL all projects in ssimObject will be removed.
-#' @param force logical. If FALSE (default), user will be prompted to approve removal of each project.
-#' @param forceElements logical. If TRUE then returns a single removal request as a named list; otherwise returns a single removal request as a character string.
-#' @return A "saved" or failure message, or a list of these for each project.
-#' @examples
-#' TODO – update examples
-#' myLibrary = ssimLibrary(session=devSession)
-#' myProject = project(myLibrary,project="a project")
-#' project(myLibrary)
-#' removeProject(myLibrary,project="a project")
-#' project(myLibrary)
-#'
-#' @export
-setGeneric('removeProject',function(ssimObject,project=NULL,force=F,forceElements=F) standardGeneric('removeProject'))
-setMethod('removeProject', signature(ssimObject="character"), function(ssimObject,project,force,forceElements) {
-  ssimObject=.ssimLibrary(ssimObject,create=F)
-  return(removeProject(ssimObject,project,force,forceElements))
-})
-setMethod('removeProject', signature(ssimObject="list"), function(ssimObject,project,force,forceElements) {
-  x = getIdsFromListOfObjects(ssimObject,expecting="Project",project=project)
-  ssimObject = x$ssimObject
-  project = x$objs
-  return(removeProject(ssimObject,project,force,forceElements))
-})
-
-setMethod('removeProject', signature(ssimObject="SsimLibrary"), function(ssimObject,project,force,forceElements) {
-  #x = ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-  #x = myLibrary
-  #project = "TempProject"
-  xProjScn=.getFromXProjScn(ssimObject,project=project,returnIds=T,convertObject=F,complainIfMissing=T,goal="project")
-  #expect to have a vector of valid project ids - checking already done
-  x=xProjScn$ssimObject
-  project=xProjScn$project
-  allProjects = xProjScn$projectSet
-  
-  if(!is.numeric(project)){
-    stop("Error in removeProject: expect to have valid project ids.")
-  }
-  
-  out = list()
-  for(i in seq(length.out=length(project))){
-    #i = 1
-    cProj = project[i]
-    name=allProjects$name[allProjects$id==cProj]
-    if(force){
-      answer="y"
-    }else{
-      answer <- readline(prompt=paste0("Do you really want to delete project ",name,"(",cProj,")? (y/n): "))
-    }
-    if(answer=="y"){
-      outBit = command(list(delete=NULL,project=NULL,lib=.filepath(x),pid=cProj,force=NULL),.session(x))
-    }else{
-      outBit = "skipped"
-    }
-
-    out[[as.character(cProj)]]=outBit
-  }
-  if(!forceElements&(length(project)==1)){
-    out=out[[1]]    
-  }
-  return(out)
-})
-
-#' Remove scenario or scenarios from library
-#'
-#' Removes one or more scenarios from a SyncroSim library. Note that this is irreversable.
-#'
-#' @param ssimObject SsimLibrary/Project/Scenario or path to a library.
-#' @param scenario NULL, character, numeric, or vector of these. One or more scenario names or ids. If NULL all scenarios in ssimObject will be removed.
-#' @param force logical. If FALSE (default) user is prompted to approve each removal.
-#' @param forceElements logical. If TRUE then returns a single removal request as a named list; otherwise returns a single removal request as a character string.
-#' @return A "saved" or failure message, or a list of these for each scenario.
-#' @examples
-#' TODO – update examples
-#' myLibrary = ssimLibrary()
-#' myScenario = scenario(project(myLibrary),scenario="Scenario")
-#' scenario(myLibrary)
-#' removeScenario(myLibrary,scenario="Scenario")
-#' scenario(myLibrary)
-#' @export
-setGeneric('removeScenario',function(ssimObject,scenario=NULL,force=FALSE,forceElements=FALSE) standardGeneric('removeScenario'))
-setMethod('removeScenario', signature(ssimObject="character"), function(ssimObject,scenario,force,forceElements) {
-  ssimObject=.ssimLibrary(ssimObject,create=F)
-  return(removeScenario(ssimObject,scenario,force,forceElements))
-})
-setMethod('removeScenario', signature(ssimObject="list"), function(ssimObject,scenario,force,forceElements) {
-  x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
-  ssimObject = x$ssimObject
-  scenario = x$objs
-  return(removeScenario(ssimObject,scenario,force,forceElements))
-})
-setMethod('removeScenario', signature(ssimObject="SsimLibrary"), function(ssimObject,scenario,force,forceElements) {
-  #ssimObject=myOtherLib;scenario="other";force=T;forceElements=F
-  xProjScn=.getFromXProjScn(ssimObject,scenario=scenario,returnIds=T,convertObject=F,complainIfMissing=T,goal="scenario")
-  #expect to have a vector of valid scenario ids - checking already done
-  x=xProjScn$ssimObject
-  scenario=xProjScn$scenario
-  allScenarios = xProjScn$scenarioSet
-  
-  if(!is.numeric(scenario)){
-    stop("Error in removeScenario: expect to have valid scenario ids.")
-  }
-
-  out = list()
-  for(i in seq(length.out=length(scenario))){
-    #i = 1
-    cScn = scenario[i]
-    name = allScenarios$name[allScenarios$id==cScn]
-    if(force){
-      answer="y"
-    }else{
-      answer <- readline(prompt=paste0("Do you really want to remove scenario ",name,"(",cScn,")? (y/n): "))
-    }
-    if(answer=="y"){
-      outBit = command(list(delete=NULL,scenario=NULL,lib=.filepath(x),sid=cScn,force=NULL),.session(x))
-    }else{
-      outBit = "skipped"
-    }
-    out[[as.character(cScn)]]=outBit
-  }
-  
-  if(!forceElements&(length(scenario)==1)){
-    out=out[[1]]
-  }
-  return(out)
 })
 
 #' addons of an SsimLibrary or Session
