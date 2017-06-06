@@ -10,7 +10,7 @@ test_that("Tests of Session", {
   expect_output(str(version(mySsim)),"chr [1:2]",fixed=T) # Lists the version of syncrosim session
   expect_equal(names(modules(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(models(mySsim)),c("name","displayName","shortName")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-  expect_output('removeModules<-'(mySsim,"hi"),"Module hi is not installed, so cannot be removed.")
+  expect_output(deletModule("hi",mySsim),"Module hi is not installed, so cannot be removed.")
 })
 
 

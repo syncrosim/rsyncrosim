@@ -25,9 +25,9 @@ models(mySsim) # Dataframe of the models installed with this version of syncrosi
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
 
 # Add/remove modules
-removeModules(mySsim) = "hi"
+deleteModule("hi",mySsim)
 # NOTE: this works but causes problems when working with a dev version of syncrosim.
-#removeModules(mySsim) = "stsim-stock-flow"
+#deleteModule("stsim-stock-flow",mySsim) 
 #is.element("stsim-stock-flow",modules(mySsim)$name)
 #addModule("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg",mySsim)
 #addModule(c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg"),mySsim)
