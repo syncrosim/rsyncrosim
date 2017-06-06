@@ -12,6 +12,12 @@ defaultModel(mySession)
 defaultModel(mySession)="stsim"
 defaultModel(mySession)
 
+modules(mySession)
+#deleteModule("sample-basic-dotnet") #using default session
+#modules(mySession)
+#deleteModule(c("sample-stime-dotnet","sample-spatial-dotnet"),mySession) #a vector, using a particular session
+#modules(mySession)
+
 #Three different ways to provide args to command
 command(c("create","help"))
 command("--create --help",session=session(printCmd=T))
