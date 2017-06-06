@@ -51,6 +51,30 @@ setGeneric('filepath',function(x) standardGeneric('filepath'))
 # @export
 setGeneric('info',function(x) standardGeneric('info'))
 
+# The last date a SsimLibrary/Project/Scenario was modified.
+#
+# The most recent modification date of an SsimLibrary/ProjectScenario
+#
+# @param ssimObject SsimLibrary/Project/Scenario.
+# @export
+setGeneric('dateModified',function(ssimObject) standardGeneric('dateModified'))
+
+# The owner of a SsimLibrary/Project/Scenario.
+#
+# The owner of an SsimLibrary/ProjectScenario
+#
+# @param ssimObject SsimLibrary/Project/Scenario.
+# @export
+setGeneric('owner',function(ssimObject) standardGeneric('owner'))
+
+# Read-only status of an SsimLibrary/Project/Scenario.
+#
+# Whether or not an SsimLibrary/ProjectScenario is read-only.
+#
+# @param ssimObject SsimLibrary/Project/Scenario.
+# @export
+setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
+
 # datasheets
 #
 # Gets datasheet summary info from an SsimLibrary, Project or Scenario.
@@ -131,7 +155,7 @@ setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,na
 
 #Handles case where ssimObject is list of Scenario or Project objects
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #x=myResults;name="STSim_OutputStratumState";lookupsAsFactors=T;project=NULL;scenario=NULL;optional=F;empty=F
+  #ssimObject=myResult;name="STSim_OutputSpatialState";project=NULL;scenario=NULL;summary=NULL;optional=F;empty=F;lookupsAsFactors=T
 
   cScn = ssimObject[[1]]
   x=NULL

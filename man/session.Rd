@@ -7,12 +7,12 @@
 \alias{session,missingOrNULLOrChar-method}
 \title{Start or get a SyncroSim session.}
 \usage{
-session(x = NULL, silent = F, printCmd = F, defaultModel = "stsim")
+session(x = NULL, silent = T, printCmd = F, defaultModel = "stsim")
 
-\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = F,
+\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = T,
   printCmd = F, defaultModel = "stsim")
 
-\S4method{session}{SsimLibrary}(x = NULL, silent = F, printCmd = F,
+\S4method{session}{SsimLibrary}(x = NULL, silent = T, printCmd = F,
   defaultModel = "stsim")
 }
 \arguments{

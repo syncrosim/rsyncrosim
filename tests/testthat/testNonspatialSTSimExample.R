@@ -177,7 +177,7 @@ test_that("Test simple non-spatial STSim example", {
   # Add Harvest Scenario
   #*************************************
   # devtools::document();devtools::load_all()
-  # removeScenario(myProject,"Harvest",force=T)
+  # delete(myProject,scenario="Harvest",force=T)
   myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
   expect_is(myScenario,"Scenario")
   # Copies "No Harvest" scenario to new "Harvest" scenario

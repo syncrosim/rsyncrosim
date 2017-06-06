@@ -226,7 +226,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
       if(is.na(scnsToMake$exists[i])){
         next
       }
-      ret = removeScenario(ssimObject,scenario=scnsToMake$id[i],force=T)
+      ret = delete(ssimObject,scenario=scnsToMake$id[i],force=T)
       cRow=scnsToMake[i,]
       scnsToMake[i,]=NA
       scnsToMake$name[i]=cRow$name;scnsToMake$pid[i]=cRow$pid;scnsToMake$order[i]=cRow$order
@@ -279,6 +279,22 @@ setMethod('name', signature(ssimObject="Scenario"), function(ssimObject) {
   scnInfo = scenario(ssimObject,summary=T)
   return(scnInfo$name)
 })
+setMethod('dateModified', signature(ssimObject="Scenario"), function(ssimObject) {
+  #ssimObject=newScenario
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$lastModified)
+})
+setMethod('owner', signature(ssimObject="Scenario"), function(ssimObject) {
+  #ssimObject=newScenario
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$owner)
+})
+setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
+  #ssimObject=newScenario
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$readOnly)
+})
+
 setReplaceMethod(
   f='name',
   signature="Scenario",
@@ -403,7 +419,7 @@ setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
 })
 
 setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,timesteps,nameFilters,rat) {
-  # x= myResult[[1]]; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL;nameFilters=NULL
+  # x= myResult[[2]]; sheet="STSim_OutputSpatialState";iterations=NULL;timesteps = NULL;rat=NULL;nameFilters=NULL
 
   cSheets = .datasheets(x)
   if(!is.element(sheet,cSheets$name)){
@@ -415,7 +431,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
   #}
 
   #TO DO: make sure datasheet is spatial after opening
-  cMeta = datasheet(x,name=sheet,optional=T)
+  cMeta = .datasheet(x,name=sheet,optional=T)
 
   if(nrow(cMeta)==0){
     multiband(x,action="rebuild")
@@ -488,8 +504,8 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
     cFNames = subset(cFNames,!is.na(Filename))
     cFNames$Band=NA
     cMeta =cFNames
-    cMeta$outName = paste0(sheet,".Scn",.scenarioId(x),".",gsub(".tif","",cMeta$Filename,fixed=T))
-    cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.scenarioId(x),"/",sheet,"/",cMeta$Filename)
+    cMeta$outName = paste0(sheet,".Scn",.scenarioId(x),".",gsub(".tif","",basename(cMeta$Filename),fixed=T))
+    #cMeta$Filename = paste0(.filepath(x),".input/Scenario-",.scenarioId(x),"/",sheet,"/",cMeta$Filename)
 
   }else{
     cMeta$outName = paste0(sheet,".Scn",.scenarioId(x),".It",cMeta$Iteration,".Ts",cMeta$Timestep)
@@ -566,7 +582,7 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
       if(is.na(cRow$Filename)){next}
       if(!file.exists(cRow$Filename)){
         #TO DO: path should already be there...
-        addPath = paste0(.filepath(x),".output/Scenario-",.scenarioId(x),"/Spatial/",cRow$Filename)
+        addPath = paste0(.filepath(x),".output/Scenario-",.scenarioId(x),"/",sheet,"/",cRow$Filename)
         if(!file.exists(addPath)){
           stop("Output not found: ",cRow$Filename)
         }
@@ -604,9 +620,9 @@ setMethod('spatialData', signature(x="Scenario"), function(x,sheet,iterations,ti
 })
 
 setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadata,project,scenario,breakpoint,check) {
-  #x = myScenario;project=NULL;scenario=NULL;metadata=metadata;data=data;breakpoint=F;check=T
+  #x = newScenario;project=NULL;scenario=NULL;metadata=metadata;data=data;breakpoint=F;check=T
   #.filepath=filepath;.id=id
-  x = .getFromXProjScn(x,project,scenario,returnIds=F,convertObject=T,complainIfMissing=T,goal="Scenario")
+  x = .getFromXProjScn(x,project,scenario,returnIds=F,convertObject=T,complainIfMissing=T,goal="scenario")
   #Expecting a single scenario
   if(class(x)!="Scenario"){
     stop("Expecting a x/project/scenario to identify a single scenario in loadSpatialData()")
@@ -629,6 +645,24 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
     stop("metadata should include 'SheetName' column")
   }
   fileCols = names(metadata)[grepl("FileName",names(metadata),fixed=T)]
+  if(breakpoint){
+    outDir = paste0(.filepath(x),'.temp/Data')
+  }else{
+    outDir = paste0(dirname(.filepath(x)),"/Temp/Scenario-",.scenarioId(x),"/",cSheetName)
+    #outDir=paste0(.filepath(x),".input/Scenario-",.scenarioId(x),"/",cSheetName)
+  }
+  
+  #give SyncroSim full filenames
+  for(i in seq(length.out=length(fileCols))){
+    #i=1
+    cCol = fileCols[i]
+    metadata[[cCol]]=as.character(metadata[[cCol]])
+    checkForPath = dirname(metadata[[cCol]][1])
+    if(checkForPath=="."){
+      metadata[[cCol]]=paste0(outDir,"/",metadata[[cCol]])
+    }
+  }
+  
   if(check|(!breakpoint)){
     #Check that metadata is valid
     cSheet = datasheet(x,cSheetName,optional=T)
@@ -649,14 +683,10 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
     cSheet = subset(cSheet,is.na(isOut));cSheet$isOut=NULL
     check = addRows(cSheet,subset(metadata,select=setdiff(names(metadata),c("RasterLayerName"))))
   }
-  if(breakpoint){
-    outDir = paste0(.filepath(x),'.temp/Data')
-  }else{
-    outDir=paste0(.filepath(x),".input/Scenario-",.scenarioId(x),"/",cSheetName)
-  }
   dir.create(outDir, showWarnings = FALSE,recursive=T)
   
   cMeta = metadata
+  
   #There can be more than one FileName column - make long file
   
   if(length(fileCols)==1){
@@ -679,17 +709,17 @@ setMethod('loadSpatialData', signature(x="SsimLibrary"), function(x,data,metadat
     cMeta=cMTemp
   }
   if(!is.element("RasterLayerName",names(cMeta))){
-    cMeta$RasterLayerName = gsub("-",".",cMeta[[FileCol]],fixed=T)
+    cMeta$RasterLayerName = gsub("-",".",basename(cMeta[[fileCol]]),fixed=T)
   }
-  cMeta[[FileCol]]=as.character(cMeta[[FileCol]])
+  cMeta[[fileCol]]=as.character(cMeta[[fileCol]])
   for(i in 1:nrow(cMeta)){
     #i =1
     cRow = cMeta[i,]
     cDat = data[[cRow$RasterLayerName]]
     cRow$RasterLayerName=NULL
     cFileCol = names(cRow)[grepl("FileName",names(cRow))]
-    cRow[[cFileCol]] = basename(cRow[[cFileCol]])
-    cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
+    #cRow[[cFileCol]] = basename(cRow[[cFileCol]])
+    #cRow[[cFileCol]] = paste0(outDir,"/",cRow[[cFileCol]])
     
     if(!breakpoint){
       raster::writeRaster(cDat, filename=cRow[[cFileCol]], format="GTiff", overwrite=TRUE)

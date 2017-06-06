@@ -16,6 +16,7 @@ library(raster);library(rasterVis)
 libRoot = "C:/Temp"
 libName = "ST-Sim Spatial Tutorial"
 libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
+delete(libPath,force=T)
 #download library if necessary.
 if(!file.exists(libPath)){
   zipPath = paste0(libRoot,"/",libName,".zip")
@@ -30,14 +31,15 @@ if(!file.exists(libPath)){
 # View  "STSim_OutputSpatialState" results
 myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
-myProject = project(myLibrary,project="a project")
-#scenario(myProject)
+project(myLibrary)
+myProject = project(myLibrary,project=1)
+scenario(myProject)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
 run(myProject,5,summary=T)
 
 resultScns = scenario(myProject,results=T)
 myResult = scenario(myProject,scenario=tail(resultScns,n=2)$id)
-
-datasheet(myResult[[1]])$name
 
 #*************************************
 # View state class output
@@ -51,11 +53,12 @@ rat$Color = c("darkgreen","brown","wheat")
 #   R colour names: See colors() for options.
 #   hexadecimal colors: As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.
 
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
+checkSheet = datasheet(myResult,name="STSim_OutputSpatialState")
 myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
                         iterations=seq(1),timesteps = seq(0,10,by=5),rat=rat)
 names(myRasters)
-
-#TO DO: set up an example of querying particular iterations/timesteps
 
 str(myRasters[[1]])
 #NOTE: myRasters is a RasterStack object. See raster package documentation for details.
@@ -66,6 +69,7 @@ str(myRasters[[1]])
 ?scenario
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
+levels(myRasters[[1]])
 levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
 #This is a wrapper for the levelplot() function of the rasterVis package:
 
@@ -92,8 +96,8 @@ dev.off()
 # View spatial inputs
 datasheet(myResult[[1]])$name
 
-check = (datasheet(myResult[[1]],"STSim_OutputSpatialTransition"))
-
+check = datasheet(myResult[[1]],"STSim_OutputSpatialTransition")
+str(check)
 #TO DO: helper for pulling particular transition groups, etc? later.
 mySpatialInputs = spatialData(myResult,sheet="STSim_InitialConditionsSpatial")
 names(mySpatialInputs)
@@ -130,7 +134,7 @@ dev.off()
 ##################
 #Set spatial inputs in a new library.
 if(is.element("NewScn",scenario(myProject)$name)){
-  removeScenario(myProject,scenario="NewScn",force=T)
+  delete(myProject,scenario="NewScn",force=T)
 }
 newScenario = scenario(myProject,scenario="NewScn")
 
@@ -152,7 +156,7 @@ spatialProperties$CellArea=spatialProperties$CellSize^2/10000
 mySheet=addRows(mySheet,spatialProperties)
 saveDatasheet(newScenario,mySheet,name=sheetName)
 
-#NOTE: This does not work. Throws exception. Trying to figure out why.
+#NOTE: This does not work. Throws exception when I try to open in GUI. Help?
 
 ###############
 # Rearrange spatial outputs in a result scenario

@@ -16,7 +16,7 @@ setMethod(
   f='levelplotCategorical',
   signature="RasterLayer",
   definition=function(x,attribute,title){
-    #x = myRasters[[1]];attribute="StateLabelXID"
+    #x = myRasters[[1]];attribute="StateLabelXID";title=NULL
     if(is.null(title)){
       title=x@title
     }

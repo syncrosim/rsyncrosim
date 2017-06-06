@@ -46,7 +46,7 @@
 
   if(is.null(goal)){
     if(is.null(project)&is.null(scenario)){
-      if(returnIds){
+      if(!is.null(returnIds)&&returnIds){
         return(list(ssimObject=ssimObject,project=NULL,scenario=NULL,goal="library"))
       }else{
         return(ssimObject)

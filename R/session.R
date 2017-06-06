@@ -99,7 +99,7 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
 #' # Assign a session to a SyncroSim library
 #' session(myLib)=session()
 #' @export
-setGeneric('session',function(x=NULL,silent=F,printCmd=F,defaultModel="stsim") standardGeneric('session'))
+setGeneric('session',function(x=NULL,silent=T,printCmd=F,defaultModel="stsim") standardGeneric('session'))
 
 #' @describeIn session Create a SyncroSim Session from a filepath or get default Session.
 setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,printCmd,defaultModel) {

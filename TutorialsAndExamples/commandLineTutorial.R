@@ -28,16 +28,16 @@ myLib=ssimLibrary(name="temp26",session=mySession)
 addons(myLib)
 addons(mySession)
 datasheet(myLib)
-deleteLibrary(myLib,force=T)
+delete(myLib,force=T)
 #project(myLib) #Fails with message that library does not exist on disk.
 myLib=ssimLibrary(name="temp26",session=mySession)
 myOtherLib = ssimLibrary(name="temp27",session=mySession)
-deleteLibrary(myOtherLib,force=T)
+delete(myOtherLib,force=T)
 myOtherLib = ssimLibrary(name="temp27",session=mySession)
 myOtherScn = scenario(myOtherLib,scenario="other")
 scenario(myOtherLib)
-#removeScenario("myOtherLib",scenario="other",force=T)#Fails if library does not exist
-removeScenario(myOtherLib,scenario="other",force=T)
+#delete("myOtherLib",scenario="other",force=T)#Fails if library does not exist
+delete(myOtherLib,scenario="other",force=T)
 
 project(myOtherLib)
 scenario(myOtherLib)
@@ -54,7 +54,7 @@ scenario(myLib)
 project(myLib)
 myProject = project(myLib,project="temp2")
 myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
-#removeScenario(myProject,scenario="one",force=T)
+#delete(myProject,scenario="one",force=T)
 myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
@@ -121,13 +121,15 @@ name(myLibrary)
 name(myLibrary)="Fred"
 name(myLibrary) #Note that the filename on disk has not changed
 
-#TO DO: test delete()
+#TO DO: go over STSimSpatialTutorial.R newScenario part with Alex. What is needed to set spatial inputs in a new library?
+#TO DO: test delete().
 #TO DO: session()  Use version() properly once that function is updated. 
 #TO DO: for saveDatasheet() handle data without names.
 #TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
 #TO DO: revise datasheet() given new options from --export: --extfilepaths --rawvalues
 #TO DO: test datasheet() optional=F, empty=F with database queries (output for multiple scenarios)
 #TO DO: test datasheet() for scenario with dependencies.
+#TO DO: complain if delete library fails because file is locked.
 
 #*************************************
 # Create the project definition
@@ -135,7 +137,7 @@ name(myLibrary) #Note that the filename on disk has not changed
 
 myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T,session=mySession)
 myProject = project(myLibrary,project="ST-Sim Demonstration")
-removeProject(myProject,force=T)
+delete(myProject,force=T)
 myProject = project(myLibrary,project="ST-Sim Demonstration")
 
 #***********************************
@@ -296,7 +298,7 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 # Add Harvest Scenario
 #*************************************
 # devtools::document();devtools::load_all()
-# removeScenario(myProject,"Harvest",force=T)
+# delete(myProject,"Harvest",force=T)
 myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
 # Copies "No Harvest" scenario to new "Harvest" scenario
 
@@ -320,7 +322,7 @@ myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 
 scenario(myProject)
 
-# removeScenario(myProject,3,force=T)
+# delete(myProject,3,force=T)
 # myResults=scenario(myProject,summary=F,results=T)
 
 #********************************
@@ -384,8 +386,6 @@ anotherProject = project(myLibrary,project="AnotherProject")
 #
 # Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.
 #  - enableAddons<-,disableAddons<- : side effects for other projects/scenarios
-#  - removeScenario(): only let a parent (Project or SsimLibrary) delete a scenario?
-#  - removeProject(): only let parent SsimLibrary delete a project?
 #
 # And I am unsure about these methods:
 #  - info(): returns library info
@@ -395,7 +395,7 @@ myScenarios = scenario(myProject,summary=F) #returns list - names are scenario i
 names(myScenarios)
 # NOTE: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
 
-removeProject(myLibrary, project="My new project name") # Returns "saved" or a failure message, or a list of these for each project.
+delete(myLibrary, project="My new project name") # Returns "saved" or a failure message, or a list of these for each project.
 # QUESTION: consistency with enable/disableAddons? When should I use assignment operators?
 
 parentId(myScenario)

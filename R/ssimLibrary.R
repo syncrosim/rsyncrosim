@@ -9,7 +9,7 @@ NULL
 # @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
     definition=function(.Object,name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=T){
-    #name="New Lib";session=NULL;addon=NULL;forceUpdate=F
+    #name=libPath;model=NULL;session=NULL;addon=NULL;forceUpdate=forceUpdate;create=T
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
@@ -130,12 +130,12 @@ setMethod(f='initialize',signature="SsimLibrary",
   }
 )
 
-setGeneric('.ssimLibrary',function(name=NULL,...) standardGeneric('.ssimLibrary'))
+setGeneric('.ssimLibrary',function(name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=F) standardGeneric('.ssimLibrary'))
 setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),
-          function(name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=F) {
+          function(name,model,session,addon,forceUpdate,create) {
             new("SsimLibrary",name,model,session,addon,forceUpdate,create)
           })
-setMethod('.ssimLibrary', signature(name="SsimLibrary"), function(name) {
+setMethod('.ssimLibrary', signature(name="SsimLibrary"), function(name,model,session,addon,forceUpdate,create) {
   #model=cScn
   if(class(name)=="SsimLibrary"){
     out=name
@@ -237,6 +237,24 @@ setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
   return(subset(cInfo,property=="Name:")$value)
+})
+
+setMethod('dateModified', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLibrary
+  cInfo = info(ssimObject)
+  return(subset(cInfo,property=="Last Modified:")$value)
+})
+
+setMethod('owner', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLibrary
+  cInfo = info(ssimObject)
+  return(subset(cInfo,property=="Owner:")$value)
+})
+
+setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLibrary
+  cInfo = info(ssimObject)
+  return(subset(cInfo,property=="Read Only:")$value)
 })
 setReplaceMethod(
   f='name',
@@ -474,7 +492,11 @@ setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLi
     answer <- readline(prompt=paste0("Do you really want to delete library ",.filepath(ssimLibrary),"? (y/n): "))
   }
   if(answer=="y"){
+    #ssimLibrary=myLibrary;.filepath(myLibrary)
     unlink(.filepath(ssimLibrary))
+    unlink(paste0(.filepath(ssimLibrary),".backup"),recursive=T,force=T)
+    unlink(paste0(.filepath(ssimLibrary),".input"),recursive=T,force=T)
+    unlink(paste0(.filepath(ssimLibrary),".output"),recursive=T,force=T)
     return("saved")
   }else{
     return("skipped")
@@ -641,7 +663,8 @@ setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,
 })
 
 setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject = myProject;name=sheetName;project=NULL;scenario=NULL;summary=NULL;optional=F;empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
+  #ssimObject = myResult[[1]];name="STSim_OutputSpatialState";project=NULL;scenario=NULL;summary=NULL;optional=F
+  #empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
 
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   if(class(xProjScn)=="SsimLibrary"){
@@ -771,9 +794,9 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
       if(useConsole){
         unlink(tempFile)
         if(!optional){
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL,colswithdata=NULL)#filepath=NULL
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL,colswithdata=NULL,extfilepaths=NULL)#filepath=NULL
         }else{
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL)#filepath=NULL
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL,extfilepaths=NULL)#filepath=NULL
         }
         if(sheetNames$scope=="project"){args[["pid"]]=pid}
         
@@ -1050,10 +1073,13 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
         sheet$ScenarioID = NULL
       }else{
         if(nrow(sheet)>0){
-          if(is.null(allScns)){
-            allScns = scenario(x)
+          
+          allScns = scenario(x)
+          if(!is.element("parentId",names(allScns))){
+            warning("Missing parentId info from scenario(summary=T).")
+            allScns$parentId=NA
           }
-          allScns=subset(allScns,select=c(id,pid,name,parentName))
+          allScns=subset(allScns,select=c(id,pid,name,parentId))
           names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
           sheet=merge(allScns,sheet,all.Y=T)
         }
@@ -1278,7 +1304,8 @@ setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenar
       cBreakpointSession=NULL
     }
     #Resume here.
-    #stop()
+    #stop
+    inScn = paste0(name," (",cScn,")")
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
       out[[inScn]]=tt
       print(tt)
@@ -1294,7 +1321,7 @@ setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenar
 
   }
   
-  if(!forceElements&&(class(out)==list)&&(length(out)==1)){
+  if(!forceElements&&(class(out)=="list")&&(length(out)==1)){
     out=out[[1]]
   }
   

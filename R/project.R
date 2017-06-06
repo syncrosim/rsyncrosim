@@ -255,6 +255,24 @@ setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
   return(info$name)
 })
 
+setMethod('dateModified', signature(ssimObject="Project"), function(ssimObject) {
+  #ssimObject=myProject
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$lastModified)
+})
+
+setMethod('owner', signature(ssimObject="Project"), function(ssimObject) {
+  #ssimObject=myProject
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$owner)
+})
+
+setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
+  #ssimObject=myProject
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$readOnly)
+})
+
 setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
   return(ssimObject@projectId)
 })
