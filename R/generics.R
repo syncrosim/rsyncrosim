@@ -75,6 +75,14 @@ setGeneric('owner',function(ssimObject) standardGeneric('owner'))
 # @export
 setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
 
+# Description of an SsimLibrary/Project/Scenario.
+#
+# The description of an SsimLibrary/ProjectScenario.
+#
+# @param ssimObject SsimLibrary/Project/Scenario.
+# @export
+setGeneric('description',function(ssimObject) standardGeneric('description'))
+
 # datasheets
 #
 # Gets datasheet summary info from an SsimLibrary, Project or Scenario.

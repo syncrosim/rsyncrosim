@@ -273,6 +273,13 @@ setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
   return(scnInfo$readOnly)
 })
 
+setMethod('description', signature(ssimObject="Project"), function(ssimObject) {
+  #ssimObject=myProject
+  desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject)),session=.session(ssimObject))
+  return(desc)
+})
+
+
 setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
   return(ssimObject@projectId)
 })

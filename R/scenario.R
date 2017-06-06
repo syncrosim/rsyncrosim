@@ -294,6 +294,11 @@ setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
   scnInfo = scenario(ssimObject,summary=T)
   return(scnInfo$readOnly)
 })
+setMethod('description', signature(ssimObject="Scenario"), function(ssimObject) {
+  #ssimObject=myProject
+  desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),sid=.scenarioId(ssimObject)),session=.session(ssimObject))
+  return(desc)
+})
 
 setReplaceMethod(
   f='name',

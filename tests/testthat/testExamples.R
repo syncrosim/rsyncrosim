@@ -49,7 +49,7 @@ test_that("Tests of Library", {
   disableAddons(myLibrary) = c("stsim-stock-flow")
   expect_equal(is.element("stsim-stock-flow",addons(myLibrary)$shortName),FALSE)
   session(myLibrary)=session(silent=T)
-  expect_equal(update(myLibrary),"The library has no unapplied updates.")
+  expect_equal(ssimUpdate(myLibrary),"The library has no unapplied updates.")
   unlink(filepath(myLibrary))
 })
 

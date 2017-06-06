@@ -256,6 +256,14 @@ setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) 
   cInfo = info(ssimObject)
   return(subset(cInfo,property=="Read Only:")$value)
 })
+
+setMethod('description', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLibrary
+  desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject)),session=.session(ssimObject))
+  return(desc)
+})
+
+
 setReplaceMethod(
   f='name',
   signature="SsimLibrary",
@@ -307,8 +315,8 @@ setMethod('modelVersion', signature(x="SsimLibrary"), function(x) {
 #' @param x An SsimLibrary object, or a Project or Scenario associated with a Library
 #' @return "saved" or a failure message from the console.
 #' @export
-setGeneric('update',function(x) standardGeneric('update'))
-setMethod('update', signature(x="SsimLibrary"), function(x) {
+setGeneric('ssimUpdate',function(x) standardGeneric('ssimUpdate'))
+setMethod('ssimUpdate', signature(x="SsimLibrary"), function(x) {
   #x= myLibrary
   #args = list(update=NULL,lib=.filepath(x));session=.session(x)
   tt = command(list(update=NULL,lib=.filepath(x)),.session(x))
