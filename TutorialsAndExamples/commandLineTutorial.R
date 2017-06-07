@@ -141,10 +141,11 @@ owner(myLib)
 #readOnly(myLib)=F #can set readOnly to T but can't set it back to F. 
 readOnly(myLib) 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+addons(myLib) #TO DO: test disableAddon() once we have some addons.
 
+command("--copy --help")
 
-command("--setprop --help")
-
+#TO DO: test disableAddon() and enableAddon() once we have some addons.
 #TO DO: allow setting readOnly=F from T.
 #TO DO: go over STSimSpatialTutorial.R newScenario part with Alex. What is needed to set spatial inputs in a new library?
 #TO DO: test delete().
@@ -410,7 +411,7 @@ anotherProject = project(myLibrary,project="AnotherProject")
 #  - session(), modelVersion(), modelName(), filepath(), addons(): provide useful information.
 #
 # Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.
-#  - enableAddons<-,disableAddons<- : side effects for other projects/scenarios
+#  - enableAddon,disableAddon : side effects for other projects/scenarios
 #
 # And I am unsure about these methods:
 #  - info(): returns library info
@@ -421,7 +422,6 @@ names(myScenarios)
 # NOTE: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
 
 delete(myLibrary, project="My new project name") # Returns "saved" or a failure message, or a list of these for each project.
-# QUESTION: consistency with enable/disableAddons? When should I use assignment operators?
 
 parentId(myScenario)
 # QUESTION: Should I disable assignment functions for result scenarios?

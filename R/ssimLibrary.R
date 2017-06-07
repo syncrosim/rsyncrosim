@@ -610,29 +610,26 @@ setMethod('addons', signature(ssimObject="SsimLibrary"), function(ssimObject,all
   return(tt)
 })
 
-#' Enable addons.
+#' Enable addon or addons.
 #'
-#' Enable addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
+#' Enable addon or addons of an SsimLibrary.
 #'
-#' @param x= A SsimLibrary, Project or Scenario.
-#' @return x
+#' @param ssimLibrary SsimLibrary
+#' @param name Character string or vector of these.
+#' @return saved or error message for each addon.
 #' @examples
 #' myLibrary = ssimLibrary()
-#' enableAddons(myLibrary)=c("stsim-ecological-departure", "stsim-stock-flow")
+#' enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
 #' addons(myLibrary)
 #' @export
-setGeneric('enableAddons<-',function(x,value) standardGeneric('enableAddons<-'))
-setReplaceMethod(
-  f='enableAddons',
-  signature="SsimLibrary",
-  definition=function(x,value){
-    #x=myLibrary
-    #value = c("stsim-ecological-departure", "stsim-stock-flow")
-    cAdds = addons(x,all=T)
-    value=gsub(":add-on-transformer","",value,fixed=T)
-    for(i in seq(length.out=length(value))){
+setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
+setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
+    cAdds = addons(ssimLibrary,all=T)
+    name=gsub(":add-on-transformer","",name,fixed=T)
+    retList=list()
+    for(i in seq(length.out=length(name))){
       #i=1
-      cVal = value[i]
+      cVal = name[i]
       if(!is.element(cVal,cAdds$shortName)){
         print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$shortName[cAdds$enabled=="No"],collapse=",")))
         next
@@ -643,41 +640,40 @@ setReplaceMethod(
         next
       }
 
-      tt=command(list(create=NULL,addon=NULL,lib=.filepath(x),name=paste0(cVal,":add-on-transformer")),.session(x))
-      if(!identical(tt,"saved")){print(paste(tt[1],cVal))}
+      tt=command(list(create=NULL,addon=NULL,lib=.filepath(ssimLibrary),name=paste0(cVal,":add-on-transformer")),.session(ssimLibrary))
+      retList[[cVal]]=tt
     }
 
-    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
-    return (x)
+    return (retList)
   }
 )
 
-#' Disable addons.
+#' Disable addon or addons.
 #'
-#' Disable addons an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
+#' Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 #'
-#' @param x= A SsimLibrary, Project or Scenario.
-#' @return x
+#' @param ssimLibrary SsimLibrary
+#' @param name Character string or vector of these.
+#' @return saved or error message.
 #' @examples
+#' TODO - update examples
 #' myLibrary = ssimLibrary()
-#' enableAddons(myLibrary)=c("stsim-ecological-departure")
+#' enableAddon(myLibrary,c("stsim-ecological-departure"))
 #' addons(myLibrary)
-#' disableAddons(myLibrary)=c("stsim-ecological-departure")
+#' disableAddon(myLibrary,c("stsim-ecological-departure"))
 #' addons(myLibrary)
 #'
 #' @export
-setGeneric('disableAddons<-',function(x,value) standardGeneric('disableAddons<-'))
-setReplaceMethod(
-  f='disableAddons',
-  signature="SsimLibrary",
-  definition=function(x,value){
+setGeneric('disableAddon',function(ssimLibrary,name) standardGeneric('disableAddon'))
+setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
     #x=myLibrary
     #value = c("stsim-ecological-departure", "stsim-stock-flow")
-    cAdds = addons(x,all=T)
-    value=gsub(":add-on-transformer","",value,fixed=T)
-    for(i in seq(length.out=length(value))){
+    cAdds = addons(ssimLibrary,all=T)
+    name=gsub(":add-on-transformer","",name,fixed=T)
+    retList = list()
+    for(i in seq(length.out=length(name))){
       #i=1
-      cVal = value[i]
+      cVal = name[i]
       if(!is.element(cVal,cAdds$shortName)){
         print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$shortName[cAdds$enabled=="No"],collapse=",")))
         next
@@ -688,12 +684,12 @@ setReplaceMethod(
         next
       }
 
-      tt=command(list(delete=NULL,addon=NULL,force=NULL,lib=.filepath(x),name=paste0(cVal,":add-on-transformer")),.session(x))
-      if(!identical(tt,"saved")){print(paste(tt[1],cVal))}
+      tt=command(list(delete=NULL,addon=NULL,force=NULL,lib=.filepath(ssimLibrary),name=paste0(cVal,":add-on-transformer")),.session(ssimLibrary))
+      retList[[cVal]]=tt
     }
 
-    x@datasheetNames = .datasheets(x,scope="all",refresh=T)
-    return (x)
+    #ssimLibrary@datasheetNames = .datasheets(ssimLibrary,scope="all",refresh=T)
+    return (retList)
   }
 )
 

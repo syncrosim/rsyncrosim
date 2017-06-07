@@ -69,9 +69,9 @@ session(myLibrary)=session() #Does this make sense?
 modelName(myLibrary) # Returns the name of the library's model - can't change this once the library is created.
 modelVersion(myLibrary)   # Returns the version of the library's model
 addons(myLibrary,all=T)   # A dataframe of enabled addons. Set all=T to see disabled addons.
-enableAddons(myLibrary) = c("stsim-stock-flow")
+enableAddon(myLibrary,"stsim-stock-flow")
 addons(myLibrary)
-disableAddons(myLibrary) = c("stsim-ecological-departure", "stsim-stock-flow")
+disableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
 addons(myLibrary)
 ssimUpdate(myLibrary)
 info(myLibrary)
