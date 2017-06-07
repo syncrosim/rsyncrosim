@@ -263,6 +263,13 @@ setMethod('description', signature(ssimObject="SsimLibrary"), function(ssimObjec
   return(desc)
 })
 
+setMethod('backup', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary) {
+  #ssimObject=myLibrary
+  command("--help --backup")
+  tt = command(list(backup=NULL,lib=.filepath(ssimLibrary),input=NULL,output=NULL),session=.session(ssimLibrary))
+  return(tt)
+})
+
 
 setReplaceMethod(
   f='name',

@@ -83,6 +83,14 @@ setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
 # @export
 setGeneric('description',function(ssimObject) standardGeneric('description'))
 
+# Backup an SsimLibrary.
+#
+# Backup an SsimLibrary.
+#
+# @param ssimLibrary SsimLibrary.
+# @export
+setGeneric('backup',function(ssimLibrary) standardGeneric('backup'))
+
 # datasheets
 #
 # Gets datasheet summary info from an SsimLibrary, Project or Scenario.

@@ -34,7 +34,7 @@ modules(mySession)   # Dataframe of the modules installed with this version of s
 models(mySession) # Dataframe of the models installed with this version of syncrosim.
 
 # Add and remove modules
-removeModules(mySession) = "stsim-stock-flow"
+deleteModule("stsim-stock-flow",mySession) 
 is.element("stsim-stock-flow",modules(mySsim)$shortName)
 addModule("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg",mySession)
 addModule(c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg"),mySession)
