@@ -125,9 +125,20 @@ name(myLibrary)
 name(myLibrary)="Fred"
 name(myLibrary) #Note that the filename on disk has not changed
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 backup(myLibrary)
+description(myLibrary) = "A new description. \n Try a linebreak." #TO DO: set linebreaks.
+description(myLibrary)
+owner(myLibrary) ="Fred"
+owner(myLibrary)
+#readOnly(myLibrary)=T
+#readOnly(myLibrary)
+#readOnly(myLibrary)=F #can set readOnly to T but can't set it back to F. 
+readOnly(myLibrary) 
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
+command("--setprop --help")
+
+#TO DO: allow setting readOnly=F from T.
 #TO DO: go over STSimSpatialTutorial.R newScenario part with Alex. What is needed to set spatial inputs in a new library?
 #TO DO: test delete().
 #TO DO: session()  Use version() properly once that function is updated. 

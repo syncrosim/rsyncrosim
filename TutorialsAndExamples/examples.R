@@ -155,10 +155,11 @@ projectId(myScenario)  # Returns the project ID for the scenario
 
 #Get/set scenario properties
 readOnly(myScenario)    # Returns TRUE/FALSE
-author(myScenario)
+owner(myScenario)
 description(myScenario)
-setProperties(myScenario, author="Colin Daniel",description="A great scenario.")
-author(myScenario)
+owner(myScenario)="Colin Daniel"
+description(myScenario)="A great scenario."
+owner(myScenario)
 
 #TO DO
 hasResults(myScenario)    # Returns TRUE/FALSE

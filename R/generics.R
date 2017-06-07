@@ -83,6 +83,35 @@ setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
 #' @export
 setGeneric('description',function(ssimObject) standardGeneric('description'))
 
+#' Set the description of an SsimLibrary/Project/Scenario.
+#'
+#' Set the description of an SsimLibrary/ProjectScenario.
+#'
+#' @param ssimObject Scenario/Project/SsimLibrary
+#' @param value The new description.
+#' @export
+setGeneric('description<-',function(ssimObject,value) standardGeneric('description<-'))
+
+#' Set the owner of an SsimLibrary/Project/Scenario.
+#'
+#' Set the owner of an SsimLibrary/Project/Scenario.
+#'
+#' @param ssimObject Scenario/Project/SsimLibrary
+#' @param value The new owner.
+#' @export
+setGeneric('owner<-',function(ssimObject,value) standardGeneric('owner<-'))
+
+#' Set the read/write status of an SsimLibrary/Project/Scenario.
+#'
+#' Set the read-only status of an SsimLibrary/Project/Scenario. 
+#' Applies to child objects if ssimObject is an SsimLibrary or Project.
+#'
+#' @param ssimObject Scenario/Project/SsimLibrary
+#' @param value Logical. If T the ssimObject will be read-only.
+#' @export
+setGeneric('readOnly<-',function(ssimObject,value) standardGeneric('readOnly<-'))
+
+
 #' Backup an SsimLibrary.
 #'
 #' Backup an SsimLibrary.

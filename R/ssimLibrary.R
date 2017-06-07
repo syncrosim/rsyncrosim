@@ -254,7 +254,11 @@ setMethod('owner', signature(ssimObject="SsimLibrary"), function(ssimObject) {
 setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
-  return(subset(cInfo,property=="Read Only:")$value)
+  oVal  = subset(cInfo,property=="Read Only:")$value
+  rVal=oVal
+  if(oVal=="Yes"){rVal=T}
+  if(oVal=="No"){rVal=T}
+  return(rVal)
 })
 
 setMethod('description', signature(ssimObject="SsimLibrary"), function(ssimObject) {
@@ -284,6 +288,64 @@ setReplaceMethod(
   }
 )
 
+setReplaceMethod(
+  f='description',
+  signature="SsimLibrary",
+  definition=function(ssimObject,value){
+    #x=myScenario;value="New description"
+    inValue = value
+    if(length(inValue)>1){
+      value=""
+      for(i in 1:length(inValue)){
+        value=paste0(value,inValue[[i]],sep="\n")
+      }
+    }
+    args = list(setprop=NULL,lib=.filepath(ssimObject),description=value)
+    if(class(ssimObject)=="Project"){args$pid = .projectId(ssimObject)}
+    if(class(ssimObject)=="Scenario"){args$sid = .scenarioId(ssimObject)}
+    tt = command(args,.session(ssimObject))
+    if(!identical(tt,"saved")){
+      stop(tt)
+    }
+    return (ssimObject)
+  }
+)
+
+setReplaceMethod(
+  f='owner',
+  signature="SsimLibrary",
+  definition=function(ssimObject,value){
+    #x=myScenario;value="New description"
+    args = list(setprop=NULL,lib=.filepath(ssimObject),owner=value)
+    if(class(ssimObject)=="Project"){args$pid = .projectId(ssimObject)}
+    if(class(ssimObject)=="Scenario"){args$sid = .scenarioId(ssimObject)}
+    tt = command(args,.session(ssimObject))
+    if(!identical(tt,"saved")){
+      stop(tt)
+    }
+    return (ssimObject)
+  }
+)
+
+setReplaceMethod(
+  f='readOnly',
+  signature="SsimLibrary",
+  definition=function(ssimObject,value){
+    #value = F;ssimObject=myLibrary
+    if(class(value)!="logical"){
+      stop("readOnly must be TRUE or FALSE.")
+    }
+    if(value==T){readOnly = "yes"}else{readOnly="no"}
+    args = list(setprop=NULL,lib=.filepath(ssimObject),readonly=readOnly)
+    if(class(ssimObject)=="Project"){args$pid = .projectId(ssimObject)}
+    if(class(ssimObject)=="Scenario"){args$sid = .scenarioId(ssimObject)}
+    tt = command(args,.session(ssimObject))
+    if(!identical(tt,"saved")){
+      stop(tt)
+    }
+    return (ssimObject)
+  }
+)
 
 #' The name of the primary model associate with a SyncroSim object
 #'

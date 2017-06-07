@@ -92,7 +92,7 @@ test_that("Tests of Scenario", {
   myScenario = scenario(myProject, scenario="My new scenario name")
 
   myScnNames  =   scenario(myLibrary)
-  expect_equal(names(myScnNames),c("id","pid","name","isResult","author","description","readOnly","lastModified","parentId"))
+  expect_equal(names(myScnNames),c("id","pid","name","isResult","owner","readOnly","lastModified","parentId"))
   expect_equal(myScnNames$name,c("Scenario","My new scenario name"))
 
   expect_is(scenarioId(myScenario),"numeric")
@@ -100,7 +100,7 @@ test_that("Tests of Scenario", {
   # Get an existing scenario by ID
   expect_is(scenario(myLibrary, scenario=1),"Scenario") # By ID directly from the library - return a single scenario object
 
-  # Get/set the scenario properties - for now we can only set Summary tab information (i.e. name, author, description and readOnly)
+  # Get/set the scenario properties - i.e. name, owner, description and readOnly
   expect_equal(name(myScenario),"Another scenario")
   name(myScenario) = "New scenario name"
   expect_equal(name(myScenario),"New scenario name")
@@ -110,10 +110,10 @@ test_that("Tests of Scenario", {
 
   #Get/set scenario properties
   expect_equal(readOnly(myScenario),FALSE)    # Returns TRUE/FALSE
-  expect_equal(author(myScenario),"Colin")
+  expect_equal(owner(myScenario),"Colin")
   expect_equal(description(myScenario),"My description")
-  ret = setProperties(myScenario, author="Colin Daniel",description="A great scenario.")
-  expect_equal(author(myScenario),"Colin Daniel")
+  owner(myScenario)="Colin Daniel"
+  expect_equal(owner(myScenario),"Colin Daniel")
 
   # Delete scenarios
   ret = delete(myLibrary, scenario=scenario(myLibrary)$id,force=T)
