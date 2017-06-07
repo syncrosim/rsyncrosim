@@ -51,44 +51,44 @@ setGeneric('filepath',function(x) standardGeneric('filepath'))
 # @export
 setGeneric('info',function(x) standardGeneric('info'))
 
-# The last date a SsimLibrary/Project/Scenario was modified.
-#
-# The most recent modification date of an SsimLibrary/ProjectScenario
-#
-# @param ssimObject SsimLibrary/Project/Scenario.
-# @export
+#' The last date a SsimLibrary/Project/Scenario was modified.
+#'
+#' The most recent modification date of an SsimLibrary/ProjectScenario
+#'
+#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @export
 setGeneric('dateModified',function(ssimObject) standardGeneric('dateModified'))
 
-# The owner of a SsimLibrary/Project/Scenario.
-#
-# The owner of an SsimLibrary/ProjectScenario
-#
-# @param ssimObject SsimLibrary/Project/Scenario.
-# @export
+#' The owner of a SsimLibrary/Project/Scenario.
+#'
+#' The owner of an SsimLibrary/ProjectScenario
+#'
+#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @export
 setGeneric('owner',function(ssimObject) standardGeneric('owner'))
 
-# Read-only status of an SsimLibrary/Project/Scenario.
-#
-# Whether or not an SsimLibrary/ProjectScenario is read-only.
-#
-# @param ssimObject SsimLibrary/Project/Scenario.
-# @export
+#' Read-only status of an SsimLibrary/Project/Scenario.
+#'
+#' Whether or not an SsimLibrary/ProjectScenario is read-only.
+#'
+#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @export
 setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
 
-# Description of an SsimLibrary/Project/Scenario.
-#
-# The description of an SsimLibrary/ProjectScenario.
-#
-# @param ssimObject SsimLibrary/Project/Scenario.
-# @export
+#' Description of an SsimLibrary/Project/Scenario.
+#'
+#' The description of an SsimLibrary/ProjectScenario.
+#'
+#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @export
 setGeneric('description',function(ssimObject) standardGeneric('description'))
 
-# Backup an SsimLibrary.
-#
-# Backup an SsimLibrary.
-#
-# @param ssimLibrary SsimLibrary.
-# @export
+#' Backup an SsimLibrary.
+#'
+#' Backup an SsimLibrary.
+#'
+#' @param ssimLibrary SsimLibrary.
+#' @export
 setGeneric('backup',function(ssimLibrary) standardGeneric('backup'))
 
 # datasheets
