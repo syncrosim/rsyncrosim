@@ -870,10 +870,10 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
       
       if(useConsole){
         unlink(tempFile)
-        if(!optional){
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL,colswithdata=NULL,extfilepaths=NULL)#filepath=NULL
+        if(!optional&(sheetNames$scope!="library")){
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL,colswithdata=NULL)#filepath=NULL
         }else{
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,force=NULL,includepk=NULL,extfilepaths=NULL)#filepath=NULL
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL)#filepath=NULL
         }
         if(sheetNames$scope=="project"){args[["pid"]]=pid}
         

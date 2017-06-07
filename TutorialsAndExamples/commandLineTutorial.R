@@ -25,12 +25,12 @@ command(list(create=NULL,help=NULL))
 
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="hello:model-transformer")
 output = command(args,session=session(printCmd=T,silent=F))
-output
 
 mySession =session(printCmd=T,silent=F)
+delete(paste0(getwd(),"/temp26.ssim"),force=T)
+delete(paste0(getwd(),"/temp27.ssim"),force=T)
 
 myLib=ssimLibrary(name="temp26",session=mySession)
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 addons(myLib)
 addons(mySession)
 datasheet(myLib)
@@ -38,12 +38,13 @@ delete(myLib,force=T)
 #project(myLib) #Fails with message that library does not exist on disk.
 myLib=ssimLibrary(name="temp26",session=mySession)
 myOtherLib = ssimLibrary(name="temp27",session=mySession)
-delete(myOtherLib,force=T)
-myOtherLib = ssimLibrary(name="temp27",session=mySession)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
 myOtherScn = scenario(myOtherLib,scenario="other")
 scenario(myOtherLib)
 #delete("myOtherLib",scenario="other",force=T)#Fails if library does not exist
 delete(myOtherLib,scenario="other",force=T)
+myOtherScn = scenario(myOtherLib,scenario="other2")
 
 project(myOtherLib)
 scenario(myOtherLib)
@@ -63,13 +64,11 @@ myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this nam
 #delete(myProject,scenario="one",force=T)
 myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
 #myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
 scenario(myLib)
 myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
 scenario(myLib)
-myScn = scenario(myProject,scenario="one",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
+myScn = scenario(myProject,scenario="two",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
 scenario(myLib)
 myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
 scenario(myLib)
@@ -83,30 +82,36 @@ myOtherProject=project(myLib,project="temp",sourceProject="temp2")#Warns that so
 myOtherProject=project(myLib,project="copy2",sourceProject="temp2")#Copy a project by name
 project(myLib)
 
-sheets = datasheet(myScn)
-str(sheets)
+sheets = datasheet(myScn) #only scope, name and displayName
 sheets 
+sheets = datasheet(myScn,optional=T) #all info
+str(sheets)
 #NOTE: hasData column only available for scenario scope datasheets
 #NOTE: dataInherited and dataSource columns added if there are dependencies. 
 
 scenario(myLib)
+projectId(myProject)
+#delete(myProject,scenario="two",force=T)
 myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
 myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sourceScenario will be ignored.
 #myScn = scenario(myProject,scenario="two",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
+scenarioId(myScn)
 scenario(myScn,summary=T) #return summary info
 
+allSheets=datasheet(myScn,optional=T)#returns all info about datasheets
+str(allSheets)
 allSheets = datasheet(myScn) #returns only datasheet names and scope
 allSheets
-allSheets=datasheet(myScn,optional=T)#returns more info about datasheets
-str(allSheets)
 
-aSheet = datasheet(myScn,"SSim_Processing") #returns a datasheet
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
+aSheet = datasheet(myScn,"SSim_Files")#returns a datasheet
 str(aSheet)
 
-aSheet = datasheet(myScn,"SSim_Processing",forceElements=T) #returns a list
+aSheet = datasheet(myScn,"SSim_Files",forceElements=T) #returns a list
 str(aSheet)
 
-someSheets = datasheet(myScn,c("SSim_Processing","SSim_Files")) #returns a list
+someSheets = datasheet(myScn,c("SSim_Settings","SSim_Files")) #returns a list
 str(someSheets)
 
 allScns = scenario(myLib,summary=F)
@@ -121,20 +126,22 @@ aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict betw
 anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
-name(myLibrary)
-name(myLibrary)="Fred"
-name(myLibrary) #Note that the filename on disk has not changed
+name(myLib)
+name(myLib)="Fred"
+name(myLib) 
+filepath(myLib)#Note that the filename on disk has not changed
 
-backup(myLibrary)
-description(myLibrary) = "A new description. \n Try a linebreak." #TO DO: set linebreaks.
-description(myLibrary)
-owner(myLibrary) ="Fred"
-owner(myLibrary)
-#readOnly(myLibrary)=T
-#readOnly(myLibrary)
-#readOnly(myLibrary)=F #can set readOnly to T but can't set it back to F. 
-readOnly(myLibrary) 
+backup(myLib)
+description(myLib) = "A new description. \n Try a linebreak." #TO DO: set linebreaks.
+description(myLib)
+owner(myLib) ="Fred"
+owner(myLib)
+#readOnly(myLib)=T
+#readOnly(myLib)
+#readOnly(myLib)=F #can set readOnly to T but can't set it back to F. 
+readOnly(myLib) 
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+
 
 command("--setprop --help")
 

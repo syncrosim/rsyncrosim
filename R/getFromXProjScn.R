@@ -84,7 +84,7 @@
       if(nrow(projectSet)==0){
         if(returnIds){
           projectSet$exists=NULL
-          return(list(ssimObject=ssimObject,project=NULL,scenario=NULL,projectSet=projectSet))
+          return(list(ssimObject=ssimObject,project=NULL,scenario=NULL,projectSet=projectSet,goal=goal))
         }else{
           stop("No projects found in library.")
         }
@@ -178,7 +178,7 @@
       if(nrow(scnSet)==0){
         if(returnIds){
           scnSet$exists=NULL
-          return(list(ssimObject=ssimObject,project=NULL,scenario=NULL,scenarioSet=scnSet))
+          return(list(ssimObject=ssimObject,project=NULL,scenario=NULL,scenarioSet=scnSet,goal=goal))
         }else{
           stop("No scenarios found in ssimObject.")
         }
@@ -229,7 +229,7 @@
           project = allProjects$id
         }
       }
-      if(is.null(project)){
+      if(is.null(project)||is.na(project)){
         stop("Something is wrong")
       }
       fullScnSet$pid[!is.na(fullScnSet$order)&is.na(fullScnSet$exists)]=project
@@ -261,7 +261,7 @@
       scenario=smallScenarioSet$id
     }
     
-    return(list(ssimObject=ssimObject,project=project,scenario=scenario,scenarioSet=fullScnSet))
+    return(list(ssimObject=ssimObject,project=project,scenario=scenario,scenarioSet=fullScnSet,goal=goal))
     
   }
   stop(paste0("Could not identify a SsimLibrary, Project or Scenario from ssimObject, project, and scenario arguments."))

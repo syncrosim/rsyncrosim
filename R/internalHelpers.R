@@ -100,14 +100,13 @@ getScnSet<-function(ssimObject){
 #get projectSet
 getProjectSet<-function(ssimObject){
   tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  if(identical(tt,"saved")){
-    projectSet = data.frame(id=NA,name=NA,exists=NA)
-    projectSet=subset(projectSet,!is.na(id))
-  }else{
-    projectSet=.dataframeFromSSim(tt)
-    names(projectSet)[names(projectSet)=="iD"]="id"
-    projectSet$exists = T
+  projectSet=.dataframeFromSSim(tt)
+  if(nrow(projectSet)==0){
+    projectSet[1,"iD"]=NA
   }
+  names(projectSet)[names(projectSet)=="iD"]="id"
+  projectSet$exists = T
+  projectSet=subset(projectSet,!is.na(id))
   return(projectSet)
 }
 

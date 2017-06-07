@@ -135,7 +135,7 @@ setMethod(f='initialize',signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
-  #ssimObject= myProject;scenario="one";sourceScenario="one";summary=NULL;results=F;overwrite=F;forceElements=F
+  #ssimObject= myScn;scenario=NULL;sourceScenario=NULL;summary=T;results=F;overwrite=F;forceElements=F
   
   #if ssimObject is a scenario return the scenario
   if(is.element(class(ssimObject),c("Scenario"))&is.null(scenario)){
