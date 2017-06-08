@@ -4,10 +4,10 @@
 \alias{modules}
 \title{Installed modules}
 \usage{
-modules(x)
+modules(session)
 }
 \arguments{
-\item{x}{A SyncroSim \code{\link{Session}} object.}
+\item{session}{Session.}
 }
 \description{
 Modules installed with this version of SyncroSim

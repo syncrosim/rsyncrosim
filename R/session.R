@@ -273,12 +273,17 @@ setMethod('version', signature(x="Session"), function(x) {return(command(list(ve
 #'
 #' Modules installed with this version of SyncroSim
 #'
-#' @param x A SyncroSim \code{\link{Session}} object.
+#' @param session Session.
 #' @export
-setGeneric('modules',function(x) standardGeneric('modules'))
-setMethod('modules', signature(x="Session"), function(x) {
+setGeneric('modules',function(session) standardGeneric('modules'))
+setMethod('modules', signature(session="missingOrNULL"), function(session) {
+  session=.session()
+  return(modules(session))
+})
+
+setMethod('modules', signature(session="Session"), function(session) {
   #x=mySsim
-  tt = command(c("listmodules"),x,program="SyncroSim.ModuleManager.exe")
+  tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")
   out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
   return(out)
 })

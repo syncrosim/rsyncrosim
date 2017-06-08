@@ -375,22 +375,22 @@ setMethod('spatialData', signature(x="list"), function(x,sheet,iterations,timest
 #' # Remove multi-banding
 #' multiband(myResultScenario,action="remove")
 #'
-#' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
+#' @param ssimObject A SyncroSim results Scenario or list of SyncroSim result Scenarios.
 #' @param action Options are: apply, remove, rebuild
 #' @param grouping Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
 #' @return "saved" or an error message from SyncroSim.
 #' @export
-setGeneric('multiband',function(x,action,grouping=NULL) standardGeneric('multiband'))
-setMethod('multiband', signature(x="list"), function(x,action,grouping) {
+setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
+setMethod('multiband', signature(ssimObject="list"), function(ssimObject,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL
 
-  if(class(x[[1]])!="Scenario"){
+  if(class(ssimObject[[1]])!="Scenario"){
     stop("Expecting a Scenario object or list of scenario objects.")
   }
   out=list()
-  for(i in 1:length(x)){
+  for(i in 1:length(ssimObject)){
     #i=1
-    cScn = x[[i]]
+    cScn = ssimObject[[i]]
     cOut = multiband(cScn,action,grouping)
     out[[as.character(.scenarioId(cScn))]]=cOut
   }

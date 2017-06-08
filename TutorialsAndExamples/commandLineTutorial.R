@@ -147,6 +147,7 @@ addons(myLib) #TO DO: test disableAddon() and enableAddon() once we have some ad
 model(mySession)
 modules(mySession) #NOTE: model(mySession) is not a subset of modules(mySession). Change in SyncroSim if necessary.
 model()
+modules()
 model(myLib)
 
 command("--list --models --help")

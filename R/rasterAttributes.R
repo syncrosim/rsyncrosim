@@ -1,7 +1,7 @@
 #' Set attributes and colors of a RasterLayer object.
 #'
 #' Set attributes and colors of a Raster object.
-#' This is a wrapper around ratify() and colortable() functions from the raster package.
+#' This is a wrapper around ratify() function from the raster package.
 #'
 #' @details
 #'
@@ -15,16 +15,15 @@
 #' @examples
 #'
 #' levels(myRaster) #retrieve raster attribute table
-#' colortable(myRaster) #retrieve colortable
 #'
-#' @param x A Raster object.
+#' @param raster A Raster object.
 #' @param rat A raster attribute table. This is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @export
-setGeneric('rasterAttributes<-',function(x,value) standardGeneric('rasterAttributes<-'))
+setGeneric('rasterAttributes<-',function(raster,value) standardGeneric('rasterAttributes<-'))
 setReplaceMethod(
   f='rasterAttributes',
   signature="RasterLayer",
-  definition=function(x,value){
+  definition=function(raster,value){
   rat = value
   rat=subset(rat,select=c("ID",setdiff(names(rat),c("ID"))))
   rat=rat[order(rat$ID),]
@@ -43,12 +42,12 @@ setReplaceMethod(
         rat$hexColor=rgb(rgbTab["red",],rgbTab["green",],rgbTab["blue",],255,maxColorValue=255)
       }
     }
-    colortable(x)=rat$hexColor
+    #colortable(x)=rat$hexColor
     #rat$rgb=NULL
   }
 
-  x = raster::ratify(x)
-  levels(x)=rat
+  raster = raster::ratify(raster)
+  levels(raster)=rat
 
-  return(x)
+  return(raster)
 })

@@ -4,16 +4,16 @@
 \alias{rasterAttributes<-}
 \title{Set attributes and colors of a RasterLayer object.}
 \usage{
-rasterAttributes(x) <- value
+rasterAttributes(raster) <- value
 }
 \arguments{
-\item{x}{A Raster object.}
+\item{raster}{A Raster object.}
 
 \item{rat}{A raster attribute table. This is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.}
 }
 \description{
 Set attributes and colors of a Raster object.
-This is a wrapper around ratify() and colortable() functions from the raster package.
+This is a wrapper around ratify() function from the raster package.
 }
 \details{
 The (optional) Color column of a rat table should have one of these formats:
@@ -26,7 +26,6 @@ The (optional) Color column of a rat table should have one of these formats:
 \examples{
 
 levels(myRaster) #retrieve raster attribute table
-colortable(myRaster) #retrieve colortable
 
 }
 

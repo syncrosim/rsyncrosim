@@ -4,10 +4,10 @@
 \alias{multiband}
 \title{Modify the grouping of spatial layers.}
 \usage{
-multiband(x, action, grouping = NULL)
+multiband(ssimObject, action, grouping = NULL)
 }
 \arguments{
-\item{x}{A SyncroSim results Scenario or list of SyncroSim result Scenarios.}
+\item{ssimObject}{A SyncroSim results Scenario or list of SyncroSim result Scenarios.}
 
 \item{action}{Options are: apply, remove, rebuild}
 

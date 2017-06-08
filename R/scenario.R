@@ -334,21 +334,21 @@ setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
   return(ssimObject@projectId)
 })
 
-setMethod('multiband', signature(x="Scenario"), function(x,action,grouping) {
+setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL
-  if(is.na(parentId(x))){
+  if(is.na(parentId(ssimObject))){
     stop("Need a result Scenario.")
   }
 
   #command(c("help"),program="SyncroSim.MultiBand.exe")
-  args = list(lib=.filepath(x),sid=.scenarioId(x))
+  args = list(lib=.filepath(ssimObject),sid=.scenarioId(ssimObject))
   args[[action]]=NA
   if(action=="apply"){
     if(!is.null(grouping)){
       args$grp = grouping
     }
   }
-  tt = command(args,.session(x),program="SyncroSim.MultiBand.exe")
+  tt = command(args,.session(ssimObject),program="SyncroSim.MultiBand.exe")
   return(tt)
 })
 

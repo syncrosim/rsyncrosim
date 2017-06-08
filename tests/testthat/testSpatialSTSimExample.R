@@ -67,17 +67,14 @@ test_that("Test simple spatial STSim example", {
 
   #plot iteration 1 timestep 0
   view = myRasters[[1]]
-  expect_equal(colortable(view),c("#A52A2AFF","#F5DEB3FF","#006400FF"))
   expect_equal(view@title,"STSim_OutputSpatialState.Scn6.It1.Ts0")
   expect_equal(freq(view)[,'count'],c(402,379,219,24))
-  #not actually testing levelplot
-  #levelplot(view,att="StateLabelXID",col.regions=colortable(view),main=view@title)
 
   #Change to automatically selected colors and save plot to pdf.
   newRat = raster::levels(view)[[1]]
   newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
   rasterAttributes(view) = newRat
-  expect_equal(colortable(view),c("#1B9E77","#D95F02","#7570B3"))
+  #expect_equal(colortable(view),c("#1B9E77","#D95F02","#7570B3"))
 
   #*************************************
   # View spatial inputs

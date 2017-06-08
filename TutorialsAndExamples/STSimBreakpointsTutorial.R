@@ -142,7 +142,7 @@ counts # Less fire for Ts3 It2?
 filename=paste0(dirname(filepath(myResult)),"/Transitions.Scn",scenarioId(myResult),".pdf")
 pdf(filename)
 view=myTransitions;names(view)=gsub("STSim_OutputSpatialTransition.","",names(view),fixed=T)
-levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
+levelplotCategorical(view,attribute="isIn")
 dev.off()
 
 # NOTE: "STSim_TransitionSpatialMultiplier" is not updated properly during parallel processing. But effects can be seen in transitions.
@@ -151,6 +151,6 @@ myMultipliers = spatialData(myResult,"STSim_TransitionSpatialMultiplier",rat=rat
 filename=paste0(dirname(filepath(myResult)),"/TransitionMultipliers.Scn",scenarioId(myResult),".pdf")
 pdf(filename)
 view=myMultipliers;names(view)=gsub("STSim_TransitionSpatialMultiplier.","",names(view),fixed=T)
-levelplot(view,att="isIn",col.regions=colortable(view[[1]]))
+levelplotCategorical(view,attribute="isIn")
 dev.off()
 
