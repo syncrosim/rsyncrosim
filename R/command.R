@@ -72,6 +72,7 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
   }
   sysArgs
   if(printCmd(session)){
+    #outCmd=sysArgs
     outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)
     print(outCmd)
   }

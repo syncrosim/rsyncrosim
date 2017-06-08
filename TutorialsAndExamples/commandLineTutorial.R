@@ -132,13 +132,13 @@ name(myLib)
 filepath(myLib)#Note that the filename on disk has not changed
 
 backup(myLib)
-description(myLib) = "A new description. \n Try a linebreak." #TO DO: set linebreaks.
-description(myLib)
+description(myLib) = "A new description.\nTry a linebreak." #NOTE: \n adds a linebreak to the description
+description(myLib) #QUESTION: Each element of the vector is a line of the description. Should this change?
 owner(myLib) ="Fred"
 owner(myLib)
-#readOnly(myLib)=T
-#readOnly(myLib)
-#readOnly(myLib)=F #can set readOnly to T but can't set it back to F. 
+readOnly(myLib)=T
+readOnly(myLib)
+readOnly(myLib)=F
 readOnly(myLib) 
 addons(myLib) #TO DO: test disableAddon() and enableAddon() once we have some addons.
 
