@@ -66,7 +66,6 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   if(!grepl("Version is:",vs)){
     stop(vs)
   }
-  #TO DO: use 'version' function here once it is working. Update version requirements.
   vs = gsub("Version is: ","",vs,fixed=T)
   vs = as.numeric(strsplit(vs,".",fixed=T)[[1]])
   vs = vs[1]*10000+vs[2]+vs[3]/1000#assume no value >1000 in any position
@@ -264,10 +263,11 @@ setMethod('model', signature(ssimObject="SsimLibrary"), function(ssimObject) {
 #'
 #' The version of a SyncroSim \code{\link{Session}}.
 #'
-#' @param x A SyncroSim \code{\link{Session}} object.
+#' @param session Session.
 #' @export
-setGeneric('version',function(x) standardGeneric('version'))
-setMethod('version', signature(x="Session"), function(x) {return(command(list(version=NULL),x))})
+setGeneric('version',function(session=NULL) standardGeneric('version'))
+setMethod('version', signature(session="missingOrNULL"), function(session) {return(version(session()))})
+setMethod('version', signature(session="Session"), function(session) {return(command(list(version=NULL),session))})
 
 #' Installed modules
 #'

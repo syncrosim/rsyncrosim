@@ -4,10 +4,10 @@
 \alias{version}
 \title{The SyncroSim version}
 \usage{
-version(x)
+version(session = NULL)
 }
 \arguments{
-\item{x}{A SyncroSim \code{\link{Session}} object.}
+\item{session}{Session.}
 }
 \description{
 The version of a SyncroSim \code{\link{Session}}.

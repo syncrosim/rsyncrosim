@@ -41,9 +41,6 @@ test_that("Tests of Library", {
   expect_equal(file.exists(filepath(session(myLibrary))),TRUE)
   expect_is("session<-"(myLibrary,session()),"SsimLibrary")
 
-  expect_equal(is.element(modelName(myLibrary),model(mySsim)$name),TRUE) # Returns the name of the library's model - can't change this once the library is created.
-  expect_match(modelVersion(myLibrary),"Source Module Version:",fixed=T)   # Returns the version of the library's model
-
   ret = enableAddon(myLibrary,"stsim-stock-flow")
   expect_equal(is.element("stsim-stock-flow",addons(myLibrary)$shortName),TRUE)
   ret=disableAddons(myLibrary,c("stsim-stock-flow"))

@@ -66,8 +66,7 @@ myLibrary = ssimLibrary(name="C:/Temp/NewLibrary.ssim")
 session(myLibrary) # returns the SyncroSim Session object associated with the library
 session(myLibrary)=session() #Does this make sense?
 
-modelName(myLibrary) # Returns the name of the library's model - can't change this once the library is created.
-modelVersion(myLibrary)   # Returns the version of the library's model
+model(myLibrary) # Returns the info about the model of the library. Can't change once library is created.
 addons(myLibrary,all=T)   # A dataframe of enabled addons. Set all=T to see disabled addons.
 enableAddon(myLibrary,"stsim-stock-flow")
 addons(myLibrary)

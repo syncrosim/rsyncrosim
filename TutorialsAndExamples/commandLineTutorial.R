@@ -142,15 +142,17 @@ readOnly(myLib)=F
 readOnly(myLib) 
 addons(myLib) #TO DO: test disableAddon() and enableAddon() once we have some addons.
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
 model(mySession)
 modules(mySession) #NOTE: model(mySession) is not a subset of modules(mySession). Change in SyncroSim if necessary.
 model()
 modules()
 model(myLib)
 
-command("--list --models --help")
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+version(mySession)
+version()
+
+command("--help")
 
 #TO DO: once we have addons - is shortName necessary?
 #TO DO: test disableAddon() and enableAddon() once we have some addons.
@@ -416,7 +418,7 @@ anotherProject = project(myLibrary,project="AnotherProject")
 # For some methods, this is helpful:
 #  - datasheet(), saveDatasheet(): do sensible things with x/project/scenario arguments - see help for details.
 #  - run(): does sensible things with ssimObject/scenario arguments
-#  - session(), modelVersion(), modelName(), filepath(), addons(): provide useful information.
+#  - session(), filepath(), addons(): provide useful information.
 #
 # Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.
 #  - enableAddon,disableAddon : side effects for other projects/scenarios

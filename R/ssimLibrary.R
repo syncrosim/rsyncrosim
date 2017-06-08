@@ -349,36 +349,6 @@ setReplaceMethod(
   }
 )
 
-#' The name of the primary model associate with a SyncroSim object
-#'
-#' The name of the primary model associated with a SSimLibarary, Project or Scenario.
-#'
-#' @param x An object with an associated primary model.
-#' @return A model name
-#' @export
-setGeneric('modelName',function(x) standardGeneric('modelName'))
-setMethod('modelName', signature(x="SsimLibrary"), function(x) {
-  #x = myLibrary
-  cInfo = info(x)
-  out=cInfo$value[cInfo$property=="Model Name:"]
-  return(out)
-})
-
-#' The version of the primary model associated with a SyncroSim object
-#'
-#' The version of the primary model associated with a SSimLibarary, Project or Scenario.
-#'
-#' @param x An object with an associated primary model.
-#' @return A model version.
-#' @export
-setGeneric('modelVersion',function(x) standardGeneric('modelVersion'))
-setMethod('modelVersion', signature(x="SsimLibrary"), function(x) {
-  #x = myLibrary
-  cInfo = info(x)
-  out=paste(cInfo$property[cInfo$property=="Source Module Version:"],cInfo$value[cInfo$property=="Source Module Version:"])
-  return(out)
-})
-
 #' Apply updates.
 #'
 #' Apply updates to a SyncroSim Library.
