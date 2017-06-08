@@ -21,7 +21,7 @@ filepath(mySsim) # Lists the folder location of syncrosim session
 version(mySsim) # Lists the version of syncrosim session
 
 modules(mySsim) # Dataframe of the modules installed with this verions of SyncroSim.
-models(mySsim) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
+model(mySsim) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 # LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
 
 # Add/remove modules
@@ -44,7 +44,7 @@ command(c("list","help"),session(printCmd=T))
 ################################
 # Create a new SsimLibrary
 # If no primary model and only one model installed, use that.
-models(session())
+model(session())
 myLibrary = ssimLibrary(name="stsim")
 
 myLibrary = ssimLibrary() # Uses default syncrosim installation and creates a default ssimLibrary called <module name>.ssim in the current R working directory

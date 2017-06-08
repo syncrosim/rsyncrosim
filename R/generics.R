@@ -1,3 +1,4 @@
+setClassUnion("missingOrNULL", c("missing", "NULL"))
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' The name of a SyncroSim project or scenario.
 #'

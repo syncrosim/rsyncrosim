@@ -9,7 +9,7 @@ test_that("Tests of Session", {
   expect_equal(file.exists(filepath(mySsim)),TRUE) # Lists the folder location of syncrosim session
   expect_output(str(version(mySsim)),"chr [1:2]",fixed=T) # Lists the version of syncrosim session
   expect_equal(names(modules(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
-  expect_equal(names(models(mySsim)),c("name","displayName","shortName")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
+  expect_equal(names(model(mySsim)),c("name","displayName","shortName")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
   expect_output(deletModule("hi",mySsim),"Module hi is not installed, so cannot be removed.")
 })
 
@@ -41,7 +41,7 @@ test_that("Tests of Library", {
   expect_equal(file.exists(filepath(session(myLibrary))),TRUE)
   expect_is("session<-"(myLibrary,session()),"SsimLibrary")
 
-  expect_equal(is.element(modelName(myLibrary),models(mySsim)$name),TRUE) # Returns the name of the library's model - can't change this once the library is created.
+  expect_equal(is.element(modelName(myLibrary),model(mySsim)$name),TRUE) # Returns the name of the library's model - can't change this once the library is created.
   expect_match(modelVersion(myLibrary),"Source Module Version:",fixed=T)   # Returns the version of the library's model
 
   ret = enableAddon(myLibrary,"stsim-stock-flow")

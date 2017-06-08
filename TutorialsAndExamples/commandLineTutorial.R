@@ -27,8 +27,8 @@ args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="
 output = command(args,session=session(printCmd=T,silent=F))
 
 mySession =session(printCmd=T,silent=F)
-delete(paste0(getwd(),"/temp26.ssim"),force=T)
-delete(paste0(getwd(),"/temp27.ssim"),force=T)
+#delete(paste0(getwd(),"/temp26.ssim"),force=T)
+#delete(paste0(getwd(),"/temp27.ssim"),force=T)
 
 myLib=ssimLibrary(name="temp26",session=mySession)
 addons(myLib)
@@ -140,11 +140,18 @@ owner(myLib)
 #readOnly(myLib)
 #readOnly(myLib)=F #can set readOnly to T but can't set it back to F. 
 readOnly(myLib) 
+addons(myLib) #TO DO: test disableAddon() and enableAddon() once we have some addons.
+
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-addons(myLib) #TO DO: test disableAddon() once we have some addons.
 
-command("--copy --help")
+model(mySession)
+modules(mySession) #NOTE: model(mySession) is not a subset of modules(mySession). Change in SyncroSim if necessary.
+model()
+model(myLib)
 
+command("--list --models --help")
+
+#TO DO: once we have addons - is shortName necessary?
 #TO DO: test disableAddon() and enableAddon() once we have some addons.
 #TO DO: allow setting readOnly=F from T.
 #TO DO: go over STSimSpatialTutorial.R newScenario part with Alex. What is needed to set spatial inputs in a new library?
@@ -439,7 +446,7 @@ parentId(myScenario)
 # - datasheet(,keepId=T)
 # - help/documentation
 # - Project revisions: Safe modification of existing libraries?
-# - long names in  models() ?
+# - long names in  model() ?
 # - Dependency functions: command(list(create=NULL,dependency=NULL,lib=.filepath(myLibrary),sid=.scenarioId(myScenario),did=.projectId(myDependency)))
 # - warning: loadDatasheet() appends to library and project scope datasheets, rather than overwriting. To start fresh, delete project or library and begin again. We likely need a better way to modify project scope datasheets...
 # - Note - I spend a lot of time trying to figure out how GUI naming corresponds to datasheet names here.

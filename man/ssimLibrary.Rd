@@ -45,7 +45,7 @@ Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim li
 \examples{
 #TODO – update examples
 # See the installed models
-models(session())
+model(session())
 
 # Create a library called <model>.ssim in the current working directory.
 myLibrary = ssimLibrary()

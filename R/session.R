@@ -49,10 +49,10 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   .Object@printCmd=printCmd
   
   #check default model is valid
-  modelOptions = models(.Object)
+  modelOptions = model(.Object)
   model=gsub(":model-transformer","",defaultModel,fixed=T)
-  if(!is.element(model,modelOptions$shortName)){
-    stop(paste("Model type",defaultModel,"not recognized. Options are:",paste0(modelOptions$shortName,collapse=",")))
+  if(!is.element(model,modelOptions$name)){
+    stop(paste("Model type",defaultModel,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
   }
   
   .Object@defaultModel=model
@@ -201,10 +201,10 @@ setReplaceMethod(
   signature="Session",
   definition=function(session,value){
     #check default model is valid
-    modelOptions = models(session)
+    modelOptions = model(session)
     model=gsub(":model-transformer","",value,fixed=T)
-    if(!is.element(model,modelOptions$shortName)){
-      stop(paste("Model type",value,"not recognized. Options are:",paste0(modelOptions$shortName,collapse=",")))
+    if(!is.element(model,modelOptions$name)){
+      stop(paste("Model type",value,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
     }
     session@defaultModel=value
     return (session)
@@ -233,14 +233,30 @@ setMethod('printCmd', signature(session="missingOrNULLOrChar"), function(session
 #'
 #' Models installed with this version of SyncroSim
 #'
-#' @param x A SyncroSim \code{\link{Session}} object.
+#' @param ssimObject Session or SsimLibrary.
 #' @export
-setGeneric('models',function(x) standardGeneric('models'))
-setMethod('models', signature(x="Session"), function(x) {
-  #x=session()
-  tt=command(c("list","models","csv"),x)
+setGeneric('model',function(ssimObject=NULL) standardGeneric('model'))
+setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
+  ssimOject=session()
+  tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
-  out$shortName = gsub(":model-transformer","",out$name,fixed=T)
+  return(out)
+})
+setMethod('model', signature(ssimObject="Session"), function(ssimObject) {
+  #x=session()
+  tt=command(c("list","models","csv"),ssimObject)
+  out=.dataframeFromSSim(tt,localNames=T)
+  return(out)
+})
+setMethod('model', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLib
+  oInf = info(ssimObject)
+  
+  out=list(name=subset(oInf,property=="Model Name:")$value)
+  out$description = subset(oInf,property=="Model Description:")$value
+  out$version = subset(oInf,property=="Model Current Version:")$value
+  out$minVersion = subset(oInf,property=="Model Minimum Version:")$value
+  out=unlist(out,use.names=T)
   return(out)
 })
 

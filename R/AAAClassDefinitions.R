@@ -16,7 +16,7 @@
 #' filepath(mySession)   # Lists the folder location of syncrosim session
 #' version(mySession)   # Lists the version of syncrosim session
 #' modules(mySession)   # Dataframe of the modules installed with this version of syncrosim.
-#' models(mySession) # Dataframe of the models installed with this version of syncrosim.
+#' model(mySession) # Dataframe of the models installed with this version of syncrosim.
 #'
 #' # Add and remove modules
 #' deleteModule("stsim-stock-flow",mySession) 

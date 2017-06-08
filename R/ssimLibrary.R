@@ -27,10 +27,10 @@ setMethod(f='initialize',signature="SsimLibrary",
     if(is.null(model)){
       model=defaultModel(session) #assume validity of session object has already been checked.
     }else{
-      modelOptions = models(session)
+      modelOption = models(session)
       model=gsub(":model-transformer","",model,fixed=T)
-      if(!is.element(model,modelOptions$shortName)){
-        stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$shortName,collapse=",")))
+      if(!is.element(model,modelOptions$name)){
+        stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
       }
     }
     
@@ -49,10 +49,10 @@ setMethod(f='initialize',signature="SsimLibrary",
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
       
       if(!exists("modelOptions")){
-        modelOptions = models(session)
+        modelOptions = model(session)
       }
 
-      args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$shortName==model])
+      args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$name==model])
       cStatus = command(args,session)
     }#else{
       #x="C:/Temp/NewLibrary.ssim"
@@ -100,8 +100,8 @@ setMethod(f='initialize',signature="SsimLibrary",
         stop(command(args,session))
       }
       
-      if(!exists("modelOptions")){modelOptions=models(session)}
-      expectedModule = modelOptions$name[modelOptions$shortName==model]
+      if(!exists("modelOptions")){modelOptions=model(session)}
+      expectedModule = modelOptions$name[modelOptions$name==model]
       if(!grepl(expectedModule,tt$value[tt$property=="Model Name:"])){
         stop(paste0("A library of that name and a different model type ",tt$value[tt$property=="Model Name:"]," already exists."))
       }
@@ -182,7 +182,7 @@ setMethod('ssimLibrary', signature(name="SsimLibrary"), function(name) {
 #' @examples
 #' #TODO – update examples
 #' # See the installed models
-#' models(session())
+#' model(session())
 #'
 #' # Create a library called <model>.ssim in the current working directory.
 #' myLibrary = ssimLibrary()
