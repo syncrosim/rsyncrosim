@@ -334,6 +334,20 @@ setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
   return(ssimObject@projectId)
 })
 
+#' The runLog of a result Scenario.
+#'
+#' The runLog of a result Scenario
+#'
+#' @param scenario A Scenario object.
+#' @export
+setGeneric('runLog',function(scenario) standardGeneric('runLog'))
+setMethod('runLog', signature(scenario="Scenario"), function(scenario) {
+  command("--list --runlog --help")
+  tt=command(list(list=NULL,runlog=NULL,lib=.filepath(scenario),sid=.scenarioId(scenario)),.session(scenario))
+  if(grepl("The scenario is not a result scenario",tt[1],fixed=T)){tt=tt[1]} 
+  return(tt)
+})
+
 setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL
   if(is.na(parentId(ssimObject))){

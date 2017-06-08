@@ -148,12 +148,15 @@ model()
 modules()
 model(myLib)
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 version(mySession)
 version()
+myScn = scenario(myProject,scenario=1)
+runLog(myScn) #Returns message if the scenario is not a result scenario.
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
 command("--help")
 
+#TO DO: test runLog() on result scenario
 #TO DO: once we have addons - is shortName necessary?
 #TO DO: test disableAddon() and enableAddon() once we have some addons.
 #TO DO: allow setting readOnly=F from T.

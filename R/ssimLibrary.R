@@ -1304,7 +1304,7 @@ setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenar
     name = scenarios$name[scenarios$id==cScn]
 
 
-    print(paste0("Running scenario ",name," (",cScn,")..."))
+    print(paste0("Running scenario [",cScn,"] ",name))
 
     #x=myScenario
     if(class(x)=="Scenario"){
