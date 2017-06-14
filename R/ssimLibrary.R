@@ -231,22 +231,6 @@ setMethod('info', signature(x="SsimLibrary"), function(x) {
   return(out)
 })
 
-#' Apply updates.
-#'
-#' Apply updates to a SyncroSim Library.
-#'
-#' @param x An SsimLibrary object, or a Project or Scenario associated with a Library
-#' @return "saved" or a failure message from the console.
-#' @export
-setGeneric('ssimUpdate',function(x) standardGeneric('ssimUpdate'))
-setMethod('ssimUpdate', signature(x="SsimLibrary"), function(x) {
-  #x= myLibrary
-  #args = list(update=NULL,lib=.filepath(x));session=.session(x)
-  tt = command(list(update=NULL,lib=.filepath(x)),.session(x))
-  return(tt[1])
-})
-
-
 # Delete Library
 #
 # Deletes a SyncroSim library. Note this is irreversable.

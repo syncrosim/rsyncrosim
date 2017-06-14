@@ -1,7 +1,8 @@
-# Author: Josie Hughes
-# Date : November 2016
-# Version 0.1
-# Licence GPL v3
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
+NULL
+
 #' Get SELECT and GROUP BY Statements
 #'
 #' Creates SELECT and GROUP BY SQL Satements.
