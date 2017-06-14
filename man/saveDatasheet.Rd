@@ -5,7 +5,7 @@
 \title{Save datasheet(s)}
 \usage{
 saveDatasheet(ssimObject, data, name = NULL, project = NULL,
-  scenario = NULL, append = NULL, forceElements = F)
+  scenario = NULL, append = NULL, fileData = NULL, forceElements = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario. Or the path to a library.}
@@ -20,6 +20,8 @@ saveDatasheet(ssimObject, data, name = NULL, project = NULL,
 
 \item{append}{logical. If TRUE, data will be appended to the datasheet, otherwise current values will be overwritten by data. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets.}
 
+\item{fileData}{Named list or raster stack. Names are file names, corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.}
+
 \item{forceElements}{logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list.}
 }
 \value{
@@ -30,6 +32,11 @@ Saves datasheets to a SyncroSim library.
 }
 \details{
 ssimObject/project/scenario should identify a single ssimObject.
+
+If fileData !=NULL, each element of names(fileData) should correspond uniquely to at most one entry in data. If a name is not found in data the element will be ignored with a warning.  
+If names(fileData) are full filepaths, rsyncrosim will write each object to the corresponding path for subsequent loading by SyncroSim. Note this is generally more time-consuming because the files must be written twice.
+If names(fileData) are not filepaths (faster, recommended), rsyncrosim will write each element directly to the appropriate SyncroSim input/output folders.
+If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 }
 \examples{
 

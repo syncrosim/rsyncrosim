@@ -32,9 +32,14 @@
     out = read.csv(con,stringsAsFactors=F,header=header)
     close(con)
   }else{
+    #for(i in seq(length.out=length(x))){
+    #  stop("here") 
+    #}
+    
+    if(1){
     #Do the old wierd thing if not csv
-    while(max(grepl("   ",x))){
-      x = gsub("   ","  ",x)
+    while(max(grepl("   ",x,fixed=T))){
+      x = gsub("   ","  ",x,fixed=T)
     }
     x = gsub("  ",",",x,fixed=T)
     con = textConnection(x)
@@ -46,6 +51,7 @@
       }
       names(out)=colNames
     }
+    }
     close(con)
   }
   if(localNames){
@@ -56,9 +62,11 @@
   if(!is.null(convertToLogical)){
     for(i in seq(length.out=length(convertToLogical))){
       cName = convertToLogical[[i]]
-      out[[cName]][out[[cName]]=="No"]=F
-      out[[cName]][out[[cName]]=="Yes"]=T
-      out[[cName]]=as.logical(out[[cName]])
+      if(is.element(cName,names(out))){
+        out[[cName]][out[[cName]]=="No"]=F
+        out[[cName]][out[[cName]]=="Yes"]=T
+        out[[cName]]=as.logical(out[[cName]])
+      }
     }
   }
   return(out)

@@ -772,7 +772,11 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
         stop(tt)
       }
       hasDataInfo = .dataframeFromSSim(tt,csv=F,convertToLogical=c("hasData","dataInherited"))
-      
+      #What happened to hasData column?
+      if(!is.element("hasData",names(hasDataInfo))){
+        hasDataInfo$hasData=F
+        warning("missing hasData column. assume F")
+      }
       if(length(setdiff(hasDataInfo$name,sumInfo$name))>0){
         sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
         sumInfo$order=seq(1,nrow(sumInfo))
@@ -1154,8 +1158,8 @@ setMethod('datasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,
   return(outSheetList)
 })
 
-setMethod('saveDatasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,data,name,project,scenario,append,forceElements) {
-  #ssimObject = myProject;project=NULL;scenario=NULL;name=sheetName;data=mySheet;append=NULL;forceElements=F
+setMethod('saveDatasheet', signature(ssimObject="SsimLibrary"), function(ssimObject,data,name,project,scenario,append,fileData,forceElements) {
+  #ssimObject = newScenario;project=NULL;scenario=NULL;name=sheetName;data=inSheet;fileData=inRasters;append=NULL;forceElements=F
   x = .getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
   if(class(x)=="list"){
     stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")
@@ -1189,6 +1193,9 @@ setMethod('saveDatasheet', signature(ssimObject="SsimLibrary"), function(ssimObj
     }
   }
 
+  if(!is.null(fileData)&&(length(data)>1)){
+    stop("If fileData != NULL, data should be a dataframe, vector, or list of length 1.")
+  }
   out=list()
   for(i in seq(length.out=length(data))){
     #i=1
@@ -1213,27 +1220,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimLibrary"), function(ssimObj
       }
     }
     
-    for(j in seq(length.out=ncol(cDat))){
-      if(is.factor(cDat[[j]])){cDat[[j]]=as.character(cDat[[j]])}
-      if(is.logical(cDat[[j]])){
-        inCol = cDat[[j]]
-        cDat[[j]][inCol]="Yes";cDat[[j]][!inCol]="No"
-      }
-    }
-    cDat[is.na(cDat)]=""
-
-    if(FALSE&&breakpoint){pathBit = paste0(.filepath(x),'.temp/Data')}else{pathBit = paste0(dirname(.filepath(x)),'/Temp')}
-
-    dir.create(pathBit, showWarnings = FALSE,recursive=T)
-    tempFile = paste0(pathBit,"/",cName,".csv")
-
-    write.csv(cDat,file=tempFile,row.names=F,quote=T)
-    if(FALSE&&breakpoint){
-      out[[cName]] = "Saved"
-      next
-    }
-
-    args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)
+    #note deletions must happen before files are written.
     scope =sheetNames$scope[sheetNames$name==cName]
     if(length(scope)==0){
       sheetNames = datasheets(x,refresh=T)
@@ -1242,9 +1229,13 @@ setMethod('saveDatasheet', signature(ssimObject="SsimLibrary"), function(ssimObj
         stop("name not found in datasheetNames")
       }
     }
+    
     doDelete = F
     if(scope=="scenario"){
       if(append){args[["append"]]=NULL}else{
+        if(!is.null(fileData)){
+          doDelete=T #reset spatial info by deleting the sheet.
+        }
         if(nrow(cDat)==0){
           doDelete=T
         }
@@ -1267,7 +1258,87 @@ setMethod('saveDatasheet', signature(ssimObject="SsimLibrary"), function(ssimObj
         stop(ttt)
       }
     }
+    
+    
+    #Write items to appropriate locations
+    if(!is.null(fileData)){
+      itemNames = names(fileData)
+      if(is.null(itemNames)||is.na(itemNames)||(length(itemNames)==0)){
+        stop("names(fileData) must be defined, and each element must correspond uniquely to an entry in data")
+      }
+      
+      sheetInfo=subset(datasheet(newScenario,summary=T,optional=T),name==cName)
+      fileDir = .filepath(ssimObject)
+      if(sheetInfo$isOutput){
+        fileDir=paste0(fileDir,".output")
+      }else{
+        fileDir=paste0(fileDir,".input")
+      }
+      fileDir=paste0(fileDir,"/Scenario-",.scenarioId(ssimObject),"/",cName)
+            
+      dir.create(fileDir, showWarnings = FALSE,recursive=T)
+      
+      for(j in seq(length.out=length(itemNames))){
+        #j=1
+        cFName = itemNames[j]
+        cItem = fileData[[cFName]]
+        if(!class(cItem)=="RasterLayer"){
+          stop("rsyncrosim currently only supports Raster layers as elements of fileData.")
+        }
+        #check for cName in datasheet
 
+        findName = cDat==cFName
+        findName[is.na(findName)]=F
+        sumFind = sum(findName==TRUE,na.rm=T)
+        
+        if(sumFind>1){
+          stop("Each element of names(fileData) must correspond to at most one entry in data. ",sumFind," entries of ",cName," were found in data.")
+        }
+        if(sumFind==0){
+          warning(cName," not found in data. This element will be ignored.")
+          next
+        }
+        
+        if(identical(basename(cFName), cFName)){
+          cOutName = paste0(fileDir,"/",cFName)
+          #cDat[findName]=paste0(fileDir,"/",cDat[findName])
+        }else{
+          cOutName=cFName
+        }
+        if(!grepl(".tif",cOutName,fixed=T)){
+          cDat[findName]=paste0(cDat[findName],".tif")
+          
+          cOutName=paste0(cOutName,".tif")
+        }
+        
+        raster::writeRaster(cItem,cOutName,format="GTiff",overwrite=T)
+      }
+    }
+    #cDatHold=cDat
+    #cDat=cDatHold
+    for(j in seq(length.out=ncol(cDat))){
+      if(is.factor(cDat[[j]])){cDat[[j]]=as.character(cDat[[j]])}
+      if(is.logical(cDat[[j]])){
+        inCol = cDat[[j]]
+        cDat[[j]][inCol]="Yes";cDat[[j]][!inCol]="No"
+      }
+    }
+    cDat[,]=as.data.frame(lapply(cDat[,],FUN=function(x) {sapply(x, FUN=function(x){gsub("/","\\",x,fixed=T)})}),stringsAsFactors=F)
+    cDat[is.na(cDat)]=""
+
+    if(FALSE&&breakpoint){pathBit = paste0(.filepath(x),'.temp/Data')}else{pathBit = paste0(dirname(.filepath(x)),'/Temp')}
+
+    dir.create(pathBit, showWarnings = FALSE,recursive=T)
+    tempFile = paste0(pathBit,"/",cName,".csv")
+
+    write.csv(cDat,file=tempFile,row.names=F,quote=T)
+    if(FALSE&&breakpoint){
+      out[[cName]] = "Saved"
+      next
+    }
+
+    args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)
+  
     tt="saved"
     if(nrow(cDat)>0){
       if(scope=="project"){args[["pid"]]=.projectId(x)}
@@ -1348,8 +1419,6 @@ setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenar
       close(connection(cBreakpointSession)) # Close the connection.
       cBreakpointSession=NULL
     }
-    #Resume here.
-    #stop
     inScn = paste0(name," (",cScn,")")
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
       out[[inScn]]=tt
