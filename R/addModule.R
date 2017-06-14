@@ -1,0 +1,31 @@
+# Add module or modules to SyncroSim
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+
+#' Add module
+#'
+#' Add module or modules to SyncroSim
+#'
+#' @param filename The path to an .ssimpkg file on disk, or a vector of filepaths
+#' @param session A SyncroSim \code{\link{Session}} object.
+#' @export
+setGeneric('addModule',function(filename,session=NULL) standardGeneric('addModule'))
+setMethod('addModule', signature(filename="character"), function(filename,session) {
+  #x=mySsim
+  #value=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
+  #value="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
+  
+  if(is.null(session)){session=.session()}
+  for(i in seq(length.out=length(filename))){
+    #i=1
+    cVal = filename[i]
+    if(!file.exists(cVal)){
+      stop(paste0("Cannot find ",cVal,"."))
+    }
+    tt = command(args=list(queue=cVal),session,program="SyncroSim.ModuleManager.exe")
+  }
+  tt = command(args=list(installqueue=NULL),session,program="SyncroSim.ModuleManager.exe")
+  #session@datasheetNames = .datasheets(x,scope="all",refresh=T)
+  return (tt)
+}
+)

@@ -37,6 +37,14 @@
 #' @export Session
 Session <- setClass("Session", representation(filepath="character",silent="logical",printCmd="logical",defaultModel="character"))
 
+# SyncroSim Object class
+# SsimLibrary, Project and Scenario all inherit from this abstract class
+# 
+# @slot session The SyncroSim Session.
+# @slot filepath The path to the library on disk.
+# @slot datasheetNames The names and scope of all datasheets in the library. Used to speed calculations.
+SsimObject <- setClass("SsimObject", representation(session="Session",filepath="character",datasheetNames="data.frame"))
+
 #' SyncroSim Library class
 #'
 #' \code{SsimLibrary} object representing a SyncroSim Library.
@@ -61,7 +69,7 @@ Session <- setClass("Session", representation(filepath="character",silent="logic
 #' @name SsimLibrary-class
 #' @rdname SsimLibrary-class
 #' @export SsimLibrary
-SsimLibrary <- setClass("SsimLibrary", representation(session="Session",filepath="character",datasheetNames="data.frame"))
+SsimLibrary <- setClass("SsimLibrary", contains="SsimObject", representation())
 
 #' SyncroSim Scenario class
 #'
@@ -78,7 +86,7 @@ SsimLibrary <- setClass("SsimLibrary", representation(session="Session",filepath
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains="SsimLibrary",representation(projectId="numeric",scenarioId="numeric",parentId="numeric",breakpoints="list"))
+Scenario <- setClass("Scenario", contains="SsimObject",representation(projectId="numeric",scenarioId="numeric",parentId="numeric",breakpoints="list"))
 
 #' SyncroSim Project class
 #'
@@ -92,4 +100,4 @@ Scenario <- setClass("Scenario", contains="SsimLibrary",representation(projectId
 #' @name Project-class
 #' @rdname Project-class
 #' @export Project
-Project <- setClass("Project", contains="SsimLibrary",representation(projectId="numeric"))
+Project <- setClass("Project", contains="SsimObject",representation(projectId="numeric"))

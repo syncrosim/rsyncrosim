@@ -171,12 +171,12 @@ saveDatasheet(anotherScenario,data=inSheet,name=sheetName,fileData=newRasters)
 #Note that newScenario and anotherScenario now have different spatial metadata. They should be the same.
 
 #Can also specify external paths - note this is slower because the files must be written twice.
-names(inRasters)=paste0("C:/Temp/ST-Sim Spatial Tutorial/Temp",names(inRasters))
+names(newRasters)=paste0("C:/Temp/ST-Sim Spatial Tutorial/Temp",names(newRasters))
 inSheet = datasheet(newScenario,name=sheetName)
 inSheet[1,"StratumFileName"]=names(inRasters)[3]
 inSheet[1,"StateClassFileName"]=names(inRasters)[2]
 inSheet[1,"AgeFileName"]=names(inRasters)[1]
-saveDatasheet(newScenario,data=inSheet,name=sheetName,fileData=inRasters)
+saveDatasheet(newScenario,data=inSheet,name=sheetName,fileData=newRasters)
 
 
 
