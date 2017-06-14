@@ -6,8 +6,8 @@
 #'
 #' Add module or modules to SyncroSim
 #'
-#' @param filename The path to an .ssimpkg file on disk, or a vector of filepaths
-#' @param session A SyncroSim \code{\link{Session}} object.
+#' @param filename Character string or vector of these. The path to an .ssimpkg file on disk, or a vector of filepaths.
+#' @param session Session.
 #' @export
 setGeneric('addModule',function(filename,session=NULL) standardGeneric('addModule'))
 setMethod('addModule', signature(filename="character"), function(filename,session) {
