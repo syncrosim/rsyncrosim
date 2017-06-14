@@ -133,92 +133,6 @@ setReplaceMethod(
   }
 )
 
-# @describeIn filepath Path to the Syncrosim console in a Session.
-setMethod('filepath', signature(x="Session"), function(x) x@filepath)
-
-#' Check if a Session is silent
-#'
-#' Checks whether a SyncroSim Session is silent or not.
-#'
-#' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
-#' @export
-setGeneric('silent',function(session) standardGeneric('silent'))
-setMethod('silent', signature(session="Session"), function(session) session@silent)
-setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) {
-  if(class(session)=="character"){
-    session = .session(session)
-  }else{
-    session=.session()
-  }
-  return(silent(session))
-})
-
-#' Set silent property of a Session
-#'
-#' Set silent property of a sessio to TRUE or FALSE
-#'
-#' @param session Session
-#' @param value logical
-#' @export
-setGeneric('silent<-',function(session,value) standardGeneric('silent<-'))
-setReplaceMethod(
-  f='silent',
-  signature="Session",
-  definition=function(session,value){
-    session@silent=value
-    return (session)
-  }
-)
-
-#' Get printCmd a \code{\link{Session}}.
-#'
-#' Get printCmd a \code{\link{Session}}.
-#'
-#' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
-#' @export
-setGeneric('printCmd',function(session=NULL) standardGeneric('printCmd'))
-setMethod('printCmd', signature(session="Session"), function(session) session@printCmd)
-setMethod('printCmd', signature(session="missingOrNULLOrChar"), function(session) {
-  if(class(session)=="character"){
-    session = .session(session)
-  }else{
-    session=.session()
-  }
-  return(printCmd(session))
-})
-
-
-#' Installed models
-#'
-#' Models installed with this version of SyncroSim
-#'
-#' @param ssimObject Session or SsimLibrary.
-#' @export
-setGeneric('model',function(ssimObject=NULL) standardGeneric('model'))
-setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
-  ssimOject=session()
-  tt=command(c("list","models","csv"),ssimObject)
-  out=.dataframeFromSSim(tt,localNames=T)
-  return(out)
-})
-setMethod('model', signature(ssimObject="Session"), function(ssimObject) {
-  #x=session()
-  tt=command(c("list","models","csv"),ssimObject)
-  out=.dataframeFromSSim(tt,localNames=T)
-  return(out)
-})
-setMethod('model', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLib
-  oInf = info(ssimObject)
-  
-  out=list(name=subset(oInf,property=="Model Name:")$value)
-  out$description = subset(oInf,property=="Model Description:")$value
-  out$version = subset(oInf,property=="Model Current Version:")$value
-  out$minVersion = subset(oInf,property=="Model Minimum Version:")$value
-  out=unlist(out,use.names=T)
-  return(out)
-})
-
 #' The SyncroSim version
 #'
 #' The version of a SyncroSim \code{\link{Session}}.
@@ -229,24 +143,6 @@ setGeneric('version',function(session=NULL) standardGeneric('version'))
 setMethod('version', signature(session="missingOrNULL"), function(session) {return(version(session()))})
 setMethod('version', signature(session="Session"), function(session) {return(command(list(version=NULL),session))})
 
-#' Installed modules
-#'
-#' Modules installed with this version of SyncroSim
-#'
-#' @param session Session.
-#' @export
-setGeneric('modules',function(session) standardGeneric('modules'))
-setMethod('modules', signature(session="missingOrNULL"), function(session) {
-  session=.session()
-  return(modules(session))
-})
-
-setMethod('modules', signature(session="Session"), function(session) {
-  #x=mySsim
-  tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")
-  out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
-  return(out)
-})
 
 
 

@@ -250,46 +250,6 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   return(projectSetOut)
 } 
 
-setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
-  info = project(ssimObject,summary=T)
-  return(info$name)
-})
-
-setMethod('owner', signature(ssimObject="Project"), function(ssimObject) {
-  #ssimObject=myProject
-  scnInfo = scenario(ssimObject,summary=T)
-  return(scnInfo$owner)
-})
-
-setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
-  #ssimObject=myProject
-  scnInfo = scenario(ssimObject,summary=T)
-  return(scnInfo$readOnly)
-})
-
-setMethod('description', signature(ssimObject="Project"), function(ssimObject) {
-  #ssimObject=myProject
-  desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject)),session=.session(ssimObject))
-  return(desc)
-})
-
-
-setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
-  return(ssimObject@projectId)
-})
-
-setReplaceMethod(
-  f='name',
-  signature="Project",
-  definition=function(ssimObject,value){
-    #x=myProject;value="New Name"
-    tt = command(list(setprop=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject),name=value),.session(ssimObject))
-    if(!identical(tt,"saved")){
-      stop(tt)
-    }
-    return (ssimObject)
-  }
-)
 
 
 

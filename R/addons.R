@@ -1,6 +1,8 @@
 # addons of an SsimLibrary or Session
 # Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
+#' @include AAAClassDefinitions.R
+NULL
 
 #' addons of an SsimLibrary or Session
 #'

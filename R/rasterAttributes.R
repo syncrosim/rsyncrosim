@@ -1,3 +1,8 @@
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
+NULL
+
 #' Set attributes and colors of a RasterLayer object.
 #'
 #' Set attributes and colors of a Raster object.
@@ -17,7 +22,7 @@
 #' levels(myRaster) #retrieve raster attribute table
 #'
 #' @param raster A Raster object.
-#' @param rat A raster attribute table. This is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
+#' @param rat dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @export
 setGeneric('rasterAttributes<-',function(raster,value) standardGeneric('rasterAttributes<-'))
 setReplaceMethod(

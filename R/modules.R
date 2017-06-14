@@ -1,0 +1,24 @@
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
+NULL
+
+#' Installed modules
+#'
+#' Modules installed with this version of SyncroSim
+#'
+#' @param session Session.
+#' @return A dataframe of modules
+#' @export
+setGeneric('modules',function(session) standardGeneric('modules'))
+setMethod('modules', signature(session="missingOrNULL"), function(session) {
+  session=.session()
+  return(modules(session))
+})
+
+setMethod('modules', signature(session="Session"), function(session) {
+  #x=mySsim
+  tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")
+  out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
+  return(out)
+})

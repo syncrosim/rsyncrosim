@@ -1,47 +1,5 @@
 setClassUnion("missingOrNULL", c("missing", "NULL"))
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
-#' The name of a SyncroSim project or scenario.
-#'
-#' The name of a SyncroSim Project/Scenario.
-#'
-#' @param ssimObject Project/Scenario.
-#' @export
-setGeneric('name',function(ssimObject) standardGeneric('name'))
-
-#' Set ssimObject name.
-#'
-#' Set the name of a SyncroSim Project, Scenario or Library
-#'
-#' @param ssimObject Scenario/Project/SsimLibrary
-#' @param value The new name.
-#' @export
-setGeneric('name<-',function(ssimObject,value) standardGeneric('name<-'))
-
-
-#' The projectId of a SyncroSim project or scenario.
-#'
-#' The projectId of a SyncroSim Project or Scenario.
-#'
-#' @param ssimObject Project/Scenario.
-#' @export
-setGeneric('projectId',function(ssimObject) standardGeneric('projectId'))
-
-#' The scenarioId of a scenario.
-#'
-#' The scenarioId of a Scenario.
-#'
-#' @param scenario Scenario.
-#' @export
-setGeneric('scenarioId',function(scenario) standardGeneric('scenarioId'))
-
-
-#' The path to a SyncroSim object on disk
-#'
-#' The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
-#'
-#' @param x An object containing a filepath.
-#' @export
-setGeneric('filepath',function(x) standardGeneric('filepath'))
 
 # Information about an library
 #
@@ -51,58 +9,6 @@ setGeneric('filepath',function(x) standardGeneric('filepath'))
 # @param x An object containing info.
 # @export
 setGeneric('info',function(x) standardGeneric('info'))
-
-#' The owner of a SsimLibrary/Project/Scenario.
-#'
-#' The owner of an SsimLibrary/ProjectScenario
-#'
-#' @param ssimObject SsimLibrary/Project/Scenario.
-#' @export
-setGeneric('owner',function(ssimObject) standardGeneric('owner'))
-
-#' Read-only status of an SsimLibrary/Project/Scenario.
-#'
-#' Whether or not an SsimLibrary/ProjectScenario is read-only.
-#'
-#' @param ssimObject SsimLibrary/Project/Scenario.
-#' @export
-setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
-
-#' Description of an SsimLibrary/Project/Scenario.
-#'
-#' The description of an SsimLibrary/ProjectScenario.
-#'
-#' @param ssimObject SsimLibrary/Project/Scenario.
-#' @export
-setGeneric('description',function(ssimObject) standardGeneric('description'))
-
-#' Set the description of an SsimLibrary/Project/Scenario.
-#'
-#' Set the description of an SsimLibrary/ProjectScenario.
-#'
-#' @param ssimObject Scenario/Project/SsimLibrary
-#' @param value The new description.
-#' @export
-setGeneric('description<-',function(ssimObject,value) standardGeneric('description<-'))
-
-#' Set the owner of an SsimLibrary/Project/Scenario.
-#'
-#' Set the owner of an SsimLibrary/Project/Scenario.
-#'
-#' @param ssimObject Scenario/Project/SsimLibrary
-#' @param value The new owner.
-#' @export
-setGeneric('owner<-',function(ssimObject,value) standardGeneric('owner<-'))
-
-#' Set the read/write status of an SsimLibrary/Project/Scenario.
-#'
-#' Set the read-only status of an SsimLibrary/Project/Scenario. 
-#' Applies to child objects if ssimObject is an SsimLibrary or Project.
-#'
-#' @param ssimObject Scenario/Project/SsimLibrary
-#' @param value Logical. If T the ssimObject will be read-only.
-#' @export
-setGeneric('readOnly<-',function(ssimObject,value) standardGeneric('readOnly<-'))
 
 # datasheets
 #
@@ -135,38 +41,6 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,sc
   return(out)
 })
 
-#' Save datasheet(s)
-#'
-#' Saves datasheets to a SyncroSim library.
-#'
-#' @details
-#' ssimObject/project/scenario should identify a single ssimObject.
-#' 
-#' If fileData !=NULL, each element of names(fileData) should correspond uniquely to at most one entry in data. If a name is not found in data the element will be ignored with a warning.  
-#' If names(fileData) are full filepaths, rsyncrosim will write each object to the corresponding path for subsequent loading by SyncroSim. Note this is generally more time-consuming because the files must be written twice.
-#' If names(fileData) are not filepaths (faster, recommended), rsyncrosim will write each element directly to the appropriate SyncroSim input/output folders.
-#' If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
-#' 
-#' @param ssimObject SsimLibrary/Project/Scenario. Or the path to a library.
-#' @param data A dataframe, vector, or list of these. One or more datasheets to load.
-#' @param name character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.
-#' @param project character or integer. Project name or id.
-#' @param scenario character or integer. Project name or id.
-#' @param append logical. If TRUE, data will be appended to the datasheet, otherwise current values will be overwritten by data. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets. 
-#' @param fileData Named list or raster stack. Names are file names, corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.
-#' @param forceElements logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list. 
-# @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
-#' @return A success or failure message, or a list of these.
-#' @examples
-#'
-#' @export
-setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,project=NULL,scenario=NULL,append=NULL,fileData=NULL,forceElements=F) standardGeneric('saveDatasheet'))
-#Handles case where ssimObject is a path to an SyncroSim library on disk.
-setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,project,scenario,append,fileData,forceElements) {
-  ssimObject = .ssimLibrary(ssimObject,create=F)
-  out = saveDatasheet(ssimObject,data,name,project,scenario,append,fileData,forceElements)
-  return(out)
-})
 
 #' Set spatial data
 #'
@@ -197,121 +71,6 @@ setGeneric('loadSpatialData',function(x,data,metadata,project=NULL,scenario=NULL
 setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,project,scenario,breakpoint,check) {
   x = .ssimLibrary(x,create=F)
   out = loadSpatialData(x,data,metadata,project,scenario,breakpoint,check)
-  return(out)
-})
-
-
-#' Run scenarios
-#'
-#' Run one or more SyncroSim scenarios
-#' 
-#' @details
-#' Note that breakpoints are ignored unless ssimObject is a single scenario.
-#'
-#' @param ssimObject SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.
-#' @param scenario character, integer, or vector of these. Scenario names or ids. Or NULL.
-#' @param summary Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
-#' @param jobs The number of jobs to run. Passed to SyncroSim where multithreading is handled.
-#' @param forceElements Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.
-#' @return If summary=F a result Scenario object or a named list of result Scenarios. If summary=F a scenario id or named vector of ids. The name is the parent scenario for each result.
-#' @examples
-#'
-#' @export
-setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
-#Handles case where ssimObject is a path to an SyncroSim library on disk.
-setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
-  ssimObject = .ssimLibrary(ssimObject,create=F)
-  out = run(ssimObject,scenario,summary,jobs,forceElements)
-  return(out)
-})
-#Handles case where ssimObject is a list of Scenarios.
-setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,forceElements) {
-  x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
-  ssimObject = x$ssimObject
-  scenario = x$objs
-  out=run(ssimObject,scenario,summary,jobs,forceElements)
-  return(out)
-})
-
-#' Get spatial inputs or outputs from a SyncroSim scenario.
-#'
-#' Get spatial inputs or outputs from a SyncroSim scenario.
-#' @details
-#'
-#' The Color column of a rat table should have one of these formats:
-#' \itemize{
-#'   \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
-#'   \item {R colour names: } {See colors() for options.}
-#'   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
-#' }
-#'
-#' The names() of the returned raster stack contain metadata.
-#' For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
-#' For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)
-#'
-#' @param x A SyncroSim results Scenario or list of SyncroSim result Scenarios.
-#' @param sheet The name of a spatial datasheet.
-#' @param iterations A vector of iterations. If NULL(default) all available iterations will be included
-#' @param nameFilters A vector of strings. Only layer name that include these terms will be returned.
-#' @param timesteps A vector of timesteps. If NULL(default) all available timesteps will be included.
-#' @param rat An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
-#' @return A RasterStack or RasterBrick object. See raster package documentation for details.
-#' @export
-setGeneric('spatialData',function(x,sheet,iterations=NULL,timesteps=NULL,nameFilters=NULL,rat=NULL) standardGeneric('spatialData'))
-setMethod('spatialData', signature(x="list"), function(x,sheet,iterations,timesteps,nameFilters,rat) {
-  # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL
-  if(class(x[[1]])!="Scenario"){
-    stop("Expecting a Scenario object or list of scenario objects.")
-  }
-  for(i in 1:length(x)){
-    #i=1
-    cScn = x[[i]]
-    cOut = spatialData(cScn,sheet,iterations,timesteps,nameFilters,rat)
-
-    if(i == 1){out=cOut}else{out=raster::stack(out,cOut)}
-  }
-  return(out)
-})
-
-#' Modify the grouping of spatial layers.
-#'
-#' Modify the grouping of spatial output layers in a SyncroSim results scenario.
-#'
-#' @examples
-#' # Update an old scenario to allow rsyncrosim to access spatial output
-#' multiband(myResultScenario,action="rebuild")
-#'
-#' # Combine spatial outputs into multi-band rasters containing a layer for each timetep.
-#' multiband(myResultScenario,action="apply",grouping="Timestep")
-#'
-#' # Combine spatial outputs into multi-band rasters containing a layer for each iteration.
-#' multiband(myResultScenario,action="apply",grouping="Iteration")
-#'
-#' # Combine spatial outputs into multi-band rasters containing a layer for each timestep and iteration.
-#' multiband(myResultScenario,action="apply",grouping="All")
-#'
-#' # Remove multi-banding
-#' multiband(myResultScenario,action="remove")
-#'
-#' @param ssimObject A SyncroSim results Scenario or list of SyncroSim result Scenarios.
-#' @param action Options are: apply, remove, rebuild
-#' @param grouping Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
-#' @return "saved" or an error message from SyncroSim.
-#' @export
-setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
-setMethod('multiband', signature(ssimObject="list"), function(ssimObject,action,grouping) {
-  #x=myResult;action="rebuild";grouping=NULL
-
-  if(class(ssimObject[[1]])!="Scenario"){
-    stop("Expecting a Scenario object or list of scenario objects.")
-  }
-  out=list()
-  for(i in 1:length(ssimObject)){
-    #i=1
-    cScn = ssimObject[[i]]
-    cOut = multiband(cScn,action,grouping)
-    out[[as.character(.scenarioId(cScn))]]=cOut
-  }
   return(out)
 })
 
