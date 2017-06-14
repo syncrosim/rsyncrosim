@@ -41,39 +41,6 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,sc
   return(out)
 })
 
-
-#' Set spatial data
-#'
-#' Loads spatial data into the SyncroSim library.
-#'
-#' @details
-#'
-#' Metadata should be a dataframe that can be appended to datasheet(x,metadata$SheetName[1]), containing 1 row for each layer of data.
-#' "SheetName" and at least one "FileName" columns are expected in metadata.
-#' A "RasterLayerName" column in metadata is optional. If present, it should contain the name of each layer in the data raster stack.
-#' If "RasterLayerName" is not included in metadata, names(data) should correspond to the FileNames in metadata.
-#' 
-#' Note: Spatial data will be appended if non-FileName columns (e.g. Iteration, Timestep, etc) differ between metadata and datasheet(x,metadata$SheetName[1]). Otherwise, the new spatial data will overwrite the old spatial data.
-#'
-#' @param x An SsimLibrary, Project or Scenario object. Or the path to a library on disk.
-#' @param data A RasterLayer or RasterStack to load.
-#' @param metadata A dataframe that can be appended to datasheet(x,metadata$SheetName[1]) - see details. 
-#' @param project Project name or id.
-#' @param scenario Scenario name or id.
-#' @param breakpoint Set to TRUE when setting spatial data in a breakpoint function.
-#' @param check Default is TRUE. Set FALSE to speed calculations my assuming metadata is valid.
-#' @return A named list of success or failure reports.
-#' @examples
-#'
-#' @export
-setGeneric('loadSpatialData',function(x,data,metadata,project=NULL,scenario=NULL,breakpoint=F,check=T) standardGeneric('loadSpatialData'))
-#Handles case where x is a path to an SyncroSim library on disk.
-setMethod('loadSpatialData', signature(x="character"), function(x,data,metadata,project,scenario,breakpoint,check) {
-  x = .ssimLibrary(x,create=F)
-  out = loadSpatialData(x,data,metadata,project,scenario,breakpoint,check)
-  return(out)
-})
-
 # Get or set a socket connection.
 #
 # @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
