@@ -1,17 +1,18 @@
-# Author: Josie Hughes
-# Date : October 2016
-# Version 0.1
-# Licence GPL v3
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+
 #' Add rows to a dataframe.
 #'
 #' Adds rows to a dataframe.
+#' 
+#' @details
 #' Preserves the types and factor levels of the targetDataframe.
 #' Fills missing values if possible using factor levels.
 #' If value is a named vector or list, it will be converted to a single row dataframe. 
 #' If value is an unnamed vector or list, the number of elements should equal the number of columns in the targetDataframe; elements are assumed to be in same order as dataframe columns.
 #'
-#' @param targetDataframe A dataframe.
-#' @param value A dataframe, character string vector, or list. Columns in value should be a subset of columns in targetDataframe. 
+#' @param targetDataframe Dataframe.
+#' @param value Dataframe, character string vector, or list. Columns in value should be a subset of columns in targetDataframe. 
 #' @return A dataframe with new rows.
 #' @export
 setGeneric('addRows',function(targetDataframe,value) standardGeneric('addRows'))

@@ -112,15 +112,6 @@ setGeneric('owner<-',function(ssimObject,value) standardGeneric('owner<-'))
 #' @export
 setGeneric('readOnly<-',function(ssimObject,value) standardGeneric('readOnly<-'))
 
-
-#' Backup an SsimLibrary.
-#'
-#' Backup an SsimLibrary.
-#'
-#' @param ssimLibrary SsimLibrary.
-#' @export
-setGeneric('backup',function(ssimLibrary) standardGeneric('backup'))
-
 # datasheets
 #
 # Gets datasheet summary info from an SsimLibrary, Project or Scenario.
@@ -149,77 +140,6 @@ setGeneric('datasheets',function(x,project=NULL,scenario=NULL,scope=NULL,refresh
 setMethod('datasheets', signature(x="character"), function(x,project,scenario,scope,refresh) {
   x = .ssimLibrary(x,create=F)
   out = .datasheets(x,project,scenario,scope,refresh)
-  return(out)
-})
-
-#' Get a datasheet
-#'
-#' Gets Syncrosim datasheet.
-#'
-#' @details
-#' 
-#' If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
-#'   If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, hasData. 
-#'   hasData only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
-#'   If optional=F columns include: scope, name, displayName.
-#'   All other arguments are ignored.
-#' 
-#' Otherwise, for each element in name a datasheet is returned as follows:
-#' \itemize{
-#'   \item {If lookupsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
-#'   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
-#'   \item {If empty=F and lookupsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
-#'   \item {If ssimObject is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
-#'   \item {If scenario/project is a vector: }{Adds ScenarioID/ProjectID column as necessary.}
-#'   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
-#'   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
-#' }
-#'
-#' @param ssimObject SsimLibrary/Project/Scenario, list of objects, or path to a library. Note that all objects in a list must be of the same type, and belong to the same library.
-#' @param name Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=F and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.
-#' @param project Character, numeric, or vector of these. One or more Project names, id or objects.
-#' @param scenario Character, numeric, or vector of these. One or more Scenario names, id or objects.
-#' @param summary Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes. 
-#' @param optional Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.
-#' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.
-#' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
-#' @param sqlStatements List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
-#' @param includeKey Logical. If TRUE include primary key in output table.
-#' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.
-#' @return If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe (for datasheets that allow multiple rows) or named vector (for datasheets that only allow one row), or list of these.
-#' @examples
-#'
-#' @export
-#' @import RSQLite
-setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
-#Handles case where ssimObject is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  ssimObject=.ssimLibrary(ssimObject,create=F)
-  out = .datasheet(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements)
-  return(out)
-})
-
-#Handles case where ssimObject is list of Scenario or Project objects
-setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject=myResult;name="STSim_OutputSpatialState";project=NULL;scenario=NULL;summary=NULL;optional=F;empty=F;lookupsAsFactors=T
-
-  cScn = ssimObject[[1]]
-  x=NULL
-  if(class(cScn)=="Scenario"){
-    x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario,project=project)
-    scenario=x$objs
-    project=NULL
-  }
-  if(class(cScn)=="Project"){
-    x = getIdsFromListOfObjects(ssimObject,expecting="Project",scenario=scenario,project=project)
-    project=x$objs
-    scenario=NULL
-  }
-  ssimObject=x$ssimObject
-  #Now have scenario/project ids of same type in same library, and ssimObject is library
-    
-  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey,forceElements=forceElements)
-  
   return(out)
 })
 
