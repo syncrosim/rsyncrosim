@@ -170,46 +170,6 @@ setReplaceMethod(
   }
 )
 
-#' Get the default model from a \code{\link{Session}}.
-#'
-#' Get the default model from a \code{\link{Session}}.
-#'
-#' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
-#' @export
-setGeneric('defaultModel',function(session=NULL) standardGeneric('defaultModel'))
-setMethod('defaultModel', signature(session="Session"), function(session) session@defaultModel)
-setMethod('defaultModel', signature(session="NULL"), function(session) {
-  if(class(session)=="character"){
-    session = .session(session)
-  }else{
-    session=.session()
-  }
-  return(defaultModel(session))
-})
-
-#' Set defaultModel of a Session
-#'
-#' Set defaultModel of a session
-#'
-#' @param session Session
-#' @param value character
-#' @export
-setGeneric('defaultModel<-',function(session,value) standardGeneric('defaultModel<-'))
-setReplaceMethod(
-  f='defaultModel',
-  signature="Session",
-  definition=function(session,value){
-    #check default model is valid
-    modelOptions = model(session)
-    model=gsub(":model-transformer","",value,fixed=T)
-    if(!is.element(model,modelOptions$name)){
-      stop(paste("Model type",value,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
-    }
-    session@defaultModel=value
-    return (session)
-  }
-)
-
 #' Get printCmd a \code{\link{Session}}.
 #'
 #' Get printCmd a \code{\link{Session}}.
@@ -288,48 +248,6 @@ setMethod('modules', signature(session="Session"), function(session) {
   return(out)
 })
 
-#' Delete module or modules
-#'
-#' Delete module or modules from this version of SyncroSim.
-#' Note that removing a module can be difficult to undo.
-#' To restore the module the user will need to provide a .ssimpkg file or reinstall SyncroSim.
-#' Thus, \code{deleteModule} requires confirmation from the user.
-#'
-#' @param name A module or vector of modules to remove. \code{\link{modules()}} for options.
-#' @param session A SyncroSim \code{\link{Session}} object.
-#' @export
-setGeneric('deleteModule',function(name,session=NULL) standardGeneric('deleteModule'))
-setMethod('deleteModule', signature(session="missingOrNULLOrChar"), function(name,session) {
-  session=.session(session)
-  return(deleteModule(name,session))
-})
-setMethod('deleteModule', signature(session="Session"), function(name,session) {
-    #name = "sample-basic-dotnet";session=session()
-    installedModules=modules(session)
-    retList = list()
-    for(i in seq(length.out=length(name))){
-      #i = 1
-      cVal = name[i]
-      if(!is.element(cVal,installedModules$name)){
-        print(paste0("Module ",cVal," is not installed, so cannot be removed."))
-        next
-      }
-
-      answer <- readline(prompt=paste0("To restore ",cVal," after removing it you will need to provide a .ssimpkg file or reinstall SyncroSim.\nDo you really want to remove the module? (y/n): "))
-      if(answer=="y"){
-        tt = command(args=list(removemodule=cVal),session,program="SyncroSim.ModuleManager.exe")
-
-        installedModules = modules(session)
-        if(is.element(cVal,installedModules$name)){
-          stop(paste0('Error: failed to remove module ',cVal))
-        }
-        retList[[cVal]]=tt
-      }else{
-        retList[[cVal]]="skipped"
-      }
-    }
-    return (retList)
-  })
 
 
 

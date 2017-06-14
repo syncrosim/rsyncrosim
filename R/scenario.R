@@ -279,11 +279,7 @@ setMethod('name', signature(ssimObject="Scenario"), function(ssimObject) {
   scnInfo = scenario(ssimObject,summary=T)
   return(scnInfo$name)
 })
-setMethod('dateModified', signature(ssimObject="Scenario"), function(ssimObject) {
-  #ssimObject=newScenario
-  scnInfo = scenario(ssimObject,summary=T)
-  return(scnInfo$lastModified)
-})
+
 setMethod('owner', signature(ssimObject="Scenario"), function(ssimObject) {
   #ssimObject=newScenario
   scnInfo = scenario(ssimObject,summary=T)

@@ -239,12 +239,6 @@ setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   return(subset(cInfo,property=="Name:")$value)
 })
 
-setMethod('dateModified', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLibrary
-  cInfo = info(ssimObject)
-  return(subset(cInfo,property=="Last Modified:")$value)
-})
-
 setMethod('owner', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)

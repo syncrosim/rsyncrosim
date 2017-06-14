@@ -52,14 +52,6 @@ setGeneric('filepath',function(x) standardGeneric('filepath'))
 # @export
 setGeneric('info',function(x) standardGeneric('info'))
 
-#' The last date a SsimLibrary/Project/Scenario was modified.
-#'
-#' The most recent modification date of an SsimLibrary/ProjectScenario
-#'
-#' @param ssimObject SsimLibrary/Project/Scenario.
-#' @export
-setGeneric('dateModified',function(ssimObject) standardGeneric('dateModified'))
-
 #' The owner of a SsimLibrary/Project/Scenario.
 #'
 #' The owner of an SsimLibrary/ProjectScenario
