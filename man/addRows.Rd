@@ -7,15 +7,17 @@
 addRows(targetDataframe, value)
 }
 \arguments{
-\item{targetDataframe}{A dataframe.}
+\item{targetDataframe}{Dataframe.}
 
-\item{value}{A dataframe, character string vector, or list. Columns in value should be a subset of columns in targetDataframe.}
+\item{value}{Dataframe, character string vector, or list. Columns in value should be a subset of columns in targetDataframe.}
 }
 \value{
 A dataframe with new rows.
 }
 \description{
 Adds rows to a dataframe.
+}
+\details{
 Preserves the types and factor levels of the targetDataframe.
 Fills missing values if possible using factor levels.
 If value is a named vector or list, it will be converted to a single row dataframe. 

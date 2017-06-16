@@ -10,6 +10,13 @@ NULL
 #' @include project.R
 #' @include scenario.R
 #' @include sqlStatements.R
+#' @include projectId.R
+#' @include scenarioId.R
+#' @include filepath.R
+#' @include addons.R
+#' @include datasheet.R
+#' @include datasheets.R
+#' @include name.R
 NULL
 # @export
 .projectId = projectId
