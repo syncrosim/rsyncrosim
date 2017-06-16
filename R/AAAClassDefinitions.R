@@ -1,3 +1,8 @@
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+setClassUnion("missingOrNULL", c("missing", "NULL"))
+setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
+
 #NOTE: Constructors for each class are defined in the R file bearing the name of the class (lower case). e.g. session.R, ssimLibrary.R, etc.
 
 #' SyncroSim Session class

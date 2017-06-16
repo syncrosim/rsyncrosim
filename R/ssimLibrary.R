@@ -1,10 +1,8 @@
-# Author: Josie Hughes
-# Date : October 2016
-# Version 0.1
-# Licence GPL v3
-#' @include generics.R
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
+
 # @name SsimLibrary
 # @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
@@ -223,6 +221,14 @@ setMethod('ssimLibrary', signature(name="SsimLibrary"), function(name) {
   return(out)
 })
 
+# Information about an library
+#
+# Get basic information about a Library. 
+# Use project(summary==T) and scenario(summary=T) to get similar information about Project/Scenario
+#
+# @param x An object containing info.
+# @export
+setGeneric('info',function(x) standardGeneric('info'))
 setMethod('info', signature(x="SsimLibrary"), function(x) {
   #x=myLibrary
   args = list(list=NULL,library=NULL,csv=NULL,lib=.filepath(x))
@@ -231,7 +237,7 @@ setMethod('info', signature(x="SsimLibrary"), function(x) {
   return(out)
 })
 
-# Delete Library
+# Delete Library - internal helper function
 #
 # Deletes a SyncroSim library. Note this is irreversable.
 #
@@ -264,46 +270,5 @@ setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLi
   }
 })
 
-setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,scope,refresh) {
-  #x = myScn;project=NULL;scenario=NULL;empty=T;scope=NULL;refresh=T
-  x = .getFromXProjScn(x,project,scenario)
-
-  #command(c("list","datasheets","help"),.session(myLibrary))
-  #Get datasheet dataframe
-  if(!refresh){
-    datasheets=x@datasheetNames
-  }else{
-    #x=myLibrary
-    tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
-    if(grepl("The library has unapplied updates",tt[[1]])){
-      stop(tt)
-    }
-    datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
-    datasheets$scope = sapply(datasheets$scope,camel)
-    #names(datasheets) = c("name","displayName","dataScope","isOutput")
-    #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
-    #TO DO - export this info from SyncroSim
-  }
-  datasheets$order=seq(1,nrow(datasheets))
-  if(!is.null(scope)&&(scope=="all")){
-    datasheets$order=NULL
-    return(datasheets)
-  }
-  if(is.element(class(x),c("Project","SsimLibrary"))){
-    datasheets = subset(datasheets,scope!="scenario")
-  }
-  if(is.element(class(x),c("SsimLibrary"))){
-    datasheets = subset(datasheets,scope!="project")
-  }
-  if(!is.null(scope)){
-    if(!is.element(scope,c("scenario","project","library"))){
-      stop("Invalid scope ",scope,". Valid scopes are 'scenario', 'project', 'library' and NULL.")
-    }
-    cScope=scope
-    datasheets=subset(datasheets,scope==cScope)
-  }
-  datasheets=datasheets[order(datasheets$order),];datasheets$order=NULL
-  return(datasheets)
-})
 
 

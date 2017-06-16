@@ -1,11 +1,10 @@
-# Author: Josie Hughes
-# Date : December 2016
-# Version 0.1
-# Licence GPL v3
-setOldClass("sockconn")
-#' @include generics.R
-#' @include scenario.R
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
 NULL
+
+#These are class and function definitions to support breakpoints - disabled in the current version of rsyncrosim
+if(0){
 # BreakpointSession class
 #
 # @slot scenario A SyncroSim scenario
@@ -38,6 +37,32 @@ setMethod(f='initialize',signature="BreakpointSession",
 breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T){
   return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer))
 }
+
+# Get or set a socket connection.
+#
+# @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
+# @param port For new connections only - a port number.
+# @export
+setGeneric('connection',function(x,...) standardGeneric('connection'))
+# @describeIn connection Get a new connection.
+setMethod('connection',signature(x="missingOrNULLOrChar"),
+          function(x='127.0.0.1',port=13000) {
+            #port=13000;ipAddress='127.0.0.1'
+            ipAddress = x
+            con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=4)
+            ## S3 method for class 'connection'
+            #open(con, open = "r", blocking = TRUE, ...)
+            ## S3 method for class 'connection'
+            #close(con, type = "rw", ...)
+            #flush(con)
+            #isOpen(con, rw = "")
+            #isIncomplete(con)
+            if(!isOpen(con)){
+              stop(paste0('Problem connecting to the SyncroSim server. IP:',ipAddress," Port:",port))
+            }
+            return(con)
+          })
+
 
 # @export
 setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
@@ -208,4 +233,48 @@ runJobParallel<- function(cPars) {
       close(connection(sess)) # Close the connection.
     })
   #}
+}
+
+# Set breakpoint of a Scenario.
+#
+# Add a Breakpoint object to breakpoints of a Scenario.
+#
+# @param x A SyncroSim Scenario
+# @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: aftertimestep
+# @param transformerName 'stsim:core-transformer' or?
+# @param arguments A vector of timesteps or iterations e.g. c(1,2)
+# @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
+# @return An SyncroSim Scenario object containing breakpoints
+# @export
+setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
+setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, transformerName, arguments, callback) {
+    #x=myScenario
+    types = list(bi = 'syncrosim-stochastic-time:break-before-iteration',
+                 ai = 'syncrosim-stochastic-time:break-after-iteration',
+                 bt = 'syncrosim-stochastic-time:break-before-timestep',
+                 at = 'syncrosim-stochastic-time:break-after-timestep')
+    
+    if(!is.element(breakpointType,names(types))){
+      stop("breakpointType not recognized: ",breakpointType)
+    }
+    breakpointName = types[[breakpointType]]
+    if(is.element(breakpointName,names(breakpoints(x)))){
+      warning('Resetting breakpoint for: ', breakpointName,' -> ',transformerName)
+    }
+    x@breakpoints[[breakpointName]] = breakpoint(breakpointName,transformerName,arguments,callback)
+    return(x)
+  })
+
+
+# The breakpoints of a Scenario
+#
+# The breakpoints of a Scenario
+# @param x A Scenario object.
+# @return A list of Breakpoint objects.
+# @export
+setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
+setMethod('breakpoints', signature(x="Scenario"), function(x) {
+  #x=myScenario
+  return(x@breakpoints)
+})
 }

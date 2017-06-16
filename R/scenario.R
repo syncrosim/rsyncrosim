@@ -1,12 +1,8 @@
-# Author: Josie Hughes
-# Date : November 2016
-# Version 0.1
-# Licence GPL v3
-#' @include generics.R
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
 #' @include AAAClassDefinitions.R
-#' @include ssimLibrary.R
-#' @include project.R
 NULL
+
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
@@ -275,50 +271,6 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   scnSetOut$order=NULL
   return(scnSetOut)
 } 
-
-# Set breakpoint of a Scenario.
-#
-# Add a Breakpoint object to breakpoints of a Scenario.
-#
-# @param x A SyncroSim Scenario
-# @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: aftertimestep
-# @param transformerName 'stsim:core-transformer' or?
-# @param arguments A vector of timesteps or iterations e.g. c(1,2)
-# @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
-# @return An SyncroSim Scenario object containing breakpoints
-# @export
-if(0){
-setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
-setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, transformerName, arguments, callback) {
-  #x=myScenario
-  types = list(bi = 'syncrosim-stochastic-time:break-before-iteration',
-               ai = 'syncrosim-stochastic-time:break-after-iteration',
-               bt = 'syncrosim-stochastic-time:break-before-timestep',
-               at = 'syncrosim-stochastic-time:break-after-timestep')
-
-  if(!is.element(breakpointType,names(types))){
-    stop("breakpointType not recognized: ",breakpointType)
-  }
-  breakpointName = types[[breakpointType]]
-  if(is.element(breakpointName,names(breakpoints(x)))){
-    warning('Resetting breakpoint for: ', breakpointName,' -> ',transformerName)
-  }
-  x@breakpoints[[breakpointName]] = breakpoint(breakpointName,transformerName,arguments,callback)
-  return(x)
-})
-}
-
-# The breakpoints of a Scenario
-#
-# The breakpoints of a Scenario
-# @param x A Scenario object.
-# @return A list of Breakpoint objects.
-# @export
-setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
-setMethod('breakpoints', signature(x="Scenario"), function(x) {
-  #x=myScenario
-  return(x@breakpoints)
-})
 
 
 

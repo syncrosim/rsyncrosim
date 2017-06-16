@@ -12,6 +12,7 @@ defaultModel(mySession)
 defaultModel(mySession)="stsim"
 defaultModel(mySession)
 
+?spatialData
 modules(mySession)
 #deleteModule("sample-basic-dotnet") #using default session
 #modules(mySession)

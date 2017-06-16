@@ -1,10 +1,8 @@
-# Author: Josie Hughes
-# Date : October 2016
-# Version 0.1
-# Licence GPL v3
-#' @include generics.R
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
+
 # @name Session
 # @rdname Session-class
 setMethod(f='initialize',signature="Session",definition=function(.Object,path,silent=F,printCmd=F,defaultModel="stsim"){

@@ -1,3 +1,10 @@
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
+NULL
+
+#These are internal helper functions for rsyncrosim
+
 deleteDatasheet<-function(datasheet,datasheets,cProj=NULL,cScn=NULL,cProjName=NULL,cScnName=NULL,out=list(),force){
   for(j in seq(length.out(datasheet))){
     cName = datasheet[j]

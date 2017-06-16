@@ -1,4 +1,3 @@
-# Add module or modules to SyncroSim
 # Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
