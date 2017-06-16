@@ -1,10 +1,11 @@
-# Author: Josie Hughes
-# Date : December 2016
-# Version 0.1
-# Licence GPL v3
-#' @include generics.R
+# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
 #' @include breakpointSession.R
 NULL
+
+#Code to support breakpoints - disabled in current version of rsyncrosim.
+if(0){
 # Breakpoint class
 #
 # @slot arguments Timesteps or iterations e.g. "1,2"
@@ -29,4 +30,5 @@ setMethod(f='initialize',signature="Breakpoint",
 # @export
 breakpoint<-function(breakpointName,transformerName,arguments,callback,name="Main"){
   return(new("Breakpoint",breakpointName,transformerName,arguments,callback,name))
+}
 }

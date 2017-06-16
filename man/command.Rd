@@ -9,7 +9,7 @@ command(args, session = NULL, program = "SyncroSim.Console.exe", wait = T)
 \arguments{
 \item{args}{Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.}
 
-\item{session}{A SyncroSim session object. If NULL, a default session will be used.}
+\item{session}{Session. If NULL, a default session will be used.}
 
 \item{program}{Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.ModuleManager.exe and SyncroSim.Multiband.exe.}
 
@@ -19,7 +19,7 @@ command(args, session = NULL, program = "SyncroSim.Console.exe", wait = T)
 Output from the SyncroSim program.
 }
 \description{
-\code{command} issues a command to the SyncroSim console and returns the output.
+Issues a command to the SyncroSim console and returns the output.
 }
 \details{
 Example args, and the resulting character string passed to the SyncroSim console:

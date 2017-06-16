@@ -127,6 +127,8 @@ setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenar
   return(out)
 })
 
+if(0){
+
 setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,scenario,summary,jobs,forceElements) {
   #x=cBreakpointSession;jobs=2
   x=ssimObject
@@ -251,3 +253,4 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
     return(ret)
   }
 })
+}

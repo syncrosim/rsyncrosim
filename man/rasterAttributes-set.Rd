@@ -9,7 +9,7 @@ rasterAttributes(raster) <- value
 \arguments{
 \item{raster}{A Raster object.}
 
-\item{rat}{A raster attribute table. This is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.}
+\item{rat}{dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.}
 }
 \description{
 Set attributes and colors of a Raster object.
