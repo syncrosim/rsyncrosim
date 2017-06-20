@@ -15,8 +15,8 @@ LazyData: TRUE
 Imports:
     DBI,
     RSQLite,
-    raster,
     parallel,
+    raster,
     Rcpp,
     rgdal
 Suggests:
@@ -37,6 +37,7 @@ Collate:
     'command.R'
     'dataframeFromSSim.R'
     'datasheet.R'
+    'datasheetRaster.R'
     'datasheets.R'
     'dateModified.R'
     'defaultModel.R'
@@ -72,7 +73,6 @@ Collate:
     'runLog.R'
     'saveDatasheet.R'
     'silent.R'
-    'spatialData.R'
     'ssimUpdate.R'
     'version.R'
 RoxygenNote: 5.0.1

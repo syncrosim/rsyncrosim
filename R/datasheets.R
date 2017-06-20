@@ -35,7 +35,7 @@ setMethod('datasheets', signature(x="character"), function(x,project,scenario,sc
   return(out)
 })
 
-setMethod('datasheets', signature(x="SsimLibrary"), function(x,project,scenario,scope,refresh) {
+setMethod('datasheets', signature(x="SsimObject"), function(x,project,scenario,scope,refresh) {
   #x = myScn;project=NULL;scenario=NULL;empty=T;scope=NULL;refresh=T
   x = .getFromXProjScn(x,project,scenario)
   

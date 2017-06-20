@@ -133,7 +133,7 @@ setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),
           function(name,model,session,addon,forceUpdate,create) {
             new("SsimLibrary",name,model,session,addon,forceUpdate,create)
           })
-setMethod('.ssimLibrary', signature(name="SsimLibrary"), function(name,model,session,addon,forceUpdate,create) {
+setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,session,addon,forceUpdate,create) {
   #model=cScn
   if(class(name)=="SsimLibrary"){
     out=name
@@ -151,7 +151,8 @@ setMethod('.ssimLibrary', signature(name="SsimLibrary"), function(name,model,ses
 #' @export
 setGeneric('ssimLibrary',function(name=NULL,...) standardGeneric('ssimLibrary'))
 
-setMethod('ssimLibrary', signature(name="SsimLibrary"), function(name) {
+#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Object.
+setMethod('ssimLibrary', signature(name="SsimObject"), function(name) {
   #model=cScn
   if(class(name)=="SsimLibrary"){
     out=name
@@ -160,6 +161,7 @@ setMethod('ssimLibrary', signature(name="SsimLibrary"), function(name) {
   }
   return(out)
 })
+
 
 #' @details
 #' 
@@ -208,17 +210,6 @@ setMethod('ssimLibrary', signature(name="SsimLibrary"), function(name) {
 setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
           function(name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) {
     new("SsimLibrary",name,model,session,addon,forceUpdate,create=T)
-})
-
-#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Object.
-setMethod('ssimLibrary', signature(name="SsimLibrary"), function(name) {
-  #model=cScn
-  if(class(name)=="SsimLibrary"){
-    out=name
-  }else{
-    out = .ssimLibrary(name=.filepath(name),session=.session(name),create=F)
-  }
-  return(out)
 })
 
 # Information about an library

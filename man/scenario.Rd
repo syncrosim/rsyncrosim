@@ -14,7 +14,7 @@ scenario(ssimObject, scenario = NULL, sourceScenario = NULL,
 
 \item{sourceScenario}{Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.}
 
-\item{summary}{Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentId. Default is TRUE if scenario=NULL, FALSE otherwise.}
+\item{summary}{Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentScenarioID. Default is TRUE if scenario=NULL, FALSE otherwise.}
 
 \item{results}{Logical. If TRUE only return result scenarios.}
 

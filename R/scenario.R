@@ -116,7 +116,7 @@ setMethod(f='initialize',signature="Scenario",
 #' @param ssimObject SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.
 #' @param scenario Character, integer, or vector of these. Names or ids of one or more scenarios.
 #' @param sourceScenario Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.
-#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentId. Default is TRUE if scenario=NULL, FALSE otherwise.
+#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentScenarioID. Default is TRUE if scenario=NULL, FALSE otherwise.
 #' @param results Logical. If TRUE only return result scenarios.
 #' @param overwrite Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.
 #' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.

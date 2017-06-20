@@ -35,7 +35,7 @@ setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summ
   return(out)
 })
 
-setMethod('run', signature(ssimObject="SsimLibrary"), function(ssimObject,scenario,summary,jobs,forceElements) {
+setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
   #x=myScenario;jobs=2;scenario=NULL
   
   xProjScn = .getFromXProjScn(ssimObject,scenario=scenario,convertObject=F,returnIds=T,goal="scenario",complainIfMissing=T)

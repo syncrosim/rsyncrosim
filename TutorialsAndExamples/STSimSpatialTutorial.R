@@ -53,11 +53,10 @@ rat$Color = c("darkgreen","brown","wheat")
 #   R colour names: See colors() for options.
 #   hexadecimal colors: As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
 checkSheet = datasheet(myResult,name="STSim_OutputSpatialState")
-myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
-                        iterations=seq(1),timesteps = seq(0,10,by=5),rat=rat)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+myRasters = datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
+                        iteration=seq(1),timestep = seq(0,10,by=5),rat=rat)
 names(myRasters)
 
 str(myRasters[[1]])
@@ -66,7 +65,6 @@ str(myRasters[[1]])
 
 #plot iteration 1 timestep 0
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
 levels(myRasters[[1]])
 levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
 #This is a wrapper for the levelplot() function of the rasterVis package:
@@ -97,10 +95,15 @@ datasheet(myResult[[1]])$name
 
 check = datasheet(myResult[[1]],"STSim_OutputSpatialTransition")
 str(check)
-#TO DO: helper for pulling particular transition groups, etc? later.
-mySpatialInputs = spatialData(myResult,sheet="STSim_InitialConditionsSpatial")
+myTransitionGroup = datasheetRaster(myResult,datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
+names(myTransitionGroup)
+
+check = datasheet(myResult[[1]],"STSim_InitialConditionsSpatial")
+str(check)
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
+mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
 names(mySpatialInputs)
-age0=mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.age"]]
+age0=mySpatialInputs[["scn7.It0000.Ts0000.age"]]
 #TO DO:show example of pulling sheet without writing full name
 
 #see all ages

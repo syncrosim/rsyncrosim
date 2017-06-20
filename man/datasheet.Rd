@@ -40,8 +40,8 @@ Gets Syncrosim datasheet.
 }
 \details{
 If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
-  If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, hasData. 
-  hasData only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
+  If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, data. 
+  data only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
   If optional=F columns include: scope, name, displayName.
   All other arguments are ignored.
 

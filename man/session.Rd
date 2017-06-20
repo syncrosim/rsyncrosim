@@ -3,7 +3,7 @@
 \docType{methods}
 \name{session}
 \alias{session}
-\alias{session,SsimLibrary-method}
+\alias{session,SsimObject-method}
 \alias{session,missingOrNULLOrChar-method}
 \title{Start or get a SyncroSim session.}
 \usage{
@@ -12,7 +12,7 @@ session(x = NULL, silent = T, printCmd = F, defaultModel = "stsim")
 \S4method{session}{missingOrNULLOrChar}(x = NULL, silent = T,
   printCmd = F, defaultModel = "stsim")
 
-\S4method{session}{SsimLibrary}(x = NULL, silent = T, printCmd = F,
+\S4method{session}{SsimObject}(x = NULL, silent = T, printCmd = F,
   defaultModel = "stsim")
 }
 \arguments{
@@ -34,7 +34,7 @@ Methods to create a Syncrosim session or fetch one from a SsimLibrary, Project o
 \itemize{
 \item \code{missingOrNULLOrChar}: Create a SyncroSim Session from a filepath or get default Session.
 
-\item \code{SsimLibrary}: Get the Session associated with an SsimObject.
+\item \code{SsimObject}: Get the Session associated with an SsimObject.
 }}
 \examples{
 # Look for SyncroSim in the usual places

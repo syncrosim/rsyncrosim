@@ -51,7 +51,7 @@ project(myOtherLib)
 scenario(myOtherLib)
 
 myProject = project(myLib,project="temp")
-datasheet(myProject) #Note hasData info only available for scenario scope datasheets.
+datasheet(myProject) #Note data info only available for scenario scope datasheets.
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 datasheet(myLib,project="temp") #same thing, but more system calls.
 project(myLib)
@@ -87,7 +87,7 @@ sheets = datasheet(myScn) #only scope, name and displayName
 sheets 
 sheets = datasheet(myScn,optional=T) #all info
 str(sheets)
-#NOTE: hasData column only available for scenario scope datasheets
+#NOTE: data column only available for scenario scope datasheets
 #NOTE: dataInherited and dataSource columns added if there are dependencies. 
 
 scenario(myLib)

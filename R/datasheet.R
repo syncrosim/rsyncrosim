@@ -10,8 +10,8 @@ NULL
 #' @details
 #' 
 #' If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
-#'   If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, hasData. 
-#'   hasData only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
+#'   If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, data. 
+#'   data only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
 #'   If optional=F columns include: scope, name, displayName.
 #'   All other arguments are ignored.
 #' 
@@ -124,9 +124,9 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     sumInfo[order(sumInfo$order),];sumInfo$order=NULL;return(sumInfo)
   }
   
-  #Add hasData info - only for scenario scope datasheets if sid is defined
+  #Add data info - only for scenario scope datasheets if sid is defined
   if(summary){
-    #if no scenario scope sheets, return sumInfo without checking for hasData
+    #if no scenario scope sheets, return sumInfo without checking for data
     scnSheetSum = sum(sumInfo$scope=="scenario")
     
     if(scnSheetSum==0){sumInfo[order(sumInfo$order),];sumInfo$order=NULL;return(sumInfo)}
@@ -138,11 +138,10 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       if(grepl("The library has unapplied updates",tt[[1]])){
         stop(tt)
       }
-      hasDataInfo = .dataframeFromSSim(tt,csv=F,convertToLogical=c("hasData","dataInherited"))
-      #What happened to hasData column?
-      if(!is.element("hasData",names(hasDataInfo))){
-        hasDataInfo$hasData=F
-        warning("missing hasData column. assume F")
+      hasDataInfo = .dataframeFromSSim(tt,csv=F,convertToLogical=c("data","dataInherited"))
+      if(!is.element("data",names(hasDataInfo))){
+        hasDataInfo$data=F
+        warning("missing data column. assume F")
       }
       if(length(setdiff(hasDataInfo$name,sumInfo$name))>0){
         sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
@@ -153,9 +152,9 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         }
       }
       if(sum(hasDataInfo$dataInherited)>0){
-        addCols = c("name","hasData","dataInherited","dataSource")
+        addCols = c("name","data","dataInherited","dataSource")
       }else{
-        addCols=c("name","hasData")
+        addCols=c("name","data")
       }
       hasDatBit = subset(hasDataInfo,select=addCols)
       hasDatBit$scenario = i
@@ -490,12 +489,12 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       }else{
         if(nrow(sheet)>0){
           
-          allScns = scenario(x)
-          if(!is.element("parentId",names(allScns))){
-            warning("Missing parentId info from scenario(summary=T).")
-            allScns$parentId=NA
+          allScns = scenario(x,summary=T)
+          if(!is.element("parentScenarioID",names(allScns))){
+            warning("Missing parentScenarioID info from scenario(summary=T).")
+            allScns$parentScenarioID=NA
           }
-          allScns=subset(allScns,select=c(id,pid,name,parentId))
+          allScns=subset(allScns,select=c(id,pid,name,parentScenarioID))
           names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
           sheet=merge(allScns,sheet,all.Y=T)
         }

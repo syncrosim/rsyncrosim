@@ -52,6 +52,7 @@ setReplaceMethod(
   }
 
   raster = raster::ratify(raster)
+  #raster=raster::'levels<-'(raster,rat)
   levels(raster)=rat
 
   return(raster)

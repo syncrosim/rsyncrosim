@@ -36,8 +36,10 @@ NULL
 .datasheet=datasheet
 # @export
 .name=name
-# @export
+#' @export
 .datasheets=datasheets
+#' @export
+.subset=subset
 # @export
 .sqlStatements=sqlStatements
 # @export

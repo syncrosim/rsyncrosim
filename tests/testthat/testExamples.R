@@ -89,7 +89,7 @@ test_that("Tests of Scenario", {
   myScenario = scenario(myProject, scenario="My new scenario name")
 
   myScnNames  =   scenario(myLibrary)
-  expect_equal(names(myScnNames),c("id","pid","name","isResult","owner","readOnly","lastModified","parentId"))
+  expect_equal(names(myScnNames),c("id","pid","name","isResult","parentScenarioID","owner","lastModified","readOnly"))
   expect_equal(myScnNames$name,c("Scenario","My new scenario name"))
 
   expect_is(scenarioId(myScenario),"numeric")

@@ -104,7 +104,7 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
 })
 
 #' @describeIn session Get the Session associated with an SsimObject.
-setMethod('session', signature(x="SsimLibrary"), function(x,silent,printCmd,defaultModel) x@session)
+setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defaultModel) x@session)
 
 #' Set a SyncroSim session.
 #'
