@@ -7,163 +7,15 @@
 # **********************************************************
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
-mySession = session(defaultModel="carep") #note different options in SyncroSim v2
-defaultModel(mySession)
-defaultModel(mySession)="stsim"
-defaultModel(mySession)
 
-?spatialData
-modules(mySession)
-#deleteModule("sample-basic-dotnet") #using default session
-#modules(mySession)
-#deleteModule(c("sample-stime-dotnet","sample-spatial-dotnet"),mySession) #a vector, using a particular session
-#modules(mySession)
-
-#Three different ways to provide args to command
-command(c("create","help"))
-command("--create --help",session=session(printCmd=T))
-command(list(create=NULL,help=NULL))
-
-args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp55.ssim"),model="hello:model-transformer")
-output = command(args,session=session(printCmd=T,silent=F))
-
-mySession =session(printCmd=T,silent=F)
 #delete(paste0(getwd(),"/temp26.ssim"),force=T)
 #delete(paste0(getwd(),"/temp27.ssim"),force=T)
 
-myLib=ssimLibrary(name="temp26",session=mySession)
-addons(myLib)
-addons(mySession)
-datasheet(myLib)
-delete(myLib,force=T)
-#project(myLib) #Fails with message that library does not exist on disk.
-myLib=ssimLibrary(name="temp26",session=mySession)
-myOtherLib = ssimLibrary(name="temp27",session=mySession)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-myOtherScn = scenario(myOtherLib,scenario="other")
-scenario(myOtherLib)
-#delete("myOtherLib",scenario="other",force=T)#Fails if library does not exist
-delete(myOtherLib,scenario="other",force=T)
-myOtherScn = scenario(myOtherLib,scenario="other2")
-
-project(myOtherLib)
-scenario(myOtherLib)
-
-myProject = project(myLib,project="temp")
-datasheet(myProject) #Note data info only available for scenario scope datasheets.
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-datasheet(myLib,project="temp") #same thing, but more system calls.
-project(myLib)
-
-#scenario(myLib,scenario=1) # Fail: need a name to create a scenario
-myScn = scenario(myLib,scenario="one") #Ok because only one project in the library.
-scenario(myLib)
-project(myLib)
-myProject = project(myLib,project="temp2")
-myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
-#delete(myProject,scenario="one",force=T)
-myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
-
-#myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
-scenario(myLib)
-myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
-scenario(myLib)
-myScn = scenario(myProject,scenario="two",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
-scenario(myLib)
-myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
-scenario(myLib)
-
-myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
-
-project(myLib)
-myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
-project(myLib)
-myOtherProject=project(myLib,project="temp",sourceProject="temp2")#Warns that sourceProject is ignored because "temp" already exists.
-myOtherProject=project(myLib,project="copy2",sourceProject="temp2")#Copy a project by name
-project(myLib)
-
-sheets = datasheet(myScn) #only scope, name and displayName
-sheets 
-sheets = datasheet(myScn,optional=T) #all info
-str(sheets)
-#NOTE: data column only available for scenario scope datasheets
-#NOTE: dataInherited and dataSource columns added if there are dependencies. 
-
-scenario(myLib)
-projectId(myProject)
-#delete(myProject,scenario="two",force=T)
-myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
-myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sourceScenario will be ignored.
-#myScn = scenario(myProject,scenario="two",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
-scenarioId(myScn)
-scenario(myScn,summary=T) #return summary info
-
-allSheets=datasheet(myScn,optional=T)#returns all info about datasheets
-str(allSheets)
-allSheets = datasheet(myScn) #returns only datasheet names and scope
-allSheets
-
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-aSheet = datasheet(myScn,"SSim_Files")#returns a datasheet
-str(aSheet)
-
-aSheet = datasheet(myScn,"SSim_Files",forceElements=T) #returns a list
-str(aSheet)
-
-someSheets = datasheet(myScn,c("SSim_Settings","SSim_Files")) #returns a list
-str(someSheets)
-
-allScns = scenario(myLib,summary=F)
-names(allScns)
-someSheets = datasheet(myLib,c("STSim_RunControl","STSim_Transition"),scenario=as.numeric(names(allScns))) #returns a list - each sheet contains scenario info if appropriate
-str(someSheets)
-someSheets = datasheet(allScns,c("STSim_RunControl","STSim_Transition")) #returns a list - each sheet contains scenario info if appropriate
-str(someSheets)
-
-aSheet = datasheet(myScn,"STSim_RunControl",scenario=1)#Warn of conflict between ssimObject and scenario arguments.
-aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict between ssimObject and project arguments.
-anotherScn = scenario(myProject,"another scn")
-aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
-
-name(myLib)
-name(myLib)="Fred"
-name(myLib) 
-filepath(myLib)#Note that the filename on disk has not changed
-
-backup(myLib)
-description(myLib) = "A new description.\nTry a linebreak." #NOTE: \n adds a linebreak to the description
-description(myLib) #QUESTION: Each element of the vector is a line of the description. Should this change?
-owner(myLib) ="Fred"
-owner(myLib)
-readOnly(myLib)=T
-readOnly(myLib)
-readOnly(myLib)=F
-readOnly(myLib) 
-addons(myLib) #TO DO: test disableAddon() and enableAddon() once we have some addons.
-
-model(mySession)
-modules(mySession) #NOTE: model(mySession) is not a subset of modules(mySession). Change in SyncroSim if necessary.
-model()
-modules()
-model(myLib)
-
-version(mySession)
-version()
-myScn = scenario(myProject,scenario=1)
-runLog(myScn) #Returns message if the scenario is not a result scenario.
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-command("--help")
 
 #TO DO: test runLog() on result scenario
-#TO DO: once we have addons - is shortName necessary?
-#TO DO: test disableAddon() and enableAddon() once we have some addons.
 #TO DO: allow setting readOnly=F from T.
-#TO DO: go over STSimSpatialTutorial.R newScenario part with Alex. What is needed to set spatial inputs in a new library?
 #TO DO: test delete().
-#TO DO: session()  Use version() properly once that function is updated. 
 #TO DO: for saveDatasheet() handle data without names.
 #TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
 #TO DO: revise datasheet() given new options from --export: --extfilepaths --rawvalues
@@ -415,87 +267,26 @@ print(base)
 #*********************
 # TO DISCUSS
 #*********************
-showMethods(class="SsimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
-anotherProject = project(myLibrary,project="AnotherProject")
-# DISCUSS: Inheritance
-# Project and Scenario objects inherit from SsimLibrary.
-# For some methods, this is helpful:
-#  - datasheet(), saveDatasheet(): do sensible things with x/project/scenario arguments - see help for details.
-#  - run(): does sensible things with ssimObject/scenario arguments
-#  - session(), filepath(), addons(): provide useful information.
-#
-# Other methods are conceptually problematic and should (?) be disabled for Scenario/Project objects.
-#  - enableAddon,disableAddon : side effects for other projects/scenarios
-#
-# And I am unsure about these methods:
-#  - info(): returns library info
-#  - session<-: When should users be allowed to change the version of SyncroSim they are using?
-
-myScenarios = scenario(myProject,summary=F) #returns list - names are scenario ids.
-names(myScenarios)
-# NOTE: base R function names returns id's, not scenario names. I don't recommend overwriting the base function for List objects.
-
-delete(myLibrary, project="My new project name") # Returns "saved" or a failure message, or a list of these for each project.
-
 parentId(myScenario)
-# QUESTION: Should I disable assignment functions for result scenarios?
-
+# QUESTION: Should we disable assignment functions for result scenarios?
 # DISCUSS: StochasticTime chart and map UI - What features do we need?
-
 # DISCUSS: Examples in help files - some examples are difficult to set up.
-
-# DISCUSS: How to acknowledge code bits scooped from web pages? search 'http' to see them...
-
 
 ################
 # TO DO:
-# - handle raster datasheets (inputs)
 # - datasheet(,keepId=T)
-# - help/documentation
 # - Project revisions: Safe modification of existing libraries?
-# - long names in  model() ?
 # - Dependency functions: command(list(create=NULL,dependency=NULL,lib=.filepath(myLibrary),sid=.scenarioId(myScenario),did=.projectId(myDependency)))
-# - warning: loadDatasheet() appends to library and project scope datasheets, rather than overwriting. To start fresh, delete project or library and begin again. We likely need a better way to modify project scope datasheets...
 # - Note - I spend a lot of time trying to figure out how GUI naming corresponds to datasheet names here.
 #   e.g. I need Transition Pathways -> Transitions. What sheet is that, exactly?
 #   Solution: subset(datasheet(myScenario),displayName=="Transitions",select=c(name))
-# - Copy a scenario from one project to another?
-# - Check which datasheets have data.
-# - How to access results more efficiently. E.G. Transitions table.
 # - More graceful failure given insufficient version of SyncroSim. Colin got a wierd failure error (indexing?) from 0.24.
 # - Problems with default transition type groups:
 #    sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 #    mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
 #    saveDatasheet(myProject,mySheet,name=sheetName)
-#   I've added an "IsVisible" column property to --list --columns so Josie can check for this as well.
-#   We should be careful about omitting fields for datasheets on export because when you import a datasheet it updates existing records with the new data.  For example, if you omit the "Description" field then existing description will be overwritten with NULL if you import that same file.  I'm not sure if this is what is happening in the R scripts, but just something to be aware of.  Of course we could change things so data is never overwritten with NULL for definition imports (and Cut/Paste...) but then you would not be able to replace an existing definition with NULL which seems a bit wrong.
-#   Ensure that factor levels are passed through from invisible datasheet
 # - Add index page to reference manual.
-# - loadSpatialData() when breakpoint=F. See A76/ChangeResolutionOfInputs.R. But note there may be more elegant ways to do this.
 # - bug in datasheet(). See line 43 of A176/ChangeTimestep.R
-# - better errors from syncrosim - display log entries by default
-# - saveDatasheet(): handle named vectors
-# - datasheet(): return named vector for single row datasheets
-# - saveDatasheet() instead of loadDatasheet()
-# - delete datasheet - start again. Currently can overwrite, but cannot start from scratch.
-
-####################
-#DONE
-# - Reconcile SyncroSim and R colors: Syncrosim puts the alph in the first position, R expects it in the last position.
-#   rat$Color = sapply(rat$Color,fixSyncroSimColors,simplify=T)
-#   fixSyncroSimColors<-function(inCol){
-#     inVals = strsplit(inCol,",")[[1]]
-#     outVals=inVals
-#     outVals[1:3]=inVals[2:4]
-#     outVals[4]=inVals[1]
-#     return(paste(outVals,collapse=","))
-#   }
-# - Update plotting examples. This code will assign the right colors to the right classes
-#   view=stateClass
-#   myCols = unique(subset(levels(view)[[1]],select=c(Name,hexColor,Color)));myCols=myCols[order(myCols$Name),]
-#   levelplot(view,att="Name",at=myCols$Name,col.regions=myCols$hexColor,par.settings=myCols,main=view@title)
-# - Used "Saved" instead of "Success", where appropriate
-
 
 ###################
 # Handoff notes:
@@ -505,12 +296,3 @@ parentId(myScenario)
 # - linux testing
 # - vanilla windows testing
 # - search and handle "TO DO:" notes
-
-###############
-# LOW PRIORITY
-# LOW PRIORITY: Platform agnostic paths. For now, ask Linux users to specify the path to SyncroSim.Console.exe
-# LOW PRIORITY: Better explain command with help examples: c("list","models")
-# LATER: Create own model from scratch in R. Inputs, output and calculations
-# Backup and restore libraries.
-# LOW PRIORITY - datafeeds
-# LOW PRIORITY: Defaults for primary and secondary strata in STSim models?

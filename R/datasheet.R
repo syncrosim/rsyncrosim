@@ -392,7 +392,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
                 if(is.null(allScns)){
                   allScns = scenario(x)
                 }
-                findPrjs = allScns$pid[is.element(allScns$id,sid)]
+                findPrjs = allScns$projectId[is.element(allScns$scenarioId,sid)]
               }else{
                 findPrjs = pid
               }
@@ -494,7 +494,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             warning("Missing parentScenarioID info from scenario(summary=T).")
             allScns$parentScenarioID=NA
           }
-          allScns=subset(allScns,select=c(id,pid,name,parentScenarioID))
+          allScns=subset(allScns,select=c(scenarioId,projectId,name,parentScenarioID))
           names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
           sheet=merge(allScns,sheet,all.Y=T)
         }

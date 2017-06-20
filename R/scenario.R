@@ -7,7 +7,7 @@ NULL
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,sourceScenario=NULL,scenarios=NULL){
-    #ssimLibrary = ssimObject; project=cRow$pid;name=cRow$id;id=NULL;scenarios=cRow
+    #ssimLibrary = ssimObject; project=cRow$projectId;name=cRow$scenarioId;id=NULL;scenarios=cRow
     #assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
       
     .Object@breakpoints=list()
@@ -21,10 +21,10 @@ setMethod(f='initialize',signature="Scenario",
     }
     allScenarios=scenarios
     if(!is.null(name)){cName=name;scenarios=subset(scenarios,name==cName)}
-    if(!is.null(id)){cId = id; scenarios=subset(scenarios,id==id)}
-    if(!is.null(project)){scenarios=subset(scenarios,pid==project)}
+    if(!is.null(id)){scenarios=subset(scenarios,scenarioId==id)}
+    if(!is.null(project)){scenarios=subset(scenarios,projectId==project)}
     
-    findScn = subset(scenarios,!is.na(id))
+    findScn = subset(scenarios,!is.na(scenarioId))
     if(nrow(findScn)>1){
       stop("Something is wrong.")
     }
@@ -44,8 +44,8 @@ setMethod(f='initialize',signature="Scenario",
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
       .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
-      .Object@scenarioId = as.numeric(findScn$id)
-      .Object@projectId = as.numeric(findScn$pid)
+      .Object@scenarioId = as.numeric(findScn$scenarioId)
+      .Object@projectId = as.numeric(findScn$projectId)
       return(.Object)
     }
     
@@ -66,7 +66,7 @@ setMethod(f='initialize',signature="Scenario",
       sid=sourceScenario
       slib=.filepath(x)
       if(class(sourceScenario)=="numeric"){
-        if(!is.element(sourceScenario,allScenarios$id)){
+        if(!is.element(sourceScenario,allScenarios$scenarioId)){
           stop("Source scenario id ",sourceScenario," not found in SsimLibrary.")
         }
       }
@@ -76,9 +76,9 @@ setMethod(f='initialize',signature="Scenario",
           stop(paste0("Source scenario name ",sourceScenario," not found in SsimLibrary."))
         }
         if(nrow(sourceOptions)>1){
-          stop(paste0("There is more than one scenario called ",sourceScenario," in the SsimLibrary. Please provide a sourceScenario id: ",paste(sourceOptions$id,collapse=",")))
+          stop(paste0("There is more than one scenario called ",sourceScenario," in the SsimLibrary. Please provide a sourceScenario id: ",paste(sourceOptions$scenarioId,collapse=",")))
         }
-        sid=sourceOptions$id
+        sid=sourceOptions$scenarioId
       }
       if(class(sourceScenario)=="Scenario"){
         sid=.scenarioId(sourceScenario)
@@ -131,7 +131,7 @@ setMethod(f='initialize',signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
-  #ssimObject= myScn;scenario=NULL;sourceScenario=NULL;summary=T;results=F;overwrite=F;forceElements=F
+  #ssimObject= myProject;scenario="one";sourceScenario=NULL;summary=NULL;results=F;overwrite=T;forceElements=F
   
   #if ssimObject is a scenario return the scenario
   if(is.element(class(ssimObject),c("Scenario"))&is.null(scenario)){
@@ -201,7 +201,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   #distinguish existing scenarios from those that need to be made
   areIds = is.numeric(scenario)
 
-  #if scenarios need to be made, pass all sceanrios in library
+  #if scenarios need to be made, pass all scenarios in library
   makeSum = sum(!is.na(scnSet$order)&is.na(scnSet$exists))
   libScns=subset(allScenarios,!is.na(exists))
   if(makeSum>0){
@@ -219,14 +219,16 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   scnsToMake = subset(scnSet,!is.na(order))
   if(overwrite){
     for (i in seq(length.out=nrow(scnsToMake))){
+      #i=1
       if(is.na(scnsToMake$exists[i])){
         next
       }
-      ret = delete(ssimObject,scenario=scnsToMake$id[i],force=T)
+      ret = delete(ssimObject,scenario=scnsToMake$scenarioId[i],force=T)
       cRow=scnsToMake[i,]
       scnsToMake[i,]=NA
-      scnsToMake$name[i]=cRow$name;scnsToMake$pid[i]=cRow$pid;scnsToMake$order[i]=cRow$order
+      scnsToMake$name[i]=cRow$name;scnsToMake$projectId[i]=cRow$projectId;scnsToMake$order[i]=cRow$order
     }
+    libScns = getScnSet(ssimObject)
   }
   if(summary|results){scnsToMake=subset(scnsToMake,is.na(exists))}
   if(nrow(scnsToMake)==0){
@@ -243,10 +245,10 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
     #i = 1
     cRow = scnsToMake[i,]
     if(!is.na(cRow$exists)){
-      scnList[[as.character(scnsToMake$id[i])]]=new("Scenario",ssimObject,project=cRow$pid,id=cRow$id,scenarios=cRow)
+      scnList[[as.character(scnsToMake$scenarioId[i])]]=new("Scenario",ssimObject,project=cRow$projectId,id=cRow$scenarioId,scenarios=cRow)
       
     }else{
-      obj=new("Scenario",ssimObject,project=cRow$pid,name=cRow$name,sourceScenario=sourceScenario,scenarios=libScns)
+      obj=new("Scenario",ssimObject,project=cRow$projectId,name=cRow$name,sourceScenario=sourceScenario,scenarios=libScns)
       scnList[[as.character(.scenarioId(obj))]]=obj
     }
   }
@@ -261,7 +263,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   
   scnSetOut=getScnSet(ssimObject)
   scnSetOut$exists=NULL
-  idList=data.frame(id = as.numeric(names(scnList)),order=seq(1:length(scnList)))
+  idList=data.frame(scenarioId = as.numeric(names(scnList)),order=seq(1:length(scnList)))
   scnSetOut =merge(idList,scnSetOut,all.x=T)
   if(sum(is.na(scnSetOut$name))>0){
     stop("Something is wrong with scenario()")

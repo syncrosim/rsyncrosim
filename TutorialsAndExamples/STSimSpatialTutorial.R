@@ -39,7 +39,7 @@ scenario(myProject)
 run(myProject,5,summary=T)
 
 resultScns = scenario(myProject,results=T)
-myResult = scenario(myProject,scenario=tail(resultScns,n=2)$id)
+myResult = scenario(myProject,scenario=tail(resultScns,n=2)$scenarioId)
 
 #*************************************
 # View state class output
@@ -172,6 +172,8 @@ saveDatasheet(anotherScenario,data=inSheet,name=sheetName,fileData=newRasters)
 datasheet(anotherScenario,name="STSim_InitialConditionsSpatialProperties")
 
 #NOTE: option of specifying file paths doesn't work because names() does not accept "/" characters.
+names(newRasters)=paste0("a_",names(newRasters))
+
 names(newRasters)=paste0("C:/Temp/ST-Sim Spatial Tutorial/Temp/",names(newRasters))
 names(newRasters)
 

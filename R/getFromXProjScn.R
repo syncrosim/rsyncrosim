@@ -89,7 +89,7 @@
           stop("No projects found in library.")
         }
       }
-      project=projectSet$id
+      project=projectSet$projectId
     }
     
     #Now assume project is defined
@@ -97,7 +97,7 @@
     areIds = is.numeric(project)
 
     if(areIds){
-      mergeBit = data.frame(id=as.numeric(as.character(project)))
+      mergeBit = data.frame(projectId=as.numeric(as.character(project)))
     }else{
       mergeBit = data.frame(name=project,stringsAsFactors=F)
     }
@@ -106,7 +106,7 @@
     missingProjects = subset(fullProjectSet, is.na(fullProjectSet$exists)&(!is.na(fullProjectSet$order)))
     if(complainIfMissing&(nrow(missingProjects)>0)){
       if(areIds){
-        stop("Project ids (",paste(missingProjects$id,collapse=",") ,") not found in ssimObject. ")
+        stop("Project ids (",paste(missingProjects$projectId,collapse=",") ,") not found in ssimObject. ")
         
       }else{
         stop("Projects (",paste(missingProjects$name,collapse=",") ,") not found in ssimObject. ")
@@ -115,7 +115,7 @@
     
     missingNames = subset(missingProjects, is.na(missingProjects$name))
     if(areIds&(nrow(missingNames)>0)){
-      stop("Project ids (",paste(missingNames$id,collapse=",") ,") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument of the project() function. SyncroSim will automatically assign project ids.")
+      stop("Project ids (",paste(missingNames$projectId,collapse=",") ,") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument of the project() function. SyncroSim will automatically assign project ids.")
     }
     
     #Stop if an element of project corresponds to more than one existing row of the project list
@@ -125,7 +125,7 @@
       if(nrow(dupNames)>0){
         #report the first error only
         cName = dupNames$Var1[1]
-        cIds = checkDups$id[checkDups$name==cName]
+        cIds = checkDups$projectId[checkDups$name==cName]
         stop(paste0("The library contains more than one project called ",cName,". Specify a project id: ",paste(cIds,collapse=",")))
       }
     }  
@@ -138,10 +138,10 @@
       if(!smallProjectSet$exists){
         stop("Project ",project," not found in the ssimObject.")
       }
-      return(new("Project",ssimObject,id=smallProjectSet$id,projects=fullProjectSet))
+      return(new("Project",ssimObject,id=smallProjectSet$projectId,projects=fullProjectSet))
     }
     if(sum(is.na(smallProjectSet$exists))==0){
-      project=smallProjectSet$id
+      project=smallProjectSet$projectId
     }
     
     return(list(ssimObject=ssimObject,project=project,scenario=scenario,projectSet=fullProjectSet,goal=goal))
@@ -169,10 +169,10 @@
     
     scnSet = getScnSet(ssimObject)
     if(!is.null(project)){
-      scnSet=subset(scnSet,is.element(pid,project))
+      scnSet=subset(scnSet,is.element(projectId,project))
     }
     if(!is.null(scenario)&&is.numeric(scenario)){
-      scnSet=subset(scnSet,is.element(id,scenario))    
+      scnSet=subset(scnSet,is.element(scenarioId,scenario))    
     }  
     if(is.null(scenario)){
       if(nrow(scnSet)==0){
@@ -183,26 +183,26 @@
           stop("No scenarios found in ssimObject.")
         }
       }
-      scenario=scnSet$id
+      scenario=scnSet$scenarioId
     }
     
     #Now assume scenario is defined
     #distinguish existing scenarios from those that need to be made
     areIds = is.numeric(scenario)
     if(areIds){
-      mergeBit = data.frame(id=scenario)
+      mergeBit = data.frame(scenarioId=scenario)
     }else{
       mergeBit = data.frame(name=scenario,stringsAsFactors=F)
     }
     if(!is.null(project)){
-      mergeBit$pid = project
+      mergeBit$projectId = project
     }
     mergeBit$order = seq(1:length(scenario))
     fullScnSet = merge(scnSet,mergeBit,all=T)
     missingScns = subset(fullScnSet, is.na(fullScnSet$exists)&(!is.na(fullScnSet$order)))
     if(complainIfMissing&(nrow(missingScns)>0)){
       if(areIds){
-        stop("Scenario ids (",paste(missingScns$id,collapse=",") ,") not found in ssimObject. ")
+        stop("Scenario ids (",paste(missingScns$scenarioId,collapse=",") ,") not found in ssimObject. ")
         
       }else{
         stop("Scenarios (",paste(missingScns$name,collapse=",") ,") not found in ssimObject. ")
@@ -211,7 +211,7 @@
     
     missingNames = subset(missingScns, is.na(missingScns$name))
     if(areIds&(nrow(missingNames)>0)){
-      stop("Scenario ids (",paste(missingNames$id,collapse=",") ,") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.")
+      stop("Scenario ids (",paste(missingNames$scenarioId,collapse=",") ,") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.")
     }
     
     #For scenarios that need to be made, assign project or fail  
@@ -226,13 +226,13 @@
           obj = project(ssimObject,project="project1")
           project = .projectId(obj)
         }else{
-          project = allProjects$id
+          project = allProjects$projectId
         }
       }
       if(is.null(project)||is.na(project)){
         stop("Something is wrong")
       }
-      fullScnSet$pid[!is.na(fullScnSet$order)&is.na(fullScnSet$exists)]=project
+      fullScnSet$projectId[!is.na(fullScnSet$order)&is.na(fullScnSet$exists)]=project
     }
     
     #Stop if an element of scenarios corresponds to more than one existing row of the scenario list
@@ -242,7 +242,7 @@
       if(nrow(dupNames)>0){
         #report the first error only
         cName = dupNames$Var1[1]
-        cIds = checkDups$id[checkDups$name==cName]
+        cIds = checkDups$scenarioId[checkDups$name==cName]
         stop(paste0("The ssimObject contains more than one scenario called ",cName,". Specify a scenario id: ",paste(cIds,collapse=",")))
       }
     }  
@@ -258,7 +258,7 @@
       return(new("Scenario",ssimObject,id=scenario,scenarios=fullScnSet))
     }
     if(sum(is.na(smallScenarioSet$exists))==0){
-      scenario=smallScenarioSet$id
+      scenario=smallScenarioSet$scenarioId
     }
     
     return(list(ssimObject=ssimObject,project=project,scenario=scenario,scenarioSet=fullScnSet,goal=goal))

@@ -18,8 +18,7 @@ setMethod(f='initialize',signature="Project",
     findPrj = projects
 
     if(!is.null(id)){
-      cId = as.character(id)
-      findPrj = subset(findPrj,id==cId)
+      findPrj = subset(findPrj,projectId==id)
     }
     if(!is.null(name)){
       pre = findPrj
@@ -40,19 +39,19 @@ setMethod(f='initialize',signature="Project",
 
     if(nrow(findPrj)==1){
       if(!is.null(sourceProject)){
-        warning("Project ", name," (",findPrj$id,") already exists, so sourceProject argument was ignored.")
+        warning("Project ", name," (",findPrj$projectId,") already exists, so sourceProject argument was ignored.")
       }
       #Go ahead and create the Projects object without issuing system commands to make sure it is ok
       .Object@session=.session(x)
       .Object@filepath=.filepath(x)
       .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
-      .Object@projectId = as.numeric(findPrj$id)
+      .Object@projectId = as.numeric(findPrj$projectId)
       return(.Object)
     }
 
     #Now go ahead to handle odder cases
     if(nrow(findPrj)>0){
-      stop(paste0("The library contains more than one project called ",name,". Specify a project id: ",paste(findPrj$id,collapse=",")))
+      stop(paste0("The library contains more than one project called ",name,". Specify a project id: ",paste(findPrj$projectId,collapse=",")))
     }
 
     #If given an id for a project that does not yet exist, complain
@@ -70,7 +69,7 @@ setMethod(f='initialize',signature="Project",
       slib = .filepath(x)
       if(class(sourceProject)=="numeric"){
         
-        if(!is.element(sourceProject,projects$id)){
+        if(!is.element(sourceProject,projects$projectId)){
           stop(paste0("sourceProject id ",sourceProject," not found in the library."))
         }
         sourcePID = sourceProject
@@ -79,7 +78,7 @@ setMethod(f='initialize',signature="Project",
         if(!is.element(sourceProject,projects$name)){
           stop(paste0("sourceProject name ",sourceProject," not found in the library."))
         }
-        sourcePID=projects$id[projects$name==sourceProject]
+        sourcePID=projects$projectId[projects$name==sourceProject]
       }
       if(class(sourceProject)=="Project"){
         slib=.filepath(sourceProject)
@@ -222,7 +221,7 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     #i = 1
     cRow = projectsToMake[i,]
     if(!is.na(cRow$exists)){
-      projectList[[as.character(projectsToMake$id[i])]]=new("Project",ssimObject,id=cRow$id,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
+      projectList[[as.character(projectsToMake$projectId[i])]]=new("Project",ssimObject,id=cRow$projectId,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
     }else{
       obj=new("Project",ssimObject,name=cRow$name,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
       projectList[[as.character(.projectId(obj))]]=obj

@@ -52,8 +52,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
   for(i in seq(length.out=length(scenario))){
     #i =1
     cScn = scenario[i]
-    name = scenarios$name[scenarios$id==cScn]
-    
+    name = scenarios$name[scenarios$scenarioId==cScn]
     
     print(paste0("Running scenario [",cScn,"] ",name))
     

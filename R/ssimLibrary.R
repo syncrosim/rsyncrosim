@@ -7,7 +7,7 @@ NULL
 # @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
     definition=function(.Object,name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=T){
-    #name=libPath;model=NULL;session=NULL;addon=NULL;forceUpdate=forceUpdate;create=T
+    #name="C:/Temp/NewLibrary.ssim";model=NULL;session=NULL;addon=c("stsim-ecological-departure");forceUpdate=T;create=T
     #if a syncrosim session is not provided, make one
     if(is.null(session)){
       session = .session()
@@ -116,8 +116,10 @@ setMethod(f='initialize',signature="SsimLibrary",
 
       for(i in seq(length.out=length(addon))){
         #i=1
-
-        tt = command(list(create=NULL,addon=NULL,lib=path,name=paste0(addon[i],":add-on-transformer")),session)
+        tt = command(list(create=NULL,addon=NULL,lib=path,name=addon[i]),session)
+        if(tt[[1]]!="saved"){
+          stop("Problem with addon ",addon[i],": ",tt[[1]])
+        }
       }
     }
 
@@ -240,21 +242,24 @@ setMethod('info', signature(x="SsimLibrary"), function(x) {
 # @export
 setGeneric('deleteLibrary',function(ssimLibrary,force=F) standardGeneric('deleteLibrary'))
 setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,force) {
+  return(deleteLibrary(.filepath(ssimLibrary),force))
+})
+setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibrary,force) {
   #ssimLibrary = .ssimLibrary(name="temp26",session=mySession,create=T)
-  if(!file.exists(.filepath(ssimLibrary))){
-    return(paste0("Library not found: ",.filepath(ssimLibrary)))
+  if(!file.exists(ssimLibrary)){
+    return(paste0("Library not found: ",ssimLibrary))
   }
   if(force){
     answer="y"
   }else{
-    answer <- readline(prompt=paste0("Do you really want to delete library ",.filepath(ssimLibrary),"? (y/n): "))
+    answer <- readline(prompt=paste0("Do you really want to delete library ",ssimLibrary,"? (y/n): "))
   }
   if(answer=="y"){
     #ssimLibrary=myLibrary;.filepath(myLibrary)
-    unlink(.filepath(ssimLibrary))
-    unlink(paste0(.filepath(ssimLibrary),".backup"),recursive=T,force=T)
-    unlink(paste0(.filepath(ssimLibrary),".input"),recursive=T,force=T)
-    unlink(paste0(.filepath(ssimLibrary),".output"),recursive=T,force=T)
+    unlink(ssimLibrary)
+    unlink(paste0(ssimLibrary,".backup"),recursive=T,force=T)
+    unlink(paste0(ssimLibrary,".input"),recursive=T,force=T)
+    unlink(paste0(ssimLibrary,".output"),recursive=T,force=T)
     return("saved")
   }else{
     return("skipped")

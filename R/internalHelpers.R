@@ -93,11 +93,11 @@ getScnSet<-function(ssimObject){
   #get current scenario info
   tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
   scnSet=.dataframeFromSSim(tt,localNames=T)
-  names(scnSet)[names(scnSet)=="scenarioID"]="id"
-  names(scnSet)[names(scnSet)=="projectID"]="pid"
+  names(scnSet)[names(scnSet)=="scenarioID"]="scenarioId"
+  names(scnSet)[names(scnSet)=="projectID"]="projectId"
   if(nrow(scnSet)==0){
-    scnSet=merge(scnSet,data.frame(id=NA,exists=NA),all=T)
-    scnSet=subset(scnSet,!is.na(id))
+    scnSet=merge(scnSet,data.frame(scenarioId=NA,exists=NA),all=T)
+    scnSet=subset(scnSet,!is.na(scenarioId))
   }else{
     scnSet$exists=T
   }
@@ -106,14 +106,15 @@ getScnSet<-function(ssimObject){
 
 #get projectSet
 getProjectSet<-function(ssimObject){
+  #ssimObject=myLibrary
   tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
   projectSet=.dataframeFromSSim(tt)
   if(nrow(projectSet)==0){
     projectSet[1,"iD"]=NA
   }
-  names(projectSet)[names(projectSet)=="iD"]="id"
+  names(projectSet)[names(projectSet)=="iD"]="projectId"
   projectSet$exists = T
-  projectSet=subset(projectSet,!is.na(id))
+  projectSet=subset(projectSet,!is.na(projectId))
   return(projectSet)
 }
 

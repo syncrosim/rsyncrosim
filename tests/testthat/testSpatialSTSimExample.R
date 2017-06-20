@@ -38,7 +38,7 @@ test_that("Test simple spatial STSim example", {
 
   myProject = project(myLibrary,summary=F,forceElements=T)[[1]]
 
-  if(!is.element(7,scenario(myProject)$id)){
+  if(!is.element(7,scenario(myProject)$scenarioId)){
     temp = run(myProject,5,onlyIds=T)
   }
   myResult = scenario(myProject,scenario=c(6,7))

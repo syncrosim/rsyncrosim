@@ -24,8 +24,10 @@ NULL
 #' @export
 setGeneric('delete',function(ssimObject,project=NULL,scenario=NULL,datasheet=NULL,force=F) standardGeneric('delete'))
 setMethod('delete', signature(ssimObject="character"), function(ssimObject,project,scenario,datasheet,force) {
-  ssimObject=.ssimLibrary(ssimObject,create=F)
-  return(delete(ssimObject,project,scenario,datasheet,force))
+  unlink(ssimObject)
+  return("saved")
+  #ssimObject=.ssimLibrary(ssimObject,create=F)
+  #return(delete(ssimObject,project,scenario,datasheet,force))
 })
 setMethod('delete', signature(ssimObject="list"), function(ssimObject,project,scenario,datasheet,force) {
   x = getIdsFromListOfObjects(ssimObject,project=project)
@@ -92,7 +94,7 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
     for(i in seq(length.out=length(project))){
       #i = 1
       cProj = project[i]
-      name=allProjects$name[allProjects$id==cProj]
+      name=allProjects$name[allProjects$projectId==cProj]
       
       #If datasheets(s) specified delete them. Otherwise delete the projects.
       if(!is.null(datasheet)){
@@ -135,9 +137,9 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
     for(i in seq(length.out=length(scenario))){
       #i = 1
       cScn = scenario[i]
-      name = allScenarios$name[allScenarios$id==cScn]
+      name = allScenarios$name[allScenarios$scenarioId==cScn]
       if(!is.null(datasheet)){
-        cProj = subset(scenarioSet,id==cScn)$pid
+        cProj = subset(scenarioSet,scenarioId==cScn)$projectId
         out = deleteDatasheet(datasheet,datasheets,cProj=cProj,cScn=cScn,cProjName="",cScnName=name,out=out,force=force)
       }else{
         if(force){

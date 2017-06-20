@@ -70,7 +70,7 @@ setMethod('datasheetRaster', signature(scenario="Scenario"), function(scenario,d
     multiband(x,action="rebuild")
     cMeta = .datasheet(x,name=datasheet,optional=T)
   }
-  tt = command(list(list=NULL,columns=NULL,properties=NULL,sheet=datasheet,csv=NULL,lib=.filepath(x)),session=.session(x))
+  tt = command(list(list=NULL,columns=NULL,allprops=NULL,sheet=datasheet,csv=NULL,lib=.filepath(x)),session=.session(x))
   cPropsAll = .dataframeFromSSim(tt)
   cPropsAll$isRaster = grepl("isRaster^True",cPropsAll$properties,fixed=T)
   #get a valid raster column

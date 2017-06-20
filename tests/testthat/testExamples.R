@@ -113,7 +113,7 @@ test_that("Tests of Scenario", {
   expect_equal(owner(myScenario),"Colin Daniel")
 
   # Delete scenarios
-  ret = delete(myLibrary, scenario=scenario(myLibrary)$id,force=T)
+  ret = delete(myLibrary, scenario=scenario(myLibrary)$scenarioId,force=T)
   expect_equal(nrow(scenario(myLibrary)),0)
   unlink(filepath(myLibrary))
 })

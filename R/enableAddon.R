@@ -34,7 +34,7 @@ setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibr
       next
     }
     
-    tt=command(list(create=NULL,addon=NULL,lib=.filepath(ssimLibrary),name=paste0(cVal,":add-on-transformer")),.session(ssimLibrary))
+    tt=command(list(create=NULL,addon=NULL,lib=.filepath(ssimLibrary),name=cVal),.session(ssimLibrary))
     retList[[cVal]]=tt
   }
   

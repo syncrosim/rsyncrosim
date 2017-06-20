@@ -34,7 +34,7 @@ setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) 
 
 setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
   #ssimObject=myProject
-  scnInfo = scenario(ssimObject,summary=T)
+  scnInfo = project(ssimObject,summary=T)
   return(scnInfo$readOnly)
 })
 

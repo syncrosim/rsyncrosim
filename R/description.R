@@ -40,7 +40,7 @@ setMethod('description', signature(ssimObject="Scenario"), function(ssimObject) 
 
 setReplaceMethod(
   f='description',
-  signature="SsimLibrary",
+  signature="SsimObject",
   definition=function(ssimObject,value){
     #x=myScenario;value="New description"
     inValue = value
