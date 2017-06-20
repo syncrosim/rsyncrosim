@@ -138,15 +138,15 @@ dev.off()
 if(is.element("NewScn",scenario(myProject)$name)){
   delete(myProject,scenario="NewScn",force=T)
 }
-if(is.element("NewScn",scenario(myProject)$name)){
+if(is.element("Another New Scenario",scenario(myProject)$name)){
   delete(myProject,scenario="Another New Scenario",force=T)
 }
 newScenario = scenario(myProject,scenario="NewScn")
 
-inRasters=stack(mySpatialInputs[["STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.age"]],
-           mySpatialInputs[["STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.sc"]],
-           mySpatialInputs[["STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.str"]])
-names(inRasters)=gsub("STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.","",names(inRasters),fixed=T)
+inRasters=stack(datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="AgeFileName"),
+                datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StateClassFileName"),
+                datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StratumFileName"))
+names(inRasters)=gsub("It0000.Ts0000.","",names(inRasters),fixed=T)
 #saveDatasheet is expected a named raster stack or named list.
 
 #inSheet must conform to format expectations just like any other datasheet.
@@ -158,6 +158,8 @@ inSheet[1,"StateClassFileName"]=names(inRasters)[2]
 inSheet[1,"AgeFileName"]=names(inRasters)[1]
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 saveDatasheet(newScenario,data=inSheet,name=sheetName,fileData=inRasters)
+datasheet(newScenario,name="STSim_InitialConditionsSpatialProperties")
+#spatial metadata is set automatically when rasters are imported.
 
 #Now try changing the extent of the input maps
 inExtent = extent(inRasters)
@@ -165,55 +167,13 @@ outExtent = inExtent
 outExtent@xmax = 500;outExtent@ymax=500
 newRasters=crop(inRasters,outExtent)
 dim(newRasters)
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-saveDatasheet(newScenario,data=inSheet,name=sheetName,fileData=newRasters)
-#Spatial metadata is not updated - it should be reset when STSim_InitialConditionsSpatial is deleted.
-
 anotherScenario = scenario(myProject,"Another New Scenario")
 saveDatasheet(anotherScenario,data=inSheet,name=sheetName,fileData=newRasters)
-#Note that newScenario and anotherScenario now have different spatial metadata. They should be the same.
+datasheet(anotherScenario,name="STSim_InitialConditionsSpatialProperties")
 
-#Can also specify external paths - note this is slower because the files must be written twice.
-names(newRasters)=paste0("C:/Temp/ST-Sim Spatial Tutorial/Temp",names(newRasters))
-inSheet = datasheet(newScenario,name=sheetName)
-inSheet[1,"StratumFileName"]=names(inRasters)[3]
-inSheet[1,"StateClassFileName"]=names(inRasters)[2]
-inSheet[1,"AgeFileName"]=names(inRasters)[1]
-saveDatasheet(newScenario,data=inSheet,name=sheetName,fileData=newRasters)
-
-
-
-
-
-datasheet(newScenario,optional=T)
-
-command(list(list=NULL,datasources=NULL,lib=.filepath(newScenario),sid=.scenarioId(newScenario)),session=session(newScenario))
-
-
-
-
-?saveDatasheet
-
-
-metadata = data.frame(StratumFileName="It0000-Ts0000-str.tif",StateClassFileName="It0000-Ts0000-sc.tif",AgeFileName="It0000-Ts0000-age.tif")
-metadata$SheetName="STSim_InitialConditionsSpatial"
-data=stack(mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.age"]],
-          mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.sc"]],
-          mySpatialInputs[["STSim_InitialConditionsSpatial.Scn7.It0000.Ts0000.str"]])
-names(data)=gsub("STSim_InitialConditionsSpatial.Scn7.","",names(data),fixed=T)
-names(data)=paste0(names(data),".tif")
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-spatialProperties = loadSpatialData(newScenario,data,metadata)
-
-#Set spatial metadata - this is specific to stsim initial conditions
-#If using a different model the user is responsible for ensuring that spatialProperties data returned by loadSpatialData() is sufficient and appropriate.
-sheetName = "STSim_InitialConditionsSpatialProperties"; mySheet = datasheet(newScenario,name=sheetName,optional=F,empty=T)
-spatialProperties$CellArea=spatialProperties$CellSize^2/10000
-mySheet=addRows(mySheet,spatialProperties)
-saveDatasheet(newScenario,mySheet,name=sheetName)
-
-#NOTE: This does not work. Throws exception when I try to open in GUI. Help?
+#NOTE: option of specifying file paths doesn't work because names() does not accept "/" characters.
+names(newRasters)=paste0("C:/Temp/ST-Sim Spatial Tutorial/Temp/",names(newRasters))
+names(newRasters)
 
 ###############
 # Rearrange spatial outputs in a result scenario
