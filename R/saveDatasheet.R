@@ -38,7 +38,7 @@ setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObjec
 })
 
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,project,scenario,append,fileData,forceElements) {
-  #ssimObject = newScenario;project=NULL;scenario=NULL;name=sheetName;data=inSheet;fileData=inRasters;append=NULL;forceElements=F
+  #ssimObject = myProject;project=NULL;scenario=NULL;name="STSim_StateLabelX";data=stateClassDefinition;fileData=NULL;append=NULL;forceElements=F
   x = .getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
   if(class(x)=="list"){
     stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")
@@ -138,7 +138,6 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       }
     }
     
-    
     #Write items to appropriate locations
     if(!is.null(fileData)){
       itemNames = names(fileData)
@@ -201,11 +200,17 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         inCol = cDat[[j]]
         cDat[[j]][inCol]="Yes";cDat[[j]][!inCol]="No"
       }
+      cDat[[j]]=gsub("/","\\",cDat[[j]],fixed=T)
     }
-    cDat[,]=as.data.frame(lapply(cDat[,],FUN=function(x) {sapply(x, FUN=function(x){gsub("/","\\",x,fixed=T)})}),stringsAsFactors=F)
+
+    #cDat[,]=as.data.frame(lapply(cDat[,],FUN=function(x) {sapply(x, FUN=function(x){gsub("/","\\",x,fixed=T)})}),stringsAsFactors=F)
     cDat[is.na(cDat)]=""
     
-    if(FALSE&&breakpoint){pathBit = paste0(.filepath(x),'.temp/Data')}else{pathBit = paste0(dirname(.filepath(x)),'/Temp')}
+    if(FALSE&&breakpoint){
+      pathBit = paste0(.filepath(x),'.temp/Data')
+    }else{
+      pathBit = paste0(dirname(.filepath(x)),'/Temp')
+    }
     
     dir.create(pathBit, showWarnings = FALSE,recursive=T)
     tempFile = paste0(pathBit,"/",cName,".csv")

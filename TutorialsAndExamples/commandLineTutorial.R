@@ -8,29 +8,22 @@
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
 
-#delete(paste0(getwd(),"/temp26.ssim"),force=T)
-#delete(paste0(getwd(),"/temp27.ssim"),force=T)
-
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-#TO DO: test runLog() on result scenario
-#TO DO: allow setting readOnly=F from T.
-#TO DO: test delete().
+#TO DO: test delete() - datasheet, lists of stuff.
 #TO DO: for saveDatasheet() handle data without names.
 #TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
-#TO DO: revise datasheet() given new options from --export: --extfilepaths --rawvalues
 #TO DO: test datasheet() optional=F, empty=F with database queries (output for multiple scenarios)
 #TO DO: test datasheet() for scenario with dependencies.
 #TO DO: complain if delete library fails because file is locked.
+#TO DO: check that tutorials make sense with broken default session
+#LATER: revise datasheet() given new options from --export: --extfilepaths --rawvalues
 
 #*************************************
 # Create the project definition
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
-myLibrary = ssimLibrary(name="C:/Temp/ST-Sim-Command-Line.ssim",forceUpdate=T,session=mySession)
-myProject = project(myLibrary,project="ST-Sim Demonstration")
-delete(myProject,force=T)
-myProject = project(myLibrary,project="ST-Sim Demonstration")
+sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
+libPath = "C:/Temp/ST-Sim-Command-Line.ssim"
+delete(libPath,force=T) #remove old version of the library (if any). Start fresh.
+myLibrary = ssimLibrary(name=libPath,session=session(sessionPath)) #create a new library
+myProject = project(myLibrary,project="ST-Sim Demonstration") #create a new project
 
 #***********************************
 # Cover types and state classes
@@ -71,8 +64,6 @@ mySheet=list(Name=c('Coniferous','Deciduous','Mixed'))
 saveDatasheet(myProject,mySheet,name=sheetName,append=F) 
 datasheet(myProject,name=sheetName)
 
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-
 # Now lookups are loaded we can set StateClass
 sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
@@ -81,15 +72,15 @@ mySheet[1:3,"StateLabelXID"]=levels(mySheet$StateLabelXID) #Valid values
 mySheet$StateLabelYID = levels(mySheet$StateLabelYID)[1] #Valid values
 mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
 saveDatasheet(myProject,mySheet,name=sheetName)
-#mySheet = datasheet(myProject,name=sheetName);str(mySheet)
+# NOTE: special knowledge needed to construct Name here. 
 
-datasheet(myProject,sheetName,lookupsAsFactors = F)
-datasheet(myProject,sheetName,lookupsAsFactors = T,optional=T,includeKey=T)
-# NOTE: special knowledge needed to construct Name here. - come back to this later.
+str(datasheet(myProject,sheetName))
+str(datasheet(myProject,sheetName,lookupsAsFactors = F)) #lookups are not returned as factors
+datasheet(myProject,sheetName,includeKey=T) #include primary key for datasheet
+datasheet(myProject,sheetName,optional=T) #include empty optional columns
 
 #***********************************
 # Transitions
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 subset(datasheet(myProject),scope=="project")$name #See project scope datasheet names
 sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
 str(mySheet)
@@ -106,7 +97,6 @@ saveDatasheet(myProject,mySheet,name=sheetName)
 # Age type
 sheetName = "STSim_AgeType"; mySheet = datasheet(myProject,name=sheetName,empty=F)
 datasheet(myProject,name=sheetName,summary=T,optional=T) #get info about this sheet
-
 str(mySheet)
 mySheet[1,"Frequency"] = 1
 mySheet[1,"MaximumAge"] = 100
@@ -116,7 +106,7 @@ saveDatasheet(myProject,mySheet,name=sheetName)
 # Add No Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,scenario="No Harvest")
-subset(datasheet(myScenario),scope=="scenario")$name
+subset(datasheet(myScenario),scope=="scenario")$name #see scenario scope datasheets
 
 #**************
 # Run control
@@ -130,7 +120,6 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 
 #**************************
 # Deterministic transitions
-# devtools::document();devtools::load_all()
 sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
 str(mySheet)
 levels(mySheet$StateClassIDSource)
@@ -165,7 +154,6 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 
 #********************
 #Initial conditions
-# devtools::document();devtools::load_all()
 sheetName = "STSim_InitialConditionsNonSpatial"; mySheet = datasheet(myScenario,name=sheetName,optional=F,empty=T)
 mySheet[1,"TotalAmount"]=1000
 mySheet[1,"NumCells"]=1000
@@ -189,8 +177,6 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 #*************************************
 # Add Harvest Scenario
 #*************************************
-# devtools::document();devtools::load_all()
-# delete(myProject,"Harvest",force=T)
 myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
 # Copies "No Harvest" scenario to new "Harvest" scenario
 
@@ -205,22 +191,21 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 #********************************
 # Run scenarios
 #******************************
-# devtools::document();devtools::load_all()
-
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 # By default, returns a named list of result Scenario objects.
 # If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
 # NOTE: jobs is passed through to SyncroSim which handles multithreading.
 
 scenario(myProject)
+a=runLog(myResults[[1]]) #displays and returns a multiline string
+a #here is the multiline string. not pretty.
+writeLines(a) #use writelines to display the linebreaks
 
-# delete(myProject,3,force=T)
-# myResults=scenario(myProject,summary=F,results=T)
+parentId(myResults[[1]])
 
 #********************************
 # See results
 #******************************
-# devtools::document();devtools::load_all()
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
 str(outStates)
 unique(outStates$ScenarioParent)

@@ -75,8 +75,8 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
 })
 
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject = myResult[[1]];name="STSim_OutputSpatialState";project=NULL;scenario=NULL;summary=NULL;optional=F
-  #empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
+  #ssimObject = myProject;name=sheetName;project=NULL;scenario=NULL;summary=NULL;optional=T
+  #empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=T;forceElements=F
   
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   if(class(xProjScn)=="SsimLibrary"){
@@ -175,6 +175,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   
   outSheetList = list()
   for(kk in seq(length.out=length(allNames))){
+    #kk=1
     name=allNames[kk]
     
     if(!includeKey){
@@ -467,6 +468,15 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       }
       sheet = subset(sheet,select=outNames)
       
+    }else{
+      sheetNames = names(sheet)
+      for(rr in 1:length(sheetNames)){
+        cName = sheetNames[rr]
+        if(is.element(cName,rmCols)){
+          sheet[[cName]]=NULL
+        }
+        
+      }
     }
     
     if(is.element("ProjectID",names(sheet))){

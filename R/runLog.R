@@ -14,6 +14,9 @@ setGeneric('runLog',function(scenario) standardGeneric('runLog'))
 setMethod('runLog', signature(scenario="Scenario"), function(scenario) {
   command("--list --runlog --help")
   tt=command(list(list=NULL,runlog=NULL,lib=.filepath(scenario),sid=.scenarioId(scenario)),.session(scenario))
-  if(grepl("The scenario is not a result scenario",tt[1],fixed=T)){tt=tt[1]} 
-  return(tt)
+  if(grepl("The scenario is not a result scenario",tt[1],fixed=T)){tt=tt[1];return(tt)}
+
+  outString=paste(tt,collapse="\n") 
+  writeLines(outString)
+  return(outString)
 })

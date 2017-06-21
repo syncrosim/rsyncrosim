@@ -42,17 +42,17 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
   #Now assume scenario is x is valid object and scenario is valid vector of scenario ids
   x = xProjScn$ssimObject
   scenario = xProjScn$scenario
-  scenarios = xProjScn$scenarioSet
+  scenarioSet = xProjScn$scenarioSet
   
   if(!is.numeric(scenario)){stop("Error in run(): expecting valid scenario ids.")}
   
   #name(x)
-  scenarios=NULL
+  #scenarios=NULL
   out=list()
   for(i in seq(length.out=length(scenario))){
     #i =1
     cScn = scenario[i]
-    name = scenarios$name[scenarios$scenarioId==cScn]
+    name = scenarioSet$name[scenarioSet$scenarioId==cScn]
     
     print(paste0("Running scenario [",cScn,"] ",name))
     

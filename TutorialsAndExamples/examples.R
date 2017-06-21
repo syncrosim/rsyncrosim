@@ -1,7 +1,6 @@
 # Readme-Development.txt explains how to install the rsyncrosim package from github
 # This script demonstrates how to use the rsyncrosim package.
-# devtools::document();devtools::load_all()
-# devtools::test()
+# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
 
 #################################
@@ -14,19 +13,20 @@ showMethods("filepath") # See the objects for which filepath is defined. SsimLib
 ?filepath # Help for the filepath function
 ##########################
 # Create and query a session
-mySsim = session() # Creates a session using the default installation of syncrosim
-devSsim = session("C:/gitprojects/syncrosim/_deploy_/current",silent=F) # Creates a non-silent session using a particular version (i.e. folder) of syncrosim
+sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
+mySsim = session() # Creates a session using the default installation of syncrosim. This will fail until we have a real release of SyncroSim v2
 # NOTE: Linux users must specify x. The default installation path is only valid on windows.
+mySsim = session(sessionPath,silent=F) # Creates a non-silent session using a particular version (i.e. folder) of syncrosim
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim) # The folder location of syncrosim session
 version(mySsim) # The version of syncrosim session
 version() #Version of the default session
 
-mySession = session(defaultModel="carep",printCmd=T,silent=F) #modify default session settings
+mySession = session(sessionPath,defaultModel="carep",printCmd=T,silent=F) #modify default session settings
 defaultModel(mySession)
 defaultModel(mySession)="stsim" #prints SyncroSim command calls because printCmd=T
 defaultModel(mySession)
-mySession = session()
+mySession = session(sessionPath)
 silent(mySession)=F
 silent(mySession)
 
@@ -46,26 +46,26 @@ deleteModule("hi",mySession)
 
 model(mySession) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 modules(mySession) #NOTE: model(mySession) is not a subset of modules(mySession). Change in SyncroSim if necessary.
-model()
-modules()
+model() #will fail until we have a real release of SyncroSim v2
+modules() #will fail until we have a real release of SyncroSim v2
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
 
 #Three different ways to provide args to command
-command(c("create","help"))
-command("--create --help",session=session(printCmd=T))
-command(list(create=NULL,help=NULL))
+command(c("create","help")) #will fail until we have a real release of SyncroSim v2
+command("--create --help",session=session(sessionPath,printCmd=T))
+command(list(create=NULL,help=NULL)) #will fail until we have a real release of SyncroSim v2
 
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="hello:model-transformer")
-output = command(args,session=session(printCmd=T,silent=F))
+output = command(args,session=session(sessionPath,printCmd=T,silent=F))
 
 ################################
 # Create a new SsimLibrary
-myLibrary = ssimLibrary(name="temp") #create new library using default model and default session
+myLibrary = ssimLibrary(name="temp",session=mySession) #create new library using default model and default session
 model(myLibrary)
 
-myLibrary = ssimLibrary() # Uses default syncrosim installation and creates a default ssimLibrary called SsimLibrary.ssim in the current R working directory
+myLibrary = ssimLibrary(session=mySession) # creates a default ssimLibrary called SsimLibrary.ssim in the current R working directory
 filepath(myLibrary)
 myLibrary = ssimLibrary("C:/Temp/NewLibrary.ssim",session=mySession)
 filepath(myLibrary)
@@ -77,22 +77,22 @@ addons(myLibrary,all=T)
 addons(mySession)
 delete(myLibrary,force=T)
 #myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-ecological-departure")) #returns an error because the addon doesn't exist
-myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-stockflow")) 
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-stockflow"),session=mySession) 
 addons(myLibrary)
 disableAddon(myLibrary,"stsim-stockflow")
 addons(myLibrary)
 enableAddon(myLibrary,"stsim-stockflow")
 addons(myLibrary)
 
-myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
+myLibrary = ssimLibrary(session=mySession) # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
 
 # Get/set the various properties of the library
 session(myLibrary) # returns the SyncroSim Session object associated with the library
-session(myLibrary)=session() 
+session(myLibrary)=session(sessionPath) 
 
 model(myLibrary) # Returns the info about the model of the library. Can't change once library is created.
 ssimUpdate(myLibrary)
-info(myLibrary)
+info(myLibrary) #DISCUSS: this function is used internally. Why not expose it? could be ssimLibrary(myLibrary,summary=T) for consistency with project()/scenario()
 
 name(myLibrary)
 name(myLibrary)="Fred"
@@ -266,60 +266,18 @@ myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition
 # Get empty template dataframes - lookup columns are expressed as factors with only valid values
 emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_DeterministicTransition",empty=T)
 
-# Update the values for project datasheet - see tutorial for more examples.
+# Update the values for project datasheet - see commandLineTutorial for more examples.
 stateClassDefinition = datasheet(myProject, name="STSim_StateLabelX")
 stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
 # NOTE: rbind does not preserve types and factor levels
-saveDatasheet(myProject, stateClassDefinition, name="STSim_StateLabelX")
-#RESUME HERE - something is wrong.
-
-# Update the values of an existing scenario datasheet (after the definitions have been added)
-scenario(myProject)
-myScenario = scenario(myProject, scenario=1)
-myDeterminisiticTransitions = datasheet(myScenario, name="STSim_DeterministicTransition",optional=T)
-myDeterminisiticTransitions[1:3,"AgeMin"] = c(50, 60, NA)    # change the AgeMin field for 3 rows - character to allow blanks
-#NOTE CHANGE: this syntax preserves types and factor levels, and adds new rows if necessary.
-
-datasheet(myScn)
-# Then save the updated scenario datasheet back to the library
-#saveDatasheet(myLibrary,myDeterminisiticTransitions, scenario=myScenario, name="STSim_DeterministicTransition")
-# NOTE: this fails because myDeterministicTransitions is not complete.
-# See commandLineTutorial for working example
+saveDatasheet(myProject, stateClassDefinition, name="STSim_StateLabelX",append=F) 
+#default is append=T for project/library scope datasheets, and F for scenario datasheets. 
 
 #################
 # Run
 # Run a scenario and return the results scenario
-# See commandLineTutorial for working examples
-#myResultsScenario = run(myScenario)
-#myResultsScenario = run(myLibrary,scenario=509)    # run scenario by ID
-#myResultsScenarios= run(myScenarios)  # Run a list of scenarios
+# See commandLineTutorial.R for examples
 
-# Get the output from the results scenario - note that only results scenarios have scenario output datafeeds
-#myoutputDataframe = datasheet(myResultsScenario, name="STSim_OutputStratumState")
-
-# Need to figure out how to deal with raster scenario datafeeds (both input and output)...
-
-
-####################
-# Other examples
-# Create a library called <model>.ssim in the current working directory.
-# devtools::document();devtools::load_all()
-
-myLib = ssimLibrary()
-session(myLib) # The SycroSim session
-filepath(myLib) # Path to the file on disk.
-info(myLib) # Model type and other library information.
-# Open an existing SyncroSim library in the current working directory.
-myLib = ssimLibrary()
-myLib = ssimLibrary(name="stsim")
-
-# Create a library with name in the current working directory
-# myLib2 = ssimLibrary(name="Lib2")
-
-# Create a library with a name and model in another directory
-myLib3 = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"))
-
-# Create or load a library using a specific session
-#mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-mySession=session()
-myLib = ssimLibrary(name="stsim",session=mySession)
+########################
+# Spatial data
+# See STSimSpatialTutorial.R for examples.
