@@ -16,7 +16,7 @@ library(raster);library(rasterVis)
 libRoot = "C:/Temp"
 libName = "ST-Sim Spatial Tutorial"
 libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
-delete(libPath,force=T)
+delete(libPath)# start fresh
 #download library if necessary.
 if(!file.exists(libPath)){
   zipPath = paste0(libRoot,"/",libName,".zip")
@@ -29,7 +29,7 @@ if(!file.exists(libPath)){
 
 #*************************************
 # View  "STSim_OutputSpatialState" results
-myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
+myLibrary = ssimLibrary(name=libPath)
 
 project(myLibrary)
 myProject = project(myLibrary,project=1)
@@ -60,12 +60,12 @@ myRasters = datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
 names(myRasters)
 
 str(myRasters[[1]])
+levels(myRasters[[1]]) #attributes from the optional rat table
 #NOTE: myRasters is a RasterStack object. See raster package documentation for details.
 #NOTE: loading is faster if all sheets are contained in a single multiband file. See below for example.
 
 #plot iteration 1 timestep 0
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-levels(myRasters[[1]])
 levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
 #This is a wrapper for the levelplot() function of the rasterVis package:
 
@@ -79,9 +79,7 @@ levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
 #Change to automatically selected colors and save plot to pdf.
 newRat = levels(myRasters[[1]])[[1]]
 newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
-rasterAttributes(myRasters[[1]]) = newRat
-
-?'rasterAttributes<-'
+rasterAttributes(myRasters[[1]]) = newRat #change the raster attributes
 
 filename=paste0(dirname(filepath(myResult[[1]])),"/XIDMap.pdf")
 pdf(filename)
@@ -90,9 +88,6 @@ dev.off()
 
 #*************************************
 # View spatial inputs
-datasheet(myResult[[1]],optional=T)
-datasheet(myResult[[1]])$name
-
 check = datasheet(myResult[[1]],"STSim_OutputSpatialTransition")
 str(check)
 myTransitionGroup = datasheetRaster(myResult,datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
@@ -100,11 +95,9 @@ names(myTransitionGroup)
 
 check = datasheet(myResult[[1]],"STSim_InitialConditionsSpatial")
 str(check)
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
 names(mySpatialInputs)
 age0=mySpatialInputs[["scn7.It0000.Ts0000.age"]]
-#TO DO:show example of pulling sheet without writing full name
 
 #see all ages
 plot(age0,main=age0@title)
@@ -121,17 +114,10 @@ pdf(filename)
 levelplotCategorical(age0,attribute="isYoung")
 dev.off()
 
-?`rasterAttributes<-`
-
 #NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialData() and the relevant datasheet is empty.
 #TO DO: check non-stsim spatial inputs
-#TO DO: spatial inputs
-#TO DO: write colors back to SyncroSim
-#TO DO: make ?rasterAttributes work
-#TO DO: get full paths from SyncroSim - special handling of output files that are spatial?
+#TO DO: check writing colors back to SyncroSim
 #NOTE: special knowledge of lookups to use for legends
-#DISCUSS: dependency on raster/rdgal: only spatialData() and rasterAttributes() depend on these packages. Could suggest, and complain when the function is called if the packages are missing.
-#DISCUSS: options for storing raster metadata
 
 ##################
 #Set spatial inputs in a new library.
@@ -147,7 +133,7 @@ inRasters=stack(datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditions
                 datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StateClassFileName"),
                 datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StratumFileName"))
 names(inRasters)=gsub("It0000.Ts0000.","",names(inRasters),fixed=T)
-#saveDatasheet is expected a named raster stack or named list.
+#saveDatasheet is expecting a named raster stack or named list.
 
 #inSheet must conform to format expectations just like any other datasheet.
 #Additionally, each element of names(inRasters) must be entered in appropriately in inSheet.
@@ -156,12 +142,11 @@ inSheet = datasheet(newScenario,name=sheetName)
 inSheet[1,"StratumFileName"]=names(inRasters)[3]
 inSheet[1,"StateClassFileName"]=names(inRasters)[2]
 inSheet[1,"AgeFileName"]=names(inRasters)[1]
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 saveDatasheet(newScenario,data=inSheet,name=sheetName,fileData=inRasters)
 datasheet(newScenario,name="STSim_InitialConditionsSpatialProperties")
 #spatial metadata is set automatically when rasters are imported.
 
-#Now try changing the extent of the input maps
+#Change the extent of the input maps
 inExtent = extent(inRasters)
 outExtent = inExtent
 outExtent@xmax = 500;outExtent@ymax=500
@@ -170,12 +155,6 @@ dim(newRasters)
 anotherScenario = scenario(myProject,"Another New Scenario")
 saveDatasheet(anotherScenario,data=inSheet,name=sheetName,fileData=newRasters)
 datasheet(anotherScenario,name="STSim_InitialConditionsSpatialProperties")
-
-#NOTE: option of specifying file paths doesn't work because names() does not accept "/" characters.
-names(newRasters)=paste0("a_",names(newRasters))
-
-names(newRasters)=paste0("C:/Temp/ST-Sim Spatial Tutorial/Temp/",names(newRasters))
-names(newRasters)
 
 ###############
 # Rearrange spatial outputs in a result scenario

@@ -4,10 +4,10 @@
 \alias{backup}
 \title{Backup an SsimLibrary.}
 \usage{
-backup(ssimLibrary)
+backup(ssimObject)
 }
 \arguments{
-\item{ssimLibrary}{SsimLibrary.}
+\item{ssimObject}{SsimLibrary/Project/Scenario.}
 }
 \description{
 Backup an SsimLibrary.

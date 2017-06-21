@@ -31,9 +31,12 @@ A success or failure message, or a list of these.
 Saves datasheets to a SsimLibrary/Project/Scenario.
 }
 \details{
+Cautionary note re append=F: Deleting project and library level datasheets that contain lookups will also delete other definitions and results that rely on these lookups. 
+
 ssimObject/project/scenario should identify a single ssimObject.
 
 If fileData !=NULL, each element of names(fileData) should correspond uniquely to at most one entry in data. If a name is not found in data the element will be ignored with a warning.  
+rsyncrosim will write each element of fileData directly to the appropriate SyncroSim input/output folders.
 If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 }
 \examples{
