@@ -207,13 +207,11 @@ parentId(myResults[[1]])
 # See results
 #******************************
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
-str(outStates)
 unique(outStates$ScenarioParent)
-# NOTE: For outputs, use lookupsAsFactors=T
+# NOTE: For outputs, if lookupsAsFactors=F id's will be returned, rather than text labels.
 # Output table lookups are IDs in the database, rather than labels - not true for input tables.
 #
 # NOTE: can query multiple projects or scenarios - see ?datasheet for details.
-# Requires 1 database query and 1 console call (+lookup queries), regardless of the number of scenarios included in myResults
 #
 # NOTE: We can also query the database more precisely to avoid pulling unecessary information.
 # There are >400,000 records in this small example.
@@ -248,36 +246,3 @@ base = ggplot(outTransitionsSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymi
 base=base+facet_grid(TransitionGroupID~ScenarioParent,scales="free_y")+ theme_bw()
 base=base+ylab("area (acres)")
 print(base)
-
-#*********************
-# TO DISCUSS
-#*********************
-parentId(myScenario)
-# QUESTION: Should we disable assignment functions for result scenarios?
-# DISCUSS: StochasticTime chart and map UI - What features do we need?
-# DISCUSS: Examples in help files - some examples are difficult to set up.
-
-################
-# TO DO:
-# - datasheet(,keepId=T)
-# - Project revisions: Safe modification of existing libraries?
-# - Dependency functions: command(list(create=NULL,dependency=NULL,lib=.filepath(myLibrary),sid=.scenarioId(myScenario),did=.projectId(myDependency)))
-# - Note - I spend a lot of time trying to figure out how GUI naming corresponds to datasheet names here.
-#   e.g. I need Transition Pathways -> Transitions. What sheet is that, exactly?
-#   Solution: subset(datasheet(myScenario),displayName=="Transitions",select=c(name))
-# - More graceful failure given insufficient version of SyncroSim. Colin got a wierd failure error (indexing?) from 0.24.
-# - Problems with default transition type groups:
-#    sheetName = "STSim_TransitionGroup"; mySheet = datasheet(myProject,name=sheetName,empty=T)
-#    mySheet[1:3,"Name"]=c("Fire","Harvest","Succession")
-#    saveDatasheet(myProject,mySheet,name=sheetName)
-# - Add index page to reference manual.
-# - bug in datasheet(). See line 43 of A176/ChangeTimestep.R
-
-###################
-# Handoff notes:
-# - Clean up namespace. Don't export internalWrapper.R functions. Scan for other unnecessary exports.
-# - Review help files.
-# - Put examples in help files. Figure out what to do about difficult examples.
-# - linux testing
-# - vanilla windows testing
-# - search and handle "TO DO:" notes

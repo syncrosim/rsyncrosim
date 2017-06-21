@@ -52,7 +52,7 @@ setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,na
 
 #Handles case where ssimObject is list of Scenario or Project objects
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject=myResult;name="STSim_OutputSpatialState";project=NULL;scenario=NULL;summary=NULL;optional=F;empty=F;lookupsAsFactors=T
+  #ssimObject=myResults;name="STSim_OutputStratumState";project=NULL;scenario=NULL;summary=NULL;optional=F;empty=F;lookupsAsFactors=T
   
   cScn = ssimObject[[1]]
   x=NULL
@@ -87,6 +87,9 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     x = xProjScn$ssimObject
     pid=xProjScn$project
     sid=xProjScn$scenario
+    if(!is.null(sid)&is.null(pid)){
+      pid = subset(xProjScn$scenarioSet,is.element(scenarioId,sid))$projectId
+    }
   }
   #now have valid pid/sid vectors and x is library.
   
@@ -329,7 +332,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         }
       }
       for(i in seq(length.out=nrow(sheetInfo))){
-        #i =5
+        #i =4
         cRow = sheetInfo[i,]
         if(!is.element(cRow$name,colnames(sheet))){
           if(sqlStatements$select=="SELECT *"){
@@ -390,9 +393,9 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             }
             if(is.element("ProjectID",names(lookupSheet))){
               if(identical(pid,NULL)&!identical(sid,NULL)){
-                if(is.null(allScns)){
-                  allScns = scenario(x)
-                }
+                #if(is.null(allScns)){
+                allScns = scenario(x)
+                #}
                 findPrjs = allScns$projectId[is.element(allScns$scenarioId,sid)]
               }else{
                 findPrjs = pid

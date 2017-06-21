@@ -35,6 +35,9 @@ sqlStatements<-function(groupBy=NULL,aggregate=NULL,aggregateFunction="SUM",wher
         whereSQL =paste0(whereSQL," AND ")
       }
     }
+    return(list(select=selectSQL,groupBy=groupBySQL,where=whereSQL))
+  }else{
+    return(list(select=selectSQL,groupBy=groupBySQL))
   }
-  return(list(select=selectSQL,groupBy=groupBySQL,where=whereSQL))
+  
 }
