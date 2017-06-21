@@ -7,13 +7,12 @@ NULL
 #'
 #' Backup an SsimLibrary.
 #'
-#' @param ssimLibrary SsimLibrary.
+#' @param ssimObject SsimLibrary/Project/Scenario.
 #' @export
-setGeneric('backup',function(ssimLibrary) standardGeneric('backup'))
+setGeneric('backup',function(ssimObject) standardGeneric('backup'))
 
-setMethod('backup', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary) {
+setMethod('backup', signature(ssimObject="SsimObject"), function(ssimObject) {
   #ssimObject=myLibrary
-  command("--help --backup")
-  tt = command(list(backup=NULL,lib=.filepath(ssimLibrary),input=NULL,output=NULL),session=.session(ssimLibrary))
+  tt = command(list(backup=NULL,lib=.filepath(ssimObject),input=NULL,output=NULL),session=.session(ssimObject))
   return(tt)
 })
