@@ -7,11 +7,11 @@ NULL
 #'
 #' The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 #'
-#' @param x An object containing a filepath.
+#' @param ssimObject An object containing a filepath.
 #' @export
-setGeneric('filepath',function(x) standardGeneric('filepath'))
+setGeneric('filepath',function(ssimObject) standardGeneric('filepath'))
 
 # @describeIn filepath Path to the Syncrosim console in a Session.
-setMethod('filepath', signature(x="Session"), function(x) x@filepath)
+setMethod('filepath', signature(ssimObject="Session"), function(ssimObject) ssimObject@filepath)
 
-setMethod('filepath', signature(x="SsimObject"), function(x) x@filepath)
+setMethod('filepath', signature(ssimObject="SsimObject"), function(ssimObject) ssimObject@filepath)

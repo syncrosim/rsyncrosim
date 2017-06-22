@@ -11,7 +11,7 @@ NULL
 #' Note that breakpoints are ignored unless ssimObject is a single scenario.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.
-#' @param scenario character, integer, or vector of these. Scenario names or ids. Or NULL.
+#' @param scenario character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.
 #' @param summary Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
 #' @param jobs Iteger. The number of jobs to run. Passed to SyncroSim where multithreading is handled.
 #' @param forceElements Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.

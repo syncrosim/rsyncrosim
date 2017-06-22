@@ -12,7 +12,7 @@ NULL
 #'
 #' @param ssimObject SsimLibrary/Scenario/Project. The scenario to which a dependency is to be added (or has already been added if remove=TRUE). If SsimLibrary/Project, the scenario argument must specify the scenario(s). If ssimObject is a Scenario, scenario argument is ignored.
 #' @param dependency Scenario, character string, integer, or list/vector of these. The scenario(s) that is the source of the dependency. If NULL other arguments are ingored and the list of existing dependencies is returned.
-#' @param scenario character string, integer, or vector of these. Name or ID of scenario(s) to which a dependency is to be added (or has been already added if remove=TRUE). If NULL then ssimObject must be a Scenario.
+#' @param scenario character string, integer, or vector of these. Name or ID of scenario(s) to which a dependency is to be added (or has been already added if remove=TRUE). If NULL then ssimObject must be a Scenario. Note that integer ids are slightly faster.
 #' @param remove logical. If F (default) dependencies are added. If T, dependencies are removed.
 #' @param force logical. If F (default) prompt before removing dependencies. 
 #' @return If dependency!=NULL, character string (saved or error message) or list of these. Otherwise, a dataframe of existing dependencies, or list of these.
@@ -20,35 +20,15 @@ NULL
 setGeneric('dependency',function(ssimObject,dependency=NULL,scenario=NULL,remove=F,force=F) standardGeneric('dependency'))
 
 setMethod('dependency', signature(ssimObject="list"), function(ssimObject,dependency,scenario,remove,force) {
-  if(class(ssimObject[[1]])!="Scenario"){
-    stop("ssimObject must be an SsimLibrary/Project/Scenario, or list of Scenarios.")
-    
-  }
-  if(!is.null(scenario)){
-    warning("scenario argument is ignored when ssimObject is a list of scenarios.")
-    scenario=NULL
-  }
-  
-  outList=list()
-  for(i in 1:length(ssimObject)){
-    #i=1
-    cScn = ssimObject[[i]]
-    cOutName = paste0(.name(cScn)," [",.scenarioId(cScn),"]")
-    
-    cOut = dependency(cScn,dependency,scenario,remove,force)
-    outList[[cOutName]]=cOut
-  }
-  return(outList)
+  x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
+  ssimObject = x$ssimObject
+  scenario = x$objs
+  cOut = dependency(ssimObject,dependency,scenario,remove,force)
+  return(cOut)
 })
-  
 
 setMethod('dependency', signature(ssimObject="SsimObject"), function(ssimObject,dependency,scenario,remove,force) {
   #ssimObject = myScenario; dependency="Dependency Scenario"; scenario=NULL;remove=F;force=T
-  if(class(ssimObject)!="Scenario"){
-    if(is.null(scenario)){
-      stop("If ssimObject is not a Scenario scenario argument must be specified.")
-    }
-  }
   xProjScn = .getFromXProjScn(ssimObject,scenario=scenario,convertObject=F,returnIds=T,goal="scenario",complainIfMissing=T)
   #Now assume scenario is x is valid object and scenario is valid vector of scenario ids
   x = xProjScn$ssimObject

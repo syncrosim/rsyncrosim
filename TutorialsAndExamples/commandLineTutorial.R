@@ -1,21 +1,12 @@
 # **********************************************************
 # commandLineTutorial.R
-# Following the steps in Leo's PowerShell script using rsyncrosim.
+# Create a simple non-spatial stsim model using rsyncrosim.
 # **********************************************************
 # Author Josie Hughes, ApexRMS
 # Date 2016.11.15
 # **********************************************************
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
-
-#TO DO: test delete() - datasheet, lists of stuff.
-#TO DO: for saveDatasheet() handle data without names.
-#TO DO: test run in general, and given a list of objects, given forceElements=F, given summary=T.
-#TO DO: test datasheet() optional=F, empty=F with database queries (output for multiple scenarios)
-#TO DO: test datasheet() for scenario with dependencies.
-#TO DO: complain if delete library fails because file is locked.
-#TO DO: check that tutorials make sense with broken default session
-#LATER: revise datasheet() given new options from --export: --extfilepaths --rawvalues
 
 #*************************************
 # Create the project definition
@@ -178,6 +169,10 @@ dependency(myProject,dependency="Dependency Scenario",scenario="No Harvest",remo
 dependency(myScenario) #dependency has been removed
 dependency(myProject,dependency="Dependency Scenario",scenario="No Harvest") #set dependency
 
+#NOTE: dependency datasheets are not found in myScenario.
+sheetName = "STSim_InitialConditionsNonSpatialDistribution"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=F)
+str(mySheet) #note this datasheet is a dependency - it cannot be found in my scenario
+
 #******************
 # Transition targets
 sheetName = "STSim_TransitionTarget"; mySheet = datasheet(myScenario,name=sheetName,optional=F,empty=T)
@@ -206,6 +201,8 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 #******************************
 
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
+
+
 # By default, returns a named list of result Scenario objects.
 # If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
 # NOTE: jobs is passed through to SyncroSim which handles multithreading.

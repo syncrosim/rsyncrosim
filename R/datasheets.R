@@ -17,7 +17,7 @@ NULL
 # }
 #
 # @param x An SsimLibrary, Project or Scenario object. Or a path to a SyncroSim library on disk.
-# @param project Project name or id. Ignored if x is a Project.
+# @param project Project name or id. Ignored if x is a Project. 
 # @param scenario Scenario name or id. Ignored if x is a Scenario.
 # @param scope "scenario","project", "library", "all", or NULL.
 # @param refresh If FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call (slower).

@@ -12,7 +12,7 @@
 
 #install.packages("rasterVis")
 library(raster);library(rasterVis)
-
+sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
 libRoot = "C:/Temp"
 libName = "ST-Sim Spatial Tutorial"
 libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
@@ -29,7 +29,7 @@ if(!file.exists(libPath)){
 
 #*************************************
 # View  "STSim_OutputSpatialState" results
-myLibrary = ssimLibrary(name=libPath)
+myLibrary = ssimLibrary(name=libPath,session=session(sessionPath))
 
 project(myLibrary)
 myProject = project(myLibrary,project=1)

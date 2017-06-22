@@ -121,7 +121,7 @@ setMethod(f='initialize',signature="Project",
 #' }
 #'
 #' @param ssimObject SsimLibrary/Scenario or character. An ssimObject containing a filepath to a library, or a filepath.
-#' @param project Character, integer, or vector of these. Names or ids of one or more projects.
+#' @param project Character, integer, or vector of these. Names or ids of one or more projects. Note that integer ids are slightly faster.
 #' @param sourceProject Character or integer. If not NULL, new projects will be copies of the sourceProject.
 #' @param summary Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.
 #' @param forceElements Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.

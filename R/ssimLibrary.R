@@ -219,13 +219,13 @@ setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
 # Get basic information about a Library. 
 # Use project(summary==T) and scenario(summary=T) to get similar information about Project/Scenario
 #
-# @param x An object containing info.
+# @param ssimLibrary SsimLibrary.
 # @export
-setGeneric('info',function(x) standardGeneric('info'))
-setMethod('info', signature(x="SsimLibrary"), function(x) {
+setGeneric('info',function(ssimLibrary) standardGeneric('info'))
+setMethod('info', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary) {
   #x=myLibrary
-  args = list(list=NULL,library=NULL,csv=NULL,lib=.filepath(x))
-  tt = command(args,.session(x))
+  args = list(list=NULL,library=NULL,csv=NULL,lib=.filepath(ssimLibrary))
+  tt = command(args,.session(ssimLibrary))
   out = .dataframeFromSSim(tt,localNames=T)
   return(out)
 })

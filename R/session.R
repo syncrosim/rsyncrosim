@@ -110,7 +110,7 @@ setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defau
 #'
 #' Set the Session of a SsimLibrary, Project or Scenario object.
 #'
-#' @param x An SsimObject.
+#' @param x SsimObject/Project/Scenario.
 #' @param value A SyncroSim Session.
 #' @return An SyncroSim object containing a Session.
 #' @examples

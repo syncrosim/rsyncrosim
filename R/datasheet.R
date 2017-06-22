@@ -28,8 +28,8 @@ NULL
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario, list of objects, or path to a library. Note that all objects in a list must be of the same type, and belong to the same library.
 #' @param name Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=F and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.
-#' @param project Character, numeric, or vector of these. One or more Project names, id or objects.
-#' @param scenario Character, numeric, or vector of these. One or more Scenario names, id or objects.
+#' @param project Character, numeric, or vector of these. One or more Project names, ids or objects. Note that integer ids are slightly faster.
+#' @param scenario Character, numeric, or vector of these. One or more Scenario names, ids or objects. Note that integer ids are slightly faster.
 #' @param summary Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes. 
 #' @param optional Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.
 #' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.

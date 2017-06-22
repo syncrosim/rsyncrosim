@@ -71,7 +71,6 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     }
     sysArgs=args
   }
-  sysArgs
   if(printCmd(session)){
     #outCmd=sysArgs
     outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)
@@ -85,7 +84,6 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     warning("Handle this case. May need to add mono for Server. See session.py for detail")
   }
   if(wait){
-   
     out=suppressWarnings(shell(tempCmd,intern=T))
     if(!silent(session)){
       if(is.element("status",names(attributes(out)))){

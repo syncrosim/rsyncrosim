@@ -21,8 +21,8 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario. Or the path to a library.
 #' @param data A dataframe, vector, or list of these. One or more datasheets to load.
 #' @param name character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.
-#' @param project character or integer. Project name or id.
-#' @param scenario character or integer. Project name or id.
+#' @param project character or integer. Project name or id. Note integer ids are slightly faster.
+#' @param scenario character or integer. Project name or id. Note integer ids are slightly faster.
 #' @param append logical. If TRUE, data will be appended to the datasheet, otherwise current values will be overwritten by data. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets. 
 #' @param fileData Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.
 #' @param forceElements logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list. 
