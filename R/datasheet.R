@@ -52,8 +52,7 @@ setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,na
 
 #Handles case where ssimObject is list of Scenario or Project objects
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject=myResults;name="STSim_OutputStratumState";project=NULL;scenario=NULL;summary=NULL;optional=F;empty=F;lookupsAsFactors=T
-  
+  #ssimObject=myResults;name="STSim_OutputStratumTransition";project=NULL;scenario=NULL;summary=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements = mySQL
   cScn = ssimObject[[1]]
   x=NULL
   if(class(cScn)=="Scenario"){
@@ -332,7 +331,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         }
       }
       for(i in seq(length.out=nrow(sheetInfo))){
-        #i =4
+        #i =7
         cRow = sheetInfo[i,]
         if(!is.element(cRow$name,colnames(sheet))){
           if(sqlStatements$select=="SELECT *"){

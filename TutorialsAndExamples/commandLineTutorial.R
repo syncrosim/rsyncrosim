@@ -103,9 +103,9 @@ mySheet[1,"MaximumAge"] = 100
 saveDatasheet(myProject,mySheet,name=sheetName)
 
 #*************************************
-# Add No Harvest Scenario
+# Build Scenario That Contains Shared Parameters
 #*************************************
-myScenario = scenario(myProject,scenario="No Harvest")
+myScenario = scenario(myProject,scenario="Dependency Scenario")
 subset(datasheet(myScenario),scope=="scenario")$name #see scenario scope datasheets
 
 #**************
@@ -166,6 +166,18 @@ mySheet=addRows(mySheet,data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,
 mySheet
 saveDatasheet(myScenario,mySheet,name=sheetName)
 
+#*************************************
+# Add Harvest Scenario
+#*************************************
+myScenario = scenario(myProject,scenario="No Harvest")
+
+#set and remove dependency
+dependency(myScenario,dependency="Dependency Scenario") #set dependency
+dependency(list(a =myScenario)) #now there is a dependency 
+dependency(myProject,dependency="Dependency Scenario",scenario="No Harvest",remove=T,force=T)
+dependency(myScenario) #dependency has been removed
+dependency(myProject,dependency="Dependency Scenario",scenario="No Harvest") #set dependency
+
 #******************
 # Transition targets
 sheetName = "STSim_TransitionTarget"; mySheet = datasheet(myScenario,name=sheetName,optional=F,empty=T)
@@ -178,7 +190,8 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 # Add Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
-# Copies "No Harvest" scenario to new "Harvest" scenario
+# Copies "No Harvest" scenario to new "Harvest" scenario - including dependencies.
+dependency(myScenario)
 
 #******************
 # Transition targets
@@ -191,6 +204,7 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 #********************************
 # Run scenarios
 #******************************
+
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 # By default, returns a named list of result Scenario objects.
 # If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
@@ -207,7 +221,7 @@ parentId(myResults[[1]])
 # See results
 #******************************
 outStates = datasheet(myResults,name="STSim_OutputStratumState")
-unique(outStates$ScenarioParent)
+str(outStates)
 # NOTE: For outputs, if lookupsAsFactors=F id's will be returned, rather than text labels.
 # Output table lookups are IDs in the database, rather than labels - not true for input tables.
 #
@@ -216,17 +230,19 @@ unique(outStates$ScenarioParent)
 # NOTE: We can also query the database more precisely to avoid pulling unecessary information.
 # There are >400,000 records in this small example.
 sheetName = "STSim_OutputStratumState"
-names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting data
+names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T,optional=T)) #Get column names without getting data
 unique(outStates$Iteration)
-
 mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"),where=list(Timestep=c(0,1,2),Iteration=c(3,4)))
 mySQL # A list of SELECT, WHERE and GROUP BY SQL statements passed to SQLite.
 outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
 str(outStatesAllAges) #Much faster: fewer lookups and fewer records.
+
 sheetName = "STSim_OutputStratumTransition"
 names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting any data
 mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","TransitionGroupID"),aggregate=c("Amount"))
-outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
+outTransitionsAllAges = datasheet(myResults,name=sheetName,optional=F,empty=T)
+str(outTransitionsAllAges)
+outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL,optional=T) #note optional argument is ignored if sqlStatements$select specifies columns to select
 str(outTransitionsAllAges)
 
 # NOTE: In the following example we use existing R tools (ggplot2/plyr) to visualize the output.

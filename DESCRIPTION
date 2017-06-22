@@ -43,6 +43,7 @@ Collate:
     'defaultModel.R'
     'delete.R'
     'deleteModule.R'
+    'dependency.R'
     'description.R'
     'disableAddon.R'
     'enableAddon.R'
