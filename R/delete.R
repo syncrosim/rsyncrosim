@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Delete library, project, scenario, datasheet, or list of these
+#' Delete library, project, scenario, datasheet
 #'
 #' Deletes one or more items. Note this is irreversable.
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario, path to a library, or list of these. Note that project/scenario arguments are ignored if ssimObject is a list.
+#' @param ssimObject SsimLibrary/Project/Scenario, or path to a library. 
 #' @param project character, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
 #' @param scenario character, numeric, or vector of these. One or more project names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
 #' @param datasheet character, numeric, or vector of these. One or more project names or ids.
@@ -22,44 +22,26 @@ NULL
 #' project(myLibrary)
 #'
 #' @export
+# Note delete supports character paths because sometimes we want to delete a library without updating it.
+# Note delete supports project/scenario arguments because sometimes we want to delete objects without creating them.
 setGeneric('delete',function(ssimObject,project=NULL,scenario=NULL,datasheet=NULL,force=F) standardGeneric('delete'))
 setMethod('delete', signature(ssimObject="character"), function(ssimObject,project,scenario,datasheet,force) {
-  unlink(ssimObject)
-  return("saved")
+  
+  if(is.null(datasheet)&is.null(project)&is.null(scenario)){
+    return(deleteLibrary(ssimObject,force))
+  }else{
+    ssimObject=.ssimLibrary(ssimObject,create=F)
+    return(delete(ssimObject,project,scenario,datasheet,force))
+  }
   #ssimObject=.ssimLibrary(ssimObject,create=F)
   #return(delete(ssimObject,project,scenario,datasheet,force))
-})
-setMethod('delete', signature(ssimObject="list"), function(ssimObject,project,scenario,datasheet,force) {
-  x = getIdsFromListOfObjects(ssimObject,project=project)
-  ssimObject = x$ssimObject
-  expecting=x$expecting
-  if(expecting=="Project"){
-    return(delete(ssimObject,project=x$objs,scenario=NULL,datasheet=datasheet,force=force))
-  }
-  if(expecting=="Scenario"){
-    return(delete(ssimObject,project=NULL,scenario=x$objs,datasheet=datasheet,force=force))
-  }
-  
-  if(expecting=="SsimLibrary"){
-    out = list()
-    for(i in seq(length.out=length(x$objs))){
-      if(is.null(datasheet)){
-        cObj = x$objs[i]
-        out[[.filepath(cObj)]]=deleteLibrary(cObj,force)
-      }else{
-        out[[.filepath(cObj)]]=delete(cObj,project=NULL,scenario=NULL,datasheet=datasheet,force=force)
-      }
-    }
-    return(out)
-  }
-  stop("Problem with ssimObject: should be a list of SsimLibraries/Projects/Scenarios or paths to libraries.")
 })
 
 setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,project,scenario,datasheet,force) {
   #ssimObject = myLibrary; project=.projectId(myProject);datasheet="STSim_StateLabelX";force=F
   xProjScn=.getFromXProjScn(ssimObject,project=project,scenario=scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   
-  #expect to have a vector of valid project ids - checking already done
+  #expect to have a vector of valid project or scenario ids - checking already done
   x=xProjScn$ssimObject
   project=xProjScn$project
   scenario=xProjScn$scenario
@@ -159,3 +141,31 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
   }
   stop("Error in delete().")
 })
+
+if(0){ #only support lists of objects when combined output is necessary.
+  setMethod('delete', signature(ssimObject="list"), function(ssimObject,project,scenario,datasheet,force) {
+    x = getIdsFromListOfObjects(ssimObject,project=project)
+    ssimObject = x$ssimObject
+    expecting=x$expecting
+    if(expecting=="Project"){
+      return(delete(ssimObject,project=x$objs,scenario=NULL,datasheet=datasheet,force=force))
+    }
+    if(expecting=="Scenario"){
+      return(delete(ssimObject,project=NULL,scenario=x$objs,datasheet=datasheet,force=force))
+    }
+    
+    if(expecting=="SsimLibrary"){
+      out = list()
+      for(i in seq(length.out=length(x$objs))){
+        if(is.null(datasheet)){
+          cObj = x$objs[i]
+          out[[.filepath(cObj)]]=deleteLibrary(cObj,force)
+        }else{
+          out[[.filepath(cObj)]]=delete(cObj,project=NULL,scenario=NULL,datasheet=datasheet,force=force)
+        }
+      }
+      return(out)
+    }
+    stop("Problem with ssimObject: should be a list of SsimLibraries/Projects/Scenarios or paths to libraries.")
+  })
+}

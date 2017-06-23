@@ -4,10 +4,10 @@
 \alias{filepath}
 \title{The path to a SyncroSim object on disk}
 \usage{
-filepath(x)
+filepath(ssimObject)
 }
 \arguments{
-\item{x}{An object containing a filepath.}
+\item{ssimObject}{An object containing a filepath.}
 }
 \description{
 The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.

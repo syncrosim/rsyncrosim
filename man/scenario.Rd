@@ -10,7 +10,7 @@ scenario(ssimObject, scenario = NULL, sourceScenario = NULL,
 \arguments{
 \item{ssimObject}{SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.}
 
-\item{scenario}{Character, integer, or vector of these. Names or ids of one or more scenarios.}
+\item{scenario}{Character, integer, or vector of these. Names or ids of one or more scenarios. Note integer ids are slightly faster.}
 
 \item{sourceScenario}{Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.}
 

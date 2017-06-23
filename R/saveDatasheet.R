@@ -18,33 +18,27 @@ NULL
 #' rsyncrosim will write each element of fileData directly to the appropriate SyncroSim input/output folders.
 #' If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 #' 
-#' @param ssimObject SsimLibrary/Project/Scenario. Or the path to a library.
+#' @param ssimObject SsimLibrary/Project/Scenario. 
 #' @param data A dataframe, vector, or list of these. One or more datasheets to load.
 #' @param name character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.
-#' @param project character or integer. Project name or id. Note integer ids are slightly faster.
-#' @param scenario character or integer. Project name or id. Note integer ids are slightly faster.
+# @param project character or integer. Project name or id. Note integer ids are slightly faster.
+# @param scenario character or integer. Project name or id. Note integer ids are slightly faster.
 #' @param append logical. If TRUE, data will be appended to the datasheet, otherwise current values will be overwritten by data. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets. 
 #' @param fileData Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.
 #' @param forceElements logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list. 
+#' @param force logical. If datasheet scope is project/library, and append=F, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=T.
 # @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
 #' @return A success or failure message, or a list of these.
 #' @examples
 #'
 #' @export
-setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,project=NULL,scenario=NULL,append=NULL,fileData=NULL,forceElements=F) standardGeneric('saveDatasheet'))
-#Handles case where ssimObject is a path to an SyncroSim library on disk.
-setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,project,scenario,append,fileData,forceElements) {
-  ssimObject = .ssimLibrary(ssimObject,create=F)
-  out = saveDatasheet(ssimObject,data,name,project,scenario,append,fileData,forceElements)
-  return(out)
-})
-
-setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,project,scenario,append,fileData,forceElements) {
+setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileData=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
+setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
   #ssimObject = myProject;project=NULL;scenario=NULL;name="STSim_StateLabelX";data=stateClassDefinition;fileData=NULL;append=NULL;forceElements=F
-  x = .getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
-  if(class(x)=="list"){
-    stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")
-  }
+  x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
+  #if(class(x)=="list"){
+  #  stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")
+  #}
   if(is.null(append)){
     if(class(x)=="Scenario"){append=F}else{append=T}
   }
@@ -127,19 +121,28 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       }
     }
     if(doDelete){
-      targs = list(delete=NULL,data=NULL,lib=.filepath(x),sheet=cName,force=NULL)
-      if(scope=="scenario"){
-        targs[["sid"]]=.scenarioId(x)
+      if(!force&scope!="scenario"){
+        answer <- readline(prompt=paste0("Deleting project and library level datasheets that contain lookups will also delete other definitions and results that rely on these lookups.\nDo you really want to delete ",name,"? (y/n): "))
+      }else{
+        answer = "y"
       }
-      if(scope=="project"){
-        targs[["pid"]]=.projectId(x)
-      }
-      ttt=command(targs,.session(x))
-      if(ttt[[1]]!="saved"){
-        stop(ttt)
+      
+      if(answer=="y"){
+        targs = list(delete=NULL,data=NULL,lib=.filepath(x),sheet=cName,force=NULL)
+        if(scope=="scenario"){
+          targs[["sid"]]=.scenarioId(x)
+        }
+        if(scope=="project"){
+          targs[["pid"]]=.projectId(x)
+        }
+        ttt=command(targs,.session(x))
+        if(ttt[[1]]!="saved"){
+          stop(ttt)
+        }
+      }else{
+        warning("Datasheet was appended - old records were not deleted.")
       }
     }
-    
     #Write items to appropriate locations
     if(!is.null(fileData)){
       itemNames = names(fileData)

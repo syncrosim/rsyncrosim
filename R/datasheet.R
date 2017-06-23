@@ -26,7 +26,7 @@ NULL
 #'   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 #' }
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario, list of objects, or path to a library. Note that all objects in a list must be of the same type, and belong to the same library.
+#' @param ssimObject SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.
 #' @param name Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=F and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.
 #' @param project Character, numeric, or vector of these. One or more Project names, ids or objects. Note that integer ids are slightly faster.
 #' @param scenario Character, numeric, or vector of these. One or more Scenario names, ids or objects. Note that integer ids are slightly faster.
@@ -43,13 +43,6 @@ NULL
 #' @export
 #' @import RSQLite
 setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
-#Handles case where ssimObject is a path to an SyncroSim library on disk.
-setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  ssimObject=.ssimLibrary(ssimObject,create=F)
-  out = .datasheet(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements)
-  return(out)
-})
-
 #Handles case where ssimObject is list of Scenario or Project objects
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
   #ssimObject=myResults;name="STSim_OutputStratumTransition";project=NULL;scenario=NULL;summary=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements = mySQL
@@ -535,3 +528,4 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   
   return(outSheetList)
 })
+

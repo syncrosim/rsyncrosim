@@ -2,17 +2,20 @@
 % Please edit documentation in R/datasheetRaster.R
 \name{datasheetRaster}
 \alias{datasheetRaster}
-\title{Get spatial inputs or outputs from a SyncroSim scenario.}
+\title{Get spatial inputs or outputs from a Scenario(s).}
 \usage{
-datasheetRaster(scenario, datasheet, column = NULL, iteration = NULL,
-  timestep = NULL, subset = NULL, rat = NULL, forceElements = F)
+datasheetRaster(ssimObject, datasheet, column = NULL, scenario = NULL,
+  iteration = NULL, timestep = NULL, subset = NULL, rat = NULL,
+  forceElements = F)
 }
 \arguments{
-\item{scenario}{Scenario or list of scenarios.}
+\item{ssimObject}{SsimLibrary/Project/Scenario or list of Scenarios. If SsimLibrary/Project, then scenario argument is required.}
 
 \item{datasheet}{character string. The name of the datasheet containing the raster data.}
 
 \item{column}{character string. The name of the column in the datasheet containing the filenames for raster data. If NULL then use the first column that contains raster filenames.}
+
+\item{scenario}{character string, integer, or vector of these. The scenarios to include. Required if ssimObject is an SsimLibrary/Project, ignored if ssimObject is a list of Scenarios.}
 
 \item{iteration}{integer, character string, or vector of integer/character strings. Iteration(s) to include. If NULL then all iterations are included. If no Iteration column in the datasheet, then ignored.}
 
@@ -28,7 +31,7 @@ datasheetRaster(scenario, datasheet, column = NULL, iteration = NULL,
 A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
 }
 \description{
-Get spatial inputs or outputs from a SyncroSim scenario.
+Get spatial inputs or outputs from one or more SyncroSim scenarios.
 }
 \details{
 The Color column of a rat table should have one of these formats:

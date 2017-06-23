@@ -2,17 +2,17 @@
 % Please edit documentation in R/delete.R
 \name{delete}
 \alias{delete}
-\title{Delete library, project, scenario, datasheet, or list of these}
+\title{Delete library, project, scenario, datasheet}
 \usage{
 delete(ssimObject, project = NULL, scenario = NULL, datasheet = NULL,
   force = F)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario, path to a library, or list of these. Note that project/scenario arguments are ignored if ssimObject is a list.}
+\item{ssimObject}{SsimLibrary/Project/Scenario, or path to a library.}
 
-\item{project}{character, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list.}
+\item{project}{character, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
 
-\item{scenario}{character, numeric, or vector of these. One or more project names or ids. Note that scenario argument is ignored if ssimObject is a list.}
+\item{scenario}{character, numeric, or vector of these. One or more project names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
 
 \item{datasheet}{character, numeric, or vector of these. One or more project names or ids.}
 

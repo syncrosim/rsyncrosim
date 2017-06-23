@@ -148,20 +148,28 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,sess
 #' Create or open a library.
 #'
 #' Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim library.
+#' If summary = T, returns library summary info. 
+#' If summary = NULL, returns library summary info if ssimObject is an SsimLibrary, SsimLibrary object otherwise.
 #'
-#' @param name Character string, Project/Scenario. A file name or SyncroSim Project or Scenario. Optional.
+#' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject. Optional.
+#' @param summary logical. Default T
 #' @export
-setGeneric('ssimLibrary',function(name=NULL,...) standardGeneric('ssimLibrary'))
+setGeneric('ssimLibrary',function(name=NULL,summary=NULL,...) standardGeneric('ssimLibrary'))
 
 #' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Object.
-setMethod('ssimLibrary', signature(name="SsimObject"), function(name) {
+setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary) {
   #model=cScn
   if(class(name)=="SsimLibrary"){
     out=name
+    if(is.null(summary)){summary=T}
   }else{
     out = .ssimLibrary(name=.filepath(name),session=.session(name),create=F)
+    if(is.null(summary)){summary=F}
   }
-  return(out)
+  if(!summary){
+    return(out)
+  }
+  return(info(out))
 })
 
 
@@ -210,8 +218,12 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name) {
 #' myLibrary = ssimLibrary(myProject)
 #' @name ssimLibrary
 setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
-          function(name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) {
-    new("SsimLibrary",name,model,session,addon,forceUpdate,create=T)
+          function(name=NULL,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) {
+    newLib = new("SsimLibrary",name,model,session,addon,forceUpdate,create=T)
+    if(!is.null(summary)&&summary){
+      return(info(newLib))
+    }
+    return(newLib)
 })
 
 # Information about an library
@@ -257,13 +269,19 @@ setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibr
   if(answer=="y"){
     #ssimLibrary=myLibrary;.filepath(myLibrary)
     unlink(ssimLibrary)
+    if(file.exists(ssimLibrary)){
+      return(paste0("Failed to delete ",ssimLibrary))
+    }
+    
     unlink(paste0(ssimLibrary,".backup"),recursive=T,force=T)
     unlink(paste0(ssimLibrary,".input"),recursive=T,force=T)
     unlink(paste0(ssimLibrary,".output"),recursive=T,force=T)
+    
     return("saved")
   }else{
     return("skipped")
   }
+  
 })
 
 

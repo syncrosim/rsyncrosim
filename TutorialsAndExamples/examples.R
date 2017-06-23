@@ -20,7 +20,7 @@ mySsim = session(sessionPath,silent=F) # Creates a non-silent session using a pa
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim) # The folder location of syncrosim session
 version(mySsim) # The version of syncrosim session
-version() #Version of the default session
+version() #Version of the default session. Will fail until we have a real release of SyncroSim v2
 
 mySession = session(sessionPath,defaultModel="carep",printCmd=T,silent=F) #modify default session settings
 defaultModel(mySession)
@@ -57,12 +57,13 @@ command(c("create","help")) #will fail until we have a real release of SyncroSim
 command("--create --help",session=session(sessionPath,printCmd=T))
 command(list(create=NULL,help=NULL)) #will fail until we have a real release of SyncroSim v2
 
+delete(paste0(getwd(),"/temp.ssim"),force=T)
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="hello:model-transformer")
 output = command(args,session=session(sessionPath,printCmd=T,silent=F))
 
 ################################
 # Create a new SsimLibrary
-myLibrary = ssimLibrary(name="temp",session=mySession) #create new library using default model and default session
+myLibrary = ssimLibrary(name="temp",session=mySession) #create new library using default model
 model(myLibrary)
 
 myLibrary = ssimLibrary(session=mySession) # creates a default ssimLibrary called SsimLibrary.ssim in the current R working directory
@@ -76,6 +77,7 @@ addons(myLibrary)
 addons(myLibrary,all=T)
 addons(mySession)
 delete(myLibrary,force=T)
+
 #myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-ecological-departure")) #returns an error because the addon doesn't exist
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-stockflow"),session=mySession) 
 addons(myLibrary)
@@ -88,11 +90,12 @@ myLibrary = ssimLibrary(session=mySession) # look for a single .ssim file in the
 
 # Get/set the various properties of the library
 session(myLibrary) # returns the SyncroSim Session object associated with the library
-session(myLibrary)=session(sessionPath) 
+session(myLibrary)=session(sessionPath) #Note new session must have same filepath as old session to avoid SyncroSim version conflicts.
 
 model(myLibrary) # Returns the info about the model of the library. Can't change once library is created.
 ssimUpdate(myLibrary)
-info(myLibrary) #DISCUSS: this function is used internally. Why not expose it? could be ssimLibrary(myLibrary,summary=T) for consistency with project()/scenario()
+ssimLibrary(myLibrary) #If ssimObject is SsimLibrary, returns summary info by default
+class(ssimLibrary(myLibrary,summary=F)) #Returns the object instead.
 
 name(myLibrary)
 name(myLibrary)="Fred"
@@ -113,7 +116,6 @@ dateModified(myLibrary)
 #Datasheets, projects, and scenarios 
 delete(paste0(getwd(),"/temp26.ssim"),force=T) #delete a library specified by a path
 delete(paste0(getwd(),"/temp27.ssim"),force=T)
-#project(myLib) #Fails with message that library does not exist on disk.
 myLib=ssimLibrary(name="temp26",session=mySession)
 delete(myLib,force=T) #delete a library specified by an object
 myLib=ssimLibrary(name="temp26",session=mySession)
@@ -122,6 +124,7 @@ myOtherLib = ssimLibrary(name="temp27",session=mySession)
 myOtherScn = scenario(myOtherLib,scenario="other")
 scenario(myOtherLib)
 delete(myOtherLib,scenario="other",force=T)
+scenario(myOtherLib)
 myOtherScn = scenario(myOtherLib,scenario="other2")
 
 project(myOtherLib)
@@ -246,33 +249,41 @@ ssimUpdate(myProject)
 # Datasheets are provided in dataframe format
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
 # We also return each column in the correct data type.
-# devtools::document();devtools::load_all()
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
 scenario(myLibrary)
 myScenario = scenario(myLibrary,scenario="one")
 
 myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
 #myScenarioDataframes = datasheet(myScenario,summary=F) #This takes a long time to run - so don't.
-myProjectSheetNames = subset(datasheet("C:/Temp/NewLibrary.ssim", project=1),scope=="project") # A dataframe of datasheet names for project id 1.
-myTransitionTypeGroups = myProjectDataframes[["STSim_TransitionTypeGroup"]] # a single dataframe
+myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
+names(myLibraryDataframes)
+mySTimeOptions = myLibraryDataframes[["STime_Options"]] # a single dataframe
 # NOTE: datasheet(name=NULL,summary=F) can be very slow, and pull a lot of data - use rarely, with caution.
 
 subset(datasheet(myScenario),scope=="scenario")$name
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition")
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition",lookupsAsFactors=F) # This option returns characters instead of factors
-
 #NOTE: option to return IDs rather than values for lookups postponed to a later version. See --export --rawvalues for support from SyncroSim.
 
 # Get empty template dataframes - lookup columns are expressed as factors with only valid values
 emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_DeterministicTransition",empty=T)
 
 # Update the values for project datasheet - see commandLineTutorial for more examples.
-stateClassDefinition = datasheet(myProject, name="STSim_StateLabelX")
+sheetName = "STSim_StateLabelX"
+stateClassDefinition = datasheet(myProject, name=sheetName,empty=T)
 stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
 # NOTE: rbind does not preserve types and factor levels
-saveDatasheet(myProject, stateClassDefinition, name="STSim_StateLabelX",append=F) 
+saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
+saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F) #prompt to approve removal of old definitions.
+saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F,force=T) #remove without prompting
+#if append = F, deletes existing project definitions. Note that deleting project definitions can also delete results and other things that depend on lookups. So prompt or require explicit approval.
 #default is append=T for project/library scope datasheets, and F for scenario datasheets. 
 
+stateClassDefinition = datasheet(myProject, name=sheetName,empty=T)
+stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Grass')))
+saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
+datasheet(myProject, name=sheetName) 
+#RESUME HERE - why didn't this append?
 #################
 # Run
 # Run a scenario and return the results scenario

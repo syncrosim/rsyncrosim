@@ -4,15 +4,12 @@
 \alias{dependency}
 \title{Set or remove Scenario dependency(s), or get existing dependencies.}
 \usage{
-dependency(ssimObject, dependency = NULL, scenario = NULL, remove = F,
-  force = F)
+dependency(scenario, dependency = NULL, remove = F, force = F)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Scenario/Project. The scenario to which a dependency is to be added (or has already been added if remove=TRUE). If SsimLibrary/Project, the scenario argument must specify the scenario(s). If ssimObject is a Scenario, scenario argument is ignored.}
+\item{scenario}{Scenario. The scenario to which a dependency is to be added (or has already been added if remove=TRUE).}
 
 \item{dependency}{Scenario, character string, integer, or list/vector of these. The scenario(s) that is the source of the dependency. If NULL other arguments are ingored and the list of existing dependencies is returned.}
-
-\item{scenario}{character string, integer, or vector of these. Name or ID of scenario(s) to which a dependency is to be added (or has been already added if remove=TRUE). If NULL then ssimObject must be a Scenario.}
 
 \item{remove}{logical. If F (default) dependencies are added. If T, dependencies are removed.}
 
@@ -27,5 +24,8 @@ Set or remove Scenario dependency(s), or get existing dependencies.
 \details{
 If dependency==NULL, other arguments are ignored, and set of existing dependencies is returned.
 Otherwise, returns list of saved or error messages for each dependency of each scenario.
+
+Note that in some cases the order of dependencies can be important - dependencies added ?? take precedence over dependencies added ??.
+dependency(dependency=NULL) returns existing dependencies in order of precedence.
 }
 

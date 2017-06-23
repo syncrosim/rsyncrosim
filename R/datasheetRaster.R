@@ -4,9 +4,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Get spatial inputs or outputs from a SyncroSim scenario.
+#' Get spatial inputs or outputs from a Scenario(s).
 #'
-#' Get spatial inputs or outputs from a SyncroSim scenario.
+#' Get spatial inputs or outputs from one or more SyncroSim scenarios.
 #' @details
 #'
 #' The Color column of a rat table should have one of these formats:
@@ -20,9 +20,10 @@ NULL
 #' For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
 #' For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)
 #'
-#' @param scenario Scenario or list of scenarios.
+#' @param ssimObject SsimLibrary/Project/Scenario or list of Scenarios. If SsimLibrary/Project, then scenario argument is required.
 #' @param datasheet character string. The name of the datasheet containing the raster data.
 #' @param column character string. The name of the column in the datasheet containing the filenames for raster data. If NULL then use the first column that contains raster filenames.
+#' @param scenario character string, integer, or vector of these. The scenarios to include. Required if ssimObject is an SsimLibrary/Project, ignored if ssimObject is a list of Scenarios.
 #' @param iteration integer, character string, or vector of integer/character strings. Iteration(s) to include. If NULL then all iterations are included. If no Iteration column in the datasheet, then ignored.
 #' @param timestep integer, character string, or vector of integer/character string. Timestep(s) to include. If NULL then all timesteps are included.  If no Timestep column in the datasheet, then ignored.
 #' @param subset logical expression. logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.
@@ -34,26 +35,61 @@ NULL
 #' 
 #' datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",subset=expression(grepl("Ts0001",Filename,fixed=T)))
 #' @export
-setGeneric('datasheetRaster',function(scenario,datasheet,column=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster'))
-setMethod('datasheetRaster', signature(scenario="list"), function(scenario,datasheet,column,iteration,timestep,subset,rat,forceElements) {
+setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster'))
+setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
   # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL
-  if(class(scenario[[1]])!="Scenario"){
-    stop("Expecting a Scenario object or list of scenario objects.")
+  if(class(ssimObject[[1]])!="Scenario"){
+    stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
-  for(i in 1:length(scenario)){
+  if(!is.null(scenario)){
+    warning("scenario argument is ignored when ssimObject is a list of Scenarios")
+    scenario=NULL
+  }
+  for(i in 1:length(ssimObject)){
     #i=1
-    cScn = scenario[[i]]
-    cOut = datasheetRaster(cScn,datasheet,column,iteration,timestep,subset,rat,forceElements)
+    cScn = ssimObject[[i]]
+    cOut = datasheetRaster(cScn,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements)
     names(cOut)=paste0("scn",.scenarioId(cScn),".",names(cOut))
     if(i == 1){out=cOut}else{out=raster::stack(out,cOut)}
+  }
+  
+  if((length(names(out))==1)&!forceElements){
+    out=out[[1]]
   }
   return(out)
 })
 
-setMethod('datasheetRaster', signature(scenario="Scenario"), function(scenario,datasheet,column,iteration,timestep,subset,rat,forceElements) {
+setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
+  if(!is.null(scenario)){
+    stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
+  }
+  scnSet = .scenario(ssimObject)
+  missingScns = scenario
+  if(is.character(scenario)){
+    missingScns = setdiff(scenario,scnSet$name)
+  }
+  if(is.numeric(scenario)){
+    missingScns = setdiff(scenario,scnSet$scenarioId)
+  }  
+  if(length(missingScns)>0){
+    stop("Scenarios not found in ssimObject: ",paste(missingScns,collapse=","))
+  }
+  
+  scnList = .scenario(ssimObject,scenario=scenario)
+  scenario=NULL
+  
+  return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements))
+  
+})
+
+setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
   # scenario= myResult[[2]]; datasheet="STSim_InitialConditionsSpatial";column="AgeFileName";iteration=NULL;timestep = NULL;rat=NULL;subset=NULL;forceElements=F
 
-  x=scenario  
+  if(!is.null(scenario)){
+    warning("scenario argument is ignored when ssimObject is a scenario.")
+  }
+  
+  x=ssimObject  
   cSheets = .datasheets(x)
   if(!is.element(datasheet,cSheets$name)){
     cSheets = .datasheets(x,refresh=T)

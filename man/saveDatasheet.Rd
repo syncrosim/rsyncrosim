@@ -4,25 +4,23 @@
 \alias{saveDatasheet}
 \title{Save datasheet(s)}
 \usage{
-saveDatasheet(ssimObject, data, name = NULL, project = NULL,
-  scenario = NULL, append = NULL, fileData = NULL, forceElements = F)
+saveDatasheet(ssimObject, data, name = NULL, append = NULL,
+  fileData = NULL, forceElements = F, force = F)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario. Or the path to a library.}
+\item{ssimObject}{SsimLibrary/Project/Scenario.}
 
 \item{data}{A dataframe, vector, or list of these. One or more datasheets to load.}
 
 \item{name}{character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.}
-
-\item{project}{character or integer. Project name or id.}
-
-\item{scenario}{character or integer. Project name or id.}
 
 \item{append}{logical. If TRUE, data will be appended to the datasheet, otherwise current values will be overwritten by data. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets.}
 
 \item{fileData}{Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.}
 
 \item{forceElements}{logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list.}
+
+\item{force}{logical. If datasheet scope is project/library, and append=F, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=T.}
 }
 \value{
 A success or failure message, or a list of these.

@@ -6,15 +6,17 @@
 \alias{ssimLibrary,SsimObject-method}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(name = NULL, ...)
+ssimLibrary(name = NULL, summary = NULL, ...)
 
-\S4method{ssimLibrary}{SsimObject}(name)
+\S4method{ssimLibrary}{SsimObject}(name, summary)
 
-\S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, model = NULL,
-  session = NULL, addon = NULL, forceUpdate = F)
+\S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, summary = NULL,
+  model = NULL, session = NULL, addon = NULL, forceUpdate = F)
 }
 \arguments{
-\item{name}{Character string, Project/Scenario. A file name or SyncroSim Project or Scenario. Optional.}
+\item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject. Optional.}
+
+\item{summary}{logical. Default T}
 
 \item{model}{Character. The model type. If NULL, defaultModel(session()) will be used.}
 
@@ -29,6 +31,8 @@ An \code{SsimLibrary} object representing a SyncroSim library.
 }
 \description{
 Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim library.
+If summary = T, returns library summary info. 
+If summary = NULL, returns library summary info if ssimObject is an SsimLibrary, SsimLibrary object otherwise.
 }
 \details{
 \itemize{

@@ -10,7 +10,7 @@ run(ssimObject, scenario = NULL, summary = F, jobs = 1,
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.}
 
-\item{scenario}{character, integer, or vector of these. Scenario names or ids. Or NULL.}
+\item{scenario}{character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.}
 
 \item{summary}{Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.}
 

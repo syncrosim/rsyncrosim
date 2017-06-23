@@ -7,7 +7,7 @@
 multiband(ssimObject, action, grouping = NULL)
 }
 \arguments{
-\item{ssimObject}{Result Scenario or list of these.}
+\item{ssimObject}{Result Scenario.}
 
 \item{action}{Character. Options are: apply, remove, rebuild}
 

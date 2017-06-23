@@ -28,13 +28,6 @@ NULL
 #Note: this function is now internal. Should now only be called from datasheet.
 setGeneric('datasheets',function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F) standardGeneric('datasheets'))
 
-#Handles case where x is a path to an SyncroSim library on disk.
-setMethod('datasheets', signature(x="character"), function(x,project,scenario,scope,refresh) {
-  x = .ssimLibrary(x,create=F)
-  out = .datasheets(x,project,scenario,scope,refresh)
-  return(out)
-})
-
 setMethod('datasheets', signature(x="SsimObject"), function(x,project,scenario,scope,refresh) {
   #x = myScn;project=NULL;scenario=NULL;empty=T;scope=NULL;refresh=T
   x = .getFromXProjScn(x,project,scenario)

@@ -10,7 +10,7 @@ project(ssimObject, project = NULL, sourceProject = NULL, summary = NULL,
 \arguments{
 \item{ssimObject}{SsimLibrary/Scenario or character. An ssimObject containing a filepath to a library, or a filepath.}
 
-\item{project}{Character, integer, or vector of these. Names or ids of one or more projects.}
+\item{project}{Character, integer, or vector of these. Names or ids of one or more projects. Note that integer ids are slightly faster.}
 
 \item{sourceProject}{Character or integer. If not NULL, new projects will be copies of the sourceProject.}
 

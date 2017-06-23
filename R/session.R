@@ -25,7 +25,10 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
     if(is.null(path)){
       #TO DO: what is best way to find console on all systems
       #Default installation locations?
-      path="c:/gitprojects/syncrosim/_deploy_/current"
+      temp = "c:/gitprojects/syncrosim/_deploy_/current"
+      if(file.exists(paste0(temp,"/SyncroSim.Console.exe"))){
+        path=temp
+      }
       
       if(0){
       #TO DO: change to default path once SyncroSim v2 is released.
@@ -110,7 +113,12 @@ setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defau
 #'
 #' Set the Session of a SsimLibrary, Project or Scenario object.
 #'
-#' @param x SsimObject/Project/Scenario.
+#' @details 
+#' 
+#' In order to avoid problems with SyncroSim version compatibility and library updating, 
+#' the new session must have the same filepath as the session of the SsimObject e.g. filepath(value)==filepath(session(ssimObject))
+#' 
+#' @param ssimObject SsimObject/Project/Scenario.
 #' @param value A SyncroSim Session.
 #' @return An SyncroSim object containing a Session.
 #' @examples
@@ -118,16 +126,19 @@ setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defau
 #' session(myLibrary)=session()
 #' session(myLibrary)
 #' @export
-setGeneric('session<-',function(x,value) standardGeneric('session<-'))
+setGeneric('session<-',function(ssimObject,value) standardGeneric('session<-'))
 setReplaceMethod(
   f='session',
   signature="SsimLibrary",
-  definition=function(x,value){
+  definition=function(ssimObject,value){
     if(class(value)!="Session"){
       stop('Must assign a Session object.')
     }
-    x@session = value
-    return (x)
+    if(.filepath(value)!=.filepath(.session(ssimObject))){
+      stop('The new session must have the same filepath as the session of the SsimObject e.g. filepath(value)==filepath(session(ssimObject))')
+    }
+    ssimObject@session = value
+    return (ssimObject)
   }
 )
 

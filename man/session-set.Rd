@@ -4,10 +4,10 @@
 \alias{session<-}
 \title{Set a SyncroSim session.}
 \usage{
-session(x) <- value
+session(ssimObject) <- value
 }
 \arguments{
-\item{x}{An SsimObject.}
+\item{ssimObject}{SsimObject/Project/Scenario.}
 
 \item{value}{A SyncroSim Session.}
 }
@@ -16,6 +16,10 @@ An SyncroSim object containing a Session.
 }
 \description{
 Set the Session of a SsimLibrary, Project or Scenario object.
+}
+\details{
+In order to avoid problems with SyncroSim version compatibility and library updating, 
+the new session must have the same filepath as the session of the SsimObject e.g. filepath(value)==filepath(session(ssimObject))
 }
 \examples{
 myLibrary = ssimLibrary()

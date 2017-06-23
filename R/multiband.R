@@ -7,7 +7,7 @@ NULL
 #'
 #' Modify the grouping of spatial output layers in a SyncroSim results scenario.
 #'
-#' @param ssimObject Result Scenario or list of these.
+#' @param ssimObject Result Scenario.
 #' @param action Character. Options are: apply, remove, rebuild
 #' @param grouping Character. Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
 #' @return "saved" or an error message from SyncroSim.
@@ -29,22 +29,6 @@ NULL
 #'
 #' @export
 setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
-setMethod('multiband', signature(ssimObject="list"), function(ssimObject,action,grouping) {
-  #x=myResult;action="rebuild";grouping=NULL
-  
-  if(class(ssimObject[[1]])!="Scenario"){
-    stop("Expecting a Scenario object or list of scenario objects.")
-  }
-  out=list()
-  for(i in 1:length(ssimObject)){
-    #i=1
-    cScn = ssimObject[[i]]
-    cOut = multiband(cScn,action,grouping)
-    out[[as.character(.scenarioId(cScn))]]=cOut
-  }
-  return(out)
-})
-
 setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL
   if(is.na(parentId(ssimObject))){
@@ -60,5 +44,23 @@ setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,act
     }
   }
   tt = command(args,.session(ssimObject),program="SyncroSim.MultiBand.exe")
-  return(tt)
+  return(tt[1])
 })
+
+if(0){#Note lists of objects are only supported when there is a reason to need combined output
+  setMethod('multiband', signature(ssimObject="list"), function(ssimObject,action,grouping) {
+    #x=myResult;action="rebuild";grouping=NULL
+    
+    if(class(ssimObject[[1]])!="Scenario"){
+      stop("Expecting a Scenario object or list of scenario objects.")
+    }
+    out=list()
+    for(i in 1:length(ssimObject)){
+      #i=1
+      cScn = ssimObject[[i]]
+      cOut = multiband(cScn,action,grouping)
+      out[[as.character(.scenarioId(cScn))]]=cOut
+    }
+    return(out)
+  })
+}
