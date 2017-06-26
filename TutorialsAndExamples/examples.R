@@ -252,6 +252,13 @@ dependency(targetScn) #"another scn" was added last, so has highest precedence
 dependency(targetScn,dependency=c("another scn","New scn name")) #change the precedence of dependencies by adding them again.
 dependency(targetScn) #now "New scn name" has highest precedence.
 
+#print/show methods for SsimObjects and Sessions
+myScenario
+myProject
+myLibrary
+mySession
+
+
 #test delete - vectors of project/scenario/datasheet
 scenario(myLib)
 datasheet(myProject)

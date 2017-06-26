@@ -87,7 +87,7 @@ SsimLibrary <- setClass("SsimLibrary", contains="SsimObject", representation())
 #' @slot projectId The project id.
 #' @slot scenarioId The scenario id.
 #' @slot parentId For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.
-#' @slot breakpoints An (optional) list of Breakpoint objects. See ?breakpoints for details.
+# @slot breakpoints An (optional) list of Breakpoint objects. See ?breakpoints for details.
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario

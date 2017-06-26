@@ -206,7 +206,7 @@ scnList = scenario(myProject,scenario=c("Harvest","No Harvest"))
 otherResults = run(scnList,jobs=4,summary=T)
 str(otherResults)
 # By default, returns a named list of result Scenario objects.
-# If summary=T (slightly faster), returns result scenario ids instead of objects
+# If summary=T (slightly faster), returns result scenario summary info instead of objects
 # NOTE: jobs is passed through to SyncroSim which handles multithreading.
 
 scenario(myProject)

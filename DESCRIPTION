@@ -15,14 +15,13 @@ LazyData: TRUE
 Imports:
     DBI,
     RSQLite,
-    parallel,
-    raster,
     Rcpp,
-    rgdal
+    rgdal,
+    raster,
+    rasterVis
 Suggests:
     plyr,
     ggplot2,
-    rasterVis,
     knitr,
     rmarkdown,
     testthat
@@ -60,20 +59,21 @@ Collate:
     'ssimLibrary.R'
     'session.R'
     'internalWrappers.R'
-    'levelplotCategorical.R'
     'model.R'
     'modules.R'
     'multiband.R'
     'owner.R'
     'parentId.R'
+    'print.R'
     'printCmd.R'
-    'rasterAttributes.R'
     'readOnly.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'
     'saveDatasheet.R'
     'silent.R'
+    'ssimLevelplot.R'
+    'ssimRatify.R'
     'ssimUpdate.R'
     'version.R'
 RoxygenNote: 5.0.1
