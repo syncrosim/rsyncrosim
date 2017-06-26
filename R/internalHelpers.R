@@ -5,24 +5,25 @@ NULL
 
 #These are internal helper functions for rsyncrosim
 
-deleteDatasheet<-function(datasheet,datasheets,cProj=NULL,cScn=NULL,cProjName=NULL,cScnName=NULL,out=list(),force){
-  for(j in seq(length.out(datasheet))){
+deleteDatasheet<-function(x,datasheet,datasheets,cProj=NULL,cScn=NULL,cProjName=NULL,cScnName=NULL,out=list(),force){
+  out=list()
+  for(j in seq(length.out=length(datasheet))){
     cName = datasheet[j]
     cSheet = subset(datasheets,name==cName)
     if(nrow(cSheet)==0){
       stop("datasheet ",cName," not found in object identified by ssimObject/project/scenario arguments.")
     }
-    targs = list(delete=NULL,data=NULL,lib=.filepath(ssimObject),sheet=cName,force=NULL)
+    targs = list(delete=NULL,data=NULL,lib=.filepath(x),sheet=cName,force=NULL)
     outName=cName
     if(cSheet$scope=="project"){
       targs[["pid"]]=cProj
       outName = paste0(outName," pid",cProj)
-      addPrompt = paste0(" from project ",name,"(",cProj,")")
+      addPrompt = paste0(" from project ",cProjName,"(",cProj,")")
     }
     if(cSheet$scope=="scenario"){
       targs[["sid"]]=cScn
       outName = paste0(outName," sid",cScn)
-      addPrompt = paste0(" from scenario ",name,"(",cScn,")")
+      addPrompt = paste0(" from scenario ",cScnName,"(",cScn,")")
     }
     
     if(force){
@@ -33,13 +34,17 @@ deleteDatasheet<-function(datasheet,datasheets,cProj=NULL,cScn=NULL,cProjName=NU
     }
     if(!is.element(outName,names(out))){#don't try something again that has already been tried
       if(answer=="y"){
-        outBit = command(targs,.session(ssimObject))
+        outBit = command(targs,.session(x))
       }else{
         outBit = "skipped"
       }
       out[[outName]]=outBit
     }
   }
+  if(length(out)==1){
+    out=out[[1]]
+  }
+  return(out)
 }
 
 getIdsFromListOfObjects<-function(ssimObject,expecting=NULL,scenario=NULL,project=NULL){

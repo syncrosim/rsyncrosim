@@ -80,7 +80,7 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
       
       #If datasheets(s) specified delete them. Otherwise delete the projects.
       if(!is.null(datasheet)){
-        out = deleteDatasheet(datasheet,datasheets,cProj=cProj,cScn=NULL,cProjName=name,cScnName=NULL,out=out,force=force)
+        outBit = deleteDatasheet(x,datasheet,datasheets,cProj=cProj,cScn=NULL,cProjName=name,cScnName=NULL,out=out,force=force)
       }else{
         if(force){
           answer="y"
@@ -96,6 +96,10 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
       }
       out[[as.character(cProj)]]=outBit
     }
+    if(length(out)==1){
+      out=out[[1]]
+    }
+    
     return(out)
   }
   
@@ -122,7 +126,7 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
       name = allScenarios$name[allScenarios$scenarioId==cScn]
       if(!is.null(datasheet)){
         cProj = subset(scenarioSet,scenarioId==cScn)$projectId
-        out = deleteDatasheet(datasheet,datasheets,cProj=cProj,cScn=cScn,cProjName="",cScnName=name,out=out,force=force)
+        outBit = deleteDatasheet(datasheet,datasheets,cProj=cProj,cScn=cScn,cProjName="",cScnName=name,out=out,force=force)
       }else{
         if(force){
           answer="y"
@@ -136,6 +140,10 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
         }
         out[[as.character(cScn)]]=outBit
       }
+    }
+
+    if(length(out)==1){
+      out=out[[1]]
     }
     return(out)
   }

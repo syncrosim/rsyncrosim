@@ -34,7 +34,7 @@ NULL
 #' @export
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileData=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
-  #ssimObject = myProject;project=NULL;scenario=NULL;name="STSim_StateLabelX";data=stateClassDefinition;fileData=NULL;append=NULL;forceElements=F
+  #ssimObject = myProject;project=NULL;scenario=NULL;name=sheetName;data=stateClassDefinition;fileData=NULL;append=NULL;forceElements=F;force=F
   x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
   #if(class(x)=="list"){
   #  stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")

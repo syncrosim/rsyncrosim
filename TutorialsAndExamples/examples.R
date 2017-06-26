@@ -243,6 +243,22 @@ filepath(myProject)
 ssimUpdate(myScn)
 ssimUpdate(myProject)
 
+#test delete - vectors of project/scenario/datasheet
+scenario(myLib)
+datasheet(myProject)
+delete(myLib, project=c(1,10),datasheet=c("STime_Chart","STime_DistributionType"),force=T)
+
+delete(myLib, scenario=c(6,7),force=T)
+scenario(myLib)
+delete(myLib, scenario=c("one","two"),force=T)
+scenario(myLib)
+
+project(myLib)
+delete(myLib,project=c(1,10),force=t)
+project(myLib)
+delete(myLib,project=c("copy","copy2"),force=T)
+project(myLib)
+
 #############################
 # Datasheets
 # Get datasheet from an SsimLibrary, Projects or Scenarios.
@@ -252,7 +268,7 @@ ssimUpdate(myProject)
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
 scenario(myLibrary)
 myScenario = scenario(myLibrary,scenario="one")
-
+myProject = project(myLibrary,project=1)
 myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
 #myScenarioDataframes = datasheet(myScenario,summary=F) #This takes a long time to run - so don't.
 myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
@@ -270,11 +286,13 @@ emptyDeterministicTransitionDataframe = datasheet(myScenario, name="STSim_Determ
 
 # Update the values for project datasheet - see commandLineTutorial for more examples.
 sheetName = "STSim_StateLabelX"
-stateClassDefinition = datasheet(myProject, name=sheetName,empty=T)
+delete(myProject,datasheet=sheetName,force=T)
+
+stateClassDefinition = datasheet(myProject, name=sheetName,empty=F)
 stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
 # NOTE: rbind does not preserve types and factor levels
 saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
-saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F) #prompt to approve removal of old definitions.
+#saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F) #prompt to approve removal of old definitions.
 saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F,force=T) #remove without prompting
 #if append = F, deletes existing project definitions. Note that deleting project definitions can also delete results and other things that depend on lookups. So prompt or require explicit approval.
 #default is append=T for project/library scope datasheets, and F for scenario datasheets. 
@@ -283,7 +301,11 @@ stateClassDefinition = datasheet(myProject, name=sheetName,empty=T)
 stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Grass')))
 saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
 datasheet(myProject, name=sheetName) 
-#RESUME HERE - why didn't this append?
+
+datasheet(myProject)
+delete(myProject,datasheet=c(sheetName,"STime_Options"),force=T)
+datasheet(myProject, name=sheetName) 
+
 #################
 # Run
 # Run a scenario and return the results scenario
