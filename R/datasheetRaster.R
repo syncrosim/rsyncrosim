@@ -60,7 +60,7 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
 })
 
 setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
-  if(!is.null(scenario)){
+  if(is.null(scenario)){
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
   }
   scnSet = .scenario(ssimObject)
@@ -239,7 +239,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
         }
         #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
         #See colortable() for details
-        rasterAttributes(cStack[[cName]])=rat
+        ssimRatify(cStack[[cName]])=rat
         
       }
       cStack[[cName]]@title = cRow$outName
@@ -278,7 +278,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
         }
         #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
         
-        rasterAttributes(cRaster)=rat
+        ssimRatify(cRaster)=rat
       }
       cRaster@title = cRow$outName
       if(i==1){

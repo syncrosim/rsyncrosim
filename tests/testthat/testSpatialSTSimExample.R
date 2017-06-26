@@ -73,7 +73,7 @@ test_that("Test simple spatial STSim example", {
   #Change to automatically selected colors and save plot to pdf.
   newRat = raster::levels(view)[[1]]
   newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
-  rasterAttributes(view) = newRat
+  ssimRatify(view) = newRat
   #expect_equal(colortable(view),c("#1B9E77","#D95F02","#7570B3"))
 
   #*************************************
@@ -87,7 +87,7 @@ test_that("Test simple spatial STSim example", {
   rat$isYoung[rat$ID<36]="young" #check young forest definition
   rat$isYoung[rat$ID>=36]="not young" #check young forest definition
   rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
-  rasterAttributes(age0) = rat
+  ssimRatify(age0) = rat
   checkLevels = raster::levels(age0)[[1]]
   row.names(checkLevels) = checkLevels$ID
   test = merge(checkLevels,rat)

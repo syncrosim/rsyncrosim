@@ -16,7 +16,7 @@ sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session 
 libRoot = "C:/Temp"
 libName = "ST-Sim Spatial Tutorial"
 libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
-delete(libPath)# start fresh
+delete(libPath,force=T)# start fresh
 #download library if necessary.
 if(!file.exists(libPath)){
   zipPath = paste0(libRoot,"/",libName,".zip")
@@ -29,7 +29,7 @@ if(!file.exists(libPath)){
 
 #*************************************
 # View  "STSim_OutputSpatialState" results
-myLibrary = ssimLibrary(name=libPath,session=session(sessionPath))
+myLibrary = ssimLibrary(name=libPath,session=session(sessionPath),forceUpdate=T)
 
 project(myLibrary)
 myProject = project(myLibrary,project=1)
@@ -60,37 +60,30 @@ myRasters = datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
 names(myRasters)
 
 str(myRasters[[1]])
-levels(myRasters[[1]]) #attributes from the optional rat table
+levels(myRasters[[1]]) #attributes from the optional rat table. Color name were converted to hexadecimal colors in hexColor column.
 #NOTE: myRasters is a RasterStack object. See raster package documentation for details.
 #NOTE: loading is faster if all sheets are contained in a single multiband file. See below for example.
 
 #plot iteration 1 timestep 0
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
-#This is a wrapper for the levelplot() function of the rasterVis package:
-
-  view = myRasters[[1]];attribute="StateLabelXID"
-  levels(view)
-  myCols = unique(subset(levels(view)[[1]],select=c(attribute,"hexColor")));myCols=myCols[order(myCols[,1]),]
-  levelplot(view,att=attribute,at=myCols$Name,col.regions=myCols$hexColor,par.settings=myCols,main=view@title)
-
-#Is this function sufficiently useful? Otherwise rasterVis is not a recommended or required package. 
+ssimLevelplot(myRasters[[1]],attribute="StateLabelXID",main=names(myRasters)[1]) 
 
 #Change to automatically selected colors and save plot to pdf.
 newRat = levels(myRasters[[1]])[[1]]
 newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
-rasterAttributes(myRasters[[1]]) = newRat #change the raster attributes
+ssimRatify(myRasters[[1]]) = newRat #change the raster attributes
 
 filename=paste0(dirname(filepath(myResult[[1]])),"/XIDMap.pdf")
 pdf(filename)
-levelplotCategorical(myRasters[[1]],attribute="StateLabelXID")
+ssimLevelplot(myRasters[[1]],attribute="StateLabelXID")
 dev.off()
 
 #*************************************
 # View spatial inputs
 check = datasheet(myResult[[1]],"STSim_OutputSpatialTransition")
 str(check)
-myTransitionGroup = datasheetRaster(myResult,datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
+myTransitionGroup = datasheetRaster(myLibrary,scenario=as.numeric(names(myResult)),datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
+#slower with scenario argument than list of scenario objects.
 names(myTransitionGroup)
 
 check = datasheet(myResult[[1]],"STSim_InitialConditionsSpatial")
@@ -107,11 +100,11 @@ rat = data.frame(ID=unique(age0))
 rat$isYoung[rat$ID<36]="young" #check young forest definition
 rat$isYoung[rat$ID>=36]="not young" #check young forest definition
 rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
-rasterAttributes(age0) = rat
+ssimRatify(age0) = rat
 
 filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
 pdf(filename)
-levelplotCategorical(age0,attribute="isYoung")
+ssimLevelplot(age0,attribute="isYoung")
 dev.off()
 
 #NOTE: multiband(x,action=rebuild) will be applied if user asks for spatialData() and the relevant datasheet is empty.
@@ -163,7 +156,7 @@ sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
 levels(mySheet$MultibandGroupingInternal)
 mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
 saveDatasheet(myProject,mySheet,name=sheetName)
-?multiband
+
 #Combining all spatial results into one multiband file will speed up loading.
-multiband(myResult,action="apply")
+multiband(myResult[[1]],action="apply")
 

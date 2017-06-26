@@ -9,7 +9,7 @@ dependency(scenario, dependency = NULL, remove = F, force = F)
 \arguments{
 \item{scenario}{Scenario. The scenario to which a dependency is to be added (or has already been added if remove=TRUE).}
 
-\item{dependency}{Scenario, character string, integer, or list/vector of these. The scenario(s) that is the source of the dependency. If NULL other arguments are ingored and the list of existing dependencies is returned.}
+\item{dependency}{Scenario, character string, integer, or list/vector of these. The scenario(s) that are the source of the dependency, in order from lowest to highest precedence. If NULL other arguments are ingored and the list of existing dependencies is returned.}
 
 \item{remove}{logical. If F (default) dependencies are added. If T, dependencies are removed.}
 
@@ -22,10 +22,11 @@ If dependency!=NULL, character string (saved or error message) or list of these.
 Set or remove Scenario dependency(s), or get existing dependencies.
 }
 \details{
-If dependency==NULL, other arguments are ignored, and set of existing dependencies is returned.
+If dependency==NULL, other arguments are ignored, and set of existing dependencies is returned in order of precedence (from highest to lowest precedence).
 Otherwise, returns list of saved or error messages for each dependency of each scenario.
 
-Note that in some cases the order of dependencies can be important - dependencies added ?? take precedence over dependencies added ??.
-dependency(dependency=NULL) returns existing dependencies in order of precedence.
+Note that the order of dependencies can be important - dependencies added most recently take precedence over existing dependencies.
+So, dependencies included in the dependency argument take precedence over any other existing dependencies.
+If the dependency argument includes more than one element, elements are ordered from lowest to highest precedence.
 }
 

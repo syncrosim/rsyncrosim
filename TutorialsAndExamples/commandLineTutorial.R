@@ -164,10 +164,10 @@ myScenario = scenario(myProject,scenario="No Harvest")
 
 #set and remove dependency
 dependency(myScenario,dependency="Dependency Scenario") #set dependency
-dependency(list(a =myScenario)) #now there is a dependency 
-dependency(myProject,dependency="Dependency Scenario",scenario="No Harvest",remove=T,force=T)
+dependency(myScenario) #now there is a dependency 
+dependency(myScenario,dependency="Dependency Scenario",remove=T,force=T)
 dependency(myScenario) #dependency has been removed
-dependency(myProject,dependency="Dependency Scenario",scenario="No Harvest") #set dependency
+dependency(myScenario,dependency="Dependency Scenario") #set dependency
 
 #NOTE: dependency datasheets are not found in myScenario.
 sheetName = "STSim_InitialConditionsNonSpatialDistribution"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=F)
@@ -202,9 +202,11 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 
-
+scnList = scenario(myProject,scenario=c("Harvest","No Harvest"))
+otherResults = run(scnList,jobs=4,summary=T)
+str(otherResults)
 # By default, returns a named list of result Scenario objects.
-# If onlyIds = TRUE (slightly faster), returns result scenario ids instead of objects
+# If summary=T (slightly faster), returns result scenario ids instead of objects
 # NOTE: jobs is passed through to SyncroSim which handles multithreading.
 
 scenario(myProject)

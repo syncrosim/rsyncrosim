@@ -6,7 +6,9 @@ NULL
 #' Set attributes and colors of a RasterLayer object.
 #'
 #' Set attributes and colors of a Raster object.
-#' This is a wrapper around ratify() function from the raster package.
+#' This is a wrapper around ratify() function from the raster package. 
+#' The optional Color column accepts names, hexadecimal colors, and RGB color strings exported by SyncroSim.
+#' These are converted to hexadecimal colors in the hexColor column of the raster attribute table.
 #'
 #' @details
 #'
@@ -21,12 +23,12 @@ NULL
 #'
 #' levels(myRaster) #retrieve raster attribute table
 #'
-#' @param raster A Raster object.
+#' @param raster A RasterLayer.
 #' @param rat dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @export
-setGeneric('rasterAttributes<-',function(raster,value) standardGeneric('rasterAttributes<-'))
+setGeneric('ssimRatify<-',function(raster,value) standardGeneric('ssimRatify<-'))
 setReplaceMethod(
-  f='rasterAttributes',
+  f='ssimRatify',
   signature="RasterLayer",
   definition=function(raster,value){
   rat = value
