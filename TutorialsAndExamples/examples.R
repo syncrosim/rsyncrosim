@@ -243,6 +243,15 @@ filepath(myProject)
 ssimUpdate(myScn)
 ssimUpdate(myProject)
 
+#test dependency, precedence setting
+scenario(myProject)
+targetScn = scenario(myProject,scenario="two")
+dependency(targetScn)
+dependency(targetScn,dependency=c("other","New scn name","another scn")) #elements of the dependency argument are ordered from lowest to highest precedence
+dependency(targetScn) #"another scn" was added last, so has highest precedence
+dependency(targetScn,dependency=c("another scn","New scn name")) #change the precedence of dependencies by adding them again.
+dependency(targetScn) #now "New scn name" has highest precedence.
+
 #test delete - vectors of project/scenario/datasheet
 scenario(myLib)
 datasheet(myProject)
@@ -305,6 +314,8 @@ datasheet(myProject, name=sheetName)
 datasheet(myProject)
 delete(myProject,datasheet=c(sheetName,"STime_Options"),force=T)
 datasheet(myProject, name=sheetName) 
+
+
 
 #################
 # Run

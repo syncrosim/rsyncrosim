@@ -7,15 +7,15 @@ NULL
 #'
 #' @details 
 #' 
-#' If dependency==NULL, other arguments are ignored, and set of existing dependencies is returned.
+#' If dependency==NULL, other arguments are ignored, and set of existing dependencies is returned in order of precedence (from highest to lowest precedence).
 #' Otherwise, returns list of saved or error messages for each dependency of each scenario.
 #' 
-#' Note that in some cases the order of dependencies can be important - dependencies added ?? take precedence over dependencies added ??.
-#' dependency(dependency=NULL) returns existing dependencies in order of precedence.
-#' 
+#' Note that the order of dependencies can be important - dependencies added most recently take precedence over existing dependencies.
+#' So, dependencies included in the dependency argument take precedence over any other existing dependencies.
+#' If the dependency argument includes more than one element, elements are ordered from lowest to highest precedence.
 #'
 #' @param scenario Scenario. The scenario to which a dependency is to be added (or has already been added if remove=TRUE). 
-#' @param dependency Scenario, character string, integer, or list/vector of these. The scenario(s) that is the source of the dependency. If NULL other arguments are ingored and the list of existing dependencies is returned.
+#' @param dependency Scenario, character string, integer, or list/vector of these. The scenario(s) that are the source of the dependency, in order from lowest to highest precedence. If NULL other arguments are ingored and the list of existing dependencies is returned.
 # @param scenario character string, integer, or vector of these. Name or ID of scenario(s) to which a dependency is to be added (or has been already added if remove=TRUE). If NULL then ssimObject must be a Scenario. Note that integer ids are slightly faster.
 #' @param remove logical. If F (default) dependencies are added. If T, dependencies are removed.
 #' @param force logical. If F (default) prompt before removing dependencies. 
