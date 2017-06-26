@@ -14,6 +14,7 @@ sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session 
 libPath = "C:/Temp/ST-Sim-Command-Line.ssim"
 delete(libPath,force=T) #remove old version of the library (if any). Start fresh.
 myLibrary = ssimLibrary(name=libPath,session=session(sessionPath)) #create a new library
+inherits(myLibrary,"SsimObject")
 myProject = project(myLibrary,project="ST-Sim Demonstration") #create a new project
 
 #***********************************

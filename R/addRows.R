@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -18,6 +18,7 @@ NULL
 #' @return A dataframe with new rows.
 #' @export
 setGeneric('addRows',function(targetDataframe,value) standardGeneric('addRows'))
+#' @describeIn addRows add rows to dataframe.
 setMethod('addRows',
   signature="data.frame",
   definition=function(targetDataframe,value){

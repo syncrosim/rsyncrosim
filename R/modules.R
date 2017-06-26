@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,11 +11,12 @@ NULL
 #' @return A dataframe of modules
 #' @export
 setGeneric('modules',function(session) standardGeneric('modules'))
+#' @describeIn modules Modules of the default Session.
 setMethod('modules', signature(session="missingOrNULL"), function(session) {
   session=.session()
   return(modules(session))
 })
-
+#' @describeIn modules Modules of a Session.
 setMethod('modules', signature(session="Session"), function(session) {
   #x=mySsim
   tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")

@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,7 +11,9 @@ NULL
 #' @return logical.
 #' @export
 setGeneric('silent',function(session) standardGeneric('silent'))
+#' @describeIn silent Get the silent property of a Session.
 setMethod('silent', signature(session="Session"), function(session) session@silent)
+#' @describeIn silent Get the silent property of the default Session.
 setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) {
   if(class(session)=="character"){
     session = .session(session)
@@ -29,6 +31,7 @@ setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) 
 #' @param value logical
 #' @export
 setGeneric('silent<-',function(session,value) standardGeneric('silent<-'))
+#' @rdname silent-set
 setReplaceMethod(
   f='silent',
   signature="Session",

@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,7 +11,9 @@ NULL
 #' @return The default model of a Session.
 #' @export
 setGeneric('defaultModel',function(session=NULL) standardGeneric('defaultModel'))
+#' @describeIn defaultModel defaultModel of a Session.
 setMethod('defaultModel', signature(session="Session"), function(session) session@defaultModel)
+#' @describeIn defaultModel defaultModel of the default Session.
 setMethod('defaultModel', signature(session="NULL"), function(session) {
   if(class(session)=="character"){
     session = .session(session)
@@ -29,6 +31,7 @@ setMethod('defaultModel', signature(session="NULL"), function(session) {
 #' @param value character. A SyncroSim model. See model() for options.
 #' @export
 setGeneric('defaultModel<-',function(session,value) standardGeneric('defaultModel<-'))
+#' @rdname defaultModel-set
 setReplaceMethod(
   f='defaultModel',
   signature="Session",

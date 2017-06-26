@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -10,5 +10,7 @@ NULL
 #' @param session Session.
 #' @export
 setGeneric('version',function(session=NULL) standardGeneric('version'))
+#' @describeIn version Version of the default Session.
 setMethod('version', signature(session="missingOrNULL"), function(session) {return(version(session()))})
+#' @describeIn version Version of a Session.
 setMethod('version', signature(session="Session"), function(session) {return(command(list(version=NULL),session))})

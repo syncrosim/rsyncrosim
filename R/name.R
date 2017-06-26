@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -8,8 +8,27 @@ NULL
 #' The name of an SsimLibrary, Project or Scenario.
 #'
 #' @param ssimObject SsimLibrary, Project, or Scenario.
+#' @return character string
 #' @export
 setGeneric('name',function(ssimObject) standardGeneric('name'))
+#' @rdname name
+setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLibrary
+  cInfo = info(ssimObject)
+  property=NULL
+  return(subset(cInfo,property=="Name:")$value)
+})
+#' @rdname name
+setMethod('name', signature(ssimObject="Scenario"), function(ssimObject) {
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$name)
+})
+#' @rdname name
+setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
+  info = project(ssimObject,summary=T)
+  return(info$name)
+})
+
 
 #' Set ssimObject name.
 #'
@@ -19,23 +38,7 @@ setGeneric('name',function(ssimObject) standardGeneric('name'))
 #' @param value The new name.
 #' @export
 setGeneric('name<-',function(ssimObject,value) standardGeneric('name<-'))
-
-setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLibrary
-  cInfo = info(ssimObject)
-  return(subset(cInfo,property=="Name:")$value)
-})
-
-setMethod('name', signature(ssimObject="Scenario"), function(ssimObject) {
-  scnInfo = scenario(ssimObject,summary=T)
-  return(scnInfo$name)
-})
-
-setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
-  info = project(ssimObject,summary=T)
-  return(info$name)
-})
-
+#' @rdname name-set
 setReplaceMethod(
   f='name',
   signature="SsimLibrary",
@@ -48,7 +51,7 @@ setReplaceMethod(
     return (ssimObject)
   }
 )
-
+#' @rdname name-set
 setReplaceMethod(
   f='name',
   signature="Project",
@@ -61,7 +64,7 @@ setReplaceMethod(
     return (ssimObject)
   }
 )
-
+#' @rdname name-set
 setReplaceMethod(
   f='name',
   signature="Scenario",

@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -29,10 +29,9 @@ NULL
 #' @param force logical. If datasheet scope is project/library, and append=F, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=T.
 # @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
 #' @return A success or failure message, or a list of these.
-#' @examples
-#'
 #' @export
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileData=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
+#' @describeIn saveDatasheet saveDatasheet of an SsimObject.
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
   #ssimObject = myProject;project=NULL;scenario=NULL;name=sheetName;data=stateClassDefinition;fileData=NULL;append=NULL;forceElements=F;force=F
   x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
@@ -150,14 +149,14 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         stop("names(fileData) must be defined, and each element must correspond uniquely to an entry in data")
       }
       
-      sheetInfo=subset(datasheet(newScenario,summary=T,optional=T),name==cName)
-      fileDir = .filepath(ssimObject)
+      sheetInfo=subset(datasheet(x,summary=T,optional=T),name==cName)
+      fileDir = .filepath(x)
       if(sheetInfo$isOutput){
         fileDir=paste0(fileDir,".output")
       }else{
         fileDir=paste0(fileDir,".input")
       }
-      fileDir=paste0(fileDir,"/Scenario-",.scenarioId(ssimObject),"/",cName)
+      fileDir=paste0(fileDir,"/Scenario-",.scenarioId(x),"/",cName)
       
       dir.create(fileDir, showWarnings = FALSE,recursive=T)
       
@@ -210,8 +209,8 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
 
     #cDat[,]=as.data.frame(lapply(cDat[,],FUN=function(x) {sapply(x, FUN=function(x){gsub("/","\\",x,fixed=T)})}),stringsAsFactors=F)
     cDat[is.na(cDat)]=""
-    
-    if(FALSE&&breakpoint){
+
+    if(FALSE){ #if(breakpoint){
       pathBit = paste0(.filepath(x),'.temp/Data')
     }else{
       pathBit = paste0(dirname(.filepath(x)),'/Temp')
@@ -221,7 +220,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     tempFile = paste0(pathBit,"/",cName,".csv")
     
     write.csv(cDat,file=tempFile,row.names=F,quote=T)
-    if(FALSE&&breakpoint){
+    if(FALSE){#if(breakpoint){
       out[[cName]] = "Saved"
       next
     }

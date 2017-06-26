@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -127,9 +127,10 @@ setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defau
 #' session(myLibrary)
 #' @export
 setGeneric('session<-',function(ssimObject,value) standardGeneric('session<-'))
+#' @rdname session-set
 setReplaceMethod(
   f='session',
-  signature="SsimLibrary",
+  signature="SsimObject",
   definition=function(ssimObject,value){
     if(class(value)!="Session"){
       stop('Must assign a Session object.')

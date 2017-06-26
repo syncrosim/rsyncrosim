@@ -34,16 +34,18 @@ For each element of project:
 }
 }
 \examples{
-#TODO – update examples
+#TODO - update examples
 # Create a new project
 myLibrary = ssimLibrary(name="stsim")
 myProject = project(ssimLibrary=mySsimLibrary, project="My new project name")
 
 # Get a named list of existing projects
-myProjects = project(myLibrary,summary=F) # Each element in the list is named by a character version of the project ID
+myProjects = project(myLibrary,summary=F) 
+# Each element in the list is named by a character version of the project ID
 names(myProjects)   # vector of the project ids
 
-# Get an existing project. Assume that name uniquely identifies a single project - give error if not
+# Get an existing project. 
+# Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[[1]]
 myProject = project(myLibrary, project="My new project name")
 

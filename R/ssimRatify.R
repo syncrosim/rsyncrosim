@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -27,6 +27,7 @@ NULL
 #' @param rat dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @export
 setGeneric('ssimRatify<-',function(raster,value) standardGeneric('ssimRatify<-'))
+#' @rdname ssimRatify-set
 setReplaceMethod(
   f='ssimRatify',
   signature="RasterLayer",

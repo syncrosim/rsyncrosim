@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -21,7 +21,8 @@ NULL
 #' @return Output from the SyncroSim program.
 #' @examples
 #' # Use a default session to creat a new library in the current working directory.
-#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="stsim:model-transformer")
+#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),
+#'   model="stsim:model-transformer")
 #' output = command(args,session=session(printCmd=T))
 #' output
 #' 

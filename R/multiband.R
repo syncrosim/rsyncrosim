@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -21,7 +21,8 @@ NULL
 #' # Combine spatial outputs into multi-band rasters containing a layer for each iteration.
 #' multiband(myResultScenario,action="apply",grouping="Iteration")
 #'
-#' # Combine spatial outputs into multi-band rasters containing a layer for each timestep and iteration.
+#' # Combine spatial outputs into multi-band rasters containing a layer 
+#' #for each timestep and iteration.
 #' multiband(myResultScenario,action="apply",grouping="All")
 #'
 #' # Remove multi-banding
@@ -29,6 +30,7 @@ NULL
 #'
 #' @export
 setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
+#' @describeIn multiband multiband a Scenario.
 setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
   #x=myResult;action="rebuild";grouping=NULL
   if(is.na(parentId(ssimObject))){

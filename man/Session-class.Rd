@@ -36,8 +36,9 @@ model(mySession) # Dataframe of the models installed with this version of syncro
 # Add and remove modules
 deleteModule("stsim-stock-flow",mySession) 
 is.element("stsim-stock-flow",modules(mySsim)$shortName)
-addModule("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg",mySession)
-addModule(c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg"),mySession)
+pkgDir ="C:/Program Files/SyncroSim/1/CorePackages/" 
+addModule(paste0(pkgDir,"stockflow.ssimpkg"),mySession)
+addModule(paste0(pkgDir,c("stockflow.ssimpkg","dynmult.ssimpkg"),mySession)
 is.element("stsim-stock-flow",modules(mySsim)$shortName)
 
 # Create or load a library using a default Session

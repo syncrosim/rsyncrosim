@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,11 +11,11 @@ NULL
 #' @return An integer project id.
 #' @export
 setGeneric('projectId',function(ssimObject) standardGeneric('projectId'))
-
+#' @describeIn projectId The id of a Project.
 setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
   return(ssimObject@projectId)
 })
-
+#' @describeIn projectId The projectId of a Scenario.
 setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
   return(ssimObject@projectId)
 })

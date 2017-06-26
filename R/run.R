@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -16,17 +16,15 @@ NULL
 #' @param jobs Iteger. The number of jobs to run. Passed to SyncroSim where multithreading is handled.
 #' @param forceElements Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.
 #' @return If summary=F a result Scenario object or a named list of result Scenarios. The name is the parent scenario for each result. If summary=T returns summary info for result scenarios. 
-#' @examples
-#'
 #' @export
 setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
-#Handles case where ssimObject is a path to an SyncroSim library on disk.
+#' @describeIn run Run from the filepath of an SsimLibrary.
 setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
   ssimObject = .ssimLibrary(ssimObject,create=F)
   out = run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
-#Handles case where ssimObject is a list of Scenarios.
+#' @describeIn run Run a list of Scenarios.
 setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,forceElements) {
   x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
   ssimObject = x$ssimObject
@@ -34,7 +32,7 @@ setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summ
   out=run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
-
+#' @describeIn run Run from an SsimObject.
 setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
   #x=myScenario;jobs=2;scenario=NULL
   
@@ -58,7 +56,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
     
     #x=myScenario
     if(class(x)=="Scenario"){
-      breakpoints = breakpoints(x)
+      breakpoints = NULL#breakpoints(x)
     }else{
       breakpoints=NULL
     }
@@ -76,26 +74,27 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
       # devtools::document();devtools::load_all()
       
       # create a session
-      cBreakpointSession=breakpointSession(x)
+      cBreakpointSession=NULL#breakpointSession(x)
       #TO DO: multiple tries in connection
       
       # load a library
       msg =paste0('load-library --lib=\"',filepath(x),'\"')
-      ret=remoteCall(cBreakpointSession,msg)
+      ret=NULL#remoteCall(cBreakpointSession,msg)
       if(ret!="NONE"){
         stop("Something is wrong: ",ret)
       }
       
       # set breakpoints
-      ret = setBreakpoints(cBreakpointSession)
+      ret = NULL#setBreakpoints(cBreakpointSession)
       if(ret!="NONE"){
         stop("Something is wrong: ",ret)
       }
       
       #resultId=ret
       resultId =   run(cBreakpointSession,jobs=jobs)
-      resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
-      close(connection(cBreakpointSession)) # Close the connection.
+      #resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
+      #close(connection(cBreakpointSession)) # Close the connection.
+      resp=NULL
       cBreakpointSession=NULL
     }
     inScn = paste0(name," (",cScn,")")
@@ -163,8 +162,9 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
     }, warning = function(w) {
       print(w)
     }, error = function(e) {
-      resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      #resp = writeLines("shutdown", connection(x),sep = "")
+      #close(connection(x)) # Close the connection.
+      resp=NULL
       stop(e)
     })
   }else{
@@ -176,8 +176,9 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
     }, warning = function(w) {
       print(w)
     }, error = function(e) {
-      resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      #resp = writeLines("shutdown", connection(x),sep = "")
+      #close(connection(x)) # Close the connection.
+      resp=NULL
       stop(e)
     })
     
@@ -185,8 +186,9 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
     tempFiles = list.files(tempPath,include.dirs=F)
     tempFiles = tempFiles[grepl(".ssim",tempFiles,fixed=T)&!grepl(".ssim.input",tempFiles,fixed=T)&!grepl(".ssim.output",tempFiles,fixed=T)]
     if(length(tempFiles)<=1){
-      resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      #resp = writeLines("shutdown", connection(x),sep = "")
+      #close(connection(x)) # Close the connection.
+      resp=NULL
       stop("Problem with split-scenario: only one job was created. This is known problem caused by dependencies that has not yet been fixed.")
     }else{
       jobs = length(tempFiles)
@@ -223,8 +225,9 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
       print(w)
     }, error = function(e) {
       print(tt)
-      resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      #resp = writeLines("shutdown", connection(x),sep = "")
+      #close(connection(x)) # Close the connection.
+      resp=NULL
       stop(e)
     })
     
@@ -241,8 +244,9 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
     }, warning = function(w) {
       print(w)
     }, error = function(e) {
-      resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      #resp = writeLines("shutdown", connection(x),sep = "")
+      #close(connection(x)) # Close the connection.
+      resp=NULL
       stop(e)
     })
     

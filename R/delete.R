@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -14,7 +14,7 @@ NULL
 #' @param force logical. If FALSE (default), user will be prompted to approve removal of each item.
 #' @return A list of "saved" or failure messages for each item.
 #' @examples
-#' TODO – update examples
+#' TODO - update examples
 #' myLibrary = ssimLibrary(session=devSession)
 #' myProject = project(myLibrary,project="a project")
 #' project(myLibrary)
@@ -25,6 +25,7 @@ NULL
 # Note delete supports character paths because sometimes we want to delete a library without updating it.
 # Note delete supports project/scenario arguments because sometimes we want to delete objects without creating them.
 setGeneric('delete',function(ssimObject,project=NULL,scenario=NULL,datasheet=NULL,force=F) standardGeneric('delete'))
+#' @describeIn delete Delete using a filepath.
 setMethod('delete', signature(ssimObject="character"), function(ssimObject,project,scenario,datasheet,force) {
   
   if(is.null(datasheet)&is.null(project)&is.null(scenario)){
@@ -36,7 +37,7 @@ setMethod('delete', signature(ssimObject="character"), function(ssimObject,proje
   #ssimObject=.ssimLibrary(ssimObject,create=F)
   #return(delete(ssimObject,project,scenario,datasheet,force))
 })
-
+#' @describeIn delete Delete from an SsimObject.
 setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,project,scenario,datasheet,force) {
   #ssimObject = myLibrary; project=.projectId(myProject);datasheet="STSim_StateLabelX";force=F
   xProjScn=.getFromXProjScn(ssimObject,project=project,scenario=scenario,returnIds=T,convertObject=F,complainIfMissing=T)

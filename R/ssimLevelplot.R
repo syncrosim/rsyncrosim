@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -17,6 +17,7 @@ NULL
 #' @param attribute character string. The attribute to be plotted. This must be a column name in the raster attribute table.
 #' @export
 setGeneric('ssimLevelplot',function(raster,attribute,...) standardGeneric('ssimLevelplot'))
+#' @describeIn ssimLevelplot Make a categorical levelplot of a RasterLayer.
 setMethod(
   f='ssimLevelplot',
   signature="RasterLayer",

@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,6 +11,7 @@ NULL
 #' @param session Session.
 #' @export
 setGeneric('addModule',function(filename,session=NULL) standardGeneric('addModule'))
+#' @describeIn addModule add module(s) given a character string.
 setMethod('addModule', signature(filename="character"), function(filename,session) {
   #x=mySsim
   #value=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")

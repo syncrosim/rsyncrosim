@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -38,12 +38,11 @@ NULL
 #' @param includeKey Logical. If TRUE include primary key in output table.
 #' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.
 #' @return If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe (for datasheets that allow multiple rows) or named vector (for datasheets that only allow one row), or list of these.
-#' @examples
-#'
 #' @export
 #' @import RSQLite
 setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
 #Handles case where ssimObject is list of Scenario or Project objects
+#' @describeIn datasheet Datasheet from a list of Scenario or Project objects.
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
   #ssimObject=myResults;name="STSim_OutputStratumTransition";project=NULL;scenario=NULL;summary=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements = mySQL
   cScn = ssimObject[[1]]
@@ -65,11 +64,12 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   
   return(out)
 })
-
+#' @describeIn datasheet Datasheet from an SsimObject.
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
   #ssimObject = myProject;name=sheetName;project=NULL;scenario=NULL;summary=NULL;optional=T
   #empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=T;forceElements=F
   
+  temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentScenarioID=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   if(class(xProjScn)=="SsimLibrary"){
     x=xProjScn

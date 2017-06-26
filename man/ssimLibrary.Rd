@@ -4,6 +4,7 @@
 \name{ssimLibrary}
 \alias{ssimLibrary}
 \alias{ssimLibrary,SsimObject-method}
+\alias{ssimLibrary,missingOrNULLOrChar-method}
 \title{Create or open a library.}
 \usage{
 ssimLibrary(name = NULL, summary = NULL, ...)
@@ -45,9 +46,11 @@ If summary = NULL, returns library summary info if ssimObject is an SsimLibrary,
 \section{Methods (by class)}{
 \itemize{
 \item \code{SsimObject}: Get the SsimLibrary associated with a SyncroSim Object.
+
+\item \code{missingOrNULLOrChar}: Get the SsimLibrary from a filepath.
 }}
 \examples{
-#TODO – update examples
+#TODO - update examples
 # See the installed models
 model(session())
 

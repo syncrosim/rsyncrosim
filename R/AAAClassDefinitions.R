@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 setClassUnion("missingOrNULL", c("missing", "NULL"))
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
@@ -26,8 +26,9 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' # Add and remove modules
 #' deleteModule("stsim-stock-flow",mySession) 
 #' is.element("stsim-stock-flow",modules(mySsim)$shortName)
-#' addModule("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg",mySession)
-#' addModule(c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg"),mySession)
+#' pkgDir ="C:/Program Files/SyncroSim/1/CorePackages/" 
+#' addModule(paste0(pkgDir,"stockflow.ssimpkg"),mySession)
+#' addModule(paste0(pkgDir,c("stockflow.ssimpkg","dynmult.ssimpkg"),mySession)
 #' is.element("stsim-stock-flow",modules(mySsim)$shortName)
 #'
 #' # Create or load a library using a default Session
@@ -40,6 +41,9 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' @name Session-class
 #' @rdname Session-class
 #' @export Session
+#' @importFrom grDevices col2rgb rgb
+#' @importFrom methods new slot slotNames
+#' @importFrom utils capture.output head read.csv write.csv
 Session <- setClass("Session", representation(filepath="character",silent="logical",printCmd="logical",defaultModel="character"))
 
 # SyncroSim Object class
@@ -56,7 +60,7 @@ SsimObject <- setClass("SsimObject", representation(session="Session",filepath="
 #'
 #' @seealso See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
 #' @examples
-#' #TODO – update examples
+#' #TODO - update examples
 #' # Create or load and query a SyncroSim Library.
 #' myLibrary = ssimLibrary()
 #' session(myLibrary)
@@ -91,7 +95,7 @@ SsimLibrary <- setClass("SsimLibrary", contains="SsimObject", representation())
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains="SsimObject",representation(projectId="numeric",scenarioId="numeric",parentId="numeric",breakpoints="list"))
+Scenario <- setClass("Scenario", contains="SsimObject",representation(projectId="numeric",scenarioId="numeric",parentId="numeric"))
 
 #' SyncroSim Project class
 #'

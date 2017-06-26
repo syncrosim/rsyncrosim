@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -22,9 +22,10 @@ NULL
 #' @return If dependency!=NULL, character string (saved or error message) or list of these. Otherwise, a dataframe of existing dependencies, or list of these.
 #' @export
 setGeneric('dependency',function(scenario,dependency=NULL,remove=F,force=F) standardGeneric('dependency'))
-
+#' @describeIn dependency Get, set, or remove dependencies of a Scenario.
 setMethod('dependency', signature(scenario="Scenario"), function(scenario,dependency,remove,force) {
   #scenario = myScenario; dependency="Dependency Scenario";remove=F;force=T
+  
   x=scenario
   cScn = scenarioId(scenario)
   cScnName = .name(scenario)
@@ -100,7 +101,7 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
         if(force){
           answer="y"
         }else{
-          answer <- readline(prompt=paste0("Do you really want to remove dependency ",cDepOutName," from ", cOut,"? (y/n): "))
+          answer <- readline(prompt=paste0("Do you really want to remove dependency ",cDepOutName," from ", outName,"? (y/n): "))
         }
         if(answer=="y"){
           args = list(delete=NULL,dependency=NULL,lib=.filepath(x),sid=cScn,did=cDep,force=NULL)

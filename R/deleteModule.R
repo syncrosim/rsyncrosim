@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -15,10 +15,12 @@ NULL
 #' @return "saved" or error message.
 #' @export
 setGeneric('deleteModule',function(name,session=NULL) standardGeneric('deleteModule'))
+#' @describeIn deleteModule deleteModule from a filepath or the default Session.
 setMethod('deleteModule', signature(session="missingOrNULLOrChar"), function(name,session) {
   session=.session(session)
   return(deleteModule(name,session))
 })
+#' @describeIn deleteModule deleteModule from a Session.
 setMethod('deleteModule', signature(session="Session"), function(name,session) {
   #name = "sample-basic-dotnet";session=session()
   installedModules=modules(session)

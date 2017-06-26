@@ -1,5 +1,4 @@
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -33,9 +32,11 @@ NULL
 #' 
 #' @examples 
 #' 
-#' datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",subset=expression(grepl("Ts0001",Filename,fixed=T)))
+#' datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
+#'   subset=expression(grepl("Ts0001",Filename,fixed=T)))
 #' @export
 setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster'))
+#' @describeIn datasheetRaster Rasters from a list of Scenario objects.
 setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
   # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL
   if(class(ssimObject[[1]])!="Scenario"){
@@ -58,7 +59,7 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
   }
   return(out)
 })
-
+#' @describeIn datasheetRaster Rasters from a Project or SsimLibrary.
 setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
   if(is.null(scenario)){
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
@@ -81,10 +82,11 @@ setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimOb
   return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements))
   
 })
-
+#' @describeIn datasheetRaster Rasters from a Scenario.
 setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
   # scenario= myResult[[2]]; datasheet="STSim_InitialConditionsSpatial";column="AgeFileName";iteration=NULL;timestep = NULL;rat=NULL;subset=NULL;forceElements=F
 
+  Timestep=NULL;Iteration=NULL;layerName=NULL;freq=NULL
   if(!is.null(scenario)){
     warning("scenario argument is ignored when ssimObject is a scenario.")
   }

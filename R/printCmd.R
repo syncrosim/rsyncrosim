@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,7 +11,9 @@ NULL
 #' @return logical.
 #' @export
 setGeneric('printCmd',function(session=NULL) standardGeneric('printCmd'))
+#' @describeIn printCmd The printCmd setting of a Session.
 setMethod('printCmd', signature(session="Session"), function(session) session@printCmd)
+#' @describeIn printCmd The printCmd setting of the default Session.
 setMethod('printCmd', signature(session="missingOrNULLOrChar"), function(session) {
   if(class(session)=="character"){
     session = .session(session)

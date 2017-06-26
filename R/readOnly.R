@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,6 +11,30 @@ NULL
 #' @return logical.
 #' @export
 setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
+#' @describeIn readOnly readOnly setting of an SsimLibrary.
+setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+  #ssimObject=myLibrary
+  cInfo = info(ssimObject)
+  property=NULL
+  oVal  = subset(cInfo,property=="Read Only:")$value
+  rVal=oVal
+  if(oVal=="Yes"){rVal=T}
+  if(oVal=="No"){rVal=F}
+  return(rVal)
+})
+#' @describeIn readOnly readOnly setting of a Project.
+setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
+  #ssimObject=myProject
+  scnInfo = project(ssimObject,summary=T)
+  return(scnInfo$readOnly)
+})
+#' @describeIn readOnly readOnly setting of a Scenario.
+setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
+  #ssimObject=newScenario
+  scnInfo = scenario(ssimObject,summary=T)
+  return(scnInfo$readOnly)
+})
+
 
 #' Set the read/write status of an SsimLibrary/Project/Scenario.
 #'
@@ -21,29 +45,7 @@ setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
 #' @param value Logical. If T the ssimObject will be read-only.
 #' @export
 setGeneric('readOnly<-',function(ssimObject,value) standardGeneric('readOnly<-'))
-
-setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLibrary
-  cInfo = info(ssimObject)
-  oVal  = subset(cInfo,property=="Read Only:")$value
-  rVal=oVal
-  if(oVal=="Yes"){rVal=T}
-  if(oVal=="No"){rVal=F}
-  return(rVal)
-})
-
-setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
-  #ssimObject=myProject
-  scnInfo = project(ssimObject,summary=T)
-  return(scnInfo$readOnly)
-})
-
-setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
-  #ssimObject=newScenario
-  scnInfo = scenario(ssimObject,summary=T)
-  return(scnInfo$readOnly)
-})
-
+#' @rdname readOnly-set
 setReplaceMethod(
   f='readOnly',
   signature="SsimObject",

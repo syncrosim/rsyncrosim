@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -10,19 +10,20 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' @export
 setGeneric('dateModified',function(ssimObject) standardGeneric('dateModified'))
-
+#' @describeIn dateModified dateModified of an SsimLibrary.
 setMethod('dateModified', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
+  property=NULL
   return(subset(cInfo,property=="Last Modified:")$value)
 })
-
+#' @describeIn dateModified dateModified of a Project.
 setMethod('dateModified', signature(ssimObject="Project"), function(ssimObject) {
   #ssimObject=myProject
   scnInfo = project(ssimObject,summary=T)
   return(scnInfo$lastModified)
 })
-
+#' @describeIn dateModified dateModified of a Scenario.
 setMethod('dateModified', signature(ssimObject="Scenario"), function(ssimObject) {
   #ssimObject=newScenario
   scnInfo = scenario(ssimObject,summary=T)

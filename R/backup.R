@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -10,7 +10,7 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' @export
 setGeneric('backup',function(ssimObject) standardGeneric('backup'))
-
+#' @describeIn backup Backup SsimObject.
 setMethod('backup', signature(ssimObject="SsimObject"), function(ssimObject) {
   #ssimObject=myLibrary
   tt = command(list(backup=NULL,lib=.filepath(ssimObject),input=NULL,output=NULL),session=.session(ssimObject))

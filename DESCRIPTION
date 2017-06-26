@@ -10,9 +10,10 @@ Description: rsyncrosim provides an interface to SyncroSim, a generalized
     as modules and take advantage of general features common to many kinds of
     simulation models, such as defining scenarios of model inputs, running Monte
     Carlo simulations, and viewing charts and maps of outputs.
-License: ?
+License: MIT + file LICENSE
 LazyData: TRUE
 Imports:
+    methods,
     DBI,
     RSQLite,
     Rcpp,
@@ -22,17 +23,15 @@ Imports:
 Suggests:
     plyr,
     ggplot2,
-    knitr,
-    rmarkdown,
-    testthat
+    knitr
 Collate:
     'AAAClassDefinitions.R'
     'addModule.R'
     'addRows.R'
     'addons.R'
     'backup.R'
-    'breakpointSession.R'
     'breakpoint.R'
+    'breakpointSession.R'
     'command.R'
     'dataframeFromSSim.R'
     'datasheet.R'
@@ -47,7 +46,6 @@ Collate:
     'disableAddon.R'
     'enableAddon.R'
     'filepath.R'
-    'fullFilename.R'
     'getFromXProjScn.R'
     'internalHelpers.R'
     'name.R'

@@ -1,5 +1,5 @@
 # addons of an SsimLibrary or Session
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -15,6 +15,7 @@ NULL
 #' addons(ssimLibrary(name="stsim"))
 #' @export
 setGeneric('addons',function(ssimObject,all=F) standardGeneric('addons'))
+#' @describeIn addons Available adddons.
 setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
@@ -22,9 +23,10 @@ setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
   tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
-
+#' @describeIn addons Addons of an SsimObject.
 setMethod('addons', signature(ssimObject="SsimObject"), function(ssimObject,all) {
   #x = myLibrary
+  enabled=NULL
   tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
   tt = .dataframeFromSSim(tt)
   if(!all){

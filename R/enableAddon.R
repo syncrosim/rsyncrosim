@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -17,7 +17,9 @@ NULL
 #' addons(myLibrary)
 #' @export
 setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
+#' @describeIn enableAddon Enable addons of an SsimLibrary.
 setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
+  enabled=NULL
   cAdds = addons(ssimLibrary,all=T)
   name=gsub(":add-on-transformer","",name,fixed=T)
   retList=list()

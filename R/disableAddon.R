@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -20,9 +20,11 @@ NULL
 #'
 #' @export
 setGeneric('disableAddon',function(ssimLibrary,name) standardGeneric('disableAddon'))
+#' @describeIn disableAddon Disable addons of an SsimLibrary.
 setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   #x=myLibrary
   #value = c("stsim-ecological-departure", "stsim-stock-flow")
+  enabled=NULL
   cAdds = addons(ssimLibrary,all=T)
   name=gsub(":add-on-transformer","",name,fixed=T)
   retList = list()

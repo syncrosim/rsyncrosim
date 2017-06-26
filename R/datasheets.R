@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -26,9 +26,13 @@ NULL
 #
 # @export
 #Note: this function is now internal. Should now only be called from datasheet.
-setGeneric('datasheets',function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F) standardGeneric('datasheets'))
+#setGeneric('datasheets',function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F) standardGeneric('datasheets'))
 
-setMethod('datasheets', signature(x="SsimObject"), function(x,project,scenario,scope,refresh) {
+#setMethod('datasheets', signature(x="SsimObject"), function(x,project,scenario,scope,refresh) {
+datasheets<-function(x,project,scenario,scope,refresh){
+  if(inherits(x,"SsimObject")){
+    stop("expecting SsimObject.")
+  }
   #x = myScn;project=NULL;scenario=NULL;empty=T;scope=NULL;refresh=T
   x = .getFromXProjScn(x,project,scenario)
   
@@ -68,4 +72,4 @@ setMethod('datasheets', signature(x="SsimObject"), function(x,project,scenario,s
   }
   datasheets=datasheets[order(datasheets$order),];datasheets$order=NULL
   return(datasheets)
-})
+}

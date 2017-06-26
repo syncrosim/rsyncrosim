@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,22 +11,25 @@ NULL
 #' @return A dataframe of models (for Session) or named vector of character strings (for SsimLibrary)
 #' @export
 setGeneric('model',function(ssimObject=NULL) standardGeneric('model'))
+#' @describeIn model Available models of the default Session.
 setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   ssimOject=session()
   tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)
 })
+#' @describeIn model Available models of a Session.
 setMethod('model', signature(ssimObject="Session"), function(ssimObject) {
   #x=session()
   tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)
 })
+#' @describeIn model Models of an SsimLibrary.
 setMethod('model', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLib
   oInf = info(ssimObject)
-  
+  property=NULL
   out=list(name=subset(oInf,property=="Model Name:")$value)
   out$description = subset(oInf,property=="Model Description:")$value
   out$version = subset(oInf,property=="Model Current Version:")$value

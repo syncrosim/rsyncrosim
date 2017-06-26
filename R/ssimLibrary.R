@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -9,6 +9,7 @@ setMethod(f='initialize',signature="SsimLibrary",
     definition=function(.Object,name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=T){
     #name="C:/Temp/NewLibrary.ssim";model=NULL;session=NULL;addon=c("stsim-ecological-departure");forceUpdate=T;create=T
     #if a syncrosim session is not provided, make one
+    enabled=NULL
     if(is.null(session)){
       session = .session()
     }
@@ -25,14 +26,16 @@ setMethod(f='initialize',signature="SsimLibrary",
     if(is.null(model)){
       model=defaultModel(session) #assume validity of session object has already been checked.
     }else{
-      modelOption = models(session)
+      modelOption = model(session)
       model=gsub(":model-transformer","",model,fixed=T)
       if(!is.element(model,modelOptions$name)){
         stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
       }
     }
     
-    path <- .fullFilename(name)
+    if (identical(basename(name), name)) {
+      path = file.path(getwd(), name)
+    }else{path=name}
     if(!grepl(".ssim",path)) path=paste0(path,".ssim")
 
     #if library does not exist on disk, create it
@@ -190,7 +193,7 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary) {
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
 #' @return An \code{SsimLibrary} object representing a SyncroSim library.
 #' @examples
-#' #TODO – update examples
+#' #TODO - update examples
 #' # See the installed models
 #' model(session())
 #'
@@ -216,7 +219,7 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary) {
 #' # Add a project and get the library associated with that project
 #' myProject = project(myLibrary,project="a project")
 #' myLibrary = ssimLibrary(myProject)
-#' @name ssimLibrary
+#' @describeIn ssimLibrary Get the SsimLibrary from a filepath.
 setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
           function(name=NULL,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) {
     newLib = new("SsimLibrary",name,model,session,addon,forceUpdate,create=T)

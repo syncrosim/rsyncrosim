@@ -1,4 +1,4 @@
-# Copyright © 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -130,7 +130,7 @@ camel <- function(x) {
 }
 
 #http://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
-#' @export
+# @export
 printAndCapture <- function(x)
 {
   paste(capture.output(print(x)), collapse = "\n")
