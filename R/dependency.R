@@ -60,6 +60,12 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
         outResults[[cDepRaw]]="Dependency not found in library, so ignored."  
       }
       cDep = allScns$scenarioId[allScns$name==cDepRaw]
+      if(length(cDep)==0){
+        stop("Could not find dependency scenario ",cDepRaw)
+      }
+      if(length(cDep)>1){
+        stop("Found more than one scenario named ",cDepRaw,". Please specify a dependency scenario id:",paste0(cDep,collapse=","))
+      }
     }
     if(class(cDepRaw)=="integer"){
       if(!is.element(cDepRaw,allScns$scenarioId)){
@@ -75,7 +81,7 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
     
     #if add
     if(!remove){
-      if(is.element(cDep,dependencySet$scenarioId)){
+      if((nrow(dependencySet)>0)&&is.element(cDep,dependencySet$scenarioId)){
         #msg = paste0(cDepOutName," is already a dependency of ", outName)
         #warning(msg)  
         #outResults[[cDepOutName]]=msg
@@ -93,7 +99,7 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
       }
       outResults[[cDepOutName]]=tt[1]
     }else{#remove
-      if(!is.element(cDep,dependencySet$scenarioId)){
+      if((nrow(dependencySet)==0)||!is.element(cDep,dependencySet$scenarioId)){
         msg = paste0(cDepOutName," is not a dependency of ", outName)
         warning(msg)  
         outResults[[cDepOutName]]=msg

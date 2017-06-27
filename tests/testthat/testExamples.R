@@ -192,29 +192,27 @@ test_that("Tests of projects and scenarios", {
   readOnly(myScn)=T
   expect_equal(readOnly(myScn),T)
   
-  dateModified(myProject)
-  dateModified(myScn)
-  parentId(myScn)#NA for scenarios that aren't results.
+  expect_equal(grepl("at",dateModified(myProject)),T)
+  expect_equal(grepl("at",dateModified(myScn)),T)
+  expect_equal(parentId(myScn),NA)#NA for scenarios that aren't results.
   
-  myLib = ssimLibrary(myProject) #get parent library
-  mySession = session(myProject) #get parent session
-  myLib = ssimLibrary(myScn) #get parent library
-  mySession = session(myScn) #get parent session
-  myProject=project(myScn) #get parent project
+  expect_is(ssimLibrary(myProject),"SsimLibrary") #get parent library
+  expect_is(session(myProject),"Session") #get parent session
+  expect_is(ssimLibrary(myScn),"SsimLibrary") #get parent library
+  expect_is(session(myScn),"Session") #get parent session
+  expect_equal(projectId(project(myScn)),projectId(myScn)) #get parent project
   
-  scenarioId(myScn)
-  projectId(myScn)
-  projectId(myProject)
-  filepath(myScn)
-  filepath(myProject)
-  ssimUpdate(myScn)
-  ssimUpdate(myProject)
+  expect_equal(file.exists(filepath(myScn)),T)
+  expect_equal(filepath(myScn),filepath(myProject))
+  expect_equal(ssimUpdate(myScn),"The library has no unapplied updates.")
+  expect_equal(ssimUpdate(myProject),"The library has no unapplied updates.")
   
   #test dependency, precedence setting
   scenario(myProject)
+  ret=scenario(myProject,scenario="another scn")
   targetScn = scenario(myProject,scenario="two")
-  dependency(targetScn)
-  dependency(targetScn,dependency=c("other","New scn name","another scn")) #elements of the dependency argument are ordered from lowest to highest precedence
+  ret=dependency(targetScn,dependency=c("other","New scn name","another scn")) #elements of the dependency argument are ordered from lowest to highest precedence
+  
   dependency(targetScn) #"another scn" was added last, so has highest precedence
   dependency(targetScn,dependency=c("another scn","New scn name")) #change the precedence of dependencies by adding them again.
   dependency(targetScn) #now "New scn name" has highest precedence.
