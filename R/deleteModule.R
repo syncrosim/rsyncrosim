@@ -29,7 +29,7 @@ setMethod('deleteModule', signature(session="Session"), function(name,session) {
     #i = 1
     cVal = name[i]
     if(!is.element(cVal,installedModules$name)){
-      print(paste0("Module ",cVal," is not installed, so cannot be removed."))
+      retList[[cVal]] = paste0("Module ",cVal," is not installed, so cannot be removed.")
       next
     }
     

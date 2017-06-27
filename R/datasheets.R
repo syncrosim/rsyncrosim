@@ -30,7 +30,7 @@ NULL
 
 #setMethod('datasheets', signature(x="SsimObject"), function(x,project,scenario,scope,refresh) {
 datasheets<-function(x,project,scenario,scope,refresh){
-  if(inherits(x,"SsimObject")){
+  if(!inherits(x,"SsimObject")){
     stop("expecting SsimObject.")
   }
   #x = myScn;project=NULL;scenario=NULL;empty=T;scope=NULL;refresh=T

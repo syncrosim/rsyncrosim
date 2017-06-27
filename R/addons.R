@@ -20,7 +20,7 @@ setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
   tt = .dataframeFromSSim(tt)
-  tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
+  #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
 #' @rdname addons
@@ -32,6 +32,6 @@ setMethod('addons', signature(ssimObject="SsimObject"), function(ssimObject,all)
   if(!all){
     tt=subset(tt,enabled=="Yes")
   }
-  tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
+  #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
