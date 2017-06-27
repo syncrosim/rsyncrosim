@@ -23,7 +23,8 @@ Imports:
 Suggests:
     plyr,
     ggplot2,
-    knitr
+    knitr,
+    testthat
 Collate:
     'AAAClassDefinitions.R'
     'addModule.R'

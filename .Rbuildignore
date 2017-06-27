@@ -4,3 +4,9 @@
 ^README\.Rmd$
 ^README-.*\.png$
 ^NEWS\.md$
+rsyncrosimFAQ\.R$
+rsyncrosim\.pdf$
+installRSyncroSim\.R$
+buildNotes\.R$
+Readme\-Development\.txt$
+TutorialsAndExamples
