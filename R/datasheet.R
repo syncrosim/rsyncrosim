@@ -42,7 +42,7 @@ NULL
 #' @import RSQLite
 setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
 #Handles case where ssimObject is list of Scenario or Project objects
-#' @describeIn datasheet Datasheet from a list of Scenario or Project objects.
+#' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
   #ssimObject=myResults;name="STSim_OutputStratumTransition";project=NULL;scenario=NULL;summary=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements = mySQL
   cScn = ssimObject[[1]]
@@ -64,7 +64,7 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   
   return(out)
 })
-#' @describeIn datasheet Datasheet from an SsimObject.
+#' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
   #ssimObject = myProject;name=sheetName;project=NULL;scenario=NULL;summary=NULL;optional=T
   #empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=T;forceElements=F

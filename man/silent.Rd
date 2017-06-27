@@ -22,10 +22,4 @@ logical.
 \description{
 Checks whether a SyncroSim Session is silent or not.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Session}: Get the silent property of a Session.
-
-\item \code{missingOrNULLOrChar}: Get the silent property of the default Session.
-}}
 

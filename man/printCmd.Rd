@@ -22,10 +22,4 @@ logical.
 \description{
 Get printCmd setting of a Session object.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Session}: The printCmd setting of a Session.
-
-\item \code{missingOrNULLOrChar}: The printCmd setting of the default Session.
-}}
 

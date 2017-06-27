@@ -11,7 +11,7 @@ NULL
 #' @return Character string of the run log.
 #' @export
 setGeneric('runLog',function(scenario) standardGeneric('runLog'))
-#' @describeIn runLog runLog of a result Scenario.
+#' @rdname runLog
 setMethod('runLog', signature(scenario="Scenario"), function(scenario) {
   tt=command(list(list=NULL,runlog=NULL,lib=.filepath(scenario),sid=.scenarioId(scenario)),.session(scenario))
   if(grepl("The scenario is not a result scenario",tt[1],fixed=T)){tt=tt[1];return(tt)}

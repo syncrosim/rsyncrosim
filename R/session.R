@@ -101,12 +101,12 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
 #' @export
 setGeneric('session',function(x=NULL,silent=T,printCmd=F,defaultModel="stsim") standardGeneric('session'))
 
-#' @describeIn session Create a SyncroSim Session from a filepath or get default Session.
+#' @rdname session
 setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,printCmd,defaultModel) {
   return(new("Session",x,silent,printCmd,defaultModel))
 })
 
-#' @describeIn session Get the Session associated with an SsimObject.
+#' @rdname session
 setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defaultModel) x@session)
 
 #' Set a SyncroSim session.

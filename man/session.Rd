@@ -30,12 +30,6 @@ An SyncroSim Session object containing a valid console path.
 \description{
 Methods to create a Syncrosim session or fetch one from a SsimLibrary, Project or Scenario object.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{missingOrNULLOrChar}: Create a SyncroSim Session from a filepath or get default Session.
-
-\item \code{SsimObject}: Get the Session associated with an SsimObject.
-}}
 \examples{
 # Look for SyncroSim in the usual places
 mySession = session()

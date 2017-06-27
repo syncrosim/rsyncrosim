@@ -22,12 +22,4 @@ description(ssimObject)
 \description{
 The description of an SsimLibrary/ProjectScenario.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimLibrary}: description of an SsimLibrary.
-
-\item \code{Project}: description of a Project.
-
-\item \code{Scenario}: description of a Scenrio.
-}}
 

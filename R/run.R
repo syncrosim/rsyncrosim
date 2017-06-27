@@ -18,13 +18,13 @@ NULL
 #' @return If summary=F a result Scenario object or a named list of result Scenarios. The name is the parent scenario for each result. If summary=T returns summary info for result scenarios. 
 #' @export
 setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
-#' @describeIn run Run from the filepath of an SsimLibrary.
+#' @rdname run
 setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
   ssimObject = .ssimLibrary(ssimObject,create=F)
   out = run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
-#' @describeIn run Run a list of Scenarios.
+#' @rdname run
 setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,forceElements) {
   x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
   ssimObject = x$ssimObject
@@ -32,7 +32,7 @@ setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summ
   out=run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
-#' @describeIn run Run from an SsimObject.
+#' @rdname run
 setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
   #x=myScenario;jobs=2;scenario=NULL
   

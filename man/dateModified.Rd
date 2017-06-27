@@ -22,12 +22,4 @@ dateModified(ssimObject)
 \description{
 The most recent modification date of an SsimLibrary/Project/Scenario
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimLibrary}: dateModified of an SsimLibrary.
-
-\item \code{Project}: dateModified of a Project.
-
-\item \code{Scenario}: dateModified of a Scenario.
-}}
 

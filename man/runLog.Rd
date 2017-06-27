@@ -19,8 +19,4 @@ Character string of the run log.
 \description{
 The runLog of a result Scenario
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Scenario}: runLog of a result Scenario.
-}}
 

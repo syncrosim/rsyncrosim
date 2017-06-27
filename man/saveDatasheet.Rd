@@ -42,8 +42,4 @@ If fileData !=NULL, each element of names(fileData) should correspond uniquely t
 rsyncrosim will write each element of fileData directly to the appropriate SyncroSim input/output folders.
 If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimObject}: saveDatasheet of an SsimObject.
-}}
 

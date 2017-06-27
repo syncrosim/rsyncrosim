@@ -19,20 +19,20 @@ setGeneric('owner',function(ssimObject) standardGeneric('owner'))
 #' @param value The new owner.
 #' @export
 setGeneric('owner<-',function(ssimObject,value) standardGeneric('owner<-'))
-#' @describeIn owner Owner of an SsimLibrary.
+#' @rdname owner
 setMethod('owner', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
   property=NULL
   return(subset(cInfo,property=="Owner:")$value)
 })
-#' @describeIn owner Owner of a Project.
+#' @rdname owner
 setMethod('owner', signature(ssimObject="Project"), function(ssimObject) {
   #ssimObject=myProject
   scnInfo = project(ssimObject,summary=T)
   return(scnInfo$owner)
 })
-#' @describeIn owner Owner of a Scenario.
+#' @rdname owner
 setMethod('owner', signature(ssimObject="Scenario"), function(ssimObject) {
   #ssimObject=newScenario
   scnInfo = scenario(ssimObject,summary=T)

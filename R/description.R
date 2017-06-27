@@ -19,19 +19,19 @@ setGeneric('description',function(ssimObject) standardGeneric('description'))
 #' @param value The new description.
 #' @export
 setGeneric('description<-',function(ssimObject,value) standardGeneric('description<-'))
-#' @describeIn description description of an SsimLibrary.
+#' @rdname description
 setMethod('description', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject)),session=.session(ssimObject))
   return(desc)
 })
-#' @describeIn description description of a Project.
+#' @rdname description
 setMethod('description', signature(ssimObject="Project"), function(ssimObject) {
   #ssimObject=myProject
   desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject)),session=.session(ssimObject))
   return(desc)
 })
-#' @describeIn description description of a Scenrio.
+#' @rdname description
 setMethod('description', signature(ssimObject="Scenario"), function(ssimObject) {
   #ssimObject=myProject
   desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),sid=.scenarioId(ssimObject)),session=.session(ssimObject))

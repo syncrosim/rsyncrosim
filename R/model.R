@@ -11,21 +11,21 @@ NULL
 #' @return A dataframe of models (for Session) or named vector of character strings (for SsimLibrary)
 #' @export
 setGeneric('model',function(ssimObject=NULL) standardGeneric('model'))
-#' @describeIn model Available models of the default Session.
+#' @rdname model
 setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   ssimOject=session()
   tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)
 })
-#' @describeIn model Available models of a Session.
+#' @rdname model
 setMethod('model', signature(ssimObject="Session"), function(ssimObject) {
   #x=session()
   tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)
 })
-#' @describeIn model Models of an SsimLibrary.
+#' @rdname model
 setMethod('model', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLib
   oInf = info(ssimObject)

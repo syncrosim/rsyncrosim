@@ -61,14 +61,6 @@ The names() of the returned raster stack contain metadata.
 For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
 For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{list}: Rasters from a list of Scenario objects.
-
-\item \code{SsimObject}: Rasters from a Project or SsimLibrary.
-
-\item \code{Scenario}: Rasters from a Scenario.
-}}
 \examples{
 
 datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",

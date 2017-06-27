@@ -21,10 +21,6 @@ saved or error message for each addon.
 \description{
 Enable addon or addons of an SsimLibrary.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimLibrary}: Enable addons of an SsimLibrary.
-}}
 \examples{
 TODO - update examples
 myLibrary = ssimLibrary()

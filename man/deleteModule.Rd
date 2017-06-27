@@ -27,10 +27,4 @@ Note that removing a module can be difficult to undo.
 To restore the module the user will need to provide a .ssimpkg file or reinstall SyncroSim.
 Thus, deleteModule() requires confirmation from the user.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{name = ANY,session = missingOrNULLOrChar}: deleteModule from a filepath or the default Session.
-
-\item \code{name = ANY,session = Session}: deleteModule from a Session.
-}}
 

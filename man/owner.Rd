@@ -22,12 +22,4 @@ owner(ssimObject)
 \description{
 The owner of an SsimLibrary/ProjectScenario
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimLibrary}: Owner of an SsimLibrary.
-
-\item \code{Project}: Owner of a Project.
-
-\item \code{Scenario}: Owner of a Scenario.
-}}
 

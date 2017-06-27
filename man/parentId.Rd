@@ -20,8 +20,4 @@ An integer id of the parent scenario.
 The id of the parent of a SyncroSim results scenario.
 NA if scenario is not a results scenario.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Scenario}: The parentId of a Scenario.
-}}
 

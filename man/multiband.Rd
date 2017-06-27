@@ -23,10 +23,6 @@ multiband(ssimObject, action, grouping = NULL)
 \description{
 Modify the grouping of spatial output layers in a SyncroSim results scenario.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Scenario}: multiband a Scenario.
-}}
 \examples{
 # Update an old scenario to allow rsyncrosim to access spatial output
 multiband(myResultScenario,action="rebuild")

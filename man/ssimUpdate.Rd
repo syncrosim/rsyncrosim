@@ -19,8 +19,4 @@ ssimUpdate(ssimObject)
 \description{
 Apply updates to a SyncroSim Library,or a Project or Scenario associated with a Library.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimObject}: Update the library of an SsimObject.
-}}
 

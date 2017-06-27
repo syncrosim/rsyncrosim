@@ -22,7 +22,7 @@ NULL
 #' @return If dependency!=NULL, character string (saved or error message) or list of these. Otherwise, a dataframe of existing dependencies, or list of these.
 #' @export
 setGeneric('dependency',function(scenario,dependency=NULL,remove=F,force=F) standardGeneric('dependency'))
-#' @describeIn dependency Get, set, or remove dependencies of a Scenario.
+#' @rdname dependency
 setMethod('dependency', signature(scenario="Scenario"), function(scenario,dependency,remove,force) {
   #scenario = myScenario; dependency="Dependency Scenario";remove=F;force=T
   

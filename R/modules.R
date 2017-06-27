@@ -11,12 +11,12 @@ NULL
 #' @return A dataframe of modules
 #' @export
 setGeneric('modules',function(session) standardGeneric('modules'))
-#' @describeIn modules Modules of the default Session.
+#' @rdname modules
 setMethod('modules', signature(session="missingOrNULL"), function(session) {
   session=.session()
   return(modules(session))
 })
-#' @describeIn modules Modules of a Session.
+#' @rdname modules
 setMethod('modules', signature(session="Session"), function(session) {
   #x=mySsim
   tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")

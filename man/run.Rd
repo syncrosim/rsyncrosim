@@ -40,12 +40,4 @@ Run one or more SyncroSim scenarios
 \details{
 Note that breakpoints are ignored unless ssimObject is a single scenario.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{character}: Run from the filepath of an SsimLibrary.
-
-\item \code{list}: Run a list of Scenarios.
-
-\item \code{SsimObject}: Run from an SsimObject.
-}}
 

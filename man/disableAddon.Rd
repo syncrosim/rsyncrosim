@@ -21,10 +21,6 @@ saved or error message.
 \description{
 Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimLibrary}: Disable addons of an SsimLibrary.
-}}
 \examples{
 TODO - update examples
 myLibrary = ssimLibrary()

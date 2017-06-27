@@ -11,11 +11,11 @@ NULL
 #' @return An integer project id.
 #' @export
 setGeneric('projectId',function(ssimObject) standardGeneric('projectId'))
-#' @describeIn projectId The id of a Project.
+#' @rdname projectId
 setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
   return(ssimObject@projectId)
 })
-#' @describeIn projectId The projectId of a Scenario.
+#' @rdname projectId
 setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
   return(ssimObject@projectId)
 })

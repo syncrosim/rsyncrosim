@@ -11,9 +11,9 @@ NULL
 #' @return The default model of a Session.
 #' @export
 setGeneric('defaultModel',function(session=NULL) standardGeneric('defaultModel'))
-#' @describeIn defaultModel defaultModel of a Session.
+#' @rdname defaultModel
 setMethod('defaultModel', signature(session="Session"), function(session) session@defaultModel)
-#' @describeIn defaultModel defaultModel of the default Session.
+#' @rdname defaultModel
 setMethod('defaultModel', signature(session="NULL"), function(session) {
   if(class(session)=="character"){
     session = .session(session)

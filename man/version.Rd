@@ -19,10 +19,4 @@ version(session = NULL)
 \description{
 The version of a SyncroSim Session
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{missingOrNULL}: Version of the default Session.
-
-\item \code{Session}: Version of a Session.
-}}
 

@@ -31,7 +31,7 @@ NULL
 #' @return A success or failure message, or a list of these.
 #' @export
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileData=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
-#' @describeIn saveDatasheet saveDatasheet of an SsimObject.
+#' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
   #ssimObject = myProject;project=NULL;scenario=NULL;name=sheetName;data=stateClassDefinition;fileData=NULL;append=NULL;forceElements=F;force=F
   x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)

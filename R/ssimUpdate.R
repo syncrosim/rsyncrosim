@@ -11,7 +11,7 @@ NULL
 #' @return "saved" or a failure message from the console.
 #' @export
 setGeneric('ssimUpdate',function(ssimObject) standardGeneric('ssimUpdate'))
-#' @describeIn ssimUpdate Update the library of an SsimObject.
+#' @rdname ssimUpdate
 setMethod('ssimUpdate', signature(ssimObject="SsimObject"), function(ssimObject) {
   #x= myLibrary
   #args = list(update=NULL,lib=.filepath(x));session=.session(x)

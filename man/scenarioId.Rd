@@ -19,8 +19,4 @@ integer id.
 \description{
 The scenarioId of a Scenario.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Scenario}: scenarioId of a Scenario.
-}}
 

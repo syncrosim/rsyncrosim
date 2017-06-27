@@ -10,20 +10,20 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' @export
 setGeneric('dateModified',function(ssimObject) standardGeneric('dateModified'))
-#' @describeIn dateModified dateModified of an SsimLibrary.
+#' @rdname dateModified
 setMethod('dateModified', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
   property=NULL
   return(subset(cInfo,property=="Last Modified:")$value)
 })
-#' @describeIn dateModified dateModified of a Project.
+#' @rdname dateModified
 setMethod('dateModified', signature(ssimObject="Project"), function(ssimObject) {
   #ssimObject=myProject
   scnInfo = project(ssimObject,summary=T)
   return(scnInfo$lastModified)
 })
-#' @describeIn dateModified dateModified of a Scenario.
+#' @rdname dateModified
 setMethod('dateModified', signature(ssimObject="Scenario"), function(ssimObject) {
   #ssimObject=newScenario
   scnInfo = scenario(ssimObject,summary=T)

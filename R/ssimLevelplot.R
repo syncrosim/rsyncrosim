@@ -18,7 +18,7 @@ NULL
 #' @param ... additional arguments passed to rasterVis::levelplot.
 #' @export
 setGeneric('ssimLevelplot',function(raster,attribute,...) standardGeneric('ssimLevelplot'))
-#' @describeIn ssimLevelplot Make a categorical levelplot of a RasterLayer.
+#' @rdname ssimLevelplot
 setMethod(
   f='ssimLevelplot',
   signature="RasterLayer",

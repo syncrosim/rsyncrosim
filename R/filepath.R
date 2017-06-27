@@ -10,7 +10,7 @@ NULL
 #' @param ssimObject An object containing a filepath.
 #' @export
 setGeneric('filepath',function(ssimObject) standardGeneric('filepath'))
-#' @describeIn filepath Path to the Syncrosim console in a Session.
+#' @rdname filepath
 setMethod('filepath', signature(ssimObject="Session"), function(ssimObject) ssimObject@filepath)
-#' @describeIn filepath Path to the library of an SsimObject.
+#' @rdname filepath
 setMethod('filepath', signature(ssimObject="SsimObject"), function(ssimObject) ssimObject@filepath)

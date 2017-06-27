@@ -11,7 +11,7 @@ NULL
 #' @return logical.
 #' @export
 setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
-#' @describeIn readOnly readOnly setting of an SsimLibrary.
+#' @rdname readOnly
 setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
@@ -22,13 +22,13 @@ setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) 
   if(oVal=="No"){rVal=F}
   return(rVal)
 })
-#' @describeIn readOnly readOnly setting of a Project.
+#' @rdname readOnly
 setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
   #ssimObject=myProject
   scnInfo = project(ssimObject,summary=T)
   return(scnInfo$readOnly)
 })
-#' @describeIn readOnly readOnly setting of a Scenario.
+#' @rdname readOnly readOnly
 setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
   #ssimObject=newScenario
   scnInfo = scenario(ssimObject,summary=T)

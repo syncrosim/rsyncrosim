@@ -22,10 +22,4 @@ The default model of a Session.
 \description{
 Get the default model from a Session.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Session}: defaultModel of a Session.
-
-\item \code{NULL}: defaultModel of the default Session.
-}}
 

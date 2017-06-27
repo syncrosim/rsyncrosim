@@ -21,10 +21,6 @@ ssimLevelplot(raster, attribute, ...)
 Plot a RasterLayer with raster attributes set by spatialData() or ssimRatify().
 This is a wrapper around the levelplot() function of the rasterVis package.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{RasterLayer}: Make a categorical levelplot of a RasterLayer.
-}}
 \examples{
 
 levels(myRaster) #Retrieve the raster attribute table

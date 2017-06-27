@@ -24,12 +24,6 @@ A dataframe of addons.
 \description{
 The addons of an SsimLibrary or Session.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Session}: Available adddons.
-
-\item \code{SsimObject}: Addons of an SsimObject.
-}}
 \examples{
 addons(ssimLibrary(name="stsim"))
 }

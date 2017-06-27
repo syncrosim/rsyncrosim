@@ -18,8 +18,4 @@ addModule(filename, session = NULL)
 \description{
 Add module or modules to SyncroSim
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{character}: add module(s) given a character string.
-}}
 

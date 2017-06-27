@@ -16,8 +16,4 @@ backup(ssimObject)
 \description{
 Backup an SsimLibrary.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimObject}: Backup SsimObject.
-}}
 

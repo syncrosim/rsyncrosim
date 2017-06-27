@@ -25,12 +25,4 @@ A dataframe of models (for Session) or named vector of character strings (for Ss
 \description{
 Models installed with this version of SyncroSim
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{missingOrNULL}: Available models of the default Session.
-
-\item \code{Session}: Available models of a Session.
-
-\item \code{SsimLibrary}: Models of an SsimLibrary.
-}}
 

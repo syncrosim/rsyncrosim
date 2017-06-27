@@ -11,9 +11,9 @@ NULL
 #' @return logical.
 #' @export
 setGeneric('printCmd',function(session=NULL) standardGeneric('printCmd'))
-#' @describeIn printCmd The printCmd setting of a Session.
+#' @rdname printCmd
 setMethod('printCmd', signature(session="Session"), function(session) session@printCmd)
-#' @describeIn printCmd The printCmd setting of the default Session.
+#' @rdname printCmd
 setMethod('printCmd', signature(session="missingOrNULLOrChar"), function(session) {
   if(class(session)=="character"){
     session = .session(session)

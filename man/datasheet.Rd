@@ -69,10 +69,4 @@ Otherwise, for each element in name a datasheet is returned as follows:
   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 }
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{list}: Datasheet from a list of Scenario or Project objects.
-
-\item \code{SsimObject}: Datasheet from an SsimObject.
-}}
 

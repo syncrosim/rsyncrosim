@@ -11,7 +11,7 @@ NULL
 #' @return integer id.
 #' @export
 setGeneric('scenarioId',function(scenario) standardGeneric('scenarioId'))
-#' @describeIn scenarioId scenarioId of a Scenario.
+#' @rdname scenarioId
 setMethod('scenarioId', signature(scenario="Scenario"), function(scenario) {
   return(scenario@scenarioId)
 })

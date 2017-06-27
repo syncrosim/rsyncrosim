@@ -33,12 +33,6 @@ A list of "saved" or failure messages for each item.
 \description{
 Deletes one or more items. Note this is irreversable.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{character}: Delete using a filepath.
-
-\item \code{SsimObject}: Delete from an SsimObject.
-}}
 \examples{
 TODO - update examples
 myLibrary = ssimLibrary(session=devSession)

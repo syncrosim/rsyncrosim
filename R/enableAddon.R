@@ -17,7 +17,7 @@ NULL
 #' addons(myLibrary)
 #' @export
 setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
-#' @describeIn enableAddon Enable addons of an SsimLibrary.
+#' @rdname enableAddon
 setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   enabled=NULL
   cAdds = addons(ssimLibrary,all=T)

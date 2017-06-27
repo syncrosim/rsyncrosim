@@ -20,7 +20,7 @@ NULL
 #'
 #' @export
 setGeneric('disableAddon',function(ssimLibrary,name) standardGeneric('disableAddon'))
-#' @describeIn disableAddon Disable addons of an SsimLibrary.
+#' @rdname disableAddon
 setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   #x=myLibrary
   #value = c("stsim-ecological-departure", "stsim-stock-flow")

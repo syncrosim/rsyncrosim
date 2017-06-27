@@ -22,10 +22,4 @@ A dataframe of modules
 \description{
 Modules installed with this version of SyncroSim
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{missingOrNULL}: Modules of the default Session.
-
-\item \code{Session}: Modules of a Session.
-}}
 

@@ -15,7 +15,7 @@ NULL
 #' addons(ssimLibrary(name="stsim"))
 #' @export
 setGeneric('addons',function(ssimObject,all=F) standardGeneric('addons'))
-#' @describeIn addons Available adddons.
+#' @rdname addons
 setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
@@ -23,7 +23,7 @@ setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
   tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
-#' @describeIn addons Addons of an SsimObject.
+#' @rdname addons
 setMethod('addons', signature(ssimObject="SsimObject"), function(ssimObject,all) {
   #x = myLibrary
   enabled=NULL

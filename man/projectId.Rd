@@ -22,10 +22,4 @@ An integer project id.
 \description{
 The projectId of a SyncroSim Project or Scenario.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Project}: The id of a Project.
-
-\item \code{Scenario}: The projectId of a Scenario.
-}}
 

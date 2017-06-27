@@ -19,10 +19,4 @@ filepath(ssimObject)
 \description{
 The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{Session}: Path to the Syncrosim console in a Session.
-
-\item \code{SsimObject}: Path to the library of an SsimObject.
-}}
 

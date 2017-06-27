@@ -11,9 +11,9 @@ NULL
 #' @return logical.
 #' @export
 setGeneric('silent',function(session) standardGeneric('silent'))
-#' @describeIn silent Get the silent property of a Session.
+#' @rdname silent
 setMethod('silent', signature(session="Session"), function(session) session@silent)
-#' @describeIn silent Get the silent property of the default Session.
+#' @rdname silent
 setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) {
   if(class(session)=="character"){
     session = .session(session)
