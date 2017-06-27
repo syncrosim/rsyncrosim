@@ -154,28 +154,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,sess
 #' If summary = T, returns library summary info. 
 #' If summary = NULL, returns library summary info if ssimObject is an SsimLibrary, SsimLibrary object otherwise.
 #'
-#' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject. Optional.
-#' @param summary logical. Default T
 #' @export
-setGeneric('ssimLibrary',function(name=NULL,summary=NULL,...) standardGeneric('ssimLibrary'))
-
-#' @describeIn ssimLibrary Get the SsimLibrary associated with a SyncroSim Object.
-setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary) {
-  #model=cScn
-  if(class(name)=="SsimLibrary"){
-    out=name
-    if(is.null(summary)){summary=T}
-  }else{
-    out = .ssimLibrary(name=.filepath(name),session=.session(name),create=F)
-    if(is.null(summary)){summary=F}
-  }
-  if(!summary){
-    return(out)
-  }
-  return(info(out))
-})
-
-
 #' @details
 #' 
 #' \itemize{
@@ -184,6 +163,8 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary) {
 #'   \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type model in the current working directory.}
 #'   \item {If given a name and a model: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 #' }
+#' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject. Optional.
+#' @param summary logical. Default T
 #' @param model Character. The model type. If NULL, defaultModel(session()) will be used.
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See addons() for options.
@@ -219,9 +200,28 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary) {
 #' # Add a project and get the library associated with that project
 #' myProject = project(myLibrary,project="a project")
 #' myLibrary = ssimLibrary(myProject)
-#' @describeIn ssimLibrary Get the SsimLibrary from a filepath.
+#' @export
+setGeneric('ssimLibrary',function(name=NULL,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
+
+#' @rdname ssimLibrary
+setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary,model,session,addon,forceUpdate) {
+  #model=cScn
+  if(class(name)=="SsimLibrary"){
+    out=name
+    if(is.null(summary)){summary=T}
+  }else{
+    out = .ssimLibrary(name=.filepath(name),session=.session(name),create=F)
+    if(is.null(summary)){summary=F}
+  }
+  if(!summary){
+    return(out)
+  }
+  return(info(out))
+})
+
+#' @rdname ssimLibrary
 setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
-          function(name=NULL,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) {
+          function(name=NULL,summary=NULL,model,session,addon,forceUpdate) {
     newLib = new("SsimLibrary",name,model,session,addon,forceUpdate,create=T)
     if(!is.null(summary)&&summary){
       return(info(newLib))

@@ -15,6 +15,7 @@ NULL
 #'
 #' @param raster A RasterLayer with a raster attribute table set by spatialData() or ssimRatify().
 #' @param attribute character string. The attribute to be plotted. This must be a column name in the raster attribute table.
+#' @param ... additional arguments passed to rasterVis::levelplot.
 #' @export
 setGeneric('ssimLevelplot',function(raster,attribute,...) standardGeneric('ssimLevelplot'))
 #' @describeIn ssimLevelplot Make a categorical levelplot of a RasterLayer.

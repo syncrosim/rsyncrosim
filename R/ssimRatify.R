@@ -24,7 +24,7 @@ NULL
 #' levels(myRaster) #retrieve raster attribute table
 #'
 #' @param raster A RasterLayer.
-#' @param rat dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
+#' @param value dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @export
 setGeneric('ssimRatify<-',function(raster,value) standardGeneric('ssimRatify<-'))
 #' @rdname ssimRatify-set
@@ -32,7 +32,7 @@ setReplaceMethod(
   f='ssimRatify',
   signature="RasterLayer",
   definition=function(raster,value){
-  rat = value
+  rat=value
   rat=subset(rat,select=c("ID",setdiff(names(rat),c("ID"))))
   rat=rat[order(rat$ID),]
 

@@ -14,6 +14,8 @@ ssimLevelplot(raster, attribute, ...)
 \item{raster}{A RasterLayer with a raster attribute table set by spatialData() or ssimRatify().}
 
 \item{attribute}{character string. The attribute to be plotted. This must be a column name in the raster attribute table.}
+
+\item{...}{additional arguments passed to rasterVis::levelplot.}
 }
 \description{
 Plot a RasterLayer with raster attributes set by spatialData() or ssimRatify().

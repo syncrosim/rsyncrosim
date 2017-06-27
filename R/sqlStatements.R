@@ -3,17 +3,31 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Get SELECT and GROUP BY Statements
+#' Construct an SQLite query
 #'
-#' Creates SELECT and GROUP BY SQL Satements.
-#' Variables are column names.
-#' Variables not included in groupBy or aggregate will be dropped from the table.
+#' Creates SELECT, GROUP BY and WHERE SQL statements.
+#' The resulting list of SQL statements will be converted to an SQLite database query by the datasheet() function.
+#' 
+#' @details
+#' Variables are column names of the datasheet. See column names using datasheet(,empty=T).
+#' Variables not included in groupBy, aggregate or where will be dropped from the table.
+#' Note that it is not possible to construct a complete SQL query at this stage, 
+#' because the datasheet() function may add ScenarioID and/or ProjectID to the query.
 #'
-#' @param groupBy Vector of variables to GROUP BY.
-#' @param aggregate Vector of variables to aggregate using aggregateFunction
-#' @param aggregateFunction An SQL aggregate function (e.g. SUM, COUNT)
-#' @param where A list of subset variables.
-#' @return A list of SQL SELECT and GROUP BY statements.
+#' @param groupBy character string or vector of these. Vector of variables (column names) to GROUP BY. 
+#' @param aggregate character string of vector of these. Vector of variables (column names) to aggregate using aggregateFunction
+#' @param aggregateFunction character string. An SQL aggregate function (e.g. SUM, COUNT)
+#' @param where named list. A list of subset variables. Names are column names, and elements are the values to be selected from each column.
+#' @return A list of SELECT, GROUP BY and WHERE SQL statements used by datasheet() to construct an SQLite database query.
+#' 
+#' @examples 
+#' 
+#' #Query the total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID, 
+#' #including only Timesteps 0,1 and 2, and Iterations 3 and 4.
+#' mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),
+#'   aggregate=c("Amount"),where=list(Timestep=c(0,1,2),Iteration=c(3,4)))
+#' mySQL 
+#' 
 #' @export
 sqlStatements<-function(groupBy=NULL,aggregate=NULL,aggregateFunction="SUM",where=NULL){
   #groupBy=NULL;aggregate=NULL;aggregateFunction="SUM";where=list(Timestep=c(0,1,2),Iteration=c(3,4))

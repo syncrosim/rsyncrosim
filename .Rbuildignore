@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^buildPackage\.R$          # Notes on how to build the package.
+^README\.Rmd$
+^README-.*\.png$
+^NEWS\.md$

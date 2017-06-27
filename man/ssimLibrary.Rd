@@ -7,9 +7,11 @@
 \alias{ssimLibrary,missingOrNULLOrChar-method}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(name = NULL, summary = NULL, ...)
+ssimLibrary(name = NULL, summary = NULL, model = NULL, session = NULL,
+  addon = NULL, forceUpdate = F)
 
-\S4method{ssimLibrary}{SsimObject}(name, summary)
+\S4method{ssimLibrary}{SsimObject}(name = NULL, summary = NULL,
+  model = NULL, session = NULL, addon = NULL, forceUpdate = F)
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, summary = NULL,
   model = NULL, session = NULL, addon = NULL, forceUpdate = F)
@@ -43,12 +45,6 @@ If summary = NULL, returns library summary info if ssimObject is an SsimLibrary,
   \item {If given a name and a model: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 }
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{SsimObject}: Get the SsimLibrary associated with a SyncroSim Object.
-
-\item \code{missingOrNULLOrChar}: Get the SsimLibrary from a filepath.
-}}
 \examples{
 #TODO - update examples
 # See the installed models

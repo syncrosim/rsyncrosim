@@ -13,7 +13,7 @@ ssimRatify(raster) <- value
 \arguments{
 \item{raster}{A RasterLayer.}
 
-\item{rat}{dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.}
+\item{value}{dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.}
 }
 \description{
 Set attributes and colors of a Raster object.
