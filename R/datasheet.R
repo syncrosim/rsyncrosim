@@ -58,6 +58,7 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
     scenario=NULL
   }
   ssimObject=x$ssimObject
+  if(is.null(ssimObject)){stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")}
   #Now have scenario/project ids of same type in same library, and ssimObject is library
   
   out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey,forceElements=forceElements)

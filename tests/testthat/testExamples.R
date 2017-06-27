@@ -102,108 +102,95 @@ test_that("Tests of projects and scenarios", {
   myOtherLib = ssimLibrary(name="temp27",session=mySession)
   
   myOtherScn = scenario(myOtherLib,scenario="other")
-  scenario(myOtherLib)
-  delete(myOtherLib,scenario="other",force=T)
-  scenario(myOtherLib)
+  expect_is(myOtherScn,"Scenario")
+  expect_equal(scenario(myOtherLib)$scenarioId,1)
+  ret=delete(myOtherLib,scenario="other",force=T)
+  expect_equal(nrow(scenario(myOtherLib)),0)
   myOtherScn = scenario(myOtherLib,scenario="other2")
   
-  project(myOtherLib)
-  scenario(myOtherLib)
-  
+  expect_equal(names(project(myOtherLib)),c("projectId","name","owner","lastModified","readOnly"))
+  expect_equal(names(scenario(myOtherLib)),c("scenarioId","projectId","name","isResult","parentScenarioID","owner","lastModified","readOnly"))
+
   myProject = project(myLib,project="temp")
-  datasheet(myProject) #Only scope, name and displayName returned
-  datasheet(myLib,project="temp") #same thing, but more system calls. Generally using ids/objects is faster than using names.
-  str(datasheet(myProject,optional=T)) #all info
-  #NOTE: data column only available for scenario scope datasheets
-  #NOTE: dataInherited and dataSource columns added if there are dependencies. 
-  
-  project(myLib)
-  
-  #scenario(myLib,scenario=1) # Fail: need a name to create a scenario
+  expect_is(myProject,"Project")
+  expect_equal(names(datasheet(myProject)),c("scope","name","displayName")) #Only scope, name and displayName returned
+  expect_equal(is.element("STime_Map",datasheet(myLib,project="temp")$name),T) #same thing, but more system calls. Generally using ids/objects is faster than using names.
+  expect_equal(names(datasheet(myProject,optional=T)),c("scope","module","name","displayName","isSingle","isOutput"))
+
+  expect_error(scenario(myLib,scenario=1),"Scenario ids (1) not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.",fixed=T) # Fail: need a name to create a scenario
   myScn = scenario(myLib,scenario="one") #Ok because only one project in the library.
-  scenario(myLib)
-  project(myLib)
+  expect_is(myScn,"Scenario")
   myProject = project(myLib,project="temp2")
+  expect_equal(project(myLib)$name,c("temp","temp2"))
   myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
   myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
+  expect_equal(scenario(myLib)$name,c("one","one"))
   
-  #myScn = scenario(myLib,scenario="one") #Fails because now there are two scenarios called "one" in the library.
-  scenario(myLib)
+  expect_error(scenario(myLib,scenario="one"),"The ssimObject contains more than one scenario called one. Specify a scenario id: 1,2",fixed=T) #Fails because now there are two scenarios called "one" in the library.
   myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
-  scenario(myLib)
+  expect_equal(scenario(myLib)$scenarioId,c(1,3))
   myScn = scenario(myProject,scenario="two",overwrite=T,sourceScenario=1) #Can copy scenarios between projects.
-  scenario(myLib)
+  expect_equal(projectId(myScn),10)
   myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
-  scenario(myLib)
+  expect_equal(scenarioId(myScn),5)
   
   myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
   
-  project(myLib)
   myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
-  project(myLib)
-  myOtherProject=project(myLib,project="temp",sourceProject="temp2")#Warns that sourceProject is ignored because "temp" already exists.
+  expect_equal(projectId(myOtherProject),19)
+  expect_warning(project(myLib,project="temp",sourceProject="temp2"),"Project  (1) already exists, so sourceProject argument was ignored.",fixed=T)#Warns that sourceProject is ignored because "temp" already exists.
   myOtherProject=project(myLib,project="copy2",sourceProject="temp2")#Copy a project by name
-  project(myLib)
-  
-  scenario(myLib)
-  projectId(myProject)
-  delete(myProject,scenario="one",force=T)
+  expect_equal(project(myLib)$name,c("copy","copy2","temp","temp2"))
+  ret =delete(myProject,scenario="one",force=T)
   myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
-  myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sourceScenario will be ignored.
-  #myScn = scenario(myProject,scenario="three",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
-  scenarioId(myScn)
-  scenario(myScn,summary=T) #return summary info
+  expect_equal(scenarioId(myScn),6)
+  scenario(myLib)
+  expect_warning(scenario(myProject,scenario="one",sourceScenario="one"),"ourceScenario was ignored because scenario already exists.",fixed=T) #Warns that sourceScenario will be ignored.
+  expect_error(scenario(myProject,scenario="three",sourceScenario="one"),"There is more than one scenario called one in the SsimLibrary. Please provide a sourceScenario id: 1,6",fixed=T) #Fail if more than one scenario named sourceScenario in the library.
+
+  expect_equal(nrow(scenario(myScn,summary=T)),1) #return summary info
+  expect_is(datasheet(myScn,"SSim_Files"),"data.frame")#returns a datasheet
+  expect_is(datasheet(myScn,"SSim_Files",forceElements=T),"list") #returns a list
+
+  expect_equal(length(datasheet(myScn,c("SSim_Settings","SSim_Files"))),2) #returns a list
+
+  allScns = scenario(myProject,summary=F)
+  expect_equal(names(allScns),c("4","5","6"))
   
-  aSheet = datasheet(myScn,"SSim_Files")#returns a datasheet
-  str(aSheet)
+  expect_equal(is.element("ScenarioID",names(datasheet(myLib,c("STSim_RunControl","STSim_OutputOptions"),scenario=as.numeric(names(allScns)))[[1]])),T) #returns a list - each sheet contains scenario info if appropriate
+
+  expect_equal(length(datasheet(allScns,c("STSim_RunControl","STSim_OutputOptions"))),2) #returns a list - each sheet contains scenario info if appropriate
+
+  datasheet(myProject)
+  expect_warning(datasheet(myScn,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and scenario arguments.
+  expect_warning(datasheet(myProject,"STime_Chart",project=1),"project argument is ignored when ssimObject is a Project/Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and project arguments.
+  expect_warning(datasheet(allScns,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a list.",fixed=T)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
   
-  aSheet = datasheet(myScn,"SSim_Files",forceElements=T) #returns a list
-  str(aSheet)
-  
-  someSheets = datasheet(myScn,c("SSim_Settings","SSim_Files")) #returns a list
-  str(someSheets)
-  
-  allScns = scenario(myLib,summary=F)
-  names(allScns)
-  someSheets = datasheet(myLib,c("STSim_RunControl","STSim_Transition"),scenario=as.numeric(names(allScns))) #returns a list - each sheet contains scenario info if appropriate
-  str(someSheets)
-  someSheets = datasheet(allScns,c("STSim_RunControl","STSim_Transition")) #returns a list - each sheet contains scenario info if appropriate
-  str(someSheets)
-  
-  aSheet = datasheet(myScn,"STSim_RunControl",scenario=1)#Warn of conflict between ssimObject and scenario arguments.
-  aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict between ssimObject and project arguments.
-  anotherScn = scenario(myProject,"another scn")
-  aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
-  
-  myScn = scenario(myProject,scenario="one")
-  runLog(myScn) #Returns message if the scenario is not a result scenario.
+  expect_equal(runLog(myScn),"The scenario is not a result scenario: 6") #Returns message if the scenario is not a result scenario.
   
   #get/set properties
-  name(myProject)
   name(myProject) = "New project name"
-  name(myProject)
+  expect_equal(name(myProject),"New project name")
   
-  name(myScn)
   name(myScn) = "New scn name"
-  name(myScn)
+  expect_equal(name(myScn),"New scn name")
   
   description(myProject) = "A new description.\nTry a linebreak." #NOTE: \n adds a linebreak to the description
-  description(myProject) 
+  expect_equal(description(myProject)[2]="A new description.")
   description(myScn) = "Hi"
-  description(myScn) 
+  expect_equal(grepl("Hi",description(myScn)[2]),T) 
   
   owner(myProject) ="Fred"
-  owner(myProject)
+  expect_equal(owner(myProject),"Fred")
   owner(myScn) ="Alice"
-  owner(myScn)
+  expect_equal(owner(myScn),"Alice")
   
   readOnly(myProject)=T
-  readOnly(myProject)
+  expect_equal(readOnly(myProject),T)
   readOnly(myProject)=F
-  readOnly(myProject) 
-  
+  expect_equal(readOnly(myProject),F) 
   readOnly(myScn)=T
-  readOnly(myScn)
+  expect_equal(readOnly(myScn),T)
   
   dateModified(myProject)
   dateModified(myScn)

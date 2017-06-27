@@ -97,7 +97,7 @@ getIdsFromListOfObjects<-function(ssimObject,expecting=NULL,scenario=NULL,projec
 getScnSet<-function(ssimObject){
   #get current scenario info
   tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  scnSet=.dataframeFromSSim(tt,localNames=T)
+  scnSet=.dataframeFromSSim(tt,localNames=T,convertToLogical=c("readOnly"))
   names(scnSet)[names(scnSet)=="scenarioID"]="scenarioId"
   names(scnSet)[names(scnSet)=="projectID"]="projectId"
   if(nrow(scnSet)==0){
@@ -108,12 +108,11 @@ getScnSet<-function(ssimObject){
   }
   return(scnSet)
 }
-
 #get projectSet
 getProjectSet<-function(ssimObject){
   #ssimObject=myLibrary
   tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  projectSet=.dataframeFromSSim(tt)
+  projectSet=.dataframeFromSSim(tt,localNames=T,convertToLogical=c("readOnly"))
   if(nrow(projectSet)==0){
     projectSet[1,"iD"]=NA
   }

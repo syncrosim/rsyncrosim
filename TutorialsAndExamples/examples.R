@@ -185,13 +185,13 @@ str(someSheets)
 
 allScns = scenario(myLib,summary=F)
 names(allScns)
-someSheets = datasheet(myLib,c("STSim_RunControl","STSim_Transition"),scenario=as.numeric(names(allScns))) #returns a list - each sheet contains scenario info if appropriate
+someSheets = datasheet(myLib,c("STSim_RunControl","STSim_OutputOptions"),scenario=as.numeric(names(allScns))) #returns a list - each sheet contains scenario info if appropriate
 str(someSheets)
-someSheets = datasheet(allScns,c("STSim_RunControl","STSim_Transition")) #returns a list - each sheet contains scenario info if appropriate
+someSheets = datasheet(allScns,c("STSim_RunControl","STSim_OutputOptions")) #returns a list - each sheet contains scenario info if appropriate
 str(someSheets)
 
 aSheet = datasheet(myScn,"STSim_RunControl",scenario=1)#Warn of conflict between ssimObject and scenario arguments.
-aSheet = datasheet(myProject,"STSim_StateClass",project=1)#Warn of conflict between ssimObject and project arguments.
+aSheet = datasheet(myProject,"STime_Chart",project=1)#Warn of conflict between ssimObject and project arguments.
 anotherScn = scenario(myProject,"another scn")
 aSheet = datasheet(allScns,"STSim_RunControl",scenario=anotherScn)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
