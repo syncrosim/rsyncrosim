@@ -158,7 +158,7 @@ mySheet
 saveDatasheet(myScenario,mySheet,name=sheetName)
 
 #*************************************
-# Add Harvest Scenario
+# Add No Harvest Scenario
 #*************************************
 myScenario = scenario(myProject,scenario="No Harvest")
 
@@ -199,7 +199,6 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 #********************************
 # Run scenarios
 #******************************
-
 myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
 
 scnList = scenario(myProject,scenario=c("Harvest","No Harvest"))

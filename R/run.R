@@ -36,7 +36,7 @@ setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summ
 setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
   #x=myScenario;jobs=2;scenario=NULL
   
-  xProjScn = .getFromXProjScn(ssimObject,scenario=scenario,convertObject=F,returnIds=T,goal="scenario",complainIfMissing=T)
+  xProjScn = .getFromXProjScn(ssimObject,scenario=scenario,convertObject=T,returnIds=T,goal="scenario",complainIfMissing=T)
   #Now assume scenario is x is valid object and scenario is valid vector of scenario ids
   x = xProjScn$ssimObject
   scenario = xProjScn$scenario

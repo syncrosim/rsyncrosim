@@ -502,8 +502,16 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             allScns$parentScenarioID=NA
           }
           allScns=subset(allScns,select=c(scenarioId,projectId,name,parentScenarioID))
-          names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ScenarioParent")
-          sheet=merge(allScns,sheet,all.Y=T)
+          allScns$parentScenarioID=suppressWarnings(as.numeric(allScns$parentScenarioID))
+          parentNames = subset(allScns,select=c(scenarioId,name))
+          names(parentNames)=c("parentScenarioID","ParentName")
+          allScns=merge(allScns,parentNames,all.x=T)
+          
+          allScns = subset(allScns,select=c(scenarioId,projectId,name,parentScenarioID,ParentName))
+          
+          names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ParentID","ParentName")
+          
+          sheet=merge(allScns,sheet,all.y=T)
         }
       }
     }
