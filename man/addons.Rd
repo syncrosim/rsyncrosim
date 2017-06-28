@@ -3,13 +3,13 @@
 \docType{methods}
 \name{addons}
 \alias{addons}
-\alias{addons,Session-method}
 \alias{addons,SsimObject-method}
+\alias{addons,missingOrNULL-method}
 \title{addons of an SsimLibrary or Session}
 \usage{
 addons(ssimObject, all = F)
 
-\S4method{addons}{Session}(ssimObject, all = F)
+\S4method{addons}{missingOrNULL}(ssimObject, all = F)
 
 \S4method{addons}{SsimObject}(ssimObject, all = F)
 }

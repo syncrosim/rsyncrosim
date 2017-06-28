@@ -88,6 +88,11 @@ setMethod(f='initialize',signature="SsimLibrary",
         stop("Cannot open a library with unapplied updates.")
       }
       tt = command(args,session)
+    }else{
+      if(grepl("The library ",tt[[1]])){
+        stop("Problem loading library: ",tt[1]) 
+      }
+      
     }
     datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
     datasheets$scope = sapply(datasheets$scope,camel)

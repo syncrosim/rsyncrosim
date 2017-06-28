@@ -1,50 +1,42 @@
-# source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
-#library(plyr);library(rsyncrosim);library(raster);library(rasterVis)
-#library(testthat)
+#setwd("C:/gitprojects/rsyncrosim")
+#setwd(retDir)
 retDir = getwd()
-#setwd("..")
-#getwd()
 unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
 
-# **********************************************************
-# STSimSpatialTutorial.R
-# Getting started with ST-Sim spatial models using rsyncrosim - view spatial inputs and outputs
-# http://syncrosim.com/index.php?title=Getting_Started#Spatial_models_in_ST-Sim:_getting_from_non-spatial_to_spatial
-# **********************************************************
-# Author Josie Hughes, ApexRMS
-# Date 2016.12.06
-# **********************************************************
-
 test_that("Test simple spatial STSim example", {
-  library(raster);library(rasterVis)
   libRoot = getwd()
-  libPath = paste0(libRoot,"/ST-Sim Spatial Tutorial/ST-Sim Spatial Tutorial.ssim")
-  #download library if necessary.
+  libName = "ST-Sim Spatial Tutorial"
+  libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
+  #TO DO: fix this when ftp is working again
   if(!file.exists(libPath)){
-    zipPath = paste0(libRoot,"/ST-Sim Spatial Tutorial.zip")
+    zipPath = paste0(libRoot,"/",libName,".zip")
     if(!file.exists(zipPath)){
-      libURL = "http://www.apexrms.com//downloads/syncrosim/ST-Sim%20Spatial%20Tutorial.zip"
-      download.file(libURL, zipPath,quiet=T)
-
+      libURL = "http://www.apexrms.com//wp-content//uploads//ST-Sim-Spatial-Tutorial.zip"
+      download.file(libURL, zipPath)
+    }else{
+      file.exists("C:/Temp/ST-Sim Spatial Tutorial.zip")
+      file.copy("C:/Temp/ST-Sim Spatial Tutorial.zip",libRoot)
     }
-    unzip(zipPath,exdir=paste0(libRoot,"/ST-Sim Spatial Tutorial"),overwrite=T,unzip = "unzip")
+    unzip(zipPath,exdir=paste0(libRoot,"/",libName),overwrite=T,unzip = "unzip")
   }
 
   #*************************************
   # View  "STSim_OutputSpatialState" results
   myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
 
-  myProject = project(myLibrary,summary=F,forceElements=T)[[1]]
-
-  if(!is.element(7,scenario(myProject)$scenarioId)){
-    temp = run(myProject,5,onlyIds=T)
-  }
-  myResult = scenario(myProject,scenario=c(6,7))
-
+  myProject = project(myLibrary,project=1)
+  
+  run(myProject,5,summary=T)
+  
+  resultScns = scenario(myProject,results=T)
+  myResult = scenario(myProject,scenario=tail(resultScns,n=2)$scenarioId)
+  
   expect_equal(length(myResult),2)
   expect_is(myResult[[1]],"Scenario")
+  
+  #RESUME HERE
 
   #*************************************
   # View state class output

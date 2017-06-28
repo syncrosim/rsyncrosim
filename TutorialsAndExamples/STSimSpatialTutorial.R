@@ -21,7 +21,7 @@ delete(libPath,force=T)# start fresh
 if(!file.exists(libPath)){
   zipPath = paste0(libRoot,"/",libName,".zip")
   if(!file.exists(zipPath)){
-    libURL = "http://www.apexrms.com//downloads/syncrosim/ST-Sim%20Spatial%20Tutorial.zip"
+    libURL = "http://www.apexrms.com//wp-content//uploads//ST-Sim-Spatial-Tutorial.zip"
     download.file(libURL, zipPath)
   }
   unzip(zipPath,exdir=paste0(libRoot,"/",libName),overwrite=T,unzip = "unzip")

@@ -16,6 +16,15 @@ NULL
 #' @export
 setGeneric('addons',function(ssimObject,all=F) standardGeneric('addons'))
 #' @rdname addons
+setMethod('addons', signature(ssimObject="missingOrNULL"), function(ssimObject,all) {
+  #x = myLibrary
+  ssimObject=.session()
+  tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
+  tt = .dataframeFromSSim(tt)
+  #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
+  return(tt)
+})
+
 setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
