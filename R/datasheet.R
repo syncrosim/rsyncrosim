@@ -67,8 +67,8 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
 })
 #' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) {
-  #ssimObject = myProject;name=sheetName;project=NULL;scenario=NULL;summary=NULL;optional=T
-  #empty=F;lookupsAsFactors=T;sqlStatements=list(select="SELECT *",groupBy="");includeKey=T;forceElements=F
+  #ssimObject = myScenario;name="STSim_DeterministicTransition";project=NULL;scenario=NULL;summary=NULL;optional=F
+  #empty=F;lookupsAsFactors=F;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
   
   temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentScenarioID=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
@@ -465,16 +465,17 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       sheet = subset(sheet,select=outNames)
       
     }else{
-      sheetNames = names(sheet)
-      for(rr in 1:length(sheetNames)){
-        cName = sheetNames[rr]
-        if(is.element(cName,rmCols)){
-          sheet[[cName]]=NULL
+      if(!is.null(rmCols)){
+        sheetNames = names(sheet)
+        for(rr in 1:length(sheetNames)){
+          cName = sheetNames[rr]
+          if(is.element(cName,rmCols)){
+            sheet[[cName]]=NULL
+          }
+          
         }
-        
       }
     }
-    
     if(is.element("ProjectID",names(sheet))){
       if(length(pid)==1){
         sheet$ProjectID = NULL

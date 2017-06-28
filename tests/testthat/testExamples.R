@@ -212,106 +212,65 @@ test_that("Tests of projects and scenarios", {
   ret=scenario(myProject,scenario="another scn")
   targetScn = scenario(myProject,scenario="two")
   ret=dependency(targetScn,dependency=c("other","New scn name","another scn")) #elements of the dependency argument are ordered from lowest to highest precedence
-  
-  dependency(targetScn) #"another scn" was added last, so has highest precedence
-  dependency(targetScn,dependency=c("another scn","New scn name")) #change the precedence of dependencies by adding them again.
-  dependency(targetScn) #now "New scn name" has highest precedence.
-  
-  #print/show methods for SsimObjects and Sessions
-  myScenario
-  myProject
-  myLibrary
-  mySession
-  
+  expect_equal(dependency(targetScn)$name,c("another scn","New scn name","other"))
+  ret=dependency(targetScn,dependency=c("another scn","New scn name")) #change the precedence of dependencies by adding them again.
+  expect_equal(dependency(targetScn)$name,c("New scn name","another scn","other"))#now "New scn name" has highest precedence.
   
   #test delete - vectors of project/scenario/datasheet
   scenario(myLib)
   datasheet(myProject)
-  delete(myLib, project=c(1,10),datasheet=c("STime_Chart","STime_DistributionType"),force=T)
+  retList = delete(myLib, project=c(1,10),datasheet=c("STime_Chart","STime_DistributionType"),force=T)
+  expect_is(retList,"list")
+  expect_equal(retList[[1]][["STime_Chart pid1"]],"saved")
   
-  delete(myLib, scenario=c(6,7),force=T)
-  scenario(myLib)
-  delete(myLib, scenario=c("one","two"),force=T)
-  scenario(myLib)
+  ret = delete(myLib, scenario=c(6,7),force=T)
+  expect_equal(intersect(c(6,7),scenario(myLib)$scenarioId),integer(0))
+  ret=delete(myLib, scenario=c("one","two"),force=T)
+  expect_equal(intersect(c("one","two"),scenario(myLib)$name),character(0))
   
-  project(myLib)
-  delete(myLib,project=c(1,10),force=t)
-  project(myLib)
-  delete(myLib,project=c("copy","copy2"),force=T)
-  project(myLib)
+  ret = delete(myLib,project=c(1,10),force=T)
+  expect_equal(intersect(c(1,10),project(myLib)$projectId),integer(0))
+  ret=delete(myLib,project=c("copy","copy2"),force=T)
+  expect_equal(intersect(c("copy","copy2"),project(myLib)$name),logical(0))
   
+  ret=delete(myLib,force=T)
+  ret=delete(myOtherLib,force=T)
 })
 
-test_that("Tests of Project", {
+test_that("Tests of datasheet", {
+  myLibrary = ssimLibrary(name= "NewLibrary.ssim")
+  myScenario = scenario(myLibrary,scenario="one")
+  myProject = project(myLibrary,project=1)
+  myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
+  expect_is(myLibraryDataframes,"list")
+  expect_is(myLibraryDataframes[["STime_Options"]],"data.frame")
+
+  myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
+  expect_equal(names(myProjectSheetNames),c("scope","name","displayName"))
+
+  myDeterministicTransitions =suppressWarnings(datasheet(myScenario,"STSim_DeterministicTransition"))
+  expect_is(myDeterministicTransitions$StateClassIDSource,"factor")
+  #myDeterministicTransitions = suppressWarnings(datasheet(myScenario,"STSim_DeterministicTransition",lookupsAsFactors=F)) # This option returns characters instead of factors.
+  #expect_is(myDeterministicTransitions$StateClassIDSource,"character")
+  #NOTE: this currently doesn't do the right thing. Waiting for a fix from Alex.
+
+  sheetName = "STSim_StateLabelX"
+  emptyTab = datasheet(myProject, name=sheetName,empty=F)
+  expect_equal(nrow(emptyTab),0)
+  stateClassDefinition=addRows(emptyTab,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
+  expect_equal(stateClassDefinition$Name,c('Coniferous','Deciduous','Mixed'))
+  ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
+  ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F,force=T) #remove without prompting
+
+  stateClassDefinition=addRows(emptyTab,data.frame(Name=c('Grass')))
+  ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
+  expect_equal(datasheet(myProject, name=sheetName)$Name,c('Coniferous','Deciduous','Grass','Mixed'))
   
-myLibrary = ssimLibrary(name="New Lib5")
-myProject = project(ssimLibrary=myLibrary, project="My new project name")
-
-# Get a named list of existing projects
-myProjects = project(myLibrary,summary=F,forceElements=T) # Each element in the list is named by a character version of the project ID
-expect_output(str(myProjects),"List of 1")
-expect_is(myProjects[[1]],"Project")
-
-# Get an existing project. Assume that name uniquely identifies a single project - give error if not
-myProject = project(myLibrary, project="My new project name")
-expect_is(myProject,"Project")
-
-# Get/set the project properties - for now we can only set the name
-name(myProject) = "New project name"
-expect_equal(name(myProject),"New project name")
-
-expect_is(ssimLibrary(myProject),"SsimLibrary") # Returns a SyncroSimLibrary object for the project
-
-# Delete projects
-expect_output(delete(myLibrary, project=c("New project name","hi"),force=T),"Cannot remove the project hi from the library because it does not exist.")
-myProjectNames = project(myLibrary)
-expect_equal(names(myProjectNames),c("id","name"))
-expect_equal(is.element("New project name",myProjectNames$name),FALSE)
-unlink(filepath(myLibrary))
-})
-
-test_that("Tests of Scenario", {
-  myLibrary = ssimLibrary(name="Another Lib")
-  myProject = project(myLibrary,project="a project")
-  myScenario = scenario(myProject, scenario="Scenario")
-  expect_is(myScenario,"Scenario")  #returns dataframe
+  ret=delete(myProject,datasheet=c(sheetName,sheetName),force=T)
+  expect_equal(nrow(datasheet(myProject, name=sheetName)),0)
   
-  myScenarios =scenario(myLibrary,summary=F,forceElements=T)
-  expect_is(myScenarios[[1]],"Scenario")
-
-  myScenario = scenario(myProject, scenario="My new scenario name")
-
-  myScnNames  =   scenario(myLibrary)
-  expect_equal(names(myScnNames),c("id","pid","name","isResult","parentScenarioID","owner","lastModified","readOnly"))
-  expect_equal(myScnNames$name,c("Scenario","My new scenario name"))
-
-  expect_is(scenarioId(myScenario),"numeric")
-
-  # Get an existing scenario by ID
-  expect_is(scenario(myLibrary, scenario=1),"Scenario") # By ID directly from the library - return a single scenario object
-
-  # Get/set the scenario properties - i.e. name, owner, description and readOnly
-  expect_equal(name(myScenario),"Another scenario")
-  name(myScenario) = "New scenario name"
-  expect_equal(name(myScenario),"New scenario name")
-
-  expect_is(ssimLibrary(myScenario),"SsimLibrary")  # Returns a SyncroSimLibrary object for the scenario
-  expect_is(projectId(myScenario),"numeric")  # Returns the project ID for the scenario
-
-  #Get/set scenario properties
-  expect_equal(readOnly(myScenario),FALSE)    # Returns TRUE/FALSE
-  expect_equal(owner(myScenario),"Colin")
-  expect_equal(description(myScenario),"My description")
-  owner(myScenario)="Colin Daniel"
-  expect_equal(owner(myScenario),"Colin Daniel")
-
-  # Delete scenarios
-  ret = delete(myLibrary, scenario=scenario(myLibrary)$scenarioId,force=T)
-  expect_equal(nrow(scenario(myLibrary)),0)
-  unlink(filepath(myLibrary))
+  ret=delete(myLibrary,force=T)
 })
 
 setwd(retDir)
-#setwd('..')
 unlink("testLibs",recursive=T)
-#getwd()

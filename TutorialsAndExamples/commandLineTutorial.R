@@ -14,7 +14,6 @@ sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session 
 libPath = "C:/Temp/ST-Sim-Command-Line.ssim"
 delete(libPath,force=T) #remove old version of the library (if any). Start fresh.
 myLibrary = ssimLibrary(name=libPath,session=session(sessionPath)) #create a new library
-inherits(myLibrary,"SsimObject")
 myProject = project(myLibrary,project="ST-Sim Demonstration") #create a new project
 
 #***********************************
@@ -26,8 +25,8 @@ mySheet[1,"Description"]="Another description"
 #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
 saveDatasheet(myProject,mySheet,name=sheetName)
 
-datasheet(myProject,name=sheetName,empty=T,optional=F) #returns only truly optional columns
-datasheet(myProject,name=sheetName,empty=F,optional=F) #returns optional columns and columns with data
+datasheet(myProject,name=sheetName,empty=T,optional=F) #returns only truly required columns
+datasheet(myProject,name=sheetName,empty=F,optional=F) #returns required columns and columns with data
 datasheet(myProject,name=sheetName,empty=F,optional=T) #returns all columns
 
 # Warns if lookups are not loaded, and returns a factor with 0 levels

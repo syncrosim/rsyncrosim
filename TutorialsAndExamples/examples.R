@@ -319,7 +319,7 @@ saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project s
 datasheet(myProject, name=sheetName) 
 
 datasheet(myProject)
-delete(myProject,datasheet=c(sheetName,"STime_Options"),force=T)
+delete(myProject,datasheet=c(sheetName,sheetName),force=T)
 datasheet(myProject, name=sheetName) 
 
 

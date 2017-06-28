@@ -1,51 +1,44 @@
 library(plyr)
 retDir = getwd()
-#setwd("..")
-#getwd()
 unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
 
-# **********************************************************
-# commandLineTutorial.R
-# Following the steps in Leo's PowerShell script using rsyncrosim.
-# **********************************************************
-# Author Josie Hughes, ApexRMS
-# Date 2016.11.15
-# **********************************************************
-# devtools::document();devtools::load_all()
-
 test_that("Test simple non-spatial STSim example", {
   #*************************************
   # Create the project definition
-  myLibrary = ssimLibrary(name="ST-Sim-Command-Line.ssim")
+  libPath = paste0(getwd(),"/ST-Sim-Command-Line.ssim")
+  ret=delete(myLibrary,force=T)
+  myLibrary = ssimLibrary(name=libPath)
   myProject = project(myLibrary,project="ST-Sim Demonstration")
 
   #***********************************
   # Cover types and state classes
-  sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=T)
-  expect_equal(nrow(mySheet),0)
+  sheetName = "STSim_Stratum"; mySheet = datasheet(myProject,name=sheetName,empty=F,optional=T)
   mySheet[1,"Name"]="Entire Forest"
-  #NOTE: this syntax preserves types and factor levels, and adds new rows if necessary. mySheet$Name="Entire Forest" does not.
+  mySheet[1,"Description"]="Another description"
   ret = saveDatasheet(myProject,mySheet,name=sheetName)
-  expect_equal(datasheet(myProject,name=sheetName),data.frame(Name="Entire Forest",stringsAsFactors=F))
+  expect_equal(names(datasheet(myProject,name=sheetName,empty=T,optional=F)),"Name") #returns only truly optional columns
+  expect_equal(datasheet(myProject,name=sheetName,empty=F,optional=F)$Description,"Another description") #returns optional columns and columns with data
+  expect_equal(names(datasheet(myProject,name=sheetName,empty=F,optional=T)),c("Name","ID","Color","Legend","Description")) #returns all columns
 
+  #RESUME HERE  
   # Warns if lookups are not loaded, and returns a factor with 0 levels
   sheetName = "STSim_StateClass"
   expect_warning(datasheet(myProject,name=sheetName,empty=F),"StateLabelXID depends on STSim_StateLabelX. You should load STSim_StateLabelX before setting STSim_StateClass.")
-
+  
   sheetName = "STSim_StateLabelY"
   #mySheet = datasheet(myProject,name=sheetName)
   #mySheet[1,"Name"]="All"
   mySheet = data.frame(Name="All")
   ret = saveDatasheet(myProject,mySheet,name=sheetName)
-
+  
   sheetName = "STSim_StateLabelX"
   #mySheet = datasheet(myProject,name=sheetName,empty=F)
   #mySheet[1:3,"Name"]=c('Coniferous','Deciduous','Mixed')
   mySheet = data.frame(Name=c('Coniferous','Deciduous','Mixed'))
   ret = saveDatasheet(myProject,mySheet,name=sheetName)
-
+  
   # Now lookups are loaded we can set StateClass
   sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
   expect_equal(levels(mySheet$StateLabelXID),c("Coniferous","Deciduous","Mixed"))
@@ -54,6 +47,54 @@ test_that("Test simple non-spatial STSim example", {
   mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
   ret = saveDatasheet(myProject,mySheet,name=sheetName)
   #mySheet = datasheet(myProject,name=sheetName);str(mySheet)
+  
+  #***********************************
+  # Cover types and state classes
+
+  
+  
+  # Warns if lookups are not loaded, and returns a factor with 0 levels
+  sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=F)
+  str(mySheet)
+  mySheet[1,"StateLabelYID"]="All" #A more cryptic warning because the factor has no levels.
+  
+  sheetName = "STSim_StateLabelY"; mySheet = datasheet(myProject,name=sheetName)
+  mySheet[1,"Name"]="All"
+  saveDatasheet(myProject,mySheet,name=sheetName)
+  
+  #include optional columns
+  sheetName = "STSim_StateLabelX"; mySheet = datasheet(myProject,name=sheetName,empty=T,optional=T) 
+  mySheet[1:2,"Name"]=c('Coniferous','Deciduous')
+  mySheet[1:2,"Description"]=c('coniferous forest','deciduous forest')
+  saveDatasheet(myProject,mySheet,name=sheetName)
+  datasheet(myProject,name=sheetName)
+  
+  #by default, saveDatasheet appends project/library scope datasheets
+  mySheet =  setNames(c('Mixed'), c("Name")) #A named vector
+  saveDatasheet(myProject,mySheet,name=sheetName) 
+  datasheet(myProject,name=sheetName)
+  
+  #overwrite existing values
+  mySheet=list(Name=c('Coniferous','Deciduous','Mixed'))
+  saveDatasheet(myProject,mySheet,name=sheetName,append=F) 
+  datasheet(myProject,name=sheetName)
+  
+  # Now lookups are loaded we can set StateClass
+  sheetName = "STSim_StateClass"; mySheet = datasheet(myProject,name=sheetName,empty=T)
+  str(mySheet)
+  mySheet[1,"StateLabelXID"] ="hi" #Invalid value for a lookup column
+  mySheet[1:3,"StateLabelXID"]=levels(mySheet$StateLabelXID) #Valid values
+  mySheet$StateLabelYID = levels(mySheet$StateLabelYID)[1] #Valid values
+  mySheet$Name = paste0(mySheet$StateLabelXID,":",mySheet$StateLabelYID)
+  saveDatasheet(myProject,mySheet,name=sheetName)
+  # NOTE: special knowledge needed to construct Name here. 
+  
+  str(datasheet(myProject,sheetName))
+  str(datasheet(myProject,sheetName,lookupsAsFactors = F)) #lookups are not returned as factors
+  datasheet(myProject,sheetName,includeKey=T) #include primary key for datasheet
+  datasheet(myProject,sheetName,optional=T) #include empty optional columns
+  
+  
 
   #***********************************
   # Transitions
