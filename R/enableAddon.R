@@ -20,7 +20,7 @@ setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon
 #' @rdname enableAddon
 setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   enabled=NULL
-  cAdds = addon(ssimLibrary,all=T)
+  cAdds = addon(ssimLibrary)
   name=gsub(":add-on-transformer","",name,fixed=T)
   retList=list()
   for(i in seq(length.out=length(name))){

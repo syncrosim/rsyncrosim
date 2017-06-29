@@ -13,4 +13,8 @@ setGeneric('version',function(session=NULL) standardGeneric('version'))
 #' @rdname version
 setMethod('version', signature(session="missingOrNULL"), function(session) {return(version(session()))})
 #' @rdname version
-setMethod('version', signature(session="Session"), function(session) {return(command(list(version=NULL),session))})
+setMethod('version', signature(session="Session"), function(session) {
+  version = command(list(version=NULL),session)
+  version =gsub("Version is: ","",version,fixed=T)
+  return(version)
+})

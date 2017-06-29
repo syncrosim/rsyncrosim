@@ -25,7 +25,7 @@ setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLib
   #x=myLibrary
   #value = c("stsim-ecological-departure", "stsim-stock-flow")
   enabled=NULL
-  cAdds = addon(ssimLibrary,all=T)
+  cAdds = addon(ssimLibrary)
   name=gsub(":add-on-transformer","",name,fixed=T)
   retList = list()
   for(i in seq(length.out=length(name))){

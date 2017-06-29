@@ -50,7 +50,7 @@ test_that("Tests of Library", {
 
   # With addons
   expect_equal(nrow(addon(myLibrary)),0)
-  allAdds = addon(myLibrary,all=T)
+  allAdds = addon(myLibrary)
   expect_equal(names(allAdds),c("name","displayName","enabled","currentVersion","minimumVersion"))
   expect_gt(nrow(allAdds),0)
   expect_equal(names(addon(mySession)),c("name","displayName","version","extends"))

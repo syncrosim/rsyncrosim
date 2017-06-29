@@ -7,16 +7,19 @@
 \alias{deleteModule,ANY,missingOrNULLOrChar-method}
 \title{Delete module or modules}
 \usage{
-deleteModule(name, session = NULL)
+deleteModule(name, session = NULL, force = F)
 
-\S4method{deleteModule}{ANY,missingOrNULLOrChar}(name, session = NULL)
+\S4method{deleteModule}{ANY,missingOrNULLOrChar}(name, session = NULL,
+  force = F)
 
-\S4method{deleteModule}{ANY,Session}(name, session = NULL)
+\S4method{deleteModule}{ANY,Session}(name, session = NULL, force = F)
 }
 \arguments{
 \item{name}{Character string or vector of these. A module or vector of modules to remove. See modules() for options.}
 
 \item{session}{Session.}
+
+\item{force}{logical. If T, delete without requiring confirmation from user.}
 }
 \value{
 "saved" or error message.
