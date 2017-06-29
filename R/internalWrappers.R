@@ -13,7 +13,7 @@ NULL
 #' @include projectId.R
 #' @include scenarioId.R
 #' @include filepath.R
-#' @include addons.R
+#' @include addon.R
 #' @include datasheet.R
 #' @include datasheets.R
 #' @include name.R
@@ -31,7 +31,7 @@ NULL
 # @export
 .scenario = scenario
 # @export
-.addons=addons
+.addon=addon
 # @export
 .datasheet=datasheet
 # @export

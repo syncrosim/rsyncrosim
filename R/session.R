@@ -53,7 +53,7 @@ setMethod(f='initialize',signature="Session",definition=function(.Object,path,si
   modelOptions = model(.Object)
   model=gsub(":model-transformer","",defaultModel,fixed=T)
   if(!is.element(model,modelOptions$name)){
-    stop(paste("Model type",defaultModel,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
+    warning(paste("Model type",defaultModel,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
   }
   
   .Object@defaultModel=model

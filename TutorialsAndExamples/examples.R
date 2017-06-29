@@ -8,7 +8,7 @@
 ?session # Help for the Session object constructor
 ?ssimLibrary # Help for the function to make or get an SsimLibrary object.
 showMethods(class="SsimLibrary",where=loadNamespace("rsyncrosim")) # See methods for the Session object
-getMethod("modules","Session") # See code for the filepath method of the Session object.
+getMethod("module","Session") # See code for the module method of the Session object.
 showMethods("filepath") # See the objects for which filepath is defined. SsimLibrary, Project and Scenario objects inherit from SsimObject.
 ?filepath # Help for the filepath function
 ##########################
@@ -29,25 +29,26 @@ defaultModel(mySession)
 mySession = session(sessionPath)
 silent(mySession)=F
 silent(mySession)
+printCmd(mySession)
 
 # Add/remove modules
-modules(mySession)
+module(mySession)
 deleteModule("hi",mySession)
 # NOTE: this works but causes problems when working with a dev version of syncrosim.
 #deleteModule("sample-basic-dotnet") #using default session
-#modules(mySession)
+#module(mySession)
 #deleteModule(c("sample-stime-dotnet","sample-spatial-dotnet"),mySession) #a vector, using a particular session
-#modules(mySession)
+#module(mySession)
 
 #TO DO: test addModule when we have a real installation of SyncroSim v2
 #addModule("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg",mySsim)
 #addModule(c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg"),mySsim)
-#is.element("stsim-stock-flow",modules(mySsim)$name)
+#is.element("stsim-stock-flow",module(mySsim)$name)
 
 model(mySession) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-modules(mySession) #NOTE: model(mySession) is not a subset of modules(mySession). Change in SyncroSim if necessary.
+module(mySession) #NOTE: model(mySession) is not a subset of module(mySession). Change in SyncroSim if necessary.
 model() #will fail until we have a real release of SyncroSim v2
-modules() #will fail until we have a real release of SyncroSim v2
+module() #will fail until we have a real release of SyncroSim v2
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
@@ -73,18 +74,17 @@ filepath(myLibrary)
 # See ?ssimLibrary for more details and examples.
 
 # With addons
-addons(myLibrary)
-addons(myLibrary,all=T)
-addons(mySession)
+addon(myLibrary)
+addon(mySession)
 delete(myLibrary,force=T)
 
 #myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-ecological-departure")) #returns an error because the addon doesn't exist
 myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim", addon=c("stsim-stockflow"),session=mySession) 
-addons(myLibrary)
+addon(myLibrary)
 disableAddon(myLibrary,"stsim-stockflow")
-addons(myLibrary)
+addon(myLibrary)
 enableAddon(myLibrary,"stsim-stockflow")
-addons(myLibrary)
+addon(myLibrary)
 
 myLibrary = ssimLibrary(session=mySession) # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
 

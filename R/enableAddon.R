@@ -14,13 +14,13 @@ NULL
 #' TODO - update examples
 #' myLibrary = ssimLibrary()
 #' enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
-#' addons(myLibrary)
+#' addon(myLibrary)
 #' @export
 setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
 #' @rdname enableAddon
 setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   enabled=NULL
-  cAdds = addons(ssimLibrary,all=T)
+  cAdds = addon(ssimLibrary,all=T)
   name=gsub(":add-on-transformer","",name,fixed=T)
   retList=list()
   for(i in seq(length.out=length(name))){

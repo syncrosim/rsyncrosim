@@ -20,7 +20,7 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' showMethods(class="Session",where=loadNamespace("rsyncrosim")) #Methods for the Session
 #' filepath(mySession)   # Lists the folder location of syncrosim session
 #' version(mySession)   # Lists the version of syncrosim session
-#' modules(mySession)   # Dataframe of the modules installed with this version of syncrosim.
+#' module(mySession)   # Dataframe of the modules installed with this version of syncrosim.
 #' model(mySession) # Dataframe of the models installed with this version of syncrosim.
 #'
 #' # Add and remove modules

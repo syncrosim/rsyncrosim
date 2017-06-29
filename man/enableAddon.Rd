@@ -25,6 +25,6 @@ Enable addon or addons of an SsimLibrary.
 TODO - update examples
 myLibrary = ssimLibrary()
 enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
-addons(myLibrary)
+addon(myLibrary)
 }
 

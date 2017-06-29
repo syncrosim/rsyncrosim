@@ -19,7 +19,7 @@ NULL
 #' If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 #' 
 #' @param ssimObject SsimLibrary/Project/Scenario. 
-#' @param data A dataframe, vector, or list of these. One or more datasheets to load.
+#' @param data A dataframe, named vector, or list of these. One or more datasheets to load.
 #' @param name character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.
 # @param project character or integer. Project name or id. Note integer ids are slightly faster.
 # @param scenario character or integer. Project name or id. Note integer ids are slightly faster.

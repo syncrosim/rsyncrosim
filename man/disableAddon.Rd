@@ -25,9 +25,9 @@ Disable addon or addons of an SsimLibrary, or Project/Scenario with an associate
 TODO - update examples
 myLibrary = ssimLibrary()
 enableAddon(myLibrary,c("stsim-ecological-departure"))
-addons(myLibrary)
+addon(myLibrary)
 disableAddon(myLibrary,c("stsim-ecological-departure"))
-addons(myLibrary)
+addon(myLibrary)
 
 }
 

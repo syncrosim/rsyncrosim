@@ -23,7 +23,7 @@ setMethod('deleteModule', signature(session="missingOrNULLOrChar"), function(nam
 #' @rdname deleteModule
 setMethod('deleteModule', signature(session="Session"), function(name,session) {
   #name = "sample-basic-dotnet";session=session()
-  installedModules=modules(session)
+  installedModules=module(session)
   retList = list()
   for(i in seq(length.out=length(name))){
     #i = 1
@@ -37,7 +37,7 @@ setMethod('deleteModule', signature(session="Session"), function(name,session) {
     if(answer=="y"){
       tt = command(args=list(removemodule=cVal),session,program="SyncroSim.ModuleManager.exe")
       
-      installedModules = modules(session)
+      installedModules = module(session)
       if(is.element(cVal,installedModules$name)){
         stop(paste0('Error: failed to remove module ',cVal))
       }

@@ -15,7 +15,7 @@ saveDatasheet(ssimObject, data, name = NULL, append = NULL,
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
 
-\item{data}{A dataframe, vector, or list of these. One or more datasheets to load.}
+\item{data}{A dataframe, named vector, or list of these. One or more datasheets to load.}
 
 \item{name}{character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.}
 

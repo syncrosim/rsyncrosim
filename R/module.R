@@ -10,14 +10,14 @@ NULL
 #' @param session Session.
 #' @return A dataframe of modules
 #' @export
-setGeneric('modules',function(session) standardGeneric('modules'))
-#' @rdname modules
-setMethod('modules', signature(session="missingOrNULL"), function(session) {
+setGeneric('module',function(session) standardGeneric('module'))
+#' @rdname module
+setMethod('module', signature(session="missingOrNULL"), function(session) {
   session=.session()
-  return(modules(session))
+  return(module(session))
 })
-#' @rdname modules
-setMethod('modules', signature(session="Session"), function(session) {
+#' @rdname module
+setMethod('module', signature(session="Session"), function(session) {
   #x=mySsim
   tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")
   out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)

@@ -25,7 +25,7 @@ ssimLibrary(name = NULL, summary = NULL, model = NULL, session = NULL,
 
 \item{session}{Session. If NULL, session() will be used.}
 
-\item{addon}{Character or character vector. One or more addons. See addons() for options.}
+\item{addon}{Character or character vector. One or more addons. See addon() for options.}
 
 \item{forceUpdate}{Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.}
 }

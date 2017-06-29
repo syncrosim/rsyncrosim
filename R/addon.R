@@ -4,19 +4,18 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' addons of an SsimLibrary or Session
+#' addon(s) of an SsimLibrary or Session
 #'
-#' The addons of an SsimLibrary or Session.
+#' The addon(s) of an SsimLibrary or Session.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario or Session.
-#' @param all logical. If TRUE, all available addons are returned. Otherwise, only enabled addons.
 #' @return A dataframe of addons.
 #' @examples
-#' addons(ssimLibrary(name="stsim"))
+#' addon(ssimLibrary(name="stsim"))
 #' @export
-setGeneric('addons',function(ssimObject,all=F) standardGeneric('addons'))
-#' @rdname addons
-setMethod('addons', signature(ssimObject="missingOrNULL"), function(ssimObject,all) {
+setGeneric('addon',function(ssimObject) standardGeneric('addon'))
+#' @rdname addon
+setMethod('addon', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   #x = myLibrary
   ssimObject=.session()
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
@@ -24,23 +23,20 @@ setMethod('addons', signature(ssimObject="missingOrNULL"), function(ssimObject,a
   #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
-
-setMethod('addons', signature(ssimObject="Session"), function(ssimObject,all) {
+#' @rdname addon
+setMethod('addon', signature(ssimObject="Session"), function(ssimObject) {
   #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
   tt = .dataframeFromSSim(tt)
   #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
-#' @rdname addons
-setMethod('addons', signature(ssimObject="SsimObject"), function(ssimObject,all) {
+#' @rdname addon
+setMethod('addon', signature(ssimObject="SsimObject"), function(ssimObject) {
   #x = myLibrary
   enabled=NULL
   tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  tt = .dataframeFromSSim(tt)
-  if(!all){
-    tt=subset(tt,enabled=="Yes")
-  }
+  tt = .dataframeFromSSim(tt,convertToLogical=c("enabled"))
   #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })

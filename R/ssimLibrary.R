@@ -26,7 +26,7 @@ setMethod(f='initialize',signature="SsimLibrary",
     if(is.null(model)){
       model=defaultModel(session) #assume validity of session object has already been checked.
     }else{
-      modelOption = model(session)
+      modelOptions = model(session)
       model=gsub(":model-transformer","",model,fixed=T)
       if(!is.element(model,modelOptions$name)){
         stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
@@ -113,7 +113,7 @@ setMethod(f='initialize',signature="SsimLibrary",
       }
     }
 
-    #addons=c("stsim-ecological-departure", "stsim-stock-flow")
+    #addon=c("stsim-ecological-departure", "stsim-stock-flow")
     if(!is.null(addon)){
       addon=gsub(":add-on-transformer","",addon,fixed=T)
 
@@ -172,7 +172,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,sess
 #' @param summary logical. Default T
 #' @param model Character. The model type. If NULL, defaultModel(session()) will be used.
 #' @param session Session. If NULL, session() will be used.
-#' @param addon Character or character vector. One or more addons. See addons() for options.
+#' @param addon Character or character vector. One or more addons. See addon() for options.
 # @param backup Logical. If TRUE, a backup copy is made when an existing library is opened.
 # @param backupName Character. Added to a library filepath to create a backup library.
 # @param backupOverwrite Logical. If TRUE, the existing backup of a library (if any) will be overwritten.

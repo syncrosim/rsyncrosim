@@ -9,8 +9,8 @@ test_that("Tests of Session", {
   expect_is(mySsim, "Session")
   expect_equal(file.exists(filepath(mySsim)),TRUE) # Lists the folder location of syncrosim session
   expect_output(str(version(mySsim)),"chr",fixed=T) # Lists the version of syncrosim session
-  expect_equal(names(modules(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
-  expect_equal(names(modules()),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
+  expect_equal(names(module(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
+  expect_equal(names(module()),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(model(mySsim)),c("name","description","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
   expect_equal(names(model()),c("name","description","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
   expect_equal(deleteModule("hi",mySession),list(hi="Module hi is not installed, so cannot be removed."))
@@ -23,7 +23,6 @@ test_that("Tests of Session", {
   expect_equal(silent(mySession),T)
   expect_output(session(printCmd=T),"--list --models --csv")
 })
-
 
 test_that("Tests of command", {
   mySsim = session() # Creates a session using the default installation of syncrosim
@@ -50,21 +49,21 @@ test_that("Tests of Library", {
   expect_equal(name(myLibrary),"SsimLibrary")
 
   # With addons
-  expect_equal(nrow(addons(myLibrary)),0)
-  allAdds = addons(myLibrary,all=T)
+  expect_equal(nrow(addon(myLibrary)),0)
+  allAdds = addon(myLibrary,all=T)
   expect_equal(names(allAdds),c("name","displayName","enabled","currentVersion","minimumVersion"))
   expect_gt(nrow(allAdds),0)
-  expect_equal(names(addons(mySession)),c("name","displayName","version","extends"))
+  expect_equal(names(addon(mySession)),c("name","displayName","version","extends"))
   expect_equal(delete(myLibrary,force=T),"saved")
 
   cAdd =allAdds$name[1]
   #delete(myLibrary,force=T)
   myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd),session=mySession) 
-  expect_equal(addons(myLibrary)$name,cAdd)
+  expect_equal(addon(myLibrary)$name,cAdd)
   expect_equal(disableAddon(myLibrary,cAdd)[[cAdd]],"saved")
-  expect_equal(nrow(addons(myLibrary)),0)
+  expect_equal(nrow(addon(myLibrary)),0)
   expect_equal(enableAddon(myLibrary,cAdd)[[cAdd]],"saved")
-  expect_equal(addons(myLibrary)$name,cAdd)
+  expect_equal(addon(myLibrary)$name,cAdd)
 
   myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
