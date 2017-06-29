@@ -92,7 +92,14 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
           print(paste0("SyncroSim error: ",out[1]))
         }
       }
+    }else{
+      if(is.element("status",names(attributes(out)))){
+        if(attributes(out)$status>0){
+          out=out[1]
+        }
+      }
     }
+    
     #,error = function(e) stop(shell(tempCmd,intern=T)[1])
     #errs = suppressWarnings(system2(paste0(.filepath(session),"/",program), args=sysArgs,stdout=TRUE,stderr=TRUE))
   }else{
