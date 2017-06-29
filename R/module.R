@@ -20,6 +20,11 @@ setMethod('module', signature(session="missingOrNULL"), function(session) {
 setMethod('module', signature(session="Session"), function(session) {
   #x=mySsim
   tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")
-  out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
+  if(tt[1]=="saved"){
+    out=data.frame(name=NA,displayName=NA,version=NA)
+    out=subset(out,!is.na(name))
+  }else{
+    out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
+  }
   return(out)
 })

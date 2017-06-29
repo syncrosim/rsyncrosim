@@ -55,6 +55,9 @@ setMethod(f='initialize',signature="SsimLibrary",
 
       args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$name==model])
       cStatus = command(args,session)
+      if(cStatus[1]!="saved"){
+        stop("Problem creating library: ",tt[1])
+      }
     }#else{
       #x="C:/Temp/NewLibrary.ssim"
       #if(backup){

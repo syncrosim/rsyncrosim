@@ -2,6 +2,12 @@
 #setwd("C:/gitprojects/rsyncrosim")
 #setwd(retDir)
 retDir = getwd()
+if(dir.exists("./testLibs")){
+  libRoot = "./testLibs"
+  libName = "ST-Sim Spatial Tutorial"
+  libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
+  ret=delete(libPath,force=T)
+}
 unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
@@ -25,7 +31,7 @@ test_that("Test simple spatial STSim example", {
 
   #*************************************
   # View  "STSim_OutputSpatialState" results
-  myLibrary = ssimLibrary(name=libPath,forceUpdate=T,session=session(printCmd=T))
+  myLibrary = ssimLibrary(name=libPath,forceUpdate=T,session=session(printCmd=F))
 
   project(myLibrary)
   myProject = project(myLibrary,project=1)

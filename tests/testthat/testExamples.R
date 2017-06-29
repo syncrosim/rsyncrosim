@@ -175,7 +175,7 @@ test_that("Tests of projects and scenarios", {
   expect_equal(name(myScn),"New scn name")
   
   description(myProject) = "A new description.\nTry a linebreak." #NOTE: \n adds a linebreak to the description
-  expect_equal(description(myProject)[2]="A new description.")
+  expect_equal(description(myProject)[2],"A new description.")
   description(myScn) = "Hi"
   expect_equal(grepl("Hi",description(myScn)[2]),T) 
   
