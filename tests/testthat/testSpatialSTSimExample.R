@@ -45,8 +45,8 @@ test_that("Test simple spatial STSim example", {
   myRasters = datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
                               iteration=seq(1),timestep = seq(0,10,by=5),rat=rat)
   expect_is(myRasters,"RasterStack")
-  expect_equal(names(myRasters),c("scn6.sc.ts0.it1","scn6.sc.ts5.it1","scn6.sc.ts10.it1",
-                                  "scn7.sc.ts0.it1","scn7.sc.ts5.it1","scn7.sc.ts10.it1"))
+  expect_equal(names(myRasters),c("scn6.sc.it1.ts0","scn6.sc.it1.ts5","scn6.sc.it1.ts10",
+                                  "scn7.sc.it1.ts0","scn7.sc.it1.ts5","scn7.sc.it1.ts10"))
 
   checkLevels = raster::levels(myRasters[[1]])[[1]]
   row.names(checkLevels) =checkLevels$ID
@@ -63,12 +63,13 @@ test_that("Test simple spatial STSim example", {
   #*************************************
   # View spatial inputs
   myTransitionGroup = datasheetRaster(myLibrary,scenario=as.numeric(names(myResult)),datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
+  #NOTE: setting scenario is slower than using a list of scenario objects.
+  #NOTE: using subset slows things down because must get lookups for datasheet. 
   names(myTransitionGroup)
-  expect_equal(names(myTransitionGroup),c("scn6.tg.17.ts1.it1","scn7.tg.17.ts1.it1"))
+  expect_equal(names(myTransitionGroup),c("scn6.tg.17.it1.ts1","scn7.tg.17.it1.ts1"))
   
   mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
   expect_equal(names(mySpatialInputs),c("scn6.It0000.Ts0000.age","scn7.It0000.Ts0000.age"))
-  #RESUME HERE
   
   age0=mySpatialInputs[["scn7.It0000.Ts0000.age"]]
   

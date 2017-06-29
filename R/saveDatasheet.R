@@ -229,7 +229,10 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     
     tt="saved"
     if(nrow(cDat)>0){
-      if(scope=="project"){args[["pid"]]=.projectId(x)}
+      if(scope=="project"){
+        args[["pid"]]=.projectId(x)
+        args=c(args,list(append=NULL))
+      }
       if(scope=="scenario"){args[["sid"]]=.scenarioId(x)}
       tt=command(args,.session(x))
     }

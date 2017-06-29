@@ -295,6 +295,7 @@ mySTimeOptions = myLibraryDataframes[["STime_Options"]] # a single dataframe
 subset(datasheet(myScenario),scope=="scenario")$name
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition")
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition",lookupsAsFactors=F) # This option returns characters instead of factors
+#NOTE: this currently returns nothing because the sheet is empty and --colswithdata option does not include non-optional columns if the sheet is empty. Change behaviour in SyncroSim if desired.
 #NOTE: option to return IDs rather than values for lookups postponed to a later version. See --export --rawvalues for support from SyncroSim.
 
 # Get empty template dataframes - lookup columns are expressed as factors with only valid values

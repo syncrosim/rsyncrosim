@@ -38,7 +38,7 @@ NULL
 setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster'))
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
-  # x= myResult; sheet="STSim_InitialConditionsSpatial";iterations=NULL;timesteps = NULL;rat=NULL
+  # ssimObject= myResult; sheet="STSim_OutputSpatialState";iteration=seq(1);timesteps = seq(0,10,by=5);rat=rat
   if(class(ssimObject[[1]])!="Scenario"){
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
@@ -49,7 +49,7 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
   for(i in 1:length(ssimObject)){
     #i=1
     cScn = ssimObject[[i]]
-    cOut = datasheetRaster(cScn,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements)
+    cOut = datasheetRaster(cScn,datasheet=datasheet,column=column,scenario=scenario,iteration=iteration,timestep=timestep,subset=subset,rat=rat,forceElements=forceElements)
     names(cOut)=paste0("scn",.scenarioId(cScn),".",names(cOut))
     if(i == 1){out=cOut}else{out=raster::stack(out,cOut)}
   }
@@ -61,6 +61,8 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
 })
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
+  # ssimObject= myResult[[1]]; datasheet="STSim_OutputSpatialState";column=NULL;iteration=seq(1);timesteps = seq(0,10,by=5);rat=rat;subset=NULL
+  
   if(is.null(scenario)){
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
   }
@@ -85,7 +87,13 @@ setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimOb
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
   # scenario= myResult[[2]]; datasheet="STSim_InitialConditionsSpatial";column="AgeFileName";iteration=NULL;timestep = NULL;rat=NULL;subset=NULL;forceElements=F
-
+  # ssimObject= myResult[[1]]; datasheet="STSim_OutputSpatialState";column=NULL;iteration=seq(1);timestep = seq(0,10,by=5);rat=rat;subset=NULL
+  
+  if(is.null(subset)){
+    getFactors=F
+  }else{
+    getFactors=T
+  }
   Timestep=NULL;Iteration=NULL;layerName=NULL;freq=NULL
   if(!is.null(scenario)){
     warning("scenario argument is ignored when ssimObject is a scenario.")
@@ -102,11 +110,11 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   #}
   
   #TO DO: make sure datasheet is spatial after opening
-  cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=F)
+  cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
   
   if(nrow(cMeta)==0){
     multiband(x,action="rebuild")
-    cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=F)
+    cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
   }
   tt = command(list(list=NULL,columns=NULL,allprops=NULL,sheet=datasheet,csv=NULL,lib=.filepath(x)),session=.session(x))
   cPropsAll = .dataframeFromSSim(tt)
@@ -155,12 +163,12 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
         }
       }else{
         multiband(x,action="rebuild")
-        cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=F)
+        cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
       }
     }
     tryCount = tryCount+1
   }
-  
+
   if(grepl("bandColumn",cProps$properties,fixed=T)){
     propSplit = strsplit(cProps$properties,"!",fixed=T)[[1]]
     bandBit = propSplit[grepl("bandColumn",propSplit)]
@@ -170,7 +178,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
     cMeta$bandColumn=NA
   }
   cMeta$rasterColumn=cMeta[[column]]
-  
   #subset rows using subset argument
   if(!is.null(subset)){
     #subset=expression(grepl("Ts0001",Filename,fixed=T))
@@ -179,18 +186,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
 
   #Now cMeta contains bandColumn, rasterColumn, and only rows to be exported
   cMeta$outName = gsub(".tif","",basename(cMeta$rasterColumn),fixed=T)
-  if(is.element("Timestep",names(cMeta))){
-    tsReplaceBits =cMeta$Timestep
-    tsReplaceBits[tsReplaceBits<10]=paste0("Ts000",tsReplaceBits[tsReplaceBits<10],"-")
-    tsReplaceBits[(10<=tsReplaceBits)&(tsReplaceBits<100)]=paste0("Ts00",tsReplaceBits[(10<=tsReplaceBits)&(tsReplaceBits<100)],"-")
-    tsReplaceBits[(100<=tsReplaceBits)&(tsReplaceBits<1000)]=paste0("Ts0",tsReplaceBits[(100<=tsReplaceBits)&(tsReplaceBits<1000)],"-")
-    tsReplaceBits[(1000<=tsReplaceBits)&(tsReplaceBits<10000)]=paste0("Ts",tsReplaceBits[(1000<=tsReplaceBits)&(tsReplaceBits<10000)],"-")
-    for(i in seq(length.out=length(tsReplaceBits))){
-      cMeta$outName = gsub(tsReplaceBits[i],"",cMeta$outName,fixed=T)
-    }
-    cMeta$outName=paste0(cMeta$outName,".ts",cMeta$Timestep)
-  }
-
   if(is.element("Iteration",names(cMeta))&&(length(setdiff(cMeta$Iteration,c(NA)))>0)){
     tsReplaceBits =cMeta$Iteration
     tsReplaceBits[tsReplaceBits<10]=paste0("It000",tsReplaceBits[tsReplaceBits<10],"-")
@@ -200,8 +195,34 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
     for(i in seq(length.out=length(tsReplaceBits))){
       cMeta$outName = gsub(tsReplaceBits[i],"",cMeta$outName,fixed=T)
     }
-    cMeta$outName=paste0(cMeta$outName,".it",cMeta$Iteration)
+    for(k in seq(length.out=nrow(cMeta))){
+      #k=1
+      addString = paste0(".it",cMeta$Iteration[k])
+      if(!grepl(addString,cMeta$outName[k],fixed=T)){
+        cMeta$outName[k]=paste0(cMeta$outName[k],addString)
+      }
+      
+    }
   }
+  if(is.element("Timestep",names(cMeta))){
+    tsReplaceBits =cMeta$Timestep
+    tsReplaceBits[tsReplaceBits<10]=paste0("Ts000",tsReplaceBits[tsReplaceBits<10],"-")
+    tsReplaceBits[(10<=tsReplaceBits)&(tsReplaceBits<100)]=paste0("Ts00",tsReplaceBits[(10<=tsReplaceBits)&(tsReplaceBits<100)],"-")
+    tsReplaceBits[(100<=tsReplaceBits)&(tsReplaceBits<1000)]=paste0("Ts0",tsReplaceBits[(100<=tsReplaceBits)&(tsReplaceBits<1000)],"-")
+    tsReplaceBits[(1000<=tsReplaceBits)&(tsReplaceBits<10000)]=paste0("Ts",tsReplaceBits[(1000<=tsReplaceBits)&(tsReplaceBits<10000)],"-")
+    for(i in seq(length.out=length(tsReplaceBits))){
+      cMeta$outName = gsub(tsReplaceBits[i],"",cMeta$outName,fixed=T)
+    }
+    for(k in seq(length.out=nrow(cMeta))){
+      #k=1
+      addString = paste0(".ts",cMeta$Timestep[k])
+      if(!grepl(addString,cMeta$outName[k],fixed=T)){
+        cMeta$outName[k]=paste0(cMeta$outName[k],addString)
+      }
+      
+    }
+  }
+  
   if((length(setdiff(NA,unique(cMeta$Band)))>0)&length(intersect(names(cMeta),c("Timestep","Iteration")))==0){
     cMeta$outName=paste0(cMeta$outName,".b",cMeta$bandColumn)
   }
@@ -225,6 +246,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
     if(length(missing)>0){
       warning("Some layers not found: ",paste(cMeta$outName[is.element(cMeta$layerName,missing)]))
     }
+    
     cMeta=subset(cMeta,is.element(layerName,names(cStack)))
     
     for(i in 1:nrow(cMeta)){
