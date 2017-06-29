@@ -1,3 +1,4 @@
+#library(testthat)
 #setwd("C:/gitprojects/rsyncrosim")
 #setwd(retDir)
 retDir = getwd()
@@ -24,52 +25,69 @@ test_that("Test simple spatial STSim example", {
 
   #*************************************
   # View  "STSim_OutputSpatialState" results
-  myLibrary = ssimLibrary(name=libPath,forceUpdate=T)
+  myLibrary = ssimLibrary(name=libPath,forceUpdate=T,session=session(printCmd=T))
 
   myProject = project(myLibrary,project=1)
   
-  run(myProject,5,summary=T)
+  ret=run(myProject,5,summary=T)
   
   resultScns = scenario(myProject,results=T)
   myResult = scenario(myProject,scenario=tail(resultScns,n=2)$scenarioId)
-  
   expect_equal(length(myResult),2)
   expect_is(myResult[[1]],"Scenario")
-  
-  #RESUME HERE
 
   #*************************************
   # View state class output
-  # Add an (optional) raster attribute table. This is dataframe with ID, (optional) Color, and descriptor columns.
-  # In this example, we load StateClass attributes from the library, then override the Colors.
   rat = datasheet(myResult[[1]],name="STSim_StateClass",optional=T)
   rat$Color = c("darkgreen","brown","wheat")
-
-  myRasters = spatialData(myResult,sheet="STSim_OutputSpatialState",
-                          iterations=seq(1),timesteps = seq(0,10,by=10),rat=rat)
-  names(myRasters)
+  
+  myRasters = datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
+                              iteration=seq(1),timestep = seq(0,10,by=5),rat=rat)
   expect_is(myRasters,"RasterStack")
-  expect_equal(names(myRasters),c("STSim_OutputSpatialState.Scn6.It1.Ts0","STSim_OutputSpatialState.Scn6.It1.Ts10","STSim_OutputSpatialState.Scn7.It1.Ts0","STSim_OutputSpatialState.Scn7.It1.Ts10"))
+  expect_equal(names(myRasters),c("scn6.sc.ts0.it1","scn6.sc.ts5.it1","scn6.sc.ts10.it1",
+                                  "scn7.sc.ts0.it1","scn7.sc.ts5.it1","scn7.sc.ts10.it1"))
 
-  #check that returned attributes match entered attributes
   checkLevels = raster::levels(myRasters[[1]])[[1]]
   row.names(checkLevels) =checkLevels$ID
+  expect_equal(checkLevels$hexColor,c("#A52A2AFF","#F5DEB3FF","#006400FF"))
+  checkLevels$hexColor=NULL
   expect_equal(checkLevels,merge(checkLevels,rat))
-  #TO DO: why does levels fail in testing?
 
-  #plot iteration 1 timestep 0
-  view = myRasters[[1]]
-  expect_equal(view@title,"STSim_OutputSpatialState.Scn6.It1.Ts0")
-  expect_equal(freq(view)[,'count'],c(402,379,219,24))
-
-  #Change to automatically selected colors and save plot to pdf.
-  newRat = raster::levels(view)[[1]]
-  newRat$Color = brewer.pal(n = nrow(newRat), name = "Dark2")
-  ssimRatify(view) = newRat
-  #expect_equal(colortable(view),c("#1B9E77","#D95F02","#7570B3"))
-
+  view = myRasters[[1]]  
+  expect_equal(raster::freq(view)[,'count'],c(402,379,219,24))
+  
+  #ssimLevelplot(myRasters[[1]],attribute="StateLabelXID",main=names(myRasters)[1]) 
+  #Not sure how to test graphical output.
+  
   #*************************************
   # View spatial inputs
+  myTransitionGroup = datasheetRaster(myLibrary,scenario=as.numeric(names(myResult)),datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
+  names(myTransitionGroup)
+  expect_equal(names(myTransitionGroup),c("scn6.tg.17.ts1.it1","scn7.tg.17.ts1.it1"))
+  
+  mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
+  expect_equal(names(mySpatialInputs),c("scn6.It0000.Ts0000.age","scn7.It0000.Ts0000.age"))
+  #RESUME HERE
+  
+  age0=mySpatialInputs[["scn7.It0000.Ts0000.age"]]
+  
+  #see all ages
+  plot(age0,main=age0@title)
+  
+  #Build raster attribute table to view young only
+  rat = data.frame(ID=unique(age0))
+  rat$isYoung[rat$ID<36]="young" #check young forest definition
+  rat$isYoung[rat$ID>=36]="not young" #check young forest definition
+  rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
+  ssimRatify(age0) = rat
+  
+  filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
+  pdf(filename)
+  ssimLevelplot(age0,attribute="isYoung")
+  dev.off()
+  
+  
+  
   mySpatialInputs = spatialData(myResult,sheet="STSim_InitialConditionsSpatial")
   age0=mySpatialInputs[["STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.age"]]
   expect_equal(cellStats(age0,"max"),100)

@@ -102,11 +102,11 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   #}
   
   #TO DO: make sure datasheet is spatial after opening
-  cMeta = .datasheet(x,name=datasheet,optional=T)
+  cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=F)
   
   if(nrow(cMeta)==0){
     multiband(x,action="rebuild")
-    cMeta = .datasheet(x,name=datasheet,optional=T)
+    cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=F)
   }
   tt = command(list(list=NULL,columns=NULL,allprops=NULL,sheet=datasheet,csv=NULL,lib=.filepath(x)),session=.session(x))
   cPropsAll = .dataframeFromSSim(tt)
@@ -155,7 +155,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
         }
       }else{
         multiband(x,action="rebuild")
-        cMeta = .datasheet(x,name=datasheet,optional=T)
+        cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=F)
       }
     }
     tryCount = tryCount+1
