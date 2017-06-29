@@ -32,7 +32,7 @@ NULL
 setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
 #' @rdname multiband
 setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
-  #x=myResult;action="rebuild";grouping=NULL
+  #ssimObject=scn;action="apply";grouping=NULL
   if(is.na(parentId(ssimObject))){
     stop("Need a result Scenario.")
   }

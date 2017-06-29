@@ -96,7 +96,7 @@ myBreakpointFunction<-function(x,iteration,timestep){
   # Non-spatial example
   #sheetName = "STSim_TransitionMultiplierValue"
   #mySheet = datasheet(x,sheetName,optional=T,empty=T)
-  #mySheet=addRows(mySheet,data.frame(Iteration=iteration,Timestep=timestep,
+  #mySheet=addRow(mySheet,data.frame(Iteration=iteration,Timestep=timestep,
   #                            TransitionGroupID="Fire",Amount=iteration*timestep+1.5))
   #mySheet=unique(mySheet)
   #saveDatasheet(x,mySheet,name=sheetName,breakpoint=T)

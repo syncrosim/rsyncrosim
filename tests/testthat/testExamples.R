@@ -256,12 +256,12 @@ test_that("Tests of datasheet", {
   sheetName = "STSim_StateLabelX"
   emptyTab = datasheet(myProject, name=sheetName,empty=F)
   expect_equal(nrow(emptyTab),0)
-  stateClassDefinition=addRows(emptyTab,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
+  stateClassDefinition=addRow(emptyTab,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
   expect_equal(stateClassDefinition$Name,c('Coniferous','Deciduous','Mixed'))
   ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
   ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F,force=T) #remove without prompting
 
-  stateClassDefinition=addRows(emptyTab,data.frame(Name=c('Grass')))
+  stateClassDefinition=addRow(emptyTab,data.frame(Name=c('Grass')))
   ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
   expect_equal(datasheet(myProject, name=sheetName)$Name,c('Coniferous','Deciduous','Grass','Mixed'))
   

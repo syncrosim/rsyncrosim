@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Add rows to a dataframe.
+#' Add row(s) to a dataframe.
 #'
-#' Adds rows to a dataframe.
+#' Adds row(s) to a dataframe.
 #' 
 #' @details
 #' Preserves the types and factor levels of the targetDataframe.
@@ -17,9 +17,9 @@ NULL
 #' @param value Dataframe, character string vector, or list. Columns in value should be a subset of columns in targetDataframe. 
 #' @return A dataframe with new rows.
 #' @export
-setGeneric('addRows',function(targetDataframe,value) standardGeneric('addRows'))
-#' @rdname addRows
-setMethod('addRows',
+setGeneric('addRow',function(targetDataframe,value) standardGeneric('addRow'))
+#' @rdname addRow
+setMethod('addRow',
   signature="data.frame",
   definition=function(targetDataframe,value){
     #targetDataframe=mySheet;value=list(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1")

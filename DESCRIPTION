@@ -28,7 +28,7 @@ Suggests:
 Collate:
     'AAAClassDefinitions.R'
     'addModule.R'
-    'addRows.R'
+    'addRow.R'
     'addon.R'
     'backup.R'
     'breakpoint.R'

@@ -74,10 +74,10 @@ test_that("Test simple non-spatial STSim example", {
   #**************************
   # Deterministic transitions
   sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-  mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1"))
+  mySheet=addRow(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1"))
   expect_equal(mySheet$Location,"C1")
-  mySheet = addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
-  mySheet = addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
+  mySheet = addRow(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
+  mySheet = addRow(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
   expect_equal(mySheet$AgeMin,c(21,NA,11))
   expect_equal(levels(mySheet$StateClassIDSource),c("Coniferous:All","Deciduous:All","Mixed:All"))
   ret = saveDatasheet(myScenario,mySheet,name=sheetName)

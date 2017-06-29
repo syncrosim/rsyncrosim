@@ -27,9 +27,10 @@ test_that("Test simple spatial STSim example", {
   # View  "STSim_OutputSpatialState" results
   myLibrary = ssimLibrary(name=libPath,forceUpdate=T,session=session(printCmd=T))
 
+  project(myLibrary)
   myProject = project(myLibrary,project=1)
   
-  ret=run(myProject,5,summary=T)
+  ret=run(myProject,5,summary=T,jobs=3)
   
   resultScns = scenario(myProject,results=T)
   myResult = scenario(myProject,scenario=tail(resultScns,n=2)$scenarioId)

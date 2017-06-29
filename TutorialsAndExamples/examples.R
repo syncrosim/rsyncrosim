@@ -305,7 +305,7 @@ sheetName = "STSim_StateLabelX"
 delete(myProject,datasheet=sheetName,force=T)
 
 stateClassDefinition = datasheet(myProject, name=sheetName,empty=F)
-stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
+stateClassDefinition=addRow(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
 # NOTE: rbind does not preserve types and factor levels
 saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
 #saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F) #prompt to approve removal of old definitions.
@@ -314,7 +314,7 @@ saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F,force=T) 
 #default is append=T for project/library scope datasheets, and F for scenario datasheets. 
 
 stateClassDefinition = datasheet(myProject, name=sheetName,empty=T)
-stateClassDefinition=addRows(stateClassDefinition,data.frame(Name=c('Grass')))
+stateClassDefinition=addRow(stateClassDefinition,data.frame(Name=c('Grass')))
 saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
 datasheet(myProject, name=sheetName) 
 

@@ -114,30 +114,30 @@ saveDatasheet(myScenario,mySheet,name=sheetName)
 sheetName = "STSim_DeterministicTransition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
 str(mySheet)
 levels(mySheet$StateClassIDSource)
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1"))
-mySheet=addRows(mySheet,list(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1"))
+mySheet=addRow(mySheet,list(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
 mySheet
 saveDatasheet(myScenario,mySheet,name=sheetName)
 # mySheet = datasheet(myScenario,name=sheetName,optional=T); str(mySheet) #check what happened
-# addRows() checks validity of column names and factor levels.
-# addRows() fills missing values using factor levels where possible.
+# addRow() checks validity of column names and factor levels.
+# addRow() fills missing values using factor levels where possible.
 
 #*************************
 # Probabilistic transitions
 sheetName = "STSim_Transition"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
 str(mySheet)
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Fire",Probability=0.01))
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Harvest",Probability=1,AgeMin=40))
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Fire",Probability=0.002))
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All",
                            TransitionTypeID="Succession",Probability=0.1,AgeMin=10))
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All",
                            TransitionTypeID="Fire",Probability=0.005))
-mySheet=addRows(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
+mySheet=addRow(mySheet,data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All",
                            TransitionTypeID="Succession",Probability=0.1,AgeMin=20))
 mySheet
 saveDatasheet(myScenario,mySheet,name=sheetName)
@@ -151,9 +151,9 @@ mySheet[1,"NumCells"]=1000
 saveDatasheet(myScenario,mySheet,name=sheetName)
 
 sheetName = "STSim_InitialConditionsNonSpatialDistribution"; mySheet = datasheet(myScenario,name=sheetName,optional=T,empty=T)
-mySheet=addRows(mySheet,data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20))
-mySheet=addRows(mySheet,data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40))
-mySheet=addRows(mySheet,data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40))
+mySheet=addRow(mySheet,data.frame(StateClassID="Coniferous:All",AgeMin=20,AgeMax=100,RelativeAmount=20))
+mySheet=addRow(mySheet,data.frame(StateClassID="Deciduous:All",AgeMax=10,RelativeAmount=40))
+mySheet=addRow(mySheet,data.frame(StateClassID="Mixed:All",AgeMin=11,AgeMax=20,RelativeAmount=40))
 mySheet
 saveDatasheet(myScenario,mySheet,name=sheetName)
 

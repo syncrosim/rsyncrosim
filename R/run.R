@@ -34,7 +34,7 @@ setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summ
 })
 #' @rdname run
 setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
-  #x=myScenario;jobs=2;scenario=NULL
+  #ssimObject=myProject;jobs=3;summary=T;scenario=5
   
   xProjScn = .getFromXProjScn(ssimObject,scenario=scenario,convertObject=T,returnIds=T,goal="scenario",complainIfMissing=T)
   #Now assume scenario is x is valid object and scenario is valid vector of scenario ids
@@ -104,7 +104,8 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
     }else{
       if(summary){
         out[[inScn]] = as.numeric(resultId)
-        multiband(.scenario(x,scenario=as.numeric(resultId)),action="apply")
+        scn = .scenario(x,scenario=as.numeric(resultId))
+        multiband(scn,action="apply")
       }else{
         out[[inScn]] = .scenario(x,scenario=as.numeric(resultId))
         multiband(out[[inScn]],action="apply")
