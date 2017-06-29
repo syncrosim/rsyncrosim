@@ -90,7 +90,7 @@ check = datasheet(myResult[[1]],"STSim_InitialConditionsSpatial")
 str(check)
 mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
 names(mySpatialInputs)
-age0=mySpatialInputs[["scn7.It0000.Ts0000.age"]]
+age0=mySpatialInputs[["scn7.age.it0.ts0"]]
 
 #see all ages
 plot(age0,main=age0@title)
@@ -125,7 +125,7 @@ newScenario = scenario(myProject,scenario="NewScn")
 inRasters=stack(datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="AgeFileName"),
                 datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StateClassFileName"),
                 datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StratumFileName"))
-names(inRasters)=gsub("It0000.Ts0000.","",names(inRasters),fixed=T)
+names(inRasters)=gsub(".it0.ts0","",names(inRasters),fixed=T)
 #saveDatasheet is expecting a named raster stack or named list.
 
 #inSheet must conform to format expectations just like any other datasheet.

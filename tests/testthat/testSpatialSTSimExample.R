@@ -69,44 +69,43 @@ test_that("Test simple spatial STSim example", {
   expect_equal(names(myTransitionGroup),c("scn6.tg.17.it1.ts1","scn7.tg.17.it1.ts1"))
   
   mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
-  expect_equal(names(mySpatialInputs),c("scn6.It0000.Ts0000.age","scn7.It0000.Ts0000.age"))
+  expect_equal(names(mySpatialInputs),c("scn6.age.it0.ts0","scn7.age.it0.ts0"))
   
-  age0=mySpatialInputs[["scn7.It0000.Ts0000.age"]]
+  age0=mySpatialInputs[["scn7.age.it0.ts0"]]
   
-  #see all ages
-  plot(age0,main=age0@title)
-  
-  #Build raster attribute table to view young only
-  rat = data.frame(ID=unique(age0))
-  rat$isYoung[rat$ID<36]="young" #check young forest definition
-  rat$isYoung[rat$ID>=36]="not young" #check young forest definition
-  rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
-  ssimRatify(age0) = rat
-  
-  filename=paste0(dirname(filepath(myResult[[1]])),"/youngMap.pdf")
-  pdf(filename)
-  ssimLevelplot(age0,attribute="isYoung")
-  dev.off()
-  
-  
-  
-  mySpatialInputs = spatialData(myResult,sheet="STSim_InitialConditionsSpatial")
-  age0=mySpatialInputs[["STSim_InitialConditionsSpatial.Scn6.It0000.Ts0000.age"]]
-  expect_equal(cellStats(age0,"max"),100)
+  expect_equal(raster::cellStats(age0,"max"),98)
 
-  #Build raster attribute table to view young only
-  rat = data.frame(ID=raster::unique(age0))
-  rat$isYoung[rat$ID<36]="young" #check young forest definition
-  rat$isYoung[rat$ID>=36]="not young" #check young forest definition
-  rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
-  ssimRatify(age0) = rat
-  checkLevels = raster::levels(age0)[[1]]
-  row.names(checkLevels) = checkLevels$ID
-  test = merge(checkLevels,rat)
-  test=test[order(test$ID),]
-  row.names(test)=test$ID
-  expect_equal(checkLevels,test)
+  ##################
+  #Set spatial inputs in a new library.
+  newScenario = scenario(myProject,scenario="NewScn")
+  
+  ageMap = datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
+  stateMap = datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StateClassFileName")
+  stratumMap = datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StratumFileName")
+  inRasters=raster::stack(ageMap,stateMap,stratumMap)
+  names(inRasters)=gsub(".it0.ts0","",names(inRasters),fixed=T)
 
+  sheetName = "STSim_InitialConditionsSpatial"
+  inSheet = datasheet(newScenario,name=sheetName)
+  inSheet[1,"StratumFileName"]=names(inRasters)[3]
+  inSheet[1,"StateClassFileName"]=names(inRasters)[2]
+  inSheet[1,"AgeFileName"]=names(inRasters)[1]
+  ret=saveDatasheet(newScenario,data=inSheet,name=sheetName,fileData=inRasters)
+  
+  expect_equal(file.exists(paste0(filepath(newScenario),".input/Scenario-8/STSim_InitialConditionsSpatial/age.tif")),T)
+  ds = datasheet(newScenario,name="STSim_InitialConditionsSpatialProperties")
+  expect_equal(ds$NumRows,dim(ageMap)[1])
+  
+  #Change the extent of the input maps
+  inExtent = raster::extent(inRasters)
+  outExtent = inExtent
+  outExtent@xmax = 500;outExtent@ymax=500
+  newRasters=raster::crop(inRasters,outExtent)
+  anotherScenario = scenario(myProject,"Another New Scenario")
+  saveDatasheet(anotherScenario,data=inSheet,name=sheetName,fileData=newRasters)
+  ds = datasheet(anotherScenario,name="STSim_InitialConditionsSpatialProperties")
+  expect_equal(ds$NumRows,dim(newRasters)[1])
+  
   ###############
   # Rearrange spatial outputs in a result scenario
   #set spatial options
@@ -115,8 +114,8 @@ test_that("Test simple spatial STSim example", {
   silent = saveDatasheet(myProject,mySheet,name=sheetName)
 
   #Combining all spatial results into one multiband file will speed up loading.
-  ret = multiband(myResult,action="apply")
-  expect_equal(file.exists(paste0(filepath(myLibrary),".output/Scenario-6/Spatial/sc.tif")),TRUE)
+  ret = multiband(myResult[[1]],action="apply")
+  expect_equal(file.exists(paste0(filepath(myLibrary),".output/Scenario-6/STSim_OutputSpatialState/sc.tif")),TRUE)
 
 })
 

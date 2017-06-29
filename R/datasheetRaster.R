@@ -186,6 +186,12 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
 
   #Now cMeta contains bandColumn, rasterColumn, and only rows to be exported
   cMeta$outName = gsub(".tif","",basename(cMeta$rasterColumn),fixed=T)
+  
+  if(grepl("It0000-Ts0000-",cMeta$outName[1])){
+    cMeta$outName[1]=gsub("It0000-Ts0000-","",cMeta$outName[1],fixed=T)
+    cMeta$outName[1]=paste0(cMeta$outName,".it0.ts0")
+  }
+  
   if(is.element("Iteration",names(cMeta))&&(length(setdiff(cMeta$Iteration,c(NA)))>0)){
     tsReplaceBits =cMeta$Iteration
     tsReplaceBits[tsReplaceBits<10]=paste0("It000",tsReplaceBits[tsReplaceBits<10],"-")
