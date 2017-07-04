@@ -30,7 +30,7 @@ setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibr
       print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$enabled=="No"],collapse=",")))
       next
     }
-    cAddsLess = subset(cAdds,enabled=="No")
+    cAddsLess = subset(cAdds,enabled==F)
     if(!is.element(cVal,cAddsLess$name)){
       print(paste0(cVal," is already enabled."))
       next

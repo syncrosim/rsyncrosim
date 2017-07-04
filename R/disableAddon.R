@@ -25,7 +25,7 @@ setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLib
   #x=myLibrary
   #value = c("stsim-ecological-departure", "stsim-stock-flow")
   enabled=NULL
-  cAdds = addon(ssimLibrary)
+  cAdds = subset(addon(ssimLibrary))
   name=gsub(":add-on-transformer","",name,fixed=T)
   retList = list()
   for(i in seq(length.out=length(name))){
@@ -35,7 +35,7 @@ setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLib
       print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$enabled=="No"],collapse=",")))
       next
     }
-    cAddsLess = subset(cAdds,enabled=="Yes")
+    cAddsLess = subset(cAdds,enabled==T)
     if(!is.element(cVal,cAddsLess$name)){
       print(paste0(cVal," is already disabled."))
       next

@@ -31,7 +31,7 @@ test_that("Tests of command", {
   expect_equal(command("--create --help")[1],"Creates an item")
   expect_equal(command(list(create=NULL,help=NULL))[1],"Creates an item")
   
-  delete(paste0(getwd(),"/temp.ssim"),force=T)
+  ret=delete(paste0(getwd(),"/temp.ssim"),force=T)
   args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="hello:model-transformer")
   output = command(args)
   expect_equal(output[1],"The transformer 'hello:model-transformer' was not found.  You may need to install an additional module.")
@@ -40,7 +40,7 @@ test_that("Tests of command", {
 test_that("Tests of Library", {
   myLibrary = ssimLibrary(name="temp") #create new library using default model
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
-  expect_equal(model(myLibrary)[["name"]],"stsim")
+  expect_equal(as.character(model(myLibrary)$name),"stsim")
   expect_equal(delete(myLibrary,force=T),"saved")
   expect_equal(file.exists(filepath(myLibrary)),FALSE)
     
@@ -49,7 +49,7 @@ test_that("Tests of Library", {
   expect_equal(name(myLibrary),"SsimLibrary")
 
   # With addons
-  expect_equal(nrow(addon(myLibrary)),0)
+  expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
   allAdds = addon(myLibrary)
   expect_equal(names(allAdds),c("name","displayName","enabled","currentVersion","minimumVersion"))
   expect_gt(nrow(allAdds),0)
@@ -59,11 +59,11 @@ test_that("Tests of Library", {
   cAdd =allAdds$name[1]
   #delete(myLibrary,force=T)
   myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd),session=mySession) 
-  expect_equal(addon(myLibrary)$name,cAdd)
+  expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
   expect_equal(disableAddon(myLibrary,cAdd)[[cAdd]],"saved")
-  expect_equal(nrow(addon(myLibrary)),0)
+  expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
   expect_equal(enableAddon(myLibrary,cAdd)[[cAdd]],"saved")
-  expect_equal(addon(myLibrary)$name,cAdd)
+  expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
 
   myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
@@ -90,7 +90,7 @@ test_that("Tests of Library", {
   readOnly(myLibrary)=F
   expect_equal(readOnly(myLibrary),F)
   expect_equal(grepl("at",dateModified(myLibrary)),T)
-  delete(myLibrary,force=T)
+  ret=delete(myLibrary,force=T)
   
 })
 
@@ -143,7 +143,6 @@ test_that("Tests of projects and scenarios", {
   ret =delete(myProject,scenario="one",force=T)
   myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
   expect_equal(scenarioId(myScn),6)
-  scenario(myLib)
   expect_warning(scenario(myProject,scenario="one",sourceScenario="one"),"ourceScenario was ignored because scenario already exists.",fixed=T) #Warns that sourceScenario will be ignored.
   expect_error(scenario(myProject,scenario="three",sourceScenario="one"),"There is more than one scenario called one in the SsimLibrary. Please provide a sourceScenario id: 1,6",fixed=T) #Fail if more than one scenario named sourceScenario in the library.
 
@@ -160,7 +159,6 @@ test_that("Tests of projects and scenarios", {
 
   expect_equal(length(datasheet(allScns,c("STSim_RunControl","STSim_OutputOptions"))),2) #returns a list - each sheet contains scenario info if appropriate
 
-  datasheet(myProject)
   expect_warning(datasheet(myScn,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and scenario arguments.
   expect_warning(datasheet(myProject,"STime_Chart",project=1),"project argument is ignored when ssimObject is a Project/Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and project arguments.
   expect_warning(datasheet(allScns,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a list.",fixed=T)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
@@ -207,7 +205,6 @@ test_that("Tests of projects and scenarios", {
   expect_equal(ssimUpdate(myProject),"The library has no unapplied updates.")
   
   #test dependency, precedence setting
-  scenario(myProject)
   ret=scenario(myProject,scenario="another scn")
   targetScn = scenario(myProject,scenario="two")
   ret=dependency(targetScn,dependency=c("other","New scn name","another scn")) #elements of the dependency argument are ordered from lowest to highest precedence
@@ -216,8 +213,6 @@ test_that("Tests of projects and scenarios", {
   expect_equal(dependency(targetScn)$name,c("New scn name","another scn","other"))#now "New scn name" has highest precedence.
   
   #test delete - vectors of project/scenario/datasheet
-  scenario(myLib)
-  datasheet(myProject)
   retList = delete(myLib, project=c(1,10),datasheet=c("STime_Chart","STime_DistributionType"),force=T)
   expect_is(retList,"list")
   expect_equal(retList[[1]][["STime_Chart pid1"]],"saved")

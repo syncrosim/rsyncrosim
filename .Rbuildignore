@@ -1,3 +1,7 @@
+^.*\.ssim$
+^.*\.ssim.backup$
+^.*\.ssim.output$
+^.*\.ssim.input$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^buildPackage\.R$          # Notes on how to build the package.
@@ -10,3 +14,5 @@ installRSyncroSim\.R$
 buildNotes\.R$
 Readme\-Development\.txt$
 TutorialsAndExamples
+testLibs
+
