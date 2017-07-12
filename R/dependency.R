@@ -47,6 +47,11 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
   allScns = .scenario(.ssimLibrary(x),summary=T)
   
   outResults= list()
+  
+  if(class(dependency)=="Scenario"){
+    dependency = scenarioId(dependency)
+  }
+  
   for(j in seq(length.out=length(dependency))){
     #j=1
     cDepRaw = dependency[[j]]
@@ -67,7 +72,7 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
         stop("Found more than one scenario named ",cDepRaw,". Please specify a dependency scenario id:",paste0(cDep,collapse=","))
       }
     }
-    if(class(cDepRaw)=="integer"){
+    if(class(cDepRaw)=="numeric"){
       if(!is.element(cDepRaw,allScns$scenarioId)){
         warning(cDepRaw,": dependency scenario not found in library, so ignored.")
         outResults[[cDepRaw]]="Dependency not found in library, so ignored."  

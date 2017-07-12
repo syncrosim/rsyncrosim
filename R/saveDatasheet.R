@@ -94,6 +94,15 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       }
     }
     
+    class(cDat$StateClassFileName)
+    
+    #convert factors to strings
+    for (kk in seq(length.out=ncol(cDat))){
+      if(class(cDat[[kk]])=="factor"){
+        cDat[[kk]]=as.character(cDat[[kk]])
+      }
+    }
+    
     #note deletions must happen before files are written.
     scope =sheetNames$scope[sheetNames$name==cName]
     if(length(scope)==0){
@@ -192,7 +201,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
           
           cOutName=paste0(cOutName,".tif")
         }
-        
+
         raster::writeRaster(cItem,cOutName,format="GTiff",overwrite=T)
       }
     }
