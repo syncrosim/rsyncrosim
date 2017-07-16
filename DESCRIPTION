@@ -10,7 +10,7 @@ Description: rsyncrosim provides an interface to SyncroSim, a generalized
     as modules and take advantage of general features common to many kinds of
     simulation models, such as defining scenarios of model inputs, running Monte
     Carlo simulations, and viewing charts and maps of outputs.
-License: MIT + file LICENSE
+License: GPL-3 | file LICENSE
 LazyData: TRUE
 Imports:
     methods,
@@ -18,11 +18,8 @@ Imports:
     RSQLite,
     Rcpp,
     rgdal,
-    raster,
-    rasterVis
-Suggests:
-    plyr,
-    ggplot2,
+    raster
+Suggests: 
     knitr,
     testthat
 Collate:
@@ -71,7 +68,6 @@ Collate:
     'runLog.R'
     'saveDatasheet.R'
     'silent.R'
-    'ssimLevelplot.R'
     'ssimRatify.R'
     'ssimUpdate.R'
     'version.R'

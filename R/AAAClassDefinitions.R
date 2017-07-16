@@ -24,12 +24,12 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' model(mySession) # Dataframe of the models installed with this version of syncrosim.
 #'
 #' # Add and remove modules
-#' deleteModule("stsim-stock-flow",mySession) 
-#' is.element("stsim-stock-flow",modules(mySsim)$shortName)
-#' pkgDir ="C:/Program Files/SyncroSim/1/CorePackages/" 
-#' addModule(paste0(pkgDir,"stockflow.ssimpkg"),mySession)
-#' addModule(paste0(pkgDir,c("stockflow.ssimpkg","dynmult.ssimpkg"),mySession)
-#' is.element("stsim-stock-flow",modules(mySsim)$shortName)
+#' #deleteModule("stsim-stock-flow",mySession) 
+#' #is.element("stsim-stock-flow",modules(mySsim)$shortName)
+#' #pkgDir ="C:/Program Files/SyncroSim/1/CorePackages/" 
+#' #addModule(paste0(pkgDir,"stockflow.ssimpkg"),mySession)
+#' #addModule(paste0(pkgDir,c("stockflow.ssimpkg","dynmult.ssimpkg"),mySession)
+#' #is.element("stsim-stock-flow",modules(mySsim)$shortName)
 #'
 #' # Create or load a library using a default Session
 #' myLib = ssimLibrary(name="stsim")

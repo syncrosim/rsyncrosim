@@ -20,21 +20,25 @@ setGeneric('description',function(ssimObject) standardGeneric('description'))
 #' @export
 setGeneric('description<-',function(ssimObject,value) standardGeneric('description<-'))
 #' @rdname description
-setMethod('description', signature(ssimObject="SsimLibrary"), function(ssimObject) {
+setMethod('description', signature(ssimObject="SsimObject"), function(ssimObject) {
   #ssimObject=myLibrary
-  desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject)),session=.session(ssimObject))
-  return(desc)
-})
-#' @rdname description
-setMethod('description', signature(ssimObject="Project"), function(ssimObject) {
-  #ssimObject=myProject
-  desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject)),session=.session(ssimObject))
-  return(desc)
-})
-#' @rdname description
-setMethod('description', signature(ssimObject="Scenario"), function(ssimObject) {
-  #ssimObject=myProject
-  desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),sid=.scenarioId(ssimObject)),session=.session(ssimObject))
+  if(class(ssimObject)=="SsimLibrary"){
+    desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject)),session=.session(ssimObject))
+  }
+  if(class(ssimObject)=="Project"){
+    desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject)),session=.session(ssimObject))
+  }
+  if(class(ssimObject)=="Scenario"){
+    desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),sid=.scenarioId(ssimObject)),session=.session(ssimObject))
+  }
+  
+  while(max(grepl("  ",desc,fixed=T))){
+    desc = gsub("  "," ",desc,fixed=T)
+  }
+  desc=gsub(". ",".",desc,fixed=T)
+  
+  desc = desc[2:length(desc)]
+
   return(desc)
 })
 #' @rdname description-set

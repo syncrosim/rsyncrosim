@@ -22,7 +22,7 @@ saved or error message.
 Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 }
 \examples{
-TODO - update examples
+#TODO - update examples
 myLibrary = ssimLibrary()
 enableAddon(myLibrary,c("stsim-ecological-departure"))
 addon(myLibrary)

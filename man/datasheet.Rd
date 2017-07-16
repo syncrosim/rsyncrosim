@@ -43,10 +43,10 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 
 \item{includeKey}{Logical. If TRUE include primary key in output table.}
 
-\item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.}
+\item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.}
 }
 \value{
-If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe (for datasheets that allow multiple rows) or named vector (for datasheets that only allow one row), or list of these.
+If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 }
 \description{
 Gets Syncrosim datasheet.

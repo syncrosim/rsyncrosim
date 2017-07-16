@@ -3,18 +3,12 @@
 \docType{methods}
 \name{description}
 \alias{description}
-\alias{description,Project-method}
-\alias{description,Scenario-method}
-\alias{description,SsimLibrary-method}
+\alias{description,SsimObject-method}
 \title{Description of an SsimLibrary/Project/Scenario.}
 \usage{
 description(ssimObject)
 
-\S4method{description}{SsimLibrary}(ssimObject)
-
-\S4method{description}{Project}(ssimObject)
-
-\S4method{description}{Scenario}(ssimObject)
+\S4method{description}{SsimObject}(ssimObject)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario.}

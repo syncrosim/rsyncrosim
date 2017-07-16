@@ -11,7 +11,7 @@ NULL
 #' @param name Character string or vector of these.
 #' @return saved or error message for each addon.
 #' @examples
-#' TODO - update examples
+#' #TODO - update examples
 #' myLibrary = ssimLibrary()
 #' enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
 #' addon(myLibrary)

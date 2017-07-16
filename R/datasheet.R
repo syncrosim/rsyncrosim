@@ -36,8 +36,8 @@ NULL
 #' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
 #' @param sqlStatements List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
 #' @param includeKey Logical. If TRUE include primary key in output table.
-#' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a dataframe. Ignored if summary=TRUE.
-#' @return If summary=T returns a dataframe of datasheet names and other info, other wise returns dataframe (for datasheets that allow multiple rows) or named vector (for datasheets that only allow one row), or list of these.
+#' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.
+#' @return If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 #' @export
 #' @import RSQLite
 setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
@@ -70,7 +70,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   #ssimObject = myScenario;name="STSim_DeterministicTransition";project=NULL;scenario=NULL;summary=NULL;optional=F
   #empty=F;lookupsAsFactors=F;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
   
-  temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentScenarioID=NULL
+  temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentScenarioID=NULL;ParentName=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   if(class(xProjScn)=="SsimLibrary"){
     x=xProjScn

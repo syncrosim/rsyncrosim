@@ -22,7 +22,7 @@ saved or error message for each addon.
 Enable addon or addons of an SsimLibrary.
 }
 \examples{
-TODO - update examples
+#TODO - update examples
 myLibrary = ssimLibrary()
 enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
 addon(myLibrary)

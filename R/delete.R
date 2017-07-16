@@ -8,13 +8,13 @@ NULL
 #' Deletes one or more items. Note this is irreversable.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario, or path to a library. 
-#' @param project character, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
-#' @param scenario character, numeric, or vector of these. One or more project names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
-#' @param datasheet character, numeric, or vector of these. One or more project names or ids.
+#' @param project character string, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
+#' @param scenario character string, numeric, or vector of these. One or more scenario names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
+#' @param datasheet character string or vector of these. One or more datasheet names.
 #' @param force logical. If FALSE (default), user will be prompted to approve removal of each item.
 #' @return A list of "saved" or failure messages for each item.
 #' @examples
-#' TODO - update examples
+#' #TODO  - update examples
 #' myLibrary = ssimLibrary(session=devSession)
 #' myProject = project(myLibrary,project="a project")
 #' project(myLibrary)

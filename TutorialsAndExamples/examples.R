@@ -281,7 +281,8 @@ project(myLib)
 # Datasheets are provided in dataframe format
 # We return lookup columns as factors, based on the definitions at the time the datasheet is created
 # We also return each column in the correct data type.
-myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim")
+delete("C:/Temp/NewLibrary.ssim",force=T)
+myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=mySession)
 scenario(myLibrary)
 myScenario = scenario(myLibrary,scenario="one")
 myProject = project(myLibrary,project=1)
@@ -289,8 +290,14 @@ myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the 
 #myScenarioDataframes = datasheet(myScenario,summary=F) #This takes a long time to run - so don't.
 myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
 names(myLibraryDataframes)
-mySTimeOptions = myLibraryDataframes[["STime_Options"]] # a single dataframe
+sheetName = "STime_Options"
+mySTimeOptions = myLibraryDataframes[[sheetName]] # a single dataframe
 # NOTE: datasheet(name=NULL,summary=F) can be very slow, and pull a lot of data - use rarely, with caution.
+
+levels(mySTimeOptions$MultibandGroupingInternal)
+mySTimeOptions[1,"MultibandGroupingInternal"]="Single band"
+saveDatasheet(myProject,mySTimeOptions,name=sheetName) #Default is append=T for project/library scope datasheets, but data in single row datasheets is replaced, not appended, regardless of whether append=T
+datasheet(myProject,sheetName) 
 
 subset(datasheet(myScenario),scope=="scenario")$name
 myDeterministicTransitions = datasheet(myScenario,"STSim_DeterministicTransition")
@@ -309,15 +316,16 @@ stateClassDefinition = datasheet(myProject, name=sheetName,empty=F)
 stateClassDefinition=addRow(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
 # NOTE: rbind does not preserve types and factor levels
 saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
+datasheet(myProject,sheetName)
+stateClassDefinition=addRow(stateClassDefinition,data.frame(Name=c('Coniferous','Deciduous','Mixed','Grass')))
+saveDatasheet(myProject, stateClassDefinition, name=sheetName) #Appends new record by default, but does not add redundant info
+datasheet(myProject,sheetName)
+
 #saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F) #prompt to approve removal of old definitions.
 saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F,force=T) #remove without prompting
 #if append = F, deletes existing project definitions. Note that deleting project definitions can also delete results and other things that depend on lookups. So prompt or require explicit approval.
 #default is append=T for project/library scope datasheets, and F for scenario datasheets. 
-
-stateClassDefinition = datasheet(myProject, name=sheetName,empty=T)
-stateClassDefinition=addRow(stateClassDefinition,data.frame(Name=c('Grass')))
-saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
-datasheet(myProject, name=sheetName) 
+#But note that data in single row datasheets is always replaced rather than appended, regardless of whether append=T. See documentation for details.
 
 datasheet(myProject)
 delete(myProject,datasheet=c(sheetName,sheetName),force=T)

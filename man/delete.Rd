@@ -19,11 +19,11 @@ delete(ssimObject, project = NULL, scenario = NULL, datasheet = NULL,
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or path to a library.}
 
-\item{project}{character, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
+\item{project}{character string, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
 
-\item{scenario}{character, numeric, or vector of these. One or more project names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
+\item{scenario}{character string, numeric, or vector of these. One or more scenario names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
 
-\item{datasheet}{character, numeric, or vector of these. One or more project names or ids.}
+\item{datasheet}{character string or vector of these. One or more datasheet names.}
 
 \item{force}{logical. If FALSE (default), user will be prompted to approve removal of each item.}
 }
@@ -34,7 +34,7 @@ A list of "saved" or failure messages for each item.
 Deletes one or more items. Note this is irreversable.
 }
 \examples{
-TODO - update examples
+#TODO  - update examples
 myLibrary = ssimLibrary(session=devSession)
 myProject = project(myLibrary,project="a project")
 project(myLibrary)
