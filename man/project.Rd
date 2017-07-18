@@ -12,7 +12,7 @@ project(ssimObject, project = NULL, sourceProject = NULL, summary = NULL,
 
 \item{project}{Character, integer, or vector of these. Names or ids of one or more projects. Note that integer ids are slightly faster.}
 
-\item{sourceProject}{Character or integer. If not NULL, new projects will be copies of the sourceProject.}
+\item{sourceProject}{Character, integer, or Project object. If not NULL, new projects will be copies of the sourceProject.}
 
 \item{summary}{Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.}
 

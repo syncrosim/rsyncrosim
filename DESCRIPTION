@@ -21,7 +21,9 @@ Imports:
     raster
 Suggests: 
     knitr,
-    testthat
+    testthat,
+    ggplot2,
+    rasterVis
 Collate:
     'AAAClassDefinitions.R'
     'addModule.R'

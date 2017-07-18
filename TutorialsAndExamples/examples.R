@@ -163,6 +163,7 @@ myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project wit
 project(myLib)
 myOtherProject=project(myLib,project="temp",sourceProject="temp2")#Warns that sourceProject is ignored because "temp" already exists.
 myOtherProject=project(myLib,project="copy2",sourceProject="temp2")#Copy a project by name
+anotherCopy=project(myLib,sourceProject=project(myLib,project="copy2",summary=F)) #Copy a project object, give the new project a default name
 project(myLib)
 
 scenario(myLib)

@@ -31,28 +31,46 @@ setMethod ('show' , 'Session',
 
 .printSsim <- function(x, ...) {
   #x = myScenario
-  cat('class:' , class(x), '\n')
+  
+  outStrings = list()
+  
+  outStrings[['class']]= class(x)
+  #cat('class:' , class(x), '\n')
 
   cNames = slotNames(x)
   for(i in seq(length.out=length(cNames))){
     #i = 7
     cName = cNames[i]
     cSlot = slot(x,cName)
-    outString = paste0(cName," [",class(cSlot),"]") 
+    
+    #outString = paste0(cName," [",class(cSlot),"]") 
+    outName = paste0(cName," [",class(cSlot),"]") 
+    
+    outString=""
     if(is.element(class(cSlot),c("numeric","character","logical"))){
-      outString = paste(outString,paste(cSlot,collapse=","))
+      outString = paste0(outString,paste(cSlot,collapse=","))
     }
 
     if(is.element(class(cSlot),"Session")){
-      outString=paste0(outString," ",.filepath(cSlot),", printCmd=",printCmd(cSlot),", defaultModel=",defaultModel(cSlot))
+      outString=paste0(outString,"",.filepath(cSlot),", printCmd=",printCmd(cSlot),", defaultModel=",defaultModel(cSlot))
     }
     if(is.element(class(cSlot),"data.frame")){
-      outString=paste0(outString," ",paste(names(cSlot),collapse=","))
+      outString=paste0(outString,"",paste(names(cSlot),collapse=","))
     }
     
-    outString=paste0(outString,'\n')
-    cat(outString)
+    outStrings[[outName]]=outString
+    #outString=paste0(outString,'\n')
+    #cat(outString)
         
   }
   
+  #now pad names with spaces to get allignment.
+  maxLength = max(nchar(names(outStrings)))
+  for (i in seq(length.out=length(names(outStrings)))){
+    names(outStrings)[[i]]=paste0(names(outStrings)[[i]],paste(rep(" ",maxLength-nchar(names(outStrings)[[i]])),collapse=""))
+    names(outStrings)[[i]]=paste0(names(outStrings)[[i]],": ")
+    
+    cat(paste0(names(outStrings)[[i]],outStrings[[i]],"\n"))
+  }
+    
 }
