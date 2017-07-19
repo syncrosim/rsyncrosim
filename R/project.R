@@ -172,7 +172,7 @@ setMethod(f='initialize',signature="Project",
 # @rdname Project-class
 #' @export
 project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F){
-  #ssimObject= myLib;project=NULL;sourceProject="copy2";summary=NULL;forceElements=F
+  #ssimObject= myLibrary;project=1;sourceProject=NULL;summary=NULL;forceElements=F
   
   #if ssimObject is a scenario or project, return the project
   if(is.element(class(ssimObject),c("Scenario","Project"))&is.null(project)){
@@ -195,7 +195,7 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
           project = "GetSourceCopyCopyCopy"
         }
       }else{
-        summary=T
+        summary=F
       }
     }
     convertObject=T
