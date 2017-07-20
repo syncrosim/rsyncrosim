@@ -16,14 +16,13 @@ delete(libPath,force=T) #remove old version of the library (if any). Start fresh
 myLibrary = ssimLibrary(name=libPath,session=session(sessionPath)) #create a new library
 myProject = project(myLibrary,project="ST-Sim Demonstration") #create a new project
 
-str(datasheet(myProject,"STSim_StateClass"))
-forestTypes = data.frame(Name=c("Coniferous", "Deciduous", "Mixed"))
-stateClasses = forestTypes
-stateClasses$StateLabelYID = "All"
-str(stateClasses)
-saveDatasheet(myProject, stateClasses, "STSim_StateClass", append = FALSE,force=T)
-"The data contains a NULL for 'Forest Type'."
-
+#str(datasheet(myProject,"STSim_StateClass"))
+#forestTypes = data.frame(Name=c("Coniferous", "Deciduous", "Mixed"))
+#stateClasses = forestTypes
+#stateClasses$StateLabelYID = "All"
+#str(stateClasses)
+#saveDatasheet(myProject, stateClasses, "STSim_StateClass", append = FALSE,force=T)
+#"The data contains a NULL for 'Forest Type'."
 
 #***********************************
 # Cover types and state classes

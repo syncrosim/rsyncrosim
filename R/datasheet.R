@@ -197,12 +197,12 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     
     if(!empty){
       #Only query database if output or multiple scenarios/project or complex sql
-      
       useConsole = (!sheetNames$isOutput)
+
       #Policy change - always query output directly from database. It is faster.
-      #useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
-      #useConsole = useConsole&!((sheetNames$scope=="project")&(length(pid)>1))
-      #useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
+      useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
+      useConsole = useConsole&!((sheetNames$scope=="project")&(length(pid)>1))
+      useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
       
       if(useConsole){
         unlink(tempFile)
