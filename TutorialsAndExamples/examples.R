@@ -159,7 +159,7 @@ scenario(myLib)
 myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
 
 project(myLib)
-myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
+myOtherProject=project(myLib,project="copy",sourceProject=2)#Copy a project within the same library.
 project(myLib)
 myOtherProject=project(myLib,project="temp",sourceProject="temp2")#Warns that sourceProject is ignored because "temp" already exists.
 myOtherProject=project(myLib,project="copy2",sourceProject="temp2")#Copy a project by name
@@ -172,6 +172,9 @@ delete(myProject,scenario="one",force=T)
 myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
 myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sourceScenario will be ignored.
 #myScn = scenario(myProject,scenario="three",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
+#anotherScn = scenario(myProject,sourceScenario="two") #This fails but I don't know why - waiting for assistance from Alex
+
+scenario(myLib)
 scenarioId(myScn)
 scenario(myScn,summary=T) #return summary info
 

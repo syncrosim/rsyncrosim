@@ -70,7 +70,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   #ssimObject = myScenario;name="STSim_DeterministicTransition";project=NULL;scenario=NULL;summary=NULL;optional=F
   #empty=F;lookupsAsFactors=F;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
   
-  temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentScenarioID=NULL;ParentName=NULL
+  temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentID=NULL;ParentName=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   if(class(xProjScn)=="SsimLibrary"){
     x=xProjScn
@@ -199,9 +199,10 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       #Only query database if output or multiple scenarios/project or complex sql
       
       useConsole = (!sheetNames$isOutput)
-      useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
-      useConsole = useConsole&!((sheetNames$scope=="project")&(length(pid)>1))
-      useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
+      #Policy change - always query output directly from database. It is faster.
+      #useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
+      #useConsole = useConsole&!((sheetNames$scope=="project")&(length(pid)>1))
+      #useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
       
       if(useConsole){
         unlink(tempFile)
@@ -497,17 +498,17 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         if(nrow(sheet)>0){
           
           allScns = scenario(x,summary=T)
-          if(!is.element("parentScenarioID",names(allScns))){
-            warning("Missing parentScenarioID info from scenario(summary=T).")
-            allScns$parentScenarioID=NA
+          if(!is.element("parentID",names(allScns))){
+            warning("Missing parentID info from scenario(summary=T).")
+            allScns$parentID=NA
           }
-          allScns=subset(allScns,select=c(scenarioId,projectId,name,parentScenarioID))
-          allScns$parentScenarioID=suppressWarnings(as.numeric(allScns$parentScenarioID))
+          allScns=subset(allScns,select=c(scenarioId,projectId,name,parentID))
+          allScns$parentID=suppressWarnings(as.numeric(allScns$parentID))
           parentNames = subset(allScns,select=c(scenarioId,name))
-          names(parentNames)=c("parentScenarioID","ParentName")
+          names(parentNames)=c("parentID","ParentName")
           allScns=merge(allScns,parentNames,all.x=T)
           
-          allScns = subset(allScns,select=c(scenarioId,projectId,name,parentScenarioID,ParentName))
+          allScns = subset(allScns,select=c(scenarioId,projectId,name,parentID,ParentName))
           
           names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ParentID","ParentName")
           

@@ -36,10 +36,11 @@ myProject = project(myLibrary,project=1)
 scenario(myProject)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
-run(myProject,5,summary=T)
+myResult=run(myProject,c(5,5)) #run the scenario twice to demonstrate handling of multiple result scenarios
 
-resultScns = scenario(myProject,results=T)
-myResult = scenario(myProject,scenario=tail(resultScns,n=2)$scenarioId)
+myResult
+#resultScns = scenario(myProject,results=T)
+#myResult = scenario(myProject,scenario=tail(resultScns,n=2)$scenarioId)
 
 #***********************************
 # Define function for plotting categorical maps. 
@@ -94,8 +95,7 @@ dev.off()
 #*************************************
 # View spatial inputs
 check = datasheet(myResult[[1]],"STSim_OutputSpatialTransition")
-str(check)
-myTransitionGroup = datasheetRaster(myLibrary,scenario=as.numeric(names(myResult)),datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
+myTransitionGroup = datasheetRaster(myResult,datasheet="STSim_OutputSpatialTransition",timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
 #slower with scenario argument than list of scenario objects.
 names(myTransitionGroup)
 
@@ -103,7 +103,7 @@ check = datasheet(myResult[[1]],"STSim_InitialConditionsSpatial")
 str(check)
 mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
 names(mySpatialInputs)
-age0=mySpatialInputs[["scn7.age.it0.ts0"]]
+age0=mySpatialInputs[[1]]
 
 #see all ages
 plot(age0,main=age0@title)

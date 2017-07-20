@@ -47,10 +47,12 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
   #name(x)
   #scenarios=NULL
   out=list()
+  addBits = seq(1,length(scenario))
   for(i in seq(length.out=length(scenario))){
     #i =1
+    
     cScn = scenario[i]
-    name = scenarioSet$name[scenarioSet$scenarioId==cScn]
+    name = scenarioSet$name[scenarioSet$scenarioId==cScn][1]
     
     print(paste0("Running scenario [",cScn,"] ",name))
     
@@ -98,6 +100,8 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
       cBreakpointSession=NULL
     }
     inScn = paste0(name," (",cScn,")")
+
+    if(is.element(inScn,names(out))){inScn=paste(inScn,addBits[i])}
     if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
       out[[inScn]]=tt
       print(tt)

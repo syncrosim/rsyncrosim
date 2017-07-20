@@ -91,7 +91,6 @@ setMethod(f='initialize',signature="Project",
         stop("Source project must be a number, project name, or Project object.")
       }
       
-
       if(name=="GetSourceCopyCopyCopy"){
         sourceProjectName = subset(projects,projectId==sourcePID)$name
         

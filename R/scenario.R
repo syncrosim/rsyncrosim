@@ -80,10 +80,34 @@ setMethod(f='initialize',signature="Scenario",
         }
         sid=sourceOptions$scenarioId
       }
+      
       if(class(sourceScenario)=="Scenario"){
         sid=.scenarioId(sourceScenario)
         slib=.filepath(sourceScenario)
+        sourceScnName = name(sourceScenario)
+      }else{
+        sourceScnName = subset(allScenarios,scenarioId==sid)$name
       }
+      
+      if(name=="GetSourceCopyCopyCopy"){
+        copyName = paste(sourceScnName,"- Copy")
+        if(!is.element(copyName,sourceOptions$name)){
+          name = copyName
+        }else{
+          done=F
+          count=0
+          while(!done){
+            count=count+1
+            cName =paste0(copyName,count)
+            if(!is.element(cName,sourceOptions$name)){
+              name=cName
+              done=T
+            }
+          }
+        }
+      }
+      
+      
       tt = command(list(copy=NULL,scenario=NULL,slib=slib,tlib=.filepath(x),name=name,sid=sid,pid=pid),.session(x))
     }
     id = as.numeric(strsplit(tt,": ")[[1]][2])
@@ -116,7 +140,7 @@ setMethod(f='initialize',signature="Scenario",
 #' @param ssimObject SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.
 #' @param scenario Character, integer, or vector of these. Names or ids of one or more scenarios. Note integer ids are slightly faster.
 #' @param sourceScenario Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.
-#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentScenarioID. Default is TRUE if scenario=NULL, FALSE otherwise.
+#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.
 #' @param results Logical. If TRUE only return result scenarios.
 #' @param overwrite Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.
 #' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.
@@ -131,7 +155,7 @@ setMethod(f='initialize',signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
-  #ssimObject= myProject;scenario="one";sourceScenario=NULL;summary=NULL;results=F;overwrite=T;forceElements=F
+  #ssimObject= myProject;scenario=NULL;sourceScenario="two";summary=NULL;results=F;overwrite=F;forceElements=F
   isResult=NULL
   #if ssimObject is a scenario return the scenario
   if(is.element(class(ssimObject),c("Scenario"))&is.null(scenario)){
@@ -146,7 +170,16 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   }else{
     #set summary default
     if(is.null(summary)){
-      if(is.null(scenario)){summary=T}else{summary=F}
+      if(is.null(scenario)){
+        if(is.null(sourceScenario)){
+          summary=T
+        }else{
+          summary=F
+          scenario = "GetSourceCopyCopyCopy"
+        }
+      }else{
+        summary=F
+      }
     }
     convertObject=F
     returnIds=T
