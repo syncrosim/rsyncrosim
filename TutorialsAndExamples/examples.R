@@ -172,7 +172,7 @@ delete(myProject,scenario="one",force=T)
 myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
 myScn = scenario(myProject,scenario="one",sourceScenario="one") #Warns that sourceScenario will be ignored.
 #myScn = scenario(myProject,scenario="three",sourceScenario="one") #Fail if more than one scenario named sourceScenario in the library.
-#anotherScn = scenario(myProject,sourceScenario="two") #This fails but I don't know why - waiting for assistance from Alex
+anotherScn = scenario(myProject,sourceScenario=scenario(myProject,"two")) #copy a scenario object with default name
 
 scenario(myLib)
 scenarioId(myScn)

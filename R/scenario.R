@@ -91,7 +91,7 @@ setMethod(f='initialize',signature="Scenario",
       
       if(name=="GetSourceCopyCopyCopy"){
         copyName = paste(sourceScnName,"- Copy")
-        if(!is.element(copyName,sourceOptions$name)){
+        if(!is.element(copyName,allScenarios$name)){
           name = copyName
         }else{
           done=F
@@ -99,7 +99,7 @@ setMethod(f='initialize',signature="Scenario",
           while(!done){
             count=count+1
             cName =paste0(copyName,count)
-            if(!is.element(cName,sourceOptions$name)){
+            if(!is.element(cName,allScenarios$name)){
               name=cName
               done=T
             }
