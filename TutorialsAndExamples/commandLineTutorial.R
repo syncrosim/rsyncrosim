@@ -256,15 +256,15 @@ str(outTransitionsAllAges)
 library(ggplot2);library(plyr)
 
 #Example visualization - mean and 95% confidence bands for area in each state over time.
-outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+outStatesSummary = ddply(outStatesAllAges,.(Timestep,StateLabelXID,ParentName),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
 base = ggplot(outStatesSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
-base=base+facet_grid(StateLabelXID~ScenarioParent)+ theme_bw()
+base=base+facet_grid(StateLabelXID~ParentName)+ theme_bw()
 base=base+ylab("area (acres)")
 print(base)
 
 #Example visualization - mean and 95% confidence bands for transitions over time.
-outTransitionsSummary = ddply(outTransitionsAllAges,.(Timestep,TransitionGroupID,ScenarioParent),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
+outTransitionsSummary = ddply(outTransitionsAllAges,.(Timestep,TransitionGroupID,ParentName),summarize,amount=mean(Amount),upperAmount=quantile(Amount,0.975),lowerAmount=quantile(Amount,0.025))
 base = ggplot(outTransitionsSummary,aes(x=Timestep,y=amount,ymax=upperAmount,ymin=lowerAmount))+geom_line()+geom_ribbon(alpha=0.1)
-base=base+facet_grid(TransitionGroupID~ScenarioParent,scales="free_y")+ theme_bw()
+base=base+facet_grid(TransitionGroupID~ParentName,scales="free_y")+ theme_bw()
 base=base+ylab("area (acres)")
 print(base)
