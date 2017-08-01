@@ -11,7 +11,7 @@ NULL
 #' @return A dataframe of addons.
 #' @examples
 #' addon(ssimLibrary(name="stsim"))
-#' #test change
+#' #test change #2
 #' @export
 setGeneric('addon',function(ssimObject) standardGeneric('addon'))
 #' @rdname addon
