@@ -13,14 +13,14 @@ showMethods("filepath") # See the objects for which filepath is defined. SsimLib
 ?filepath # Help for the filepath function
 ##########################
 # Create and query a session
-sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
-mySsim = session() # Creates a session using the default installation of syncrosim. This will fail until we have a real release of SyncroSim v2
+sessionPath = "c:/gitprojects/syncrosim/_deploy_/current"
+mySsim = session() # Creates a session using the default installation of syncrosim.
 # NOTE: Linux users must specify x. The default installation path is only valid on windows.
 mySsim = session(sessionPath,silent=F) # Creates a non-silent session using a particular version (i.e. folder) of syncrosim
 showMethods(class="Session",where=loadNamespace("rsyncrosim"))
 filepath(mySsim) # The folder location of syncrosim session
 version(mySsim) # The version of syncrosim session
-version() #Version of the default session. Will fail until we have a real release of SyncroSim v2
+version() #Version of the default session.
 
 mySession = session(sessionPath,defaultModel="carep",printCmd=T,silent=F) #modify default session settings
 defaultModel(mySession)
@@ -47,16 +47,16 @@ deleteModule("hi",mySession)
 
 model(mySession) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 module(mySession) #NOTE: model(mySession) is not a subset of module(mySession). Change in SyncroSim if necessary.
-model() #will fail until we have a real release of SyncroSim v2
-module() #will fail until we have a real release of SyncroSim v2
+model() # Dataframe of the models installed with the default version of syncrosim, listing all of its properties as columns 
+module() # Dataframe of the modules installed with the default version of syncrosim, listing all of its properties as columns 
 
 ###########################
 # Give SyncroSim commands - users won't normally need to do this, but advanced users may.
 
 #Three different ways to provide args to command
-command(c("create","help")) #will fail until we have a real release of SyncroSim v2
+command(c("create","help"))
 command("--create --help",session=session(sessionPath,printCmd=T))
-command(list(create=NULL,help=NULL)) #will fail until we have a real release of SyncroSim v2
+command(list(create=NULL,help=NULL))
 
 delete(paste0(getwd(),"/temp.ssim"),force=T)
 args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="hello:model-transformer")
@@ -159,7 +159,7 @@ scenario(myLib)
 myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
 
 project(myLib)
-myOtherProject=project(myLib,project="copy",sourceProject=2)#Copy a project within the same library.
+myOtherProject=project(myLib,project="copy",sourceProject=1)#Copy a project within the same library.
 project(myLib)
 myOtherProject=project(myLib,project="temp",sourceProject="temp2")#Warns that sourceProject is ignored because "temp" already exists.
 myOtherProject=project(myLib,project="copy2",sourceProject="temp2")#Copy a project by name
@@ -188,7 +188,7 @@ someSheets = datasheet(myScn,c("SSim_Settings","SSim_Files")) #returns a list
 str(someSheets)
 
 allScns = scenario(myLib,summary=F)
-names(allScns)
+names(allScns) #TODO: This function seems to be returning scenario ID values, not names.
 someSheets = datasheet(myLib,c("STSim_RunControl","STSim_OutputOptions"),scenario=as.numeric(names(allScns))) #returns a list - each sheet contains scenario info if appropriate
 str(someSheets)
 someSheets = datasheet(allScns,c("STSim_RunControl","STSim_OutputOptions")) #returns a list - each sheet contains scenario info if appropriate
@@ -274,7 +274,7 @@ delete(myLib, scenario=c("one","two"),force=T)
 scenario(myLib)
 
 project(myLib)
-delete(myLib,project=c(1,10),force=t)
+delete(myLib,project=c(1,10),force=T)
 project(myLib)
 delete(myLib,project=c("copy","copy2"),force=T)
 project(myLib)
@@ -290,7 +290,7 @@ myLibrary = ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=mySession)
 scenario(myLibrary)
 myScenario = scenario(myLibrary,scenario="one")
 myProject = project(myLibrary,project=1)
-myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
+myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets.
 #myScenarioDataframes = datasheet(myScenario,summary=F) #This takes a long time to run - so don't.
 myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
 names(myLibraryDataframes)
