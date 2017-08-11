@@ -193,6 +193,7 @@ saveDatasheet(myScenarioHarvest, data.frame(TransitionGroupID="Harvest", Amount=
 # Show all the harvest levels
 datasheet(myProject, scenario = c("Harvest", "No Harvest"), name= "STSim_TransitionTarget")
 
+backup(myLibrary)
 # *************************************************************
 # Run Scenarios & Get Results
 # *************************************************************

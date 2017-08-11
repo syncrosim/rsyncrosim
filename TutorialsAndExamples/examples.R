@@ -3,6 +3,23 @@
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
 
+########################
+# Use example library bundled with package
+
+mySession = session()
+moduleDir = "C:/JH/ApexLocal/software/syncrosim 2-0-2"
+
+# Add the ST-Sim module to this session
+addModule(paste0(moduleDir,"/stsim-3-1-2-x64.ssimpkg"), mySession)
+
+#Put a copy of the example library in the current working directory.
+unzip(system.file("extdata", "Demonstration Library.ssim.backup.zip", package = "rsyncrosim"),
+      exdir=getwd(),overwrite=T)
+
+#Now do whatever with the example library
+myLib = ssimLibrary("Demonstration Library.ssim")
+scenario(myLib)
+
 #################################
 # Examples - querying the package
 ?session # Help for the Session object constructor
