@@ -12,35 +12,25 @@
 
 #install.packages("rasterVis")
 library(raster);library(rasterVis)
-sessionPath = "c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
-libRoot = "C:/Temp"
-libName = "ST-Sim Spatial Tutorial"
-libPath = paste0(libRoot,"/",libName,"/",libName,".ssim")
-delete(libPath,force=T)# start fresh
-#download library if necessary.
-if(!file.exists(libPath)){
-  zipPath = paste0(libRoot,"/",libName,".zip")
-  if(!file.exists(zipPath)){
-    libURL = "http://www.apexrms.com//wp-content//uploads//ST-Sim-Spatial-Tutorial.zip"
-    download.file(libURL, zipPath)
-  }
-  unzip(zipPath,exdir=paste0(libRoot,"/",libName),overwrite=T,unzip = "unzip")
-}
+
+sessionPath = filepath(session())#"c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
+
+#get a local copy of the package demonstration library
+unzip(system.file("extdata", "Demonstration Library.ssim.backup.zip", package = "rsyncrosim"),
+      exdir=getwd(),overwrite=T)
 
 #*************************************
 # View  "STSim_OutputSpatialState" results
-myLibrary = ssimLibrary(name=libPath,session=session(sessionPath),forceUpdate=T)
+myLibrary = ssimLibrary("Demonstration Library.ssim",session=session(sessionPath),forceUpdate=T)
 
 project(myLibrary)
 myProject = project(myLibrary,project=1)
 scenario(myProject)
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 
-myResult=run(myProject,c(5,5)) #run the scenario twice to demonstrate handling of multiple result scenarios
+myResult=scenario(myProject,c(3,4)) #demonstrate handling of multiple result scenarios
 
 myResult
-#resultScns = scenario(myProject,results=T)
-#myResult = scenario(myProject,scenario=tail(resultScns,n=2)$scenarioId)
 
 #***********************************
 # Define function for plotting categorical maps. 
@@ -70,7 +60,7 @@ rat$Color = c("darkgreen","brown","wheat")
 checkSheet = datasheet(myResult,name="STSim_OutputSpatialState")
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 myRasters = datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
-                        iteration=seq(1),timestep = seq(0,10,by=5),rat=rat)
+                        iteration=seq(1),timestep = seq(0,2,by=2),rat=rat)
 names(myRasters)
 
 str(myRasters[[1]])
@@ -110,8 +100,8 @@ plot(age0,main=age0@title)
 
 #Build raster attribute table to view young only
 rat = data.frame(ID=unique(age0))
-rat$isYoung[rat$ID<36]="young" #check young forest definition
-rat$isYoung[rat$ID>=36]="not young" #check young forest definition
+rat$isYoung[rat$ID<10]="young" #check young forest definition
+rat$isYoung[rat$ID>=10]="not young" #check young forest definition
 rat$Color = "wheat"; rat$Color[rat$isYoung=="young"]="darkgreen"
 ssimRatify(age0) = rat
 
@@ -155,7 +145,7 @@ datasheet(newScenario,name="STSim_InitialConditionsSpatialProperties")
 #Change the extent of the input maps
 inExtent = extent(inRasters)
 outExtent = inExtent
-outExtent@xmax = 500;outExtent@ymax=500
+outExtent@xmax = 5;outExtent@ymax=5
 newRasters=crop(inRasters,outExtent)
 dim(newRasters)
 anotherScenario = scenario(myProject,"Another New Scenario")
@@ -167,9 +157,9 @@ datasheet(anotherScenario,name="STSim_InitialConditionsSpatialProperties")
 #set spatial options
 sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
 levels(mySheet$MultibandGroupingInternal)
-mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
+mySheet[1,"MultibandGroupingInternal"]="Single band"
 saveDatasheet(myProject,mySheet,name=sheetName)
 
 #Combining all spatial results into one multiband file will speed up loading.
-multiband(myResult[[1]],action="apply")
-
+#multiband(myResult[[1]],action="apply")
+#TO DO: once files are multibanded, how to change the banding option?

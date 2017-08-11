@@ -7,10 +7,9 @@
 # Use example library bundled with package
 
 mySession = session()
-moduleDir = "C:/JH/ApexLocal/software/syncrosim 2-0-2"
-
-# Add the ST-Sim module to this session
-addModule(paste0(moduleDir,"/stsim-3-1-2-x64.ssimpkg"), mySession)
+module(mySession)
+#moduleDir = "C:/JH/ApexLocal/software/syncrosim 2-0-2"
+#addModule(paste0(moduleDir,"/stsim-3-1-2-x64.ssimpkg"), mySession)
 
 #Put a copy of the example library in the current working directory.
 unzip(system.file("extdata", "Demonstration Library.ssim.backup.zip", package = "rsyncrosim"),

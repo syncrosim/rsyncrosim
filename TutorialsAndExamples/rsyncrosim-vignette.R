@@ -10,7 +10,7 @@
 # install.packages("C:/Temp/rsyncrosim_0.1.0.tar.gz",repos=NULL)    # Download development version of rsyncrosim
 # ***
 
-library(rsyncrosim)
+#library(rsyncrosim)
 library(raster)
 
 # Vignetter assumes that the following files are placed in the current working directory:
@@ -22,8 +22,8 @@ getwd()
 # *************************************************************
 
 # Start a SyncroSim session
-programFolder = "c:/gitprojects/syncrosim/_deploy_/current"#"C:/Program Files/SyncroSim"    # Directory in which SyncroSim was installed
-mySession = session(programFolder)
+# programFolder = "c:/gitprojects/syncrosim/_deploy_/current"#"C:/Program Files/SyncroSim"    # Directory in which SyncroSim was installed
+mySession = session()
 
 # Add the ST-Sim module to this session
 #addModule("stsim-3-1-1-x64.ssimpkg", mySession)
@@ -117,7 +117,7 @@ myScenario = scenario(myProject, "No Harvest")
 
 # Run Control
 sheetName = "STSim_RunControl"
-sheetData = data.frame(MaximumIteration=7, MinimumTimestep=0, MaximumTimestep=50, isSpatial=T)
+sheetData = data.frame(MaximumIteration=1, MinimumTimestep=0, MaximumTimestep=2, isSpatial=T)
 saveDatasheet(myScenario, sheetData, sheetName)
 
 # States
@@ -210,11 +210,11 @@ resultIDHarvest = subset(resultSummary, parentID==scenarioId(myScenarioHarvest))
 outputStratumState = datasheet(myProject, scenario=c(resultIDNoHarvest,resultIDHarvest), name="STSim_OutputStratumState")
 
 # View state class raster output (for the Harvest scenario only)
-myRastersTimestep5 = datasheetRaster(myProject, scenario=resultIDHarvest, "STSim_OutputSpatialState", timestep=5)
-myRastersTimestep5
-plot(myRastersTimestep5)
+myRastersTimestep2 = datasheetRaster(myProject, scenario=resultIDHarvest, "STSim_OutputSpatialState", timestep=2)
+myRastersTimestep2
+plot(myRastersTimestep2)
 
-
+backup(myLibrary)
 
 
 
