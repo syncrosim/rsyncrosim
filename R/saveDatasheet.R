@@ -163,9 +163,14 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       #get info on sheet type
       tt=command(c("list","columns","csv","allprops",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
       sheetInfo = .dataframeFromSSim(tt)
-      sheetInfo$isFile = grepl("isRaster^True",sheetInfo$properties,fixed=T)
+      sheetInfo$isFile = grepl("isExternalFile^Yes",sheetInfo$properties,fixed=T)
       #NOTE: this should be isExternalFile - but the flag is set to true even for non-files
+      if(is.element("Iteration",subset(sheetInfo,isFile)$name)){
+        sheetInfo$isFile = grepl("isRaster^True",sheetInfo$properties,fixed=T)
+      }
+      
       sheetInfo = subset(sheetInfo,isFile)
+      
       sheetInfo = subset(sheetInfo,is.element(name,names(cDat)))
       if(nrow(sheetInfo)>0){ 
         for(kk in seq(length.out=nrow(sheetInfo))){
