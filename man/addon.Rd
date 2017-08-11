@@ -27,5 +27,6 @@ The addon(s) of an SsimLibrary or Session.
 }
 \examples{
 addon(ssimLibrary(name="stsim"))
+#test change #2
 }
 

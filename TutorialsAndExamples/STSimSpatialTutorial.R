@@ -140,7 +140,7 @@ inRasters=stack(datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditions
                 datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="StratumFileName"))
 names(inRasters)=gsub(".it0.ts0","",names(inRasters),fixed=T)
 #saveDatasheet is expecting a named raster stack or named list.
-
+extent(inRasters)
 #inSheet must conform to format expectations just like any other datasheet.
 #Additionally, each element of names(inRasters) must be entered in appropriately in inSheet.
 sheetName = "STSim_InitialConditionsSpatial"

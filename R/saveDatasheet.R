@@ -39,7 +39,7 @@ NULL
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileData=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
-  #ssimObject = myProject;project=NULL;scenario=NULL;name=sheetName;data=stateClassDefinition;fileData=NULL;append=NULL;forceElements=F;force=F
+  #ssimObject = myScenario;project=NULL;scenario=NULL;name=sheetName;data=sheetData;fileData=fileData;append=NULL;forceElements=F;force=F
   x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
   #if(class(x)=="list"){
   #  stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")
@@ -157,6 +157,33 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         warning("Datasheet was appended - old records were not deleted.")
       }
     }
+    
+    #if no fileData found and datasheet contains files, find the files
+    if(is.null(fileData)){
+      #get info on sheet type
+      tt=command(c("list","columns","csv","allprops",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
+      sheetInfo = .dataframeFromSSim(tt)
+      sheetInfo$isFile = grepl("isRaster^True",sheetInfo$properties,fixed=T)
+      #NOTE: this should be isExternalFile - but the flag is set to true even for non-files
+      sheetInfo = subset(sheetInfo,isFile)
+      sheetInfo = subset(sheetInfo,is.element(name,names(cDat)))
+      if(nrow(sheetInfo)>0){ 
+        for(kk in seq(length.out=nrow(sheetInfo))){
+          #kk=2
+          cCol = sheetInfo$name[kk]
+          for(ll in seq(length.out=nrow(cDat))){
+            #ll=1
+            if(basename(cDat[[cCol]][ll])==cDat[[cCol]][ll]){
+              cDat[[cCol]][ll] = paste0(getwd(),"/",cDat[[cCol]][ll])
+              if(!file.exists(cDat[[cCol]][ll])){
+                stop("File ", cDat[[cCol]][ll]," not found.")
+              }
+            }  
+          }
+        }
+      } 
+    }
+    
     #Write items to appropriate locations
     if(!is.null(fileData)){
       itemNames = names(fileData)
