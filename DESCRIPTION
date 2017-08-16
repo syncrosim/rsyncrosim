@@ -4,7 +4,11 @@ Title: The R Interface to SyncroSim: http://syncrosim.com/
 Version: 0.1.0
 Author: ApexRMS <info@apexrms.com>
 Maintainer: Josie Hughes <josie.s.hughes@gmail.com>
-Description: rsyncrosim provides an interface to SyncroSim, a generalized framework for managing scenario-based datasets. Simulation models can be added to SyncroSim in order to transform these datasets, taking advantage of general features such as defining scenarios of model inputs, running Monte Carlo simulations, and summarizing model outputs.
+Description: rsyncrosim provides an interface to SyncroSim, a generalized
+    framework for managing scenario-based datasets. Simulation models can be added
+    to SyncroSim in order to transform these datasets, taking advantage of general
+    features such as defining scenarios of model inputs, running Monte Carlo
+    simulations, and summarizing model outputs.
 License: GPL-3 | file LICENSE
 LazyData: TRUE
 Imports:
@@ -14,7 +18,7 @@ Imports:
     Rcpp,
     rgdal,
     raster
-Suggests: 
+Suggests:
     knitr,
     testthat,
     ggplot2,
@@ -69,5 +73,5 @@ Collate:
     'ssimRatify.R'
     'ssimUpdate.R'
     'version.R'
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
 VignetteBuilder: knitr

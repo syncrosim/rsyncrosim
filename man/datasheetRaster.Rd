@@ -9,20 +9,19 @@
 \title{Get spatial inputs or outputs from a Scenario(s).}
 \usage{
 datasheetRaster(ssimObject, datasheet, column = NULL, scenario = NULL,
-  iteration = NULL, timestep = NULL, subset = NULL, rat = NULL,
-  forceElements = F)
+  iteration = NULL, timestep = NULL, subset = NULL, forceElements = F)
 
 \S4method{datasheetRaster}{list}(ssimObject, datasheet, column = NULL,
   scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
-  rat = NULL, forceElements = F)
+  forceElements = F)
 
 \S4method{datasheetRaster}{SsimObject}(ssimObject, datasheet, column = NULL,
   scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
-  rat = NULL, forceElements = F)
+  forceElements = F)
 
 \S4method{datasheetRaster}{Scenario}(ssimObject, datasheet, column = NULL,
   scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
-  rat = NULL, forceElements = F)
+  forceElements = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario or list of Scenarios. If SsimLibrary/Project, then scenario argument is required.}
@@ -39,8 +38,6 @@ datasheetRaster(ssimObject, datasheet, column = NULL, scenario = NULL,
 
 \item{subset}{logical expression. logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.}
 
-\item{rat}{An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.}
-
 \item{forceElements}{logical. If TRUE then returns a single raster as a RasterStack; otherwise returns a single raster as a RasterLayer directly.}
 }
 \value{
@@ -50,13 +47,6 @@ A RasterLayer, RasterStack or RasterBrick object. See raster package documentati
 Get spatial inputs or outputs from one or more SyncroSim scenarios.
 }
 \details{
-The Color column of a rat table should have one of these formats:
-\itemize{
-  \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
-  \item {R colour names: } {See colors() for options.}
-  \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
-}
-
 The names() of the returned raster stack contain metadata.
 For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
 For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)

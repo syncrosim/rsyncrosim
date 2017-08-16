@@ -278,7 +278,6 @@ myProject
 myLibrary
 mySession
 
-
 #test delete - vectors of project/scenario/datasheet
 scenario(myLib)
 datasheet(myProject)
@@ -350,8 +349,6 @@ saveDatasheet(myProject, stateClassDefinition, name=sheetName,append=F,force=T) 
 datasheet(myProject)
 delete(myProject,datasheet=c(sheetName,sheetName),force=T)
 datasheet(myProject, name=sheetName) 
-
-
 
 #################
 # Run

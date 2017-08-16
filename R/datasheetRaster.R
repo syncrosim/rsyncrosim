@@ -8,12 +8,13 @@ NULL
 #' Get spatial inputs or outputs from one or more SyncroSim scenarios.
 #' @details
 #'
-#' The Color column of a rat table should have one of these formats:
-#' \itemize{
-#'   \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
-#'   \item {R colour names: } {See colors() for options.}
-#'   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
-#' }
+# Off for v0.1
+# The Color column of a rat table should have one of these formats:
+# \itemize{
+#   \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
+#   \item {R colour names: } {See colors() for options.}
+#   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
+# }
 #'
 #' The names() of the returned raster stack contain metadata.
 #' For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
@@ -26,7 +27,8 @@ NULL
 #' @param iteration integer, character string, or vector of integer/character strings. Iteration(s) to include. If NULL then all iterations are included. If no Iteration column in the datasheet, then ignored.
 #' @param timestep integer, character string, or vector of integer/character string. Timestep(s) to include. If NULL then all timesteps are included.  If no Timestep column in the datasheet, then ignored.
 #' @param subset logical expression. logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.
-#' @param rat An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
+# Off for v0.1
+# @param rat An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @param forceElements logical. If TRUE then returns a single raster as a RasterStack; otherwise returns a single raster as a RasterLayer directly.
 #' @return A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
 #' 
@@ -35,9 +37,11 @@ NULL
 #' datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
 #'   subset=expression(grepl("Ts0001",Filename,fixed=T)))
 #' @export
-setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster'))
+setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,forceElements=F) standardGeneric('datasheetRaster'))
+#setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster')) #Off for v0.1
 #' @rdname datasheetRaster
-setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
+setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
+#setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) { #Off for v0.1
   # ssimObject= myResult; sheet="STSim_OutputSpatialState";iteration=seq(1);timesteps = seq(0,10,by=5);rat=rat
   if(class(ssimObject[[1]])!="Scenario"){
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
@@ -49,7 +53,8 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
   for(i in 1:length(ssimObject)){
     #i=1
     cScn = ssimObject[[i]]
-    cOut = datasheetRaster(cScn,datasheet=datasheet,column=column,scenario=scenario,iteration=iteration,timestep=timestep,subset=subset,rat=rat,forceElements=forceElements)
+    cOut = datasheetRaster(cScn,datasheet=datasheet,column=column,scenario=scenario,iteration=iteration,timestep=timestep,subset=subset,forceElements=forceElements)
+    #cOut = datasheetRaster(cScn,datasheet=datasheet,column=column,scenario=scenario,iteration=iteration,timestep=timestep,subset=subset,rat=rat,forceElements=forceElements) #Off for v0.1
     names(cOut)=paste0("scn",.scenarioId(cScn),".",names(cOut))
     if(i == 1){out=cOut}else{out=raster::stack(out,cOut)}
   }
@@ -60,7 +65,8 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
   return(out)
 })
 #' @rdname datasheetRaster
-setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
+setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
+#setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) { #Off for v0.1
   # ssimObject= myResult[[1]]; datasheet="STSim_OutputSpatialState";column=NULL;iteration=seq(1);timesteps = seq(0,10,by=5);rat=rat;subset=NULL
   
   if(is.null(scenario)){
@@ -81,14 +87,17 @@ setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimOb
   scnList = .scenario(ssimObject,scenario=scenario)
   scenario=NULL
   
-  return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements))
+  return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,forceElements))
+  #return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements)) #Off for v0.1
   
 })
 #' @rdname datasheetRaster
-setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) {
+setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
+#setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) { #Off for v0.1
   # scenario= myResult[[2]]; datasheet="STSim_InitialConditionsSpatial";column="AgeFileName";iteration=NULL;timestep = NULL;rat=NULL;subset=NULL;forceElements=F
   # ssimObject= myResult[[1]]; datasheet="STSim_OutputSpatialState";column=NULL;iteration=seq(1);timestep = seq(0,10,by=5);rat=rat;subset=NULL
   
+  if(!exists("rat")){rat=NULL}
   if(is.null(subset)){
     getFactors=F
   }else{

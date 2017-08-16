@@ -112,13 +112,13 @@ test_that("Test simple spatial STSim example", {
   ###############
   # Rearrange spatial outputs in a result scenario
   #set spatial options
-  sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
-  mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
-  silent = saveDatasheet(myProject,mySheet,name=sheetName)
-
+  #Off in v0.1
+  #sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
+  #mySheet[1,"MultibandGroupingInternal"]="Multiband (iterations and timesteps combined)"
+  #silent = saveDatasheet(myProject,mySheet,name=sheetName)
   #Combining all spatial results into one multiband file will speed up loading.
-  ret = multiband(myResult[[1]],action="apply")
-  expect_equal(file.exists(paste0(filepath(myLibrary),".output/Scenario-6/STSim_OutputSpatialState/sc.tif")),TRUE)
+  #ret = multiband(myResult[[1]],action="apply")
+  #expect_equal(file.exists(paste0(filepath(myLibrary),".output/Scenario-6/STSim_OutputSpatialState/sc.tif")),TRUE)
 
 })
 
