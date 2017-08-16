@@ -2,14 +2,9 @@ Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim: http://syncrosim.com/
 Version: 0.1.0
-Author: ApexRMS
+Author: ApexRMS <info@apexrms.com>
 Maintainer: Josie Hughes <josie.s.hughes@gmail.com>
-Description: rsyncrosim provides an interface to SyncroSim, a generalized
-    framework for running and managing scenario-based stochastic simulations over
-    space and time. Different kinds of simulation models can "plug-in" to SyncroSim
-    as modules and take advantage of general features common to many kinds of
-    simulation models, such as defining scenarios of model inputs, running Monte
-    Carlo simulations, and viewing charts and maps of outputs.
+Description: rsyncrosim provides an interface to SyncroSim, a generalized framework for managing scenario-based datasets. Simulation models can be added to SyncroSim in order to transform these datasets, taking advantage of general features such as defining scenarios of model inputs, running Monte Carlo simulations, and summarizing model outputs.
 License: GPL-3 | file LICENSE
 LazyData: TRUE
 Imports:
@@ -24,6 +19,7 @@ Suggests:
     testthat,
     ggplot2,
     rasterVis
+SystemRequirements: SyncroSim (>=2.0.2)
 Collate:
     'AAAClassDefinitions.R'
     'addModule.R'
