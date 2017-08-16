@@ -75,7 +75,7 @@ saveDatasheet(myProject,mySheet,name=sheetName)
 
 str(datasheet(myProject,sheetName))
 str(datasheet(myProject,sheetName,lookupsAsFactors = F)) #lookups are not returned as factors
-datasheet(myProject,sheetName,includeKey=T) #include primary key for datasheet
+#datasheet(myProject,sheetName,includeKey=T) #include primary key for datasheet
 datasheet(myProject,sheetName,optional=T) #include empty optional columns
 
 #***********************************

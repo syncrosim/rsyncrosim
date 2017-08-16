@@ -3,34 +3,35 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Modify the grouping of spatial layers.
-#'
-#' Modify the grouping of spatial output layers in a SyncroSim results scenario.
-#'
-#' @param ssimObject Result Scenario.
-#' @param action Character. Options are: apply, remove, rebuild
-#' @param grouping Character. Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
-#' @return "saved" or an error message from SyncroSim.
-#' @examples
-#' # Update an old scenario to allow rsyncrosim to access spatial output
-#' multiband(myResultScenario,action="rebuild")
-#'
-#' # Combine spatial outputs into multi-band rasters containing a layer for each timetep.
-#' multiband(myResultScenario,action="apply",grouping="Timestep")
-#'
-#' # Combine spatial outputs into multi-band rasters containing a layer for each iteration.
-#' multiband(myResultScenario,action="apply",grouping="Iteration")
-#'
-#' # Combine spatial outputs into multi-band rasters containing a layer 
-#' #for each timestep and iteration.
-#' multiband(myResultScenario,action="apply",grouping="All")
-#'
-#' # Remove multi-banding
-#' multiband(myResultScenario,action="remove")
-#'
-#' @export
+# Off in v0.1
+# Modify the grouping of spatial layers.
+#
+# Modify the grouping of spatial output layers in a SyncroSim results scenario.
+#
+# @param ssimObject Result Scenario.
+# @param action Character. Options are: apply, remove, rebuild
+# @param grouping Character. Only used if action=apply. If NULL use datasheet(myLibrary,name="STime_Options"). Options are: Iteration,Timestep,All
+# @return "saved" or an error message from SyncroSim.
+# @examples
+# # Update an old scenario to allow rsyncrosim to access spatial output
+# multiband(myResultScenario,action="rebuild")
+#
+# # Combine spatial outputs into multi-band rasters containing a layer for each timetep.
+# multiband(myResultScenario,action="apply",grouping="Timestep")
+#
+# # Combine spatial outputs into multi-band rasters containing a layer for each iteration.
+# multiband(myResultScenario,action="apply",grouping="Iteration")
+#
+# # Combine spatial outputs into multi-band rasters containing a layer 
+# #for each timestep and iteration.
+# multiband(myResultScenario,action="apply",grouping="All")
+#
+# # Remove multi-banding
+# multiband(myResultScenario,action="remove")
+#
+# @export
 setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
-#' @rdname multiband
+# @rdname multiband
 setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
   #ssimObject=scn;action="apply";grouping=NULL
   if(is.na(parentId(ssimObject))){

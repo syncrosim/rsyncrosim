@@ -49,6 +49,8 @@ ssimLevelplot<-function(raster,attribute,...){
 # View state class output
 # Add an (optional) raster attribute table. This is dataframe with ID, (optional) Color, and descriptor columns.
 # In this example, we load StateClass attributes from the library, then override the Colors.
+# Off for v0.1. rat and ssimRatify are disabled in first release of rsyncrosim, so this section of code will not work.
+if(0){
 rat = datasheet(myResult[[1]],name="STSim_StateClass",optional=T)
 rat$Color#We could use Colors from the library. Or override.
 rat$Color = c("darkgreen","brown","wheat")
@@ -114,7 +116,7 @@ dev.off()
 #TO DO: check non-stsim spatial inputs
 #TO DO: check writing colors back to SyncroSim
 #NOTE: special knowledge of lookups to use for legends
-
+}
 ##################
 #Set spatial inputs in a new library.
 if(is.element("NewScn",scenario(myProject)$name)){
@@ -155,6 +157,8 @@ datasheet(anotherScenario,name="STSim_InitialConditionsSpatialProperties")
 ###############
 # Rearrange spatial outputs in a result scenario
 #set spatial options
+#Off in v0.1
+if(0){
 sheetName = "STime_Options"; mySheet = datasheet(myLibrary,name=sheetName)
 levels(mySheet$MultibandGroupingInternal)
 mySheet[1,"MultibandGroupingInternal"]="Single band"
@@ -163,3 +167,4 @@ saveDatasheet(myProject,mySheet,name=sheetName)
 #Combining all spatial results into one multiband file will speed up loading.
 #multiband(myResult[[1]],action="apply")
 #TO DO: once files are multibanded, how to change the banding option?
+}

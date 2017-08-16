@@ -3,31 +3,32 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Set attributes and colors of a RasterLayer object.
-#'
-#' Set attributes and colors of a Raster object.
-#' This is a wrapper around ratify() function from the raster package. 
-#' The optional Color column accepts names, hexadecimal colors, and RGB color strings exported by SyncroSim.
-#' These are converted to hexadecimal colors in the hexColor column of the raster attribute table.
-#'
-#' @details
-#'
-#' The (optional) Color column of a rat table should have one of these formats:
-#' \itemize{
-#'   \item {alpha,R,G,B: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
-#'   \item {R colour names: } {See colors() for options.}
-#'   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
-#' }
-#'
-#' @examples
-#'
-#' levels(myRaster) #retrieve raster attribute table
-#'
-#' @param raster A RasterLayer.
-#' @param value dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
-#' @export
+# Off for v0.1
+# Set attributes and colors of a RasterLayer object.
+#
+# Set attributes and colors of a Raster object.
+# This is a wrapper around ratify() function from the raster package. 
+# The optional Color column accepts names, hexadecimal colors, and RGB color strings exported by SyncroSim.
+# These are converted to hexadecimal colors in the hexColor column of the raster attribute table.
+#
+# @details
+#
+# The (optional) Color column of a rat table should have one of these formats:
+# \itemize{
+#   \item {alpha,R,G,B: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
+#   \item {R colour names: } {See colors() for options.}
+#   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
+# }
+#
+# @examples
+#
+# levels(myRaster) #retrieve raster attribute table
+#
+# @param raster A RasterLayer.
+# @param value dataframe. A raster attribute table is a dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
+# @export
 setGeneric('ssimRatify<-',function(raster,value) standardGeneric('ssimRatify<-'))
-#' @rdname ssimRatify-set
+# @rdname ssimRatify-set
 setReplaceMethod(
   f='ssimRatify',
   signature="RasterLayer",

@@ -9,18 +9,18 @@
 \usage{
 datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
   summary = NULL, optional = F, empty = F, lookupsAsFactors = T,
-  sqlStatements = list(select = "SELECT *", groupBy = ""), includeKey = F,
+  sqlStatements = list(select = "SELECT *", groupBy = ""),
   forceElements = F)
 
 \S4method{datasheet}{list}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
   lookupsAsFactors = T, sqlStatements = list(select = "SELECT *", groupBy =
-  ""), includeKey = F, forceElements = F)
+  ""), forceElements = F)
 
 \S4method{datasheet}{SsimObject}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
   lookupsAsFactors = T, sqlStatements = list(select = "SELECT *", groupBy =
-  ""), includeKey = F, forceElements = F)
+  ""), forceElements = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.}
@@ -40,8 +40,6 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 \item{lookupsAsFactors}{Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.}
 
 \item{sqlStatements}{List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.}
-
-\item{includeKey}{Logical. If TRUE include primary key in output table.}
 
 \item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.}
 }
