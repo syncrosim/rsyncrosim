@@ -1,3 +1,10 @@
+##################################
+# Tests of rsyncrosim nonspatial commandLineTutorial.R
+# Derived from examples.R
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# GPL v.3 License
+# Last run/updated: August 21, 2017
+#########################
 #library(plyr)
 retDir = getwd()
 unlink("testLibs",recursive=T)
@@ -5,7 +12,8 @@ dir.create('testLibs')
 setwd("./testLibs")
 
 #used to test run, dependency and a few other things that require a working library. More basic functionality is tested in testExamples.R - avoid redundancy with that set of tests.
-test_that("Test simple non-spatial STSim example", {
+test_that("Test simple non-spatial STSim example - assumes that SyncroSim is installed.", {
+  skip_on_cran()
   #*************************************
   # Create the project definition
   libPath = paste0(getwd(),"/ST-Sim-Command-Line.ssim")
@@ -146,8 +154,6 @@ test_that("Test simple non-spatial STSim example", {
   myResults = run(myProject,scenario=c("Harvest","No Harvest"),jobs=4)
   expect_is(myResults[[1]],"Scenario")
 
-  scenario(myProject)
-  class(myScenario)
   otherResults = run(myScenario,jobs=4,summary=T)
   expect_is(otherResults,"data.frame")
   

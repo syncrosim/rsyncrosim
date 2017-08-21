@@ -7,7 +7,7 @@
 # http://syncrosim.com/index.php?title=Getting_Started#Spatial_models_in_ST-Sim:_getting_from_non-spatial_to_spatial
 # **********************************************************
 # Author Josie Hughes, ApexRMS
-# Date 2016.12.06
+# Date 2017.08.21
 # **********************************************************
 
 #install.packages("rasterVis")
@@ -16,7 +16,7 @@ library(raster);library(rasterVis)
 sessionPath = filepath(session())#"c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
 
 #get a local copy of the package demonstration library
-unzip(system.file("extdata", "Demonstration Library.ssim.backup.zip", package = "rsyncrosim"),
+unzip(system.file("extdata", "DemonstrationLibrary_ssim_backup.zip", package = "rsyncrosim"),
       exdir=getwd(),overwrite=T)
 
 #*************************************

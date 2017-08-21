@@ -40,6 +40,7 @@ setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileDa
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
   #ssimObject = myScenario;project=NULL;scenario=NULL;name=sheetName;data=sheetData;fileData=NULL;append=NULL;forceElements=F;force=F
+  isFile=NULL
   x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
   #if(class(x)=="list"){
   #  stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")

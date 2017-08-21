@@ -1,10 +1,19 @@
+##################################3
+# Tests of rsyncrosim functionality not included in the tutorials.
+# Derived from examples.R
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# GPL v.3 License
+# Last run/updated: August 21, 2017
+#########################
+
 retDir = getwd()
 unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
 #library(testthat)
 
-test_that("Tests of Session", {
+test_that("Tests of Session - assumes SyncroSim is installed", {
+  skip_on_cran() 
   mySsim = session() # Creates a session using the default installation of syncrosim
   expect_is(mySsim, "Session")
   expect_equal(file.exists(filepath(mySsim)),TRUE) # Lists the folder location of syncrosim session
@@ -13,7 +22,7 @@ test_that("Tests of Session", {
   expect_equal(names(module()),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(model(mySsim)),c("name","description","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
   expect_equal(names(model()),c("name","description","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-  expect_equal(deleteModule("hi",mySession),list(hi="Module hi is not installed, so cannot be removed."))
+  expect_equal(deleteModule("hi"),list(hi="Module hi is not installed, so cannot be removed."))
   
   mySession = session(defaultModel="stsim",silent=F) #modify default session settings
   #defaultModel(mySession)="stsim" #prints SyncroSim command calls because printCmd=T
@@ -24,7 +33,8 @@ test_that("Tests of Session", {
   expect_output(session(printCmd=T),"--list --models --csv")
 })
 
-test_that("Tests of command", {
+test_that("Tests of command  - assumes SyncroSim is installed", {
+  skip_on_cran()
   mySsim = session() # Creates a session using the default installation of syncrosim
   expect_equal(command("help")[1],"System Console [Arguments]")
   expect_equal(command(c("list","help"),mySsim)[1],"Lists existing items")
@@ -37,7 +47,8 @@ test_that("Tests of command", {
   expect_equal(output[1],"The transformer 'hello:model-transformer' was not found.  You may need to install an additional module.")
 })
 
-test_that("Tests of Library", {
+test_that("Tests of Library - assumes SyncroSim is installed", {
+  skip_on_cran()
   myLibrary = ssimLibrary(name="temp") #create new library using default model
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(as.character(model(myLibrary)$name),"stsim")
@@ -52,19 +63,20 @@ test_that("Tests of Library", {
   expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
   allAdds = addon(myLibrary)
   expect_equal(names(allAdds),c("name","displayName","enabled","currentVersion","minimumVersion"))
-  expect_gt(nrow(allAdds),0)
+  #expect_gt(nrow(allAdds),0)
   expect_equal(names(addon(mySession)),c("name","displayName","version","extends"))
   expect_equal(delete(myLibrary,force=T),"saved")
 
-  cAdd =allAdds$name[1]
-  #delete(myLibrary,force=T)
-  myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd),session=mySession) 
-  expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
-  expect_equal(disableAddon(myLibrary,cAdd)[[cAdd]],"saved")
-  expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
-  expect_equal(enableAddon(myLibrary,cAdd)[[cAdd]],"saved")
-  expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
-
+  if(nrow(allAdds)>0){
+    cAdd =allAdds$name[1]
+    #delete(myLibrary,force=T)
+    myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd),session=mySession) 
+    expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
+    expect_equal(disableAddon(myLibrary,cAdd)[[cAdd]],"saved")
+    expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
+    expect_equal(enableAddon(myLibrary,cAdd)[[cAdd]],"saved")
+    expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
+  }  
   myLibrary = ssimLibrary() # look for a single .ssim file in the current working dir of R; if none found, or more than one, then raise error
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
 
@@ -81,7 +93,7 @@ test_that("Tests of Library", {
   expect_equal(dir.exists(paste0(filepath(myLibrary),".backup")),T)
   
   description(myLibrary) = "A new description.\nTry a linebreak." #NOTE: \n adds a linebreak to the description
-  expect_equal(description(myLibrary)[2],"A new description.")
+  expect_equal(description(myLibrary)[2],"Try a linebreak.")
   
   owner(myLibrary) ="Fred"
   expect_equal(owner(myLibrary),"Fred")
@@ -94,7 +106,9 @@ test_that("Tests of Library", {
   
 })
 
-test_that("Tests of projects and scenarios", {
+test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
+  skip_on_cran()
+  
   ret=delete(paste0(getwd(),"/temp26.ssim"),force=T) #delete a library specified by a path
   ret=delete(paste0(getwd(),"/temp27.ssim"),force=T)
   myLib=ssimLibrary(name="temp26",session=mySession)
@@ -173,9 +187,9 @@ test_that("Tests of projects and scenarios", {
   expect_equal(name(myScn),"New scn name")
   
   description(myProject) = "A new description.\nTry a linebreak." #NOTE: \n adds a linebreak to the description
-  expect_equal(description(myProject)[2],"A new description.")
+  expect_equal(description(myProject)[1],"A new description.")
   description(myScn) = "Hi"
-  expect_equal(grepl("Hi",description(myScn)[2]),T) 
+  expect_equal(grepl("Hi",description(myScn)[1]),T) 
   
   owner(myProject) ="Fred"
   expect_equal(owner(myProject),"Fred")
@@ -231,7 +245,8 @@ test_that("Tests of projects and scenarios", {
   ret=delete(myOtherLib,force=T)
 })
 
-test_that("Tests of datasheet", {
+test_that("Tests of datasheet - assumes SyncroSim is installed", {
+  skip_on_cran()
   myLibrary = ssimLibrary(name= "NewLibrary.ssim")
   myScenario = scenario(myLibrary,scenario="one")
   myProject = project(myLibrary,project=1)
