@@ -50,6 +50,9 @@ ssimLevelplot<-function(raster,attribute,...){
 # Add an (optional) raster attribute table. This is dataframe with ID, (optional) Color, and descriptor columns.
 # In this example, we load StateClass attributes from the library, then override the Colors.
 # Off for v0.1. rat and ssimRatify are disabled in first release of rsyncrosim, so this section of code will not work.
+
+myRasters = datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
+                            iteration=seq(1),timestep = seq(0,2,by=2))
 if(0){
 rat = datasheet(myResult[[1]],name="STSim_StateClass",optional=T)
 rat$Color#We could use Colors from the library. Or override.

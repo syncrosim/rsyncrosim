@@ -219,7 +219,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
       
     }
   }
-  if(is.element("Timestep",names(cMeta))){
+  if(is.element("Timestep",names(cMeta))&&(length(setdiff(cMeta$Timestep,c(NA)))>0)){
     tsReplaceBits =cMeta$Timestep
     tsReplaceBits[tsReplaceBits<10]=paste0("Ts000",tsReplaceBits[tsReplaceBits<10],"-")
     tsReplaceBits[(10<=tsReplaceBits)&(tsReplaceBits<100)]=paste0("Ts00",tsReplaceBits[(10<=tsReplaceBits)&(tsReplaceBits<100)],"-")
