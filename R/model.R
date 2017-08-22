@@ -12,8 +12,14 @@ NULL
 #' @export
 setGeneric('model',function(ssimObject=NULL) standardGeneric('model'))
 #' @rdname model
+setMethod('model', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))
+})
+
+#' @rdname model
 setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
-  ssimOject=session()
+  ssimObject=session()
+  if(ssimObject==SyncroSimNotFound(warn=F)){return(SyncroSimNotFound())}
   tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)

@@ -6,9 +6,12 @@
 \alias{readOnly,Project-method}
 \alias{readOnly,Scenario-method}
 \alias{readOnly,SsimLibrary-method}
+\alias{readOnly,character-method}
 \title{Read-only status of an SsimLibrary/Project/Scenario.}
 \usage{
 readOnly(ssimObject)
+
+\S4method{readOnly}{character}(ssimObject)
 
 \S4method{readOnly}{SsimLibrary}(ssimObject)
 

@@ -4,9 +4,12 @@
 \name{enableAddon}
 \alias{enableAddon}
 \alias{enableAddon,SsimLibrary-method}
+\alias{enableAddon,character-method}
 \title{Enable addon or addons.}
 \usage{
 enableAddon(ssimLibrary, name)
+
+\S4method{enableAddon}{character}(ssimLibrary, name)
 
 \S4method{enableAddon}{SsimLibrary}(ssimLibrary, name)
 }

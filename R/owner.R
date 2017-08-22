@@ -20,6 +20,9 @@ setGeneric('owner',function(ssimObject) standardGeneric('owner'))
 #' @export
 setGeneric('owner<-',function(ssimObject,value) standardGeneric('owner<-'))
 #' @rdname owner
+setMethod('owner', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))})
+#' @rdname owner
 setMethod('owner', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
@@ -39,6 +42,13 @@ setMethod('owner', signature(ssimObject="Scenario"), function(ssimObject) {
   return(scnInfo$owner)
 })
 
+#' @rdname owner-set
+setReplaceMethod(
+  f='owner',
+  signature="character",
+  definition=function(ssimObject,value){
+    return(ssimObject)
+})
 #' @rdname owner-set
 setReplaceMethod(
   f='owner',

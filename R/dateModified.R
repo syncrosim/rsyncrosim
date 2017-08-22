@@ -11,6 +11,10 @@ NULL
 #' @export
 setGeneric('dateModified',function(ssimObject) standardGeneric('dateModified'))
 #' @rdname dateModified
+setMethod('dateModified', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))})
+  
+#' @rdname dateModified
 setMethod('dateModified', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)

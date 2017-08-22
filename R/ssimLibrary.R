@@ -144,7 +144,7 @@ setMethod(f='initialize',signature="SsimLibrary",
 setGeneric('.ssimLibrary',function(name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=F) standardGeneric('.ssimLibrary'))
 setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),
           function(name,model,session,addon,forceUpdate,create) {
-            new("SsimLibrary",name,model,session,addon,forceUpdate,create)
+            return(new("SsimLibrary",name,model,session,addon,forceUpdate,create))
           })
 setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,session,addon,forceUpdate,create) {
   #model=cScn
@@ -230,6 +230,12 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary,mod
 #' @rdname ssimLibrary
 setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
           function(name=NULL,summary=NULL,model,session,addon,forceUpdate) {
+            
+    if(is.null(session)){session=.session()}
+    if(session==SyncroSimNotFound(warn=F)){
+      return(SyncroSimNotFound())
+    }
+            
     newLib = new("SsimLibrary",name,model,session,addon,forceUpdate,create=T)
     if(!is.null(summary)&&summary){
       return(info(newLib))
@@ -269,6 +275,7 @@ setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLi
 })
 setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibrary,force) {
   #ssimLibrary = .ssimLibrary(name="temp26",session=mySession,create=T)
+  
   if(!file.exists(ssimLibrary)){
     return(paste0("Library not found: ",ssimLibrary))
   }

@@ -4,9 +4,12 @@
 \name{description}
 \alias{description}
 \alias{description,SsimObject-method}
+\alias{description,character-method}
 \title{Description of an SsimLibrary/Project/Scenario.}
 \usage{
 description(ssimObject)
+
+\S4method{description}{character}(ssimObject)
 
 \S4method{description}{SsimObject}(ssimObject)
 }

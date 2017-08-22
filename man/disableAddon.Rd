@@ -4,9 +4,12 @@
 \name{disableAddon}
 \alias{disableAddon}
 \alias{disableAddon,SsimLibrary-method}
+\alias{disableAddon,character-method}
 \title{Disable addon or addons.}
 \usage{
 disableAddon(ssimLibrary, name)
+
+\S4method{disableAddon}{character}(ssimLibrary, name)
 
 \S4method{disableAddon}{SsimLibrary}(ssimLibrary, name)
 }

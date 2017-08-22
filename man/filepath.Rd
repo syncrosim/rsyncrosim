@@ -5,9 +5,12 @@
 \alias{filepath}
 \alias{filepath,Session-method}
 \alias{filepath,SsimObject-method}
+\alias{filepath,character-method}
 \title{The path to a SyncroSim object on disk}
 \usage{
 filepath(ssimObject)
+
+\S4method{filepath}{character}(ssimObject)
 
 \S4method{filepath}{Session}(ssimObject)
 

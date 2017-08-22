@@ -4,6 +4,7 @@
 \name{datasheet}
 \alias{datasheet}
 \alias{datasheet,SsimObject-method}
+\alias{datasheet,character-method}
 \alias{datasheet,list-method}
 \title{Get a datasheet}
 \usage{
@@ -13,6 +14,11 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
   forceElements = F)
 
 \S4method{datasheet}{list}(ssimObject, name = NULL, project = NULL,
+  scenario = NULL, summary = NULL, optional = F, empty = F,
+  lookupsAsFactors = T, sqlStatements = list(select = "SELECT *", groupBy =
+  ""), forceElements = F)
+
+\S4method{datasheet}{character}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
   lookupsAsFactors = T, sqlStatements = list(select = "SELECT *", groupBy =
   ""), forceElements = F)

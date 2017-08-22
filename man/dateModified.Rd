@@ -6,9 +6,12 @@
 \alias{dateModified,Project-method}
 \alias{dateModified,Scenario-method}
 \alias{dateModified,SsimLibrary-method}
+\alias{dateModified,character-method}
 \title{The last date a SsimLibrary/Project/Scenario was modified.}
 \usage{
 dateModified(ssimObject)
+
+\S4method{dateModified}{character}(ssimObject)
 
 \S4method{dateModified}{SsimLibrary}(ssimObject)
 

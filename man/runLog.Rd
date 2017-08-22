@@ -4,9 +4,12 @@
 \name{runLog}
 \alias{runLog}
 \alias{runLog,Scenario-method}
+\alias{runLog,character-method}
 \title{The runLog of a result Scenario.}
 \usage{
 runLog(scenario)
+
+\S4method{runLog}{character}(scenario)
 
 \S4method{runLog}{Scenario}(scenario)
 }

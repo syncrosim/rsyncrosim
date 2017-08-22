@@ -12,6 +12,11 @@ NULL
 #' @export
 setGeneric('ssimUpdate',function(ssimObject) standardGeneric('ssimUpdate'))
 #' @rdname ssimUpdate
+setMethod('ssimUpdate', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))
+})
+  
+#' @rdname ssimUpdate
 setMethod('ssimUpdate', signature(ssimObject="SsimObject"), function(ssimObject) {
   #x= myLibrary
   #args = list(update=NULL,lib=.filepath(x));session=.session(x)

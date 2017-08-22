@@ -4,9 +4,12 @@
 \name{backup}
 \alias{backup}
 \alias{backup,SsimObject-method}
+\alias{backup,character-method}
 \title{Backup an SsimLibrary.}
 \usage{
 backup(ssimObject)
+
+\S4method{backup}{character}(ssimObject)
 
 \S4method{backup}{SsimObject}(ssimObject)
 }

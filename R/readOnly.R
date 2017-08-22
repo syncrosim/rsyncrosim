@@ -12,6 +12,9 @@ NULL
 #' @export
 setGeneric('readOnly',function(ssimObject) standardGeneric('readOnly'))
 #' @rdname readOnly
+setMethod('readOnly', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))})
+#' @rdname readOnly
 setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
@@ -45,6 +48,14 @@ setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
 #' @param value Logical. If T the ssimObject will be read-only.
 #' @export
 setGeneric('readOnly<-',function(ssimObject,value) standardGeneric('readOnly<-'))
+#' @rdname readOnly-set
+setReplaceMethod(
+  f='readOnly',
+  signature="character",
+  definition=function(ssimObject,value){
+    return(ssimObject)
+})
+    
 #' @rdname readOnly-set
 setReplaceMethod(
   f='readOnly',

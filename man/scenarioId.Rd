@@ -4,9 +4,12 @@
 \name{scenarioId}
 \alias{scenarioId}
 \alias{scenarioId,Scenario-method}
+\alias{scenarioId,character-method}
 \title{The scenarioId of a scenario.}
 \usage{
 scenarioId(scenario)
+
+\S4method{scenarioId}{character}(scenario)
 
 \S4method{scenarioId}{Scenario}(scenario)
 }

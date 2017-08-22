@@ -4,10 +4,14 @@
 \name{saveDatasheet}
 \alias{saveDatasheet}
 \alias{saveDatasheet,SsimObject-method}
+\alias{saveDatasheet,character-method}
 \title{Save datasheet(s)}
 \usage{
 saveDatasheet(ssimObject, data, name = NULL, append = NULL,
   fileData = NULL, forceElements = F, force = F)
+
+\S4method{saveDatasheet}{character}(ssimObject, data, name = NULL,
+  append = NULL, fileData = NULL, forceElements = F, force = F)
 
 \S4method{saveDatasheet}{SsimObject}(ssimObject, data, name = NULL,
   append = NULL, fileData = NULL, forceElements = F, force = F)

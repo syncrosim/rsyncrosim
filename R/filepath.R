@@ -11,6 +11,9 @@ NULL
 #' @export
 setGeneric('filepath',function(ssimObject) standardGeneric('filepath'))
 #' @rdname filepath
+setMethod('filepath', signature(ssimObject="character"), function(ssimObject) return(SyncroSimNotFound(ssimObject)))
+
+#' @rdname filepath
 setMethod('filepath', signature(ssimObject="Session"), function(ssimObject) ssimObject@filepath)
 #' @rdname filepath
 setMethod('filepath', signature(ssimObject="SsimObject"), function(ssimObject) ssimObject@filepath)

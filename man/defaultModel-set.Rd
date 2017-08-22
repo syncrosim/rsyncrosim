@@ -4,9 +4,12 @@
 \name{defaultModel<-}
 \alias{defaultModel<-}
 \alias{defaultModel<-,Session-method}
+\alias{defaultModel<-,character-method}
 \title{Set defaultModel of a Session}
 \usage{
 defaultModel(session) <- value
+
+\S4method{defaultModel}{character}(session) <- value
 
 \S4method{defaultModel}{Session}(session) <- value
 }

@@ -5,11 +5,16 @@
 \alias{datasheetRaster}
 \alias{datasheetRaster,Scenario-method}
 \alias{datasheetRaster,SsimObject-method}
+\alias{datasheetRaster,character-method}
 \alias{datasheetRaster,list-method}
 \title{Get spatial inputs or outputs from a Scenario(s).}
 \usage{
 datasheetRaster(ssimObject, datasheet, column = NULL, scenario = NULL,
   iteration = NULL, timestep = NULL, subset = NULL, forceElements = F)
+
+\S4method{datasheetRaster}{character}(ssimObject, datasheet, column = NULL,
+  scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
+  forceElements = F)
 
 \S4method{datasheetRaster}{list}(ssimObject, datasheet, column = NULL,
   scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,

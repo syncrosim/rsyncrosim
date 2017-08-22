@@ -12,6 +12,10 @@ NULL
 #' @export
 setGeneric('name',function(ssimObject) standardGeneric('name'))
 #' @rdname name
+setMethod('name', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))
+})
+#' @rdname name
 setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   #ssimObject=myLibrary
   cInfo = info(ssimObject)
@@ -38,6 +42,13 @@ setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
 #' @param value The new name.
 #' @export
 setGeneric('name<-',function(ssimObject,value) standardGeneric('name<-'))
+#' @rdname name-set
+setReplaceMethod(
+  f='name',
+  signature="character",
+  definition=function(ssimObject,value){
+    return(ssimObject)
+})
 #' @rdname name-set
 setReplaceMethod(
   f='name',

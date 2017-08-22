@@ -6,9 +6,12 @@
 \alias{name,Project-method}
 \alias{name,Scenario-method}
 \alias{name,SsimLibrary-method}
+\alias{name,character-method}
 \title{The name of a SyncroSim library, project or scenario.}
 \usage{
 name(ssimObject)
+
+\S4method{name}{character}(ssimObject)
 
 \S4method{name}{SsimLibrary}(ssimObject)
 

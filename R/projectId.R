@@ -12,6 +12,10 @@ NULL
 #' @export
 setGeneric('projectId',function(ssimObject) standardGeneric('projectId'))
 #' @rdname projectId
+setMethod('projectId', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))
+})
+#' @rdname projectId
 setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
   return(ssimObject@projectId)
 })

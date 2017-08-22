@@ -20,6 +20,10 @@ setGeneric('description',function(ssimObject) standardGeneric('description'))
 #' @export
 setGeneric('description<-',function(ssimObject,value) standardGeneric('description<-'))
 #' @rdname description
+setMethod('description', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))})
+  
+#' @rdname description
 setMethod('description', signature(ssimObject="SsimObject"), function(ssimObject) {
   #ssimObject=myLibrary
   if(class(ssimObject)=="SsimLibrary"){
@@ -41,6 +45,12 @@ setMethod('description', signature(ssimObject="SsimObject"), function(ssimObject
 
   return(desc)
 })
+#' @rdname description-set
+setReplaceMethod(
+  f='description',
+  signature="character",
+  definition=function(ssimObject,value){ return(ssimObject)})
+    
 #' @rdname description-set
 setReplaceMethod(
   f='description',

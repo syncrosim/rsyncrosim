@@ -5,10 +5,13 @@
 \alias{model}
 \alias{model,Session-method}
 \alias{model,SsimLibrary-method}
+\alias{model,character-method}
 \alias{model,missingOrNULL-method}
 \title{Installed models}
 \usage{
 model(ssimObject = NULL)
+
+\S4method{model}{character}(ssimObject = NULL)
 
 \S4method{model}{missingOrNULL}(ssimObject = NULL)
 

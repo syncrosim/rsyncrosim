@@ -4,9 +4,12 @@
 \name{description<-}
 \alias{description<-}
 \alias{description<-,SsimObject-method}
+\alias{description<-,character-method}
 \title{Set the description of an SsimLibrary/Project/Scenario.}
 \usage{
 description(ssimObject) <- value
+
+\S4method{description}{character}(ssimObject) <- value
 
 \S4method{description}{SsimObject}(ssimObject) <- value
 }

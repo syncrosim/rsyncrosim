@@ -1,4 +1,9 @@
-# Readme-Development.txt explains how to install the rsyncrosim package from github
+
+mySsim = session() # Creates a session using the default installation of syncrosim.
+# NOTE: Linux users must specify x. The default installation path is only valid on windows.
+mySsim = session(sessionPath,silent=F) # Creates a non-silent session using a particular version (i.e. folder) of syncrosim
+showMethods(class="Session",where=loadNamespace("rsyncrosim"))
+filepath(mySsim) # The folder l# Readme-Development.txt explains how to install the rsyncrosim package from github
 # This script demonstrates how to use the rsyncrosim package.
 # source("installRSyncroSim.R") # Install the most current version of rsyncrosim. See Readme-Development.txt for details.
 #library(rsyncrosim)
@@ -12,7 +17,7 @@ module(mySession)
 #addModule(paste0(moduleDir,"/stsim-3-1-2-x64.ssimpkg"), mySession)
 
 #Put a copy of the example library in the current working directory.
-unzip(system.file("extdata", "Demonstration Library.ssim.backup.zip", package = "rsyncrosim"),
+unzip(system.file("extdata", "DemonstrationLibrary_ssim_backup.zip", package = "rsyncrosim"),
       exdir=getwd(),overwrite=T)
 
 #Now do whatever with the example library
@@ -29,12 +34,7 @@ showMethods("filepath") # See the objects for which filepath is defined. SsimLib
 ?filepath # Help for the filepath function
 ##########################
 # Create and query a session
-sessionPath = "c:/gitprojects/syncrosim/_deploy_/current"
-mySsim = session() # Creates a session using the default installation of syncrosim.
-# NOTE: Linux users must specify x. The default installation path is only valid on windows.
-mySsim = session(sessionPath,silent=F) # Creates a non-silent session using a particular version (i.e. folder) of syncrosim
-showMethods(class="Session",where=loadNamespace("rsyncrosim"))
-filepath(mySsim) # The folder location of syncrosim session
+sessionPath = "c:/gitprojects/syncrosim/_deploy_/current6"ocation of syncrosim session
 version(mySsim) # The version of syncrosim session
 version() #Version of the default session.
 
@@ -139,6 +139,7 @@ myOtherLib = ssimLibrary(name="temp27",session=mySession)
 
 myOtherScn = scenario(myOtherLib,scenario="other")
 scenario(myOtherLib)
+#RESUME HERE
 delete(myOtherLib,scenario="other",force=T)
 scenario(myOtherLib)
 myOtherScn = scenario(myOtherLib,scenario="other2")

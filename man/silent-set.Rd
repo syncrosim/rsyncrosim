@@ -4,9 +4,12 @@
 \name{silent<-}
 \alias{silent<-}
 \alias{silent<-,Session-method}
+\alias{silent<-,character-method}
 \title{Set silent property of a Session}
 \usage{
 silent(session) <- value
+
+\S4method{silent}{character}(session) <- value
 
 \S4method{silent}{Session}(session) <- value
 }

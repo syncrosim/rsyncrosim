@@ -23,6 +23,9 @@ NULL
 #' @export
 setGeneric('dependency',function(scenario,dependency=NULL,remove=F,force=F) standardGeneric('dependency'))
 #' @rdname dependency
+setMethod('dependency', signature(scenario="character"), function(scenario,dependency,remove,force) {
+  return(SyncroSimNotFound(scenario))})
+#' @rdname dependency
 setMethod('dependency', signature(scenario="Scenario"), function(scenario,dependency,remove,force) {
   #scenario = myScenario; dependency="Dependency Scenario";remove=F;force=T
   

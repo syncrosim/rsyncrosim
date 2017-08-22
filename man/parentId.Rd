@@ -4,9 +4,12 @@
 \name{parentId}
 \alias{parentId}
 \alias{parentId,Scenario-method}
+\alias{parentId,character-method}
 \title{The parent scenario id of a SyncroSim Scenario.}
 \usage{
 parentId(scenario)
+
+\S4method{parentId}{character}(scenario)
 
 \S4method{parentId}{Scenario}(scenario)
 }

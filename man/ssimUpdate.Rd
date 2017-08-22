@@ -4,9 +4,12 @@
 \name{ssimUpdate}
 \alias{ssimUpdate}
 \alias{ssimUpdate,SsimObject-method}
+\alias{ssimUpdate,character-method}
 \title{Apply updates.}
 \usage{
 ssimUpdate(ssimObject)
+
+\S4method{ssimUpdate}{character}(ssimObject)
 
 \S4method{ssimUpdate}{SsimObject}(ssimObject)
 }

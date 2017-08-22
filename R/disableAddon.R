@@ -21,6 +21,10 @@ NULL
 #' @export
 setGeneric('disableAddon',function(ssimLibrary,name) standardGeneric('disableAddon'))
 #' @rdname disableAddon
+setMethod('disableAddon', signature(ssimLibrary="character"), function(ssimLibrary,name) {
+  return(SyncroSimNotFound(ssimLibrary))
+})
+#' @rdname disableAddon
 setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   #x=myLibrary
   #value = c("stsim-ecological-departure", "stsim-stock-flow")

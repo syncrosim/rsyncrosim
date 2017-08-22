@@ -17,6 +17,11 @@ setMethod('module', signature(session="missingOrNULL"), function(session) {
   return(module(session))
 })
 #' @rdname module
+setMethod('module', signature(session="character"), function(session) {
+  return(SyncroSimNotFound(session))
+})
+  
+#' @rdname module
 setMethod('module', signature(session="Session"), function(session) {
   #x=mySsim
   tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")

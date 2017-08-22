@@ -20,6 +20,9 @@ setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) 
   }else{
     session=.session()
   }
+  if(session==SyncroSimNotFound(warn=F)){
+    return(SyncroSimNotFound())
+  }
   return(silent(session))
 })
 
@@ -31,6 +34,13 @@ setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) 
 #' @param value logical
 #' @export
 setGeneric('silent<-',function(session,value) standardGeneric('silent<-'))
+#' @rdname silent-set
+setReplaceMethod(
+  f='silent',
+  signature="character",
+  definition=function(session,value){
+    return(session)
+})
 #' @rdname silent-set
 setReplaceMethod(
   f='silent',

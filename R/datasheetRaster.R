@@ -40,6 +40,9 @@ NULL
 setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,forceElements=F) standardGeneric('datasheetRaster'))
 #setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster')) #Off for v0.1
 #' @rdname datasheetRaster
+setMethod('datasheetRaster', signature(ssimObject="character"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
+  return(SyncroSimNotFound(ssimObject))})
+#' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
 #setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) { #Off for v0.1
   # ssimObject= myResult; sheet="STSim_OutputSpatialState";iteration=seq(1);timesteps = seq(0,10,by=5);rat=rat
