@@ -5,6 +5,17 @@ NULL
 
 #These are internal helper functions for rsyncrosim
 
+SyncroSimNotFound<-function(inMessage=NULL,warn=T){
+  outMessage = "SyncroSim not found."
+  if(!is.null(inMessage)){
+    if(inMessage!=outMessage){
+      stop(inMessage)
+    }
+  }
+  if(warn){  warning(outMessage)}
+  return(outMessage)
+}
+
 deleteDatasheet<-function(x,datasheet,datasheets,cProj=NULL,cScn=NULL,cProjName=NULL,cScnName=NULL,out=list(),force){
   out=list()
   for(j in seq(length.out=length(datasheet))){

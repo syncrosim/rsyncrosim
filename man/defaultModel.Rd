@@ -5,9 +5,12 @@
 \alias{defaultModel}
 \alias{defaultModel,NULL-method}
 \alias{defaultModel,Session-method}
+\alias{defaultModel,character-method}
 \title{Get the default model from a Session.}
 \usage{
 defaultModel(session = NULL)
+
+\S4method{defaultModel}{character}(session = NULL)
 
 \S4method{defaultModel}{Session}(session = NULL)
 

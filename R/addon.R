@@ -17,6 +17,10 @@ NULL
 #' @export
 setGeneric('addon',function(ssimObject) standardGeneric('addon'))
 #' @rdname addon
+setMethod('addon', signature(ssimObject="character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))
+})
+#' @rdname addon
 setMethod('addon', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   #x = myLibrary
   ssimObject=.session()

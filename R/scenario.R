@@ -156,6 +156,11 @@ setMethod(f='initialize',signature="Scenario",
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
   #ssimObject= myProject;scenario=NULL;sourceScenario="two";summary=NULL;results=F;overwrite=F;forceElements=F
+  
+  if(is.character(ssimObject)&&(ssimObject==SyncroSimNotFound(warn=F))){
+    return(SyncroSimNotFound())
+  }
+  
   isResult=NULL
   #if ssimObject is a scenario return the scenario
   if(is.element(class(ssimObject),c("Scenario"))&is.null(scenario)){

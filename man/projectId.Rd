@@ -5,9 +5,12 @@
 \alias{projectId}
 \alias{projectId,Project-method}
 \alias{projectId,Scenario-method}
+\alias{projectId,character-method}
 \title{The projectId of a SyncroSim project or scenario.}
 \usage{
 projectId(ssimObject)
+
+\S4method{projectId}{character}(ssimObject)
 
 \S4method{projectId}{Project}(ssimObject)
 

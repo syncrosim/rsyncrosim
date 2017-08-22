@@ -38,6 +38,9 @@ NULL
 #' @export
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileData=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
 #' @rdname saveDatasheet
+setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,append,fileData,forceElements,force) {
+  return(SyncroSimNotFound(ssimObject))})
+#' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
   #ssimObject = myScenario;project=NULL;scenario=NULL;name=sheetName;data=sheetData;fileData=NULL;append=NULL;forceElements=F;force=F
   isFile=NULL

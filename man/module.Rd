@@ -4,12 +4,15 @@
 \name{module}
 \alias{module}
 \alias{module,Session-method}
+\alias{module,character-method}
 \alias{module,missingOrNULL-method}
 \title{Installed modules}
 \usage{
 module(session)
 
 \S4method{module}{missingOrNULL}(session)
+
+\S4method{module}{character}(session)
 
 \S4method{module}{Session}(session)
 }

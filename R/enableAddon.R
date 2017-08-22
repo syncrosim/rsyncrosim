@@ -18,6 +18,11 @@ NULL
 #' @export
 setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
 #' @rdname enableAddon
+setMethod('enableAddon', signature(ssimLibrary="character"), function(ssimLibrary,name) {
+  return(SyncroSimNotFound(ssimLibrary))
+})
+
+#' @rdname enableAddon
 setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   enabled=NULL
   cAdds = addon(ssimLibrary)

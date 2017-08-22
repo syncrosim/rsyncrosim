@@ -12,6 +12,8 @@ NULL
 #' @export
 setGeneric('defaultModel',function(session=NULL) standardGeneric('defaultModel'))
 #' @rdname defaultModel
+setMethod('defaultModel', signature(session="character"), function(session) return(SyncroSimNotFound(session)))
+#' @rdname defaultModel
 setMethod('defaultModel', signature(session="Session"), function(session) session@defaultModel)
 #' @rdname defaultModel
 setMethod('defaultModel', signature(session="NULL"), function(session) {
@@ -31,6 +33,13 @@ setMethod('defaultModel', signature(session="NULL"), function(session) {
 #' @param value character. A SyncroSim model. See model() for options.
 #' @export
 setGeneric('defaultModel<-',function(session,value) standardGeneric('defaultModel<-'))
+#' @rdname defaultModel-set
+setReplaceMethod(
+  f='defaultModel',
+  signature="character",
+  definition=function(session,value){
+  return(session)
+})
 #' @rdname defaultModel-set
 setReplaceMethod(
   f='defaultModel',

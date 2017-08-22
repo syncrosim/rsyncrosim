@@ -4,10 +4,13 @@
 \name{version}
 \alias{version}
 \alias{version,Session-method}
+\alias{version,character-method}
 \alias{version,missingOrNULL-method}
 \title{The SyncroSim version}
 \usage{
 version(session = NULL)
+
+\S4method{version}{character}(session = NULL)
 
 \S4method{version}{missingOrNULL}(session = NULL)
 

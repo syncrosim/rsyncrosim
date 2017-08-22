@@ -6,9 +6,12 @@
 \alias{owner,Project-method}
 \alias{owner,Scenario-method}
 \alias{owner,SsimLibrary-method}
+\alias{owner,character-method}
 \title{The owner of a SsimLibrary/Project/Scenario.}
 \usage{
 owner(ssimObject)
+
+\S4method{owner}{character}(ssimObject)
 
 \S4method{owner}{SsimLibrary}(ssimObject)
 

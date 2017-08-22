@@ -4,9 +4,13 @@
 \name{dependency}
 \alias{dependency}
 \alias{dependency,Scenario-method}
+\alias{dependency,character-method}
 \title{Set or remove Scenario dependency(s), or get existing dependencies.}
 \usage{
 dependency(scenario, dependency = NULL, remove = F, force = F)
+
+\S4method{dependency}{character}(scenario, dependency = NULL, remove = F,
+  force = F)
 
 \S4method{dependency}{Scenario}(scenario, dependency = NULL, remove = F,
   force = F)

@@ -4,9 +4,12 @@
 \name{session<-}
 \alias{session<-}
 \alias{session<-,SsimObject-method}
+\alias{session<-,character-method}
 \title{Set a SyncroSim session.}
 \usage{
 session(ssimObject) <- value
+
+\S4method{session}{character}(ssimObject) <- value
 
 \S4method{session}{SsimObject}(ssimObject) <- value
 }

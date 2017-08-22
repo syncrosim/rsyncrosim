@@ -69,6 +69,9 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   return(out)
 })
 #' @rdname datasheet
+setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,forceElements) {
+  return(SyncroSimNotFound(ssimObject))})
+#' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,forceElements) {
 #setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) { #Off for v0.1
   #ssimObject = myScenario;name=NULL;project=NULL;scenario=NULL;summary=T;optional=F

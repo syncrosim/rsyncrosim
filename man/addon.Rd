@@ -5,10 +5,13 @@
 \alias{addon}
 \alias{addon,Session-method}
 \alias{addon,SsimObject-method}
+\alias{addon,character-method}
 \alias{addon,missingOrNULL-method}
 \title{addon(s) of an SsimLibrary or Session}
 \usage{
 addon(ssimObject)
+
+\S4method{addon}{character}(ssimObject)
 
 \S4method{addon}{missingOrNULL}(ssimObject)
 

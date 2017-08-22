@@ -8,40 +8,6 @@ NULL
 setMethod(f='initialize',signature="Session",definition=function(.Object,path,silent=F,printCmd=F,defaultModel="stsim"){
   #path = NULL;silent=F;.Object=session()
   #Check validity of console filepath.
-  if(!is.null(path)){
-    if(!grepl("SyncroSim.Console.exe",path,fixed=T)){
-      path=paste0(path,"/SyncroSim.Console.exe")
-    }
-
-    if(!file.exists(path)){
-      stop(paste("SyncroSim console could not be found at:",path))
-    }
-  }else{
-    #look for the regular installed version in the default installation directories
-    #There is no relevant info in the registry
-    #registry = readRegistry("Applications\\SyncroSim.WinForm.exe\\shell\\open\\command",hive="HCR")
-    #TO DO: debug this on linux
-    #path=NULL
-    if(is.null(path)){
-      #temp = "c:/gitprojects/syncrosim/_deploy_/current"
-      #if(file.exists(paste0(temp,"/SyncroSim.Console.exe"))){
-      #  path=temp
-      #}
-      
-      if(1){
-      #TO DO: change to default path once SyncroSim v2 is released.
-      envVars = Sys.getenv(c("PROGRAMFILES","PROGRAMFILES(X86)"),names=F)
-      envVars=envVars[envVars!=""]
-      for(i in seq(length.out=length(envVars))){
-        #i=1
-        cPath = paste0(envVars[i],"\\SyncroSim")
-        if(file.exists(paste0(cPath,"\\SyncroSim.Console.exe"))){path=cPath;break}
-      }}
-    }
-  }
-  if(is.null(path)){
-    stop('Default SyncroSim installation not found. Either install SyncroSim in the default location, or explicitly set the session path. See ?session for details.')
-  }
 
   .Object@filepath=gsub("\\","/",gsub("/SyncroSim.Console.exe","",path,fixed=T),fixed=T)
   .Object@silent=silent
@@ -101,7 +67,45 @@ setGeneric('session',function(x=NULL,silent=T,printCmd=F,defaultModel="stsim") s
 
 #' @rdname session
 setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,printCmd,defaultModel) {
-  return(new("Session",x,silent,printCmd,defaultModel))
+  path=x
+  if(!is.null(path)){
+    if(!grepl("SyncroSim.Console.exe",path,fixed=T)){
+      path=paste0(path,"/SyncroSim.Console.exe")
+    }
+    
+    if(!file.exists(path)){
+      warning(paste("SyncroSim console could not be found at:",path))
+      return(SyncroSimNotFound(warn=F))
+    }
+  }else{
+    #look for the regular installed version in the default installation directories
+    #There is no relevant info in the registry
+    #registry = readRegistry("Applications\\SyncroSim.WinForm.exe\\shell\\open\\command",hive="HCR")
+    #TO DO: debug this on linux
+    #path=NULL
+    if(is.null(path)){
+      #temp = "c:/gitprojects/syncrosim/_deploy_/current"
+      #if(file.exists(paste0(temp,"/SyncroSim.Console.exe"))){
+      #  path=temp
+      #}
+      
+      if(1){
+        #TO DO: change to default path once SyncroSim v2 is released.
+        envVars = Sys.getenv(c("PROGRAMFILES","PROGRAMFILES(X86)"),names=F)
+        envVars=envVars[envVars!=""]
+        for(i in seq(length.out=length(envVars))){
+          #i=1
+          cPath = paste0(envVars[i],"\\SyncroSim")
+          if(file.exists(paste0(cPath,"\\SyncroSim.Console.exe"))){path=cPath;break}
+        }}
+    }
+  }
+  if(is.null(path)){
+    warning('Default SyncroSim installation not found. Either install SyncroSim in the default location, or explicitly set the session path. See ?session for details.')
+    return(SyncroSimNotFound(warn=F))
+  }
+  
+  return(new("Session",path,silent,printCmd,defaultModel))
 })
 
 #' @rdname session
@@ -125,6 +129,15 @@ setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defau
 #' session(myLibrary)
 #' @export
 setGeneric('session<-',function(ssimObject,value) standardGeneric('session<-'))
+#' @rdname session-set
+setReplaceMethod(
+  f='session',
+  signature="character",
+  definition=function(ssimObject,value){
+  return(ssimObject)
+    
+})
+
 #' @rdname session-set
 setReplaceMethod(
   f='session',

@@ -20,6 +20,7 @@ NULL
 setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
 #' @rdname run
 setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
+  if(ssimObject==SyncroSimNotFound(warn=F)){return(SyncroSimNotFound())}
   ssimObject = .ssimLibrary(ssimObject,create=F)
   out = run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)

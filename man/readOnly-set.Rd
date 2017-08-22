@@ -4,9 +4,12 @@
 \name{readOnly<-}
 \alias{readOnly<-}
 \alias{readOnly<-,SsimObject-method}
+\alias{readOnly<-,character-method}
 \title{Set the read/write status of an SsimLibrary/Project/Scenario.}
 \usage{
 readOnly(ssimObject) <- value
+
+\S4method{readOnly}{character}(ssimObject) <- value
 
 \S4method{readOnly}{SsimObject}(ssimObject) <- value
 }

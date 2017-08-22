@@ -31,6 +31,10 @@ setMethod('delete', signature(ssimObject="character"), function(ssimObject,proje
   if(is.null(datasheet)&is.null(project)&is.null(scenario)){
     return(deleteLibrary(ssimObject,force))
   }else{
+    if(ssimObject==SyncroSimNotFound(warn=F)){
+      return(SyncroSimNotFound())
+    }
+    
     ssimObject=.ssimLibrary(ssimObject,create=F)
     return(delete(ssimObject,project,scenario,datasheet,force))
   }

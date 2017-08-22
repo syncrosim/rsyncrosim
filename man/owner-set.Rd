@@ -4,9 +4,12 @@
 \name{owner<-}
 \alias{owner<-}
 \alias{owner<-,SsimObject-method}
+\alias{owner<-,character-method}
 \title{Set the owner of an SsimLibrary/Project/Scenario.}
 \usage{
 owner(ssimObject) <- value
+
+\S4method{owner}{character}(ssimObject) <- value
 
 \S4method{owner}{SsimObject}(ssimObject) <- value
 }
