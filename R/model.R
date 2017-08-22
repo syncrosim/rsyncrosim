@@ -19,7 +19,9 @@ setMethod('model', signature(ssimObject="character"), function(ssimObject) {
 #' @rdname model
 setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   ssimObject=session()
-  if(ssimObject==SyncroSimNotFound(warn=F)){return(SyncroSimNotFound())}
+  if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
+    return(SyncroSimNotFound())
+  }
   tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)

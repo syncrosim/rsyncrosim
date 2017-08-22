@@ -232,7 +232,7 @@ setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
           function(name=NULL,summary=NULL,model,session,addon,forceUpdate) {
             
     if(is.null(session)){session=.session()}
-    if(session==SyncroSimNotFound(warn=F)){
+    if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
       return(SyncroSimNotFound())
     }
             

@@ -18,7 +18,7 @@ setMethod('addModule', signature(filename="character"), function(filename,sessio
   #value="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
   
   if(is.null(session)){session=.session()}
-  if(session==SyncroSimNotFound(warn=F)){
+  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
   for(i in seq(length.out=length(filename))){

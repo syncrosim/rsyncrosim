@@ -39,7 +39,7 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
   if(is.null(session)){
     session = .session()
   }
-  if(session==SyncroSimNotFound(warn=F)){return(SyncroSimNotFound())}
+  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){return(SyncroSimNotFound())}
   
   if((class(args)=="list")&is.null(names(args))){
     args = as.character(args)

@@ -20,7 +20,7 @@ setMethod('printCmd', signature(session="missingOrNULLOrChar"), function(session
   }else{
     session=.session()
   }
-  if(session==SyncroSimNotFound(warn=F)){
+  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
   return(printCmd(session))

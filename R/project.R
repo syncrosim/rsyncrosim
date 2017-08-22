@@ -173,7 +173,7 @@ setMethod(f='initialize',signature="Project",
 project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F){
   #ssimObject= myLibrary;project=1;sourceProject=NULL;summary=NULL;forceElements=F
   
-  if(ssimObject==SyncroSimNotFound(warn=F)){
+  if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
   

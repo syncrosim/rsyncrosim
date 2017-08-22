@@ -19,7 +19,7 @@ setGeneric('deleteModule',function(name,session=NULL,force=F) standardGeneric('d
 #' @rdname deleteModule
 setMethod('deleteModule', signature(session="missingOrNULLOrChar"), function(name,session,force) {
   session=.session(session)
-  if(session==SyncroSimNotFound(warn=F)){
+  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
   return(deleteModule(name,session))
