@@ -34,7 +34,12 @@ showMethods("filepath") # See the objects for which filepath is defined. SsimLib
 ?filepath # Help for the filepath function
 ##########################
 # Create and query a session
-sessionPath = "c:/gitprojects/syncrosim/_deploy_/current"ocation of syncrosim session
+sessionPath = "c:/gitprojects/syncrosim/_deploy_/current"
+mySsim = session() # Creates a session using the default installation of syncrosim.
+# NOTE: Linux users must specify x. The default installation path is only valid on windows.
+mySsim = session(sessionPath,silent=F) # Creates a non-silent session using a particular version (i.e. folder) of syncrosim
+showMethods(class="Session",where=loadNamespace("rsyncrosim"))
+filepath(mySsim) # The folder location of syncrosim session
 version(mySsim) # The version of syncrosim session
 version() #Version of the default session.
 
