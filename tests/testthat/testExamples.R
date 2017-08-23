@@ -64,7 +64,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   allAdds = addon(myLibrary)
   expect_equal(names(allAdds),c("name","displayName","enabled","currentVersion","minimumVersion"))
   #expect_gt(nrow(allAdds),0)
-  expect_equal(names(addon(mySession)),c("name","displayName","version","extends"))
+  expect_equal(names(addon()),c("name","displayName","version","extends"))
   expect_equal(delete(myLibrary,force=T),"saved")
 
   if(nrow(allAdds)>0){
@@ -111,8 +111,8 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   
   ret=delete(paste0(getwd(),"/temp26.ssim"),force=T) #delete a library specified by a path
   ret=delete(paste0(getwd(),"/temp27.ssim"),force=T)
-  myLib=ssimLibrary(name="temp26",session=mySession)
-  myOtherLib = ssimLibrary(name="temp27",session=mySession)
+  myLib=ssimLibrary(name="temp26")
+  myOtherLib = ssimLibrary(name="temp27")
   
   myOtherScn = scenario(myOtherLib,scenario="other")
   expect_is(myOtherScn,"Scenario")

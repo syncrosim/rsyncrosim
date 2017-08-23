@@ -74,10 +74,10 @@ test_that("Test simple spatial STSim example", {
   # Off for v0.1. rat and ssimRatify are disabled in first release of rsyncrosim, so this section of code will not work.
 
   myTransitionGroup = datasheetRaster(myLibrary,scenario=as.numeric(names(myResult)),datasheet="STSim_OutputSpatialTransition",
-                                      timestep=1,iteration=1,subset=expression(TransitionGroupID=="Fire"))
+                                      timestep=2,iteration=1,subset=expression(TransitionGroupID=="Succession"))
   #NOTE: setting scenario is slower than using a list of scenario objects.
   #NOTE: using subset slows things down because must get lookups for datasheet. 
-  expect_equal(names(myTransitionGroup),c("scn3.tg_24.it1.ts1","scn4.tg_24.it1.ts1"))
+  expect_equal(names(myTransitionGroup),c("scn3.tg_26.it1.ts2","scn4.tg_26.it1.ts2"))
   
   mySpatialInputs = datasheetRaster(myResult,datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
   expect_equal(names(mySpatialInputs),c("scn3.initial.age","scn4.initial.age"))
@@ -87,6 +87,8 @@ test_that("Test simple spatial STSim example", {
 
   ##################
   #Set spatial inputs in a new library.
+  #Off in v0.1
+  if(0){
   newScenario = scenario(myProject,scenario="NewScn")
   
   ageMap = datasheetRaster(myResult[[1]],datasheet="STSim_InitialConditionsSpatial",column="AgeFileName")
@@ -114,7 +116,7 @@ test_that("Test simple spatial STSim example", {
   ret=saveDatasheet(anotherScenario,data=inSheet,name=sheetName,fileData=newRasters)
   ds = datasheet(anotherScenario,name="STSim_InitialConditionsSpatialProperties")
   expect_equal(ds$NumRows,dim(newRasters)[1])
-  
+  }
   ###############
   # Rearrange spatial outputs in a result scenario
   #set spatial options
