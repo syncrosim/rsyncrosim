@@ -8,13 +8,13 @@
 \title{Save datasheet(s)}
 \usage{
 saveDatasheet(ssimObject, data, name = NULL, append = NULL,
-  fileData = NULL, forceElements = F, force = F)
+  forceElements = F, force = F)
 
 \S4method{saveDatasheet}{character}(ssimObject, data, name = NULL,
-  append = NULL, fileData = NULL, forceElements = F, force = F)
+  append = NULL, forceElements = F, force = F)
 
 \S4method{saveDatasheet}{SsimObject}(ssimObject, data, name = NULL,
-  append = NULL, fileData = NULL, forceElements = F, force = F)
+  append = NULL, forceElements = F, force = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
@@ -24,8 +24,6 @@ saveDatasheet(ssimObject, data, name = NULL, append = NULL,
 \item{name}{character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.}
 
 \item{append}{logical. If TRUE, data will be appended to the datasheet if possible, otherwise current values will be overwritten by data. See details for behaviour when append=T. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets.}
-
-\item{fileData}{Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.}
 
 \item{forceElements}{logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list.}
 
@@ -42,9 +40,6 @@ Cautionary note re append=F: Deleting project and library level datasheets that 
 
 ssimObject/project/scenario should identify a single ssimObject.
 
-If fileData !=NULL, each element of names(fileData) should correspond uniquely to at most one entry in data. If a name is not found in data the element will be ignored with a warning.  
-rsyncrosim will write each element of fileData directly to the appropriate SyncroSim input/output folders.
-If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 
 There are 2 circumstances in which data will not be appended even if append=T:
 \itemize{

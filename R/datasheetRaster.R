@@ -100,7 +100,8 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   # scenario= myResult[[2]]; datasheet="STSim_InitialConditionsSpatial";column="AgeFileName";iteration=NULL;timestep = NULL;rat=NULL;subset=NULL;forceElements=F
   # ssimObject= myResult[[1]]; datasheet="STSim_OutputSpatialState";column=NULL;iteration=seq(1);timestep = seq(0,10,by=5);rat=rat;subset=NULL
   
-  if(!exists("rat")){rat=NULL}
+  #if(!exists("rat")){rat=NULL}
+  rat=NULL
   if(is.null(subset)){
     getFactors=F
   }else{
