@@ -13,7 +13,8 @@
 #install.packages("rasterVis")
 library(raster);library(rasterVis)
 
-sessionPath = filepath(session())#"c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
+sessionPath = filepath(session()) #"c:/gitprojects/syncrosim/_deploy_/current" #Note default session won't work until we have a real release of SyncroSim v2
+# setwd("c:/Temp")
 
 #get a local copy of the package demonstration library
 unzip(system.file("extdata", "DemonstrationLibrary_ssim_backup.zip", package = "rsyncrosim"),
