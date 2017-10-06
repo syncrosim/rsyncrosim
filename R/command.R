@@ -22,7 +22,7 @@ NULL
 #' @examples
 #' # Use a default session to creat a new library in the current working directory.
 #' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),
-#'   model="stsim:model-transformer")
+#'   model="stsim")
 #' output = command(args,session=session(printCmd=T))
 #' output
 #' 
@@ -32,9 +32,7 @@ NULL
 #' command(list(create=NULL,help=NULL))
 #' @export
 command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
-  # args=args;session=session(printCmd=T,silent=F);program="SyncroSim.Console.exe";wait=T
-  # TO DO: check validity of args
- 
+
   #if a syncrosim session is not provided, make one
   if(is.null(session)){
     session = .session()
@@ -54,7 +52,6 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     }
     sysArgs = c()
     for(i in seq(length.out=length(args))){
-      #i=1
       cArg = paste0("--",names(args)[i])
       sysArgs =c(sysArgs,cArg)
       if(is.null(args[[i]])){next}
@@ -75,17 +72,16 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     sysArgs=args
   }
   if(printCmd(session)){
-    #outCmd=sysArgs
     outCmd = gsub("\"","",paste(sysArgs,collapse=" "),fixed=T)
     print(outCmd)
   }
 
+  if (.Platform$OS.type != "windows") {
+      program = paste0("mono ", program)
+  }
+
   tempCmd = paste(c(paste0('\"\"',.filepath(session),"/",program,'\"'),sysArgs,'\"'),collapse=" ")
 
-  #print(filepath(session))
-  if(Sys.info()['sysname'][[1]]!="Windows"){
-    warning("Handle this case. May need to add mono for Server. See session.py for detail")
-  }
   if(wait){
     out=suppressWarnings(shell(tempCmd,intern=T))
     if(!silent(session)){
@@ -101,19 +97,11 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
         }
       }
     }
-    
-    #,error = function(e) stop(shell(tempCmd,intern=T)[1])
-    #errs = suppressWarnings(system2(paste0(.filepath(session),"/",program), args=sysArgs,stdout=TRUE,stderr=TRUE))
   }else{
     #Special case used for breakpoints
     out=suppressWarnings(shell(tempCmd,wait=F))
   }
-  #if(grepl("0x80131515",out,fixed=T)){
-    # handle a problem with permission to run
-    #https://blogs.msdn.microsoft.com/brada/2009/12/11/visual-studio-project-sample-loading-error-assembly-could-not-be-loaded-and-will-be-ignored-could-not-load-file-or-assembly-or-one-of-its-dependencies-operation-is-not-supported-exception-from/
-    #shell would probably also work
-    #out = system2("cmd",args=c('/c',paste0('\"\"',.filepath(session),program,'\"'),sysArgs,'\"'))
-  #}
+
   if(identical(out,character(0))){
     out="saved"
   }
