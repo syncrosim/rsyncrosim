@@ -238,17 +238,17 @@ str(outStates)
 sheetName = "STSim_OutputStratumState"
 names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T,optional=T)) #Get column names without getting data
 unique(outStates$Iteration)
-mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"),where=list(Timestep=c(0,1,2),Iteration=c(3,4)))
+mySQL = sqlStatement(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),aggregate=c("Amount"),where=list(Timestep=c(0,1,2),Iteration=c(3,4)))
 mySQL # A list of SELECT, WHERE and GROUP BY SQL statements passed to SQLite.
-outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL)
+outStatesAllAges = datasheet(myResults,name=sheetName,sqlStatement=mySQL)
 str(outStatesAllAges) #Much faster: fewer lookups and fewer records.
 
 sheetName = "STSim_OutputStratumTransition"
 names(datasheet(myResults,name=sheetName,lookupsAsFactors=F,empty=T)) #Get column names without getting any data
-mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","TransitionGroupID"),aggregate=c("Amount"))
+mySQL = sqlStatement(groupBy=c("ScenarioID","Iteration","Timestep","TransitionGroupID"),aggregate=c("Amount"))
 outTransitionsAllAges = datasheet(myResults,name=sheetName,optional=F,empty=T)
 str(outTransitionsAllAges)
-outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatements=mySQL,optional=T) #note optional argument is ignored if sqlStatements$select specifies columns to select
+outTransitionsAllAges = datasheet(myResults,name=sheetName,sqlStatement=mySQL,optional=T) #note optional argument is ignored if sqlStatement$select specifies columns to select
 str(outTransitionsAllAges)
 
 # NOTE: In the following example we use existing R tools (ggplot2/plyr) to visualize the output.

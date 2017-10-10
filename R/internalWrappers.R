@@ -9,7 +9,7 @@ NULL
 #' @include ssimLibrary.R
 #' @include project.R
 #' @include scenario.R
-#' @include sqlStatements.R
+#' @include sqlStatement.R
 #' @include projectId.R
 #' @include scenarioId.R
 #' @include filepath.R
@@ -41,7 +41,7 @@ NULL
 # @export
 .subset=subset
 # @export
-.sqlStatements=sqlStatements
+.sqlStatement=sqlStatement
 # @export
 #.breakpoints=breakpoints
 # @export

@@ -38,12 +38,9 @@ setMethod('delete', signature(ssimObject="character"), function(ssimObject,proje
     ssimObject=.ssimLibrary(ssimObject,create=F)
     return(delete(ssimObject,project,scenario,datasheet,force))
   }
-  #ssimObject=.ssimLibrary(ssimObject,create=F)
-  #return(delete(ssimObject,project,scenario,datasheet,force))
 })
 #' @rdname delete
 setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,project,scenario,datasheet,force) {
-  #ssimObject = myLibrary; project=.projectId(myProject);datasheet="STSim_StateLabelX";force=F
   xProjScn=.getFromXProjScn(ssimObject,project=project,scenario=scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   
   #expect to have a vector of valid project or scenario ids - checking already done
@@ -79,7 +76,6 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
     
     out = list()
     for(i in seq(length.out=length(project))){
-      #i = 1
       cProj = project[i]
       name=allProjects$name[allProjects$projectId==cProj]
       
@@ -126,7 +122,6 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
     }
     out = list()
     for(i in seq(length.out=length(scenario))){
-      #i = 1
       cScn = scenario[i]
       name = allScenarios$name[allScenarios$scenarioId==cScn]
       if(!is.null(datasheet)){

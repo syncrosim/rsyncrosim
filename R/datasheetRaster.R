@@ -91,8 +91,6 @@ setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimOb
   scenario=NULL
   
   return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,forceElements))
-  #return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements)) #Off for v0.1
-  
 })
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
@@ -223,7 +221,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
       cMeta$outName = gsub(tsReplaceBits[i],"",cMeta$outName,fixed=T)
     }
     for(k in seq(length.out=nrow(cMeta))){
-      #k=1
       addString = paste0(".ts",cMeta$Timestep[k])
       if(!grepl(addString,cMeta$outName[k],fixed=T)){
         cMeta$outName[k]=paste0(cMeta$outName[k],addString)

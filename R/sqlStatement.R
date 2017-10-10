@@ -24,12 +24,12 @@ NULL
 #' 
 #' #Query the total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID, 
 #' #including only Timesteps 0,1 and 2, and Iterations 3 and 4.
-#' mySQL = sqlStatements(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),
+#' mySQL = sqlStatement(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),
 #'   aggregate=c("Amount"),where=list(Timestep=c(0,1,2),Iteration=c(3,4)))
 #' mySQL 
 #' 
 #' @export
-sqlStatements<-function(groupBy=NULL,aggregate=NULL,aggregateFunction="SUM",where=NULL){
+sqlStatement<-function(groupBy=NULL,aggregate=NULL,aggregateFunction="SUM",where=NULL){
   if(is.null(groupBy)){selectSQL="SELECT *"
   }else{selectSQL = paste0("SELECT ",paste(groupBy,collapse=","))}
   if(!is.null(aggregate)){

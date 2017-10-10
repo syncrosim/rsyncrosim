@@ -39,14 +39,12 @@ NULL
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,append,forceElements,force) {
-#setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,append,fileData,forceElements,force) {
-    
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,forceElements,force) {
   fileData=NULL
   isFile=NULL
-  x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
+  x = ssimObject 
   if(is.null(append)){
     if(class(x)=="Scenario"){append=F}else{append=T}
   }

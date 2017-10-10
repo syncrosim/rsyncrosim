@@ -34,17 +34,16 @@ NULL
 #' @param optional Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.
 #' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.
 #' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
-#' @param sqlStatements List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
+#' @param sqlStatement List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
 # @param includeKey Logical. If TRUE include primary key in output table. #Off for v0.1
 #' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.
 #' @return If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),forceElements=F) standardGeneric('datasheet'))
-#setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatements=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet')) #Off for v0.1
+setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),forceElements=F) standardGeneric('datasheet'))
 #Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,forceElements) {
+setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
 
   cScn = ssimObject[[1]]
   x=NULL
@@ -62,15 +61,15 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   if(is.null(ssimObject)){stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")}
   #Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,forceElements=forceElements) #Off for v0.1
+  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatement=sqlStatement,forceElements=forceElements) #Off for v0.1
   
   return(out)
 })
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,forceElements) {
+setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,forceElements) {
+setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
 
   temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentID=NULL;ParentName=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
@@ -200,7 +199,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       useConsole = (!sheetNames$isOutput)
 
       #Policy change - always query output directly from database. It is faster.
-      useConsole = useConsole&((sqlStatements$select=="SELECT *"))#&(!lookupsAsFactors))
+      useConsole = useConsole&((sqlStatement$select=="SELECT *"))#&(!lookupsAsFactors))
       useConsole = useConsole&!((sheetNames$scope=="project")&(length(pid)>1))
       useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
       
@@ -225,25 +224,24 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
         sheet = read.csv(tempFile,as.is=T)
         unlink(tempFile)
-        #print("used console")
       }else{
         #query database directly if necessary
         
         drv = DBI::dbDriver('SQLite')
         con = DBI::dbConnect(drv,.filepath(x))
 
-        if(is.null(sqlStatements$where)){sqlStatements$where = ""}
-        sqlStatements$from = paste("FROM",name)
+        if(is.null(sqlStatement$where)){sqlStatement$where = ""}
+        sqlStatement$from = paste("FROM",name)
         if(sheetNames$scope=="scenario"){
           if(is.null(sid)){
             stop("Specify a scenario.")
           }else{
             #following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
             #and http://www.sqlitetutorial.net/sqlite-in/
-            if(sqlStatements$where==""){
-              sqlStatements$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
+            if(sqlStatement$where==""){
+              sqlStatement$where = paste0("WHERE ScenarioID IN (",paste(sid,collapse=","),")")
             }else{
-              sqlStatements$where = paste0(sqlStatements$where," AND (ScenarioID IN (",paste(sid,collapse=","),"))")
+              sqlStatement$where = paste0(sqlStatement$where," AND (ScenarioID IN (",paste(sid,collapse=","),"))")
             }
           }
         }
@@ -251,15 +249,14 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
           if(is.null(pid)){
             stop("Specify a project.")
           }else{
-            if(sqlStatements$where==""){
-              sqlStatements$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
+            if(sqlStatement$where==""){
+              sqlStatement$where = paste0("WHERE ProjectID IN (",paste(pid,collapse=","),")")
             }else{
-              sqlStatements$where = paste0(sqlStatements$where," AND (ProjectID IN (",paste(pid,collapse=","),"))")
+              sqlStatement$where = paste0(sqlStatement$where," AND (ProjectID IN (",paste(pid,collapse=","),"))")
             }
           }
         }
-        #sheet = DBI::dbReadTable(con, name)
-        sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
+        sql = paste(sqlStatement$select,sqlStatement$from,sqlStatement$where,sqlStatement$groupBy)
         sheet = DBI::dbGetQuery(con,sql)
         DBI::dbDisconnect(con)
         
@@ -324,7 +321,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       for(i in seq(length.out=nrow(sheetInfo))){
         cRow = sheetInfo[i,]
         if(!is.element(cRow$name,colnames(sheet))){
-          if(sqlStatements$select=="SELECT *"){
+          if(sqlStatement$select=="SELECT *"){
             sheet[[cRow$name]] = NA
           }else{
             next
@@ -392,7 +389,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
                 lookupSheet=subset(lookupSheet,is.element(ScenarioID,sid))
               }
             }
-            #lookupSheet = datasheet(x,project=findPrjs,scenario=sid,name=cRow$formula1,lookupsAsFactors=F)
             if((nrow(lookupSheet)==0)&(cRow$optional=="No")){
               if(!grepl("Output",name)){
                 warning(paste0(cRow$name," depends on ",cRow$formula1,". You should load ",cRow$formula1," before setting ",name,"."))

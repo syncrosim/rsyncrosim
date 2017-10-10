@@ -24,7 +24,7 @@ Suggests:
     ggplot2,
     rasterVis
 SystemRequirements: SyncroSim (>=2.0.2)
-Collate:
+Collate: 
     'AAAClassDefinitions.R'
     'addModule.R'
     'addRow.R'
@@ -51,7 +51,7 @@ Collate:
     'name.R'
     'scenarioId.R'
     'projectId.R'
-    'sqlStatements.R'
+    'sqlStatement.R'
     'scenario.R'
     'project.R'
     'ssimLibrary.R'

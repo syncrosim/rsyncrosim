@@ -26,9 +26,6 @@ NULL
 #
 # @export
 #Note: this function is now internal. Should now only be called from datasheet.
-#setGeneric('datasheets',function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F) standardGeneric('datasheets'))
-
-#setMethod('datasheets', signature(x="SsimObject"), function(x,project,scenario,scope,refresh) {
 datasheets<-function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F){
   if(!inherits(x,"SsimObject")){
     stop("expecting SsimObject.")

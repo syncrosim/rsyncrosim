@@ -50,7 +50,6 @@ setMethod('addRow',
       }
     }
     for(i in seq(length.out=ncol(value))){
-      #i=4
       cName = names(value)[i]
       if(is.factor(targetDataframe[[cName]])){
         notAllowed = setdiff(value[[cName]],levels(targetDataframe[[cName]]))
