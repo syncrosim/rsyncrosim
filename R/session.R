@@ -91,6 +91,9 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
       }
       else {
           path = Sys.which("SyncroSim.Console.exe")
+	  if (path == ""){
+	    path=NULL
+	  }
       }
   }
 
