@@ -5,11 +5,8 @@ NULL
 
 # @name Project
 # @rdname Project-class
-setMethod(f='initialize',signature="Project",
-    definition=function(.Object,ssimLibrary,name=NULL,id=NULL,projects=NULL,sourceProject=NULL){
-    #ssimLibrary = ssimObject;name=cRow$name;projects=projectSet  #.project(myLibrary,project=1)#ssimLibrary(name= "C:/Temp/NewLibrary.ssim",session=devSsim)
-    # id = NULL;name=NULL;projects=NULL;create=T;projects=NULL
-      
+setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLibrary,name=NULL,id=NULL,projects=NULL,sourceProject=NULL){
+          
     #This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
     x=ssimLibrary
 
@@ -81,10 +78,8 @@ setMethod(f='initialize',signature="Project",
         sourcePID=projects$projectId[projects$name==sourceProject]
       }
       if(class(sourceProject)=="Project"){
-        #.filepath=filepath
         slib=.filepath(sourceProject)
         sourcePID = .projectId(sourceProject)
-  
       } 
    
       if(is.na(sourcePID)){
@@ -171,8 +166,7 @@ setMethod(f='initialize',signature="Project",
 # @rdname Project-class
 #' @export
 project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F){
-  #ssimObject= myLibrary;project=1;sourceProject=NULL;summary=NULL;forceElements=F
-  
+    
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
@@ -243,7 +237,6 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
     return(projectSet)
   }
 
-#project=c(1,2)
   #Now assume project is defined
   #distinguish existing projects from those that need to be made
   areIds = is.numeric(project)
@@ -254,7 +247,6 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   projectsToMake=projectsToMake[order(projectsToMake$order),]
   projectList = list()
   for(i in seq(length.out=nrow(projectsToMake))){
-    #i = 1
     cRow = projectsToMake[i,]
     if(!is.na(cRow$exists)){
       projectList[[as.character(projectsToMake$projectId[i])]]=new("Project",ssimObject,id=cRow$projectId,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
@@ -281,8 +273,4 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   projectSetOut=projectSetOut[order(projectSetOut$order),]
   projectSetOut$order=NULL
   return(projectSetOut)
-} 
-
-
-
-
+}
