@@ -24,20 +24,17 @@ setMethod('owner', signature(ssimObject="character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname owner
 setMethod('owner', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLibrary
   cInfo = info(ssimObject)
   property=NULL
   return(subset(cInfo,property=="Owner:")$value)
 })
 #' @rdname owner
 setMethod('owner', signature(ssimObject="Project"), function(ssimObject) {
-  #ssimObject=myProject
   scnInfo = project(ssimObject,summary=T)
   return(scnInfo$owner)
 })
 #' @rdname owner
 setMethod('owner', signature(ssimObject="Scenario"), function(ssimObject) {
-  #ssimObject=newScenario
   scnInfo = scenario(ssimObject,summary=T)
   return(scnInfo$owner)
 })
@@ -54,7 +51,6 @@ setReplaceMethod(
   f='owner',
   signature="SsimObject",
   definition=function(ssimObject,value){
-    #x=myScenario;value="New description"
     args = list(setprop=NULL,lib=.filepath(ssimObject),owner=value)
     if(class(ssimObject)=="Project"){args$pid = .projectId(ssimObject)}
     if(class(ssimObject)=="Scenario"){args$sid = .scenarioId(ssimObject)}

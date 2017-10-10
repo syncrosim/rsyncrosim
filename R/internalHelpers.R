@@ -121,7 +121,6 @@ getScnSet<-function(ssimObject){
 }
 #get projectSet
 getProjectSet<-function(ssimObject){
-  #ssimObject=myLibrary
   tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
   projectSet=.dataframeFromSSim(tt,localNames=T,convertToLogical=c("readOnly"))
   if(nrow(projectSet)==0){

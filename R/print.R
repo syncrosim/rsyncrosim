@@ -30,20 +30,15 @@ setMethod ('show' , 'Session',
 )
 
 .printSsim <- function(x, ...) {
-  #x = myScenario
-  
+
   outStrings = list()
   
   outStrings[['class']]= class(x)
-  #cat('class:' , class(x), '\n')
 
   cNames = slotNames(x)
   for(i in seq(length.out=length(cNames))){
-    #i = 7
     cName = cNames[i]
     cSlot = slot(x,cName)
-    
-    #outString = paste0(cName," [",class(cSlot),"]") 
     outName = paste0(cName," [",class(cSlot),"]") 
     
     outString=""
@@ -58,10 +53,7 @@ setMethod ('show' , 'Session',
       outString=paste0(outString,"",paste(names(cSlot),collapse=","))
     }
     
-    outStrings[[outName]]=outString
-    #outString=paste0(outString,'\n')
-    #cat(outString)
-        
+    outStrings[[outName]]=outString     
   }
   
   #now pad names with spaces to get allignment.
@@ -71,6 +63,5 @@ setMethod ('show' , 'Session',
     names(outStrings)[[i]]=paste0(names(outStrings)[[i]],": ")
     
     cat(paste0(names(outStrings)[[i]],outStrings[[i]],"\n"))
-  }
-    
+  }    
 }

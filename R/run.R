@@ -35,8 +35,7 @@ setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summ
 })
 #' @rdname run
 setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
-  #ssimObject=myProject;jobs=3;summary=T;scenario=5
-  
+
   xProjScn = .getFromXProjScn(ssimObject,scenario=scenario,convertObject=T,returnIds=T,goal="scenario",complainIfMissing=T)
   #Now assume scenario is x is valid object and scenario is valid vector of scenario ids
   x = xProjScn$ssimObject
@@ -45,19 +44,15 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
   
   if(!is.numeric(scenario)){stop("Error in run(): expecting valid scenario ids.")}
   
-  #name(x)
-  #scenarios=NULL
   out=list()
   addBits = seq(1,length(scenario))
   for(i in seq(length.out=length(scenario))){
-    #i =1
-    
+
     cScn = scenario[i]
     name = scenarioSet$name[scenarioSet$scenarioId==cScn][1]
     
     print(paste0("Running scenario [",cScn,"] ",name))
-    
-    #x=myScenario
+
     if(class(x)=="Scenario"){
       breakpoints = NULL#breakpoints(x)
     }else{
@@ -73,9 +68,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
       }
       
     }else{
-      #x=myFlatScenario;jobs=2
-      # devtools::document();devtools::load_all()
-      
+
       # create a session
       cBreakpointSession=NULL#breakpointSession(x)
       #TO DO: multiple tries in connection
@@ -93,7 +86,6 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
         stop("Something is wrong: ",ret)
       }
       
-      #resultId=ret
       resultId =   run(cBreakpointSession,jobs=jobs)
       #resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
       #close(connection(cBreakpointSession)) # Close the connection.
@@ -134,7 +126,6 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
 if(0){
 
 setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,scenario,summary,jobs,forceElements) {
-  #x=cBreakpointSession;jobs=2
   x=ssimObject
   if(0){
     #PARALLEL DEBUG
@@ -174,7 +165,6 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
       stop(e)
     })
   }else{
-    #jobs=2
     msg = paste0('split-scenario --sid=',scenarioId(x@scenario),' --jobs=',jobs)
     
     tt = tryCatch({

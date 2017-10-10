@@ -17,7 +17,6 @@ setMethod('name', signature(ssimObject="character"), function(ssimObject) {
 })
 #' @rdname name
 setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLibrary
   cInfo = info(ssimObject)
   property=NULL
   return(subset(cInfo,property=="Name:")$value)
@@ -54,7 +53,6 @@ setReplaceMethod(
   f='name',
   signature="SsimLibrary",
   definition=function(ssimObject,value){
-    #x=myScenario;value="New Name"
     tt = command(list(setprop=NULL,lib=.filepath(ssimObject),name=value),.session(ssimObject))
     if(!identical(tt,"saved")){
       stop(tt)
@@ -67,7 +65,6 @@ setReplaceMethod(
   f='name',
   signature="Project",
   definition=function(ssimObject,value){
-    #x=myProject;value="New Name"
     tt = command(list(setprop=NULL,lib=.filepath(ssimObject),pid=.projectId(ssimObject),name=value),.session(ssimObject))
     if(!identical(tt,"saved")){
       stop(tt)
@@ -80,7 +77,6 @@ setReplaceMethod(
   f='name',
   signature="Scenario",
   definition=function(ssimObject,value){
-    #x=myScenario;value="New Name"
     tt = command(list(setprop=NULL,lib=.filepath(ssimObject),sid=.scenarioId(ssimObject),name=value),.session(ssimObject))
     if(!identical(tt,"saved")){
       stop(tt)

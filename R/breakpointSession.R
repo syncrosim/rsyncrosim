@@ -18,7 +18,6 @@ BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scena
 # @rdname Scenario-class
 setMethod(f='initialize',signature="BreakpointSession",
           definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T){
-  #scenario = myScenario;ipAddress=NULL;port=NULL;quiet=F
 
   location = filepath(session(scenario)) #guaranteed to be valid
 
@@ -248,7 +247,6 @@ runJobParallel<- function(cPars) {
 # @export
 setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
 setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, transformerName, arguments, callback) {
-    #x=myScenario
     types = list(bi = 'syncrosim-stochastic-time:break-before-iteration',
                  ai = 'syncrosim-stochastic-time:break-after-iteration',
                  bt = 'syncrosim-stochastic-time:break-before-timestep',
@@ -274,7 +272,6 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, tra
 # @export
 setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
 setMethod('breakpoints', signature(x="Scenario"), function(x) {
-  #x=myScenario
   return(x@breakpoints)
 })
 }

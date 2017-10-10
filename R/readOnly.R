@@ -16,7 +16,6 @@ setMethod('readOnly', signature(ssimObject="character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname readOnly
 setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLibrary
   cInfo = info(ssimObject)
   property=NULL
   oVal  = subset(cInfo,property=="Read Only:")$value
@@ -27,13 +26,11 @@ setMethod('readOnly', signature(ssimObject="SsimLibrary"), function(ssimObject) 
 })
 #' @rdname readOnly
 setMethod('readOnly', signature(ssimObject="Project"), function(ssimObject) {
-  #ssimObject=myProject
   scnInfo = project(ssimObject,summary=T)
   return(scnInfo$readOnly)
 })
 #' @rdname readOnly
 setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
-  #ssimObject=newScenario
   scnInfo = scenario(ssimObject,summary=T)
   return(scnInfo$readOnly)
 })
@@ -61,7 +58,6 @@ setReplaceMethod(
   f='readOnly',
   signature="SsimObject",
   definition=function(ssimObject,value){
-    #value = F;ssimObject=myLibrary
     if(class(value)!="logical"){
       stop("readOnly must be TRUE or FALSE.")
     }

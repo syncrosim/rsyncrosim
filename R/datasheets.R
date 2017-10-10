@@ -33,23 +33,19 @@ datasheets<-function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F){
   if(!inherits(x,"SsimObject")){
     stop("expecting SsimObject.")
   }
-  #x = myScn;project=NULL;scenario=NULL;empty=T;scope=NULL;refresh=T
+
   x = .getFromXProjScn(x,project,scenario)
   
-  #command(c("list","datasheets","help"),.session(myLibrary))
   #Get datasheet dataframe
   if(!refresh){
     datasheets=x@datasheetNames
   }else{
-    #x=myLibrary
     tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
     if(grepl("The library has unapplied updates",tt[[1]])){
       stop(tt)
     }
     datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
     datasheets$scope = sapply(datasheets$scope,camel)
-    #names(datasheets) = c("name","displayName","dataScope","isOutput")
-    #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
     #TO DO - export this info from SyncroSim
   }
   datasheets$order=seq(1,nrow(datasheets))

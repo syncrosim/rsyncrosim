@@ -23,7 +23,6 @@ setMethod('module', signature(session="character"), function(session) {
   
 #' @rdname module
 setMethod('module', signature(session="Session"), function(session) {
-  #x=mySsim
   tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")
   if(tt[1]=="saved"){
     out=data.frame(name=NA,displayName=NA,version=NA)

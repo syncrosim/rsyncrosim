@@ -19,9 +19,6 @@
 # myDataframe
 # @export
 .dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T,convertToLogical=NULL){
-  #colNames=c("name","description","version");
-  #x=c("Property,Value","Size:,\"35,526 KB\"");csv=T;colNames=NULL;localNames=T
-  #x=tt;localNames=T;colNames=NULL;csv=T;convertToLogical=NULL
   if(is.null(colNames)){
     header=T
   }else{
@@ -32,10 +29,7 @@
     out = read.csv(con,stringsAsFactors=F,header=header)
     close(con)
   }else{
-    #for(i in seq(length.out=length(x))){
-    #  stop("here") 
-    #}
-    
+
     if(1){
     #Do the old wierd thing if not csv
     while(max(grepl("   ",x,fixed=T))){

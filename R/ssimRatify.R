@@ -51,12 +51,9 @@ setReplaceMethod(
         rat$hexColor=rgb(rgbTab["red",],rgbTab["green",],rgbTab["blue",],255,maxColorValue=255)
       }
     }
-    #colortable(x)=rat$hexColor
-    #rat$rgb=NULL
   }
 
   raster = raster::ratify(raster)
-  #raster=raster::'levels<-'(raster,rat)
   levels(raster)=rat
 
   return(raster)

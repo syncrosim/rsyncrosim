@@ -38,14 +38,13 @@ NULL
 #'   subset=expression(grepl("Ts0001",Filename,fixed=T)))
 #' @export
 setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,forceElements=F) standardGeneric('datasheetRaster'))
-#setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,rat=NULL,forceElements=F) standardGeneric('datasheetRaster')) #Off for v0.1
+
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="character"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
-#setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) { #Off for v0.1
-  # ssimObject= myResult; sheet="STSim_OutputSpatialState";iteration=seq(1);timesteps = seq(0,10,by=5);rat=rat
+
   if(class(ssimObject[[1]])!="Scenario"){
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
@@ -55,10 +54,8 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
   }
   started=F
   for(i in 1:length(ssimObject)){
-    #i=1
     cScn = ssimObject[[i]]
     cOut = datasheetRaster(cScn,datasheet=datasheet,column=column,scenario=scenario,iteration=iteration,timestep=timestep,subset=subset,forceElements=forceElements)
-    #cOut = datasheetRaster(cScn,datasheet=datasheet,column=column,scenario=scenario,iteration=iteration,timestep=timestep,subset=subset,rat=rat,forceElements=forceElements) #Off for v0.1
     if(!((class(cOut)=="list")&&(length(cOut)==0))){
       names(cOut)=paste0("scn",.scenarioId(cScn),".",names(cOut))
       if(!started){out=cOut}else{out=raster::stack(out,cOut)}
@@ -71,11 +68,10 @@ setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,d
   }
   return(out)
 })
+
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
-#setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) { #Off for v0.1
-  # ssimObject= myResult[[1]]; datasheet="STSim_OutputSpatialState";column=NULL;iteration=seq(1);timesteps = seq(0,10,by=5);rat=rat;subset=NULL
-  
+
   if(is.null(scenario)){
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
   }
@@ -100,11 +96,7 @@ setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimOb
 })
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
-#setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,rat,forceElements) { #Off for v0.1
-  # scenario= myResult[[2]]; datasheet="STSim_InitialConditionsSpatial";column="AgeFileName";iteration=NULL;timestep = NULL;rat=NULL;subset=NULL;forceElements=F
-  # ssimObject= cScn[[1]]; datasheet="STSim_OutputSpatialTransition";column=NULL;iteration=seq(1);timestep = 1;subset=expression(TransitionGroupID=="Fire")
-  
-  #if(!exists("rat")){rat=NULL}
+
   rat=NULL
   if(is.null(subset)){
     getFactors=F
@@ -121,10 +113,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   if(!is.element(datasheet,cSheets$name)){
     cSheets = .datasheets(x,refresh=T)
   }
-  #cSheets=subset(cSheets,isSpatial)
-  #if(!is.element(sheet,cSheets$name)){
-  #  stop(sheet," is not a spatial data sheet.")
-  #}
   
   #TO DO: make sure datasheet is spatial after opening
   cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
@@ -197,7 +185,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   cMeta$rasterColumn=cMeta[[column]]
   #subset rows using subset argument
   if(!is.null(subset)){
-    #subset=expression(grepl("Ts0001",Filename,fixed=T))
     cMeta = .subset(cMeta,eval(subset))
   }
 
@@ -219,7 +206,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
       cMeta$outName = gsub(tsReplaceBits[i],"",cMeta$outName,fixed=T)
     }
     for(k in seq(length.out=nrow(cMeta))){
-      #k=1
       addString = paste0(".it",cMeta$Iteration[k])
       if(!grepl(addString,cMeta$outName[k],fixed=T)){
         cMeta$outName[k]=paste0(cMeta$outName[k],addString)
@@ -299,13 +285,9 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
       names(cStack)[names(cStack)==cRow$layerName]=cRow$outName
       
     }
-    #cStack = raster::brick(cStack)
   }else{
     
     for(i in seq(length.out=nrow(cMeta))){
-      #i =1
-      
-      #install.packages("rgdal")
       cRow =cMeta[i,]
       if(is.na(cRow$rasterColumn)){next}
       if(!file.exists(cRow$rasterColumn)){
@@ -343,8 +325,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
       }
     }
   }
-  #if(!exists("cStack")){return(list())}
-  
+
   if((length(names(cStack))==1)&!forceElements){
     cStack = cStack[[1]]
   }

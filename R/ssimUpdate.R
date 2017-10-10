@@ -18,8 +18,6 @@ setMethod('ssimUpdate', signature(ssimObject="character"), function(ssimObject) 
   
 #' @rdname ssimUpdate
 setMethod('ssimUpdate', signature(ssimObject="SsimObject"), function(ssimObject) {
-  #x= myLibrary
-  #args = list(update=NULL,lib=.filepath(x));session=.session(x)
   tt = command(list(update=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
   return(tt[1])
 })

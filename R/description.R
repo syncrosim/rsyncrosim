@@ -56,7 +56,6 @@ setReplaceMethod(
   f='description',
   signature="SsimObject",
   definition=function(ssimObject,value){
-    #x=myScenario;value="New description"
     inValue = value
     if(length(inValue)>1){
       value=""
@@ -65,7 +64,6 @@ setReplaceMethod(
       }
     }
     value = gsub("\n","\\n",value,fixed=T)
-    #value=paste0('\"',value,'\"')
     args = list(setprop=NULL,lib=.filepath(ssimObject),description=value)
     if(class(ssimObject)=="Project"){args$pid = .projectId(ssimObject)}
     if(class(ssimObject)=="Scenario"){args$sid = .scenarioId(ssimObject)}

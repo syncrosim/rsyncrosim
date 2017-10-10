@@ -13,16 +13,11 @@ NULL
 setGeneric('addModule',function(filename,session=NULL) standardGeneric('addModule'))
 #' @rdname addModule
 setMethod('addModule', signature(filename="character"), function(filename,session) {
-  #x=mySsim
-  #value=c("C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg","C:/Program Files/SyncroSim/1/CorePackages/dynmult.ssimpkg")
-  #value="C:/Program Files/SyncroSim/1/CorePackages/stockflow.ssimpkg"
-  
   if(is.null(session)){session=.session()}
   if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
   for(i in seq(length.out=length(filename))){
-    #i=1
     cVal = filename[i]
     if(!file.exists(cVal)){
       stop(paste0("Cannot find ",cVal,"."))
@@ -30,7 +25,6 @@ setMethod('addModule', signature(filename="character"), function(filename,sessio
     tt = command(args=list(queue=cVal),session,program="SyncroSim.ModuleManager.exe")
   }
   tt = command(args=list(installqueue=NULL),session,program="SyncroSim.ModuleManager.exe")
-  #session@datasheetNames = .datasheets(x,scope="all",refresh=T)
   return (tt)
 }
 )

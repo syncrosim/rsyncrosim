@@ -33,7 +33,6 @@ NULL
 setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
 # @rdname multiband
 setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
-  #ssimObject=scn;action="apply";grouping=NULL
   if(is.na(parentId(ssimObject))){
     stop("Need a result Scenario.")
   }
@@ -52,14 +51,12 @@ setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,act
 
 if(0){#Note lists of objects are only supported when there is a reason to need combined output
   setMethod('multiband', signature(ssimObject="list"), function(ssimObject,action,grouping) {
-    #x=myResult;action="rebuild";grouping=NULL
     
     if(class(ssimObject[[1]])!="Scenario"){
       stop("Expecting a Scenario object or list of scenario objects.")
     }
     out=list()
     for(i in 1:length(ssimObject)){
-      #i=1
       cScn = ssimObject[[i]]
       cOut = multiband(cScn,action,grouping)
       out[[as.character(.scenarioId(cScn))]]=cOut

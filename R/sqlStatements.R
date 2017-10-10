@@ -30,7 +30,6 @@ NULL
 #' 
 #' @export
 sqlStatements<-function(groupBy=NULL,aggregate=NULL,aggregateFunction="SUM",where=NULL){
-  #groupBy=NULL;aggregate=NULL;aggregateFunction="SUM";where=list(Timestep=c(0,1,2),Iteration=c(3,4))
   if(is.null(groupBy)){selectSQL="SELECT *"
   }else{selectSQL = paste0("SELECT ",paste(groupBy,collapse=","))}
   if(!is.null(aggregate)){
@@ -52,6 +51,5 @@ sqlStatements<-function(groupBy=NULL,aggregate=NULL,aggregateFunction="SUM",wher
     return(list(select=selectSQL,groupBy=groupBySQL,where=whereSQL))
   }else{
     return(list(select=selectSQL,groupBy=groupBySQL))
-  }
-  
+  }  
 }

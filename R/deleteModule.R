@@ -30,7 +30,6 @@ setMethod('deleteModule', signature(session="Session"), function(name,session,fo
   installedModules=module(session)
   retList = list()
   for(i in seq(length.out=length(name))){
-    #i = 1
     cVal = name[i]
     if(!is.element(cVal,installedModules$name)){
       retList[[cVal]] = paste0("Module ",cVal," is not installed, so cannot be removed.")

@@ -37,7 +37,6 @@ NULL
 #' @return A success or failure message, or a list of these.
 #' @export
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
-#setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,fileData=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,append,forceElements,force) {
 #setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,append,fileData,forceElements,force) {
@@ -45,15 +44,9 @@ setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObjec
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,forceElements,force) {
-  #setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,fileData,forceElements,force) {
-    
-  #ssimObject = myScenario;project=NULL;scenario=NULL;name=sheetName;data=sheetData;fileData=NULL;append=NULL;forceElements=F;force=F
   fileData=NULL
   isFile=NULL
   x = ssimObject #.getFromXProjScn(ssimObject,project,scenario,convertObject=T,returnIds=F)
-  #if(class(x)=="list"){
-  #  stop("ssimObject/project/scenario should uniquely identify a single ssimObject.")
-  #}
   if(is.null(append)){
     if(class(x)=="Scenario"){append=F}else{append=T}
   }
@@ -88,12 +81,10 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
   }
   out=list()
   for(i in seq(length.out=length(data))){
-    #i=1
     cName = names(data)[i]
     cDat = data[[cName]]
     
     #handle cases when cDat is not a data.frame
-    #cDat = "Coniferous";names(cDat)="Name"
     if(class(cDat)!="data.frame"){
       cIn= cDat
       if(length(cIn)==0){
@@ -185,10 +176,8 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       sheetInfo = subset(sheetInfo,is.element(name,names(cDat)))
       if(nrow(sheetInfo)>0){ 
         for(kk in seq(length.out=nrow(sheetInfo))){
-          #kk=2
           cCol = sheetInfo$name[kk]
           for(ll in seq(length.out=nrow(cDat))){
-            #ll=1
             if(basename(cDat[[cCol]][ll])==cDat[[cCol]][ll]){
               cDat[[cCol]][ll] = paste0(getwd(),"/",cDat[[cCol]][ll])
               if(!file.exists(cDat[[cCol]][ll])){
@@ -219,7 +208,6 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       dir.create(fileDir, showWarnings = FALSE,recursive=T)
       
       for(j in seq(length.out=length(itemNames))){
-        #j=1
         cFName = itemNames[j]
         cItem = fileData[[cFName]]
         if(!class(cItem)=="RasterLayer"){
@@ -241,7 +229,6 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         
         if(identical(basename(cFName), cFName)){
           cOutName = paste0(fileDir,"/",cFName)
-          #cDat[findName]=paste0(fileDir,"/",cDat[findName])
         }else{
           cOutName=cFName
         }
@@ -254,8 +241,6 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         raster::writeRaster(cItem,cOutName,format="GTiff",overwrite=T)
       }
     }
-    #cDatHold=cDat
-    #cDat=cDatHold
     for(j in seq(length.out=ncol(cDat))){
       if(is.factor(cDat[[j]])){cDat[[j]]=as.character(cDat[[j]])}
       if(is.logical(cDat[[j]])){
@@ -265,7 +250,6 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       cDat[[j]]=gsub("/","\\",cDat[[j]],fixed=T)
     }
 
-    #cDat[,]=as.data.frame(lapply(cDat[,],FUN=function(x) {sapply(x, FUN=function(x){gsub("/","\\",x,fixed=T)})}),stringsAsFactors=F)
     cDat[is.na(cDat)]=""
 
     if(FALSE){ #if(breakpoint){

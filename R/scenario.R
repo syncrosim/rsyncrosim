@@ -7,10 +7,7 @@ NULL
 # @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,sourceScenario=NULL,scenarios=NULL){
-    #ssimLibrary = ssimObject; project=cRow$projectId;name=cRow$scenarioId;id=NULL;scenarios=cRow
     #assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
-      
-    #.Object@breakpoints=list()
 
     .Object@parentId = 0
     x=ssimLibrary
@@ -155,7 +152,6 @@ setMethod(f='initialize',signature="Scenario",
 # @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
-  #ssimObject= myProject;scenario=NULL;sourceScenario="two";summary=NULL;results=F;overwrite=F;forceElements=F
   
   if(is.character(ssimObject)&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
@@ -211,8 +207,7 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
     }
     scnSet=allScenarios
   }
-  #libScns = scnSet  
-  
+
   if(results){
     scnSet = subset(scnSet,!is.element(isResult,c(NA,F)))
   }

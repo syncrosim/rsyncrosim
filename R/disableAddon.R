@@ -26,14 +26,10 @@ setMethod('disableAddon', signature(ssimLibrary="character"), function(ssimLibra
 })
 #' @rdname disableAddon
 setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
-  #x=myLibrary
-  #value = c("stsim-ecological-departure", "stsim-stock-flow")
   enabled=NULL
   cAdds = subset(addon(ssimLibrary))
-  name=gsub(":add-on-transformer","",name,fixed=T)
   retList = list()
   for(i in seq(length.out=length(name))){
-    #i=1
     cVal = name[i]
     if(!is.element(cVal,cAdds$name)){
       print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$enabled=="No"],collapse=",")))
@@ -49,7 +45,6 @@ setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLib
     retList[[cVal]]=tt
   }
   
-  #ssimLibrary@datasheetNames = .datasheets(ssimLibrary,scope="all",refresh=T)
   return (retList)
 }
 )

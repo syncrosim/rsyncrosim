@@ -17,7 +17,6 @@ setMethod('backup', signature(ssimObject="character"), function(ssimObject) {
   
 #' @rdname backup
 setMethod('backup', signature(ssimObject="SsimObject"), function(ssimObject) {
-  #ssimObject=myLibrary
   tt = command(list(backup=NULL,lib=.filepath(ssimObject),input=NULL,output=NULL),session=.session(ssimObject))
   return(tt)
 })

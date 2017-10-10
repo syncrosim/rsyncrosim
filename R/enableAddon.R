@@ -26,10 +26,8 @@ setMethod('enableAddon', signature(ssimLibrary="character"), function(ssimLibrar
 setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
   enabled=NULL
   cAdds = addon(ssimLibrary)
-  name=gsub(":add-on-transformer","",name,fixed=T)
   retList=list()
   for(i in seq(length.out=length(name))){
-    #i=1
     cVal = name[i]
     if(!is.element(cVal,cAdds$name)){
       print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$enabled=="No"],collapse=",")))

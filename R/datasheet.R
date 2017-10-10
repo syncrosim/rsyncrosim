@@ -45,8 +45,7 @@ setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,
 #Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,forceElements) {
-#setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) { #Off for v0.1
-  #ssimObject=myResults;name="STSim_OutputStratumTransition";project=NULL;scenario=NULL;summary=NULL;optional=T;empty=F;lookupsAsFactors=T;sqlStatements = mySQL
+
   cScn = ssimObject[[1]]
   x=NULL
   if(class(cScn)=="Scenario"){
@@ -63,7 +62,6 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   if(is.null(ssimObject)){stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")}
   #Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  #out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,includeKey=includeKey,forceElements=forceElements) #Off for v0.1
   out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatements=sqlStatements,forceElements=forceElements) #Off for v0.1
   
   return(out)
@@ -73,10 +71,7 @@ setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,na
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,forceElements) {
-#setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatements,includeKey,forceElements) { #Off for v0.1
-  #ssimObject = myScenario;name=NULL;project=NULL;scenario=NULL;summary=T;optional=F
-  #empty=F;lookupsAsFactors=F;sqlStatements=list(select="SELECT *",groupBy="");includeKey=F;forceElements=F
-  
+
   temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentID=NULL;ParentName=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
   if(class(xProjScn)=="SsimLibrary"){
@@ -120,7 +115,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   
   #now assume we have one or more names 
   if(is.null(name)){stop("Something is wrong in datasheet().")}
-  #if(summary){stop("Something is wrong in datasheet().")}
   
   if(summary&!optional){
     sumInfo=subset(sumInfo,select=c("scope","name","displayName","order"))
@@ -134,7 +128,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     
     if(scnSheetSum==0){sumInfo[order(sumInfo$order),];sumInfo$order=NULL;return(sumInfo)}
     for(i in seq(length.out=length(sid))){
-      #i=1
       cSid = sid[i]
       tt = command(list(list=NULL,datasources=NULL,lib=.filepath(x),sid=cSid),session=session(x))
       
@@ -178,7 +171,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   
   outSheetList = list()
   for(kk in seq(length.out=length(allNames))){
-    #kk=1
     name=allNames[kk]
     
     includeKey=F #Off for v0.1
@@ -236,12 +228,10 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         #print("used console")
       }else{
         #query database directly if necessary
-        #install.packages("RSQLite");library(RSQLite)
-        #x=myLibrary;name="STSim_OutputStratumState";sid=c(6)
         
         drv = DBI::dbDriver('SQLite')
         con = DBI::dbConnect(drv,.filepath(x))
-        #fields = DBI::dbListFields(con,name)
+
         if(is.null(sqlStatements$where)){sqlStatements$where = ""}
         sqlStatements$from = paste("FROM",name)
         if(sheetNames$scope=="scenario"){
@@ -268,10 +258,8 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             }
           }
         }
-        #  sheet = DBI::dbReadTable(con, name)
+        #sheet = DBI::dbReadTable(con, name)
         sql = paste(sqlStatements$select,sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
-        #sql = paste("SELECT ScenarioID,Iteration,Timestep,StratumID,SecondaryStratumID,StateClassID,StateLabelXID,StateLabelYID, SUM(Amount)",sqlStatements$from,sqlStatements$where,sqlStatements$groupBy)
-        # print(sql)
         sheet = DBI::dbGetQuery(con,sql)
         DBI::dbDisconnect(con)
         
@@ -334,7 +322,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         }
       }
       for(i in seq(length.out=nrow(sheetInfo))){
-        #i =7
         cRow = sheetInfo[i,]
         if(!is.element(cRow$name,colnames(sheet))){
           if(sqlStatements$select=="SELECT *"){
@@ -355,7 +342,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             sheet[[cRow$name]] = gsub("Yes","1",sheet[[cRow$name]])
             sheet[[cRow$name]] = gsub("No","0",sheet[[cRow$name]])
             sheet[[cRow$name]]=as.logical(abs(as.numeric(sheet[[cRow$name]])))
-            #stop("handle this case")
+            #TO DO: stop("handle this case")
           }
         }
         if((cRow$valType=="List")&lookupsAsFactors){
@@ -380,8 +367,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         }
         if(cRow$valType=="DataSheet"){
           if(lookupsAsFactors){
-            #if a number, ignore - SyncroSim will do the checking
-            #if(!identical(cRow$formula1,suppressWarnings(as.character(as.numeric(cRow$formula1))))){
             #console export can't handle multiple projects/scenarios - so query database directly if necessary.
             if(directQuery){
               lookupSheet =   DBI::dbReadTable(con, name=cRow$formula1)
@@ -395,9 +380,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             }
             if(is.element("ProjectID",names(lookupSheet))){
               if(identical(pid,NULL)&!identical(sid,NULL)){
-                #if(is.null(allScns)){
                 allScns = scenario(x)
-                #}
                 findPrjs = allScns$projectId[is.element(allScns$scenarioId,sid)]
               }else{
                 findPrjs = pid
@@ -426,12 +409,9 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
                 if(length(intersect("Name",names(lookupSheet)))==0){
                   stop("Something is wrong. Expecting Name in lookup table.")
                 }
-                #if(is.element(cRow$name,names(lookupSheet))){
+
                 lookupMerge = subset(lookupSheet,select=c(names(lookupSheet)[1],"Name"))
-                #}else{
-                #  lookupMerge = subset(lookupSheet,select=c("ID","Name"))
-                #}
-                
+        
                 names(lookupMerge) = c(cRow$name,"lookupName")
                 sheet=merge(sheet,lookupMerge, all.x=T)
                 sheet[[cRow$name]]=sheet$lookupName

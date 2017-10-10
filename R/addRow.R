@@ -22,9 +22,7 @@ setGeneric('addRow',function(targetDataframe,value) standardGeneric('addRow'))
 setMethod('addRow',
   signature="data.frame",
   definition=function(targetDataframe,value){
-    #targetDataframe=mySheet;value=list(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1")
-    #targetDataframe=mySheet;value=c("Deciduous:All","Deciduous:All","A1");names(value)=c("StateClassIDSource","StateClassIDDest","Location")
-    
+
     inNames = names(value)
     if(class(value)=="character"){
       value=as.data.frame(t(value),stringsAsFactors=F)
@@ -72,7 +70,6 @@ setMethod('addRow',
 
     #Now fill in missing factor values if possible
     for(i in seq(length.out=ncol(out))){
-      #i=5
       cName =names(out)[i]
       if(is.factor(targetDataframe[[cName]])){
         if(length(levels(targetDataframe[[cName]]))==1){

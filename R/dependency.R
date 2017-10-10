@@ -27,7 +27,6 @@ setMethod('dependency', signature(scenario="character"), function(scenario,depen
   return(SyncroSimNotFound(scenario))})
 #' @rdname dependency
 setMethod('dependency', signature(scenario="Scenario"), function(scenario,dependency,remove,force) {
-  #scenario = myScenario; dependency="Dependency Scenario";remove=F;force=T
   
   x=scenario
   cScn = scenarioId(scenario)
@@ -56,7 +55,6 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
   }
   
   for(j in seq(length.out=length(dependency))){
-    #j=1
     cDepRaw = dependency[[j]]
     cDep=NULL
     if(class(cDepRaw)=="Scenario"){
@@ -90,9 +88,6 @@ setMethod('dependency', signature(scenario="Scenario"), function(scenario,depend
     #if add
     if(!remove){
       if((nrow(dependencySet)>0)&&is.element(cDep,dependencySet$scenarioId)){
-        #msg = paste0(cDepOutName," is already a dependency of ", outName)
-        #warning(msg)  
-        #outResults[[cDepOutName]]=msg
         #to guarantee order of provided dependency, remove then re-add
         args = list(delete=NULL,dependency=NULL,lib=.filepath(x),sid=cScn,did=cDep,force=NULL)
         tt = command(args,.session(x))

@@ -22,27 +22,21 @@ setMethod('addon', signature(ssimObject="character"), function(ssimObject) {
 })
 #' @rdname addon
 setMethod('addon', signature(ssimObject="missingOrNULL"), function(ssimObject) {
-  #x = myLibrary
   ssimObject=.session()
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
   tt = .dataframeFromSSim(tt)
-  #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
 #' @rdname addon
 setMethod('addon', signature(ssimObject="Session"), function(ssimObject) {
-  #x = myLibrary
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
   tt = .dataframeFromSSim(tt)
-  #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
 #' @rdname addon
 setMethod('addon', signature(ssimObject="SsimObject"), function(ssimObject) {
-  #x = myLibrary
   enabled=NULL
   tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
   tt = .dataframeFromSSim(tt,convertToLogical=c("enabled"))
-  #tt$shortName = gsub(":add-on-transformer","",tt$name,fixed=T)
   return(tt)
 })
