@@ -90,7 +90,7 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
           }
       }
       else {
-          path = Sys.which("SyncroSim.Console.exe")
+        path = Sys.which("SyncroSim.Console.exe")
 	  if (path == ""){
 	    path=NULL
 	  }
@@ -131,8 +131,7 @@ setReplaceMethod(
   f='session',
   signature="character",
   definition=function(ssimObject,value){
-  return(ssimObject)
-    
+  return(ssimObject)   
 })
 
 #' @rdname session-set

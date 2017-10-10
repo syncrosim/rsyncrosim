@@ -7,7 +7,6 @@ NULL
 # @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
     definition=function(.Object,name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=T){
-    #name="C:/Temp/NewLibrary.ssim";model=NULL;session=NULL;addon=c("stsim-ecological-departure");forceUpdate=T;create=T
     #if a syncrosim session is not provided, make one
     enabled=NULL
     if(is.null(session)){
@@ -22,12 +21,11 @@ setMethod(f='initialize',signature="SsimLibrary",
     if(is.null(name)){
       name="SsimLibrary.ssim"
     }
-    
+          
     if(is.null(model)){
       model=defaultModel(session) #assume validity of session object has already been checked.
     }else{
       modelOptions = model(session)
-      model=gsub(":model-transformer","",model,fixed=T)
       if(!is.element(model,modelOptions$name)){
         stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
       }
@@ -58,18 +56,9 @@ setMethod(f='initialize',signature="SsimLibrary",
       if(cStatus[1]!="saved"){
         stop("Problem creating library: ",tt[1])
       }
-    }#else{
-      #x="C:/Temp/NewLibrary.ssim"
-      #if(backup){
-      #  backupName = gsub(".ssim",paste0("_",backupName,".ssim"),path,fixed=T)
-      #  if(file.exists(backupName)&!backupOverwrite){
-      #    stop(paste0('Backup ',backupName,' already exists. Set backupOverwrite=T or provide a different backupName.'))
-      #  }
-      #  file.copy(path, backupName, overwrite=T)
-      #}
-    #}
+    }
+
     #ensure the primaryModule specified matches the primaryModule on disk
-    #path =.filepath(myLibrary);session=.session(myLibrary)
     args = c("list","datasheets","csv",paste0("lib=",path))
     tt=command(args,session)
     if(grepl("The library has unapplied updates",tt[[1]])){
@@ -94,12 +83,11 @@ setMethod(f='initialize',signature="SsimLibrary",
     }else{
       if(grepl("The library ",tt[[1]])){
         stop("Problem loading library: ",tt[1]) 
-      }
-      
+      }    
     }
+
     datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
     datasheets$scope = sapply(datasheets$scope,camel)
-    #datasheets$isSpatial = grepl("Spatial",datasheets$name)&!grepl("NonSpatial",datasheets$name)
 
     if(!is.null(inModel)){
       args = list(list=NULL,library=NULL,csv=NULL,lib=path)
@@ -116,14 +104,11 @@ setMethod(f='initialize',signature="SsimLibrary",
       }
     }
 
-    #addon=c("stsim-ecological-departure", "stsim-stock-flow")
     if(!is.null(addon)){
-      addon=gsub(":add-on-transformer","",addon,fixed=T)
-
       tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=path),session)
       tt = .dataframeFromSSim(tt)
       cAdds = subset(tt,enabled=="Yes")
-      addon=setdiff(addon,gsub(":add-on-transformer","",cAdds$name,fixed=T))
+      addon=setdiff(addon,cAdds$name,fixed=T)
 
       for(i in seq(length.out=length(addon))){
         #i=1
@@ -141,13 +126,13 @@ setMethod(f='initialize',signature="SsimLibrary",
   }
 )
 
-setGeneric('.ssimLibrary',function(name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=F) standardGeneric('.ssimLibrary'))
-setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),
-          function(name,model,session,addon,forceUpdate,create) {
-            return(new("SsimLibrary",name,model,session,addon,forceUpdate,create))
-          })
+setGeneric('.ssimLibrary', function(name = NULL, model = NULL, session = NULL, addon = NULL, forceUpdate = F, create = F) standardGeneric('.ssimLibrary'))
+
+setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,model,session,addon,forceUpdate,create) {
+  return(new("SsimLibrary",name,model,session,addon,forceUpdate,create))
+})
+
 setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,session,addon,forceUpdate,create) {
-  #model=cScn
   if(class(name)=="SsimLibrary"){
     out=name
   }else{
@@ -213,7 +198,6 @@ setGeneric('ssimLibrary',function(name=NULL,summary=NULL,model=NULL,session=NULL
 
 #' @rdname ssimLibrary
 setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary,model,session,addon,forceUpdate) {
-  #model=cScn
   if(class(name)=="SsimLibrary"){
     out=name
     if(is.null(summary)){summary=T}
@@ -228,8 +212,7 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary,mod
 })
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
-          function(name=NULL,summary=NULL,model,session,addon,forceUpdate) {
+setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,summary=NULL,model,session,addon,forceUpdate) {
             
     if(is.null(session)){session=.session()}
     if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
@@ -250,9 +233,9 @@ setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),
 #
 # @param ssimLibrary SsimLibrary.
 # @export
-setGeneric('info',function(ssimLibrary) standardGeneric('info'))
+setGeneric('info', function(ssimLibrary) standardGeneric('info'))
+
 setMethod('info', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary) {
-  #x=myLibrary
   args = list(list=NULL,library=NULL,csv=NULL,lib=.filepath(ssimLibrary))
   tt = command(args,.session(ssimLibrary))
   out = .dataframeFromSSim(tt,localNames=T)
@@ -269,12 +252,13 @@ setMethod('info', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary) {
 # @examples
 #
 # @export
-setGeneric('deleteLibrary',function(ssimLibrary,force=F) standardGeneric('deleteLibrary'))
+setGeneric('deleteLibrary', function(ssimLibrary, force = F) standardGeneric('deleteLibrary'))
+
 setMethod('deleteLibrary', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,force) {
   return(deleteLibrary(.filepath(ssimLibrary),force))
 })
+
 setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibrary,force) {
-  #ssimLibrary = .ssimLibrary(name="temp26",session=mySession,create=T)
   
   if(!file.exists(ssimLibrary)){
     return(paste0("Library not found: ",ssimLibrary))
@@ -285,7 +269,6 @@ setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibr
     answer <- readline(prompt=paste0("Do you really want to delete library ",ssimLibrary,"? (y/n): "))
   }
   if(answer=="y"){
-    #ssimLibrary=myLibrary;.filepath(myLibrary)
     unlink(ssimLibrary)
     if(file.exists(ssimLibrary)){
       return(paste0("Failed to delete ",ssimLibrary))
@@ -298,8 +281,7 @@ setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibr
     return("saved")
   }else{
     return("skipped")
-  }
-  
+  } 
 })
 
 

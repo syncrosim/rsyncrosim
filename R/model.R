@@ -28,14 +28,12 @@ setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
 })
 #' @rdname model
 setMethod('model', signature(ssimObject="Session"), function(ssimObject) {
-  #x=session()
   tt=command(c("list","models","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)
 })
 #' @rdname model
 setMethod('model', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  #ssimObject=myLibrary
   oInf = info(ssimObject)
   property=NULL
   out =data.frame(name=subset(oInf,property=="Model Name:")$value)
