@@ -76,14 +76,15 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     print(outCmd)
   }
 
+  prefix = '\"' 
   if (.Platform$OS.type != "windows") {
-      program = paste0("mono ", program)
+      prefix = '\" mono' 
   }
 
-  tempCmd = paste(c(paste0('\"\"',.filepath(session),"/",program,'\"'),sysArgs,'\"'),collapse=" ")
+  tempCmd = paste(c(paste0(prefix, .filepath(session), "/", program, '\"'), sysArgs, '\"'), collapse = " ")
 
   if(wait){
-    out=suppressWarnings(shell(tempCmd,intern=T))
+    out=suppressWarnings(system(tempCmd,intern=T))
     if(!silent(session)){
       if(is.element("status",names(attributes(out)))){
         if(attributes(out)$status>0){
@@ -99,7 +100,7 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     }
   }else{
     #Special case used for breakpoints
-    out=suppressWarnings(shell(tempCmd,wait=F))
+    out=suppressWarnings(system(tempCmd,wait=F))
   }
 
   if(identical(out,character(0))){
