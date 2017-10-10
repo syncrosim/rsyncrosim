@@ -76,12 +76,14 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     print(outCmd)
   }
 
-  prefix = '\"' 
-  if (.Platform$OS.type != "windows") {
-      prefix = '\" mono' 
-  }
+  tempCmd = NULL
+  progName = paste0('\"', .filepath(session), "/", program, '\"')
 
-  tempCmd = paste(c(paste0(prefix, .filepath(session), "/", program, '\"'), sysArgs, '\"'), collapse = " ")
+  if (.Platform$OS.type == "windows") {
+    tempCmd = paste(c(progName, sysArgs), collapse = " ")
+  } else {
+    tempCmd = paste(c("mono", progName, sysArgs), collapse = " ")
+  }
 
   if(wait){
     out=suppressWarnings(system(tempCmd,intern=T))
