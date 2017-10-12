@@ -4,15 +4,8 @@
 ^.*\.ssim.input$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^buildPackage\.R$          # Notes on how to build the package.
 ^README\.Rmd$
 ^README-.*\.png$
 ^NEWS\.md$
-rsyncrosimFAQ\.R$
 rsyncrosim\.pdf$
-installRSyncroSim\.R$
-buildNotes\.R$
-Readme\-Development\.txt$
-TutorialsAndExamples
 testLibs
-
