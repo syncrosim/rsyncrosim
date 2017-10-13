@@ -87,21 +87,7 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
 
   if(wait){
     out=suppressWarnings(system(tempCmd,intern=T))
-    if(!silent(session)){
-      if(is.element("status",names(attributes(out)))){
-        if(attributes(out)$status>0){
-          print(paste0("SyncroSim error: ",out[1]))
-        }
-      }
-    }else{
-      if(is.element("status",names(attributes(out)))){
-        if(attributes(out)$status>0){
-          out=out[1]
-        }
-      }
-    }
   }else{
-    #Special case used for breakpoints
     out=suppressWarnings(system(tempCmd,wait=F))
   }
 

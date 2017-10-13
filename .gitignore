@@ -7,3 +7,4 @@ installRSyncroSim.R
 gitIncantations.txt
 *.suo
 *.user
+*.ssim

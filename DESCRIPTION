@@ -30,8 +30,6 @@ Collate:
     'addRow.R'
     'addon.R'
     'backup.R'
-    'breakpoint.R'
-    'breakpointSession.R'
     'command.R'
     'dataframeFromSSim.R'
     'datasheet.R'
@@ -70,7 +68,6 @@ Collate:
     'runLog.R'
     'saveDatasheet.R'
     'silent.R'
-    'ssimRatify.R'
     'ssimUpdate.R'
     'version.R'
 RoxygenNote: 5.0.1

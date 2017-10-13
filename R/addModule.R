@@ -22,7 +22,7 @@ setMethod('addModule', signature(filename="character"), function(filename,sessio
     if(!file.exists(cVal)){
       stop(paste0("Cannot find ",cVal,"."))
     }
-    tt = command(args=list(queue=cVal),session,program="SyncroSim.ModuleManager.exe")
+    tt = command(args=list(queuepackage=cVal),session,program="SyncroSim.ModuleManager.exe")
   }
   tt = command(args=list(installqueue=NULL),session,program="SyncroSim.ModuleManager.exe")
   return (tt)

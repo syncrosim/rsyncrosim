@@ -49,7 +49,8 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
   for(i in seq(length.out=length(scenario))){
 
     cScn = scenario[i]
-    name = scenarioSet$name[scenarioSet$scenarioId==cScn][1]
+    name = scenarioSet$name[scenarioSet$scenarioId == cScn][1]
+    resultId = NA
     
     print(paste0("Running scenario [",cScn,"] ",name))
 
@@ -60,13 +61,19 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
     }
     if((class(breakpoints)!="list")|(length(breakpoints)==0)){
       #TO DO: handle jobs, transformer and inpl.
-      tt = command(list(run=NULL,lib=.filepath(x),sid=cScn,jobs=jobs),.session(x))
-      
-      resultId = strsplit(tt,": ",fixed=T)[[1]][2]
-      if(is.na(resultId)){
-        stop(print(tt))
+      tt = command(list(run = NULL, lib = .filepath(x), sid = cScn, jobs = jobs), .session(x))
+
+      for (i in tt) {
+        if (startsWith(i, "Result scenario ID is:")) {
+          resultId = strsplit(i, ": ", fixed = T)[[1]][2]
+        } else {
+          print(i)
+        }
       }
-      
+
+      if (is.na(resultId)) {
+        stop(print(tt))
+      }      
     }else{
 
       # create a session
@@ -86,7 +93,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
         stop("Something is wrong: ",ret)
       }
       
-      resultId =   run(cBreakpointSession,jobs=jobs)
+      resultId = run(cBreakpointSession,jobs=jobs)
       #resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
       #close(connection(cBreakpointSession)) # Close the connection.
       resp=NULL
@@ -95,7 +102,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
     inScn = paste0(name," (",cScn,")")
 
     if(is.element(inScn,names(out))){inScn=paste(inScn,addBits[i])}
-    if(!identical(resultId,suppressWarnings(as.character(as.numeric(resultId))))){
+    if (!identical(resultId, suppressWarnings(as.character(as.numeric(resultId))))) {
       out[[inScn]]=tt
       print(tt)
     }else{
@@ -107,8 +114,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
         out[[inScn]] = .scenario(x,scenario=as.numeric(resultId))
         multiband(out[[inScn]],action="apply")
       }
-    }
-    
+    }   
   }
 
   if(summary&&(class(out)=="list")){
