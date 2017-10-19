@@ -3,29 +3,28 @@
 \docType{methods}
 \name{datasheet}
 \alias{datasheet}
-\alias{datasheet,SsimObject-method}
-\alias{datasheet,character-method}
 \alias{datasheet,list-method}
+\alias{datasheet,character-method}
+\alias{datasheet,SsimObject-method}
 \title{Get a datasheet}
 \usage{
 datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
   summary = NULL, optional = F, empty = F, lookupsAsFactors = T,
-  sqlStatements = list(select = "SELECT *", groupBy = ""),
-  forceElements = F)
+  sqlStatement = list(select = "SELECT *", groupBy = ""), forceElements = F)
 
 \S4method{datasheet}{list}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
-  lookupsAsFactors = T, sqlStatements = list(select = "SELECT *", groupBy =
+  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *", groupBy =
   ""), forceElements = F)
 
 \S4method{datasheet}{character}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
-  lookupsAsFactors = T, sqlStatements = list(select = "SELECT *", groupBy =
+  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *", groupBy =
   ""), forceElements = F)
 
 \S4method{datasheet}{SsimObject}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
-  lookupsAsFactors = T, sqlStatements = list(select = "SELECT *", groupBy =
+  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *", groupBy =
   ""), forceElements = F)
 }
 \arguments{
@@ -45,7 +44,7 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 
 \item{lookupsAsFactors}{Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.}
 
-\item{sqlStatements}{List returned by sqlStatements(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.}
+\item{sqlStatement}{List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.}
 
 \item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.}
 }
@@ -73,4 +72,3 @@ Otherwise, for each element in name a datasheet is returned as follows:
   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 }
 }
-

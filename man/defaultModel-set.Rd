@@ -3,8 +3,8 @@
 \docType{methods}
 \name{defaultModel<-}
 \alias{defaultModel<-}
-\alias{defaultModel<-,Session-method}
 \alias{defaultModel<-,character-method}
+\alias{defaultModel<-,Session-method}
 \title{Set defaultModel of a Session}
 \usage{
 defaultModel(session) <- value
@@ -21,4 +21,3 @@ defaultModel(session) <- value
 \description{
 Set defaultModel of a session
 }
-

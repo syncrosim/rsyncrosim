@@ -3,8 +3,8 @@
 \docType{methods}
 \name{saveDatasheet}
 \alias{saveDatasheet}
-\alias{saveDatasheet,SsimObject-method}
 \alias{saveDatasheet,character-method}
+\alias{saveDatasheet,SsimObject-method}
 \title{Save datasheet(s)}
 \usage{
 saveDatasheet(ssimObject, data, name = NULL, append = NULL,
@@ -47,4 +47,3 @@ There are 2 circumstances in which data will not be appended even if append=T:
   \item Old data will be replaced by new data if the datasheet allows only a single row.
 }
 }
-

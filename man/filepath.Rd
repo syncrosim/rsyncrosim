@@ -3,9 +3,9 @@
 \docType{methods}
 \name{filepath}
 \alias{filepath}
+\alias{filepath,character-method}
 \alias{filepath,Session-method}
 \alias{filepath,SsimObject-method}
-\alias{filepath,character-method}
 \title{The path to a SyncroSim object on disk}
 \usage{
 filepath(ssimObject)
@@ -22,4 +22,3 @@ filepath(ssimObject)
 \description{
 The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 }
-

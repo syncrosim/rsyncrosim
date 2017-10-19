@@ -3,8 +3,8 @@
 \docType{methods}
 \name{backup}
 \alias{backup}
-\alias{backup,SsimObject-method}
 \alias{backup,character-method}
+\alias{backup,SsimObject-method}
 \title{Backup an SsimLibrary.}
 \usage{
 backup(ssimObject)
@@ -19,4 +19,3 @@ backup(ssimObject)
 \description{
 Backup an SsimLibrary.
 }
-

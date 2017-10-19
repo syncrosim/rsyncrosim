@@ -3,8 +3,8 @@
 \docType{methods}
 \name{session}
 \alias{session}
-\alias{session,SsimObject-method}
 \alias{session,missingOrNULLOrChar-method}
+\alias{session,SsimObject-method}
 \title{Start or get a SyncroSim session.}
 \usage{
 session(x = NULL, silent = T, printCmd = F, defaultModel = "stsim")
@@ -45,4 +45,3 @@ session(myLib)
 # Assign a session to a SyncroSim library
 session(myLib)=session()
 }
-

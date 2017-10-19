@@ -3,9 +3,9 @@
 \docType{methods}
 \name{run}
 \alias{run}
-\alias{run,SsimObject-method}
 \alias{run,character-method}
 \alias{run,list-method}
+\alias{run,SsimObject-method}
 \title{Run scenarios}
 \usage{
 run(ssimObject, scenario = NULL, summary = F, jobs = 1,
@@ -40,4 +40,3 @@ Run one or more SyncroSim scenarios
 \details{
 Note that breakpoints are ignored unless ssimObject is a single scenario.
 }
-

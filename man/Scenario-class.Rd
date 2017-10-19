@@ -2,8 +2,8 @@
 % Please edit documentation in R/AAAClassDefinitions.R
 \docType{class}
 \name{Scenario-class}
-\alias{Scenario}
 \alias{Scenario-class}
+\alias{Scenario}
 \title{SyncroSim Scenario class}
 \description{
 \code{Scenario} object representing a SyncroSim Project.
@@ -23,7 +23,7 @@
 
 \item{\code{parentId}}{For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.}
 }}
+
 \seealso{
 See \code{\link{scenario}} for options when creating or loading an SyncroSim Scenario.
 }
-

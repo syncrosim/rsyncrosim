@@ -3,8 +3,8 @@
 \docType{methods}
 \name{enableAddon}
 \alias{enableAddon}
-\alias{enableAddon,SsimLibrary-method}
 \alias{enableAddon,character-method}
+\alias{enableAddon,SsimLibrary-method}
 \title{Enable addon or addons.}
 \usage{
 enableAddon(ssimLibrary, name)
@@ -30,4 +30,3 @@ myLibrary = ssimLibrary()
 enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
 addon(myLibrary)
 }
-

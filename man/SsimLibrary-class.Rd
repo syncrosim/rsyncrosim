@@ -2,8 +2,8 @@
 % Please edit documentation in R/AAAClassDefinitions.R
 \docType{class}
 \name{SsimLibrary-class}
-\alias{SsimLibrary}
 \alias{SsimLibrary-class}
+\alias{SsimLibrary}
 \title{SyncroSim Library class}
 \description{
 \code{SsimLibrary} object representing a SyncroSim Library.
@@ -17,6 +17,7 @@
 
 \item{\code{datasheetNames}}{The names and scope of all datasheets in the library. Used to speed calculations.}
 }}
+
 \examples{
 #TODO - update examples
 # Create or load and query a SyncroSim Library.
@@ -34,4 +35,3 @@ myLibrary = ssimLibrary(myProject)
 \seealso{
 See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
 }
-

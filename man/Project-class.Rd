@@ -2,8 +2,8 @@
 % Please edit documentation in R/AAAClassDefinitions.R
 \docType{class}
 \name{Project-class}
-\alias{Project}
 \alias{Project-class}
+\alias{Project}
 \title{SyncroSim Project class}
 \description{
 \code{Project} object representing a SyncroSim Project.
@@ -19,7 +19,7 @@
 
 \item{\code{projectId}}{The project id}
 }}
+
 \seealso{
 See \code{\link{project}} for options when creating or loading an SyncroSim Project.
 }
-
