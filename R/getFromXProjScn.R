@@ -1,3 +1,6 @@
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# GPL v.3 License
+
 #Internal helper - return uniquely identified and valid SyncroSim object
 #' @export
 .getFromXProjScn<-function(ssimObject,project=NULL,scenario=NULL,convertObject=F,returnIds=NULL,goal=NULL,complainIfMissing=T){

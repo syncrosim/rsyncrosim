@@ -1,3 +1,6 @@
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# GPL v.3 License
+
 #' rsyncrosim: The R interface to SyncroSim: http://syncrosim.com/
 #'
 #' rsyncrosim provides an interface to SyncroSim, a generalized framework for

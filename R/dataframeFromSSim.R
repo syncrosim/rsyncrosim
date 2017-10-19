@@ -1,7 +1,6 @@
-# Author: Josie Hughes
-# Date : October 2016
-# Version 0.1
-# Licence GPL v3
+# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# GPL v.3 License
+
 # Dataframe from SyncroSim output
 #
 # \code{dataframeFromSSim} converts output from SyncroSim to a dataframe.

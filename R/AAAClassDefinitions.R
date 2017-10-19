@@ -1,5 +1,6 @@
 # Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
+
 setClassUnion("missingOrNULL", c("missing", "NULL"))
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 
