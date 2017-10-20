@@ -4,8 +4,11 @@
 ^.*\.ssim.input$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+.rxproj$
+.rxproj.user$
+.vs/*
+^.*\.sln$
 ^README\.Rmd$
 ^README-.*\.png$
 ^NEWS\.md$
-rsyncrosim\.pdf$
 testLibs
