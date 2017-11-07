@@ -9,6 +9,7 @@ setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,sourceScenario=NULL,scenarios=NULL){
     #assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
 
+    .Object@breakpoints = list()
     .Object@parentId = 0
     x=ssimLibrary
 

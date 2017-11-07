@@ -41,21 +41,24 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
   x = xProjScn$ssimObject
   scenario = xProjScn$scenario
   scenarioSet = xProjScn$scenarioSet
-  
+
   if(!is.numeric(scenario)){stop("Error in run(): expecting valid scenario ids.")}
   
   out=list()
   addBits = seq(1,length(scenario))
   for(i in seq(length.out=length(scenario))){
 
+    tt=NULL
     cScn = scenario[i]
     name = scenarioSet$name[scenarioSet$scenarioId == cScn][1]
     resultId = NA
     
     print(paste0("Running scenario [",cScn,"] ",name))
 
-    if(class(x)=="Scenario"){
-      breakpoints = NULL#breakpoints(x)
+    if (class(ssimObject)=="Scenario") {
+        breakpoints = breakpoints(ssimObject)
+        xsim = ssimObject
+        xsim@breakpoints = breakpoints
     }else{
       breakpoints=NULL
     }
@@ -77,110 +80,90 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
     }else{
 
       # create a session
-      cBreakpointSession=NULL#breakpointSession(x)
+      xsim@breakpoints = breakpoints
+      cBreakpointSession = breakpointSession(xsim)
       #TO DO: multiple tries in connection
-      
+
       # load a library
       msg =paste0('load-library --lib=\"',filepath(x),'\"')
-      ret=NULL#remoteCall(cBreakpointSession,msg)
+      ret=remoteCall(cBreakpointSession,msg)
       if(ret!="NONE"){
         stop("Something is wrong: ",ret)
       }
       
       # set breakpoints
-      ret = NULL#setBreakpoints(cBreakpointSession)
+      ret = setBreakpoints(cBreakpointSession)
       if(ret!="NONE"){
         stop("Something is wrong: ",ret)
       }
-      
+
       resultId = run(cBreakpointSession,jobs=jobs)
-      #resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
-      #close(connection(cBreakpointSession)) # Close the connection.
-      resp=NULL
-      cBreakpointSession=NULL
+      resp = writeLines("shutdown", connection(cBreakpointSession),sep = "")
+      close(connection(cBreakpointSession)) # Close the connection.
     }
-    inScn = paste0(name," (",cScn,")")
+      inScn = paste0(name," (",cScn,")")
 
     if(is.element(inScn,names(out))){inScn=paste(inScn,addBits[i])}
     if (!identical(resultId, suppressWarnings(as.character(as.numeric(resultId))))) {
       out[[inScn]]=tt
       print(tt)
     }else{
-      if(summary){
+        if (summary){
         out[[inScn]] = as.numeric(resultId)
         scn = .scenario(x,scenario=as.numeric(resultId))
         multiband(scn,action="apply")
-      }else{
+        } else {
         out[[inScn]] = .scenario(x,scenario=as.numeric(resultId))
         multiband(out[[inScn]],action="apply")
       }
     }   
   }
 
-  if(summary&&(class(out)=="list")){
+  if (summary&&(class(out)=="list")){
     #summary info for ids
     scnSelect = unlist(out)
     out = .scenario(x,scenario=scnSelect,summary=T)
   }
-  
+
   if(!forceElements&&(class(out)=="list")&&(length(out)==1)){
-    out=out[[1]]
+      out=out[[1]]
   }
   return(out)
 })
 
-if(0){
+setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObject, scenario, summary, jobs, forceElements) {
 
-setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,scenario,summary,jobs,forceElements) {
-  x=ssimObject
-  if(0){
-    #PARALLEL DEBUG
-    #use for debugging - setup code from 'run' function, signature(ssimObject="SsimLibrary")
-    x=myScenario;jobs=2
-    cBreakpointSession=breakpointSession(x)
-    msg =paste0('load-library --lib=\"',filepath(x),'\"')
-    ret=remoteCall(cBreakpointSession,msg)
-    if(ret!="NONE"){
-      stop("Something is wrong: ",ret)
-    }
-    ret = setBreakpoints(cBreakpointSession)
-    if(ret!="NONE"){
-      stop("Something is wrong: ",ret)
-    }
-    x=cBreakpointSession
-  }
-  
-  msg = paste0('create-result --sid=',scenarioId(x@scenario))
-  ret = remoteCall(x,msg)
+  x = ssimObject
+  l = ssimLibrary(name=x@scenario@filepath, session=x@scenario@session)
+  msg = paste0('create-result --sid=', .scenarioId(x@scenario))
+  ret = remoteCall(x, msg)
   breaks = x@scenario@breakpoints
-  newScn = scenario(x@scenario,scenario=as.numeric(ret))
+  newScn = .scenario(l, scenario = as.numeric(ret))
   newScn@breakpoints = breaks
   x@scenario = newScn
-  
-  if(jobs==1){
-    #make 1 job work first.
+
+  if (jobs==1){
     msg = paste0('run-scenario --sid=',.scenarioId(x@scenario),' --jobs=1')
     ret = tryCatch({
       remoteCall(x,msg)
     }, warning = function(w) {
       print(w)
     }, error = function(e) {
-      #resp = writeLines("shutdown", connection(x),sep = "")
-      #close(connection(x)) # Close the connection.
-      resp=NULL
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
       stop(e)
     })
-  }else{
-    msg = paste0('split-scenario --sid=',scenarioId(x@scenario),' --jobs=',jobs)
+    return(ret)
+  } else {
+    msg = paste0('split-scenario --sid=', .scenarioId(x@scenario),' --jobs=',jobs)
     
     tt = tryCatch({
       remoteCall(x,msg)
     }, warning = function(w) {
       print(w)
     }, error = function(e) {
-      #resp = writeLines("shutdown", connection(x),sep = "")
-      #close(connection(x)) # Close the connection.
-      resp=NULL
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
       stop(e)
     })
     
@@ -188,74 +171,59 @@ setMethod('run',signature(ssimObject="BreakpointSession"),function(ssimObject,sc
     tempFiles = list.files(tempPath,include.dirs=F)
     tempFiles = tempFiles[grepl(".ssim",tempFiles,fixed=T)&!grepl(".ssim.input",tempFiles,fixed=T)&!grepl(".ssim.output",tempFiles,fixed=T)]
     if(length(tempFiles)<=1){
-      #resp = writeLines("shutdown", connection(x),sep = "")
-      #close(connection(x)) # Close the connection.
-      resp=NULL
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
       stop("Problem with split-scenario: only one job was created. This is known problem caused by dependencies that has not yet been fixed.")
     }else{
       jobs = length(tempFiles)
     }
-    
-    #if(tt!="NONE"){
-    #  stop("Something is wrong: ",tt)
-    #}
-    threads = c()
-    
-    jobs = min(jobs,parallel::detectCores())
-    
-    files = paste0(filepath(x@scenario),".temp/Scenario-",scenarioId(x@scenario),"/SSimJobs/Job-",seq(1:jobs),".ssim")
-    
+
+    files = paste0(filepath(x@scenario),".temp/Scenario-",.scenarioId(x@scenario),"/SSimJobs/Job-",seq(1:jobs),".ssim")    
     port =   as.numeric(strsplit(summary(x@connection)[[1]],":")[[1]][2])
     ports=port+ seq(1,jobs)
     #make list of arguments for parLapply()
     args = list()
-    for(i in 1:length(files)){
-      #i = 1
-      args[[i]]=list(x=files[i],session=session(x@scenario),port=ports[i],breaks = breakpoints(x@scenario))
+      for (i in 1:length(files)){
+      args[[i]]=list(x=files[i],session=session(x@scenario),port=ports[i],breaks = x@scenario@breakpoints)
     }
-    
+
     #Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
     parallelCluster = parallel::makeCluster(jobs,outfile=paste0(dirname(filepath(x@scenario)),"/parallelLog.txt"))
     parallel::clusterEvalQ(parallelCluster, library(rsyncrosim))
-    print(parallelCluster)
-    
+
     #TO DO: catch error messages properly in parallel processing...
-    ret = tryCatch({
+      ret = tryCatch({
       parallel::parLapply(parallelCluster,args,runJobParallel)
     }, warning = function(w) {
       print(tt)
       print(w)
     }, error = function(e) {
       print(tt)
-      #resp = writeLines("shutdown", connection(x),sep = "")
-      #close(connection(x)) # Close the connection.
-      resp=NULL
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
       stop(e)
     })
-    
+
     # Shutdown cluster neatly
     if(!is.null(parallelCluster)) {
       parallel::stopCluster(parallelCluster)
       parallelCluster = c()
     }
-    print(ret)
     
-    msg = paste0('merge-scenario --sid=',scenarioId(x@scenario))
+    msg = paste0('merge-scenario --sid=',.scenarioId(x@scenario))
     ret = tryCatch({
       remoteCall(x,msg)
     }, warning = function(w) {
       print(w)
     }, error = function(e) {
-      #resp = writeLines("shutdown", connection(x),sep = "")
-      #close(connection(x)) # Close the connection.
-      resp=NULL
+      resp = writeLines("shutdown", connection(x),sep = "")
+      close(connection(x)) # Close the connection.
       stop(e)
     })
-    
+
     #remove temporary directory
-    unlink(paste0(filepath(x@scenario),".temp/Scenario-",scenarioId(x@scenario)),recursive=T)
+    unlink(paste0(filepath(x@scenario),".temp/Scenario-",.scenarioId(x@scenario)),recursive=T)
     
     return(ret)
   }
 })
-}

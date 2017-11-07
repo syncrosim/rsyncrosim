@@ -43,8 +43,8 @@ NULL
 # @export
 .sqlStatement=sqlStatement
 # @export
-#.breakpoints=breakpoints
+.breakpoints=breakpoints
 # @export
-#.breakpoint=breakpoint
+.breakpoint=breakpoint
 
 
