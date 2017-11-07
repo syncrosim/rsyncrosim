@@ -150,7 +150,7 @@ setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObjec
       print(w)
     }, error = function(e) {
       resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      close(connection(x))
       stop(e)
     })
     return(ret)
@@ -163,7 +163,7 @@ setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObjec
       print(w)
     }, error = function(e) {
       resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      close(connection(x))
       stop(e)
     })
     
@@ -172,7 +172,7 @@ setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObjec
     tempFiles = tempFiles[grepl(".ssim",tempFiles,fixed=T)&!grepl(".ssim.input",tempFiles,fixed=T)&!grepl(".ssim.output",tempFiles,fixed=T)]
     if(length(tempFiles)<=1){
       resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      close(connection(x))
       stop("Problem with split-scenario: only one job was created. This is known problem caused by dependencies that has not yet been fixed.")
     }else{
       jobs = length(tempFiles)
@@ -192,7 +192,7 @@ setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObjec
     parallel::clusterEvalQ(parallelCluster, library(rsyncrosim))
 
     #TO DO: catch error messages properly in parallel processing...
-      ret = tryCatch({
+    ret = tryCatch({
       parallel::parLapply(parallelCluster,args,runJobParallel)
     }, warning = function(w) {
       print(tt)
@@ -200,7 +200,7 @@ setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObjec
     }, error = function(e) {
       print(tt)
       resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      close(connection(x))
       stop(e)
     })
 
@@ -217,7 +217,7 @@ setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObjec
       print(w)
     }, error = function(e) {
       resp = writeLines("shutdown", connection(x),sep = "")
-      close(connection(x)) # Close the connection.
+      close(connection(x))
       stop(e)
     })
 

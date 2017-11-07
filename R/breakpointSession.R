@@ -44,22 +44,14 @@ breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,na
 # @export
 setGeneric('connection',function(x,...) standardGeneric('connection'))
 # @describeIn connection Get a new connection.
-setMethod('connection',signature(x="missingOrNULLOrChar"),
-          function(x='127.0.0.1',port=13000) {
-            ipAddress = x
-            con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=4)
-            ## S3 method for class 'connection'
-            #open(con, open = "r", blocking = TRUE, ...)
-            ## S3 method for class 'connection'
-            #close(con, type = "rw", ...)
-            #flush(con)
-            #isOpen(con, rw = "")
-            #isIncomplete(con)
-            if(!isOpen(con)){
-              stop(paste0('Problem connecting to the SyncroSim server. IP:',ipAddress," Port:",port))
-            }
-            return(con)
-          })
+setMethod('connection',signature(x="missingOrNULLOrChar"), function(x='127.0.0.1',port=13000) {
+  ipAddress = x
+  con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=4)
+  if(!isOpen(con)){
+    stop(paste0('Problem connecting to the SyncroSim server. IP:',ipAddress," Port:",port))
+  }
+  return(con)
+})
 
 # @export
 setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
@@ -87,29 +79,8 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
   tt = writeLines(message, connection(x),sep = "") #Gives an error
 
   while(getResponse){
-    #TO DO: less stupid way of finding EOL.
-    #res=""
-    #cRes = character(0)
-    #while((res=="")|(length(cRes)>0)){
-    #  cRes =  readChar(connection(x),1024,useBytes=F)
-    #  res=paste0(res,cRes)
-    #  if(res==""){
-    #    Sys.sleep(1)
-    #  }
-    #}
-    #res = readChar(connection(x),1024,useBytes=F)
-    #readChar(connection(x),30,useBytes=F)
-    #while(isIncomplete(connection(x))){
-    #  Sys.sleep(1)
-    #}
-    #Sys.sleep(1)
-    #res = scan(connection(x),sep = "\n",what="character",nlines=1)
-    #res=readLines(connection(x),n=1,ok=T)
-    #RESUME HERE
-
     cRes = readChar(connection(x),1,useBytes=F)
     if(length(cRes)==0){
-      #warning("No return message received")
       Sys.sleep(1) #try again in a while
     }else{
       #read the rest of the message
@@ -120,13 +91,9 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
       }
 
       cmd=strsplit(res,"|",fixed=T)[[1]][1]
-      #if(!cmd){break}#not (cmd and cmd.strip())s
       if(cmd=='breakpoint-hit'){
-        #TO DO: move this to onBreakpointHit function
-        #self.on_breakpoint_hit(res.split('|'))
-        #res="breakpoint-hit|stime:break-before-iteration|stsim:core-transformer|1"
+        #TO DO: move this to onBreakpointHit function?
         split = strsplit(res,"|",fixed=T)[[1]]
-
         tt = onBreakpointHit(x,split)
         tt=writeLines('breakpoint-continue',connection(x),sep="")
 
@@ -188,15 +155,7 @@ setMethod('setBreakpoints',signature(x="BreakpointSession"),function(x) {
 #' @export
 # The single argument function for parallel
 runJobParallel<- function(cPars) {
-  #bindToEnv(objNames=c('breakpointSession','remoteCall','setBreakpoints'))
-  #function(cPars) {
-  #cPars=args[[2]]
-    #library(rsyncrosim) #NOTE: rsyncrosim must be installed properly in order for this to work.
-    #cPars is a list, where x is path to the temporary library, session is the current session, port is a new port, and breaks are the current breakpoints
-    #f = files[1];port=ports[1]
-    # TO DO: if slow, consider ways to speed up scenario/library construction
     ret = tryCatch({
-
       cScn = scenario(.ssimLibrary(cPars$x,session=cPars$session,create=F),scenario=1)
       if(!exists("cScn")){
         stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
@@ -226,7 +185,6 @@ runJobParallel<- function(cPars) {
       resp = writeLines("shutdown", connection(sess),sep = "")
       close(connection(sess)) # Close the connection.
     })
-  #}
 }
 
 # Set breakpoint of a Scenario.
@@ -241,7 +199,7 @@ runJobParallel<- function(cPars) {
 # @return An SyncroSim Scenario object containing breakpoints
 # @export
 setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
-setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType, transformerName, arguments, callback) {
+setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType,transformerName,arguments,callback) {
 
     types = list(bi = 'stime:break-before-iteration',
                  ai = 'stime:break-after-iteration',

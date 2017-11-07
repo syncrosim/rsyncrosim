@@ -16,16 +16,14 @@ NULL
 # @rdname Breakpoint-class
 # @export Breakpoint
 Breakpoint <- setClass("Breakpoint",representation(arguments="character",breakpointName="character",name="character",transformerName="character",callback="function"))
-setMethod(f='initialize',signature="Breakpoint",
-          definition=function(.Object,breakpointName,transformerName,arguments,callback,name="Main"){
-
-            .Object@breakpointName = breakpointName
-            .Object@transformerName = transformerName
-            .Object@arguments = paste(arguments,collapse=",")
-            .Object@callback = callback
-            .Object@name = name
-            return(.Object)
-          })
+setMethod(f='initialize',signature="Breakpoint",definition=function(.Object,breakpointName,transformerName,arguments,callback,name="Main"){
+  .Object@breakpointName = breakpointName
+  .Object@transformerName = transformerName
+  .Object@arguments = paste(arguments,collapse=",")
+  .Object@callback = callback
+  .Object@name = name
+  return(.Object)
+})
 # @export
 breakpoint<-function(breakpointName,transformerName,arguments,callback,name="Main"){
   return(new("Breakpoint",breakpointName,transformerName,arguments,callback,name))
