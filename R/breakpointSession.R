@@ -5,14 +5,14 @@ NULL
 
 #These are class and function definitions to support breakpoints
 
-# BreakpointSession class
-#
-# @slot scenario A SyncroSim scenario
-# @slot connection A socket connection to the SyncroSim server.
-# @slot name A name
-# @name BreakpointSession-class
-# @rdname BreakpointSession-class
-# @export BreakpointSession
+#' BreakpointSession class
+#'
+#' @slot scenario A SyncroSim scenario
+#' @slot connection A socket connection to the SyncroSim server.
+#' @slot name A name
+#' @name BreakpointSession-class
+#' @rdname BreakpointSession-class
+#' @export BreakpointSession
 BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character"))
 # @name Scenario
 # @rdname Scenario-class
@@ -37,13 +37,13 @@ breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,na
   return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer))
 }
 
-# Get or set a socket connection.
-#
-# @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
-# @param port For new connections only - a port number.
-# @export
+#' Get or set a socket connection.
+#'
+#' @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
+#' @param port For new connections only - a port number.
+#' @export
 setGeneric('connection',function(x,...) standardGeneric('connection'))
-# @describeIn connection Get a new connection.
+#' @describeIn connection Get a new connection.
 setMethod('connection',signature(x="missingOrNULLOrChar"), function(x='127.0.0.1',port=13000) {
   ipAddress = x
   con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=4)
@@ -53,9 +53,9 @@ setMethod('connection',signature(x="missingOrNULLOrChar"), function(x='127.0.0.1
   return(con)
 })
 
-# @export
+#' @export
 setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
-# @describeIn connection Get the connection of a BreakpointSession.
+#' @describeIn connection Get the connection of a BreakpointSession.
 setMethod('connection', signature(x="BreakpointSession"), function(x) return(x@connection))
 setReplaceMethod(
   f='connection',
@@ -135,7 +135,7 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   NULL
 })
 
-# @export
+#' @export
 setGeneric('setBreakpoints',function(x) standardGeneric('setBreakpoints'))
 setMethod('setBreakpoints',signature(x="BreakpointSession"),function(x) {
 
@@ -187,17 +187,17 @@ runJobParallel<- function(cPars) {
     })
 }
 
-# Set breakpoint of a Scenario.
-#
-# Add a Breakpoint object to breakpoints of a Scenario.
-#
-# @param x A SyncroSim Scenario
-# @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: aftertimestep
-# @param transformerName 'stsim:core-transformer' or?
-# @param arguments A vector of timesteps or iterations e.g. c(1,2)
-# @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
-# @return An SyncroSim Scenario object containing breakpoints
-# @export
+#' Set breakpoint of a Scenario.
+#'
+#' Add a Breakpoint object to breakpoints of a Scenario.
+#'
+#' @param x A SyncroSim Scenario
+#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: aftertimestep
+#' @param transformerName 'stsim:core-transformer' or?
+#' @param arguments A vector of timesteps or iterations e.g. c(1,2)
+#' @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
+#' @return An SyncroSim Scenario object containing breakpoints
+#' @export
 setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
 setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType,transformerName,arguments,callback) {
 
@@ -217,12 +217,12 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType,tran
     return(x)
   })
 
-# The breakpoints of a Scenario
-#
-# The breakpoints of a Scenario
-# @param x A Scenario object.
-# @return A list of Breakpoint objects.
-# @export
+#' The breakpoints of a Scenario
+#'
+#' The breakpoints of a Scenario
+#' @param x A Scenario object.
+#' @return A list of Breakpoint objects.
+#' @export
 setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
 setMethod('breakpoints', signature(x="Scenario"), function(x) {
   return(x@breakpoints)
