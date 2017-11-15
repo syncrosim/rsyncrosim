@@ -89,6 +89,7 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
     out=suppressWarnings(system(tempCmd,intern=T))
   }else{
     out=suppressWarnings(system(tempCmd,wait=F))
+    Sys.sleep(5)
   }
 
   if(identical(out,character(0))){
