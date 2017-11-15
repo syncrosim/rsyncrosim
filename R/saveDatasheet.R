@@ -36,12 +36,12 @@ NULL
 # @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
 #' @return A success or failure message, or a list of these.
 #' @export
-setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,forceElements=F,force=F) standardGeneric('saveDatasheet'))
+setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,forceElements=F,force=F,breakpoint=F,import=T,path=NULL) standardGeneric('saveDatasheet'))
 #' @rdname saveDatasheet
-setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,append,forceElements,force) {
+setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,append,forceElements,force,breakpoint,import,path) {
   return(SyncroSimNotFound(ssimObject))})
 #' @rdname saveDatasheet
-setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,forceElements,force) {
+setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,append,forceElements,force,breakpoint,import,path) {
   fileData=NULL
   isFile=NULL
   x = ssimObject 
@@ -98,8 +98,6 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         stop("handle this case")
       }
     }
-    
-    class(cDat$StateClassFileName)
     
     #convert factors to strings
     for (kk in seq(length.out=ncol(cDat))){
@@ -249,35 +247,41 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     }
 
     cDat[is.na(cDat)]=""
+    pathBit = NULL
 
-    if(FALSE){ #if(breakpoint){
-      pathBit = paste0(.filepath(x),'.temp/Data')
-    }else{
-      pathBit = paste0(dirname(.filepath(x)),'/Temp')
+    if (is.null(path)) {
+      if(breakpoint){
+        pathBit = paste0(.filepath(x),'.temp/Data')
+      }else{
+        pathBit = paste0(dirname(.filepath(x)),'/Temp')
+      }
+    } else {
+        pathBit = path
     }
     
     dir.create(pathBit, showWarnings = FALSE,recursive=T)
     tempFile = paste0(pathBit,"/",cName,".csv")
     
     write.csv(cDat,file=tempFile,row.names=F,quote=T)
-    if(FALSE){#if(breakpoint){
+    if(breakpoint){
       out[[cName]] = "Saved"
       next
     }
-    
-    args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)
-    
-    tt="saved"
-    if(nrow(cDat)>0){
-      if(scope=="project"){
-        args[["pid"]]=.projectId(x)
-        args=c(args,list(append=NULL))
+
+    if (import) {
+      args = list(import=NULL,lib=.filepath(x),sheet=cName,file=tempFile)    
+      tt="saved"
+      if(nrow(cDat)>0){
+        if(scope=="project"){
+          args[["pid"]]=.projectId(x)
+          args=c(args,list(append=NULL))
+        }
+        if(scope=="scenario"){args[["sid"]]=.scenarioId(x)}
+        tt=command(args,.session(x))
       }
-      if(scope=="scenario"){args[["sid"]]=.scenarioId(x)}
-      tt=command(args,.session(x))
+      if(tt[[1]]=="saved"){unlink(tempFile)}
+      out[[cName]] = tt
     }
-    if(tt[[1]]=="saved"){unlink(tempFile)}
-    out[[cName]] = tt
   }
   
   if(!forceElements&&(length(out)==1)){
