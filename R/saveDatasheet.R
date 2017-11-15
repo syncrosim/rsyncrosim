@@ -33,7 +33,9 @@ NULL
 # @param fileData Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.
 #' @param forceElements logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list. 
 #' @param force logical. If datasheet scope is project/library, and append=F, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=T.
-# @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
+#' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
+#' @param import logical. Set to TRUE to import the data after saving.
+#' @param path character.  An optional output path.
 #' @return A success or failure message, or a list of these.
 #' @export
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,append=NULL,forceElements=F,force=F,breakpoint=F,import=T,path=NULL) standardGeneric('saveDatasheet'))
