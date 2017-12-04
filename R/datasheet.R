@@ -420,12 +420,13 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             sheet[[cRow$name]]=as.character(sheet[[cRow$name]])
           }
         }
-        if(cRow$formula2!="N/A"){
-          if(cRow$valCond=="Between"){
-            print(paste0("Note: ",cRow$name," should be between ",cRow$formula1," and ",cRow$formula2))
-            
-          }else{
-            stop("handle this case")
+        if (cRow$valType != "List") {
+          if(cRow$formula2!="N/A"){
+            if(cRow$valCond=="Between"){
+              print(paste0("Note: ",cRow$name," should be between ",cRow$formula1," and ",cRow$formula2))           
+            }else{
+              stop("handle this case")
+            }
           }
         }
       }
