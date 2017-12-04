@@ -16,7 +16,7 @@ sclassTif = system.file("extdata", "initial-sclass.tif", package = "rsyncrosim")
 ageTif = system.file("extdata", "initial-age.tif", package = "rsyncrosim")
 
 # Set the name of the folder into which you installed SyncroSim  (i.e. this folder should contain the file SyncroSim.Console.exe)
-programFolder = "/home/alex/syncrosim/_deploy_/current/"
+programFolder = "/home/<username>/syncrosim/"
 
 # *************************************************************
 # Start Session & Create Library
