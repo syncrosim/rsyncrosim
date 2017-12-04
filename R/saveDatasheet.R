@@ -245,7 +245,6 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         inCol = cDat[[j]]
         cDat[[j]][inCol]="Yes";cDat[[j]][!inCol]="No"
       }
-      cDat[[j]]=gsub("/","\\",cDat[[j]],fixed=T)
     }
 
     cDat[is.na(cDat)]=""

@@ -16,7 +16,7 @@ sclassTif = system.file("extdata", "initial-sclass.tif", package = "rsyncrosim")
 ageTif = system.file("extdata", "initial-age.tif", package = "rsyncrosim")
 
 # Set the name of the folder into which you installed SyncroSim  (i.e. this folder should contain the file SyncroSim.Console.exe)
-programFolder = "C:/Program Files/SyncroSim"
+programFolder = "/home/alex/syncrosim/_deploy_/current/"
 
 # *************************************************************
 # Start Session & Create Library
@@ -42,12 +42,6 @@ myLibrary = ssimLibrary(name="Demonstration Library", model="stsim", session=myS
 # Display internal names of all the library's datasheets - corresponds to the the 'File-Library Properties' menu in SyncroSim
 (librarySheetNames = datasheet(myLibrary, summary=T))
 
-# Modify library datasheet to include input spatial files in backups
-sheetName = "SSim_Backup"
-sheetData = datasheet(myLibrary, name=sheetName)                            # Get the current backup settings for the library
-sheetData = addRow(sheetData, data.frame(IncludeInput=T, IncludeOutput=F))  # Add a new row to this dataframe
-saveDatasheet(myLibrary, data=sheetData, name=sheetName)                    # Save the new dataframe back to the library
-(datasheet(myLibrary, sheetName)) 
 # Backup the library before making changes
 backup(myLibrary)
 
@@ -130,20 +124,20 @@ saveDatasheet(myScenario, sheetData, sheetName)
 # States
 sheetName = "STSim_DeterministicTransition"
 sheetData = datasheet(myScenario, sheetName , optional=T, empty=T)
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Coniferous:All",AgeMin=21,Location="C1"))
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All",Location="A1"))
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Mixed:All",AgeMin=11,Location="B1"))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Coniferous",StateClassIDDest="Coniferous",AgeMin=21,Location="C1"))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Deciduous",StateClassIDDest="Deciduous",Location="A1"))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Mixed",StateClassIDDest="Mixed",AgeMin=11,Location="B1"))
 saveDatasheet(myScenario, sheetData, sheetName)
 
 # Probabilistic Transitions
 sheetName = "STSim_Transition"
 sheetData = datasheet(myScenario, sheetName , optional=T, empty=T)
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All", TransitionTypeID="Fire",Probability=0.01))
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Coniferous:All",StateClassIDDest="Deciduous:All", TransitionTypeID="Harvest",Probability=1,AgeMin=40))
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Deciduous:All", TransitionTypeID="Fire",Probability=0.002))
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Deciduous:All",StateClassIDDest="Mixed:All", TransitionTypeID="Succession",Probability=0.1,AgeMin=10))
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Deciduous:All", TransitionTypeID="Fire",Probability=0.005))
-sheetData = addRow(sheetData, data.frame(StateClassIDSource="Mixed:All",StateClassIDDest="Coniferous:All", TransitionTypeID="Succession",Probability=0.1,AgeMin=20))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Coniferous",StateClassIDDest="Deciduous", TransitionTypeID="Fire",Probability=0.01))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Coniferous",StateClassIDDest="Deciduous", TransitionTypeID="Harvest",Probability=1,AgeMin=40))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Deciduous",StateClassIDDest="Deciduous", TransitionTypeID="Fire",Probability=0.002))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Deciduous",StateClassIDDest="Mixed", TransitionTypeID="Succession",Probability=0.1,AgeMin=10))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Mixed",StateClassIDDest="Deciduous", TransitionTypeID="Fire",Probability=0.005))
+sheetData = addRow(sheetData, data.frame(StateClassIDSource="Mixed",StateClassIDDest="Coniferous", TransitionTypeID="Succession",Probability=0.1,AgeMin=20))
 saveDatasheet(myScenario, sheetData, sheetName)
 
 # There are two options for setting initial conditions: either spatial or non-spatial
@@ -181,7 +175,7 @@ saveDatasheet(myScenario, sheetData, sheetName)
 datasheet(myScenario, sheetName)
 
 sheetName = "STSim_InitialConditionsNonSpatialDistribution"
-sheetData = data.frame(StratumID="Entire Forest", StateClassID="Coniferous:All", RelativeAmount=1)
+sheetData = data.frame(StratumID="Entire Forest", StateClassID="Coniferous", RelativeAmount=1)
 saveDatasheet(myScenario, sheetData, sheetName)
 datasheet(myScenario, sheetName)
 
