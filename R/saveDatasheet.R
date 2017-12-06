@@ -51,6 +51,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     if(class(x)=="Scenario"){append=F}else{append=T}
   }
   
+  args <- list()
   sheetNames = .datasheets(x)
   
   #Note - cannot handle a list of named vectors, only a list of dataframes.
@@ -277,7 +278,10 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
           args[["pid"]]=.projectId(x)
           args=c(args,list(append=NULL))
         }
-        if(scope=="scenario"){args[["sid"]]=.scenarioId(x)}
+        if(scope=="scenario"){
+          args[["sid"]]=.scenarioId(x)
+          if (append) args=c(args,list(append=NULL))
+        }
         tt=command(args,.session(x))
       }
       if(tt[[1]]=="saved"){unlink(tempFile)}
