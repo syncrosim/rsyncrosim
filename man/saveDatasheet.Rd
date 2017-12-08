@@ -8,13 +8,16 @@
 \title{Save datasheet(s)}
 \usage{
 saveDatasheet(ssimObject, data, name = NULL, append = NULL,
-  forceElements = F, force = F)
+  forceElements = F, force = F, breakpoint = F, import = T,
+  path = NULL)
 
 \S4method{saveDatasheet}{character}(ssimObject, data, name = NULL,
-  append = NULL, forceElements = F, force = F)
+  append = NULL, forceElements = F, force = F, breakpoint = F,
+  import = T, path = NULL)
 
 \S4method{saveDatasheet}{SsimObject}(ssimObject, data, name = NULL,
-  append = NULL, forceElements = F, force = F)
+  append = NULL, forceElements = F, force = F, breakpoint = F,
+  import = T, path = NULL)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
@@ -28,6 +31,12 @@ saveDatasheet(ssimObject, data, name = NULL, append = NULL,
 \item{forceElements}{logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list.}
 
 \item{force}{logical. If datasheet scope is project/library, and append=F, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=T.}
+
+\item{breakpoint}{Set to TRUE when modifying datasheets in a breakpoint function.}
+
+\item{import}{logical. Set to TRUE to import the data after saving.}
+
+\item{path}{character.  An optional output path.}
 }
 \value{
 A success or failure message, or a list of these.
