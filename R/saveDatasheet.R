@@ -255,7 +255,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       if(breakpoint){
         pathBit = paste0(.filepath(x),'.temp/Data')
       }else{
-        pathBit = paste0(dirname(.filepath(x)),'/Temp')
+        pathBit = .tempfilepath(x)
       }
     } else {
         pathBit = path
@@ -263,7 +263,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     
     dir.create(pathBit, showWarnings = FALSE,recursive=T)
     tempFile = paste0(pathBit,"/",cName,".csv")
-    
+
     write.csv(cDat,file=tempFile,row.names=F,quote=T)
     if(breakpoint){
       out[[cName]] = "Saved"

@@ -166,8 +166,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     return(sumInfo)
   }
   
-  dir.create(paste0(dirname(.filepath(x)),"/Temp"), showWarnings = FALSE)
-  
+  dir.create(.tempfilepath(x), showWarnings = FALSE, recursive = T)
   outSheetList = list()
   for(kk in seq(length.out=length(allNames))){
     name=allNames[kk]
@@ -192,8 +191,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     }
     
     useConsole=F
-    tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
-    
+    tempFile = paste0(.tempfilepath(x), "/", name, ".csv")
     if(!empty){
       #Only query database if output or multiple scenarios/project or complex sql
       useConsole = (!sheetNames$isOutput)
@@ -307,7 +305,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
           con = DBI::dbConnect(drv,.filepath(x))
           #console export can't handle multiple scenarios/projects - so query database directly
         }else{
-          tempFile = paste0(dirname(.filepath(x)),"/Temp/",name,".csv")
+          tempFile = paste0(.tempfilepath(x), "/", name, ".csv")
           args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheetsonly=NULL,force=NULL,includepk=NULL)
           if(sheetNames$scope=="project"){args[["pid"]]=pid}
           if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}

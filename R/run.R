@@ -188,7 +188,10 @@ setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObjec
     }
 
     #Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
-    parallelCluster = parallel::makeCluster(jobs,outfile=paste0(dirname(filepath(x@scenario)),"/parallelLog.txt"))
+    LogFileName = paste0(dirname(filepath(x@scenario)), "/parallelLog.txt")
+    if (file.exists(LogFileName)) file.remove(LogFileName)
+
+    parallelCluster = parallel::makeCluster(jobs,outfile=LogFileName)
     parallel::clusterEvalQ(parallelCluster, library(rsyncrosim))
 
     #TO DO: catch error messages properly in parallel processing...

@@ -25,6 +25,8 @@ NULL
 # @export
 .filepath=filepath
 # @export
+.tempfilepath=tempfilepath
+# @export
 .session=session
 # @export
 .project = project
