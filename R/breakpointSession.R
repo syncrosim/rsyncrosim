@@ -13,11 +13,11 @@ NULL
 #' @name BreakpointSession-class
 #' @rdname BreakpointSession-class
 #' @export BreakpointSession
-BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character"))
+BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character",isMPJob="logical"))
 # @name Scenario
 # @rdname Scenario-class
 setMethod(f='initialize',signature="BreakpointSession",
-          definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T){
+          definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
 
   location = filepath(session(scenario)) #guaranteed to be valid
 
@@ -29,12 +29,13 @@ setMethod(f='initialize',signature="BreakpointSession",
   .Object@connection = connection(ipAddress,port)
   .Object@scenario = scenario
   .Object@name = name
+  .Object@isMPJob = isMPJob
 
   return(.Object)
 })
 #' @export
-breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T){
-  return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer))
+breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
+  return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer,isMPJob))
 }
 
 #' Get or set a socket connection.
@@ -126,6 +127,7 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   dataDir = paste0(.filepath(cResult),'.temp/Data')
   if(file.exists(dataDir)){
     msg = 'execute-command --name=data-ready'
+    if (x@isMPJob) msg = paste(msg, "--isMPJob", collapse = " ")
     tt=remoteCall(x,msg)
     if(tt!="NONE"){
       stop("Something is wrong: ",tt)
@@ -161,7 +163,7 @@ runJobParallel<- function(cPars) {
         stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
       }
       cScn@breakpoints = cPars$breaks
-      sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T)
+      sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T,isMPJob=T)
       if(!exists("sess")){
         stop("Problem creating breakpoint session.")
       }
