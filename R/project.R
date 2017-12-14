@@ -139,6 +139,7 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' @param ssimObject SsimLibrary/Scenario or character. An ssimObject containing a filepath to a library, or a filepath.
 #' @param project Character, integer, or vector of these. Names or ids of one or more projects. Note that integer ids are slightly faster.
 #' @param sourceProject Character, integer, or Project object. If not NULL, new projects will be copies of the sourceProject.
+#' @param create Logical. If TRUE the project will be created if it does not exist.  If FALSE (default) an error will occur if the project does not exist.
 #' @param summary Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.
 #' @param forceElements Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.
 #' @return A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.
@@ -165,7 +166,7 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' @name project
 # @rdname Project-class
 #' @export
-project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F){
+project <- function(ssimObject,project=NULL,sourceProject=NULL,create=F,summary=NULL,forceElements=F){
     
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
@@ -202,6 +203,9 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   xProjScn  =.getFromXProjScn(ssimObject,project=project,scenario=NULL,convertObject=convertObject,returnIds=returnIds,goal="project",complainIfMissing=F)
   
   if(class(xProjScn)=="Project"){
+    if (create){
+      stop(paste0("Cannot overwrite existing project: ",project)) 
+    }
     return(xProjScn)
   }
 
@@ -249,8 +253,14 @@ project <- function(ssimObject,project=NULL,sourceProject=NULL,summary=NULL,forc
   for(i in seq(length.out=nrow(projectsToMake))){
     cRow = projectsToMake[i,]
     if(!is.na(cRow$exists)){
+      if (create){
+        stop(paste0("Cannot overwrite existing project: ",cRow$name)) 
+      }
       projectList[[as.character(projectsToMake$projectId[i])]]=new("Project",ssimObject,id=cRow$projectId,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
     }else{
+      if (!create){
+        stop("Set create=T to create new projects.") 
+      }  
       obj=new("Project",ssimObject,name=cRow$name,projects=subset(allProjects,!is.na(exists)),sourceProject=sourceProject)
       projectList[[as.character(.projectId(obj))]]=obj
     }
