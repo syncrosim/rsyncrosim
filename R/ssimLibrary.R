@@ -6,7 +6,7 @@ NULL
 # @name SsimLibrary
 # @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
-    definition=function(.Object,name=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F,create=T){
+    definition=function(.Object,name=NULL,create=F,model=NULL,session=NULL,addon=NULL,forceUpdate=F){
     #if a syncrosim session is not provided, make one
     enabled=NULL
     if(is.null(session)){
@@ -36,10 +36,9 @@ setMethod(f='initialize',signature="SsimLibrary",
     }else{path=name}
     if(!grepl(".ssim",path)) path=paste0(path,".ssim")
 
-    #if library does not exist on disk, create it
-    if(!file.exists(path)){
-      if(!create){
-        stop(paste0("Library not found: ",path))
+    if (create) {
+      if (file.exists(path)) {
+        stop(paste0("Cannot overwrite existing library: ",path)) 
       }
       if(is.null(model)){
         stop('Specify a model for the new library.')
@@ -50,11 +49,14 @@ setMethod(f='initialize',signature="SsimLibrary",
       if(!exists("modelOptions")){
         modelOptions = model(session)
       }
-
       args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$name==model])
       cStatus = command(args,session)
       if(cStatus[1]!="saved"){
         stop("Problem creating library: ",tt[1])
+      }
+    } else {
+    if (!file.exists(path)) {
+      stop(paste0("Library not found: ", path))
       }
     }
 
@@ -111,7 +113,6 @@ setMethod(f='initialize',signature="SsimLibrary",
       addon=setdiff(addon,cAdds$name,fixed=T)
 
       for(i in seq(length.out=length(addon))){
-        #i=1
         tt = command(list(create=NULL,addon=NULL,lib=path,name=addon[i]),session)
         if(tt[[1]]!="saved"){
           stop("Problem with addon ",addon[i],": ",tt[[1]])
@@ -126,17 +127,17 @@ setMethod(f='initialize',signature="SsimLibrary",
   }
 )
 
-setGeneric('.ssimLibrary', function(name = NULL, model = NULL, session = NULL, addon = NULL, forceUpdate = F, create = F) standardGeneric('.ssimLibrary'))
+setGeneric('.ssimLibrary', function(name=NULL,create=F,model=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('.ssimLibrary'))
 
-setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,model,session,addon,forceUpdate,create) {
-  return(new("SsimLibrary",name,model,session,addon,forceUpdate,create))
+setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,create,model,session,addon,forceUpdate) {
+  return(new("SsimLibrary",name,create,model,session,addon,forceUpdate))
 })
 
-setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,session,addon,forceUpdate,create) {
+setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,model,session,addon,forceUpdate) {
   if(class(name)=="SsimLibrary"){
     out=name
   }else{
-    out = .ssimLibrary(name=.filepath(name),session=.session(name),create=F)
+    out = .ssimLibrary(name=.filepath(name),create,session=.session(name))
   }
   return(out)
 })
@@ -157,6 +158,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,sess
 #'   \item {If given a name and a model: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 #' }
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject. Optional.
+#' @param create Logical. If TRUE the library will be created if it does not exist.  If FALSE (default) an error will occur if the library does not exist.
 #' @param summary logical. Default T
 #' @param model Character. The model type. If NULL, defaultModel(session()) will be used.
 #' @param session Session. If NULL, session() will be used.
@@ -194,15 +196,15 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,model,sess
 #' myProject = project(myLibrary,project="a project")
 #' myLibrary = ssimLibrary(myProject)
 #' @export
-setGeneric('ssimLibrary',function(name=NULL,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
+setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary,model,session,addon,forceUpdate) {
+setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summary,model,session,addon,forceUpdate) {
   if(class(name)=="SsimLibrary"){
     out=name
     if(is.null(summary)){summary=T}
   }else{
-    out = .ssimLibrary(name=.filepath(name),session=.session(name),create=F)
+    out = .ssimLibrary(name=.filepath(name),create,session=.session(name))
     if(is.null(summary)){summary=F}
   }
   if(!summary){
@@ -212,14 +214,14 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary,mod
 })
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,summary=NULL,model,session,addon,forceUpdate) {
+setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,create,summary=NULL,model,session,addon,forceUpdate) {
             
     if(is.null(session)){session=.session()}
     if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
       return(SyncroSimNotFound())
     }
             
-    newLib = new("SsimLibrary",name,model,session,addon,forceUpdate,create=T)
+    newLib = new("SsimLibrary",name,create,model,session,addon,forceUpdate)
     if(!is.null(summary)&&summary){
       return(info(newLib))
     }
