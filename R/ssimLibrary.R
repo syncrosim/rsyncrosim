@@ -18,8 +18,9 @@ setMethod(f='initialize',signature="SsimLibrary",
 
     inName = name
     inModel=model
+    
     if(is.null(name)){
-      name="SsimLibrary.ssim"
+      stop("A library name is required.")
     }
           
     if(is.null(model)){
@@ -157,7 +158,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,mod
 #'   \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type model in the current working directory.}
 #'   \item {If given a name and a model: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
 #' }
-#' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject. Optional.
+#' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
 #' @param create Logical. If TRUE the library will be created if it does not exist.  If FALSE (default) an error will occur if the library does not exist.
 #' @param summary logical. Default T
 #' @param model Character. The model type. If NULL, defaultModel(session()) will be used.
