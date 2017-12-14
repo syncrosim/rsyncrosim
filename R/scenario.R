@@ -138,6 +138,7 @@ setMethod(f='initialize',signature="Scenario",
 #' @param ssimObject SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.
 #' @param scenario Character, integer, or vector of these. Names or ids of one or more scenarios. Note integer ids are slightly faster.
 #' @param sourceScenario Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.
+#' @param create Logical. If TRUE the scenario will be created if it does not exist.  If FALSE (default) an error will occur if the scenario does not exist.
 #' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.
 #' @param results Logical. If TRUE only return result scenarios.
 #' @param overwrite Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.
@@ -152,7 +153,7 @@ setMethod(f='initialize',signature="Scenario",
 #' @name scenario
 # @rdname Scenario-class
 #' @export
-scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,overwrite=F,forceElements=F){
+scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,overwrite=F,forceElements=F){
   
   if(is.character(ssimObject)&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
@@ -190,6 +191,9 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   xProjScn  =.getFromXProjScn(ssimObject,project=NULL,scenario=scenario,convertObject=convertObject,returnIds=returnIds,goal="scenario",complainIfMissing=F)
   
   if(class(xProjScn)=="Scenario"){
+    if (create){
+      stop(paste0("Cannot overwrite existing scenario: ",project)) 
+    }
     return(xProjScn)
   }
   
@@ -253,7 +257,6 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   scnsToMake = subset(scnSet,!is.na(order))
   if(overwrite){
     for (i in seq(length.out=nrow(scnsToMake))){
-      #i=1
       if(is.na(scnsToMake$exists[i])){
         next
       }
@@ -276,12 +279,16 @@ scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,summary=NULL,r
   scnsToMake=scnsToMake[order(scnsToMake$order),]
   scnList = list()
   for(i in seq(length.out=nrow(scnsToMake))){
-    #i = 1
     cRow = scnsToMake[i,]
     if(!is.na(cRow$exists)){
+      if (create){
+        stop(paste0("Cannot overwrite existing scenario: ",cRow$name)) 
+      }
       scnList[[as.character(scnsToMake$scenarioId[i])]]=new("Scenario",ssimObject,project=cRow$projectId,id=cRow$scenarioId,scenarios=cRow)
-      
     }else{
+      if (!create){
+        stop("Set create=T to create new scenarios.") 
+      }  
       obj=new("Scenario",ssimObject,project=cRow$projectId,name=cRow$name,sourceScenario=sourceScenario,scenarios=libScns)
       scnList[[as.character(.scenarioId(obj))]]=obj
     }
