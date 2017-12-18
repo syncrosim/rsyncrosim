@@ -1,7 +1,7 @@
-# ********************************************
+# *************************************************************
 # rsyncrosim-demo.R - Demonstration of the rsyncrosim package (using the SyncroSim ST-Sim module)
 # 
-# **********************************************************
+# *************************************************************
 
 # *************************************************************
 # File/Package Setup
@@ -18,6 +18,13 @@ ageTif = system.file("extdata", "initial-age.tif", package = "rsyncrosim")
 # Set the name of the folder into which you installed SyncroSim  (i.e. this folder should contain the file SyncroSim.Console.exe)
 programFolder = "/home/<username>/syncrosim/"
 
+# Set the library name
+libraryName = "/home/<username>/syncrosim/Demonstration Library.ssim"
+
+if (file.exists(libraryName)){
+  file.remove(libraryName)
+}
+
 # *************************************************************
 # Start Session & Create Library
 # *************************************************************
@@ -26,15 +33,13 @@ programFolder = "/home/<username>/syncrosim/"
 mySession = session(programFolder)
 module(mySession)     # Corresponds to the 'Add-Ons' tab under the 'File-Library Properties' menu in SyncroSim
 
-
 # Add the ST-Sim module to this session (& then check that it is now loaded)
 stsimPackageFilename = paste(programFolder, "Packages/stsim.ssimpkg", sep="/")
 addModule(stsimPackageFilename, mySession)
 module(mySession)
 
-# Create a new ST-Sim library in the current working directory (or load it if it already exists)
-getwd()
-myLibrary = ssimLibrary(name="Demonstration Library", model="stsim", session=mySession)
+# Create a new ST-Sim library in the current working directory
+myLibrary = ssimLibrary(name=libraryName, model="stsim", session=mySession, create=T)
 
 # Note that you can be helful to have this library open in the SyncroSim user interface at the same time you are modifying the library in R.
 # This way, by periodically invoking the 'File-Refresh All Libraries' menu in SyncroSim, you can then see the latest changes you made in R
@@ -49,8 +54,8 @@ backup(myLibrary)
 # Create Project
 # *************************************************************
 
-# Create a new SyncroSim project (or open it if it already exists)
-myProject = project(myLibrary, project="Simple forest landscape")
+# Create a new SyncroSim project
+myProject = project(myLibrary, project="Simple forest landscape", create=T)
 
 # Display internal names of all the project's datasheets
 (projectSheetNames=datasheet(myProject, summary=T, optional=F))
@@ -108,8 +113,8 @@ saveDatasheet(myProject, data.frame(MaximumAge=ageGroups), "STSim_AgeGroup", for
 # Create Scenarios
 # *************************************************************
 
-# Create/open a SyncroSim "No Harvest" scenario
-myScenario = scenario(myProject, "No Harvest")
+# Create a SyncroSim "No Harvest" scenario
+myScenario = scenario(myProject, "No Harvest", create=T)
 
 # Display the internal names of all the scenario datasheets - these correspond to the 'Scenario-Properties' menu in SyncroSim (when a Scenario is selected)
 (scenarioSheetNames=subset(datasheet(myScenario, summary=T), scope=="scenario"))
@@ -192,7 +197,7 @@ sheetData = data.frame(SummaryOutputSC=T, SummaryOutputSCTimesteps=1,
 saveDatasheet(myScenario, sheetData, "STSim_OutputOptions")
 
 # Create a second "Harvest" scenario that is a copy of the first scenario, but with a harvest level of 20 acres/timestep
-myScenarioHarvest = scenario(myProject, scenario="Harvest", sourceScenario=myScenario)
+myScenarioHarvest = scenario(myProject, scenario="Harvest", sourceScenario=myScenario, create=T)
 saveDatasheet(myScenarioHarvest, data.frame(TransitionGroupID="Harvest", Amount=20), "STSim_TransitionTarget")
 
 # Show the harvest levels for both scenarios

@@ -166,10 +166,16 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' @name project
 # @rdname Project-class
 #' @export
-project <- function(ssimObject,project=NULL,sourceProject=NULL,create=F,summary=NULL,forceElements=F){
+project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,summary=NULL,forceElements=F){
     
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
+  }
+  
+  if (is.null(ssimObject)){
+    e = ssimEnvironment()
+    ssimObject = ssimLibrary(e$LibraryFilePath)
+    project=as.integer(e$ProjectId)
   }
   
   #if ssimObject is a scenario or project, return the project

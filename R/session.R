@@ -76,25 +76,31 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
       return(SyncroSimNotFound(warn=F))
     }
   } else {
-      if (.Platform$OS.type == "windows") {
+      e = ssimEnvironment()
+      path = e$ProgramDirectory
 
-          envVars = Sys.getenv(c("PROGRAMFILES", "PROGRAMFILES(X86)"), names = F)
-          envVars = envVars[envVars != ""]
+      if (is.na(path) || !dir.exists(path)){
+        
+        if (.Platform$OS.type == "windows") {
+            envVars = Sys.getenv(c("PROGRAMFILES", "PROGRAMFILES(X86)"), names = F)
+            envVars = envVars[envVars != ""]
+  
+            for (i in seq(length.out = length(envVars))) {
+                cPath = paste0(envVars[i], "\\SyncroSim")
+                if (file.exists(paste0(cPath, "\\SyncroSim.Console.exe"))) {
+                    path = cPath;
+                    break
+                }
+            }
+        }
+        else {
+          path = Sys.which("SyncroSim.Console.exe")        
+      }
 
-          for (i in seq(length.out = length(envVars))) {
-              cPath = paste0(envVars[i], "\\SyncroSim")
-              if (file.exists(paste0(cPath, "\\SyncroSim.Console.exe"))) {
-                  path = cPath;
-                  break
-              }
-          }
-      }
-      else {
-        path = Sys.which("SyncroSim.Console.exe")
-	  if (path == ""){
-	    path=NULL
-	  }
-      }
+  	  if (!dir.exists(path)){
+  	    path=NULL
+  	  }
+    }
   }
 
   if(is.null(path)){

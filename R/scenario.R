@@ -153,10 +153,16 @@ setMethod(f='initialize',signature="Scenario",
 #' @name scenario
 # @rdname Scenario-class
 #' @export
-scenario <- function(ssimObject,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,overwrite=F,forceElements=F){
+scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,overwrite=F,forceElements=F){
   
   if(is.character(ssimObject)&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
+  }
+  
+  if (is.null(ssimObject)){
+    e = ssimEnvironment()
+    ssimObject = ssimLibrary(e$LibraryFilePath)
+    scenario=as.integer(e$ScenarioId)
   }
   
   isResult=NULL

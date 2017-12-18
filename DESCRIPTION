@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim: http://syncrosim.com/
-Version: 1.0.1
+Version: 1.0.3
 Author: ApexRMS <rsyncrosim@apexrms.com>
 Maintainer: ApexRMS <rsyncrosim@apexrms.com>
 Description: rsyncrosim provides an interface to SyncroSim, a generalized
@@ -70,6 +70,7 @@ Collate:
     'runLog.R'
     'saveDatasheet.R'
     'silent.R'
+    'ssimEnvironment.R'
     'ssimUpdate.R'
     'version.R'
 RoxygenNote: 6.0.1

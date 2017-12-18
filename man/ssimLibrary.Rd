@@ -7,17 +7,21 @@
 \alias{ssimLibrary,missingOrNULLOrChar-method}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(name = NULL, summary = NULL, model = NULL, session = NULL,
-  addon = NULL, forceUpdate = F)
+ssimLibrary(name = NULL, create = F, summary = NULL, model = NULL,
+  session = NULL, addon = NULL, forceUpdate = F)
 
-\S4method{ssimLibrary}{SsimObject}(name = NULL, summary = NULL,
-  model = NULL, session = NULL, addon = NULL, forceUpdate = F)
+\S4method{ssimLibrary}{SsimObject}(name = NULL, create = F,
+  summary = NULL, model = NULL, session = NULL, addon = NULL,
+  forceUpdate = F)
 
-\S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, summary = NULL,
-  model = NULL, session = NULL, addon = NULL, forceUpdate = F)
+\S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, create = F,
+  summary = NULL, model = NULL, session = NULL, addon = NULL,
+  forceUpdate = F)
 }
 \arguments{
-\item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject. Optional.}
+\item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.}
+
+\item{create}{Logical. If TRUE the library will be created if it does not exist.  If FALSE (default) an error will occur if the library does not exist.}
 
 \item{summary}{logical. Default T}
 

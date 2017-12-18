@@ -4,8 +4,9 @@
 \alias{scenario}
 \title{Create or open a scenario or scenarios.}
 \usage{
-scenario(ssimObject, scenario = NULL, sourceScenario = NULL,
-  summary = NULL, results = F, overwrite = F, forceElements = F)
+scenario(ssimObject = NULL, scenario = NULL, sourceScenario = NULL,
+  create = F, summary = NULL, results = F, overwrite = F,
+  forceElements = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.}
@@ -13,6 +14,8 @@ scenario(ssimObject, scenario = NULL, sourceScenario = NULL,
 \item{scenario}{Character, integer, or vector of these. Names or ids of one or more scenarios. Note integer ids are slightly faster.}
 
 \item{sourceScenario}{Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.}
+
+\item{create}{Logical. If TRUE the scenario will be created if it does not exist.  If FALSE (default) an error will occur if the scenario does not exist.}
 
 \item{summary}{Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.}
 

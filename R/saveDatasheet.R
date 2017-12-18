@@ -54,6 +54,14 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
   args <- list()
   sheetNames = .datasheets(x)
   
+  if (is.null(path)){
+    e = ssimEnvironment()
+    if (!is.na(e$TransferDirectory)){
+      import = F
+      path = e$TransferDirectory
+    }
+  }
+  
   #Note - cannot handle a list of named vectors, only a list of dataframes.
   if((class(data)!="list")|(class(data[[1]])!="data.frame")){
     if(is.null(name)){

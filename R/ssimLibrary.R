@@ -19,6 +19,11 @@ setMethod(f='initialize',signature="SsimLibrary",
     inName = name
     inModel=model
     
+    if (is.null(name)){
+      e = ssimEnvironment()
+      name = e$LibraryFilePath
+    }
+    
     if(is.null(name)){
       stop("A library name is required.")
     }
