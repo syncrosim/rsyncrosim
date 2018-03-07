@@ -3,21 +3,22 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#These are class and function definitions to support breakpoints
+Breakpoint <- setClass("Breakpoint",representation(arguments="character",breakpointName="character",name="character",transformerName="character",callback="function"))
+setMethod(f='initialize',signature="Breakpoint",definition=function(.Object,breakpointName,transformerName,arguments,callback,name="Main"){
+  .Object@breakpointName = breakpointName
+  .Object@transformerName = transformerName
+  .Object@arguments = paste(arguments,collapse=",")
+  .Object@callback = callback
+  .Object@name = name
+  return(.Object)
+})
 
-#' BreakpointSession class
-#'
-#' @slot scenario A SyncroSim scenario
-#' @slot connection A socket connection to the SyncroSim server.
-#' @slot name A name
-#' @name BreakpointSession-class
-#' @rdname BreakpointSession-class
-#' @export BreakpointSession
+breakpoint<-function(breakpointName,transformerName,arguments,callback,name="Main"){
+  return(new("Breakpoint",breakpointName,transformerName,arguments,callback,name))
+}
+
 BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character",isMPJob="logical"))
-# @name Scenario
-# @rdname Scenario-class
-setMethod(f='initialize',signature="BreakpointSession",
-          definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
+setMethod(f='initialize',signature="BreakpointSession", definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
 
   location = filepath(session(scenario)) #guaranteed to be valid
 
@@ -33,18 +34,12 @@ setMethod(f='initialize',signature="BreakpointSession",
 
   return(.Object)
 })
-#' @export
+
 breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
   return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer,isMPJob))
 }
 
-#' Get or set a socket connection.
-#'
-#' @param x An ipAddress or BreakpointSession object. If NULL a default ip will be used.
-#' @param port For new connections only - a port number.
-#' @export
 setGeneric('connection',function(x,...) standardGeneric('connection'))
-#' @describeIn connection Get a new connection.
 setMethod('connection',signature(x="missingOrNULLOrChar"), function(x='127.0.0.1',port=13000) {
   ipAddress = x
   con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=4)
@@ -54,9 +49,7 @@ setMethod('connection',signature(x="missingOrNULLOrChar"), function(x='127.0.0.1
   return(con)
 })
 
-#' @export
 setGeneric('connection<-',function(x,value) standardGeneric('connection<-'))
-#' @describeIn connection Get the connection of a BreakpointSession.
 setMethod('connection', signature(x="BreakpointSession"), function(x) return(x@connection))
 setReplaceMethod(
   f='connection',
@@ -70,7 +63,6 @@ setReplaceMethod(
   }
 )
 
-#' @export
 setGeneric('remoteCall',function(x,message,getResponse=T) standardGeneric('remoteCall'))
 setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getResponse) {
 
@@ -93,7 +85,6 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
 
       cmd=strsplit(res,"|",fixed=T)[[1]][1]
       if(cmd=='breakpoint-hit'){
-        #TO DO: move this to onBreakpointHit function?
         split = strsplit(res,"|",fixed=T)[[1]]
         tt = onBreakpointHit(x,split)
         tt=writeLines('breakpoint-continue',connection(x),sep="")
@@ -114,13 +105,12 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
   return(ret)
 })
 
-#' @export
 setGeneric('onBreakpointHit',function(x,split) standardGeneric('onBreakpointHit'))
 setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
-  cBreak = x@scenario@breakpoints[[split[2]]]
-  #TO DO: consider ways to speed up scenario construction here.
-  cResult = scenario(.project(x@scenario),scenario=as.numeric(split[4]))
   
+  bpkey = paste0(split[[2]], ":", split[[3]])
+  cBreak = x@scenario@breakpoints[[bpkey]]
+  cResult = scenario(.project(x@scenario),scenario=as.numeric(split[4]))
   cBreak@callback(cResult,iteration=as.numeric(split[5]),timestep=as.numeric(split[6]))
 
   #load modified data if availabl
@@ -137,25 +127,20 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   NULL
 })
 
-#' @export
 setGeneric('setBreakpoints',function(x) standardGeneric('setBreakpoints'))
 setMethod('setBreakpoints',signature(x="BreakpointSession"),function(x) {
 
-  cBreaks = .breakpoints(x@scenario)
+  cBreaks = x@scenario@breakpoints
   if(length(cBreaks)==0){stop("Expecting breakpoints")}
   ret =list()
   for(i in 1:length(cBreaks)){
-    #i = 1
     cBreak = cBreaks[[i]]
     msg = paste0('set-breakpoint --name=',cBreak@breakpointName,' --trx=',cBreak@transformerName,' --granularity=',cBreak@arguments)
-
     ret[[names(cBreaks)[i]]] = remoteCall(x,msg)
   }
   return(ret)
 })
 
-#' @export
-# The single argument function for parallel
 runJobParallel<- function(cPars) {
     ret = tryCatch({
       cScn = scenario(.ssimLibrary(cPars$x,session=cPars$session,create=F),scenario=1)
@@ -189,43 +174,123 @@ runJobParallel<- function(cPars) {
     })
 }
 
-#' Set breakpoint of a Scenario.
+getBPNameLongForm <- function(breakpointType){
+  
+  types = list(bi = 'stime:break-before-iteration',
+               ai = 'stime:break-after-iteration',
+               bt = 'stime:break-before-timestep',
+               at = 'stime:break-after-timestep')
+  
+  if(!is.element(breakpointType,names(types))){
+    return (NULL)
+  }
+  
+  return (types[[breakpointType]])
+}
+
+#' Set a Scenario breakpoint.
 #'
-#' Add a Breakpoint object to breakpoints of a Scenario.
+#' When the Scenario is run the breakpoint's callback function will be called for the specified iterations or timesteps.  
 #'
 #' @param x A SyncroSim Scenario
-#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: aftertimestep
-#' @param transformerName 'stsim:core-transformer' or?
+#' @param transformerName A Stochastic Time Transformer (e.g. stsim:runtime)
+#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep
 #' @param arguments A vector of timesteps or iterations e.g. c(1,2)
-#' @param callback The function to apply. See STSimBreakpointsTutorial.R for details.
-#' @return An SyncroSim Scenario object containing breakpoints
+#' @param callback A function to be called when the breakpoint is hit
+#' @return A SyncroSim Scenario with an updated list of breakpoints
+#' @examples
+#' 
+#' callbackFunction <- function(x, iteration, timestep) {
+#'   print(paste0('Breakpoint hit: ', scenarioId(x)))
+#' }
+#' 
+#' myScenario = setBreakpoint(myScenario, "stsim:runtime", "bi", callbackFunction)
+#' @details Breakpoints are only supported for Stochastic Time Transformers.
 #' @export
-setGeneric('setBreakpoint',function(x,breakpointType,transformerName,arguments,callback) standardGeneric('setBreakpoint'))
-setMethod('setBreakpoint',signature(x="Scenario"),function(x,breakpointType,transformerName,arguments,callback) {
+setGeneric('setBreakpoint',function(x,transformerName,breakpointType,arguments,callback) standardGeneric('setBreakpoint'))
+setMethod('setBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType,arguments,callback) {
 
-    types = list(bi = 'stime:break-before-iteration',
-                 ai = 'stime:break-after-iteration',
-                 bt = 'stime:break-before-timestep',
-                 at = 'stime:break-after-timestep')
+    breakpointName = getBPNameLongForm(breakpointType)
     
-    if(!is.element(breakpointType,names(types))){
+    if(is.null(breakpointName)){
       stop("breakpointType not recognized: ",breakpointType)
     }
-    breakpointName = types[[breakpointType]]
-    if(is.element(breakpointName,names(breakpoints(x)))){
+    
+    breakpointKey = paste0(breakpointName, ":", transformerName)
+    
+    if(is.element(breakpointKey,names(x@breakpoints))){
       warning('Resetting breakpoint for: ', breakpointName,' -> ',transformerName)
     }
-    x@breakpoints[[breakpointName]] = breakpoint(breakpointName,transformerName,arguments,callback)
+    
+    x@breakpoints[[breakpointKey]] = breakpoint(breakpointName,transformerName,arguments,callback)
     return(x)
   })
 
-#' The breakpoints of a Scenario
+#' Deletes a Scenario breakpoint.
 #'
-#' The breakpoints of a Scenario
-#' @param x A Scenario object.
-#' @return A list of Breakpoint objects.
+#' This function will delete a Scenario breakpoint.
+#'
+#' @param x A SyncroSim Scenario
+#' @param transformerName A Stochastic Time Transformer (e.g. stsim:runtime).  Optional.
+#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
+#' @return A SyncroSim Scenario with an updated list of breakpoints
+#' @examples
+#' myScenario = deleteBreakpoint(myScenario)
+#' myScenario = deleteBreakpoint(myScenario, transformerName="stsim:runtime")
 #' @export
-setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
-setMethod('breakpoints', signature(x="Scenario"), function(x) {
-  return(x@breakpoints)
+setGeneric('deleteBreakpoint',function(x,transformerName=NULL,breakpointType=NULL) standardGeneric('deleteBreakpoint'))
+setMethod('deleteBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType) {
+  
+  if (length(x@breakpoints) == 0){
+    return(x)
+  }
+  
+  none = (is.null(transformerName) && is.null(breakpointType))
+  both = (!is.null(transformerName) && !is.null(breakpointType))
+  tname = transformerName
+  bname = NULL
+  
+  if (!is.null(breakpointType)){
+    bname =getBPNameLongForm(breakpointType) 
+  }
+  
+  if (none){
+    x@breakpoints = list()
+  }else if (both){
+    x@breakpoints <- Filter(function(i) all(i@transformerName!=tname || i@breakpointName!=bname), x@breakpoints)
+  }else if (!is.null(bname)){
+    x@breakpoints <- Filter(function(i) all(i@breakpointName!=bname), x@breakpoints)   
+  }else{
+    x@breakpoints <- Filter(function(i) all(i@transformerName!=tname), x@breakpoints)
+  }
+  
+  return(x)
+})
+
+#' Lists the breakpoints for a Scenario.
+#'
+#' Lists the breakpoints for a Scenario.
+#'
+#' @param x A SyncroSim Scenario
+#' @export
+setGeneric('listBreakpoints',function(x) standardGeneric('listBreakpoints'))
+setMethod('listBreakpoints',signature(x="Scenario"),function(x) {
+  
+  len = length(x@breakpoints)
+  
+  if (len > 0){
+    
+    for (i in 1:len){
+      
+      bp = x@breakpoints[[i]]
+      
+      cat(paste0("Transfomer name: ", bp@transformerName, "\n"))      
+      cat(paste0("Breakpoint name: ", bp@breakpointName, "\n"))
+      cat(paste0("Arguments:       ", bp@arguments, "\n"))
+      
+      if (i < len){
+        cat("\n")
+      } 
+    }
+  }
 })

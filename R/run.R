@@ -56,7 +56,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
     print(paste0("Running scenario [",cScn,"] ",name))
 
     if (class(ssimObject)=="Scenario") {
-        breakpoints = breakpoints(ssimObject)
+        breakpoints = ssimObject@breakpoints
         xsim = ssimObject
         xsim@breakpoints = breakpoints
     }else{

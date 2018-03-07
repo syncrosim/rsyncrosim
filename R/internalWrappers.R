@@ -44,9 +44,5 @@ NULL
 .subset=subset
 # @export
 .sqlStatement=sqlStatement
-# @export
-.breakpoints=breakpoints
-# @export
-.breakpoint=breakpoint
 
 
