@@ -20,9 +20,8 @@ NULL
 #' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=F.
 #' @return Output from the SyncroSim program.
 #' @examples
-#' # Use a default session to creat a new library in the current working directory.
-#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),
-#'   model="stsim")
+#' #Use a default session to creat a new library in the current working directory.
+#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="stsim")
 #' output = command(args,session=session(printCmd=T))
 #' output
 #' 

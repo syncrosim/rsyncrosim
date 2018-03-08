@@ -304,8 +304,7 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
     if((length(scnList)==1)&!forceElements){
       scnList=scnList[[1]]
     }
-    return(scnList)
-    
+    return(scnList)  
   }
   
   scnSetOut=getScnSet(ssimObject)
@@ -320,6 +319,3 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
   scnSetOut$order=NULL
   return(scnSetOut)
 } 
-
-
-

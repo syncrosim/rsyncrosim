@@ -20,9 +20,8 @@ breakpoint<-function(breakpointName,transformerName,arguments,callback,name="Mai
 BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character",isMPJob="logical"))
 setMethod(f='initialize',signature="BreakpointSession", definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
 
-  location = filepath(session(scenario)) #guaranteed to be valid
+  location = filepath(session(scenario))
 
-  #start the server
   if(startServer){
     args = list(ipaddress=ipAddress,port=port,quiet=quiet)
     tt = command(args,.session(scenario),program="SyncroSim.Server.exe",wait=F)
@@ -113,7 +112,7 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   cResult = scenario(.project(x@scenario),scenario=as.numeric(split[4]))
   cBreak@callback(cResult,iteration=as.numeric(split[5]),timestep=as.numeric(split[6]))
 
-  #load modified data if availabl
+  #Tell the breaking transformer to load any new data
   dataDir = paste0(.filepath(cResult),'.temp/Data')
   if(file.exists(dataDir)){
     msg = 'execute-command --name=data-ready'
@@ -273,8 +272,8 @@ setMethod('deleteBreakpoint',signature(x="Scenario"),function(x,transformerName,
 #'
 #' @param x A SyncroSim Scenario
 #' @export
-setGeneric('listBreakpoints',function(x) standardGeneric('listBreakpoints'))
-setMethod('listBreakpoints',signature(x="Scenario"),function(x) {
+setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
+setMethod('breakpoints',signature(x="Scenario"),function(x) {
   
   len = length(x@breakpoints)
   
