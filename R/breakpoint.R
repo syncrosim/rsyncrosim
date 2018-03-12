@@ -13,7 +13,7 @@ setMethod(f='initialize',signature="Breakpoint",definition=function(.Object,brea
   return(.Object)
 })
 
-breakpoint<-function(breakpointName,transformerName,arguments,callback,name="Main"){
+new_breakpoint<-function(breakpointName,transformerName,arguments,callback,name="Main"){
   return(new("Breakpoint",breakpointName,transformerName,arguments,callback,name))
 }
 
@@ -221,24 +221,24 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,transformerName,bre
       warning('Resetting breakpoint for: ', breakpointName,' -> ',transformerName)
     }
     
-    x@breakpoints[[breakpointKey]] = breakpoint(breakpointName,transformerName,arguments,callback)
+    x@breakpoints[[breakpointKey]] = new_breakpoint(breakpointName,transformerName,arguments,callback)
     return(x)
   })
 
-#' Deletes a Scenario breakpoint.
+#' Clear a Scenario breakpoint.
 #'
-#' This function will delete a Scenario breakpoint.
+#' This function will clear a Scenario breakpoint.
 #'
 #' @param x A SyncroSim Scenario
 #' @param transformerName A Stochastic Time Transformer (e.g. stsim:runtime).  Optional.
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
 #' @return A SyncroSim Scenario with an updated list of breakpoints
 #' @examples
-#' myScenario = deleteBreakpoint(myScenario)
-#' myScenario = deleteBreakpoint(myScenario, transformerName="stsim:runtime")
+#' myScenario = clearBreakpoint(myScenario)                                    #Clears all breakpoints
+#' myScenario = clearBreakpoint(myScenario, transformerName="stsim:runtime")   #Clears breakpoints for stsim:runtime
 #' @export
-setGeneric('deleteBreakpoint',function(x,transformerName=NULL,breakpointType=NULL) standardGeneric('deleteBreakpoint'))
-setMethod('deleteBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType) {
+setGeneric('clearBreakpoint',function(x,transformerName=NULL,breakpointType=NULL) standardGeneric('clearBreakpoint'))
+setMethod('clearBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType) {
   
   if (length(x@breakpoints) == 0){
     return(x)
@@ -250,7 +250,10 @@ setMethod('deleteBreakpoint',signature(x="Scenario"),function(x,transformerName,
   bname = NULL
   
   if (!is.null(breakpointType)){
-    bname =getBPNameLongForm(breakpointType) 
+    bname =getBPNameLongForm(breakpointType)
+    if(is.null(bname)){
+      stop("breakpointType not recognized: ",breakpointType)
+    }
   }
   
   if (none){
@@ -272,8 +275,8 @@ setMethod('deleteBreakpoint',signature(x="Scenario"),function(x,transformerName,
 #'
 #' @param x A SyncroSim Scenario
 #' @export
-setGeneric('breakpoints',function(x) standardGeneric('breakpoints'))
-setMethod('breakpoints',signature(x="Scenario"),function(x) {
+setGeneric('breakpoint',function(x) standardGeneric('breakpoint'))
+setMethod('breakpoint',signature(x="Scenario"),function(x) {
   
   len = length(x@breakpoints)
   
