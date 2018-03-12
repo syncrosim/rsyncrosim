@@ -30,9 +30,8 @@ Example args, and the resulting character string passed to the SyncroSim console
 }
 }
 \examples{
-# Use a default session to creat a new library in the current working directory.
-args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),
-  model="stsim")
+#Use a default session to creat a new library in the current working directory.
+args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="stsim")
 output = command(args,session=session(printCmd=T))
 output
 

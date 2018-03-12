@@ -13,25 +13,11 @@
 \describe{
 \item{\code{session}}{The SyncroSim Session.}
 
-\item{\code{filepath}}{The path to the library on disk.}
+\item{\code{filepath}}{The path to the Library on disk.}
 
-\item{\code{datasheetNames}}{The names and scope of all datasheets in the library. Used to speed calculations.}
+\item{\code{datasheetNames}}{The name and scope of all datasheets in the Library.}
 }}
 
-\examples{
-#TODO - update examples
-# Create or load and query a SyncroSim Library.
-myLibrary = ssimLibrary()
-session(myLibrary)
-filepath(myLibrary)
-info(myLibrary)
-
-# Add or load a project, then get the SyncroSim Library associated with that Project
-myProject = project(myLibrary,project="a project")
-
-myLibrary = ssimLibrary(myProject)
-
-}
 \seealso{
-See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
+See \code{\link{ssimLibrary}} for options when creating or loading a SyncroSim Library.
 }

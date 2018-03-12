@@ -9,31 +9,11 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 
 #' SyncroSim Session class
 #'
-#' A SyncroSim Session object contains a link to SyncroSim.
-#' \code{SsimLibrary}, \code{Project} and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
-#'
-#' @examples
+#' A SyncroSim Session object contains a link to a SyncroSim installation.  \code{SsimLibrary}, \code{Project} 
+#' and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
 #' 
-#' #Create a library using a default Session and model
-#' myLib = ssimLibrary(name="mylib", create=T)
-#' session(myLib)
-#' 
-#' #Create a library using a non-default Session
-#' mySession = session("C:/Downloads/SyncroSim")
-#' myLib = ssimLibrary(name="mylib",session=mySession, create=T)
-#' session(myLib)
-#'
-#' filepath(mySession)  # Lists the folder location of syncrosim session
-#' version(mySession)   # Lists the version of syncrosim session
-#' module(mySession)    # Dataframe of the modules installed with this version of syncrosim.
-#' model(mySession)     # Dataframe of the models installed with this version of syncrosim.
-#'
-#' #Add and remove modules
-#' deleteModule("stsim-stockflow",mySession) 
-#' pkgDir ="C:/Program Files/SyncroSim/Packages/" 
-#' addModule(paste0(pkgDir,"stsim-stockflow.ssimpkg"),mySession)
-#'
-#' @slot filepath The path to SyncroSim
+#' @seealso See \code{\link{session}} for options when creating a Session.
+#' @slot filepath The path to the SyncroSim installation.
 #' @slot silent If FALSE, all SyncroSim output with non-zero exit status is printed. Helpful for debugging. Default=TRUE.
 #' @slot printCmd If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. Default=FALSE.
 #' @slot defaultModel The name of a SyncroSim model type. "stsim" by default.
@@ -46,29 +26,18 @@ Session <- setClass("Session", representation(filepath="character",silent="logic
 # SsimLibrary, Project and Scenario all inherit from this abstract class
 # 
 # @slot session The SyncroSim Session.
-# @slot filepath The path to the library on disk.
-# @slot datasheetNames The names and scope of all datasheets in the library. Used to speed calculations.
+# @slot filepath The path to the Library on disk.
+# @slot datasheetNames The names and scope of all datasheets in the Library. Used to speed calculations.
 SsimObject <- setClass("SsimObject", representation(session="Session",filepath="character",datasheetNames="data.frame"))
 
 #' SyncroSim Library class
 #'
 #' \code{SsimLibrary} object representing a SyncroSim Library.
 #'
-#' @seealso See \code{\link{ssimLibrary}} for options when creating or loading an SyncroSim library.
-#' @examples
-#' #Create or load and query a SyncroSim Library.
-#' myLibrary = ssimLibrary()
-#' session(myLibrary)
-#' filepath(myLibrary)
-#' info(myLibrary)
-#'
-#' #Add or load a project, then get the SyncroSim Library associated with that Project
-#' myProject = project(myLibrary,project="a project")
-#' myLibrary = ssimLibrary(myProject)
-#'
+#' @seealso See \code{\link{ssimLibrary}} for options when creating or loading a SyncroSim Library.
 #' @slot session The SyncroSim Session.
-#' @slot filepath The path to the library on disk.
-#' @slot datasheetNames The names and scope of all datasheets in the library. Used to speed calculations.
+#' @slot filepath The path to the Library on disk.
+#' @slot datasheetNames The name and scope of all datasheets in the Library.
 #' @name SsimLibrary-class
 #' @rdname SsimLibrary-class
 #' @export SsimLibrary
@@ -76,12 +45,12 @@ SsimLibrary <- setClass("SsimLibrary", contains="SsimObject", representation())
 
 #' SyncroSim Scenario class
 #'
-#' \code{Scenario} object representing a SyncroSim Project.
+#' \code{Scenario} object representing a SyncroSim Scnario.
 #'
-#' @seealso See \code{\link{scenario}} for options when creating or loading an SyncroSim Scenario.
-#' @slot session The session associated with the library.
-#' @slot filepath The path to the library on disk.
-#' @slot datasheetNames Names and scope of all datasheets in library.
+#' @seealso See \code{\link{scenario}} for options when creating or loading a SyncroSim Scenario.
+#' @slot session The Session associated with the Scenario.
+#' @slot filepath The path to the Scenario's Library on disk.
+#' @slot datasheetNames Names and scope of all datasheets in Scenario's Library.
 #' @slot projectId The project id.
 #' @slot scenarioId The scenario id.
 #' @slot parentId For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.
@@ -95,11 +64,11 @@ Scenario <- setClass("Scenario", contains = "SsimObject", representation(project
 #'
 #' \code{Project} object representing a SyncroSim Project.
 #'
-#' @seealso See \code{\link{project}} for options when creating or loading an SyncroSim Project.
-#' @slot session The session associated with the library.
-#' @slot filepath The path to the library on disk.
-#' @slot datasheetNames Names and scopes of datasheets in the library.
-#' @slot projectId The project id
+#' @seealso See \code{\link{project}} for options when creating or loading a SyncroSim Project.
+#' @slot session The Session associated with the Project's Library.
+#' @slot filepath The path to the Project's Library on disk.
+#' @slot datasheetNames Names and scopes of datasheets in the Project's Library
+#' @slot projectId The Project id
 #' @name Project-class
 #' @rdname Project-class
 #' @export Project
