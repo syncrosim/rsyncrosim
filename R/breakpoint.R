@@ -17,6 +17,7 @@ new_breakpoint<-function(breakpointName,transformerName,arguments,callback,name=
   return(new("Breakpoint",breakpointName,transformerName,arguments,callback,name))
 }
 
+setOldClass("sockconn")
 BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character",isMPJob="logical"))
 setMethod(f='initialize',signature="BreakpointSession", definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
 
@@ -187,7 +188,7 @@ getBPNameLongForm <- function(breakpointType){
   return (types[[breakpointType]])
 }
 
-#' Set a Scenario breakpoint.
+#' Add a Scenario breakpoint.
 #'
 #' When the Scenario is run the breakpoint's callback function will be called for the specified iterations or timesteps.  
 #'
@@ -203,11 +204,11 @@ getBPNameLongForm <- function(breakpointType){
 #'   print(paste0('Breakpoint hit: ', scenarioId(x)))
 #' }
 #' 
-#' myScenario = setBreakpoint(myScenario, "stsim:runtime", "bi", callbackFunction)
+#' myScenario = addBreakpoint(myScenario, "stsim:runtime", "bi", callbackFunction)
 #' @details Breakpoints are only supported for Stochastic Time Transformers.
 #' @export
-setGeneric('setBreakpoint',function(x,transformerName,breakpointType,arguments,callback) standardGeneric('setBreakpoint'))
-setMethod('setBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType,arguments,callback) {
+setGeneric('addBreakpoint',function(x,transformerName,breakpointType,arguments,callback) standardGeneric('addBreakpoint'))
+setMethod('addBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType,arguments,callback) {
 
     breakpointName = getBPNameLongForm(breakpointType)
     
@@ -225,20 +226,20 @@ setMethod('setBreakpoint',signature(x="Scenario"),function(x,transformerName,bre
     return(x)
   })
 
-#' Clear a Scenario breakpoint.
+#' Delete a Scenario breakpoint.
 #'
-#' This function will clear a Scenario breakpoint.
+#' This function will delete a Scenario breakpoint.
 #'
 #' @param x A SyncroSim Scenario
 #' @param transformerName A Stochastic Time Transformer (e.g. stsim:runtime).  Optional.
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
 #' @return A SyncroSim Scenario with an updated list of breakpoints
 #' @examples
-#' myScenario = clearBreakpoint(myScenario)                                    #Clears all breakpoints
-#' myScenario = clearBreakpoint(myScenario, transformerName="stsim:runtime")   #Clears breakpoints for stsim:runtime
+#' myScenario = clearBreakpoint(myScenario)                                    #Deletes all breakpoints
+#' myScenario = clearBreakpoint(myScenario, transformerName="stsim:runtime")   #Deletes breakpoints for stsim:runtime
 #' @export
-setGeneric('clearBreakpoint',function(x,transformerName=NULL,breakpointType=NULL) standardGeneric('clearBreakpoint'))
-setMethod('clearBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType) {
+setGeneric('deleteBreakpoint',function(x,transformerName=NULL,breakpointType=NULL) standardGeneric('deleteBreakpoint'))
+setMethod('deleteBreakpoint',signature(x="Scenario"),function(x,transformerName,breakpointType) {
   
   if (length(x@breakpoints) == 0){
     return(x)
