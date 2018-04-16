@@ -185,7 +185,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         for(kk in seq(length.out=nrow(sheetInfo))){
           cCol = sheetInfo$name[kk]
           for(ll in seq(length.out=nrow(cDat))){
-            if(basename(cDat[[cCol]][ll])==cDat[[cCol]][ll]){
+            if(!is.na(cDat[[cCol]][ll])&&(basename(cDat[[cCol]][ll])==cDat[[cCol]][ll])){
               cDat[[cCol]][ll] = paste0(getwd(),"/",cDat[[cCol]][ll])
               if(!file.exists(cDat[[cCol]][ll])){
                 stop("File ", cDat[[cCol]][ll]," not found.")
