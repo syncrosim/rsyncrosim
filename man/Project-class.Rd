@@ -11,15 +11,15 @@
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The session associated with the library.}
+\item{\code{session}}{The Session associated with the Project's Library.}
 
-\item{\code{filepath}}{The path to the library on disk.}
+\item{\code{filepath}}{The path to the Project's Library on disk.}
 
-\item{\code{datasheetNames}}{Names and scopes of datasheets in the library.}
+\item{\code{datasheetNames}}{Names and scopes of datasheets in the Project's Library}
 
-\item{\code{projectId}}{The project id}
+\item{\code{projectId}}{The Project id}
 }}
 \seealso{
-See \code{\link{project}} for options when creating or loading an SyncroSim Project.
+See \code{\link{project}} for options when creating or loading a SyncroSim Project.
 }
 
