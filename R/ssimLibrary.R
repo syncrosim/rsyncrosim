@@ -58,11 +58,11 @@ setMethod(f='initialize',signature="SsimLibrary",
       args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$name==model])
       cStatus = command(args,session)
       if(cStatus[1]!="saved"){
-        stop("Problem creating library: ",tt[1])
+        stop("Problem creating library: ",cStatus[1])
       }
     } else {
     if (!file.exists(path)) {
-      stop(paste0("Library not found: ", path))
+      stop(paste0("Library not found: ", path,". Set create=T to make a new library."))
       }
     }
 
