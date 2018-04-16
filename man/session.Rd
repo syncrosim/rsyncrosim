@@ -3,8 +3,8 @@
 \docType{methods}
 \name{session}
 \alias{session}
-\alias{session,SsimObject-method}
 \alias{session,missingOrNULLOrChar-method}
+\alias{session,SsimObject-method}
 \title{Start or get a SyncroSim session.}
 \usage{
 session(x = NULL, silent = T, printCmd = F, defaultModel = "stsim")
@@ -25,27 +25,23 @@ session(x = NULL, silent = T, printCmd = F, defaultModel = "stsim")
 \item{defaultModel}{Character. Applies only if x is a path or NULL. The name of a SyncroSim model type. "stsim" by default.}
 }
 \value{
-A SyncroSim Session object.
+An SyncroSim Session object containing a valid console path.
 }
 \description{
 Methods to create a Syncrosim session or fetch one from a SsimLibrary, Project or Scenario object.
 }
 \examples{
-#Create a library using a default Session and model
-myLib = ssimLibrary(name="mylib", create=T)
+# Look for SyncroSim in the usual places
+mySession = session()
+path(mySession)
 
-#Create a library using a non-default Session
-mySession = session("C:/Downloads/SyncroSim")
-myLib = ssimLibrary(name="mylib",session=mySession, create=T)
+# Specify a SyncroSim version
+mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
 
-filepath(mySession)  # Lists the folder location of syncrosim session
-version(mySession)   # Lists the version of syncrosim session
-module(mySession)    # Dataframe of the modules installed with this version of syncrosim.
-model(mySession)     # Dataframe of the models installed with this version of syncrosim.
+# Get the session from an SsimLibrary
+myLib = ssimLibrary(name="stsim")
+session(myLib)
 
-#Add and remove modules
-deleteModule("stsim-stockflow",mySession) 
-pkgDir ="C:/Program Files/SyncroSim/Packages/" 
-addModule(paste0(pkgDir,"stsim-stockflow.ssimpkg"),mySession)
+# Assign a session to a SyncroSim library
+session(myLib)=session()
 }
-

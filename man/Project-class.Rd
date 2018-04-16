@@ -2,8 +2,8 @@
 % Please edit documentation in R/AAAClassDefinitions.R
 \docType{class}
 \name{Project-class}
-\alias{Project}
 \alias{Project-class}
+\alias{Project}
 \title{SyncroSim Project class}
 \description{
 \code{Project} object representing a SyncroSim Project.
@@ -11,15 +11,15 @@
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The Session associated with the Project's Library.}
+\item{\code{session}}{The session associated with the library.}
 
-\item{\code{filepath}}{The path to the Project's Library on disk.}
+\item{\code{filepath}}{The path to the library on disk.}
 
-\item{\code{datasheetNames}}{Names and scopes of datasheets in the Project's Library}
+\item{\code{datasheetNames}}{Names and scopes of datasheets in the library.}
 
-\item{\code{projectId}}{The Project id}
+\item{\code{projectId}}{The project id}
 }}
-\seealso{
-See \code{\link{project}} for options when creating or loading a SyncroSim Project.
-}
 
+\seealso{
+See \code{\link{project}} for options when creating or loading an SyncroSim Project.
+}

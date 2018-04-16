@@ -3,8 +3,8 @@
 \docType{methods}
 \name{deleteModule}
 \alias{deleteModule}
-\alias{deleteModule,ANY,Session-method}
 \alias{deleteModule,ANY,missingOrNULLOrChar-method}
+\alias{deleteModule,ANY,Session-method}
 \title{Delete module or modules}
 \usage{
 deleteModule(name, session = NULL, force = F)
@@ -30,4 +30,3 @@ Note that removing a module can be difficult to undo.
 To restore the module the user will need to provide a .ssimpkg file or reinstall SyncroSim.
 Thus, deleteModule() requires confirmation from the user.
 }
-

@@ -2,50 +2,24 @@
 % Please edit documentation in R/AAAClassDefinitions.R
 \docType{class}
 \name{Session-class}
-\alias{Session}
 \alias{Session-class}
+\alias{Session}
 \title{SyncroSim Session class}
 \description{
-A SyncroSim Session object contains a link to a SyncroSim installation.  \code{SsimLibrary}, \code{Project} 
-and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
+A SyncroSim Session object contains a link to SyncroSim.
+\code{SsimLibrary}, \code{Project} and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{filepath}}{The path to the SyncroSim installation.}
+\item{\code{filepath}}{The path to SyncroSim}
 
 \item{\code{silent}}{If FALSE, all SyncroSim output with non-zero exit status is printed. Helpful for debugging. Default=TRUE.}
 
-\item{\code{printCmd}}{If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. Default=FALSE.}
+\item{\code{printCmd}}{If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.}
 
 \item{\code{defaultModel}}{The name of a SyncroSim model type. "stsim" by default.}
 }}
-<<<<<<< HEAD
-\examples{
-#TODO - update examples
-# Create or load a library using a non-default Session
-mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-myLib = ssimLibrary(name="stsim",session=mySession)
-session(myLib)
-
-showMethods(class="Session",where=loadNamespace("rsyncrosim")) #Methods for the Session
-filepath(mySession)   # Lists the folder location of syncrosim session
-version(mySession)   # Lists the version of syncrosim session
-module(mySession)   # Dataframe of the modules installed with this version of syncrosim.
-model(mySession) # Dataframe of the models installed with this version of syncrosim.
-
-# Add and remove modules
-#deleteModule("stsim-stock-flow",mySession) 
-#is.element("stsim-stock-flow",modules(mySsim)$shortName)
-#pkgDir ="C:/Program Files/SyncroSim/1/CorePackages/" 
-#addModule(paste0(pkgDir,"stockflow.ssimpkg"),mySession)
-#addModule(paste0(pkgDir,c("stockflow.ssimpkg","dynmult.ssimpkg"),mySession)
-#is.element("stsim-stock-flow",modules(mySsim)$shortName)
-
-# Create or load a library using a default Session
-myLib = ssimLibrary(name="stsim")
-session(myLib)
-||||||| merged common ancestors
 
 \examples{
 #TODO - update examples
@@ -71,10 +45,4 @@ model(mySession) # Dataframe of the models installed with this version of syncro
 # Create or load a library using a default Session
 myLib = ssimLibrary(name="stsim")
 session(myLib)
-=======
-
-\seealso{
-See \code{\link{session}} for options when creating a Session.
->>>>>>> ca16fc4b3ec3b292b67f4eda8481627a2c390a4f
 }
-

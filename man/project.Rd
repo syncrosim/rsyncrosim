@@ -36,20 +36,23 @@ For each element of project:
 }
 }
 \examples{
-#Load a Library and create a new Project
+#TODO - update examples
+# Create a new project
 myLibrary = ssimLibrary(name="stsim")
-myProject = project(ssimLibrary=myLibrary, project="My new project name")
+myProject = project(ssimLibrary=mySsimLibrary, project="My new project name")
 
-#Get a named list of existing Projects.  Each element in the list is named by a character version of the Project ID.
+# Get a named list of existing projects
 myProjects = project(myLibrary,summary=F) 
+# Each element in the list is named by a character version of the project ID
 names(myProjects)   # vector of the project ids
 
-#Get an existing Project. 
+# Get an existing project. 
+# Assume that name uniquely identifies a single project - give error if not
 myProject = myProjects[[1]]
 myProject = project(myLibrary, project="My new project name")
 
-#Get/set the project properties
+# Get/set the project properties - for now we can only set the name
 name(myProject)
-name(myProject) = "New project name"
+name(myProject) = "New project name" #  - committed to db immediately
+ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
 }
-

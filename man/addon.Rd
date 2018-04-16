@@ -3,10 +3,10 @@
 \docType{methods}
 \name{addon}
 \alias{addon}
-\alias{addon,Session-method}
-\alias{addon,SsimObject-method}
 \alias{addon,character-method}
 \alias{addon,missingOrNULL-method}
+\alias{addon,Session-method}
+\alias{addon,SsimObject-method}
 \title{addon(s) of an SsimLibrary or Session}
 \usage{
 addon(ssimObject)
@@ -32,5 +32,5 @@ The addon(s) of an SsimLibrary or Session.
 \dontrun{
 addon(ssimLibrary(name="stsim"))
 }
+#test change #2
 }
-

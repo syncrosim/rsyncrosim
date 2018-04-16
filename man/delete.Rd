@@ -3,8 +3,8 @@
 \docType{methods}
 \name{delete}
 \alias{delete}
-\alias{delete,SsimObject-method}
 \alias{delete,character-method}
+\alias{delete,SsimObject-method}
 \title{Delete library, project, scenario, datasheet}
 \usage{
 delete(ssimObject, project = NULL, scenario = NULL, datasheet = NULL,
@@ -42,4 +42,3 @@ removeProject(myLibrary,project="a project")
 project(myLibrary)
 
 }
-

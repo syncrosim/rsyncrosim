@@ -3,8 +3,8 @@
 \docType{methods}
 \name{ssimUpdate}
 \alias{ssimUpdate}
-\alias{ssimUpdate,SsimObject-method}
 \alias{ssimUpdate,character-method}
+\alias{ssimUpdate,SsimObject-method}
 \title{Apply updates.}
 \usage{
 ssimUpdate(ssimObject)
@@ -22,4 +22,3 @@ ssimUpdate(ssimObject)
 \description{
 Apply updates to a SyncroSim Library,or a Project or Scenario associated with a Library.
 }
-

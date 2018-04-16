@@ -2,30 +2,28 @@
 % Please edit documentation in R/AAAClassDefinitions.R
 \docType{class}
 \name{Scenario-class}
-\alias{Scenario}
 \alias{Scenario-class}
+\alias{Scenario}
 \title{SyncroSim Scenario class}
 \description{
-\code{Scenario} object representing a SyncroSim Scnario.
+\code{Scenario} object representing a SyncroSim Project.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The Session associated with the Scenario.}
+\item{\code{session}}{The session associated with the library.}
 
-\item{\code{filepath}}{The path to the Scenario's Library on disk.}
+\item{\code{filepath}}{The path to the library on disk.}
 
-\item{\code{datasheetNames}}{Names and scope of all datasheets in Scenario's Library.}
+\item{\code{datasheetNames}}{Names and scope of all datasheets in library.}
 
 \item{\code{projectId}}{The project id.}
 
 \item{\code{scenarioId}}{The scenario id.}
 
 \item{\code{parentId}}{For a result scenario, this is the id of the parent scenario. 0 indicates this is not a result scenario.}
-
-\item{\code{breakpoints}}{An (optional) list of Breakpoint objects.}
 }}
-\seealso{
-See \code{\link{scenario}} for options when creating or loading a SyncroSim Scenario.
-}
 
+\seealso{
+See \code{\link{scenario}} for options when creating or loading an SyncroSim Scenario.
+}

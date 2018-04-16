@@ -3,8 +3,8 @@
 \docType{methods}
 \name{connection}
 \alias{connection}
-\alias{connection,BreakpointSession-method}
 \alias{connection,missingOrNULLOrChar-method}
+\alias{connection,BreakpointSession-method}
 \title{Get or set a socket connection.}
 \usage{
 connection(x, ...)

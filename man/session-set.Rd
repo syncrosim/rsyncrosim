@@ -3,8 +3,8 @@
 \docType{methods}
 \name{session<-}
 \alias{session<-}
-\alias{session<-,SsimObject-method}
 \alias{session<-,character-method}
+\alias{session<-,SsimObject-method}
 \title{Set a SyncroSim session.}
 \usage{
 session(ssimObject) <- value
@@ -33,4 +33,3 @@ myLibrary = ssimLibrary()
 session(myLibrary)=session()
 session(myLibrary)
 }
-

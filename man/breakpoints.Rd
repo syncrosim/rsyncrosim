@@ -15,4 +15,3 @@ A list of Breakpoint objects.
 \description{
 The breakpoints of a Scenario
 }
-
