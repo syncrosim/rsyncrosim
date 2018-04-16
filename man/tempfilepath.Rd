@@ -3,9 +3,9 @@
 \docType{methods}
 \name{tempfilepath}
 \alias{tempfilepath}
-\alias{tempfilepath,character-method}
 \alias{tempfilepath,Session-method}
 \alias{tempfilepath,SsimObject-method}
+\alias{tempfilepath,character-method}
 \title{The temporary file path to a SyncroSim object on disk}
 \usage{
 tempfilepath(ssimObject)
@@ -22,3 +22,4 @@ tempfilepath(ssimObject)
 \description{
 The temporary file path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 }
+

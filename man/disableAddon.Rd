@@ -3,8 +3,8 @@
 \docType{methods}
 \name{disableAddon}
 \alias{disableAddon}
-\alias{disableAddon,character-method}
 \alias{disableAddon,SsimLibrary-method}
+\alias{disableAddon,character-method}
 \title{Disable addon or addons.}
 \usage{
 disableAddon(ssimLibrary, name)
@@ -33,3 +33,4 @@ disableAddon(myLibrary,c("stsim-ecological-departure"))
 addon(myLibrary)
 
 }
+

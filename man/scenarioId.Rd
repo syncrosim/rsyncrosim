@@ -3,8 +3,8 @@
 \docType{methods}
 \name{scenarioId}
 \alias{scenarioId}
-\alias{scenarioId,character-method}
 \alias{scenarioId,Scenario-method}
+\alias{scenarioId,character-method}
 \title{The scenarioId of a scenario.}
 \usage{
 scenarioId(scenario)
@@ -22,3 +22,4 @@ integer id.
 \description{
 The scenarioId of a Scenario.
 }
+

@@ -18,3 +18,4 @@ addModule(filename, session = NULL)
 \description{
 Add module or modules to SyncroSim
 }
+

@@ -2,8 +2,8 @@
 % Please edit documentation in R/breakpointSession.R
 \docType{class}
 \name{BreakpointSession-class}
-\alias{BreakpointSession-class}
 \alias{BreakpointSession}
+\alias{BreakpointSession-class}
 \title{BreakpointSession class}
 \description{
 BreakpointSession class

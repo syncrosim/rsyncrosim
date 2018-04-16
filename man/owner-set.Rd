@@ -3,8 +3,8 @@
 \docType{methods}
 \name{owner<-}
 \alias{owner<-}
-\alias{owner<-,character-method}
 \alias{owner<-,SsimObject-method}
+\alias{owner<-,character-method}
 \title{Set the owner of an SsimLibrary/Project/Scenario.}
 \usage{
 owner(ssimObject) <- value
@@ -21,3 +21,4 @@ owner(ssimObject) <- value
 \description{
 Set the owner of an SsimLibrary/Project/Scenario.
 }
+

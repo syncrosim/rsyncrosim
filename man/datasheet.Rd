@@ -3,9 +3,9 @@
 \docType{methods}
 \name{datasheet}
 \alias{datasheet}
-\alias{datasheet,list-method}
-\alias{datasheet,character-method}
 \alias{datasheet,SsimObject-method}
+\alias{datasheet,character-method}
+\alias{datasheet,list-method}
 \title{Get a datasheet}
 \usage{
 datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
@@ -72,3 +72,4 @@ Otherwise, for each element in name a datasheet is returned as follows:
   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 }
 }
+

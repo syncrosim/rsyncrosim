@@ -22,3 +22,4 @@ logical.
 \description{
 Get printCmd setting of a Session object.
 }
+

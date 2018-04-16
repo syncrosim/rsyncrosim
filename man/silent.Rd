@@ -22,3 +22,4 @@ logical.
 \description{
 Checks whether a SyncroSim Session is silent or not.
 }
+

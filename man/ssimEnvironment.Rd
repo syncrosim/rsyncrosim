@@ -12,3 +12,4 @@ a data.frame of SyncroSim specific environment variables.
 \description{
 Retrieves SyncroSim specific environment variables.
 }
+

@@ -3,8 +3,8 @@
 \docType{methods}
 \name{readOnly<-}
 \alias{readOnly<-}
-\alias{readOnly<-,character-method}
 \alias{readOnly<-,SsimObject-method}
+\alias{readOnly<-,character-method}
 \title{Set the read/write status of an SsimLibrary/Project/Scenario.}
 \usage{
 readOnly(ssimObject) <- value
@@ -22,3 +22,4 @@ readOnly(ssimObject) <- value
 Set the read-only status of an SsimLibrary/Project/Scenario. 
 Applies to child objects if ssimObject is an SsimLibrary or Project.
 }
+

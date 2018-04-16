@@ -56,3 +56,4 @@ name(myProject)
 name(myProject) = "New project name" #  - committed to db immediately
 ssimLibrary(myProject) # Returns a SyncroSimLibrary object for the project
 }
+

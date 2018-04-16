@@ -3,9 +3,9 @@
 \docType{methods}
 \name{projectId}
 \alias{projectId}
-\alias{projectId,character-method}
 \alias{projectId,Project-method}
 \alias{projectId,Scenario-method}
+\alias{projectId,character-method}
 \title{The projectId of a SyncroSim project or scenario.}
 \usage{
 projectId(ssimObject)
@@ -25,3 +25,4 @@ An integer project id.
 \description{
 The projectId of a SyncroSim Project or Scenario.
 }
+

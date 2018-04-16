@@ -3,10 +3,10 @@
 \docType{methods}
 \name{dateModified}
 \alias{dateModified}
-\alias{dateModified,character-method}
-\alias{dateModified,SsimLibrary-method}
 \alias{dateModified,Project-method}
 \alias{dateModified,Scenario-method}
+\alias{dateModified,SsimLibrary-method}
+\alias{dateModified,character-method}
 \title{The last date a SsimLibrary/Project/Scenario was modified.}
 \usage{
 dateModified(ssimObject)
@@ -25,3 +25,4 @@ dateModified(ssimObject)
 \description{
 The most recent modification date of an SsimLibrary/Project/Scenario
 }
+

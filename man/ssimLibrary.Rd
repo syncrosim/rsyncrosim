@@ -77,3 +77,4 @@ myLibrary = ssimLibrary(name="Lib2",session=mySession)
 myProject = project(myLibrary,project="a project")
 myLibrary = ssimLibrary(myProject)
 }
+

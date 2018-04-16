@@ -23,3 +23,4 @@ An SyncroSim Scenario object containing breakpoints
 \description{
 Add a Breakpoint object to breakpoints of a Scenario.
 }
+

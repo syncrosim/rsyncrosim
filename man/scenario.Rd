@@ -49,3 +49,4 @@ myProject = project(myLibrary,project="a project")
 myScenario = scenario(myProject,scenario="a scenario")
 
 }
+

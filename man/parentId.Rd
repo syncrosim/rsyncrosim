@@ -3,8 +3,8 @@
 \docType{methods}
 \name{parentId}
 \alias{parentId}
-\alias{parentId,character-method}
 \alias{parentId,Scenario-method}
+\alias{parentId,character-method}
 \title{The parent scenario id of a SyncroSim Scenario.}
 \usage{
 parentId(scenario)
@@ -23,3 +23,4 @@ An integer id of the parent scenario.
 The id of the parent of a SyncroSim results scenario.
 NA if scenario is not a results scenario.
 }
+

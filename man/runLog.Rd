@@ -3,8 +3,8 @@
 \docType{methods}
 \name{runLog}
 \alias{runLog}
-\alias{runLog,character-method}
 \alias{runLog,Scenario-method}
+\alias{runLog,character-method}
 \title{The runLog of a result Scenario.}
 \usage{
 runLog(scenario)
@@ -22,3 +22,4 @@ Character string of the run log.
 \description{
 The runLog of a result Scenario
 }
+

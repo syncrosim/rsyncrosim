@@ -3,9 +3,9 @@
 \docType{methods}
 \name{defaultModel}
 \alias{defaultModel}
-\alias{defaultModel,character-method}
-\alias{defaultModel,Session-method}
 \alias{defaultModel,NULL-method}
+\alias{defaultModel,Session-method}
+\alias{defaultModel,character-method}
 \title{Get the default model from a Session.}
 \usage{
 defaultModel(session = NULL)
@@ -25,3 +25,4 @@ The default model of a Session.
 \description{
 Get the default model from a Session.
 }
+

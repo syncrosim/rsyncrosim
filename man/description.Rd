@@ -3,8 +3,8 @@
 \docType{methods}
 \name{description}
 \alias{description}
-\alias{description,character-method}
 \alias{description,SsimObject-method}
+\alias{description,character-method}
 \title{Description of an SsimLibrary/Project/Scenario.}
 \usage{
 description(ssimObject)
@@ -19,3 +19,4 @@ description(ssimObject)
 \description{
 The description of an SsimLibrary/ProjectScenario.
 }
+

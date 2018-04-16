@@ -16,3 +16,4 @@ and viewing charts and maps of outputs.
 \details{
 To learn more about rsyncrosim, start with the vignette: TO DO
 }
+

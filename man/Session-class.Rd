@@ -2,8 +2,8 @@
 % Please edit documentation in R/AAAClassDefinitions.R
 \docType{class}
 \name{Session-class}
-\alias{Session-class}
 \alias{Session}
+\alias{Session-class}
 \title{SyncroSim Session class}
 \description{
 A SyncroSim Session object contains a link to SyncroSim.
@@ -20,7 +20,6 @@ A SyncroSim Session object contains a link to SyncroSim.
 
 \item{\code{defaultModel}}{The name of a SyncroSim model type. "stsim" by default.}
 }}
-
 \examples{
 #TODO - update examples
 # Create or load a library using a non-default Session
@@ -46,3 +45,4 @@ model(mySession) # Dataframe of the models installed with this version of syncro
 myLib = ssimLibrary(name="stsim")
 session(myLib)
 }
+

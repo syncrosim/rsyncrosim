@@ -3,8 +3,8 @@
 \docType{methods}
 \name{dependency}
 \alias{dependency}
-\alias{dependency,character-method}
 \alias{dependency,Scenario-method}
+\alias{dependency,character-method}
 \title{Set or remove Scenario dependency(s), or get existing dependencies.}
 \usage{
 dependency(scenario, dependency = NULL, remove = F, force = F)
@@ -38,3 +38,4 @@ Note that the order of dependencies can be important - dependencies added most r
 So, dependencies included in the dependency argument take precedence over any other existing dependencies.
 If the dependency argument includes more than one element, elements are ordered from lowest to highest precedence.
 }
+

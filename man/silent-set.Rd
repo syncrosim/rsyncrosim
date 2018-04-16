@@ -3,8 +3,8 @@
 \docType{methods}
 \name{silent<-}
 \alias{silent<-}
-\alias{silent<-,character-method}
 \alias{silent<-,Session-method}
+\alias{silent<-,character-method}
 \title{Set silent property of a Session}
 \usage{
 silent(session) <- value
@@ -21,3 +21,4 @@ silent(session) <- value
 \description{
 Set silent property of a sessio to TRUE or FALSE
 }
+
