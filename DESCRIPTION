@@ -31,7 +31,6 @@ Collate:
     'addon.R'
     'backup.R'
     'breakpoint.R'
-    'breakpointSession.R'
     'command.R'
     'dataframeFromSSim.R'
     'datasheet.R'

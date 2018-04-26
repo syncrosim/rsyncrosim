@@ -24,7 +24,7 @@ setMethod(f='initialize',signature="SsimLibrary",
       name = e$LibraryFilePath
     }
     
-    if(is.null(name)){
+    if(is.na(name)){
       stop("A library name is required.")
     }
           
@@ -58,11 +58,11 @@ setMethod(f='initialize',signature="SsimLibrary",
       args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$name==model])
       cStatus = command(args,session)
       if(cStatus[1]!="saved"){
-        stop("Problem creating library: ",cStatus[1])
+        stop("Problem creating library: ",tt[1])
       }
     } else {
     if (!file.exists(path)) {
-      stop(paste0("Library not found: ", path,". Set create=T to make a new library."))
+      stop(paste0("Library not found: ", path))
       }
     }
 
@@ -150,7 +150,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,mod
 
 #' Create or open a library.
 #'
-#' Creates or opens an \code{\link{SsimLibrary}} object representing a SyncroSim library.
+#' Creates or opens an \code{\link{SsimLibrary}} object.
 #' If summary = T, returns library summary info. 
 #' If summary = NULL, returns library summary info if ssimObject is an SsimLibrary, SsimLibrary object otherwise.
 #'
@@ -169,38 +169,22 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,mod
 #' @param model Character. The model type. If NULL, defaultModel(session()) will be used.
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See addon() for options.
-# @param backup Logical. If TRUE, a backup copy is made when an existing library is opened.
-# @param backupName Character. Added to a library filepath to create a backup library.
-# @param backupOverwrite Logical. If TRUE, the existing backup of a library (if any) will be overwritten.
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
-#' @return An \code{SsimLibrary} object representing a SyncroSim library.
+#' @return An \code{SsimLibrary} object.
 #' @examples
-#' #TODO - update examples
-#' # See the installed models
-#' model(session())
+#' #Create a library using the default session
+#' myLibrary = ssimLibrary(name="myLib", create=T)
+#' 
+#' #Open a library using the default session
+#' myLibrary = ssimLibrary(name="myLib")
 #'
-#' # Create a library called <model>.ssim in the current working directory.
-#' myLibrary = ssimLibrary()
-#' session(myLibrary) #The SycroSim session
-#' filepath(myLibrary) #Path to the file on disk.
-#' info(myLibrary) #Model type and other library information.
+#' #Create library using a specific session
+#' mySession = session("C:/Downloads/SyncroSim")
+#' myLibrary = ssimLibrary(name="myLib",session=mySession, create=T)
 #'
-#' # Open an existing SyncroSim library in the current working directory - don't make a backup copy.
-#' myLibrary = ssimLibrary()
-#'
-#' # Create a library with a name in the current working directory
-#' mySecondLibrary = ssimLibrary(name="Lib2")
-#'
-#' # Create a library with a name in another directory
-#' myThirdLibrary = ssimLibrary(name=paste0(getwd(),"/Temp/Lib3"))
-#'
-#' # Create or load a library using a specific session
-#' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#' myLibrary = ssimLibrary(name="Lib2",session=mySession)
-#'
-#' # Add a project and get the library associated with that project
-#' myProject = project(myLibrary,project="a project")
-#' myLibrary = ssimLibrary(myProject)
+#' session(myLibrary)
+#' filepath(myLibrary)
+#' info(myLibrary)
 #' @export
 setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
 

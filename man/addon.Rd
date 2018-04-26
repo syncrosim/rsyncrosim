@@ -32,5 +32,4 @@ The addon(s) of an SsimLibrary or Session.
 \dontrun{
 addon(ssimLibrary(name="stsim"))
 }
-#test change #2
 }

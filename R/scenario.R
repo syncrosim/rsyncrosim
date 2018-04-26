@@ -119,7 +119,7 @@ setMethod(f='initialize',signature="Scenario",
   }
 )
 
-#' Create or open a scenario or scenarios.
+#' Create or open one or more Scenarios.
 #'
 #' If summary = FALSE, returns one or more \code{\link{Scenario}} objects representing a SyncroSim scenarios.
 #' If summary = TRUE, returns scenario summary info.
@@ -148,8 +148,7 @@ setMethod(f='initialize',signature="Scenario",
 #' # Create a new scenario
 #' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(myLibrary,project="a project") 
-#' myScenario = scenario(myProject,scenario="a scenario")
-#'
+#' myScenario = scenario(myProject,scenario="a scenario",create=T)
 #' @name scenario
 # @rdname Scenario-class
 #' @export
@@ -304,8 +303,7 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
     if((length(scnList)==1)&!forceElements){
       scnList=scnList[[1]]
     }
-    return(scnList)
-    
+    return(scnList)  
   }
   
   scnSetOut=getScnSet(ssimObject)
@@ -320,6 +318,3 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
   scnSetOut$order=NULL
   return(scnSetOut)
 } 
-
-
-

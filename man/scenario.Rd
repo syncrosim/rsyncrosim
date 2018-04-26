@@ -2,7 +2,7 @@
 % Please edit documentation in R/scenario.R
 \name{scenario}
 \alias{scenario}
-\title{Create or open a scenario or scenarios.}
+\title{Create or open one or more Scenarios.}
 \usage{
 scenario(ssimObject = NULL, scenario = NULL, sourceScenario = NULL,
   create = F, summary = NULL, results = F, overwrite = F,
@@ -46,6 +46,5 @@ For each element of scenario:
 # Create a new scenario
 myLibrary = ssimLibrary(name="stsim")
 myProject = project(myLibrary,project="a project") 
-myScenario = scenario(myProject,scenario="a scenario")
-
+myScenario = scenario(myProject,scenario="a scenario",create=T)
 }

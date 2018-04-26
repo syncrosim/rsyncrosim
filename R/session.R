@@ -45,21 +45,24 @@ setMethod(f = 'initialize', signature = "Session", definition = function(.Object
 #' @param silent Logical. Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
 #' @param printCmd Logical. Applies only if x is a path or NULL. If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.
 #' @param defaultModel Character. Applies only if x is a path or NULL. The name of a SyncroSim model type. "stsim" by default.
-#' @return An SyncroSim Session object containing a valid console path.
+#' @return A SyncroSim Session object.
 #' @examples
-#' # Look for SyncroSim in the usual places
-#' mySession = session()
-#' path(mySession)
+#' #Create a library using a default Session and model
+#' myLib = ssimLibrary(name="mylib", create=T)
+#' 
+#' #Create a library using a non-default Session
+#' mySession = session("C:/Downloads/SyncroSim")
+#' myLib = ssimLibrary(name="mylib",session=mySession, create=T)
+#' 
+#' filepath(mySession)  # Lists the folder location of syncrosim session
+#' version(mySession)   # Lists the version of syncrosim session
+#' module(mySession)    # Dataframe of the modules installed with this version of syncrosim.
+#' model(mySession)     # Dataframe of the models installed with this version of syncrosim.
 #'
-#' # Specify a SyncroSim version
-#' mySession = session("C:/Program Files/SyncroSim/1/SyncroSim.Console.exe")
-#'
-#' # Get the session from an SsimLibrary
-#' myLib = ssimLibrary(name="stsim")
-#' session(myLib)
-#'
-#' # Assign a session to a SyncroSim library
-#' session(myLib)=session()
+#' #Add and remove modules
+#' deleteModule("stsim-stockflow",mySession) 
+#' pkgDir ="C:/Program Files/SyncroSim/Packages/" 
+#' addModule(paste0(pkgDir,"stsim-stockflow.ssimpkg"),mySession)
 #' @export
 setGeneric('session',function(x=NULL,silent=T,printCmd=F,defaultModel="stsim") standardGeneric('session'))
 

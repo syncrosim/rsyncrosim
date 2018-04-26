@@ -13,7 +13,6 @@ NULL
 #' \dontrun{
 #' addon(ssimLibrary(name="stsim"))
 #' }
-#' #test change #2
 #' @export
 setGeneric('addon',function(ssimObject) standardGeneric('addon'))
 #' @rdname addon
