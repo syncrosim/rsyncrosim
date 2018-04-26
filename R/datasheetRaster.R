@@ -233,6 +233,8 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
     cMeta$outName=paste0(cMeta$outName,".b",cMeta$bandColumn)
   }
 
+  cMeta$outName = gsub("ts.ts", "ts", cMeta$outName, fixed = T)
+
   if(nrow(cMeta)==0){
     warning("No raster data to return.")
     return(list())
