@@ -30,6 +30,7 @@ NULL
 # multiband(myResultScenario,action="remove")
 #
 # @export
+if(0){ #Disabled for now
 setGeneric('multiband',function(ssimObject,action,grouping=NULL) standardGeneric('multiband'))
 # @rdname multiband
 setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,action,grouping) {
@@ -49,7 +50,6 @@ setMethod('multiband', signature(ssimObject="Scenario"), function(ssimObject,act
   return(tt[1])
 })
 
-if(0){#Note lists of objects are only supported when there is a reason to need combined output
   setMethod('multiband', signature(ssimObject="list"), function(ssimObject,action,grouping) {
     
     if(class(ssimObject[[1]])!="Scenario"){

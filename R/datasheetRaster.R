@@ -116,7 +116,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
   
   if(nrow(cMeta)==0){
-    multiband(x,action="rebuild")
+    # multiband(x,action="rebuild") Disabled for now
     cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
   }
   tt = command(list(list=NULL,columns=NULL,allprops=NULL,sheet=datasheet,csv=NULL,lib=.filepath(x)),session=.session(x))
@@ -165,7 +165,7 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
           warning(warningMsg)
         }
       }else{
-        multiband(x,action="rebuild")
+        # multiband(x,action="rebuild") Disabled for now
         cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
       }
     }
