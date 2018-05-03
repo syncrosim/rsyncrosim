@@ -11,6 +11,7 @@
 ssimEnvironment <- function() {
 
     return(data.frame(
+      ModuleDirectory = Sys.getenv("SSIM_MODULE_DIRECTORY", unset = NA),      
       ProgramDirectory = Sys.getenv("SSIM_PROGRAM_DIRECTORY", unset = NA),
       LibraryFilePath = Sys.getenv("SSIM_LIBRARY_FILEPATH", unset = NA),
       ProjectId = Sys.getenv("SSIM_PROJECT_ID", unset = NA),
@@ -24,3 +25,44 @@ ssimEnvironment <- function() {
       BeforeTimestep = Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP", unset = NA),
       AfterTimestep = Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = NA), stringsAsFactors=FALSE))
 }
+
+SSIM_CreateFolder <- function(scenario, parentFolder, datasheetName){
+  
+  if (is.na(parentFolder)){
+    stop("This function requires the SyncroSim environment.")
+  }
+  
+  sidpart = paste0("Scenario-", scenario@scenarioId)
+  f = file.path(parentFolder, sidpart, datasheetName, fsep = .Platform$file.sep)
+  
+  if (!dir.exists(f)){
+    dir.create(f, recursive=T)    
+  }
+
+  return(f)
+}
+
+#' SyncroSim DataSheet Input Folder
+#'
+#' Retrieves a SyncroSim DataSheet Input Folder
+#'
+#' @return a folder name for the specified data sheet
+#' @export
+#' @rdname ssimInputFolder
+ssimInputFolder <- function(scenario, datasheetName) {
+  return(SSIM_CreateFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
+}
+
+#' SyncroSim DataSheet Output Folder
+#'
+#' Retrieves a SyncroSim DataSheet Output Folder
+#'
+#' @return a folder name for the specified data sheet
+#' @export
+#' @rdname ssimOutputFolder
+ssimOutputFolder <- function(scenario, datasheetName) {
+  return(SSIM_CreateFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
+}
+
+
+
