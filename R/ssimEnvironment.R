@@ -33,7 +33,9 @@ SSIM_CreateFolder <- function(scenario, parentFolder, datasheetName){
   }
   
   sidpart = paste0("Scenario-", scenario@scenarioId)
-  f = file.path(parentFolder, sidpart, datasheetName, fsep = .Platform$file.sep)
+  
+  p = gsub("\\", "/", parentFolder, fixed=T)
+  f = file.path(p, sidpart, datasheetName, fsep = .Platform$file.sep)
   
   if (!dir.exists(f)){
     dir.create(f, recursive=T)    
