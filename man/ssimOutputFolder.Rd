@@ -6,9 +6,14 @@
 \usage{
 ssimOutputFolder(scenario, datasheetName)
 }
+\arguments{
+\item{scenario}{Scenario.  A SyncroSim result scenario.}
+
+\item{datasheetName}{character.  The output datasheet name.}
+}
 \value{
 a folder name for the specified data sheet
 }
 \description{
-Retrieves a SyncroSim DataSheet Output Folder
+Creates and returns a SyncroSim DataSheet Output Folder
 }

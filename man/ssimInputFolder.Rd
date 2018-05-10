@@ -6,9 +6,14 @@
 \usage{
 ssimInputFolder(scenario, datasheetName)
 }
+\arguments{
+\item{scenario}{Scenario.  A SyncroSim result scenario.}
+
+\item{datasheetName}{character.  The input datasheet name.}
+}
 \value{
 a folder name for the specified data sheet
 }
 \description{
-Retrieves a SyncroSim DataSheet Input Folder
+Creates and returns a SyncroSim DataSheet Input Folder
 }

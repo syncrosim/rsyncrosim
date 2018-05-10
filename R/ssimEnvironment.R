@@ -46,8 +46,10 @@ SSIM_CreateFolder <- function(scenario, parentFolder, datasheetName){
 
 #' SyncroSim DataSheet Input Folder
 #'
-#' Retrieves a SyncroSim DataSheet Input Folder
+#' Creates and returns a SyncroSim DataSheet Input Folder
 #'
+#' @param scenario Scenario.  A SyncroSim result scenario.
+#' @param datasheetName character.  The input datasheet name.
 #' @return a folder name for the specified data sheet
 #' @export
 #' @rdname ssimInputFolder
@@ -57,8 +59,10 @@ ssimInputFolder <- function(scenario, datasheetName) {
 
 #' SyncroSim DataSheet Output Folder
 #'
-#' Retrieves a SyncroSim DataSheet Output Folder
+#' Creates and returns a SyncroSim DataSheet Output Folder
 #'
+#' @param scenario Scenario.  A SyncroSim result scenario.
+#' @param datasheetName character.  The output datasheet name.
 #' @return a folder name for the specified data sheet
 #' @export
 #' @rdname ssimOutputFolder
@@ -66,5 +70,62 @@ ssimOutputFolder <- function(scenario, datasheetName) {
   return(SSIM_CreateFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
 }
 
+#' SyncroSim Temporary Folder
+#'
+#' Creates and returns a SyncroSim Temporary Folder
+#'
+#' @param scenario Scenario.  A SyncroSim result scenario.
+#' @param subFolderName character.  A subfolder name.
+#' @return a temporary folder name
+#' @export
+#' @rdname ssimTempFolder
+ssimTempFolder <- function(scenario, subFolderName) {
+    return(SSIM_CreateFolder(scenario, ssimEnvironment()$TempDirectory, subFolderName))
+}
 
+#' Reports progress for a SyncroSim simulation
+#'
+#' Reports progress for a SyncroSim simulation
+#'
+#' @param iteration integer.  The current iteration.
+#' @param timestep integer.  The current timestep.
+#' @export
+#' @rdname reportProgress
+reportProgress <- function(iteration, timestep){
+  cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
+  flush.console()
+}
 
+#' Begins a SyncroSim simulation
+#'
+#' Begins a SyncroSim simulation
+#'
+#' @param totalSteps integer.  The total number of steps in the simulation.
+#' @export
+#' @rdname beginSimulation
+beginSimulation <- function(totalSteps){
+  cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
+  flush.console()
+}
+
+#' Steps a SyncroSim simulation
+#'
+#' Steps a SyncroSim simulation
+#'
+#' @export
+#' @rdname stepSimulation
+stepSimulation <-function(){
+  cat("ssim-task-step=1\r\n")
+  flush.console()
+}
+
+#' Ends a SyncroSim simulation
+#'
+#' Ends a SyncroSim simulation
+#'
+#' @export
+#' @rdname endSimulation
+endSimulation <-function(){
+  cat("ssim-task-end=True\r\n")
+  flush.console()
+}
