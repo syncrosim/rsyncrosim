@@ -31,4 +31,4 @@ setMethod('tempfilepath', signature(ssimObject = "character"), function(ssimObje
 #' @rdname tempfilepath
 setMethod('tempfilepath', signature(ssimObject = "Session"), function(ssimObject) stop("This function is not valid for session objects."))
 #' @rdname tempfilepath
-setMethod('tempfilepath', signature(ssimObject = "SsimObject"), function(ssimObject) paste0(ssimObject@filepath, ".temp/R"))
+setMethod('tempfilepath', signature(ssimObject = "SsimObject"), function(ssimObject) paste0(ssimObject@filepath, ".temp/RSyncroSim"))

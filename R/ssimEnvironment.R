@@ -11,7 +11,7 @@
 ssimEnvironment <- function() {
 
     return(data.frame(
-      ModuleDirectory = Sys.getenv("SSIM_MODULE_DIRECTORY", unset = NA),      
+      ModuleDirectory = Sys.getenv("SSIM_MODULE_DIRECTORY", unset = NA),
       ProgramDirectory = Sys.getenv("SSIM_PROGRAM_DIRECTORY", unset = NA),
       LibraryFilePath = Sys.getenv("SSIM_LIBRARY_FILEPATH", unset = NA),
       ProjectId = Sys.getenv("SSIM_PROJECT_ID", unset = NA),
@@ -23,25 +23,37 @@ ssimEnvironment <- function() {
       BeforeIteration = Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION", unset = NA),
       AfterIteration = Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_ITERATION", unset = NA),
       BeforeTimestep = Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP", unset = NA),
-      AfterTimestep = Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = NA), stringsAsFactors=FALSE))
+      AfterTimestep = Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = NA), stringsAsFactors = FALSE))
 }
 
-SSIM_CreateFolder <- function(scenario, parentFolder, datasheetName){
-  
-  if (is.na(parentFolder)){
-    stop("This function requires the SyncroSim environment.")
-  }
-  
-  sidpart = paste0("Scenario-", scenario@scenarioId)
-  
-  p = gsub("\\", "/", parentFolder, fixed=T)
-  f = file.path(p, sidpart, datasheetName, fsep = .Platform$file.sep)
-  
-  if (!dir.exists(f)){
-    dir.create(f, recursive=T)    
-  }
+EnvCreateScenarioFolder <- function(scenario, parentFolder, datasheetName) {
 
-  return(f)
+    if (is.na(parentFolder)) {
+        stop("This function requires the SyncroSim environment.")
+    }
+
+    sidpart = paste0("Scenario-", scenario@scenarioId)
+
+    p = gsub("\\", "/", parentFolder, fixed = T)
+    f = file.path(p, sidpart, datasheetName, fsep = .Platform$file.sep)
+
+    if (!dir.exists(f)) {
+        dir.create(f, recursive = T)
+    }
+
+    return(f)
+}
+
+EnvCreateTempFolder <- function(folderName) {
+
+    t = ssimEnvironment()$TempDirectory
+    f = file.path(t, folderName, fsep = .Platform$file.sep)
+
+    if (!dir.exists(f)) {
+        dir.create(f, recursive = T)
+    }
+
+    return(f)
 }
 
 #' SyncroSim DataSheet Input Folder
@@ -52,9 +64,9 @@ SSIM_CreateFolder <- function(scenario, parentFolder, datasheetName){
 #' @param datasheetName character.  The input datasheet name.
 #' @return a folder name for the specified data sheet
 #' @export
-#' @rdname ssimInputFolder
-ssimInputFolder <- function(scenario, datasheetName) {
-  return(SSIM_CreateFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
+#' @rdname ssimEnvInputFolder
+ssimEnvInputFolder <- function(scenario, datasheetName) {
+    return(EnvCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
 }
 
 #' SyncroSim DataSheet Output Folder
@@ -65,22 +77,21 @@ ssimInputFolder <- function(scenario, datasheetName) {
 #' @param datasheetName character.  The output datasheet name.
 #' @return a folder name for the specified data sheet
 #' @export
-#' @rdname ssimOutputFolder
-ssimOutputFolder <- function(scenario, datasheetName) {
-  return(SSIM_CreateFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
+#' @rdname ssimEnvOutputFolder
+ssimEnvOutputFolder <- function(scenario, datasheetName) {
+    return(EnvCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
 }
 
 #' SyncroSim Temporary Folder
 #'
 #' Creates and returns a SyncroSim Temporary Folder
 #'
-#' @param scenario Scenario.  A SyncroSim result scenario.
-#' @param subFolderName character.  A subfolder name.
+#' @param folderName character.  The folder name
 #' @return a temporary folder name
 #' @export
-#' @rdname ssimTempFolder
-ssimTempFolder <- function(scenario, subFolderName) {
-    return(SSIM_CreateFolder(scenario, ssimEnvironment()$TempDirectory, subFolderName))
+#' @rdname ssimEnvTempFolder
+ssimEnvTempFolder <- function(folderName) {
+    return(EnvCreateTempFolder(folderName))
 }
 
 #' Reports progress for a SyncroSim simulation
@@ -90,10 +101,10 @@ ssimTempFolder <- function(scenario, subFolderName) {
 #' @param iteration integer.  The current iteration.
 #' @param timestep integer.  The current timestep.
 #' @export
-#' @rdname reportProgress
-reportProgress <- function(iteration, timestep){
-  cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
-  flush.console()
+#' @rdname ssimEnvReportProgress
+ssimEnvReportProgress <- function(iteration, timestep) {
+    cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
+    flush.console()
 }
 
 #' Begins a SyncroSim simulation
@@ -102,10 +113,10 @@ reportProgress <- function(iteration, timestep){
 #'
 #' @param totalSteps integer.  The total number of steps in the simulation.
 #' @export
-#' @rdname beginSimulation
-beginSimulation <- function(totalSteps){
-  cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
-  flush.console()
+#' @rdname ssimEnvBeginSimulation
+ssimEnvBeginSimulation <- function(totalSteps) {
+    cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
+    flush.console()
 }
 
 #' Steps a SyncroSim simulation
@@ -113,10 +124,10 @@ beginSimulation <- function(totalSteps){
 #' Steps a SyncroSim simulation
 #'
 #' @export
-#' @rdname stepSimulation
-stepSimulation <-function(){
-  cat("ssim-task-step=1\r\n")
-  flush.console()
+#' @rdname ssimEnvStepSimulation
+ssimEnvStepSimulation <- function() {
+    cat("ssim-task-step=1\r\n")
+    flush.console()
 }
 
 #' Ends a SyncroSim simulation
@@ -124,8 +135,8 @@ stepSimulation <-function(){
 #' Ends a SyncroSim simulation
 #'
 #' @export
-#' @rdname endSimulation
-endSimulation <-function(){
-  cat("ssim-task-end=True\r\n")
-  flush.console()
+#' @rdname ssimEnvEndSimulation
+ssimEnvEndSimulation <- function() {
+    cat("ssim-task-end=True\r\n")
+    flush.console()
 }
