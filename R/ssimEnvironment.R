@@ -52,7 +52,9 @@ envCreateScenarioFolder <- function(scenario, parentFolder, datasheetName) {
 envCreateTempFolder <- function(folderName) {
 
     t = ssimEnvironment()$TempDirectory
-    f = file.path(t, folderName, fsep = .Platform$file.sep)
+    p = gsub("\\", "/", t, fixed = T)
+    
+    f = file.path(p, folderName, fsep = .Platform$file.sep)
 
     if (!dir.exists(f)) {
         dir.create(f, recursive = T)
