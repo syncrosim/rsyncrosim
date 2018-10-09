@@ -25,12 +25,12 @@ setMethod(f='initialize',signature="BreakpointSession", definition=function(.Obj
 
   if(startServer){
     args = list(ipaddress=ipAddress,port=port,quiet=quiet)
+    if (isMPJob){args = c(args, "child-process"=T)}
     tt = command(args,.session(scenario),program="SyncroSim.Server.exe",wait=F)
   }
   .Object@connection = connection(ipAddress,port)
   .Object@scenario = scenario
   .Object@name = name
-  .Object@isMPJob = isMPJob
 
   return(.Object)
 })
@@ -117,7 +117,6 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
   dataDir = paste0(.filepath(cResult),'.temp/Data')
   if(file.exists(dataDir)){
     msg = 'execute-command --name=data-ready'
-    if (x@isMPJob) msg = paste(msg, "--isMPJob", collapse = " ")
     tt=remoteCall(x,msg)
     if(tt!="NONE"){
       stop("Something is wrong: ",tt)

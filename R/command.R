@@ -56,7 +56,12 @@ command<-function(args,session=NULL,program="SyncroSim.Console.exe",wait=T) {
       if(is.null(args[[i]])){next}
       if(is.na(args[[i]])){next}
       if(args[[i]]==""){next}
-      sysArgs[i] = paste0(sysArgs[i],'="',args[[i]],'"')
+      a = args[[i]]
+      if (is.logical(a)){
+        if (a == T) a = "True"
+        else a = "False"
+      }
+      sysArgs[i] = paste0(sysArgs[i],'="',a,'"')
     }
   }else{
     args=gsub(" --","---",args,fixed=T)
