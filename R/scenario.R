@@ -219,7 +219,7 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
   }
 
   if(results){
-    scnSet = subset(scnSet,!is.element(isResult,c(NA,F)))
+    scnSet = subset(scnSet,!is.element(isResult,c(NA,F,"No")))
   }
   
   if(nrow(scnSet)==0){
@@ -235,6 +235,8 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
   if((sum(is.na(scnSet$exists))==0)&summary){
     scnSet=subset(scnSet,!is.na(order))
     scnSet=scnSet[order(scnSet$order),]
+    scnSet[scnSet$readOnly == "FALSE", "readOnly"] <- "No"
+    scnSet[scnSet$readOnly == "TRUE", "readOnly"] <- "Yes"
     scnSet$exists = NULL
     scnSet$order=NULL
     return(scnSet)
