@@ -75,7 +75,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
       }
 
       if (is.na(resultId)) {
-        stop(print(tt))
+        stop()
       }      
     }else{
 
