@@ -11,7 +11,7 @@
 ssimEnvironment <- function() {
 
     return(data.frame(
-      ModuleDirectory = Sys.getenv("SSIM_MODULE_DIRECTORY", unset = NA),
+      PackageDirectory = Sys.getenv("SSIM_PACKAGE_DIRECTORY", unset = NA),
       ProgramDirectory = Sys.getenv("SSIM_PROGRAM_DIRECTORY", unset = NA),
       LibraryFilePath = Sys.getenv("SSIM_LIBRARY_FILEPATH", unset = NA),
       ProjectId = Sys.getenv("SSIM_PROJECT_ID", unset = NA),
