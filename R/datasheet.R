@@ -520,6 +520,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     outSheetList=outSheetList[[1]]  
   }
   
+  unlink(.tempfilepath(x), recursive = T)
   return(outSheetList)
 })
 

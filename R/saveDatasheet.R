@@ -299,6 +299,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
   if(!forceElements&&(length(out)==1)){
     out=out[[1]]
   }
+  unlink(.tempfilepath(x), recursive = T)
   return(out)
 })
 
