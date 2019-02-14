@@ -1,4 +1,4 @@
-# Copyright (c) 2017 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
