@@ -18,40 +18,11 @@ NULL
 setGeneric('deleteModule',function(name,session=NULL,force=F) standardGeneric('deleteModule'))
 #' @rdname deleteModule
 setMethod('deleteModule', signature(session="missingOrNULLOrChar"), function(name,session,force) {
-  session=.session(session)
-  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
-    return(SyncroSimNotFound())
-  }
-  return(deleteModule(name,session))
+  .Deprecated("deletePackage")
+  stop()
 })
 #' @rdname deleteModule
 setMethod('deleteModule', signature(session="Session"), function(name,session,force) {
-  #name = "sample-basic-dotnet";session=session()
-  installedModules=module(session)
-  retList = list()
-  for(i in seq(length.out=length(name))){
-    cVal = name[i]
-    if(!is.element(cVal,installedModules$name)){
-      retList[[cVal]] = paste0("Module ",cVal," is not installed, so cannot be removed.")
-      next
-    }
-    
-    if(force){
-      answer="y"
-    }else{
-      answer <- readline(prompt=paste0("To restore ",cVal," after removing it you will need to provide a .ssimpkg file or reinstall SyncroSim.\nDo you really want to remove the module? (y/n): "))
-    }
-    if(answer=="y"){
-      tt = command(args=list(removemodule=cVal),session,program="SyncroSim.ModuleManager.exe")
-      
-      installedModules = module(session)
-      if(is.element(cVal,installedModules$name)){
-        stop(paste0('Error: failed to remove module ',cVal))
-      }
-      retList[[cVal]]=tt
-    }else{
-      retList[[cVal]]="skipped"
-    }
-  }
-  return (retList)
+  .Deprecated("deletePackage")
+  stop()
 })

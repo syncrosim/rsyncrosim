@@ -13,18 +13,7 @@ NULL
 setGeneric('addModule',function(filename,session=NULL) standardGeneric('addModule'))
 #' @rdname addModule
 setMethod('addModule', signature(filename="character"), function(filename,session) {
-  if(is.null(session)){session=.session()}
-  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
-    return(SyncroSimNotFound())
-  }
-  for(i in seq(length.out=length(filename))){
-    cVal = filename[i]
-    if(!file.exists(cVal)){
-      stop(paste0("Cannot find ",cVal,"."))
-    }
-    tt = command(args=list(queuepackage=cVal),session,program="SyncroSim.ModuleManager.exe")
-  }
-  tt = command(args=list(installqueue=NULL),session,program="SyncroSim.ModuleManager.exe")
-  return (tt)
+  .Deprecated("addPackage or addPackageFile")
+  stop()
 }
 )

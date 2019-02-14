@@ -16,11 +16,10 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' @slot filepath The path to the SyncroSim installation.
 #' @slot silent If FALSE, all SyncroSim output with non-zero exit status is printed. Helpful for debugging. Default=TRUE.
 #' @slot printCmd If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. Default=FALSE.
-#' @slot defaultModel The name of a SyncroSim model type. "stsim" by default.
 #' @name Session-class
 #' @rdname Session-class
 #' @export Session
-Session <- setClass("Session", representation(filepath="character",silent="logical",printCmd="logical",defaultModel="character"))
+Session <- setClass("Session", representation(filepath="character",silent="logical",printCmd="logical"))
 
 # SyncroSim Object class
 # SsimLibrary, Project and Scenario all inherit from this abstract class

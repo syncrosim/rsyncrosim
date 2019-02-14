@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim: http://syncrosim.com/
-Version: 1.0.6
+Version: 1.0.7
 Author: ApexRMS <rsyncrosim@apexrms.com>
 Maintainer: ApexRMS <rsyncrosim@apexrms.com>
 Description: rsyncrosim provides an interface to SyncroSim, a generalized
@@ -23,13 +23,16 @@ Suggests:
     testthat,
     ggplot2,
     rasterVis
-SystemRequirements: SyncroSim (>=2.0.2)
+SystemRequirements: SyncroSim (>=2.1.0)
 Collate: 
     'AAAClassDefinitions.R'
     'addModule.R'
+    'addPackage.R'
+    'addPackageFile.R'
     'addRow.R'
     'addon.R'
     'backup.R'
+    'basePackage.R'
     'breakpoint.R'
     'command.R'
     'dataframeFromSSim.R'
@@ -37,9 +40,9 @@ Collate:
     'datasheetRaster.R'
     'datasheets.R'
     'dateModified.R'
-    'defaultModel.R'
     'delete.R'
     'deleteModule.R'
+    'deletePackage.R'
     'dependency.R'
     'description.R'
     'disableAddon.R'
@@ -60,6 +63,7 @@ Collate:
     'module.R'
     'multiband.R'
     'owner.R'
+    'package.R'
     'parentId.R'
     'print.R'
     'printCmd.R'

@@ -13,8 +13,8 @@ NULL
 setGeneric('module',function(session) standardGeneric('module'))
 #' @rdname module
 setMethod('module', signature(session="missingOrNULL"), function(session) {
-  session=.session()
-  return(module(session))
+  .Deprecated("package")
+  return(package(session))
 })
 #' @rdname module
 setMethod('module', signature(session="character"), function(session) {
@@ -23,12 +23,6 @@ setMethod('module', signature(session="character"), function(session) {
   
 #' @rdname module
 setMethod('module', signature(session="Session"), function(session) {
-  tt = command(c("listmodules"),session,program="SyncroSim.ModuleManager.exe")
-  if(tt[1]=="saved"){
-    out=data.frame(name=NA,displayName=NA,version=NA)
-    out=subset(out,!is.na(name))
-  }else{
-    out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
-  }
-  return(out)
+  .Deprecated("package")
+  return(package(session))
 })

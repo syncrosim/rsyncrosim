@@ -6,7 +6,7 @@ NULL
 # @name SsimLibrary
 # @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
-    definition=function(.Object,name=NULL,create=F,model=NULL,session=NULL,addon=NULL,forceUpdate=F){
+    definition=function(.Object,name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F){
     #if a syncrosim session is not provided, make one
     enabled=NULL
     if(is.null(session)){
@@ -17,7 +17,7 @@ setMethod(f='initialize',signature="SsimLibrary",
     }
 
     inName = name
-    inModel=model
+    inPkg=package
     
     if (is.null(name)){
       e = ssimEnvironment()
@@ -27,54 +27,70 @@ setMethod(f='initialize',signature="SsimLibrary",
     if(is.na(name)){
       stop("A library name is required.")
     }
+    
+    if (is.null(package)){
+      package="stsim"
+    }
           
-    if(is.null(model)){
-      model=defaultModel(session) #assume validity of session object has already been checked.
-    }else{
-      modelOptions = model(session)
-      if(!is.element(model,modelOptions$name)){
-        stop(paste("Model type",model,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
-      }
+    packageOptions = basePackage(session)
+    
+    if (nrow(packageOptions) == 0){
+      stop("No base packages are installed.  Use addPackage() or addPackageFile() to install a package.")
+    }
+    
+    if(!is.element(package,packageOptions$name)){
+      stop(paste(package,"not a base package. Use basePackage() to see options."))
     }
     
     if (identical(basename(name), name)) {
       path = file.path(getwd(), name)
-    }else{path=name}
-    if(!grepl(".ssim",path)) path=paste0(path,".ssim")
+    }else{
+      path=name
+    }
+    
+    if(!grepl(".ssim",path)) {
+      path=paste0(path,".ssim")
+    }
 
     if (create) {
       if (file.exists(path)) {
         stop(paste0("Cannot overwrite existing library: ",path)) 
       }
-      if(is.null(model)){
-        stop('Specify a model for the new library.')
+      if(is.null(package)){
+        stop('Specify a package for the new library.')
       }
       pathBits = strsplit(path,"/")[[1]]
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
       
-      if(!exists("modelOptions")){
-        modelOptions = model(session)
+      if(!exists("packageOptions")){
+        packageOptions = basePackage(session)
       }
-      args = list(create=NULL,library=NULL,name=path,model=modelOptions$name[modelOptions$name==model])
+      args = list(create=NULL,library=NULL,name=path,package=packageOptions$name[packageOptions$name==package])
       cStatus = command(args,session)
       if(cStatus[1]!="saved"){
         stop("Problem creating library: ", cStatus[1])
       }
     } else {
     if (!file.exists(path)) {
-        stop(paste0("Library not found: ", path, ". Set create=T to make a new library."))
+        stop(paste0("Library not found: ", path, ". Set create=T to create a new library."))
       }
     }
 
-    #ensure the primaryModule specified matches the primaryModule on disk
+    #ensure the base package specified matches the base package on disk
     args = c("list","datasheets","csv",paste0("lib=",path))
     tt=command(args,session)
+    
+    if(grepl("Could not find package",tt[[1]])){
+      stop(paste(tt[[1]], "Use addPackage() or addPackageFile() to install this package."))
+    }
+    
     if(grepl("The library has unapplied updates",tt[[1]])){
       if(is.null(inName)|forceUpdate){answer ="y"}else{
         answer <- readline(prompt=paste0("The library has unapplied updates. Do you want to update ",path,"? (y/n): "))
       }
       if(answer=="y"){
         updateMessage = command(list(update=NULL,lib=path),session)
+        updateMessage = paste(updateMessage, collapse = " ")
 
         if(grepl("Update complete",updateMessage,fixed=T)){
           updateMessage = "saved"
@@ -97,7 +113,7 @@ setMethod(f='initialize',signature="SsimLibrary",
     datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
     datasheets$scope = sapply(datasheets$scope,camel)
 
-    if(!is.null(inModel)){
+    if(!is.null(inPkg)){
       args = list(list=NULL,library=NULL,csv=NULL,lib=path)
       tt = command(args,session)
       tt = .dataframeFromSSim(tt)
@@ -105,10 +121,10 @@ setMethod(f='initialize',signature="SsimLibrary",
         stop(command(args,session))
       }
       
-      if(!exists("modelOptions")){modelOptions=model(session)}
-      expectedModule = modelOptions$name[modelOptions$name==model]
-      if(!grepl(expectedModule,tt$value[tt$property=="Model Name:"])){
-        stop(paste0("A library of that name and a different model type ",tt$value[tt$property=="Model Name:"]," already exists."))
+      if(!exists("packageOptions")){packageOptions=basePackage(session)}
+      expectedModule = packageOptions$name[packageOptions$name==package]
+      if(!grepl(expectedModule,tt$value[tt$property=="Package Name:"])){
+        stop(paste0("A library of that name and a different package type ",tt$value[tt$property=="Package Name:"]," already exists."))
       }
     }
 
@@ -133,13 +149,13 @@ setMethod(f='initialize',signature="SsimLibrary",
   }
 )
 
-setGeneric('.ssimLibrary', function(name=NULL,create=F,model=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('.ssimLibrary'))
+setGeneric('.ssimLibrary', function(name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('.ssimLibrary'))
 
-setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,create,model,session,addon,forceUpdate) {
-  return(new("SsimLibrary",name,create,model,session,addon,forceUpdate))
+setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,create,package,session,addon,forceUpdate) {
+  return(new("SsimLibrary",name,create,package,session,addon,forceUpdate))
 })
 
-setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,model,session,addon,forceUpdate) {
+setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,package,session,addon,forceUpdate) {
   if(class(name)=="SsimLibrary"){
     out=name
   }else{
@@ -160,13 +176,13 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,mod
 #' \itemize{
 #'   \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SsimLibrary}} associated with the Project or Scenario.}
 #'   \item {If name is NULL: }{Create/open a SsimLibrary in the current working directory with the filename SsimLibrary.ssim.}
-#'   \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type model in the current working directory.}
-#'   \item {If given a name and a model: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
+#'   \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type package in the current working directory.}
+#'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
 #' }
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
 #' @param create Logical. If TRUE the library will be created if it does not exist.  If FALSE (default) an error will occur if the library does not exist.
 #' @param summary logical. Default T
-#' @param model Character. The model type. If NULL, defaultModel(session()) will be used.
+#' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See addon() for options.
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
@@ -186,10 +202,10 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,mod
 #' filepath(myLibrary)
 #' info(myLibrary)
 #' @export
-setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,model=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
+setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summary,model,session,addon,forceUpdate) {
+setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summary,package,session,addon,forceUpdate) {
   if(class(name)=="SsimLibrary"){
     out=name
     if(is.null(summary)){summary=T}
@@ -204,14 +220,14 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summ
 })
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,create,summary=NULL,model,session,addon,forceUpdate) {
+setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,create,summary=NULL,package,session,addon,forceUpdate) {
             
     if(is.null(session)){session=.session()}
     if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
       return(SyncroSimNotFound())
     }
             
-    newLib = new("SsimLibrary",name,create,model,session,addon,forceUpdate)
+    newLib = new("SsimLibrary",name,create,package,session,addon,forceUpdate)
     if(!is.null(summary)&&summary){
       return(info(newLib))
     }
@@ -269,6 +285,7 @@ setMethod('deleteLibrary', signature(ssimLibrary="character"), function(ssimLibr
     unlink(paste0(ssimLibrary,".backup"),recursive=T,force=T)
     unlink(paste0(ssimLibrary,".input"),recursive=T,force=T)
     unlink(paste0(ssimLibrary,".output"),recursive=T,force=T)
+    unlink(paste0(ssimLibrary,".temp"),recursive=T,force=T)
     
     return("saved")
   }else{

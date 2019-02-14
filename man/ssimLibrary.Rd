@@ -7,15 +7,15 @@
 \alias{ssimLibrary,missingOrNULLOrChar-method}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(name = NULL, create = F, summary = NULL, model = NULL,
+ssimLibrary(name = NULL, create = F, summary = NULL, package = NULL,
   session = NULL, addon = NULL, forceUpdate = F)
 
 \S4method{ssimLibrary}{SsimObject}(name = NULL, create = F,
-  summary = NULL, model = NULL, session = NULL, addon = NULL,
+  summary = NULL, package = NULL, session = NULL, addon = NULL,
   forceUpdate = F)
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, create = F,
-  summary = NULL, model = NULL, session = NULL, addon = NULL,
+  summary = NULL, package = NULL, session = NULL, addon = NULL,
   forceUpdate = F)
 }
 \arguments{
@@ -25,7 +25,7 @@ ssimLibrary(name = NULL, create = F, summary = NULL, model = NULL,
 
 \item{summary}{logical. Default T}
 
-\item{model}{Character. The model type. If NULL, defaultModel(session()) will be used.}
+\item{package}{Character. The package type. The default is "stsim".}
 
 \item{session}{Session. If NULL, session() will be used.}
 
@@ -45,8 +45,8 @@ If summary = NULL, returns library summary info if ssimObject is an SsimLibrary,
 \itemize{
   \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SsimLibrary}} associated with the Project or Scenario.}
   \item {If name is NULL: }{Create/open a SsimLibrary in the current working directory with the filename SsimLibrary.ssim.}
-  \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type model in the current working directory.}
-  \item {If given a name and a model: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of model.}
+  \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type package in the current working directory.}
+  \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
 }
 }
 \examples{

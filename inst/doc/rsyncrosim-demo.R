@@ -1,21 +1,23 @@
 # *************************************************************
-# rsyncrosim-demo.R - Demonstration of the rsyncrosim package (using the SyncroSim ST-Sim module)
-# 
+# rsyncrosim-demo.R - Demonstration of the rsyncrosim package 
+# (using the ST-Sim package)
 # *************************************************************
+
+library(rsyncrosim)
+library(raster) # Required to work with spatial data
 
 # *************************************************************
 # File/Package Setup
 # *************************************************************
-
-library(rsyncrosim)
-library(raster)      # raster package required to work with spatial data
 
 # Get the filenames for the sample raster TIF files used in this script
 stratumTif = system.file("extdata", "initial-stratum.tif", package = "rsyncrosim")
 sclassTif = system.file("extdata", "initial-sclass.tif", package = "rsyncrosim")
 ageTif = system.file("extdata", "initial-age.tif", package = "rsyncrosim")
 
-# Set the name of the folder into which you installed SyncroSim  (i.e. this folder should contain the file SyncroSim.Console.exe)
+# Set the name of the folder into which you installed SyncroSim  
+# (i.e. this folder should contain the file SyncroSim.Console.exe)
+
 programFolder = "/home/<username>/syncrosim/"
 
 # Set the library name
@@ -29,26 +31,14 @@ if (file.exists(libraryName)){
 # Start Session & Create Library
 # *************************************************************
 
-# Start a SyncroSim session & list the currently loaded modules
-mySession = session(programFolder)
-module(mySession)     # Corresponds to the 'Add-Ons' tab under the 'File-Library Properties' menu in SyncroSim
+# Start a SyncroSim session
+mySession = session(programFolder, printCmd = T)
 
-# Add the ST-Sim module to this session (& then check that it is now loaded)
-stsimPackageFilename = paste(programFolder, "Packages/stsim.ssimpkg", sep="/")
-addModule(stsimPackageFilename, mySession)
-module(mySession)
+# Create the library (the default package is "stsim")
+myLibrary = ssimLibrary(name=libraryName, session=mySession, create=T)
 
-# Create a new ST-Sim library in the current working directory
-myLibrary = ssimLibrary(name=libraryName, model="stsim", session=mySession, create=T)
-
-# Note that you can be helful to have this library open in the SyncroSim user interface at the same time you are modifying the library in R.
-# This way, by periodically invoking the 'File-Refresh All Libraries' menu in SyncroSim, you can then see the latest changes you made in R
-
-# Display internal names of all the library's datasheets - corresponds to the the 'File-Library Properties' menu in SyncroSim
+# Display internal names of all the library's datasheets
 (librarySheetNames = datasheet(myLibrary, summary=T))
-
-# Backup the library before making changes
-backup(myLibrary)
 
 # *************************************************************
 # Create Project
@@ -60,7 +50,7 @@ myProject = project(myLibrary, project="Simple forest landscape", create=T)
 # Display internal names of all the project's datasheets
 (projectSheetNames=datasheet(myProject, summary=T, optional=F))
 
-# Edit the Project Definitions - corresponds to the 'Project-Properties' menu in SyncroSim
+# Edit the Project Definitions
 
 # Terminology
 (sheetData = datasheet(myProject, "STSim_Terminology"))
@@ -116,7 +106,7 @@ saveDatasheet(myProject, data.frame(MaximumAge=ageGroups), "STSim_AgeGroup", for
 # Create a SyncroSim "No Harvest" scenario
 myScenario = scenario(myProject, "No Harvest", create=T)
 
-# Display the internal names of all the scenario datasheets - these correspond to the 'Scenario-Properties' menu in SyncroSim (when a Scenario is selected)
+# Display the internal names of all the scenario datasheets
 (scenarioSheetNames=subset(datasheet(myScenario, summary=T), scope=="scenario"))
 
 # Edit the scenario datasheets:
@@ -146,7 +136,8 @@ sheetData = addRow(sheetData, data.frame(StateClassIDSource="Mixed",StateClassID
 saveDatasheet(myScenario, sheetData, sheetName)
 
 # There are two options for setting initial conditions: either spatial or non-spatial
-# In this example we will use spatial initial conditions; however we demonstrate below how also to set initial conditions non-spatially
+# In this example we will use spatial initial conditions; however we demonstrate below how 
+# also to set initial conditions non-spatially
 
 # Initial Conditions: Option 1 - Spatial
 
@@ -223,3 +214,4 @@ head(outputStratumState)
 myRastersTimestep5 = datasheetRaster(myProject, scenario=resultIDHarvest, "STSim_OutputSpatialState", timestep=5)
 myRastersTimestep5
 plot(myRastersTimestep5)
+

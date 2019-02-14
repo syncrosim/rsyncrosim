@@ -47,12 +47,11 @@ setMethod ('show' , 'Session',
     }
 
     if(is.element(class(cSlot),"Session")){
-      outString=paste0(outString,"",.filepath(cSlot),", printCmd=",printCmd(cSlot),", defaultModel=",defaultModel(cSlot))
+      outString=paste0(outString,"",.filepath(cSlot),", printCmd=",printCmd(cSlot))
     }
     if(is.element(class(cSlot),"data.frame")){
       outString=paste0(outString,"",paste(names(cSlot),collapse=","))
     }
-    
     outStrings[[outName]]=outString     
   }
   

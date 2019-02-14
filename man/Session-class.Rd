@@ -17,8 +17,6 @@ and \code{Scenario} objects contain a \code{Session} used to query and modify th
 \item{\code{silent}}{If FALSE, all SyncroSim output with non-zero exit status is printed. Helpful for debugging. Default=TRUE.}
 
 \item{\code{printCmd}}{If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. Default=FALSE.}
-
-\item{\code{defaultModel}}{The name of a SyncroSim model type. "stsim" by default.}
 }}
 
 \seealso{

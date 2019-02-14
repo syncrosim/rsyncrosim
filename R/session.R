@@ -5,71 +5,60 @@ NULL
 
 # @name Session
 # @rdname Session-class
-setMethod(f = 'initialize', signature = "Session", definition = function(.Object, path, silent = F, printCmd = F, defaultModel = "stsim") {
+setMethod(f = 'initialize', signature = "Session", definition = function(.Object, path, silent = F, printCmd = F) {
 
   .Object@filepath=gsub("\\","/",gsub("/SyncroSim.Console.exe","",path,fixed=T),fixed=T)
   .Object@silent=silent
   .Object@printCmd=printCmd
-  
-  #check default model is valid
-  modelOptions = model(.Object)
-
-  if (!is.element(defaultModel, modelOptions$name)) {
-    warning(paste("Model type",defaultModel,"not recognized. Options are:",paste0(modelOptions$name,collapse=",")))
-  }
-  
-  .Object@defaultModel = defaultModel
 
   vs = command(list(version=NULL),.Object)
-  if((length(vs)>1)){
-    if(grepl("Core Assembly Version:",vs[[2]],fixed=T)){stop("SyncroSim version 2.0.0 or greater is required.")}
-    stop(vs)
-  }
 
   if(!grepl("Version is:",vs)){
-    stop(vs)
+    stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 2.1.0 is required.")
   }
+  
   vs = gsub("Version is: ","",vs,fixed=T)
   vs = as.numeric(strsplit(vs,".",fixed=T)[[1]])
-  vs = vs[1]*10000+vs[2]+vs[3]/1000#assume no value >1000 in any position
-  if(vs<20000){#1.0.43.0
-    stop("rsyncrosim requires at least SyncroSim version 2.0.0.")
+  
+  if (vs[1] < 2){
+    stop("rsyncrosim requires at least SyncroSim version 2.1.0.")    
+  }
+  
+  if(vs[2] < 1){
+    stop("rsyncrosim requires at least SyncroSim version 2.1.0.") 
   }
   return(.Object)
 })
 
-#' Start or get a SyncroSim session.
+#' Creates or returns a SyncroSim session.
 #'
-#' Methods to create a Syncrosim session or fetch one from a SsimLibrary, Project or Scenario object.
-#' @param x Character or SsimObject. A path to SyncroSim.Console.exe or an object containing a Session. If NULL the installed version of syncrosim in the registry is used.
+#' Methods to create or return a Syncrosim session.
+#' @param x Character or SsimObject. An optional path to the SyncroSim installation.
 #' @param silent Logical. Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
 #' @param printCmd Logical. Applies only if x is a path or NULL. If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.
-#' @param defaultModel Character. Applies only if x is a path or NULL. The name of a SyncroSim model type. "stsim" by default.
 #' @return A SyncroSim Session object.
 #' @examples
-#' #Create a library using a default Session and model
+#' #Create a library using a default Session and base package
 #' myLib = ssimLibrary(name="mylib", create=T)
 #' 
 #' #Create a library using a non-default Session
 #' mySession = session("C:/Downloads/SyncroSim")
 #' myLib = ssimLibrary(name="mylib",session=mySession, create=T)
 #' 
-#' filepath(mySession)  # Lists the folder location of syncrosim session
-#' version(mySession)   # Lists the version of syncrosim session
-#' module(mySession)    # Dataframe of the modules installed with this version of syncrosim.
-#' model(mySession)     # Dataframe of the models installed with this version of syncrosim.
-#'
-#' #Add and remove modules
-#' deleteModule("stsim-stockflow",mySession) 
-#' pkgDir ="C:/Program Files/SyncroSim/Packages/" 
-#' addModule(paste0(pkgDir,"stsim-stockflow.ssimpkg"),mySession)
+#' filepath(mySession)     # Lists the folder location of syncrosim session
+#' version(mySession)      # Lists the version of syncrosim session
+#' package(mySession)      # Dataframe of the packages installed with this version of syncrosim.
+#' basepackage(mySession)  # Dataframe of the base packages installed with this version of syncrosim.
 #' @export
-setGeneric('session',function(x=NULL,silent=T,printCmd=F,defaultModel="stsim") standardGeneric('session'))
+setGeneric('session',function(x=NULL,silent=T,printCmd=F) standardGeneric('session'))
 
 #' @rdname session
-setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,printCmd,defaultModel) {
+setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,printCmd) {
+  
   path=x
+  
   if(!is.null(path)){
+    
     if(!grepl("SyncroSim.Console.exe",path,fixed=T)){
       path=paste0(path,"/SyncroSim.Console.exe")
     }
@@ -85,7 +74,7 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
       if (is.na(path) || !dir.exists(path)){
         
         if (.Platform$OS.type == "windows") {
-            envVars = Sys.getenv(c("PROGRAMFILES", "PROGRAMFILES(X86)"), names = F)
+            envVars = Sys.getenv(c("PROGRAMFILES"), names = F)
             envVars = envVars[envVars != ""]
   
             for (i in seq(length.out = length(envVars))) {
@@ -111,11 +100,11 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
     return(SyncroSimNotFound(warn=F))
   }
   
-  return(new("Session",path,silent,printCmd,defaultModel))
+  return(new("Session",path,silent,printCmd))
 })
 
 #' @rdname session
-setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd,defaultModel) x@session)
+setMethod('session', signature(x="SsimObject"), function(x,silent,printCmd) x@session)
 
 #' Set a SyncroSim session.
 #'
@@ -158,8 +147,3 @@ setReplaceMethod(
     return (ssimObject)
   }
 )
-
-
-
-
-
