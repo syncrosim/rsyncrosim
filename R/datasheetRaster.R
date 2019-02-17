@@ -27,21 +27,20 @@ NULL
 #' @param iteration integer, character string, or vector of integer/character strings. Iteration(s) to include. If NULL then all iterations are included. If no Iteration column in the datasheet, then ignored.
 #' @param timestep integer, character string, or vector of integer/character string. Timestep(s) to include. If NULL then all timesteps are included.  If no Timestep column in the datasheet, then ignored.
 #' @param subset logical expression. logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.
-# Off for v0.1
-# @param rat An (optional) raster attribute table. This is dataframe with ID, (optional) Color, and other columns. See raster::ratify() for details.
 #' @param forceElements logical. If TRUE then returns a single raster as a RasterStack; otherwise returns a single raster as a RasterLayer directly.
 #' @return A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
-#' 
 #' @examples 
-#' 
+#' \dontrun{
 #' datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
 #'   subset=expression(grepl("Ts0001",Filename,fixed=T)))
+#' }
 #' @export
 setGeneric('datasheetRaster',function(ssimObject,datasheet,column=NULL,scenario=NULL,iteration=NULL,timestep=NULL,subset=NULL,forceElements=F) standardGeneric('datasheetRaster'))
 
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="character"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
   return(SyncroSimNotFound(ssimObject))})
+
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="list"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
 
@@ -92,6 +91,7 @@ setMethod('datasheetRaster', signature(ssimObject="SsimObject"), function(ssimOb
   
   return(datasheetRaster(scnList,datasheet,column,scenario,iteration,timestep,subset,forceElements))
 })
+
 #' @rdname datasheetRaster
 setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObject,datasheet,column,scenario,iteration,timestep,subset,forceElements) {
 
@@ -263,26 +263,24 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
     cMeta=subset(cMeta,is.element(layerName,names(cStack)))
     
     for(i in 1:nrow(cMeta)){
-      #i =1
-      
       cRow =cMeta[i,]
       cName = cRow$layerName
       
-      if(!is.null(rat)){
-        obsVals = freq(cStack[[cName]])[,"value"]
-        missingVals = setdiff(obsVals,c(NA,rat$ID))
-        if(length(missingVals)>0){
-          stop("Raster values not found in rat$ID: ",paste(missingVals,collapse=","))
+      if(0){ #Disabled for now
+        if(!is.null(rat)){
+          obsVals = freq(cStack[[cName]])[,"value"]
+          missingVals = setdiff(obsVals,c(NA,rat$ID))
+          if(length(missingVals)>0){
+            stop("Raster values not found in rat$ID: ",paste(missingVals,collapse=","))
+          }
+          #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
+          #See colortable() for details
+          #ssimRatify(cStack[[cName]])=rat
         }
-        #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
-        #See colortable() for details
-        ssimRatify(cStack[[cName]])=rat
-        
       }
+      
       cStack[[cName]]@title = cRow$outName
-      
       names(cStack)[names(cStack)==cRow$layerName]=cRow$outName
-      
     }
   }else{
     
@@ -303,16 +301,18 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
         cRaster= raster::raster(cRow$rasterColumn,band=cRow$bandColumn)
       }
       
-      if(!is.null(rat)){
-        obsVals = raster::freq(cRaster)[,"value"]
-        missingVals = setdiff(obsVals,c(NA,rat$ID))
-        if(length(missingVals)>0){
-          stop("Raster values not found in rat$ID: ",paste(missingVals,collapse=","))
+      if(0){ #Disabled for now
+        if(!is.null(rat)){
+          obsVals = raster::freq(cRaster)[,"value"]
+          missingVals = setdiff(obsVals,c(NA,rat$ID))
+          if(length(missingVals)>0){
+            stop("Raster values not found in rat$ID: ",paste(missingVals,collapse=","))
+          }
+          #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
+          #ssimRatify(cRaster)=rat
         }
-        #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
-        
-        ssimRatify(cRaster)=rat
       }
+      
       cRaster@title = cRow$outName
       if(i==1){
         cStack = raster::stack(cRaster)

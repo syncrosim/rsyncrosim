@@ -18,6 +18,7 @@ NULL
 #' @return A dataframe with new rows.
 #' @export
 setGeneric('addRow',function(targetDataframe,value) standardGeneric('addRow'))
+
 #' @rdname addRow
 setMethod('addRow',
   signature="data.frame",

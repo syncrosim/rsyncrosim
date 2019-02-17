@@ -25,8 +25,11 @@ saved or error message for each addon.
 Enable addon or addons of an SsimLibrary.
 }
 \examples{
-#TODO - update examples
+\dontrun{
 myLibrary = ssimLibrary()
-enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
+enableAddon(myLibrary,c("stsim-ecological-departure"))
 addon(myLibrary)
+disableAddon(myLibrary,c("stsim-ecological-departure"))
+addon(myLibrary)
+}
 }

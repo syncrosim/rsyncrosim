@@ -3,8 +3,6 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-# @name Project
-# @rdname Project-class
 setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLibrary,name=NULL,id=NULL,projects=NULL,sourceProject=NULL){
           
     #This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
@@ -123,6 +121,7 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
     return(.Object)
   }
 )
+
 #' Create or open a project or projects.
 #'
 #' If summary = FALSE, returns one or more \code{\link{Project}} objects representing a SyncroSim projects.
@@ -144,11 +143,13 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' @param forceElements Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.
 #' @return A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.
 #' @examples
+#' \dontrun{
 #' #Load a Library and create a new Project
 #' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(ssimLibrary=myLibrary, project="My new project name")
 #'
-#' #Get a named list of existing Projects.  Each element in the list is named by a character version of the Project ID.
+#' #Get a named list of existing Projects.
+#' #Each element in the list is named by a character version of the Project ID.
 #' myProjects = project(myLibrary,summary=F) 
 #' names(myProjects)   # vector of the project ids
 #'
@@ -159,8 +160,8 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' #Get/set the project properties
 #' name(myProject)
 #' name(myProject) = "New project name"
+#' }
 #' @name project
-# @rdname Project-class
 #' @export
 project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,summary=NULL,forceElements=F){
     

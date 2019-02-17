@@ -10,6 +10,7 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' @export
 setGeneric('backup',function(ssimObject) standardGeneric('backup'))
+
 #' @rdname backup
 setMethod('backup', signature(ssimObject="character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))

@@ -14,17 +14,18 @@ NULL
 #' @param force logical. If FALSE (default), user will be prompted to approve removal of each item.
 #' @return A list of "saved" or failure messages for each item.
 #' @examples
-#' #TODO  - update examples
-#' myLibrary = ssimLibrary(session=devSession)
-#' myProject = project(myLibrary,project="a project")
+#' \dontrun{
+#' myLibrary = ssimLibrary("mylib", create=T)
+#' myProject = project(myLibrary, project="a project", create=T)
 #' project(myLibrary)
-#' removeProject(myLibrary,project="a project")
+#' delete(myLibrary, project="a project")
 #' project(myLibrary)
-#'
+#' }
 #' @export
 # Note delete supports character paths because sometimes we want to delete a library without updating it.
 # Note delete supports project/scenario arguments because sometimes we want to delete objects without creating them.
 setGeneric('delete',function(ssimObject,project=NULL,scenario=NULL,datasheet=NULL,force=F) standardGeneric('delete'))
+
 #' @rdname delete
 setMethod('delete', signature(ssimObject="character"), function(ssimObject,project,scenario,datasheet,force) {
   
@@ -39,6 +40,7 @@ setMethod('delete', signature(ssimObject="character"), function(ssimObject,proje
     return(delete(ssimObject,project,scenario,datasheet,force))
   }
 })
+
 #' @rdname delete
 setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,project,scenario,datasheet,force) {
   xProjScn=.getFromXProjScn(ssimObject,project=project,scenario=scenario,returnIds=T,convertObject=F,complainIfMissing=T)

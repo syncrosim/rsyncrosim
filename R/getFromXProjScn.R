@@ -2,7 +2,6 @@
 # GPL v.3 License
 
 #Internal helper - return uniquely identified and valid SyncroSim object
-#' @export
 .getFromXProjScn<-function(ssimObject,project=NULL,scenario=NULL,convertObject=F,returnIds=NULL,goal=NULL,complainIfMissing=T){
   #If x is scenario, ignore project and scenario arguments
   Freq=NULL

@@ -2,15 +2,32 @@
 % Please edit documentation in R/ssimEnvironment.R
 \name{envReportProgress}
 \alias{envReportProgress}
+\alias{envBeginSimulation}
+\alias{envStepSimulation}
+\alias{envEndSimulation}
 \title{Reports progress for a SyncroSim simulation}
 \usage{
 envReportProgress(iteration, timestep)
+
+envBeginSimulation(totalSteps)
+
+envStepSimulation()
+
+envEndSimulation()
 }
 \arguments{
 \item{iteration}{integer.  The current iteration.}
 
 \item{timestep}{integer.  The current timestep.}
+
+\item{totalSteps}{integer.  The total number of steps in the simulation.}
 }
 \description{
 Reports progress for a SyncroSim simulation
+
+Begins a SyncroSim simulation
+
+Steps a SyncroSim simulation
+
+Ends a SyncroSim simulation
 }

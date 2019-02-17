@@ -11,24 +11,28 @@ NULL
 #' @param name Character string or vector of these.
 #' @return saved or error message.
 #' @examples
-#' #TODO - update examples
-#' myLibrary = ssimLibrary()
-#' enableAddon(myLibrary,c("stsim-ecological-departure"))
+#' \dontrun{
+#' myLibrary = ssimLibrary("mylib", create=T)
+#' enableAddon(myLibrary,c("stsim-ecodep"))
 #' addon(myLibrary)
-#' disableAddon(myLibrary,c("stsim-ecological-departure"))
+#' disableAddon(myLibrary,c("stsim-ecodep"))
 #' addon(myLibrary)
-#'
+#' }
 #' @export
 setGeneric('disableAddon',function(ssimLibrary,name) standardGeneric('disableAddon'))
+
 #' @rdname disableAddon
 setMethod('disableAddon', signature(ssimLibrary="character"), function(ssimLibrary,name) {
   return(SyncroSimNotFound(ssimLibrary))
 })
+
 #' @rdname disableAddon
 setMethod('disableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
+  
   enabled=NULL
   cAdds = subset(addon(ssimLibrary))
   retList = list()
+  
   for(i in seq(length.out=length(name))){
     cVal = name[i]
     if(!is.element(cVal,cAdds$name)){

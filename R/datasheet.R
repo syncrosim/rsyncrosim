@@ -5,12 +5,12 @@ NULL
 
 #' Get a datasheet
 #'
-#' Gets Syncrosim datasheet.
+#' Gets SyncroSim datasheet.
 #'
 #' @details
 #' 
 #' If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
-#'   If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, data. 
+#'   If optional=T columns include: scope, package, name, displayName, isSingle, isOutput, data. 
 #'   data only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
 #'   If optional=F columns include: scope, name, displayName.
 #'   All other arguments are ignored.
@@ -41,6 +41,7 @@ NULL
 #' @export
 #' @import RSQLite
 setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),forceElements=F) standardGeneric('datasheet'))
+
 #Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
@@ -65,9 +66,11 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   
   return(out)
 })
+
 #' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
   return(SyncroSimNotFound(ssimObject))})
+
 #' @rdname datasheet
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
 

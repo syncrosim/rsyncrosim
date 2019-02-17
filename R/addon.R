@@ -11,14 +11,16 @@ NULL
 #' @return A dataframe of addons.
 #' @examples
 #' \dontrun{
-#' addon(ssimLibrary(name="stsim"))
+#' addon(ssimLibrary(name="mylib"))
 #' }
 #' @export
 setGeneric('addon',function(ssimObject) standardGeneric('addon'))
+
 #' @rdname addon
 setMethod('addon', signature(ssimObject="character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
+
 #' @rdname addon
 setMethod('addon', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   ssimObject=.session()
@@ -26,12 +28,14 @@ setMethod('addon', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   tt = .dataframeFromSSim(tt)
   return(tt)
 })
+
 #' @rdname addon
 setMethod('addon', signature(ssimObject="Session"), function(ssimObject) {
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
   tt = .dataframeFromSSim(tt)
   return(tt)
 })
+
 #' @rdname addon
 setMethod('addon', signature(ssimObject="SsimObject"), function(ssimObject) {
   enabled=NULL

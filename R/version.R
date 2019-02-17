@@ -10,10 +10,17 @@ NULL
 #' @param session Session.
 #' @export
 setGeneric('version',function(session=NULL) standardGeneric('version'))
+
 #' @rdname version
-setMethod('version', signature(session="character"), function(session) {return(SyncroSimNotFound(session))})
+setMethod('version', signature(session="character"), function(session) {
+  return(SyncroSimNotFound(session))
+})
+
 #' @rdname version
-setMethod('version', signature(session="missingOrNULL"), function(session) {return(version(session()))})
+setMethod('version', signature(session="missingOrNULL"), function(session) {
+  return(version(session()))
+})
+
 #' @rdname version
 setMethod('version', signature(session="Session"), function(session) {
   version = command(list(version=NULL),session)

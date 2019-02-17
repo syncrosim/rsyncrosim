@@ -16,13 +16,13 @@ NULL
 #' }
 #' @param args Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.
 #' @param session Session. If NULL, a default session will be used.
-#' @param program Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.ModuleManager.exe and SyncroSim.Multiband.exe.
+#' @param program Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.
 #' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=F.
 #' @return Output from the SyncroSim program.
 #' @examples
-#' #Use a default session to creat a new library in the current working directory.
-#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="stsim")
-#' output = command(args,session=session(printCmd=T))
+#' #Use a default session to create a new library in the current working directory.
+#' args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),package="stsim")
+#' output = command(args,session=session(printCmd=TRUE))
 #' output
 #' 
 #' #Three different ways to provide args to command

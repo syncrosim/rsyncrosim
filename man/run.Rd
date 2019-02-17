@@ -6,6 +6,7 @@
 \alias{run,character-method}
 \alias{run,list-method}
 \alias{run,SsimObject-method}
+\alias{run,BreakpointSession-method}
 \title{Run scenarios}
 \usage{
 run(ssimObject, scenario = NULL, summary = F, jobs = 1,
@@ -18,6 +19,9 @@ run(ssimObject, scenario = NULL, summary = F, jobs = 1,
   forceElements = F)
 
 \S4method{run}{SsimObject}(ssimObject, scenario = NULL, summary = F,
+  jobs = 1, forceElements = F)
+
+\S4method{run}{BreakpointSession}(ssimObject, scenario = NULL, summary = F,
   jobs = 1, forceElements = F)
 }
 \arguments{

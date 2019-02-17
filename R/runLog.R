@@ -11,9 +11,12 @@ NULL
 #' @return Character string of the run log.
 #' @export
 setGeneric('runLog',function(scenario) standardGeneric('runLog'))
+
 #' @rdname runLog
 setMethod('runLog', signature(scenario="character"), function(scenario) {
-  return(SyncroSimNotFound(scenario))})
+  return(SyncroSimNotFound(scenario))
+})
+
 #' @rdname runLog
 setMethod('runLog', signature(scenario="Scenario"), function(scenario) {
   tt=command(list(list=NULL,runlog=NULL,lib=.filepath(scenario),sid=.scenarioId(scenario)),.session(scenario))

@@ -11,8 +11,10 @@ NULL
 #' @return logical.
 #' @export
 setGeneric('silent',function(session) standardGeneric('silent'))
+
 #' @rdname silent
 setMethod('silent', signature(session="Session"), function(session) session@silent)
+
 #' @rdname silent
 setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) {
   if(class(session)=="character"){
@@ -41,6 +43,7 @@ setReplaceMethod(
   definition=function(session,value){
     return(session)
 })
+
 #' @rdname silent-set
 setReplaceMethod(
   f='silent',

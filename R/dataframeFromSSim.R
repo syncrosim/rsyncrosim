@@ -3,7 +3,7 @@
 
 # Dataframe from SyncroSim output
 #
-# \code{dataframeFromSSim} converts output from SyncroSim to a dataframe.
+# Converts output from SyncroSim to a dataframe.
 #
 # @param x Output from \code{\link{command()}}
 # @param colNames A vector of column names.

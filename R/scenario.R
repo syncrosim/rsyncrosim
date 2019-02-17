@@ -3,8 +3,6 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-# @name Scenario
-# @rdname Scenario-class
 setMethod(f='initialize',signature="Scenario",
     definition=function(.Object,ssimLibrary=NULL,project=NULL,name=NULL,id=NULL,sourceScenario=NULL,scenarios=NULL){
     #assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out. 
@@ -105,7 +103,6 @@ setMethod(f='initialize',signature="Scenario",
         }
       }
       
-      
       tt = command(list(copy=NULL,scenario=NULL,slib=slib,tlib=.filepath(x),name=name,sid=sid,pid=pid),.session(x))
     }
     id = as.numeric(strsplit(tt,": ")[[1]][2])
@@ -145,12 +142,13 @@ setMethod(f='initialize',signature="Scenario",
 #' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.
 #' @return A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
 #' @examples
+#' \dontrun{
 #' # Create a new scenario
 #' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(myLibrary,project="a project") 
 #' myScenario = scenario(myProject,scenario="a scenario",create=T)
+#' }
 #' @name scenario
-# @rdname Scenario-class
 #' @export
 scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,overwrite=F,forceElements=F){
   

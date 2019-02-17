@@ -3,8 +3,6 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#These are internal helper functions for rsyncrosim
-
 SyncroSimNotFound<-function(inMessage=NULL,warn=T){
   outMessage = "SyncroSim not found."
   if(!is.null(inMessage)){
@@ -104,6 +102,7 @@ getIdsFromListOfObjects<-function(ssimObject,expecting=NULL,scenario=NULL,projec
   if(expecting=="character"){expecting="SsimLibrary"}
   return(list(ssimObject=ssimObject,objs=objs,expecting=expecting))
 }
+
 #get scnSet
 getScnSet<-function(ssimObject){
   #get current scenario info
@@ -119,6 +118,7 @@ getScnSet<-function(ssimObject){
   }
   return(scnSet)
 }
+
 #get projectSet
 getProjectSet<-function(ssimObject){
   tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))

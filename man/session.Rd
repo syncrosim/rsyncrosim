@@ -28,6 +28,7 @@ A SyncroSim Session object.
 Methods to create or return a Syncrosim session.
 }
 \examples{
+\dontrun{
 #Create a library using a default Session and base package
 myLib = ssimLibrary(name="mylib", create=T)
 
@@ -38,5 +39,6 @@ myLib = ssimLibrary(name="mylib",session=mySession, create=T)
 filepath(mySession)     # Lists the folder location of syncrosim session
 version(mySession)      # Lists the version of syncrosim session
 package(mySession)      # Dataframe of the packages installed with this version of syncrosim.
-basepackage(mySession)  # Dataframe of the base packages installed with this version of syncrosim.
+basePackage(mySession)  # Dataframe of the base packages installed with this version of syncrosim.
+}
 }

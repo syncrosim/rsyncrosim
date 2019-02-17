@@ -3,8 +3,6 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-# @name SsimLibrary
-# @rdname SsimLibrary-class
 setMethod(f='initialize',signature="SsimLibrary",
     definition=function(.Object,name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F){
     #if a syncrosim session is not provided, make one
@@ -122,8 +120,8 @@ setMethod(f='initialize',signature="SsimLibrary",
       }
       
       if(!exists("packageOptions")){packageOptions=basePackage(session)}
-      expectedModule = packageOptions$name[packageOptions$name==package]
-      if(!grepl(expectedModule,tt$value[tt$property=="Package Name:"])){
+      expectedPackage = packageOptions$name[packageOptions$name==package]
+      if(!grepl(expectedPackage,tt$value[tt$property=="Package Name:"])){
         stop(paste0("A library of that name and a different package type ",tt$value[tt$property=="Package Name:"]," already exists."))
       }
     }
@@ -132,7 +130,7 @@ setMethod(f='initialize',signature="SsimLibrary",
       tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=path),session)
       tt = .dataframeFromSSim(tt)
       cAdds = subset(tt,enabled=="Yes")
-      addon=setdiff(addon,cAdds$name,fixed=T)
+      addon=setdiff(addon,cAdds$name)
 
       for(i in seq(length.out=length(addon))){
         tt = command(list(create=NULL,addon=NULL,lib=path,name=addon[i]),session)
@@ -188,6 +186,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
 #' @return An \code{SsimLibrary} object.
 #' @examples
+#' \dontrun{
 #' #Create a library using the default session
 #' myLibrary = ssimLibrary(name="myLib", create=T)
 #' 
@@ -201,6 +200,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #' session(myLibrary)
 #' filepath(myLibrary)
 #' info(myLibrary)
+#' }
 #' @export
 setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
 
@@ -257,8 +257,6 @@ setMethod('info', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary) {
 # @param ssimLibrary SsimLibrary or path to a library
 # @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
 # @return "saved" or failure message.
-# @examples
-#
 # @export
 setGeneric('deleteLibrary', function(ssimLibrary, force = F) standardGeneric('deleteLibrary'))
 

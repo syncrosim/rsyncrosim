@@ -10,15 +10,22 @@ NULL
 #' @param filename Character string.  The path to a SyncroSim package file.
 #' @param session Session.
 #' @export
-setGeneric('addPackageFile',function(filename=NULL,session=NULL) standardGeneric('addPackageFile'))
+setGeneric('addPackageFile',function(filename,session=NULL) standardGeneric('addPackageFile'))
 
 #' @rdname addPackageFile
-setMethod('addPackageFile', signature(filename="character"), function(filename,session) {
-  if(is.null(session)){session=.session()}
-  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
-    return(SyncroSimNotFound())
-  }
-  
+setMethod('addPackageFile', signature(session="character"), function(filename, session) {
+  return(SyncroSimNotFound(session))
+})
+
+#' @rdname addPackageFile
+setMethod('addPackageFile', signature(session="missingOrNULL"), function(filename, session) {
+  session=.session()
+  return(addPackageFile(filename, session))
+})
+
+#' @rdname addPackageFile
+setMethod('addPackageFile', signature(session="Session"), function(filename, session) {
+
   if (is.null(filename)){
     stop("A file name is required.")
   }

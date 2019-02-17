@@ -6,22 +6,24 @@
 \alias{package,missingOrNULL-method}
 \alias{package,character-method}
 \alias{package,Session-method}
-\title{Installed packages}
+\title{Installed or available packages}
 \usage{
-package(session)
+package(session, installed = T)
 
-\S4method{package}{missingOrNULL}(session)
+\S4method{package}{missingOrNULL}(session, installed = T)
 
-\S4method{package}{character}(session)
+\S4method{package}{character}(session, installed = T)
 
-\S4method{package}{Session}(session)
+\S4method{package}{Session}(session, installed = T)
 }
 \arguments{
 \item{session}{Session.}
+
+\item{installed}{Logical.  True to list installed packages and False to list available pacakges.}
 }
 \value{
 A dataframe of packages
 }
 \description{
-Packages installed with this version of SyncroSim
+Packages or installed or available for this version of SyncroSim.
 }

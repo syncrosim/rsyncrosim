@@ -11,6 +11,7 @@ NULL
 #' @return "saved" or a failure message from the console.
 #' @export
 setGeneric('ssimUpdate',function(ssimObject) standardGeneric('ssimUpdate'))
+
 #' @rdname ssimUpdate
 setMethod('ssimUpdate', signature(ssimObject="character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))

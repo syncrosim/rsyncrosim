@@ -28,8 +28,3 @@ Set the Session of a SsimLibrary, Project or Scenario object.
 In order to avoid problems with SyncroSim version compatibility and library updating, 
 the new session must have the same filepath as the session of the SsimObject e.g. filepath(value)==filepath(session(ssimObject))
 }
-\examples{
-myLibrary = ssimLibrary()
-session(myLibrary)=session()
-session(myLibrary)
-}

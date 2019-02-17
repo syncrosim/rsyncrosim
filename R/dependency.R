@@ -22,9 +22,12 @@ NULL
 #' @return If dependency!=NULL, character string (saved or error message) or list of these. Otherwise, a dataframe of existing dependencies, or list of these.
 #' @export
 setGeneric('dependency',function(scenario,dependency=NULL,remove=F,force=F) standardGeneric('dependency'))
+
 #' @rdname dependency
 setMethod('dependency', signature(scenario="character"), function(scenario,dependency,remove,force) {
-  return(SyncroSimNotFound(scenario))})
+  return(SyncroSimNotFound(scenario))
+})
+
 #' @rdname dependency
 setMethod('dependency', signature(scenario="Scenario"), function(scenario,dependency,remove,force) {
   

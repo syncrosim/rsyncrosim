@@ -34,11 +34,11 @@ A list of "saved" or failure messages for each item.
 Deletes one or more items. Note this is irreversable.
 }
 \examples{
-#TODO  - update examples
-myLibrary = ssimLibrary(session=devSession)
-myProject = project(myLibrary,project="a project")
+\dontrun{
+myLibrary = ssimLibrary("mylib", create=T)
+myProject = project(myLibrary, project="a project", create=T)
 project(myLibrary)
-removeProject(myLibrary,project="a project")
+delete(myLibrary, project="a project")
 project(myLibrary)
-
+}
 }

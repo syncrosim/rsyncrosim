@@ -25,8 +25,5 @@ deleteModule(name, session = NULL, force = F)
 "saved" or error message.
 }
 \description{
-Delete module or modules from this version of SyncroSim.
-Note that removing a module can be difficult to undo.
-To restore the module the user will need to provide a .ssimpkg file or reinstall SyncroSim.
-Thus, deleteModule() requires confirmation from the user.
+Deprecated.  See: \code{\link{deletePackage}}
 }

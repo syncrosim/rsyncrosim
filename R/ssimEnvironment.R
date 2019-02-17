@@ -71,7 +71,7 @@ envCreateTempFolder <- function(folderName) {
 #' @param datasheetName character.  The input datasheet name.
 #' @return a folder name for the specified data sheet
 #' @export
-#' @rdname envInputFolder
+#' @rdname ssimEnvironment-input
 envInputFolder <- function(scenario, datasheetName) {
     envValidateEnvironment()
     return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
@@ -85,7 +85,7 @@ envInputFolder <- function(scenario, datasheetName) {
 #' @param datasheetName character.  The output datasheet name.
 #' @return a folder name for the specified data sheet
 #' @export
-#' @rdname envOutputFolder
+#' @rdname ssimEnvironment-output
 envOutputFolder <- function(scenario, datasheetName) {
     envValidateEnvironment()
     return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
@@ -98,7 +98,7 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' @param folderName character.  The folder name
 #' @return a temporary folder name
 #' @export
-#' @rdname envTempFolder
+#' @rdname ssimEnvironment-temp
 envTempFolder <- function(folderName) {
     envValidateEnvironment()
     return(envCreateTempFolder(folderName))
@@ -111,7 +111,7 @@ envTempFolder <- function(folderName) {
 #' @param iteration integer.  The current iteration.
 #' @param timestep integer.  The current timestep.
 #' @export
-#' @rdname envReportProgress
+#' @rdname ssimEnvironment-progress
 envReportProgress <- function(iteration, timestep) {
 
     envValidateEnvironment()
@@ -125,12 +125,12 @@ envReportProgress <- function(iteration, timestep) {
 #'
 #' @param totalSteps integer.  The total number of steps in the simulation.
 #' @export
-#' @rdname envBeginSimulation
+#' @rdname ssimEnvironment-progress
 envBeginSimulation <- function(totalSteps) {
-
-    envValidateEnvironment()
-    cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
-    flush.console()
+  
+  envValidateEnvironment()
+  cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
+  flush.console()
 }
 
 #' Steps a SyncroSim simulation
@@ -138,12 +138,12 @@ envBeginSimulation <- function(totalSteps) {
 #' Steps a SyncroSim simulation
 #'
 #' @export
-#' @rdname envStepSimulation
+#' @rdname ssimEnvironment-progress
 envStepSimulation <- function() {
-
-    envValidateEnvironment()
-    cat("ssim-task-step=1\r\n")
-    flush.console()
+  
+  envValidateEnvironment()
+  cat("ssim-task-step=1\r\n")
+  flush.console()
 }
 
 #' Ends a SyncroSim simulation
@@ -151,10 +151,11 @@ envStepSimulation <- function() {
 #' Ends a SyncroSim simulation
 #'
 #' @export
-#' @rdname envEndSimulation
+#' @rdname ssimEnvironment-progress
 envEndSimulation <- function() {
-
-    envValidateEnvironment()
-    cat("ssim-task-end=True\r\n")
-    flush.console()
+  
+  envValidateEnvironment()
+  cat("ssim-task-end=True\r\n")
+  flush.console()
 }
+

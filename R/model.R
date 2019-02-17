@@ -5,7 +5,7 @@ NULL
 
 #' Installed models
 #'
-#' Models installed with this version of SyncroSim
+#' Deprecated.  See: \code{\link{package}}
 #'
 #' @param ssimObject Session or SsimLibrary.
 #' @return A dataframe of models (for Session) or named vector of character strings (for SsimLibrary)
@@ -23,18 +23,18 @@ setMethod('model', signature(ssimObject="missingOrNULL"), function(ssimObject) {
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
-  .Deprecated("basepackage")
-  return(basepackage(ssimObject))
+  .Deprecated("basePackage")
+  stop()
 })
 
 #' @rdname model
 setMethod('model', signature(ssimObject="Session"), function(ssimObject) {
-  .Deprecated("basepackage")
-  return(basepackage(ssimObject))
+  .Deprecated("basePackage")
+  stop()
 })
 
 #' @rdname model
 setMethod('model', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  .Deprecated("basepackage")
-  return(basepackage(ssimObject))
+  .Deprecated("basePackage")
+  stop()
 })

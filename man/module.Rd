@@ -23,5 +23,5 @@ module(session)
 A dataframe of modules
 }
 \description{
-Modules installed with this version of SyncroSim
+Deprecated.  See: \code{\link{package}}
 }

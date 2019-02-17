@@ -11,12 +11,16 @@ NULL
 #' @param name Character string or vector of these.
 #' @return saved or error message for each addon.
 #' @examples
-#' #TODO - update examples
+#' \dontrun{
 #' myLibrary = ssimLibrary()
-#' enableAddon(myLibrary,c("stsim-ecological-departure", "stsim-stock-flow"))
+#' enableAddon(myLibrary,c("stsim-ecological-departure"))
 #' addon(myLibrary)
+#' disableAddon(myLibrary,c("stsim-ecological-departure"))
+#' addon(myLibrary)
+#' }
 #' @export
 setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
+
 #' @rdname enableAddon
 setMethod('enableAddon', signature(ssimLibrary="character"), function(ssimLibrary,name) {
   return(SyncroSimNotFound(ssimLibrary))

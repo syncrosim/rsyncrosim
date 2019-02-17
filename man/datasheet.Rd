@@ -52,11 +52,11 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 }
 \description{
-Gets Syncrosim datasheet.
+Gets SyncroSim datasheet.
 }
 \details{
 If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
-  If optional=T columns include: scope, module, name, displayName, isSingle, isOutput, data. 
+  If optional=T columns include: scope, package, name, displayName, isSingle, isOutput, data. 
   data only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
   If optional=F columns include: scope, name, displayName.
   All other arguments are ignored.

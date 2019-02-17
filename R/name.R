@@ -11,21 +11,25 @@ NULL
 #' @return character string
 #' @export
 setGeneric('name',function(ssimObject) standardGeneric('name'))
+
 #' @rdname name
 setMethod('name', signature(ssimObject="character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
+
 #' @rdname name
 setMethod('name', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   cInfo = info(ssimObject)
   property=NULL
   return(subset(cInfo,property=="Name:")$value)
 })
+
 #' @rdname name
 setMethod('name', signature(ssimObject="Scenario"), function(ssimObject) {
   scnInfo = scenario(ssimObject,summary=T)
   return(scnInfo$name)
 })
+
 #' @rdname name
 setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
   info = project(ssimObject,summary=T)
@@ -41,6 +45,7 @@ setMethod('name', signature(ssimObject="Project"), function(ssimObject) {
 #' @param value The new name.
 #' @export
 setGeneric('name<-',function(ssimObject,value) standardGeneric('name<-'))
+
 #' @rdname name-set
 setReplaceMethod(
   f='name',
@@ -48,6 +53,7 @@ setReplaceMethod(
   definition=function(ssimObject,value){
     return(ssimObject)
 })
+
 #' @rdname name-set
 setReplaceMethod(
   f='name',
@@ -60,6 +66,7 @@ setReplaceMethod(
     return (ssimObject)
   }
 )
+
 #' @rdname name-set
 setReplaceMethod(
   f='name',
@@ -72,6 +79,7 @@ setReplaceMethod(
     return (ssimObject)
   }
 )
+
 #' @rdname name-set
 setReplaceMethod(
   f='name',

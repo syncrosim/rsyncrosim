@@ -3,14 +3,16 @@
 \docType{methods}
 \name{deletePackage}
 \alias{deletePackage}
-\alias{deletePackage,ANY,missingOrNULLOrChar-method}
+\alias{deletePackage,ANY,character-method}
+\alias{deletePackage,ANY,missingOrNULL-method}
 \alias{deletePackage,ANY,Session-method}
 \title{Deletes a package}
 \usage{
 deletePackage(name, session = NULL, force = F)
 
-\S4method{deletePackage}{ANY,missingOrNULLOrChar}(name, session = NULL,
-  force = F)
+\S4method{deletePackage}{ANY,character}(name, session = NULL, force = F)
+
+\S4method{deletePackage}{ANY,missingOrNULL}(name, session = NULL, force = F)
 
 \S4method{deletePackage}{ANY,Session}(name, session = NULL, force = F)
 }

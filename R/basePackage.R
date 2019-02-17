@@ -12,6 +12,7 @@ NULL
 #' @export
 setGeneric('basePackage',function(ssimObject=NULL) standardGeneric('basePackage'))
 #' @rdname basePackage
+
 setMethod('basePackage', signature(ssimObject="character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
@@ -26,12 +27,14 @@ setMethod('basePackage', signature(ssimObject="missingOrNULL"), function(ssimObj
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)
 })
+
 #' @rdname basePackage
 setMethod('basePackage', signature(ssimObject="Session"), function(ssimObject) {
   tt=command(c("list","basepkgs","csv"),ssimObject)
   out=.dataframeFromSSim(tt,localNames=T)
   return(out)
 })
+
 #' @rdname basePackage
 setMethod('basePackage', signature(ssimObject="SsimLibrary"), function(ssimObject) {
   oInf = info(ssimObject)

@@ -10,11 +10,13 @@ NULL
 #' @param ssimObject An object containing a filepath.
 #' @export
 setGeneric('filepath',function(ssimObject) standardGeneric('filepath'))
+
 #' @rdname filepath
 setMethod('filepath', signature(ssimObject="character"), function(ssimObject) return(SyncroSimNotFound(ssimObject)))
 
 #' @rdname filepath
 setMethod('filepath', signature(ssimObject="Session"), function(ssimObject) ssimObject@filepath)
+
 #' @rdname filepath
 setMethod('filepath', signature(ssimObject="SsimObject"), function(ssimObject) ssimObject@filepath)
 
@@ -25,10 +27,12 @@ setMethod('filepath', signature(ssimObject="SsimObject"), function(ssimObject) s
 #' @param ssimObject An object containing a filepath.
 #' @export
 setGeneric('tempfilepath', function(ssimObject) standardGeneric('tempfilepath'))
+
 #' @rdname tempfilepath
 setMethod('tempfilepath', signature(ssimObject = "character"), function(ssimObject) return(SyncroSimNotFound(ssimObject)))
 
 #' @rdname tempfilepath
 setMethod('tempfilepath', signature(ssimObject = "Session"), function(ssimObject) stop("This function is not valid for session objects."))
+
 #' @rdname tempfilepath
 setMethod('tempfilepath', signature(ssimObject = "SsimObject"), function(ssimObject) paste0(ssimObject@filepath, ".temp/RSyncroSim"))

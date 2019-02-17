@@ -5,24 +5,27 @@ NULL
 
 #' Installed modules
 #'
-#' Modules installed with this version of SyncroSim
+#' Deprecated.  See: \code{\link{package}}
 #'
 #' @param session Session.
 #' @return A dataframe of modules
 #' @export
 setGeneric('module',function(session) standardGeneric('module'))
+
 #' @rdname module
 setMethod('module', signature(session="missingOrNULL"), function(session) {
   .Deprecated("package")
-  return(package(session))
+  stop()
 })
+
 #' @rdname module
 setMethod('module', signature(session="character"), function(session) {
-  return(SyncroSimNotFound(session))
+  .Deprecated("package")
+  stop()
 })
   
 #' @rdname module
 setMethod('module', signature(session="Session"), function(session) {
   .Deprecated("package")
-  return(package(session))
+  stop()
 })

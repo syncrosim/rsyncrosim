@@ -18,6 +18,7 @@ NULL
 #' @return If summary=F a result Scenario object or a named list of result Scenarios. The name is the parent scenario for each result. If summary=T returns summary info for result scenarios. 
 #' @export
 setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
+
 #' @rdname run
 setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
   if(ssimObject==SyncroSimNotFound(warn=F)){return(SyncroSimNotFound())}
@@ -25,6 +26,7 @@ setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario
   out = run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
+
 #' @rdname run
 setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,forceElements) {
   x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
@@ -33,6 +35,7 @@ setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summ
   out=run(ssimObject,scenario,summary,jobs,forceElements)
   return(out)
 })
+
 #' @rdname run
 setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
 
@@ -131,6 +134,7 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
   return(out)
 })
 
+#' @rdname run
 setMethod('run', signature(ssimObject = "BreakpointSession"), function(ssimObject, scenario, summary, jobs, forceElements) {
 
   x = ssimObject

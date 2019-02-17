@@ -3,12 +3,19 @@
 \docType{methods}
 \name{addPackage}
 \alias{addPackage}
-\alias{addPackage,character-method}
-\title{Adds a package to SyncroSim}
+\alias{addPackage,ANY,character-method}
+\alias{addPackage,ANY,missingOrNULL-method}
+\alias{addPackage,ANY,Session-method}
+\title{Adds a package to SyncroSim
+Adds a package to SyncroSim}
 \usage{
-addPackage(name = NULL, session = NULL)
+addPackage(name, session = NULL)
 
-\S4method{addPackage}{character}(name = NULL, session = NULL)
+\S4method{addPackage}{ANY,character}(name, session = NULL)
+
+\S4method{addPackage}{ANY,missingOrNULL}(name, session = NULL)
+
+\S4method{addPackage}{ANY,Session}(name, session = NULL)
 }
 \arguments{
 \item{name}{Character string.  The name of the package to install from the online package server.}
@@ -16,5 +23,6 @@ addPackage(name = NULL, session = NULL)
 \item{session}{Session.}
 }
 \description{
+Adds a package to SyncroSim
 Adds a package to SyncroSim
 }

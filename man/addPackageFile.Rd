@@ -3,12 +3,18 @@
 \docType{methods}
 \name{addPackageFile}
 \alias{addPackageFile}
-\alias{addPackageFile,character-method}
+\alias{addPackageFile,ANY,character-method}
+\alias{addPackageFile,ANY,missingOrNULL-method}
+\alias{addPackageFile,ANY,Session-method}
 \title{Adds a package to SyncroSim}
 \usage{
-addPackageFile(filename = NULL, session = NULL)
+addPackageFile(filename, session = NULL)
 
-\S4method{addPackageFile}{character}(filename = NULL, session = NULL)
+\S4method{addPackageFile}{ANY,character}(filename, session = NULL)
+
+\S4method{addPackageFile}{ANY,missingOrNULL}(filename, session = NULL)
+
+\S4method{addPackageFile}{ANY,Session}(filename, session = NULL)
 }
 \arguments{
 \item{filename}{Character string.  The path to a SyncroSim package file.}

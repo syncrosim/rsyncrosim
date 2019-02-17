@@ -11,7 +11,7 @@ command(args, session = NULL, program = "SyncroSim.Console.exe", wait = T)
 
 \item{session}{Session. If NULL, a default session will be used.}
 
-\item{program}{Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.ModuleManager.exe and SyncroSim.Multiband.exe.}
+\item{program}{Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.}
 
 \item{wait}{Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=F.}
 }
@@ -30,9 +30,9 @@ Example args, and the resulting character string passed to the SyncroSim console
 }
 }
 \examples{
-#Use a default session to creat a new library in the current working directory.
-args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="stsim")
-output = command(args,session=session(printCmd=T))
+#Use a default session to create a new library in the current working directory.
+args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),package="stsim")
+output = command(args,session=session(printCmd=TRUE))
 output
 
 #Three different ways to provide args to command

@@ -39,9 +39,12 @@ NULL
 #' @return A success or failure message, or a list of these.
 #' @export
 setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,fileData=NULL,append=NULL,forceElements=F,force=F,breakpoint=F,import=T,path=NULL) standardGeneric('saveDatasheet'))
+
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,fileData,append,forceElements,force,breakpoint,import,path) {
-  return(SyncroSimNotFound(ssimObject))})
+  return(SyncroSimNotFound(ssimObject))
+})
+
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObject,data,name,fileData,append,forceElements,force,breakpoint,import,path) {
   isFile=NULL

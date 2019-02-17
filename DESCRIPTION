@@ -1,8 +1,8 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim: http://syncrosim.com/
-Version: 1.0.7
-Author: ApexRMS <rsyncrosim@apexrms.com>
+Version: 1.1.0
+Author: Josie Hughes <josie.hughes@canada.ca>
 Maintainer: ApexRMS <rsyncrosim@apexrms.com>
 Description: rsyncrosim provides an interface to SyncroSim, a generalized
     framework for managing scenario-based datasets. Simulation models can be added
@@ -21,8 +21,7 @@ Imports:
 Suggests:
     knitr,
     testthat,
-    ggplot2,
-    rasterVis
+    ggplot2
 SystemRequirements: SyncroSim (>=2.1.0)
 Collate: 
     'AAAClassDefinitions.R'

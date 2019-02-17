@@ -11,19 +11,21 @@ NULL
 #' @param force logical. If T, delete without requiring confirmation from user.
 #' @return "saved" or error message.
 #' @export
-setGeneric('deletePackage',function(name,session=NULL,force=F) standardGeneric('deletePackage'))
-#' @rdname deletePackage
+setGeneric('deletePackage',function(name, session=NULL, force=F) standardGeneric('deletePackage'))
 
-setMethod('deletePackage', signature(session="missingOrNULLOrChar"), function(name,session,force) {
-  session=.session(session)
-  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
-    return(SyncroSimNotFound())
-  }
-  return(deletePackage(name,session))
+#' @rdname deletePackage
+setMethod('deletePackage', signature(session="character"), function(name, session, force) {
+  return(SyncroSimNotFound(session))
 })
 
 #' @rdname deletePackage
-setMethod('deletePackage', signature(session="Session"), function(name,session,force) {
+setMethod('deletePackage', signature(session="missingOrNULL"), function(name,session,force) {
+  session=.session(session)
+  return(deletePackage(name, session, force))
+})
+
+#' @rdname deletePackage
+setMethod('deletePackage', signature(session="Session"), function(name, session, force) {
   
   installed = package(session)
   
