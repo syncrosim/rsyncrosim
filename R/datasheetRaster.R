@@ -116,7 +116,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
   
   if(nrow(cMeta)==0){
-    # multiband(x,action="rebuild") Disabled for now
     cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
   }
   tt = command(list(list=NULL,columns=NULL,allprops=NULL,sheet=datasheet,csv=NULL,lib=.filepath(x)),session=.session(x))
@@ -165,7 +164,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
           warning(warningMsg)
         }
       }else{
-        # multiband(x,action="rebuild") Disabled for now
         cMeta = .datasheet(x,name=datasheet,optional=T,lookupsAsFactors=getFactors)
       }
     }
@@ -265,20 +263,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
     for(i in 1:nrow(cMeta)){
       cRow =cMeta[i,]
       cName = cRow$layerName
-      
-      if(0){ #Disabled for now
-        if(!is.null(rat)){
-          obsVals = freq(cStack[[cName]])[,"value"]
-          missingVals = setdiff(obsVals,c(NA,rat$ID))
-          if(length(missingVals)>0){
-            stop("Raster values not found in rat$ID: ",paste(missingVals,collapse=","))
-          }
-          #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
-          #See colortable() for details
-          #ssimRatify(cStack[[cName]])=rat
-        }
-      }
-      
       cStack[[cName]]@title = cRow$outName
       names(cStack)[names(cStack)==cRow$layerName]=cRow$outName
     }
@@ -299,18 +283,6 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
         cRaster = raster::raster(cRow$rasterColumn)
       }else{
         cRaster= raster::raster(cRow$rasterColumn,band=cRow$bandColumn)
-      }
-      
-      if(0){ #Disabled for now
-        if(!is.null(rat)){
-          obsVals = raster::freq(cRaster)[,"value"]
-          missingVals = setdiff(obsVals,c(NA,rat$ID))
-          if(length(missingVals)>0){
-            stop("Raster values not found in rat$ID: ",paste(missingVals,collapse=","))
-          }
-          #NOTE raster objects have a legend class but methods not yet implemented, except can store a color table
-          #ssimRatify(cRaster)=rat
-        }
       }
       
       cRaster@title = cRow$outName

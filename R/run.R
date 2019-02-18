@@ -114,10 +114,8 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
         if (summary){
         out[[inScn]] = as.numeric(resultId)
         scn = .scenario(x,scenario=as.numeric(resultId))
-        # multiband(scn,action="apply") Disabled for now
         } else {
         out[[inScn]] = .scenario(x,scenario=as.numeric(resultId))
-        # multiband(out[[inScn]],action="apply") Disabled for now
       }
     }   
   }
