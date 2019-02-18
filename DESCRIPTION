@@ -2,7 +2,7 @@ Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim: http://syncrosim.com/
 Version: 1.1.0
-Author: Josie Hughes <josie.hughes@canada.ca>
+Author: ApexRMS <rsyncrosim@apexrms.com> and Josie Hughes <josie.hughes@canada.ca>
 Maintainer: ApexRMS <rsyncrosim@apexrms.com>
 Description: rsyncrosim provides an interface to SyncroSim, a generalized
     framework for managing scenario-based datasets. Simulation models can be added
