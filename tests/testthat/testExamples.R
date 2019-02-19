@@ -7,7 +7,7 @@
 # setwd("./testLibs")
 # 
 # test_that("Tests of Session - assumes SyncroSim is installed", {
-#   skip_on_cran() 
+#   skip_on_cran()
 #   mySsim = session() # Creates a session using the default installation of syncrosim
 #   expect_is(mySsim, "Session")
 #   expect_equal(file.exists(filepath(mySsim)),TRUE) # Lists the folder location of syncrosim session
@@ -16,14 +16,14 @@
 #   expect_equal(names(package()),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
 #   expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 #   expect_equal(names(package()),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-#   
+# 
 #   mySession = session(silent=F) #modify default session settings
 #   expect_equal(silent(mySession),F)
 #   silent(mySession)=T
 #   expect_equal(silent(mySession),T)
 #   expect_output(session(printCmd=T),"--version")
 # })
-
+# 
 # test_that("Tests of command  - assumes SyncroSim is installed", {
 #   skip_on_cran()
 #   mySsim = session() # Creates a session using the default installation of syncrosim
@@ -31,11 +31,11 @@
 #   expect_equal(command(c("list","help"),mySsim)[1],"Lists existing items")
 #   expect_equal(command("--create --help")[1],"Creates an item")
 #   expect_equal(command(list(create=NULL,help=NULL))[1],"Creates an item")
-#   
+# 
 #   ret=delete(paste0(getwd(),"/temp.ssim"),force=T)
-#   args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),model="hello:model-transformer")
+#   args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),package="hello:model-transformer")
 #   output = command(args)
-#   expect_equal(output[1],"The transformer 'hello:model-transformer' was not found.  You may need to install an additional module.")
+#   expect_equal(output[1],"The transformer 'hello:model-transformer' was not found.  You may need to install an additional package.")
 # })
 # 
 # test_that("Tests of Library - assumes SyncroSim is installed", {

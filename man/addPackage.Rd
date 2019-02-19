@@ -6,8 +6,7 @@
 \alias{addPackage,ANY,character-method}
 \alias{addPackage,ANY,missingOrNULL-method}
 \alias{addPackage,ANY,Session-method}
-\title{Adds a package to SyncroSim
-Adds a package to SyncroSim}
+\title{Adds a package to SyncroSim}
 \usage{
 addPackage(name, session = NULL)
 
@@ -23,6 +22,5 @@ addPackage(name, session = NULL)
 \item{session}{Session.}
 }
 \description{
-Adds a package to SyncroSim
 Adds a package to SyncroSim
 }

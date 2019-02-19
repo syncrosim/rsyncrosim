@@ -4,6 +4,7 @@
 NULL
 
 #' Adds a package to SyncroSim
+#' 
 #' Adds a package to SyncroSim
 #'
 #' @param name Character string.  The name of the package to install from the online package server.

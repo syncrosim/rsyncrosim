@@ -73,6 +73,7 @@ Collate:
     'silent.R'
     'ssimEnvironment.R'
     'ssimUpdate.R'
+    'updatePackage.R'
     'version.R'
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
