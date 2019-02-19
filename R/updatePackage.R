@@ -9,22 +9,23 @@ NULL
 #'
 #' @param name Character string.  The name of the package to update.  If NULL, all packages will be updated.
 #' @param session Session.
+#' @param listonly Logical.  If TRUE, available updates are listed only.
 #' @export
-setGeneric('updatePackage',function(name=NULL, session=NULL) standardGeneric('updatePackage'))
+setGeneric('updatePackage',function(name=NULL, session=NULL, listonly=F) standardGeneric('updatePackage'))
 
 #' @rdname updatePackage
-setMethod('updatePackage', signature(session="character"), function(name, session) {
+setMethod('updatePackage', signature(session="character"), function(name, session, listonly) {
   return(SyncroSimNotFound(session))
 })
 
 #' @rdname updatePackage
-setMethod('updatePackage', signature(session="missingOrNULL"), function(name, session) {
+setMethod('updatePackage', signature(session="missingOrNULL"), function(name, session, listonly) {
   session=.session()
-  return(updatePackage(name, session))
+  return(updatePackage(name, session, listonly))
 })
 
 #' @rdname updatePackage
-setMethod('updatePackage', signature(session="Session"), function(name, session) {
+setMethod('updatePackage', signature(session="Session"), function(name, session, listonly) {
   
   tt = command(args="--updates", session, program="SyncroSim.PackageManager.exe")
   
@@ -32,6 +33,10 @@ setMethod('updatePackage', signature(session="Session"), function(name, session)
   {
     print(tt[1])
     return()
+  }
+  
+  if (listonly){
+    return (cat(tt, sep="\n"))
   }
   
   tt = NULL;
