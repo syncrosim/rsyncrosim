@@ -32,7 +32,7 @@ if (file.exists(libraryName)){
 # *************************************************************
 
 # Start a SyncroSim session
-mySession = session(programFolder, printCmd = T)
+mySession = session(programFolder)
 
 # Create the library (the default package is "stsim")
 myLibrary = ssimLibrary(name=libraryName, session=mySession, create=T)
