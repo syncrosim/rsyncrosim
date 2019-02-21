@@ -152,30 +152,3 @@ setMethod('delete', signature(ssimObject="SsimObject"), function(ssimObject,proj
   stop("Error in delete().")
 })
 
-if(0){ #only support lists of objects when combined output is necessary.
-  setMethod('delete', signature(ssimObject="list"), function(ssimObject,project,scenario,datasheet,force) {
-    x = getIdsFromListOfObjects(ssimObject,project=project)
-    ssimObject = x$ssimObject
-    expecting=x$expecting
-    if(expecting=="Project"){
-      return(delete(ssimObject,project=x$objs,scenario=NULL,datasheet=datasheet,force=force))
-    }
-    if(expecting=="Scenario"){
-      return(delete(ssimObject,project=NULL,scenario=x$objs,datasheet=datasheet,force=force))
-    }
-    
-    if(expecting=="SsimLibrary"){
-      out = list()
-      for(i in seq(length.out=length(x$objs))){
-        if(is.null(datasheet)){
-          cObj = x$objs[i]
-          out[[.filepath(cObj)]]=deleteLibrary(cObj,force)
-        }else{
-          out[[.filepath(cObj)]]=delete(cObj,project=NULL,scenario=NULL,datasheet=datasheet,force=force)
-        }
-      }
-      return(out)
-    }
-    stop("Problem with ssimObject: should be a list of SsimLibraries/Projects/Scenarios or paths to libraries.")
-  })
-}

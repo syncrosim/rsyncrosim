@@ -239,6 +239,8 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,sum
   if((sum(is.na(projectSet$exists))==0)&summary){
     projectSet=subset(projectSet,!is.na(order))
     projectSet=projectSet[order(projectSet$order),]
+    projectSet[projectSet$readOnly == "FALSE", "readOnly"] <- "No"
+    projectSet[projectSet$readOnly == "TRUE", "readOnly"] <- "Yes"
     projectSet$exists = NULL
     projectSet$order=NULL
     return(projectSet)

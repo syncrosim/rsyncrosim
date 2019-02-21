@@ -8,18 +8,23 @@
 \alias{updatePackage,ANY,Session-method}
 \title{Update Package}
 \usage{
-updatePackage(name = NULL, session = NULL)
+updatePackage(name = NULL, session = NULL, listonly = F)
 
-\S4method{updatePackage}{ANY,character}(name = NULL, session = NULL)
+\S4method{updatePackage}{ANY,character}(name = NULL, session = NULL,
+  listonly = F)
 
-\S4method{updatePackage}{ANY,missingOrNULL}(name = NULL, session = NULL)
+\S4method{updatePackage}{ANY,missingOrNULL}(name = NULL, session = NULL,
+  listonly = F)
 
-\S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL)
+\S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL,
+  listonly = F)
 }
 \arguments{
 \item{name}{Character string.  The name of the package to update.  If NULL, all packages will be updated.}
 
 \item{session}{Session.}
+
+\item{listonly}{Logical.  If TRUE, available updates are listed only.}
 }
 \description{
 Updates a SyncroSim package

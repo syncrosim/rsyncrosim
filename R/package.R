@@ -42,5 +42,4 @@ setMethod('package', signature(session="Session"), function(session, installed=T
     out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
   }
   return(out)
-  
 })

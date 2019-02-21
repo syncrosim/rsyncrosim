@@ -40,7 +40,6 @@ setMethod('readOnly', signature(ssimObject="Scenario"), function(ssimObject) {
   return(scnInfo$readOnly)
 })
 
-
 #' Set the read/write status of an SsimLibrary/Project/Scenario.
 #'
 #' Set the read-only status of an SsimLibrary/Project/Scenario. 
