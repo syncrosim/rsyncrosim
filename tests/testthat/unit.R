@@ -99,9 +99,9 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   ret=delete(paste0(getwd(),"/temp27.ssim"),force=T)
   myLib=ssimLibrary(name="temp26", create=T)
   myOtherLib = ssimLibrary(name="temp27", create=T)
-  myOtherLibProj = project(ssimObject = myOtherLib, project="MyProj", create=T)  
+  myOtherLibProj = project(ssimObject = myOtherLib, project="MyProj", create=T)
   myOtherScn = scenario(myOtherLibProj, scenario="other", create = T)
-  
+
   expect_is(myOtherScn,"Scenario")
   expect_equal(scenario(myOtherLib)$scenarioId,1)
   ret=delete(myOtherLib,scenario="other",force=T)
@@ -235,7 +235,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 test_that("Tests of datasheet - assumes SyncroSim is installed", {
   skip_on_cran()
   myLibrary = ssimLibrary(name= "NewLibrary.ssim", create=T)
-  myProject = project(myLibrary,project="proj", create=T)  
+  myProject = project(myLibrary,project="proj", create=T)
   myScenario = scenario(myProject,scenario="one", create=T)
   myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
   expect_is(myLibraryDataframes,"list")
