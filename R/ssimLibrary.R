@@ -87,7 +87,14 @@ setMethod(f='initialize',signature="SsimLibrary",
         answer <- readline(prompt=paste0("The library has unapplied updates. Do you want to update ",path,"? (y/n): "))
       }
       if(answer=="y"){
-        updateMessage = command(list(update=NULL,lib=path),session)
+        
+        UpdateArgs = list(update=NULL,lib=path)
+        
+        if (backupEnabled(path)){
+          UpdateArgs = c(UpdateArgs, list(backup=NULL))
+        }
+        
+        updateMessage = command(UpdateArgs,session)
         updateMessage = paste(updateMessage, collapse = " ")
 
         if(grepl("Update complete",updateMessage,fixed=T)){

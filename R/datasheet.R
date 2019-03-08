@@ -133,9 +133,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       cSid = sid[i]
       tt = command(list(list=NULL,datasources=NULL,lib=.filepath(x),sid=cSid),session=session(x))
       
-      if(grepl("The library has unapplied updates",tt[[1]])){
-        stop(tt)
-      }
       hasDataInfo = .dataframeFromSSim(tt,csv=F,convertToLogical=c("data","dataInherited"))
       if(!is.element("data",names(hasDataInfo))){
         hasDataInfo$data=F

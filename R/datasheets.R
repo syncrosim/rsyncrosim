@@ -38,9 +38,6 @@ datasheets<-function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F){
     datasheets=x@datasheetNames
   }else{
     tt=command(c("list","datasheets","csv",paste0("lib=",.filepath(x))),.session(x))
-    if(grepl("The library has unapplied updates",tt[[1]])){
-      stop(tt)
-    }
     datasheets = .dataframeFromSSim(tt,convertToLogical=c("isOutput","isSingle"))
     datasheets$scope = sapply(datasheets$scope,camel)
     #TO DO - export this info from SyncroSim

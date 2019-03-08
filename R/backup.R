@@ -18,6 +18,23 @@ setMethod('backup', signature(ssimObject="character"), function(ssimObject) {
   
 #' @rdname backup
 setMethod('backup', signature(ssimObject="SsimObject"), function(ssimObject) {
-  tt = command(list(backup=NULL,lib=.filepath(ssimObject),input=NULL,output=NULL),session=.session(ssimObject))
+  
+  ds = datasheet(ssimObject, name="SSim_Backup")
+  args = list(lib=.filepath(ssimObject), backup=NULL)
+  
+  if (!is.na(ds$IncludeInput)){
+    if (ds$IncludeInput){
+      args = c(args, list(input=NULL))
+    }
+  }
+    
+  if (!is.na(ds$IncludeOutput)){
+    if (ds$IncludeOutput){
+      args = c(args, list(output=NULL))
+    }
+  }
+  
+  tt = command(args = args, session=.session(ssimObject))
   return(tt)
+  
 })

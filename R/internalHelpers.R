@@ -14,6 +14,25 @@ SyncroSimNotFound<-function(inMessage=NULL,warn=T){
   return(outMessage)
 }
 
+backupEnabled<- function(path){
+  
+  drv = DBI::dbDriver('SQLite')
+  con = DBI::dbConnect(drv, path)
+  
+  ret = DBI::dbGetQuery(con, "SELECT * FROM SSim_Backup")
+  DBI::dbDisconnect(con)
+  
+  if (is.na(ret$BeforeUpdate)){
+    return(FALSE)
+  }
+  
+  if (ret$BeforeUpdate == 0){
+    return(FALSE)
+  }
+  
+  return (TRUE)
+}
+
 deleteDatasheet<-function(x,datasheet,datasheets,cProj=NULL,cScn=NULL,cProjName=NULL,cScnName=NULL,out=list(),force){
   out=list()
   for(j in seq(length.out=length(datasheet))){
