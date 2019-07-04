@@ -4,8 +4,13 @@
 NULL
 
 setMethod(f='initialize',signature="SsimLibrary",
-    definition=function(.Object,name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F){
-    #if a syncrosim session is not provided, make one
+    definition=function(.Object,name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F){
+      
+    if(create){
+      warning("create argument deprecated.  Please use overwrite=T instead.")
+      overwrite=T
+    } 
+      
     enabled=NULL
     if(is.null(session)){
       session = .session()
@@ -49,14 +54,15 @@ setMethod(f='initialize',signature="SsimLibrary",
     if(!grepl(".ssim",path)) {
       path=paste0(path,".ssim")
     }
-
-    if (create) {
+    
+    if (overwrite){
       if (file.exists(path)) {
-        stop(paste0("Cannot overwrite existing library: ",path)) 
-      }
-      if(is.null(package)){
-        stop('Specify a package for the new library.')
-      }
+        deleteLibrary(path,force=T)
+      }      
+    }
+    
+    if (!file.exists(path)) {
+      
       pathBits = strsplit(path,"/")[[1]]
       dir.create(paste(head(pathBits,-1),collapse="/"),showWarnings=F)
       
@@ -67,11 +73,7 @@ setMethod(f='initialize',signature="SsimLibrary",
       cStatus = command(args,session)
       if(cStatus[1]!="saved"){
         stop("Problem creating library: ", cStatus[1])
-      }
-    } else {
-    if (!file.exists(path)) {
-        stop(paste0("Library not found: ", path, ". Set create=T to create a new library."))
-      }
+      }      
     }
 
     #ensure the base package specified matches the base package on disk
@@ -154,17 +156,18 @@ setMethod(f='initialize',signature="SsimLibrary",
   }
 )
 
-setGeneric('.ssimLibrary', function(name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('.ssimLibrary'))
+setGeneric('.ssimLibrary', function(name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F) standardGeneric('.ssimLibrary'))
 
-setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,create,package,session,addon,forceUpdate) {
+setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,create,package,session,addon,forceUpdate,overwrite=F) {
   return(new("SsimLibrary",name,create,package,session,addon,forceUpdate))
 })
 
-setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,package,session,addon,forceUpdate) {
+setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,package,session,addon,forceUpdate,overwrite) {
+  
   if(class(name)=="SsimLibrary"){
     out=name
   }else{
-    out = .ssimLibrary(name=.filepath(name),create,session=.session(name))
+    out = .ssimLibrary(name=.filepath(name),create,package,session=.session(name),addon,forceUpdate,overwrite)
   }
   return(out)
 })
@@ -185,39 +188,40 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
 #' }
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
-#' @param create Logical. If TRUE the library will be created if it does not exist.  If FALSE (default) an error will occur if the library does not exist.
 #' @param summary logical. Default T
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See addon() for options.
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
+#' @param overwrite.  Logical.  If TRUE an existing Library will be overwritten.
 #' @return An \code{SsimLibrary} object.
 #' @examples
 #' \dontrun{
 #' #Create a library using the default session
-#' myLibrary = ssimLibrary(name="myLib", create=T)
+#' myLibrary = ssimLibrary(name="myLib", overwrite=T)
 #' 
 #' #Open a library using the default session
 #' myLibrary = ssimLibrary(name="myLib")
 #'
 #' #Create library using a specific session
 #' mySession = session("C:/Downloads/SyncroSim")
-#' myLibrary = ssimLibrary(name="myLib",session=mySession, create=T)
+#' myLibrary = ssimLibrary(name="myLib",session=mySession, session=T)
 #'
 #' session(myLibrary)
 #' filepath(myLibrary)
 #' info(myLibrary)
 #' }
 #' @export
-setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F) standardGeneric('ssimLibrary'))
+setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F) standardGeneric('ssimLibrary'))
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summary,package,session,addon,forceUpdate) {
+setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summary,package,session,addon,forceUpdate,overwrite) {
+  
   if(class(name)=="SsimLibrary"){
     out=name
     if(is.null(summary)){summary=T}
   }else{
-    out = .ssimLibrary(name=.filepath(name),create,session=.session(name))
+    out = .ssimLibrary(name=.filepath(name),create,package,session=.session(name),addon,forceUpdate,overwrite)
     if(is.null(summary)){summary=F}
   }
   if(!summary){
@@ -227,14 +231,14 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summ
 })
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,create,summary=NULL,package,session,addon,forceUpdate) {
-            
+setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,create,summary=NULL,package,session,addon,forceUpdate,overwrite) {
+  
     if(is.null(session)){session=.session()}
     if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
       return(SyncroSimNotFound())
     }
             
-    newLib = new("SsimLibrary",name,create,package,session,addon,forceUpdate)
+    newLib = new("SsimLibrary",name,create,package,session,addon,forceUpdate,overwrite)
     if(!is.null(summary)&&summary){
       return(info(newLib))
     }

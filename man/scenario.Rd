@@ -5,8 +5,8 @@
 \title{Create or open one or more Scenarios.}
 \usage{
 scenario(ssimObject = NULL, scenario = NULL, sourceScenario = NULL,
-  create = F, summary = NULL, results = F, overwrite = F,
-  forceElements = F)
+  create = F, summary = NULL, results = F, forceElements = F,
+  overwrite = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.}
@@ -15,15 +15,13 @@ scenario(ssimObject = NULL, scenario = NULL, sourceScenario = NULL,
 
 \item{sourceScenario}{Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.}
 
-\item{create}{Logical. If TRUE the scenario will be created if it does not exist.  If FALSE (default) an error will occur if the scenario does not exist.}
-
 \item{summary}{Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.}
 
 \item{results}{Logical. If TRUE only return result scenarios.}
 
-\item{overwrite}{Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.}
-
 \item{forceElements}{Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.}
+
+\item{overwrite.}{Logical.  If TRUE an existing Scenario will be overwritten.}
 }
 \value{
 A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
@@ -47,6 +45,6 @@ For each element of scenario:
 # Create a new scenario
 myLibrary = ssimLibrary(name="stsim")
 myProject = project(myLibrary,project="a project") 
-myScenario = scenario(myProject,scenario="a scenario",create=T)
+myScenario = scenario(myProject,scenario="a scenario",overwrite=T)
 }
 }

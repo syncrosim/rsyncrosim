@@ -135,22 +135,26 @@ setMethod(f='initialize',signature="Scenario",
 #' @param ssimObject SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.
 #' @param scenario Character, integer, or vector of these. Names or ids of one or more scenarios. Note integer ids are slightly faster.
 #' @param sourceScenario Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.
-#' @param create Logical. If TRUE the scenario will be created if it does not exist.  If FALSE (default) an error will occur if the scenario does not exist.
 #' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.
 #' @param results Logical. If TRUE only return result scenarios.
-#' @param overwrite Logical. If TRUE, overwrite any existing scenarios. Note that existing scenarios and any associated results will be permanently deleted from the database.
 #' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.
+#' @param overwrite.  Logical.  If TRUE an existing Scenario will be overwritten.
 #' @return A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
 #' @examples
 #' \dontrun{
 #' # Create a new scenario
 #' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(myLibrary,project="a project") 
-#' myScenario = scenario(myProject,scenario="a scenario",create=T)
+#' myScenario = scenario(myProject,scenario="a scenario",overwrite=T)
 #' }
 #' @name scenario
 #' @export
-scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,overwrite=F,forceElements=F){
+scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,forceElements=F,overwrite=F){
+  
+  if(create){
+    warning("create argument deprecated.  Please use overwrite=T instead.")
+    overwrite=T
+  } 
   
   if(is.character(ssimObject)&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
@@ -194,10 +198,9 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
   xProjScn  =.getFromXProjScn(ssimObject,project=NULL,scenario=scenario,convertObject=convertObject,returnIds=returnIds,goal="scenario",complainIfMissing=F)
   
   if(class(xProjScn)=="Scenario"){
-    if (create){
-      stop(paste0("Cannot overwrite existing scenario: ",project)) 
+    if (!overwrite){
+      return(xProjScn)      
     }
-    return(xProjScn)
   }
   
   if(class(xProjScn)!="list"){
@@ -286,14 +289,8 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,
   for(i in seq(length.out=nrow(scnsToMake))){
     cRow = scnsToMake[i,]
     if(!is.na(cRow$exists)){
-      if (create){
-        stop(paste0("Cannot overwrite existing scenario: ",cRow$name)) 
-      }
       scnList[[as.character(scnsToMake$scenarioId[i])]]=new("Scenario",ssimObject,project=cRow$projectId,id=cRow$scenarioId,scenarios=cRow)
     }else{
-      if (!create){
-        stop("Set create=T to create new scenarios.") 
-      }  
       obj=new("Scenario",ssimObject,project=cRow$projectId,name=cRow$name,sourceScenario=sourceScenario,scenarios=libScns)
       scnList[[as.character(.scenarioId(obj))]]=obj
     }

@@ -8,20 +8,18 @@
 \title{Create or open a library.}
 \usage{
 ssimLibrary(name = NULL, create = F, summary = NULL, package = NULL,
-  session = NULL, addon = NULL, forceUpdate = F)
+  session = NULL, addon = NULL, forceUpdate = F, overwrite = F)
 
 \S4method{ssimLibrary}{SsimObject}(name = NULL, create = F,
   summary = NULL, package = NULL, session = NULL, addon = NULL,
-  forceUpdate = F)
+  forceUpdate = F, overwrite = F)
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(name = NULL, create = F,
   summary = NULL, package = NULL, session = NULL, addon = NULL,
-  forceUpdate = F)
+  forceUpdate = F, overwrite = F)
 }
 \arguments{
 \item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.}
-
-\item{create}{Logical. If TRUE the library will be created if it does not exist.  If FALSE (default) an error will occur if the library does not exist.}
 
 \item{summary}{logical. Default T}
 
@@ -32,6 +30,8 @@ ssimLibrary(name = NULL, create = F, summary = NULL, package = NULL,
 \item{addon}{Character or character vector. One or more addons. See addon() for options.}
 
 \item{forceUpdate}{Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.}
+
+\item{overwrite.}{Logical.  If TRUE an existing Library will be overwritten.}
 }
 \value{
 An \code{SsimLibrary} object.
@@ -52,14 +52,14 @@ If summary = NULL, returns library summary info if ssimObject is an SsimLibrary,
 \examples{
 \dontrun{
 #Create a library using the default session
-myLibrary = ssimLibrary(name="myLib", create=T)
+myLibrary = ssimLibrary(name="myLib", overwrite=T)
 
 #Open a library using the default session
 myLibrary = ssimLibrary(name="myLib")
 
 #Create library using a specific session
 mySession = session("C:/Downloads/SyncroSim")
-myLibrary = ssimLibrary(name="myLib",session=mySession, create=T)
+myLibrary = ssimLibrary(name="myLib",session=mySession, session=T)
 
 session(myLibrary)
 filepath(myLibrary)

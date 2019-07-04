@@ -7,35 +7,26 @@ library(rsyncrosim)
 library(raster) # Required to work with spatial data
 
 # *************************************************************
-# File/Package Setup
+# Setup
 # *************************************************************
+
+# Set the Library name
+libraryName = "/home/<username>/syncrosim/Demonstration Library.ssim"
 
 # Get the filenames for the sample raster TIF files used in this script
 stratumTif = system.file("extdata", "initial-stratum.tif", package = "rsyncrosim")
 sclassTif = system.file("extdata", "initial-sclass.tif", package = "rsyncrosim")
 ageTif = system.file("extdata", "initial-age.tif", package = "rsyncrosim")
 
-# Set the name of the folder into which you installed SyncroSim  
-# (i.e. this folder should contain the file SyncroSim.Console.exe)
-
-programFolder = "/home/<username>/syncrosim/"
-
-# Set the library name
-libraryName = "/home/<username>/syncrosim/Demonstration Library.ssim"
-
-if (file.exists(libraryName)){
-  file.remove(libraryName)
-}
-
 # *************************************************************
 # Start Session & Create Library
 # *************************************************************
 
-# Start a SyncroSim session
-mySession = session(programFolder)
+# Start a SyncroSim session from the default location 
+mySession = session()
 
 # Create the library (the default package is "stsim")
-myLibrary = ssimLibrary(name=libraryName, session=mySession, create=T)
+myLibrary = ssimLibrary(name=libraryName, session=mySession, overwrite=T)
 
 # Display internal names of all the library's datasheets
 (librarySheetNames = datasheet(myLibrary, summary=T))
