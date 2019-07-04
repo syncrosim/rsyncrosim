@@ -188,12 +188,13 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
 #' }
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
+#' @param create Logical. Deprecated. Use 'overwrite' instead.
 #' @param summary logical. Default T
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See addon() for options.
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
-#' @param overwrite.  Logical.  If TRUE an existing Library will be overwritten.
+#' @param overwrite Logical. If TRUE an existing Library will be overwritten.
 #' @return An \code{SsimLibrary} object.
 #' @examples
 #' \dontrun{

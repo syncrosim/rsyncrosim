@@ -21,6 +21,8 @@ ssimLibrary(name = NULL, create = F, summary = NULL, package = NULL,
 \arguments{
 \item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.}
 
+\item{create}{Logical. Deprecated. Use 'overwrite' instead.}
+
 \item{summary}{logical. Default T}
 
 \item{package}{Character. The package type. The default is "stsim".}
@@ -31,7 +33,7 @@ ssimLibrary(name = NULL, create = F, summary = NULL, package = NULL,
 
 \item{forceUpdate}{Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.}
 
-\item{overwrite.}{Logical.  If TRUE an existing Library will be overwritten.}
+\item{overwrite}{Logical. If TRUE an existing Library will be overwritten.}
 }
 \value{
 An \code{SsimLibrary} object.

@@ -15,13 +15,15 @@ scenario(ssimObject = NULL, scenario = NULL, sourceScenario = NULL,
 
 \item{sourceScenario}{Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.}
 
+\item{create}{Logical. Deprecated. Use 'overwrite' instead.}
+
 \item{summary}{Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.}
 
 \item{results}{Logical. If TRUE only return result scenarios.}
 
 \item{forceElements}{Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.}
 
-\item{overwrite.}{Logical.  If TRUE an existing Scenario will be overwritten.}
+\item{overwrite}{Logical. If TRUE an existing Scenario will be overwritten.}
 }
 \value{
 A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.

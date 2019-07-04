@@ -14,11 +14,13 @@ project(ssimObject = NULL, project = NULL, sourceProject = NULL,
 
 \item{sourceProject}{Character, integer, or Project object. If not NULL, new projects will be copies of the sourceProject.}
 
+\item{create}{Logical. Deprecated. Use 'overwrite' instead.}
+
 \item{summary}{Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.}
 
 \item{forceElements}{Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.}
 
-\item{overwrite.}{Logical.  If TRUE an existing Project will be overwritten.}
+\item{overwrite}{Logical. If TRUE an existing Project will be overwritten.}
 }
 \value{
 A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.

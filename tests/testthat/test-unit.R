@@ -27,7 +27,7 @@ test_that("Tests of Session - assumes SyncroSim is installed", {
 test_that("Tests of command  - assumes SyncroSim is installed", {
   skip_on_cran()
   mySsim = session() # Creates a session using the default installation of syncrosim
-  expect_equal(command("help")[1],"System Console [Arguments]")
+  expect_equal(command("help")[1],"SyncroSim System Console")
   expect_equal(command(c("list","help"),mySsim)[1],"Lists existing items")
   expect_equal(command("--create --help")[1],"Creates an item")
   expect_equal(command(list(create=NULL,help=NULL))[1],"Creates an item")
@@ -40,26 +40,28 @@ test_that("Tests of command  - assumes SyncroSim is installed", {
 
 test_that("Tests of Library - assumes SyncroSim is installed", {
   skip_on_cran()
-  myLibrary = ssimLibrary(name="temp", create=T) #create new library using default model
+  myLibrary = ssimLibrary(name="temp") #create new library using default model
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(as.character(basePackage(myLibrary)$name),"stsim")
   expect_equal(delete(myLibrary,force=T),"saved")
   expect_equal(file.exists(filepath(myLibrary)),FALSE)
 
-  myLibrary = ssimLibrary(name="SSimLibrary", create=T)
+  myLibrary = ssimLibrary(name="SSimLibrary")
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(name(myLibrary),"SSimLibrary")
 
   # With addons
   expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
   allAdds = addon(myLibrary)
-  expect_equal(names(allAdds),c("name","displayName","enabled","currentVersion","minimumVersion"))
-  expect_equal(names(addon()),c("name","displayName","version","extends"))
+  expect_equal(names(allAdds),c("name","description","enabled","currentVersion","minimumVersion"))
+  expect_equal(names(addon()),c("name","description","version","extends"))
   expect_equal(delete(myLibrary,force=T),"saved")
+  
+  allAdds = subset(allAdds, name != "stsim-cbm") #Requires stsim-stockflow to be added first
 
   if(nrow(allAdds)>0){
     cAdd =allAdds$name[1]
-    myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd), create = T)
+    myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd))
     expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
     expect_equal(disableAddon(myLibrary,cAdd)[[cAdd]],"saved")
     expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
@@ -97,55 +99,55 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
   ret=delete(paste0(getwd(),"/temp26.ssim"),force=T) #delete a library specified by a path
   ret=delete(paste0(getwd(),"/temp27.ssim"),force=T)
-  myLib=ssimLibrary(name="temp26", create=T)
-  myOtherLib = ssimLibrary(name="temp27", create=T)
-  myOtherLibProj = project(ssimObject = myOtherLib, project="MyProj", create=T)
-  myOtherScn = scenario(myOtherLibProj, scenario="other", create = T)
+  myLib=ssimLibrary(name="temp26")
+  myOtherLib = ssimLibrary(name="temp27")
+  myOtherLibProj = project(ssimObject = myOtherLib, project="MyProj")
+  myOtherScn = scenario(myOtherLibProj, scenario="other")
 
   expect_is(myOtherScn,"Scenario")
   expect_equal(scenario(myOtherLib)$scenarioId,1)
   ret=delete(myOtherLib,scenario="other",force=T)
   expect_equal(nrow(scenario(myOtherLib)),0)
-  myOtherScn = scenario(myOtherLib,scenario="other2", create=T)
+  myOtherScn = scenario(myOtherLib,scenario="other2")
 
   expect_equal(names(project(myOtherLib)),c("projectId","name","owner","lastModified","readOnly"))
   expect_equal(names(scenario(myOtherLib)),c("scenarioId","projectId","name","isResult","parentID","owner","lastModified","readOnly"))
 
-  myProject = project(myLib,project="temp", create = T)
+  myProject = project(myLib,project="temp")
   expect_is(myProject,"Project")
   expect_equal(names(datasheet(myProject)),c("scope","name","displayName")) #Only scope, name and displayName returned
   expect_equal(is.element("STime_Map",datasheet(myLib,project="temp")$name),T) #same thing, but more system calls. Generally using ids/objects is faster than using names.
   expect_equal(names(datasheet(myProject,optional=T)),c("scope","package","name","displayName","isSingle","isOutput"))
 
   expect_error(scenario(myLib,scenario=1),"Scenario ids (1) not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.",fixed=T) # Fail: need a name to create a scenario
-  myScn = scenario(myLib,scenario="one", create=T) #Ok because only one project in the library.
+  myScn = scenario(myLib,scenario="one") #Ok because only one project in the library.
   expect_is(myScn,"Scenario")
-  myProject = project(myLib,project="temp2", create=T)
+  myProject = project(myLib,project="temp2")
   expect_equal(project(myLib)$name,c("temp","temp2"))
   myScn = scenario(myLib,scenario="one") #Ok because only one scenario of this name occurs in the library.
-  myScn = scenario(myProject,scenario="one", create = T) #Creates a new scenario called "one" in the second project.
+  myScn = scenario(myProject,scenario="one") #Creates a new scenario called "one" in the second project.
   expect_equal(scenario(myLib)$name,c("one","one"))
 
   expect_error(scenario(myLib,scenario="one"),"The ssimObject contains more than one scenario called one. Specify a scenario id: 1,2",fixed=T) #Fails because now there are two scenarios called "one" in the library.
-  myScn = scenario(myProject,scenario="one",overwrite=T, create=T) #Overwrites existing scenario, assigns new id.
+  myScn = scenario(myProject,scenario="one",overwrite=T) #Overwrites existing scenario, assigns new id.
   expect_equal(scenario(myLib)$scenarioId,c(1,3))
-  myScn = scenario(myProject,scenario="two",overwrite=T, create=T, sourceScenario=1) #Can copy scenarios between projects.
+  myScn = scenario(myProject,scenario="two",overwrite=T, sourceScenario=1) #Can copy scenarios between projects.
   expect_equal(projectId(myScn),10)
-  myScn = scenario(myProject,scenario="other",overwrite=T,create=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
+  myScn = scenario(myProject,scenario="other",overwrite=T,sourceScenario=myOtherScn) #Can copy scenarios between libraries if sourceScenario is a scenario object.
   expect_equal(scenarioId(myScn),5)
 
-  myOtherProject=project(myOtherLib,project="copy",create=T,sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
+  myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
 
-  myOtherProject=project(myLib,project="copy",sourceProject=10, create=T)#Copy a project within the same library.
+  myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
   expect_equal(projectId(myOtherProject),19)
   expect_warning(project(myLib,project="temp",sourceProject="temp2"),"Project  (1) already exists, so sourceProject argument was ignored.",fixed=T)#Warns that sourceProject is ignored because "temp" already exists.
-  myOtherProject=project(myLib,project="copy2",sourceProject="temp2", create=T)#Copy a project by name
+  myOtherProject=project(myLib,project="copy2",sourceProject="temp2")#Copy a project by name
   expect_equal(project(myLib)$name,c("copy","copy2","temp","temp2"))
   ret =delete(myProject,scenario="one",force=T)
-  myScn = scenario(myProject,scenario="one",sourceScenario="one",create=T) #Ok because only one possible source
+  myScn = scenario(myProject,scenario="one",sourceScenario="one") #Ok because only one possible source
   expect_equal(scenarioId(myScn),6)
   expect_warning(scenario(myProject,scenario="one",sourceScenario="one"),"ourceScenario was ignored because scenario already exists.",fixed=T) #Warns that sourceScenario will be ignored.
-  expect_error(scenario(myProject,scenario="three",sourceScenario="one", create=T),"There is more than one scenario called one in the SsimLibrary. Please provide a sourceScenario id: 1,6",fixed=T) #Fail if more than one scenario named sourceScenario in the library.
+  expect_error(scenario(myProject,scenario="three",sourceScenario="one"),"There is more than one scenario called one in the SsimLibrary. Please provide a sourceScenario id: 1,6",fixed=T) #Fail if more than one scenario named sourceScenario in the library.
 
   expect_equal(nrow(scenario(myScn,summary=T)),1) #return summary info
   expect_is(datasheet(myScn,"SSim_SysFolder"),"data.frame")#returns a datasheet
@@ -206,8 +208,8 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_equal(ssimUpdate(myProject),"The library has no unapplied updates.")
 
   #test dependency, precedence setting
-  ret=scenario(myProject,scenario="another scn", create=T)
-  targetScn = scenario(myProject,scenario="second scen", create=T)
+  ret=scenario(myProject,scenario="another scn")
+  targetScn = scenario(myProject,scenario="second scen")
   ret=dependency(targetScn,dependency=c("other","New scn name","another scn")) #elements of the dependency argument are ordered from lowest to highest precedence
   expect_equal(dependency(targetScn)$name,c("another scn","New scn name","other"))
   ret=dependency(targetScn,dependency=c("another scn","New scn name")) #change the precedence of dependencies by adding them again.
@@ -234,9 +236,9 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
 test_that("Tests of datasheet - assumes SyncroSim is installed", {
   skip_on_cran()
-  myLibrary = ssimLibrary(name= "NewLibrary.ssim", create=T)
-  myProject = project(myLibrary,project="proj", create=T)
-  myScenario = scenario(myProject,scenario="one", create=T)
+  myLibrary = ssimLibrary(name= "NewLibrary.ssim")
+  myProject = project(myLibrary,project="proj")
+  myScenario = scenario(myProject,scenario="one")
   myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
   expect_is(myLibraryDataframes,"list")
   expect_is(myLibraryDataframes[["STime_Options"]],"data.frame")

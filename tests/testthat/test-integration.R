@@ -11,9 +11,9 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
 
   # Create the project definition
   libPath = paste0(getwd(),"/ST-Sim-Command-Line.ssim")
-  ret=delete(myLibrary,force=T)
-  myLibrary = ssimLibrary(name=libPath, create=T)
-  myProject = project(myLibrary,project="ST-Sim Demonstration", create=T)
+  ret=delete(libPath,force=T)
+  myLibrary = ssimLibrary(name=libPath)
+  myProject = project(myLibrary,project="ST-Sim Demonstration")
 
   #***********************************
   # Cover types and state classes
@@ -65,7 +65,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   #*************************************
   # Build Scenario That Contains Shared Parameters
   #*************************************
-  myScenario = scenario(myProject,scenario="Dependency Scenario", create=T)
+  myScenario = scenario(myProject,scenario="Dependency Scenario")
 
   #**************
   # Run control
@@ -117,7 +117,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   #*************************************
   # Add No Harvest Scenario
   #*************************************
-  myScenario = scenario(myProject,scenario="No Harvest", create=T)
+  myScenario = scenario(myProject,scenario="No Harvest")
 
   ret = dependency(myScenario,dependency="Dependency Scenario") #set dependency
   expect_equal(dependency(myScenario)$name,"Dependency Scenario") #now there is a dependency
@@ -134,7 +134,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   #*************************************
   # Add Harvest Scenario
   #*************************************
-  myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest", create=T)
+  myScenario = scenario(myProject,scenario="Harvest",sourceScenario="No Harvest")
 
   #******************
   # Transition targets

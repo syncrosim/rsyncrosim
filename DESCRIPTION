@@ -11,6 +11,7 @@ Description: rsyncrosim provides an interface to SyncroSim, a generalized
     simulations, and summarizing model outputs.
 License: GPL-3 | file LICENSE
 LazyData: TRUE
+Encoding: UTF-8
 Imports:
     methods,
     DBI,
