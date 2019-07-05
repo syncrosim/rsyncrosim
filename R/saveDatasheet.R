@@ -128,46 +128,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         stop("name not found in datasheetNames")
       }
     }
-    
-    doDelete = F
-    if(scope=="scenario"){
-      if(append){args[["append"]]=NULL}else{
-        if(!is.null(fileData)){
-          doDelete=T #reset spatial info by deleting the sheet.
-        }
-        if(nrow(cDat)==0){
-          doDelete=T
-        }
-      }
-    }else{
-      if(!append){
-        doDelete=T
-      }
-    }
-    if(doDelete){
-      if(!force&scope!="scenario"){
-        answer <- readline(prompt=paste0("Deleting project and library level datasheets that contain lookups will also delete other definitions and results that rely on these lookups.\nDo you really want to delete ",name,"? (y/n): "))
-      }else{
-        answer = "y"
-      }
-      
-      if(answer=="y"){
-        targs = list(delete=NULL,data=NULL,lib=.filepath(x),sheet=cName,force=NULL)
-        if(scope=="scenario"){
-          targs[["sid"]]=.scenarioId(x)
-        }
-        if(scope=="project"){
-          targs[["pid"]]=.projectId(x)
-        }
-        ttt=command(targs,.session(x))
-        if(ttt[[1]]!="saved"){
-          stop(ttt)
-        }
-      }else{
-        warning("Datasheet was appended - old records were not deleted.")
-      }
-    }
-    
+  
     #if no fileData found and datasheet contains files, find the files
     if(is.null(fileData)){
       #get info on sheet type
@@ -272,7 +233,12 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     }
     
     dir.create(pathBit, showWarnings = FALSE,recursive=T)
-    tempFile = paste0(pathBit,"/",cName,".csv")
+    
+    if (append){
+      tempFile = paste0(pathBit,"/","SSIM_APPEND-",cName,".csv")      
+    }else{
+      tempFile = paste0(pathBit,"/","SSIM_OVERWRITE-",cName,".csv") 
+    }
 
     write.csv(cDat,file=tempFile,row.names=F,quote=T)
     if(breakpoint){
