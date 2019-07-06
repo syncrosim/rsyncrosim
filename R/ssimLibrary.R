@@ -7,8 +7,8 @@ setMethod(f='initialize',signature="SsimLibrary",
     definition=function(.Object,name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F){
       
     if(create){
-      warning("create argument deprecated.  Please use overwrite=T instead.")
-      overwrite=T
+      warning("create argument deprecated and no longer required.")
+      if (overwrite){create=F}
     } 
       
     enabled=NULL
@@ -53,6 +53,12 @@ setMethod(f='initialize',signature="SsimLibrary",
     
     if(!grepl(".ssim",path)) {
       path=paste0(path,".ssim")
+    }
+    
+    if (create) {
+      if (file.exists(path)) {
+        stop(paste0("Cannot overwrite existing library.  Use overwrite=T: ",path)) 
+      }
     }
     
     if (overwrite){
@@ -188,7 +194,7 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
 #' }
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
-#' @param create Logical. Deprecated. Use 'overwrite' instead.
+#' @param create Logical. Deprecated and no longer required.
 #' @param summary logical. Default T
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
