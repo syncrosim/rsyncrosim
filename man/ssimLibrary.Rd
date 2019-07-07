@@ -21,7 +21,7 @@ ssimLibrary(name = NULL, create = F, summary = NULL, package = NULL,
 \arguments{
 \item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.}
 
-\item{create}{Logical. Deprecated. Use 'overwrite' instead.}
+\item{create}{Logical. Deprecated and no longer required.}
 
 \item{summary}{logical. Default T}
 

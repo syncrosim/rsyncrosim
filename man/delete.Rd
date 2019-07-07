@@ -31,7 +31,7 @@ delete(ssimObject, project = NULL, scenario = NULL, datasheet = NULL,
 A list of "saved" or failure messages for each item.
 }
 \description{
-Deletes one or more items. Note this is irreversable.
+Deletes one or more items. Note this is irreversible
 }
 \examples{
 \dontrun{
