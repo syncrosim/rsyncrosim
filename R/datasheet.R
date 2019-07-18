@@ -171,6 +171,15 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   for(kk in seq(length.out=length(allNames))){
     name=allNames[kk]
     
+    if (!grepl("_", name, fixed = )){
+      name = paste0("stsim_", name)
+    }
+    
+    if (grepl("STSim_", name, fixed = T)){
+      warning("An STSim_ prefix for a datasheet name is no longer required.")
+      name = paste0("stsim_", gsub("STSim_", "", name, fixed = T))     
+    }
+    
     includeKey=F #Off for v0.1
     if(!includeKey){
       rmId = strsplit(name,"_")[[1]][2]

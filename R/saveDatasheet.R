@@ -72,6 +72,16 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     if(length(name)>1){
       stop("If a vector of names is provided, then data must be a list.")
     }
+    
+    if (!grepl("_", name, fixed = )){
+      name = paste0("stsim_", name)
+    }
+    
+    if (grepl("STSim_", name, fixed = T)){
+      warning("An STSim_ prefix for a datasheet name is no longer required.")
+      name = paste0("stsim_", gsub("STSim_", "", name, fixed = T))     
+    }
+    
     hdat = data
     data = list()
     data[[name]]=hdat

@@ -31,7 +31,7 @@ NULL
 #' @return A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
 #' @examples 
 #' \dontrun{
-#' datasheetRaster(myResult,datasheet="STSim_OutputSpatialState",
+#' datasheetRaster(myResult,datasheet="OutputSpatialState",
 #'   subset=expression(grepl("Ts0001",Filename,fixed=T)))
 #' }
 #' @export
@@ -104,6 +104,15 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
   Timestep=NULL;Iteration=NULL;layerName=NULL;freq=NULL
   if(!is.null(scenario)){
     warning("scenario argument is ignored when ssimObject is a scenario.")
+  }
+  
+  if (!grepl("_", datasheet, fixed = )){
+    datasheet = paste0("stsim_", datasheet)
+  }
+  
+  if (grepl("STSim_", datasheet, fixed = T)){
+    warning("An STSim_ prefix for a datasheet name is no longer required.")
+    datasheet = paste0("stsim_", gsub("STSim_", "", datasheet, fixed = T))     
   }
   
   x=ssimObject  
