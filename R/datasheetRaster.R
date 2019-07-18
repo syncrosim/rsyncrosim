@@ -297,6 +297,10 @@ setMethod('datasheetRaster', signature(ssimObject="Scenario"), function(ssimObje
     }
   }
 
+  #ensure layers are sorted by name
+  sortNames = sort(names(cStack))
+  cStack=raster::subset(cStack,sortNames)
+
   if((length(names(cStack))==1)&!forceElements){
     cStack = cStack[[1]]
   }
