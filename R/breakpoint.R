@@ -192,7 +192,7 @@ getBPNameLongForm <- function(breakpointType){
 #' When the Scenario is run the breakpoint's callback function will be called for the specified iterations or timesteps.  
 #'
 #' @param x A SyncroSim Scenario
-#' @param transformerName A Stochastic Time Transformer (e.g. stsim:runtime)
+#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime)
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep
 #' @param arguments A vector of timesteps or iterations e.g. c(1,2)
 #' @param callback A function to be called when the breakpoint is hit
@@ -204,7 +204,7 @@ getBPNameLongForm <- function(breakpointType){
 #'   print(paste0('Breakpoint hit: ', scenarioId(x)))
 #' }
 #' 
-#' myScenario = addBreakpoint(myScenario, "stsim:runtime", "bi", callbackFunction)
+#' myScenario = addBreakpoint(myScenario, "stsim_Runtime", "bi", callbackFunction)
 #' }
 #' @export
 setGeneric('addBreakpoint',function(x,transformerName,breakpointType,arguments,callback) standardGeneric('addBreakpoint'))
@@ -233,13 +233,13 @@ setMethod('addBreakpoint',signature(x="Scenario"),function(x,transformerName,bre
 #' This function will delete a Scenario breakpoint.
 #'
 #' @param x A SyncroSim Scenario
-#' @param transformerName A Stochastic Time Transformer (e.g. stsim:runtime).  Optional.
+#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
 #' @return A SyncroSim Scenario with an updated list of breakpoints
 #' @examples
 #' \dontrun{
 #' myScenario = deleteBreakpoint(myScenario)  
-#' myScenario = deleteBreakpoint(myScenario, transformerName="stsim:runtime")
+#' myScenario = deleteBreakpoint(myScenario, transformerName="stsim_Runtime")
 #' }
 #' @export
 setGeneric('deleteBreakpoint',function(x,transformerName=NULL,breakpointType=NULL) standardGeneric('deleteBreakpoint'))
