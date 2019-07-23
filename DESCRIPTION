@@ -59,6 +59,7 @@ Collate:
     'ssimLibrary.R'
     'session.R'
     'internalWrappers.R'
+    'mergeDependencies.R'
     'model.R'
     'module.R'
     'owner.R'
