@@ -14,7 +14,7 @@ deleteBreakpoint(x, transformerName = NULL, breakpointType = NULL)
 \arguments{
 \item{x}{A SyncroSim Scenario}
 
-\item{transformerName}{A Stochastic Time Transformer (e.g. stsim:runtime).  Optional.}
+\item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.}
 
 \item{breakpointType}{bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.}
 }
@@ -27,6 +27,6 @@ This function will delete a Scenario breakpoint.
 \examples{
 \dontrun{
 myScenario = deleteBreakpoint(myScenario)  
-myScenario = deleteBreakpoint(myScenario, transformerName="stsim:runtime")
+myScenario = deleteBreakpoint(myScenario, transformerName="stsim_Runtime")
 }
 }

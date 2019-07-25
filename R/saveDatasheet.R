@@ -272,6 +272,8 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       }
       if(tt[[1]]=="saved"){unlink(tempFile)}
       out[[cName]] = tt
+    }else{
+      out[[cName]] = "Saved"
     }
   }
   

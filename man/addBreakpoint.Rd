@@ -14,7 +14,7 @@ addBreakpoint(x, transformerName, breakpointType, arguments, callback)
 \arguments{
 \item{x}{A SyncroSim Scenario}
 
-\item{transformerName}{A Stochastic Time Transformer (e.g. stsim:runtime)}
+\item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime)}
 
 \item{breakpointType}{bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep}
 
@@ -37,6 +37,6 @@ callbackFunction <- function(x, iteration, timestep) {
   print(paste0('Breakpoint hit: ', scenarioId(x)))
 }
 
-myScenario = addBreakpoint(myScenario, "stsim:runtime", "bi", callbackFunction)
+myScenario = addBreakpoint(myScenario, "stsim_Runtime", "bi", callbackFunction)
 }
 }

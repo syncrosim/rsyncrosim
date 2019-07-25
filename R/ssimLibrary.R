@@ -12,9 +12,16 @@ setMethod(f='initialize',signature="SsimLibrary",
     } 
       
     enabled=NULL
+    
     if(is.null(session)){
-      session = .session()
+      e = ssimEnvironment()
+      if (!is.na(e$ProgramDirectory)){
+        session = .session(e$ProgramDirectory)
+      }else{
+        session = .session()        
+      }
     }
+    
     if(is.character(session)){
       session=.session(session)
     }
@@ -194,7 +201,6 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
 #' }
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
-#' @param create Logical. Deprecated and no longer required.
 #' @param summary logical. Default T
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.

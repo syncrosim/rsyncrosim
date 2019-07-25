@@ -14,16 +14,16 @@ ssimEnvironment <- function() {
       PackageDirectory = Sys.getenv("SSIM_PACKAGE_DIRECTORY", unset = NA),
       ProgramDirectory = Sys.getenv("SSIM_PROGRAM_DIRECTORY", unset = NA),
       LibraryFilePath = Sys.getenv("SSIM_LIBRARY_FILEPATH", unset = NA),
-      ProjectId = Sys.getenv("SSIM_PROJECT_ID", unset = NA),
-      ScenarioId = Sys.getenv("SSIM_SCENARIO_ID", unset = NA),
+      ProjectId = as.integer(Sys.getenv("SSIM_PROJECT_ID", unset = -1)),
+      ScenarioId = as.integer(Sys.getenv("SSIM_SCENARIO_ID", unset = -1)),
       InputDirectory = Sys.getenv("SSIM_INPUT_DIRECTORY", unset = NA),
       OutputDirectory = Sys.getenv("SSIM_OUTPUT_DIRECTORY", unset = NA),
       TempDirectory = Sys.getenv("SSIM_TEMP_DIRECTORY", unset = NA),
       TransferDirectory = Sys.getenv("SSIM_TRANSFER_DIRECTORY", unset = NA),
-      BeforeIteration = Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION", unset = NA),
-      AfterIteration = Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_ITERATION", unset = NA),
-      BeforeTimestep = Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP", unset = NA),
-      AfterTimestep = Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = NA), stringsAsFactors = FALSE))
+      BeforeIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION", unset = -1)),
+      AfterIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_ITERATION", unset = -1)),
+      BeforeTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP", unset = -1)),
+      AfterTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = -1)), stringsAsFactors = FALSE))
 }
 
 envValidateEnvironment <- function() {
