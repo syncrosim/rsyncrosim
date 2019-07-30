@@ -27,7 +27,7 @@ NULL
 # @export
 #Note: this function is now internal. Should now only be called from datasheet.
 datasheets<-function(x,project=NULL,scenario=NULL,scope=NULL,refresh=F){
-  if(!inherits(x,"SsimObject")){
+  if(!is(x,"SsimObject")){
     stop("expecting SsimObject.")
   }
 
