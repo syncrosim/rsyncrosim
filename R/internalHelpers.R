@@ -19,7 +19,7 @@ backupEnabled<- function(path){
   drv = DBI::dbDriver('SQLite')
   con = DBI::dbConnect(drv, path)
   
-  ret = DBI::dbGetQuery(con, "SELECT * FROM SSim_Backup")
+  ret = DBI::dbGetQuery(con, "SELECT * FROM core_Backup")
   DBI::dbDisconnect(con)
   
   if (is.na(ret$BeforeUpdate)){

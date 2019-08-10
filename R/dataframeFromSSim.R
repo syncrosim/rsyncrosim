@@ -12,7 +12,7 @@
 # @return A data frame of output from the SyncroSim console.
 # @examples
 # # Use a default session to create a new library
-# myArgs = list(list=NULL,columns=NULL,lib="C:/Temp/NewLibrary.ssim",sheet="STSim_Stratum",pid=1)
+# myArgs = list(list=NULL,columns=NULL,lib="C:/Temp/NewLibrary.ssim",sheet="stsim_Stratum",pid=1)
 # myOutput = command(args=myArgs,mySsim)
 # myDataframe = dataframeFromSSim(myOutput)
 # myDataframe
