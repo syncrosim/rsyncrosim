@@ -76,7 +76,7 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
       if (is.na(path) || !dir.exists(path)){
         
         if (.Platform$OS.type == "windows") {
-            envVars = Sys.getenv(c("PROGRAMFILES"), names = F)
+            envVars = Sys.getenv(c("PROGRAMFILES", "ProgramW6432"), names = F)
             envVars = envVars[envVars != ""]
   
             for (i in seq(length.out = length(envVars))) {
