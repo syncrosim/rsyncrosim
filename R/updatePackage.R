@@ -27,15 +27,8 @@ setMethod('updatePackage', signature(session="missingOrNULL"), function(name, se
 #' @rdname updatePackage
 setMethod('updatePackage', signature(session="Session"), function(name, session, listonly) {
   
-  tt = command(args="--updates", session, program="SyncroSim.PackageManager.exe")
-  
-  if (tt[1] == "No updates are available at this time.")
-  {
-    print(tt[1])
-    return()
-  }
-  
   if (listonly){
+    tt = command(args="--updates", session, program="SyncroSim.PackageManager.exe")
     return (cat(tt, sep="\n"))
   }
   
@@ -54,10 +47,10 @@ setMethod('updatePackage', signature(session="Session"), function(name, session,
     installed = package(session)
     
     if (!is.element(name, installed$name)){
-      stop("The package is not installed.")
+      tt = paste(name, ": The package is not installed.")
+    }else{
+      tt = command(args=list(updatepkg=name), session, program="SyncroSim.PackageManager.exe")      
     }
-    
-    tt = command(args=list(updatepkg=name), session, program="SyncroSim.PackageManager.exe")
   }
   
   return (tt)

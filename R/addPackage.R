@@ -33,10 +33,10 @@ setMethod('addPackage', signature(session="Session"), function(name, session) {
   packages = package(session)
   
   if(is.element(name, packages$name)){
-    stop(paste(name,"The pacakge is already installed."))
+    return (paste(name,": The package is already installed."))
+  }else{
+    tt = command(args=list(install=name), session, program="SyncroSim.PackageManager.exe")
+    return (tt)    
   }
-  
-  tt = command(args=list(install=name), session, program="SyncroSim.PackageManager.exe")
-  return (tt)
 }
 )
