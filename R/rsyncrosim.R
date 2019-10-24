@@ -14,6 +14,6 @@
 #'
 #' @docType package
 #' @name rsyncrosim
-#' @importFrom methods new slot slotNames
+#' @import methods
 #' @importFrom utils capture.output flush.console head read.csv write.csv
 NULL
