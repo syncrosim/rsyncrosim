@@ -10,19 +10,19 @@
 \title{Run scenarios}
 \usage{
 run(ssimObject, scenario = NULL, summary = F, jobs = 1,
-  forceElements = F)
+  transformerName = NULL, forceElements = F)
 
 \S4method{run}{character}(ssimObject, scenario = NULL, summary = F,
-  jobs = 1, forceElements = F)
+  jobs = 1, transformerName = NULL, forceElements = F)
 
 \S4method{run}{list}(ssimObject, scenario = NULL, summary = F, jobs = 1,
-  forceElements = F)
+  transformerName = NULL, forceElements = F)
 
 \S4method{run}{SsimObject}(ssimObject, scenario = NULL, summary = F,
-  jobs = 1, forceElements = F)
+  jobs = 1, transformerName = NULL, forceElements = F)
 
-\S4method{run}{BreakpointSession}(ssimObject, scenario = NULL, summary = F,
-  jobs = 1, forceElements = F)
+\S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs,
+  forceElements)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.}
@@ -31,7 +31,9 @@ run(ssimObject, scenario = NULL, summary = F, jobs = 1,
 
 \item{summary}{Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.}
 
-\item{jobs}{Iteger. The number of jobs to run. Passed to SyncroSim where multithreading is handled.}
+\item{jobs}{Integer. The number of jobs to run. Passed to SyncroSim where multithreading is handled.}
+
+\item{transformerName}{Character.  The name of the transformer to run.}
 
 \item{forceElements}{Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.}
 }
