@@ -13,31 +13,32 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.
 #' @param scenario character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.
 #' @param summary Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
-#' @param jobs Iteger. The number of jobs to run. Passed to SyncroSim where multithreading is handled.
+#' @param jobs Integer. The number of jobs to run. Passed to SyncroSim where multithreading is handled.
+#' @param transformerName Character.  The name of the transformer to run.
 #' @param forceElements Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.
 #' @return If summary=F a result Scenario object or a named list of result Scenarios. The name is the parent scenario for each result. If summary=T returns summary info for result scenarios. 
 #' @export
-setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,forceElements=F) standardGeneric('run'))
+setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,transformerName=NULL,forceElements=F) standardGeneric('run'))
 
 #' @rdname run
-setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,forceElements) {
+setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,transformerName,forceElements) {
   if(ssimObject==SyncroSimNotFound(warn=F)){return(SyncroSimNotFound())}
   ssimObject = .ssimLibrary(ssimObject,create=F)
-  out = run(ssimObject,scenario,summary,jobs,forceElements)
+  out = run(ssimObject,scenario,summary,jobs,transformerName,forceElements)
   return(out)
 })
 
 #' @rdname run
-setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,forceElements) {
+setMethod('run', signature(ssimObject="list"), function(ssimObject,scenario,summary,jobs,transformerName,forceElements) {
   x = getIdsFromListOfObjects(ssimObject,expecting="Scenario",scenario=scenario)
   ssimObject = x$ssimObject
   scenario = x$objs
-  out=run(ssimObject,scenario,summary,jobs,forceElements)
+  out=run(ssimObject,scenario,summary,jobs,transformerName,forceElements)
   return(out)
 })
 
 #' @rdname run
-setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,forceElements) {
+setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenario,summary,jobs,transformerName,forceElements) {
 
   xProjScn = .getFromXProjScn(ssimObject,scenario=scenario,convertObject=T,returnIds=T,goal="scenario",complainIfMissing=T)
   #Now assume scenario is x is valid object and scenario is valid vector of scenario ids
@@ -65,9 +66,16 @@ setMethod('run', signature(ssimObject="SsimObject"), function(ssimObject,scenari
     }else{
       breakpoints=NULL
     }
+    
     if((class(breakpoints)!="list")|(length(breakpoints)==0)){
-      #TO DO: handle jobs, transformer and inpl.
-      tt = command(list(run = NULL, lib = .filepath(x), sid = cScn, jobs = jobs), .session(x))
+      
+      args = list(run = NULL, lib = .filepath(x), sid = cScn, jobs = jobs)
+      
+      if (!is.null(transformerName)){
+        args[["trx"]] <- transformerName
+      }
+      
+      tt = command(args, .session(x))
 
       for (i in tt) {
         if (startsWith(i, "Result scenario ID is:")) {
