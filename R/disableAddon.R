@@ -12,10 +12,10 @@ NULL
 #' @return saved or error message.
 #' @examples
 #' \dontrun{
-#' myLibrary = ssimLibrary("mylib", create=T)
-#' enableAddon(myLibrary,c("stsim-ecodep"))
+#' myLibrary = ssimLibrary("mylib")
+#' enableAddon(myLibrary,c("stsimecodep"))
 #' addon(myLibrary)
-#' disableAddon(myLibrary,c("stsim-ecodep"))
+#' disableAddon(myLibrary,c("stsimecodep"))
 #' addon(myLibrary)
 #' }
 #' @export

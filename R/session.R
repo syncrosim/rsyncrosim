@@ -40,11 +40,11 @@ setMethod(f = 'initialize', signature = "Session", definition = function(.Object
 #' @examples
 #' \dontrun{
 #' #Create a library using a default Session and base package
-#' myLib = ssimLibrary(name="mylib", create=T)
+#' myLib = ssimLibrary(name="mylib")
 #' 
 #' #Create a library using a non-default Session
 #' mySession = session("C:/Downloads/SyncroSim")
-#' myLib = ssimLibrary(name="mylib",session=mySession, create=T)
+#' myLib = ssimLibrary(name="mylib",session=mySession)
 #' 
 #' filepath(mySession)     # Lists the folder location of syncrosim session
 #' version(mySession)      # Lists the version of syncrosim session
