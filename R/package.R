@@ -38,6 +38,8 @@ setMethod('package', signature(session="Session"), function(session, installed=T
   if(tt[1]=="saved"){
     out=data.frame(name=NA,displayName=NA,version=NA)
     out=subset(out,!is.na(name))
+  }else if (grepl("The remote name could not be resolved", tt[1])){
+    out = "Could not connect to the package server."
   }else{
     out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
   }

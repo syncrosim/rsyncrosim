@@ -53,6 +53,10 @@ setMethod('updatePackage', signature(session="Session"), function(name, session,
     }
   }
   
+  if (grepl("The remote name could not be resolved", tt[1])){
+    tt = "Could not connect to the package server."
+  }
+  
   return (tt)
 }
 )
