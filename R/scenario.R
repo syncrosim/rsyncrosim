@@ -141,12 +141,10 @@ setMethod(f='initialize',signature="Scenario",
 #' @param overwrite Logical. If TRUE an existing Scenario will be overwritten.
 #' @return A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
 #' @examples
-#' \dontrun{
 #' # Create a new scenario
 #' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(myLibrary,project="a project") 
 #' myScenario = scenario(myProject,scenario="a scenario",overwrite=T)
-#' }
 #' @name scenario
 #' @export
 scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,forceElements=F,overwrite=F){

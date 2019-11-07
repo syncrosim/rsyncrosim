@@ -11,13 +11,11 @@ NULL
 #' @param name Character string or vector of these.
 #' @return saved or error message for each addon.
 #' @examples
-#' \dontrun{
 #' myLibrary = ssimLibrary()
 #' enableAddon(myLibrary,c("stsim-ecological-departure"))
 #' addon(myLibrary)
 #' disableAddon(myLibrary,c("stsim-ecological-departure"))
 #' addon(myLibrary)
-#' }
 #' @export
 setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
 

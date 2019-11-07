@@ -10,9 +10,7 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario or Session.
 #' @return A dataframe of addons.
 #' @examples
-#' \dontrun{
 #' addon(ssimLibrary(name="mylib"))
-#' }
 #' @export
 setGeneric('addon',function(ssimObject) standardGeneric('addon'))
 

@@ -143,7 +143,6 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' @param overwrite Logical. If TRUE an existing Project will be overwritten.
 #' @return A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.
 #' @examples
-#' \dontrun{
 #' #Load a Library and create a new Project
 #' myLibrary = ssimLibrary(name="stsim")
 #' myProject = project(ssimLibrary=myLibrary, project="My new project name")
@@ -160,7 +159,6 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' #Get/set the project properties
 #' name(myProject)
 #' name(myProject) = "New project name"
-#' }
 #' @name project
 #' @export
 project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,summary=NULL,forceElements=F,overwrite=F){

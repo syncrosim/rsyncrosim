@@ -38,7 +38,6 @@ setMethod(f = 'initialize', signature = "Session", definition = function(.Object
 #' @param printCmd Logical. Applies only if x is a path or NULL. If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.
 #' @return A SyncroSim Session object.
 #' @examples
-#' \dontrun{
 #' #Create a library using a default Session and base package
 #' myLib = ssimLibrary(name="mylib")
 #' 
@@ -50,7 +49,6 @@ setMethod(f = 'initialize', signature = "Session", definition = function(.Object
 #' version(mySession)      # Lists the version of syncrosim session
 #' package(mySession)      # Dataframe of the packages installed with this version of syncrosim.
 #' basePackage(mySession)  # Dataframe of the base packages installed with this version of syncrosim.
-#' }
 #' @export
 setGeneric('session',function(x=NULL,silent=T,printCmd=F) standardGeneric('session'))
 

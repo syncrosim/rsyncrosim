@@ -50,19 +50,17 @@ If summary = NULL, returns library summary info if ssimObject is an SsimLibrary,
 }
 }
 \examples{
-\dontrun{
 #Create a library using the default session
-myLibrary = ssimLibrary(name="myLib", overwrite=T)
+myLibrary = ssimLibrary(name="myLib")
 
 #Open a library using the default session
 myLibrary = ssimLibrary(name="myLib")
 
 #Create library using a specific session
 mySession = session("C:/Downloads/SyncroSim")
-myLibrary = ssimLibrary(name="myLib",session=mySession, session=T)
+myLibrary = ssimLibrary(name="myLib",session=mySession)
 
 session(myLibrary)
 filepath(myLibrary)
 info(myLibrary)
-}
 }

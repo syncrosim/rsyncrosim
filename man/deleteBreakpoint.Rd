@@ -25,8 +25,6 @@ A SyncroSim Scenario with an updated list of breakpoints
 This function will delete a Scenario breakpoint.
 }
 \examples{
-\dontrun{
 myScenario = deleteBreakpoint(myScenario)  
 myScenario = deleteBreakpoint(myScenario, transformerName="stsim_Runtime")
-}
 }

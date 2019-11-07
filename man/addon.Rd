@@ -29,7 +29,5 @@ A dataframe of addons.
 The addon(s) of an SsimLibrary or Session.
 }
 \examples{
-\dontrun{
 addon(ssimLibrary(name="mylib"))
-}
 }

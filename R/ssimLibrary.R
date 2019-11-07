@@ -209,7 +209,6 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #' @param overwrite Logical. If TRUE an existing Library will be overwritten.
 #' @return An \code{SsimLibrary} object.
 #' @examples
-#' \dontrun{
 #' #Create a library using the default session
 #' myLibrary = ssimLibrary(name="myLib")
 #' 
@@ -223,7 +222,6 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #' session(myLibrary)
 #' filepath(myLibrary)
 #' info(myLibrary)
-#' }
 #' @export
 setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F) standardGeneric('ssimLibrary'))
 

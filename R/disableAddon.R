@@ -11,13 +11,11 @@ NULL
 #' @param name Character string or vector of these.
 #' @return saved or error message.
 #' @examples
-#' \dontrun{
 #' myLibrary = ssimLibrary("mylib")
 #' enableAddon(myLibrary,c("stsimecodep"))
 #' addon(myLibrary)
 #' disableAddon(myLibrary,c("stsimecodep"))
 #' addon(myLibrary)
-#' }
 #' @export
 setGeneric('disableAddon',function(ssimLibrary,name) standardGeneric('disableAddon'))
 
