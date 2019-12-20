@@ -154,19 +154,19 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       sheetInfo = subset(sheetInfo,isFile)
       
       sheetInfo = subset(sheetInfo,is.element(name,names(cDat)))
-      if(nrow(sheetInfo)>0){ 
-        for(kk in seq(length.out=nrow(sheetInfo))){
-          cCol = sheetInfo$name[kk]
-          for(ll in seq(length.out=nrow(cDat))){
-              if (!is.na(cDat[[cCol]][ll]) && (basename(cDat[[cCol]][ll]) == cDat[[cCol]][ll])) {
-              cDat[[cCol]][ll] = paste0(getwd(),"/",cDat[[cCol]][ll])
-              if(!file.exists(cDat[[cCol]][ll])){
-                stop("File ", cDat[[cCol]][ll]," not found.")
-              }
-            }  
-          }
-        }
-      } 
+      # if(nrow(sheetInfo)>0){ 
+      #   for(kk in seq(length.out=nrow(sheetInfo))){
+      #     cCol = sheetInfo$name[kk]
+      #     for(ll in seq(length.out=nrow(cDat))){
+      #         if (!is.na(cDat[[cCol]][ll]) && (basename(cDat[[cCol]][ll]) == cDat[[cCol]][ll])) {
+      #         cDat[[cCol]][ll] = paste0(getwd(),"/",cDat[[cCol]][ll])
+      #         if(!file.exists(cDat[[cCol]][ll])){
+      #           stop("File ", cDat[[cCol]][ll]," not found.")
+      #         }
+      #       }  
+      #     }
+      #   }
+      # } 
     }
     
     #Write items to appropriate locations
