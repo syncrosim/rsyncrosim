@@ -36,7 +36,7 @@
     }
     x = gsub("  ",",",x,fixed=T)
     con = textConnection(x)
-    out = read.csv(con,stringsAsFactors=F,header=header,sep=",")
+    out = read.csv(con,stringsAsFactors=F,header=header,sep=",",encoding = "UTF-8")
     if(!is.null(colNames)){
       lastName = names(out)[length(names(out))]
       if((ncol(out)>length(colNames))&(sum(!is.na(out[[lastName]]))==0)){

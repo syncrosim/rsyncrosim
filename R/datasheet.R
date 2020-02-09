@@ -229,7 +229,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         }
         
         #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
-        sheet = read.csv(tempFile,as.is=T)
+        sheet = read.csv(tempFile,as.is=T,encoding = "UTF-8")
         unlink(tempFile)
       }else{
         #query database directly if necessary
