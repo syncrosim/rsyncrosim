@@ -33,6 +33,7 @@ NULL
 #' @param summary Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes. 
 #' @param optional Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.
 #' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.
+#' @param hasData Logical. If TRUE returns only columns that contain at least one non-null value.
 #' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
 #' @param sqlStatement List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
 # @param includeKey Logical. If TRUE include primary key in output table. #Off for v0.1
@@ -40,11 +41,11 @@ NULL
 #' @return If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),forceElements=F) standardGeneric('datasheet'))
+setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,hasData=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),forceElements=F) standardGeneric('datasheet'))
 
 #Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
+setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,hasData,lookupsAsFactors,sqlStatement,forceElements) {
 
   cScn = ssimObject[[1]]
   x=NULL
@@ -62,17 +63,17 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   if(is.null(ssimObject)){stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")}
   #Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatement=sqlStatement,forceElements=forceElements) #Off for v0.1
+  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,hasData=hasData,lookupsAsFactors=lookupsAsFactors,sqlStatement=sqlStatement,forceElements=forceElements) #Off for v0.1
   
   return(out)
 })
 
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
+setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,hasData,lookupsAsFactors,sqlStatement,forceElements) {
   return(SyncroSimNotFound(ssimObject))})
 
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
+setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,hasData,lookupsAsFactors,sqlStatement,forceElements) {
 
   temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentID=NULL;ParentName=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
@@ -199,7 +200,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       }
     }
     
-    useConsole=F
+	useConsole=F
     tempFile = paste0(.tempfilepath(x), "/", name, ".csv")
     if(!empty){
       #Only query database if output or multiple scenarios/project or complex sql
@@ -211,12 +212,11 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
       
       if(useConsole){
+        
         unlink(tempFile)
-        if(!optional&(sheetNames$scope!="library")){
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL,colswithdata=NULL)#filepath=NULL
-        }else{
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL)#filepath=NULL
-        }
+        args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL)
+        
+        if (hasData) args=c(args,list(colswithdata=NULL))  
         if(sheetNames$scope=="project"){args[["pid"]]=pid}
         
         if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
