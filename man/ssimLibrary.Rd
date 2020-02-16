@@ -7,8 +7,9 @@
 \alias{ssimLibrary,missingOrNULLOrChar-method}
 \title{Create or open a library.}
 \usage{
-ssimLibrary(name = NULL, create = F, summary = NULL, package = NULL,
-  session = NULL, addon = NULL, forceUpdate = F, overwrite = F)
+ssimLibrary(name = NULL, create = F, summary = NULL,
+  package = NULL, session = NULL, addon = NULL, forceUpdate = F,
+  overwrite = F)
 
 \S4method{ssimLibrary}{SsimObject}(name = NULL, create = F,
   summary = NULL, package = NULL, session = NULL, addon = NULL,

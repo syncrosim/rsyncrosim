@@ -10,11 +10,11 @@
 delete(ssimObject, project = NULL, scenario = NULL, datasheet = NULL,
   force = F)
 
-\S4method{delete}{character}(ssimObject, project = NULL, scenario = NULL,
-  datasheet = NULL, force = F)
+\S4method{delete}{character}(ssimObject, project = NULL,
+  scenario = NULL, datasheet = NULL, force = F)
 
-\S4method{delete}{SsimObject}(ssimObject, project = NULL, scenario = NULL,
-  datasheet = NULL, force = F)
+\S4method{delete}{SsimObject}(ssimObject, project = NULL,
+  scenario = NULL, datasheet = NULL, force = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or path to a library.}

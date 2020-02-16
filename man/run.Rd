@@ -15,8 +15,8 @@ run(ssimObject, scenario = NULL, summary = F, jobs = 1,
 \S4method{run}{character}(ssimObject, scenario = NULL, summary = F,
   jobs = 1, transformerName = NULL, forceElements = F)
 
-\S4method{run}{list}(ssimObject, scenario = NULL, summary = F, jobs = 1,
-  transformerName = NULL, forceElements = F)
+\S4method{run}{list}(ssimObject, scenario = NULL, summary = F,
+  jobs = 1, transformerName = NULL, forceElements = F)
 
 \S4method{run}{SsimObject}(ssimObject, scenario = NULL, summary = F,
   jobs = 1, transformerName = NULL, forceElements = F)

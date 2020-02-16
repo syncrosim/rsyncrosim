@@ -10,23 +10,24 @@
 \title{Get spatial inputs or outputs from a Scenario(s).}
 \usage{
 datasheetRaster(ssimObject, datasheet, column = NULL, scenario = NULL,
-  iteration = NULL, timestep = NULL, subset = NULL, forceElements = F)
-
-\S4method{datasheetRaster}{character}(ssimObject, datasheet, column = NULL,
-  scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
+  iteration = NULL, timestep = NULL, subset = NULL,
   forceElements = F)
+
+\S4method{datasheetRaster}{character}(ssimObject, datasheet,
+  column = NULL, scenario = NULL, iteration = NULL,
+  timestep = NULL, subset = NULL, forceElements = F)
 
 \S4method{datasheetRaster}{list}(ssimObject, datasheet, column = NULL,
-  scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
-  forceElements = F)
+  scenario = NULL, iteration = NULL, timestep = NULL,
+  subset = NULL, forceElements = F)
 
-\S4method{datasheetRaster}{SsimObject}(ssimObject, datasheet, column = NULL,
-  scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
-  forceElements = F)
+\S4method{datasheetRaster}{SsimObject}(ssimObject, datasheet,
+  column = NULL, scenario = NULL, iteration = NULL,
+  timestep = NULL, subset = NULL, forceElements = F)
 
-\S4method{datasheetRaster}{Scenario}(ssimObject, datasheet, column = NULL,
-  scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL,
-  forceElements = F)
+\S4method{datasheetRaster}{Scenario}(ssimObject, datasheet,
+  column = NULL, scenario = NULL, iteration = NULL,
+  timestep = NULL, subset = NULL, forceElements = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario or list of Scenarios. If SsimLibrary/Project, then scenario argument is required.}

@@ -9,11 +9,11 @@
 \usage{
 dependency(scenario, dependency = NULL, remove = F, force = F)
 
-\S4method{dependency}{character}(scenario, dependency = NULL, remove = F,
-  force = F)
+\S4method{dependency}{character}(scenario, dependency = NULL,
+  remove = F, force = F)
 
-\S4method{dependency}{Scenario}(scenario, dependency = NULL, remove = F,
-  force = F)
+\S4method{dependency}{Scenario}(scenario, dependency = NULL,
+  remove = F, force = F)
 }
 \arguments{
 \item{scenario}{Scenario. The scenario to which a dependency is to be added (or has already been added if remove=TRUE).}

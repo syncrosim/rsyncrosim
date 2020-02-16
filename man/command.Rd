@@ -4,7 +4,8 @@
 \alias{command}
 \title{SyncroSim console command}
 \usage{
-command(args, session = NULL, program = "SyncroSim.Console.exe", wait = T)
+command(args, session = NULL, program = "SyncroSim.Console.exe",
+  wait = T)
 }
 \arguments{
 \item{args}{Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.}

@@ -13,8 +13,8 @@ updatePackage(name = NULL, session = NULL, listonly = F)
 \S4method{updatePackage}{ANY,character}(name = NULL, session = NULL,
   listonly = F)
 
-\S4method{updatePackage}{ANY,missingOrNULL}(name = NULL, session = NULL,
-  listonly = F)
+\S4method{updatePackage}{ANY,missingOrNULL}(name = NULL,
+  session = NULL, listonly = F)
 
 \S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL,
   listonly = F)

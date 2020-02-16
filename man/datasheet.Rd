@@ -9,23 +9,26 @@
 \title{Get a datasheet}
 \usage{
 datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
-  summary = NULL, optional = F, empty = F, lookupsAsFactors = T,
-  sqlStatement = list(select = "SELECT *", groupBy = ""), forceElements = F)
+  summary = NULL, optional = F, empty = F, hasData = F,
+  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *",
+  groupBy = ""), forceElements = F)
 
 \S4method{datasheet}{list}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
-  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *", groupBy =
-  ""), forceElements = F)
+  hasData = F, lookupsAsFactors = T, sqlStatement = list(select =
+  "SELECT *", groupBy = ""), forceElements = F)
 
-\S4method{datasheet}{character}(ssimObject, name = NULL, project = NULL,
-  scenario = NULL, summary = NULL, optional = F, empty = F,
-  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *", groupBy =
-  ""), forceElements = F)
+\S4method{datasheet}{character}(ssimObject, name = NULL,
+  project = NULL, scenario = NULL, summary = NULL, optional = F,
+  empty = F, hasData = F, lookupsAsFactors = T,
+  sqlStatement = list(select = "SELECT *", groupBy = ""),
+  forceElements = F)
 
-\S4method{datasheet}{SsimObject}(ssimObject, name = NULL, project = NULL,
-  scenario = NULL, summary = NULL, optional = F, empty = F,
-  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *", groupBy =
-  ""), forceElements = F)
+\S4method{datasheet}{SsimObject}(ssimObject, name = NULL,
+  project = NULL, scenario = NULL, summary = NULL, optional = F,
+  empty = F, hasData = F, lookupsAsFactors = T,
+  sqlStatement = list(select = "SELECT *", groupBy = ""),
+  forceElements = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.}
@@ -41,6 +44,8 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 \item{optional}{Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.}
 
 \item{empty}{Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.}
+
+\item{hasData}{Logical. If TRUE returns only columns that contain at least one non-null value.}
 
 \item{lookupsAsFactors}{Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.}
 

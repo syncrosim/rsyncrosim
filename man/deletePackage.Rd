@@ -10,9 +10,11 @@
 \usage{
 deletePackage(name, session = NULL, force = F)
 
-\S4method{deletePackage}{ANY,character}(name, session = NULL, force = F)
+\S4method{deletePackage}{ANY,character}(name, session = NULL,
+  force = F)
 
-\S4method{deletePackage}{ANY,missingOrNULL}(name, session = NULL, force = F)
+\S4method{deletePackage}{ANY,missingOrNULL}(name, session = NULL,
+  force = F)
 
 \S4method{deletePackage}{ANY,Session}(name, session = NULL, force = F)
 }
