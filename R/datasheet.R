@@ -35,16 +35,16 @@ NULL
 #' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.
 #' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
 #' @param sqlStatement List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
-# @param includeKey Logical. If TRUE include primary key in output table. #Off for v0.1
+#' @param includeKey Logical. If TRUE include primary key in table.
 #' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.
 #' @return If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),forceElements=F) standardGeneric('datasheet'))
+setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
 
 #Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
+setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements) {
 
   cScn = ssimObject[[1]]
   x=NULL
@@ -62,17 +62,17 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   if(is.null(ssimObject)){stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")}
   #Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatement=sqlStatement,forceElements=forceElements) #Off for v0.1
+  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatement=sqlStatement,includeKey=includeKey,forceElements=forceElements) #Off for v0.1
   
   return(out)
 })
 
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
+setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements) {
   return(SyncroSimNotFound(ssimObject))})
 
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,forceElements) {
+setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements) {
 
   temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentID=NULL;ParentName=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
@@ -180,14 +180,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       name = paste0("stsim_", gsub("STSim_", "", name, fixed = T))     
     }
     
-    includeKey=F #Off for v0.1
-    if(!includeKey){
-      rmId = strsplit(name,"_")[[1]][2]
-      rmCols = c(paste0(rmId,"ID"))
-    }else{
-      rmCols=c()
-    }
-    
     cName = name
     datasheetNames = .datasheets(x,scope="all")
     sheetNames= subset(datasheetNames,name==cName)
@@ -196,6 +188,18 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       sheetNames= subset(datasheetNames,name==cName)
       if(nrow(sheetNames)==0){
         stop("Datasheet ",name," not found in library.")
+      }
+    }
+    
+    rmCols=c()
+    
+    if(!includeKey){
+      args = list(list=NULL,columns=NULL,allprops=NULL,csv=NULL,lib=.filepath(x),sheet=name)
+      tt = command(args,session=session(x))
+      cPropsAll = .dataframeFromSSim(tt)
+      filtered = cPropsAll[grep("isPrimary^Yes",cPropsAll$properties, fixed = T),]
+      if (nrow(filtered) > 0){
+        rmCols = filtered[1]
       }
     }
     
