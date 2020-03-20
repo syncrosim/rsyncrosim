@@ -9,26 +9,24 @@
 \title{Get a datasheet}
 \usage{
 datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
-  summary = NULL, optional = F, empty = F, hasData = F,
-  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *",
-  groupBy = ""), forceElements = F)
+  summary = NULL, optional = F, empty = F, lookupsAsFactors = T,
+  sqlStatement = list(select = "SELECT *", groupBy = ""),
+  includeKey = F, forceElements = F)
 
 \S4method{datasheet}{list}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
-  hasData = F, lookupsAsFactors = T, sqlStatement = list(select =
-  "SELECT *", groupBy = ""), forceElements = F)
+  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *",
+  groupBy = ""), includeKey = F, forceElements = F)
 
 \S4method{datasheet}{character}(ssimObject, name = NULL,
   project = NULL, scenario = NULL, summary = NULL, optional = F,
-  empty = F, hasData = F, lookupsAsFactors = T,
-  sqlStatement = list(select = "SELECT *", groupBy = ""),
-  forceElements = F)
+  empty = F, lookupsAsFactors = T, sqlStatement = list(select =
+  "SELECT *", groupBy = ""), includeKey = F, forceElements = F)
 
 \S4method{datasheet}{SsimObject}(ssimObject, name = NULL,
   project = NULL, scenario = NULL, summary = NULL, optional = F,
-  empty = F, hasData = F, lookupsAsFactors = T,
-  sqlStatement = list(select = "SELECT *", groupBy = ""),
-  forceElements = F)
+  empty = F, lookupsAsFactors = T, sqlStatement = list(select =
+  "SELECT *", groupBy = ""), includeKey = F, forceElements = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.}
@@ -45,11 +43,11 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 
 \item{empty}{Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.}
 
-\item{hasData}{Logical. If TRUE returns only columns that contain at least one non-null value.}
-
 \item{lookupsAsFactors}{Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.}
 
 \item{sqlStatement}{List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.}
+
+\item{includeKey}{Logical. If TRUE include primary key in table.}
 
 \item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.}
 }
