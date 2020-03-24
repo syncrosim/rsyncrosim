@@ -37,14 +37,15 @@ NULL
 #' @param sqlStatement List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
 #' @param includeKey Logical. If TRUE include primary key in table.
 #' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.
+#' @param fastQuery Logical.  If TRUE, the request is optimized for performance.  Ignored if combined with summary, empty, or sqlStatement flags.
 #' @return If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F) standardGeneric('datasheet'))
+setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F,fastQuery=F) standardGeneric('datasheet'))
 
 #Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements) {
+setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements,fastQuery) {
 
   cScn = ssimObject[[1]]
   x=NULL
@@ -62,17 +63,17 @@ setMethod('datasheet', signature(ssimObject="list"), function(ssimObject,name,pr
   if(is.null(ssimObject)){stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")}
   #Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatement=sqlStatement,includeKey=includeKey,forceElements=forceElements) #Off for v0.1
+  out = .datasheet(ssimObject,name=name,project=project,scenario=scenario,summary=summary, optional=optional,empty=empty,lookupsAsFactors=lookupsAsFactors,sqlStatement=sqlStatement,includeKey=includeKey,forceElements=forceElements,fastQuery=fastQuery) #Off for v0.1
   
   return(out)
 })
 
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements) {
+setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,fastQuery) {
   return(SyncroSimNotFound(ssimObject))})
 
 #' @rdname datasheet
-setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements) {
+setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements,fastQuery) {
 
   temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentID=NULL;ParentName=NULL
   xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
@@ -90,6 +91,21 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   }
   #now have valid pid/sid vectors and x is library.
   
+  if (!is.null(name)){
+    for(i in seq_along(name)){ 
+      n = name[i]
+      if (!grepl("_", n, fixed = T)){
+        n = paste0("stsim_", n)
+      }
+      
+      if (grepl("STSim_", n, fixed = T)){
+        warning("An STSim_ prefix for a datasheet name is no longer required.")
+        n = paste0("stsim_", gsub("STSim_", "", n, fixed = T))     
+      } 
+      name[i] <- n
+    }    
+  }
+
   allNames=name
   
   if(is.null(summary)){
@@ -170,16 +186,6 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   outSheetList = list()
   for(kk in seq(length.out=length(allNames))){
     name=allNames[kk]
-    
-    if (!grepl("_", name, fixed = )){
-      name = paste0("stsim_", name)
-    }
-    
-    if (grepl("STSim_", name, fixed = T)){
-      warning("An STSim_ prefix for a datasheet name is no longer required.")
-      name = paste0("stsim_", gsub("STSim_", "", name, fixed = T))     
-    }
-    
     cName = name
     datasheetNames = .datasheets(x,scope="all")
     sheetNames= subset(datasheetNames,name==cName)
@@ -193,14 +199,16 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     
     rmCols=c()
     
-    if(!includeKey){
-      args = list(list=NULL,columns=NULL,allprops=NULL,csv=NULL,lib=.filepath(x),sheet=name)
-      tt = command(args,session=session(x))
-      cPropsAll = .dataframeFromSSim(tt)
-      filtered = cPropsAll[grep("isPrimary^Yes",cPropsAll$properties, fixed = T),]
-      if (nrow(filtered) > 0){
-        rmCols = filtered[1]
-      }
+    if (!sheetNames$isOutput){
+      if(!includeKey){
+        args = list(list=NULL,columns=NULL,allprops=NULL,csv=NULL,lib=.filepath(x),sheet=name)
+        tt = command(args,session=session(x))
+        cPropsAll = .dataframeFromSSim(tt)
+        filtered = cPropsAll[grep("isPrimary^Yes",cPropsAll$properties, fixed = T),]
+        if (nrow(filtered) > 0){
+          rmCols = filtered[1]
+        }
+      }      
     }
     
     useConsole=F
@@ -214,27 +222,69 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       useConsole = useConsole&!((sheetNames$scope=="project")&(length(pid)>1))
       useConsole = useConsole&!((sheetNames$scope=="scenario")&(length(sid)>1))
       
-      if(useConsole){
+      if(useConsole | fastQuery){
+        
         unlink(tempFile)
-        if(!optional&(sheetNames$scope!="library")){
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL,colswithdata=NULL)#filepath=NULL
+        
+        if (fastQuery){
+          
+          if (lookupsAsFactors){
+            args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheetsonly=NULL,force=NULL)
+  
+            if(sheetNames$scope=="project"){args[["pid"]]=pid}
+            if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
+            if(sheetNames$scope=="scenario"){args[["sid"]]=sid}
+            
+            tt=command(args,.session(x))
+            
+            if(!identical(tt,"saved")){
+              stop(tt)
+            }            
+          }
+          
+          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,queryonly=NULL,force=NULL,includepk=NULL,colswithdata=NULL)            
+
+          if(sheetNames$scope=="project"){args[["pid"]]=pid}
+          if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
+          if(sheetNames$scope=="scenario"){args[["sid"]]=sid}
+          
+          tt=command(args,.session(x))
+          
+          if(!identical(tt,"saved")){
+            if (!grep("No columns found", tt)){
+              stop(tt)
+            }else{
+              sheet = data.frame()
+            }
+          }else{
+            sql = readChar(tempFile, file.info(tempFile)$size)
+          
+            drv = DBI::dbDriver('SQLite')
+            fqcon = DBI::dbConnect(drv,.filepath(x))
+            sheet = DBI::dbGetQuery(fqcon,sql)
+            DBI::dbDisconnect(fqcon)            
+          }
         }else{
-          args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL)#filepath=NULL
+          if(!optional&(sheetNames$scope!="library")){
+            args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL,colswithdata=NULL)#filepath=NULL
+          }else{
+            args =list(export=NULL,lib=.filepath(x),sheet=name,file=tempFile,valsheets=NULL,extfilepaths=NULL,includepk=NULL,force=NULL)#filepath=NULL
+          }          
+          if(sheetNames$scope=="project"){args[["pid"]]=pid}
+          if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
+          if(sheetNames$scope=="scenario"){args[["sid"]]=sid}
+          
+          tt=command(args,.session(x))
+          
+          if(!identical(tt,"saved")){
+            stop(tt)
+          }   
+          
+          sheet = read.csv(tempFile,as.is=T,encoding = "UTF-8")         
         }
-        if(sheetNames$scope=="project"){args[["pid"]]=pid}
         
-        if(is.element(sheetNames$scope,c("project","scenario"))){args[["pid"]]=pid}
-        if(sheetNames$scope=="scenario"){args[["sid"]]=sid}
-        
-        tt=command(args,.session(x))
-        
-        if(!identical(tt,"saved")){
-          stop(tt)
-        }
-        
-        #TO DO: think about multithreading - ensure no possibility of overwriting the transient file
-        sheet = read.csv(tempFile,as.is=T,encoding = "UTF-8")
         unlink(tempFile)
+		        
       }else{
         #query database directly if necessary
         
