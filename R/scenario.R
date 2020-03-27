@@ -191,9 +191,9 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,summary=N
   xProjScn  =.getFromXProjScn(ssimObject,project=NULL,scenario=scenario,convertObject=convertObject,returnIds=returnIds,goal="scenario",complainIfMissing=F)
   
   if(class(xProjScn)=="Scenario"){
-    if (create){
-      stop(paste0("Cannot overwrite existing scenario.  Use overwrite=T.",project)) 
-    }
+#    if (create){
+#      stop(paste0("Cannot overwrite existing scenario.  Use overwrite=T.",project)) 
+#    }
     if (!overwrite){
       return(xProjScn)      
     }
