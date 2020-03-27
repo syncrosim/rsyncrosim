@@ -199,10 +199,11 @@ getBPNameLongForm <- function(breakpointType){
 #' @return A SyncroSim Scenario with an updated list of breakpoints
 #' @details Breakpoints are only supported for Stochastic Time Transformers.
 #' @examples
+#' \dontrun{
 #' callbackFunction <- function(x, iteration, timestep) {
 #'   print(paste0('Breakpoint hit: ', scenarioId(x)))
 #' }
-#' 
+#' }
 #' myScenario = addBreakpoint(myScenario, "stsim_Runtime", "bi", callbackFunction)
 #' @export
 setGeneric('addBreakpoint',function(x,transformerName,breakpointType,arguments,callback) standardGeneric('addBreakpoint'))

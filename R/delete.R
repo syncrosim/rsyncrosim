@@ -14,11 +14,13 @@ NULL
 #' @param force logical. If FALSE (default), user will be prompted to approve removal of each item.
 #' @return A list of "saved" or failure messages for each item.
 #' @examples
+#' \dontrun{
 #' myLibrary = ssimLibrary("mylib")
 #' myProject = project(myLibrary, project="a project")
 #' project(myLibrary)
 #' delete(myLibrary, project="a project")
 #' project(myLibrary)
+#' }
 #' @export
 # Note delete supports character paths because sometimes we want to delete a library without updating it.
 # Note delete supports project/scenario arguments because sometimes we want to delete objects without creating them.
