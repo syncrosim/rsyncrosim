@@ -161,7 +161,7 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' name(myProject) = "New project name"
 #' @name project
 #' @export
-project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,summary=NULL,forceElements=F,overwrite=F){
+project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F,overwrite=F){
   
   if(create){
     warning("create argument deprecated and no longer required.")
