@@ -204,9 +204,6 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL
   xProjScn  =.getFromXProjScn(ssimObject,project=project,scenario=NULL,convertObject=convertObject,returnIds=returnIds,goal="project",complainIfMissing=F)
   
   if(class(xProjScn)=="Project"){
-    if (create){
-      stop(paste0("Cannot overwrite existing project.  Use overwrite=T.",project)) 
-    }
     if (!overwrite){
       return(xProjScn)      
     }
@@ -260,14 +257,14 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL
     cRow = projectsToMake[i,]
     projExists = !is.na(cRow$exists)
     
-    if (projExists){
-      if(create){
-        stop(paste0("Cannot overwrite existing project.  Use overwrite=T: ",cRow$name)) 
-      }else if (overwrite){
-        command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
-        allProjects[i, "exists"] <- NA
-        projectsToMake[i, "exists"] <- NA        
-      }
+#    if (projExists){
+#      if(create){
+#        stop(paste0("Cannot overwrite existing project.  Use overwrite=T: ",cRow$name)) 
+#      }else if (overwrite){
+#        command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
+#        allProjects[i, "exists"] <- NA
+#        projectsToMake[i, "exists"] <- NA        
+#      }
     }
   } 
   
