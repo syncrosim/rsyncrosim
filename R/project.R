@@ -162,11 +162,6 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' @name project
 #' @export
 project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F,overwrite=F){
-  
-  if(create){
-    warning("create argument deprecated and no longer required.")
-    if (overwrite){create=F}
-  } 
     
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
