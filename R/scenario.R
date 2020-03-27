@@ -147,12 +147,7 @@ setMethod(f='initialize',signature="Scenario",
 #' myScenario = scenario(myProject,scenario="a scenario",overwrite=T)
 #' @name scenario
 #' @export
-scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,create=F,summary=NULL,results=F,forceElements=F,overwrite=F){
-  
-  if(create){
-    warning("create argument deprecated and no longer required.")
-    if (overwrite){create=F}
-  } 
+scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,summary=NULL,results=F,forceElements=F,overwrite=F){ 
   
   if(is.character(ssimObject)&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
