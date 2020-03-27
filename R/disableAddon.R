@@ -14,7 +14,9 @@ NULL
 #' myLibrary = ssimLibrary("mylib")
 #' enableAddon(myLibrary,c("stsimecodep"))
 #' addon(myLibrary)
+#' \dontrun{
 #' disableAddon(myLibrary,c("stsimecodep"))
+#' }
 #' addon(myLibrary)
 #' @export
 setGeneric('disableAddon',function(ssimLibrary,name) standardGeneric('disableAddon'))
