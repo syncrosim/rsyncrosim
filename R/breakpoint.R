@@ -236,8 +236,10 @@ setMethod('addBreakpoint',signature(x="Scenario"),function(x,transformerName,bre
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
 #' @return A SyncroSim Scenario with an updated list of breakpoints
 #' @examples
+#' \dontrun{
 #' myScenario = deleteBreakpoint(myScenario)  
 #' myScenario = deleteBreakpoint(myScenario, transformerName="stsim_Runtime")
+#' }
 #' @export
 setGeneric('deleteBreakpoint',function(x,transformerName=NULL,breakpointType=NULL) standardGeneric('deleteBreakpoint'))
 
