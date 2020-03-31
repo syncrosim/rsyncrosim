@@ -48,8 +48,10 @@ For each element of scenario:
 }
 }
 \examples{
+\dontrun{
 # Create a new scenario
 myLibrary = ssimLibrary(name="stsim")
 myProject = project(myLibrary,project="a project") 
 myScenario = scenario(myProject,scenario="a scenario",overwrite=T)
+} 
 }

@@ -30,9 +30,10 @@ When the Scenario is run the breakpoint's callback function will be called for t
 Breakpoints are only supported for Stochastic Time Transformers.
 }
 \examples{
+\dontrun{
 callbackFunction <- function(x, iteration, timestep) {
   print(paste0('Breakpoint hit: ', scenarioId(x)))
 }
-
 myScenario = addBreakpoint(myScenario, "stsim_Runtime", "bi", callbackFunction)
+}
 }

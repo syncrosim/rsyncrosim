@@ -71,6 +71,7 @@ If summary = NULL, returns library summary info if ssimObject is an SsimLibrary,
 }
 }
 \examples{
+\dontrun{
 #Create a library using the default session
 myLibrary = ssimLibrary(name="myLib")
 
@@ -84,4 +85,5 @@ myLibrary = ssimLibrary(name="myLib",session=mySession)
 session(myLibrary)
 filepath(myLibrary)
 info(myLibrary)
+}
 }

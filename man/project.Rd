@@ -43,6 +43,7 @@ For each element of project:
 }
 }
 \examples{
+\dontrun{
 #Load a Library and create a new Project
 myLibrary = ssimLibrary(name="stsim")
 myProject = project(ssimLibrary=myLibrary, project="My new project name")
@@ -59,4 +60,5 @@ myProject = project(myLibrary, project="My new project name")
 #Get/set the project properties
 name(myProject)
 name(myProject) = "New project name"
+}
 }

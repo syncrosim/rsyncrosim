@@ -14,7 +14,9 @@ NULL
 #' myLibrary = ssimLibrary()
 #' enableAddon(myLibrary,c("stsim-ecological-departure"))
 #' addon(myLibrary)
+#' \dontrun{
 #' disableAddon(myLibrary,c("stsim-ecological-departure"))
+#' }
 #' addon(myLibrary)
 #' @export
 setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
