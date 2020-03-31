@@ -257,15 +257,10 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL
     cRow = projectsToMake[i,]
     projExists = !is.na(cRow$exists)
     
-#    if (projExists){
-#      if(create){
-#        stop(paste0("Cannot overwrite existing project.  Use overwrite=T: ",cRow$name)) 
-#      }else if (overwrite){
-#        command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
-#        allProjects[i, "exists"] <- NA
-#        projectsToMake[i, "exists"] <- NA        
-#      }
-    }
+  if (overwrite){
+    command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
+    allProjects[i, "exists"] <- NA
+    projectsToMake[i, "exists"] <- NA        
   } 
   
   for(i in seq(length.out=nrow(projectsToMake))){
