@@ -142,7 +142,7 @@ setMethod('setBreakpoints',signature(x="BreakpointSession"),function(x) {
 
 runJobParallel<- function(cPars) {
     ret = tryCatch({
-      cScn = scenario(.ssimLibrary(cPars$x,session=cPars$session,create=F),scenario=1)
+      cScn = scenario(.ssimLibrary(cPars$x,session=cPars$session),scenario=1)
       if(!exists("cScn")){
         stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
       }

@@ -10,7 +10,7 @@
   }
   
   if(class(ssimObject)=="character"){
-    ssimObject=.ssimLibrary(ssimObject,create=!complainIfMissing)
+    ssimObject=.ssimLibrary(ssimObject)
   }
   
   #Check for conflicts between ssimObject and project/scenario.

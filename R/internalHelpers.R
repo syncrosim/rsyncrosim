@@ -86,7 +86,7 @@ getIdsFromListOfObjects<-function(ssimObject,expecting=NULL,scenario=NULL,projec
       stop("Expecting a list of ",expecting,"s.")
     }
   }
-  cLib=.ssimLibrary(ssimObject[[1]],create=F)
+  cLib=.ssimLibrary(ssimObject[[1]])
   if(!is.null(scenario)){
     warning("scenario argument is ignored when ssimObject is a list.")
   }
@@ -97,7 +97,7 @@ getIdsFromListOfObjects<-function(ssimObject,expecting=NULL,scenario=NULL,projec
   for(i in seq(length.out=length(ssimObject))){
     cObj = ssimObject[[i]]
     if(expecting=="character"){
-      cObj = .ssimLibrary(cObj,create=F)
+      cObj = .ssimLibrary(cObj)
     }
     
     if(class(cObj)!=expecting){

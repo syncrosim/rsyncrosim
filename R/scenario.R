@@ -191,9 +191,6 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,summary=N
   xProjScn  =.getFromXProjScn(ssimObject,project=NULL,scenario=scenario,convertObject=convertObject,returnIds=returnIds,goal="scenario",complainIfMissing=F)
   
   if(class(xProjScn)=="Scenario"){
-#    if (create){
-#      stop(paste0("Cannot overwrite existing scenario.  Use overwrite=T.",project)) 
-#    }
     if (!overwrite){
       return(xProjScn)      
     }
@@ -285,9 +282,6 @@ scenario <- function(ssimObject=NULL,scenario=NULL,sourceScenario=NULL,summary=N
   for(i in seq(length.out=nrow(scnsToMake))){
     cRow = scnsToMake[i,]
     if(!is.na(cRow$exists)){
-      if (create){
-        stop(paste0("Cannot overwrite existing scenario: Use overwrite=T: ",cRow$name)) 
-      }
       scnList[[as.character(scnsToMake$scenarioId[i])]]=new("Scenario",ssimObject,project=cRow$projectId,id=cRow$scenarioId,scenarios=cRow)
     }else{
       obj=new("Scenario",ssimObject,project=cRow$projectId,name=cRow$name,sourceScenario=sourceScenario,scenarios=libScns)
