@@ -11,22 +11,22 @@
 datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
   summary = NULL, optional = F, empty = F, lookupsAsFactors = T,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
-  includeKey = F, forceElements = F)
+  includeKey = F, forceElements = F, fastQuery = F)
 
 \S4method{datasheet}{list}(ssimObject, name = NULL, project = NULL,
   scenario = NULL, summary = NULL, optional = F, empty = F,
   lookupsAsFactors = T, sqlStatement = list(select = "SELECT *",
-  groupBy = ""), includeKey = F, forceElements = F)
+  groupBy = ""), includeKey = F, forceElements = F, fastQuery = F)
 
-\S4method{datasheet}{character}(ssimObject, name = NULL,
-  project = NULL, scenario = NULL, summary = NULL, optional = F,
-  empty = F, lookupsAsFactors = T, sqlStatement = list(select =
-  "SELECT *", groupBy = ""), includeKey = F, forceElements = F)
+\S4method{datasheet}{character}(ssimObject, name, project, scenario,
+  summary, optional, empty, lookupsAsFactors, sqlStatement, includeKey,
+  fastQuery)
 
 \S4method{datasheet}{SsimObject}(ssimObject, name = NULL,
   project = NULL, scenario = NULL, summary = NULL, optional = F,
   empty = F, lookupsAsFactors = T, sqlStatement = list(select =
-  "SELECT *", groupBy = ""), includeKey = F, forceElements = F)
+  "SELECT *", groupBy = ""), includeKey = F, forceElements = F,
+  fastQuery = F)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.}
@@ -50,6 +50,8 @@ datasheet(ssimObject, name = NULL, project = NULL, scenario = NULL,
 \item{includeKey}{Logical. If TRUE include primary key in table.}
 
 \item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.}
+
+\item{fastQuery}{Logical.  If TRUE, the request is optimized for performance.  Ignored if combined with summary, empty, or sqlStatement flags.}
 }
 \value{
 If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.

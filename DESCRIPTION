@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim
-Version: 1.1.10
+Version: 1.1.11
 Author: ApexRMS <rsyncrosim@apexrms.com> and Josie Hughes <josie.hughes@canada.ca>
 Maintainer: ApexRMS <rsyncrosim@apexrms.com>
 Description: This package provides an interface to SyncroSim, a generalized

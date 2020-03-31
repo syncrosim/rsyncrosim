@@ -28,6 +28,8 @@ Disable addon or addons of an SsimLibrary, or Project/Scenario with an associate
 myLibrary = ssimLibrary("mylib")
 enableAddon(myLibrary,c("stsimecodep"))
 addon(myLibrary)
+\dontrun{
 disableAddon(myLibrary,c("stsimecodep"))
+}
 addon(myLibrary)
 }
