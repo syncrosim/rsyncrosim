@@ -6,47 +6,50 @@ unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
 
+mySsim = session()
+addPackage(session = mySsim, name = "stsimsf")
+addPackage(session = mySsim, name = "helloworld")
+
 test_that("Tests of Session - assumes SyncroSim is installed", {
   skip_on_cran()
-  mySsim = session() # Creates a session using the default installation of syncrosim
   expect_is(mySsim, "Session")
   expect_equal(file.exists(filepath(mySsim)),TRUE) # Lists the folder location of syncrosim session
   expect_output(str(version(mySsim)),"chr",fixed=T) # Lists the version of syncrosim session
   expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
-  expect_equal(names(package()),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
+  expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-  expect_equal(names(package()),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
+  expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 
   mySession = session(silent=F) #modify default session settings
   expect_equal(silent(mySession),F)
   silent(mySession)=T
   expect_equal(silent(mySession),T)
-  expect_output(session(printCmd=T),"--version")
+  expect_output(session(printCmd = T),"--version")
 })
 
 test_that("Tests of command  - assumes SyncroSim is installed", {
   skip_on_cran()
-  mySsim = session() # Creates a session using the default installation of syncrosim
-  expect_equal(command("help")[1],"SyncroSim System Console")
+  expect_equal(command("help", mySsim)[1],"SyncroSim System Console")
   expect_equal(command(c("list","help"),mySsim)[1],"Lists existing items")
-  expect_equal(command("--create --help")[1],"Creates an item")
-  expect_equal(command(list(create=NULL,help=NULL))[1],"Creates an item")
+  expect_equal(command("--create --help", mySsim)[1],"Creates an item")
+  expect_equal(command(list(create=NULL,help=NULL), mySsim)[1],"Creates an item")
 
   ret=delete(paste0(getwd(),"/temp.ssim"),force=T)
   args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),package="hello:model-transformer")
-  output = command(args)
+  output = command(args, mySsim)
+  # TODO This fails for an unknown reason
   expect_equal(output[1],"The transformer 'hello:model-transformer' was not found.  You may need to install an additional package.")
 })
 
 test_that("Tests of Library - assumes SyncroSim is installed", {
   skip_on_cran()
-  myLibrary = ssimLibrary(name="temp") #create new library using default model
+  myLibrary = ssimLibrary(name="temp", session = mySsim) #create new library using default model
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(as.character(basePackage(myLibrary)$name),"stsim")
   expect_equal(delete(myLibrary,force=T),"saved")
   expect_equal(file.exists(filepath(myLibrary)),FALSE)
 
-  myLibrary = ssimLibrary(name="SSimLibrary")
+  myLibrary = ssimLibrary(name="SSimLibrary", session = mySsim)
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(name(myLibrary),"SSimLibrary")
 
@@ -54,14 +57,14 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
   allAdds = addon(myLibrary)
   expect_equal(names(allAdds),c("name","description","enabled","currentVersion","minimumVersion"))
-  expect_equal(names(addon()),c("name","description","version","extends"))
+  expect_equal(names(addon(mySsim)),c("name","description","version","extends"))
   expect_equal(delete(myLibrary,force=T),"saved")
   
   allAdds = subset(allAdds, name != "stsim-cbm") #Requires stsim-stockflow to be added first
 
   if(nrow(allAdds)>0){
     cAdd =allAdds$name[1]
-    myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd))
+    myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd), session = mySsim)
     expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
     expect_equal(disableAddon(myLibrary,cAdd)[[cAdd]],"saved")
     expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
@@ -70,11 +73,12 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   }
 
   # Get/set the various properties of the library
-  expect_is("session<-"(myLibrary,session()),"SsimLibrary")
+  expect_is("session<-"(myLibrary,mySsim),"SsimLibrary")
 
-  expect_equal(ssimUpdate(myLibrary),"The library has no unapplied updates.")
-  expect_equal(names(ssimLibrary(myLibrary)),c("property","value"))
-  expect_equal(class(ssimLibrary(myLibrary,summary=F))[1],"SsimLibrary")
+  # Chnaged from "The library has no unapplied updates." to NA because testhat cannot detect the command message
+  expect(is.na(ssimUpdate(myLibrary)), "ssimUpdate test failed, value returned is not NA") 
+  expect_equal(names(ssimLibrary(myLibrary, mySsim)),c("property","value"))
+  expect_equal(class(ssimLibrary(myLibrary,summary=F, mySsim))[1],"SsimLibrary")
 
   name(myLibrary)="Fred"
   expect_equal(name(myLibrary),"Fred")
@@ -99,8 +103,8 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
   ret=delete(paste0(getwd(),"/temp26.ssim"),force=T) #delete a library specified by a path
   ret=delete(paste0(getwd(),"/temp27.ssim"),force=T)
-  myLib=ssimLibrary(name="temp26")
-  myOtherLib = ssimLibrary(name="temp27")
+  myLib=ssimLibrary(name="temp26", session = mySsim)
+  myOtherLib = ssimLibrary(name="temp27", session = mySsim)
   myOtherLibProj = project(ssimObject = myOtherLib, project="MyProj")
   myOtherScn = scenario(myOtherLibProj, scenario="other")
 
@@ -111,12 +115,12 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myOtherScn = scenario(myOtherLib,scenario="other2")
 
   expect_equal(names(project(myOtherLib)),c("projectId","name","owner","lastModified","readOnly"))
-  expect_equal(names(scenario(myOtherLib)),c("scenarioId","projectId","name","isResult","parentID","owner","lastModified","readOnly"))
+  expect_equal(names(scenario(myOtherLib)),c("scenarioId","projectId","name","isResult","parentID","owner","lastModified","readOnly", "mergeDependencies"))
 
   myProject = project(myLib,project="temp")
   expect_is(myProject,"Project")
   expect_equal(names(datasheet(myProject)),c("scope","name","displayName")) #Only scope, name and displayName returned
-  expect_equal(is.element("STime_Map",datasheet(myLib,project="temp")$name),T) #same thing, but more system calls. Generally using ids/objects is faster than using names.
+  expect_equal(is.element("corestime_Maps",datasheet(myLib,project="temp")$name),T) #same thing, but more system calls. Generally using ids/objects is faster than using names.
   expect_equal(names(datasheet(myProject,optional=T)),c("scope","package","name","displayName","isSingle","isOutput"))
 
   expect_error(scenario(myLib,scenario=1),"Scenario ids (1) not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.",fixed=T) # Fail: need a name to create a scenario
@@ -137,7 +141,8 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_equal(scenarioId(myScn),5)
 
   myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
-
+  
+  # TODO This fails for an unknown reason => BUG SUBMITED
   myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
   expect_equal(projectId(myOtherProject),19)
   expect_warning(project(myLib,project="temp",sourceProject="temp2"),"Project  (1) already exists, so sourceProject argument was ignored.",fixed=T)#Warns that sourceProject is ignored because "temp" already exists.
@@ -158,13 +163,13 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   allScns = scenario(myProject,summary=F)
   expect_equal(names(allScns),c("4","5","6"))
 
-  expect_equal(is.element("ScenarioID",names(datasheet(myLib,c("STSim_RunControl","STSim_OutputOptions"),scenario=as.numeric(names(allScns)))[[1]])),T) #returns a list - each sheet contains scenario info if appropriate
+  expect_equal(is.element("ScenarioID",names(datasheet(myLib,c("RunControl","OutputOptions"),scenario=as.numeric(names(allScns)))[[1]])),T) #returns a list - each sheet contains scenario info if appropriate
 
-  expect_equal(length(datasheet(allScns,c("STSim_RunControl","STSim_OutputOptions"))),2) #returns a list - each sheet contains scenario info if appropriate
+  expect_equal(length(datasheet(allScns,c("RunControl","OutputOptions"))),2) #returns a list - each sheet contains scenario info if appropriate
 
-  expect_warning(datasheet(myScn,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and scenario arguments.
+  expect_warning(datasheet(myScn,"RunControl",scenario=1),"scenario argument is ignored when ssimObject is a Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and scenario arguments.
   expect_warning(datasheet(myProject,"STime_Chart",project=1),"project argument is ignored when ssimObject is a Project/Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and project arguments.
-  expect_warning(datasheet(allScns,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a list.",fixed=T)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
+  expect_warning(datasheet(allScns,"RunControl",scenario=1),"scenario argument is ignored when ssimObject is a list.",fixed=T)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
   expect_equal(runLog(myScn),"The scenario is not a result scenario: 6") #Returns message if the scenario is not a result scenario.
 
@@ -236,22 +241,22 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
 test_that("Tests of datasheet - assumes SyncroSim is installed", {
   skip_on_cran()
-  myLibrary = ssimLibrary(name= "NewLibrary.ssim")
+  myLibrary = ssimLibrary(name= "NewLibrary.ssim", session = mySsim)
   myProject = project(myLibrary,project="proj")
   myScenario = scenario(myProject,scenario="one")
   myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
   expect_is(myLibraryDataframes,"list")
-  expect_is(myLibraryDataframes[["STime_Options"]],"data.frame")
+  expect_is(myLibraryDataframes[["corestime_Options"]],"data.frame")
 
   myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
   expect_equal(names(myProjectSheetNames),c("scope","name","displayName"))
 
-  myDeterministicTransitions =suppressWarnings(datasheet(myScenario,"STSim_DeterministicTransition"))
+  myDeterministicTransitions =suppressWarnings(datasheet(myScenario,"DeterministicTransition"))
   expect_is(myDeterministicTransitions$StateClassIDSource,"factor")
-  myDeterministicTransitions = suppressWarnings(datasheet(myScenario,"STSim_DeterministicTransition",lookupsAsFactors=F)) # This option returns characters instead of factors.
+  myDeterministicTransitions = suppressWarnings(datasheet(myScenario,"DeterministicTransition",lookupsAsFactors=F)) # This option returns characters instead of factors.
   expect_is(myDeterministicTransitions$StateClassIDSource,"NULL")
 
-  sheetName = "STSim_StateLabelX"
+  sheetName = "stsim_StateLabelX"
   emptyTab = datasheet(myProject, name=sheetName,empty=F)
   expect_equal(nrow(emptyTab),0)
   stateClassDefinition=addRow(emptyTab,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
@@ -263,7 +268,7 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
   expect_equal(datasheet(myProject, name=sheetName)$Name,c('Coniferous','Deciduous','Grass','Mixed'))
 
-  ret=delete(myProject,datasheet=c(sheetName,sheetName),force=T)
+  ret=delete(myProject,datasheet=sheetName,force=T)
   expect_equal(nrow(datasheet(myProject, name=sheetName)),0)
 
   ret=delete(myLibrary,force=T)
