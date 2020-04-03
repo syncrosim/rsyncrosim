@@ -120,7 +120,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myProject = project(myLib,project="temp")
   expect_is(myProject,"Project")
   expect_equal(names(datasheet(myProject)),c("scope","name","displayName")) #Only scope, name and displayName returned
-  expect_equal(is.element("STime_Map",datasheet(myLib,project="temp")$name),T) #same thing, but more system calls. Generally using ids/objects is faster than using names.
+  expect_equal(is.element("corestime_Maps",datasheet(myLib,project="temp")$name),T) #same thing, but more system calls. Generally using ids/objects is faster than using names.
   expect_equal(names(datasheet(myProject,optional=T)),c("scope","package","name","displayName","isSingle","isOutput"))
 
   expect_error(scenario(myLib,scenario=1),"Scenario ids (1) not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.",fixed=T) # Fail: need a name to create a scenario
