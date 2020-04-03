@@ -4,8 +4,12 @@
 \alias{sqlStatement}
 \title{Construct an SQLite query}
 \usage{
-sqlStatement(groupBy = NULL, aggregate = NULL,
-  aggregateFunction = "SUM", where = NULL)
+sqlStatement(
+  groupBy = NULL,
+  aggregate = NULL,
+  aggregateFunction = "SUM",
+  where = NULL
+)
 }
 \arguments{
 \item{groupBy}{character string or vector of these. Vector of variables (column names) to GROUP BY.}

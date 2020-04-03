@@ -4,8 +4,15 @@
 \alias{project}
 \title{Create or open a project or projects.}
 \usage{
-project(ssimObject = NULL, project = NULL, sourceProject = NULL,
-  create = F, summary = NULL, forceElements = F, overwrite = F)
+project(
+  ssimObject = NULL,
+  project = NULL,
+  sourceProject = NULL,
+  create = F,
+  summary = NULL,
+  forceElements = F,
+  overwrite = F
+)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Scenario or character. An ssimObject containing a filepath to a library, or a filepath.}

@@ -4,9 +4,16 @@
 \alias{scenario}
 \title{Create or open one or more Scenarios.}
 \usage{
-scenario(ssimObject = NULL, scenario = NULL, sourceScenario = NULL,
-  create = F, summary = NULL, results = F, forceElements = F,
-  overwrite = F)
+scenario(
+  ssimObject = NULL,
+  scenario = NULL,
+  sourceScenario = NULL,
+  create = F,
+  summary = NULL,
+  results = F,
+  forceElements = F,
+  overwrite = F
+)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.}
