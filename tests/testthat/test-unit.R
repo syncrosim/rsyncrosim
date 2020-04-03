@@ -75,6 +75,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   # Get/set the various properties of the library
   expect_is("session<-"(myLibrary,mySsim),"SsimLibrary")
 
+  # TODO This fails for an unknown reason
   expect_equal(ssimUpdate(myLibrary),"The library has no unapplied updates.")
   expect_equal(names(ssimLibrary(myLibrary, mySsim)),c("property","value"))
   expect_equal(class(ssimLibrary(myLibrary,summary=F, mySsim))[1],"SsimLibrary")
