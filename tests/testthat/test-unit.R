@@ -24,7 +24,7 @@ test_that("Tests of Session - assumes SyncroSim is installed", {
   expect_equal(silent(mySession),F)
   silent(mySession)=T
   expect_equal(silent(mySession),T)
-  expect_output(mySession,"--version")
+  expect_output(session(printCmd = T),"--version")
 })
 
 test_that("Tests of command  - assumes SyncroSim is installed", {
