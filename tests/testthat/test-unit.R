@@ -111,7 +111,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myOtherScn = scenario(myOtherLib,scenario="other2")
 
   expect_equal(names(project(myOtherLib)),c("projectId","name","owner","lastModified","readOnly"))
-  expect_equal(names(scenario(myOtherLib)),c("scenarioId","projectId","name","isResult","parentID","owner","lastModified","readOnly"))
+  expect_equal(names(scenario(myOtherLib)),c("scenarioId","projectId","name","isResult","parentID","owner","lastModified","readOnly", "mergeDependencies"))
 
   myProject = project(myLib,project="temp")
   expect_is(myProject,"Project")
@@ -158,13 +158,13 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   allScns = scenario(myProject,summary=F)
   expect_equal(names(allScns),c("4","5","6"))
 
-  expect_equal(is.element("ScenarioID",names(datasheet(myLib,c("STSim_RunControl","STSim_OutputOptions"),scenario=as.numeric(names(allScns)))[[1]])),T) #returns a list - each sheet contains scenario info if appropriate
+  expect_equal(is.element("ScenarioID",names(datasheet(myLib,c("RunControl","OutputOptions"),scenario=as.numeric(names(allScns)))[[1]])),T) #returns a list - each sheet contains scenario info if appropriate
 
-  expect_equal(length(datasheet(allScns,c("STSim_RunControl","STSim_OutputOptions"))),2) #returns a list - each sheet contains scenario info if appropriate
+  expect_equal(length(datasheet(allScns,c("RunControl","OutputOptions"))),2) #returns a list - each sheet contains scenario info if appropriate
 
-  expect_warning(datasheet(myScn,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and scenario arguments.
+  expect_warning(datasheet(myScn,"RunControl",scenario=1),"scenario argument is ignored when ssimObject is a Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and scenario arguments.
   expect_warning(datasheet(myProject,"STime_Chart",project=1),"project argument is ignored when ssimObject is a Project/Scenario or list of these.",fixed=T)#Warn of conflict between ssimObject and project arguments.
-  expect_warning(datasheet(allScns,"STSim_RunControl",scenario=1),"scenario argument is ignored when ssimObject is a list.",fixed=T)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
+  expect_warning(datasheet(allScns,"RunControl",scenario=1),"scenario argument is ignored when ssimObject is a list.",fixed=T)#Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
   expect_equal(runLog(myScn),"The scenario is not a result scenario: 6") #Returns message if the scenario is not a result scenario.
 
@@ -246,12 +246,12 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
   expect_equal(names(myProjectSheetNames),c("scope","name","displayName"))
 
-  myDeterministicTransitions =suppressWarnings(datasheet(myScenario,"STSim_DeterministicTransition"))
+  myDeterministicTransitions =suppressWarnings(datasheet(myScenario,"DeterministicTransition"))
   expect_is(myDeterministicTransitions$StateClassIDSource,"factor")
-  myDeterministicTransitions = suppressWarnings(datasheet(myScenario,"STSim_DeterministicTransition",lookupsAsFactors=F)) # This option returns characters instead of factors.
+  myDeterministicTransitions = suppressWarnings(datasheet(myScenario,"DeterministicTransition",lookupsAsFactors=F)) # This option returns characters instead of factors.
   expect_is(myDeterministicTransitions$StateClassIDSource,"NULL")
 
-  sheetName = "STSim_StateLabelX"
+  sheetName = "StateLabelX"
   emptyTab = datasheet(myProject, name=sheetName,empty=F)
   expect_equal(nrow(emptyTab),0)
   stateClassDefinition=addRow(emptyTab,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
