@@ -141,7 +141,8 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_equal(scenarioId(myScn),5)
 
   myOtherProject=project(myOtherLib,project="copy",sourceProject=myProject)#Can copy projects among libraries provided that sourceProject is a Project object.
-
+  
+  # TODO This fails for an unknown reason
   myOtherProject=project(myLib,project="copy",sourceProject=10)#Copy a project within the same library.
   expect_equal(projectId(myOtherProject),19)
   expect_warning(project(myLib,project="temp",sourceProject="temp2"),"Project  (1) already exists, so sourceProject argument was ignored.",fixed=T)#Warns that sourceProject is ignored because "temp" already exists.
