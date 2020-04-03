@@ -6,47 +6,50 @@ unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
 
+mySsim = session()
+addPackage(session = mySsim, name = "stsimsf")
+addPackage(session = mySsim, name = "helloworld")
+
 test_that("Tests of Session - assumes SyncroSim is installed", {
   skip_on_cran()
-  mySsim = session() # Creates a session using the default installation of syncrosim
   expect_is(mySsim, "Session")
   expect_equal(file.exists(filepath(mySsim)),TRUE) # Lists the folder location of syncrosim session
   expect_output(str(version(mySsim)),"chr",fixed=T) # Lists the version of syncrosim session
   expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
-  expect_equal(names(package()),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
+  expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-  expect_equal(names(package()),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
+  expect_equal(names(package(mySsim)),c("name","displayName","version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 
   mySession = session(silent=F) #modify default session settings
   expect_equal(silent(mySession),F)
   silent(mySession)=T
   expect_equal(silent(mySession),T)
-  expect_output(session(printCmd=T),"--version")
+  expect_output(mySession,"--version")
 })
 
 test_that("Tests of command  - assumes SyncroSim is installed", {
   skip_on_cran()
-  mySsim = session() # Creates a session using the default installation of syncrosim
-  expect_equal(command("help")[1],"SyncroSim System Console")
+  expect_equal(command("help", mySsim)[1],"SyncroSim System Console")
   expect_equal(command(c("list","help"),mySsim)[1],"Lists existing items")
-  expect_equal(command("--create --help")[1],"Creates an item")
-  expect_equal(command(list(create=NULL,help=NULL))[1],"Creates an item")
+  expect_equal(command("--create --help", mySsim)[1],"Creates an item")
+  expect_equal(command(list(create=NULL,help=NULL), mySsim)[1],"Creates an item")
 
   ret=delete(paste0(getwd(),"/temp.ssim"),force=T)
   args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),package="hello:model-transformer")
-  output = command(args)
+  output = command(args, mySsim)
+  # TODO This fails for an unknown reason
   expect_equal(output[1],"The transformer 'hello:model-transformer' was not found.  You may need to install an additional package.")
 })
 
 test_that("Tests of Library - assumes SyncroSim is installed", {
   skip_on_cran()
-  myLibrary = ssimLibrary(name="temp") #create new library using default model
+  myLibrary = ssimLibrary(name="temp", session = mySsim) #create new library using default model
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(as.character(basePackage(myLibrary)$name),"stsim")
   expect_equal(delete(myLibrary,force=T),"saved")
   expect_equal(file.exists(filepath(myLibrary)),FALSE)
 
-  myLibrary = ssimLibrary(name="SSimLibrary")
+  myLibrary = ssimLibrary(name="SSimLibrary", session = mySsim)
   expect_equal(file.exists(filepath(myLibrary)),TRUE)
   expect_equal(name(myLibrary),"SSimLibrary")
 
@@ -54,14 +57,14 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
   allAdds = addon(myLibrary)
   expect_equal(names(allAdds),c("name","description","enabled","currentVersion","minimumVersion"))
-  expect_equal(names(addon()),c("name","description","version","extends"))
+  expect_equal(names(addon(mySsim)),c("name","description","version","extends"))
   expect_equal(delete(myLibrary,force=T),"saved")
   
   allAdds = subset(allAdds, name != "stsim-cbm") #Requires stsim-stockflow to be added first
 
   if(nrow(allAdds)>0){
     cAdd =allAdds$name[1]
-    myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd))
+    myLibrary = ssimLibrary(name= "NewLibrary", addon=c(cAdd), session = mySsim)
     expect_equal(subset(addon(myLibrary),enabled)$name,cAdd)
     expect_equal(disableAddon(myLibrary,cAdd)[[cAdd]],"saved")
     expect_equal(nrow(subset(addon(myLibrary),enabled)),0)
@@ -70,11 +73,11 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   }
 
   # Get/set the various properties of the library
-  expect_is("session<-"(myLibrary,session()),"SsimLibrary")
+  expect_is("session<-"(myLibrary,mySsim),"SsimLibrary")
 
   expect_equal(ssimUpdate(myLibrary),"The library has no unapplied updates.")
-  expect_equal(names(ssimLibrary(myLibrary)),c("property","value"))
-  expect_equal(class(ssimLibrary(myLibrary,summary=F))[1],"SsimLibrary")
+  expect_equal(names(ssimLibrary(myLibrary, mySsim)),c("property","value"))
+  expect_equal(class(ssimLibrary(myLibrary,summary=F, mySsim))[1],"SsimLibrary")
 
   name(myLibrary)="Fred"
   expect_equal(name(myLibrary),"Fred")
@@ -99,8 +102,8 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
   ret=delete(paste0(getwd(),"/temp26.ssim"),force=T) #delete a library specified by a path
   ret=delete(paste0(getwd(),"/temp27.ssim"),force=T)
-  myLib=ssimLibrary(name="temp26")
-  myOtherLib = ssimLibrary(name="temp27")
+  myLib=ssimLibrary(name="temp26", session = mySsim)
+  myOtherLib = ssimLibrary(name="temp27", session = mySsim)
   myOtherLibProj = project(ssimObject = myOtherLib, project="MyProj")
   myOtherScn = scenario(myOtherLibProj, scenario="other")
 
@@ -236,7 +239,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
 test_that("Tests of datasheet - assumes SyncroSim is installed", {
   skip_on_cran()
-  myLibrary = ssimLibrary(name= "NewLibrary.ssim")
+  myLibrary = ssimLibrary(name= "NewLibrary.ssim", session = mySsim)
   myProject = project(myLibrary,project="proj")
   myScenario = scenario(myProject,scenario="one")
   myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
