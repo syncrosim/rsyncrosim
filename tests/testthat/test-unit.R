@@ -246,7 +246,7 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   myScenario = scenario(myProject,scenario="one")
   myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
   expect_is(myLibraryDataframes,"list")
-  expect_is(myLibraryDataframes[["core_Options"]],"data.frame")
+  expect_is(myLibraryDataframes[["corestime_Options"]],"data.frame")
 
   myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
   expect_equal(names(myProjectSheetNames),c("scope","name","displayName"))
@@ -256,7 +256,7 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   myDeterministicTransitions = suppressWarnings(datasheet(myScenario,"DeterministicTransition",lookupsAsFactors=F)) # This option returns characters instead of factors.
   expect_is(myDeterministicTransitions$StateClassIDSource,"NULL")
 
-  sheetName = "StateLabelX"
+  sheetName = "stsim_StateLabelX"
   emptyTab = datasheet(myProject, name=sheetName,empty=F)
   expect_equal(nrow(emptyTab),0)
   stateClassDefinition=addRow(emptyTab,data.frame(Name=c('Coniferous','Deciduous','Mixed')))
@@ -268,7 +268,7 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   ret=saveDatasheet(myProject, stateClassDefinition, name=sheetName) #append project scope datasheet by default
   expect_equal(datasheet(myProject, name=sheetName)$Name,c('Coniferous','Deciduous','Grass','Mixed'))
 
-  ret=delete(myProject,datasheet=c(sheetName,sheetName),force=T)
+  ret=delete(myProject,datasheet=sheetName,force=T)
   expect_equal(nrow(datasheet(myProject, name=sheetName)),0)
 
   ret=delete(myLibrary,force=T)
