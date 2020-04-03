@@ -6,13 +6,15 @@ unlink("testLibs",recursive=T)
 dir.create('testLibs')
 setwd("./testLibs")
 
+myses = session()
+
 test_that("Test simple non-spatial STSim example - assumes that SyncroSim is installed.", {
   skip_on_cran()
   
   # Create the project definition
   libPath = paste0(getwd(),"/ST-Sim-Command-Line.ssim")
   ret=delete(libPath,force=T)
-  myLibrary = ssimLibrary(name=libPath)
+  myLibrary = ssimLibrary(session = myses, name=libPath)
   myProject = project(myLibrary,project="ST-Sim Demonstration")
 
   #***********************************
