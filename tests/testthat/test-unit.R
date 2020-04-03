@@ -246,7 +246,7 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   myScenario = scenario(myProject,scenario="one")
   myLibraryDataframes = datasheet(myLibrary, summary=F) # A named list of all the library datasheets for project id 2.
   expect_is(myLibraryDataframes,"list")
-  expect_is(myLibraryDataframes[["STime_Options"]],"data.frame")
+  expect_is(myLibraryDataframes[["core_Options"]],"data.frame")
 
   myProjectSheetNames = subset(datasheet(myProject),scope=="project") # A dataframe of datasheet names for project id 1.
   expect_equal(names(myProjectSheetNames),c("scope","name","displayName"))
