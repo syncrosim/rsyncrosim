@@ -4,12 +4,7 @@
 NULL
 
 setMethod(f='initialize',signature="SsimLibrary",
-    definition=function(.Object,name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F){
-      
-    if(create){
-      warning("create argument deprecated and no longer required.")
-      if (overwrite){create=F}
-    } 
+    definition=function(.Object,name=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F){
       
     enabled=NULL
     
@@ -60,12 +55,6 @@ setMethod(f='initialize',signature="SsimLibrary",
     
     if(!grepl(".ssim",path)) {
       path=paste0(path,".ssim")
-    }
-    
-    if (create) {
-      if (file.exists(path)) {
-        stop(paste0("Cannot overwrite existing library.  Use overwrite=T: ",path)) 
-      }
     }
     
     if (overwrite){
@@ -169,18 +158,18 @@ setMethod(f='initialize',signature="SsimLibrary",
   }
 )
 
-setGeneric('.ssimLibrary', function(name=NULL,create=F,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F) standardGeneric('.ssimLibrary'))
+setGeneric('.ssimLibrary', function(name=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F) standardGeneric('.ssimLibrary'))
 
-setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,create,package,session,addon,forceUpdate,overwrite=F) {
-  return(new("SsimLibrary",name,create,package,session,addon,forceUpdate))
+setMethod('.ssimLibrary',signature(name="missingOrNULLOrChar"),function(name,package,session,addon,forceUpdate,overwrite=F) {
+  return(new("SsimLibrary",name,package,session,addon,forceUpdate))
 })
 
-setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,package,session,addon,forceUpdate,overwrite) {
+setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,package,session,addon,forceUpdate,overwrite) {
   
   if(class(name)=="SsimLibrary"){
     out=name
   }else{
-    out = .ssimLibrary(name=.filepath(name),create,package,session=.session(name),addon,forceUpdate,overwrite)
+    out = .ssimLibrary(name=.filepath(name),package,session=.session(name),addon,forceUpdate,overwrite)
   }
   return(out)
 })
@@ -225,16 +214,16 @@ setMethod('.ssimLibrary', signature(name="SsimObject"), function(name,create,pac
 #' info(myLibrary)
 #' }
 #' @export
-setGeneric('ssimLibrary',function(name=NULL,create=F,summary=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F) standardGeneric('ssimLibrary'))
+setGeneric('ssimLibrary',function(name=NULL,summary=NULL,package=NULL,session=NULL,addon=NULL,forceUpdate=F,overwrite=F) standardGeneric('ssimLibrary'))
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summary,package,session,addon,forceUpdate,overwrite) {
+setMethod('ssimLibrary', signature(name="SsimObject"), function(name,summary,package,session,addon,forceUpdate,overwrite) {
   
   if(class(name)=="SsimLibrary"){
     out=name
     if(is.null(summary)){summary=T}
   }else{
-    out = .ssimLibrary(name=.filepath(name),create,package,session=.session(name),addon,forceUpdate,overwrite)
+    out = .ssimLibrary(name=.filepath(name),package,session=.session(name),addon,forceUpdate,overwrite)
     if(is.null(summary)){summary=F}
   }
   if(!summary){
@@ -244,14 +233,14 @@ setMethod('ssimLibrary', signature(name="SsimObject"), function(name,create,summ
 })
 
 #' @rdname ssimLibrary
-setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,create,summary=NULL,package,session,addon,forceUpdate,overwrite) {
+setMethod('ssimLibrary',signature(name="missingOrNULLOrChar"),function(name=NULL,summary=NULL,package,session,addon,forceUpdate,overwrite) {
   
     if(is.null(session)){session=.session()}
     if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
       return(SyncroSimNotFound())
     }
             
-    newLib = new("SsimLibrary",name,create,package,session,addon,forceUpdate,overwrite)
+    newLib = new("SsimLibrary",name,package,session,addon,forceUpdate,overwrite)
     if(!is.null(summary)&&summary){
       return(info(newLib))
     }

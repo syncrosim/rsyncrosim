@@ -23,7 +23,7 @@ setGeneric('run',function(ssimObject,scenario=NULL,summary=F,jobs=1,transformerN
 #' @rdname run
 setMethod('run', signature(ssimObject="character"), function(ssimObject,scenario,summary,jobs,transformerName,forceElements) {
   if(ssimObject==SyncroSimNotFound(warn=F)){return(SyncroSimNotFound())}
-  ssimObject = .ssimLibrary(ssimObject,create=F)
+  ssimObject = .ssimLibrary(ssimObject)
   out = run(ssimObject,scenario,summary,jobs,transformerName,forceElements)
   return(out)
 })

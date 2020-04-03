@@ -163,12 +163,7 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' }
 #' @name project
 #' @export
-project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,summary=NULL,forceElements=F,overwrite=F){
-  
-  if(create){
-    warning("create argument deprecated and no longer required.")
-    if (overwrite){create=F}
-  } 
+project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F,overwrite=F){
     
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
@@ -211,9 +206,6 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,sum
   xProjScn  =.getFromXProjScn(ssimObject,project=project,scenario=NULL,convertObject=convertObject,returnIds=returnIds,goal="project",complainIfMissing=F)
   
   if(class(xProjScn)=="Project"){
-    if (create){
-      stop(paste0("Cannot overwrite existing project.  Use overwrite=T.",project)) 
-    }
     if (!overwrite){
       return(xProjScn)      
     }
@@ -267,15 +259,10 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,create=F,sum
     cRow = projectsToMake[i,]
     projExists = !is.na(cRow$exists)
     
-    if (projExists){
-      if(create){
-        stop(paste0("Cannot overwrite existing project.  Use overwrite=T: ",cRow$name)) 
-      }else if (overwrite){
-        command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
-        allProjects[i, "exists"] <- NA
-        projectsToMake[i, "exists"] <- NA        
-      }
-    }
+  if (overwrite){
+    command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
+    allProjects[i, "exists"] <- NA
+    projectsToMake[i, "exists"] <- NA        
   } 
   
   for(i in seq(length.out=nrow(projectsToMake))){
