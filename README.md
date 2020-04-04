@@ -1,4 +1,6 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # rsyncrosim <img src="inst/images/sticker.png" align="right" width=140/>
 
 ## The R interface to SyncroSim
