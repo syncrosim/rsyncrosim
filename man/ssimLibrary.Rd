@@ -8,7 +8,6 @@
 \usage{
 ssimLibrary(
   name = NULL,
-  create = F,
   summary = NULL,
   package = NULL,
   session = NULL,
@@ -19,7 +18,6 @@ ssimLibrary(
 
 \S4method{ssimLibrary}{SsimObject}(
   name = NULL,
-  create = F,
   summary = NULL,
   package = NULL,
   session = NULL,
@@ -30,7 +28,6 @@ ssimLibrary(
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(
   name = NULL,
-  create = F,
   summary = NULL,
   package = NULL,
   session = NULL,

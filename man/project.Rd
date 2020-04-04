@@ -8,7 +8,6 @@ project(
   ssimObject = NULL,
   project = NULL,
   sourceProject = NULL,
-  create = F,
   summary = NULL,
   forceElements = F,
   overwrite = F

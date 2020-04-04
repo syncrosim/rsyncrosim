@@ -17,22 +17,54 @@ datasheet(
   empty = F,
   lookupsAsFactors = T,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
-  includeKey = F, forceElements = F, fastQuery = F)
+  includeKey = F,
+  forceElements = F,
+  fastQuery = F
+)
 
-\S4method{datasheet}{list}(ssimObject, name = NULL, project = NULL,
-  scenario = NULL, summary = NULL, optional = F, empty = F,
-  lookupsAsFactors = T, sqlStatement = list(select = "SELECT *",
-  groupBy = ""), includeKey = F, forceElements = F, fastQuery = F)
+\S4method{datasheet}{list}(
+  ssimObject,
+  name = NULL,
+  project = NULL,
+  scenario = NULL,
+  summary = NULL,
+  optional = F,
+  empty = F,
+  lookupsAsFactors = T,
+  sqlStatement = list(select = "SELECT *", groupBy = ""),
+  includeKey = F,
+  forceElements = F,
+  fastQuery = F
+)
 
-\S4method{datasheet}{character}(ssimObject, name, project, scenario,
-  summary, optional, empty, lookupsAsFactors, sqlStatement, includeKey,
-  fastQuery)
+\S4method{datasheet}{character}(
+  ssimObject,
+  name,
+  project,
+  scenario,
+  summary,
+  optional,
+  empty,
+  lookupsAsFactors,
+  sqlStatement,
+  includeKey,
+  fastQuery
+)
 
-\S4method{datasheet}{SsimObject}(ssimObject, name = NULL,
-  project = NULL, scenario = NULL, summary = NULL, optional = F,
-  empty = F, lookupsAsFactors = T, sqlStatement = list(select =
-  "SELECT *", groupBy = ""), includeKey = F, forceElements = F,
-  fastQuery = F)
+\S4method{datasheet}{SsimObject}(
+  ssimObject,
+  name = NULL,
+  project = NULL,
+  scenario = NULL,
+  summary = NULL,
+  optional = F,
+  empty = F,
+  lookupsAsFactors = T,
+  sqlStatement = list(select = "SELECT *", groupBy = ""),
+  includeKey = F,
+  forceElements = F,
+  fastQuery = F
+)
 }
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.}

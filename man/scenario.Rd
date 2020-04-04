@@ -8,7 +8,6 @@ scenario(
   ssimObject = NULL,
   scenario = NULL,
   sourceScenario = NULL,
-  create = F,
   summary = NULL,
   results = F,
   forceElements = F,
