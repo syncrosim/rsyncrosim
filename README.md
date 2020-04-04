@@ -1,2 +1,7 @@
-# rsyncrosim
-The R interface to SyncroSim
+
+# rsyncrosim <img src="inst/images/sticker.png" align="right" width=140/>
+
+## The R interface to SyncroSim
+
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
