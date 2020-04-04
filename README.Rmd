@@ -35,7 +35,7 @@ _Windows:_
 
 - Install the package zip file in R. For example in RStudio, open the Install Packages window, select Package Archive File (for Install from) and rsyncrosim_X.X.X.zip (for Package archive), where X.X.X is the version of the package.
 
-- Run the [demonstration script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R) and/or view the [package documentation] (both also found in the doc folder of the package once installed)
+- Run the [demonstration script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R) and/or view the package documentation (both also found in the doc folder of the package once installed)
 
 _Linux:_ 
 

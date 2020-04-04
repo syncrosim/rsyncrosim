@@ -46,8 +46,10 @@ operations in R.
     from) and rsyncrosim\_X.X.X.zip (for Package archive), where X.X.X
     is the version of the package.
 
-  - Run the demonstration script and/or view the package documentation
-    (both also found in the doc folder of the package once installed)
+  - Run the [demonstration
+    script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R)
+    and/or view the package documentation (both also found in the doc
+    folder of the package once installed)
 
 *Linux:*
 
