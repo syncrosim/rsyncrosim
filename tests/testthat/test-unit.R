@@ -77,7 +77,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
 
   # Chnaged from "The library has no unapplied updates." to NA because testhat cannot detect the command message
   expect(is.na(ssimUpdate(myLibrary)), "ssimUpdate test failed, value returned is not NA") 
-  expect_equal(names(ssimLibrary(myLibrary, mySsim)),c("property","value"))
+  expect_equal(names(ssimLibrary(myLibrary, session = mySsim)),c("property","value"))
   expect_equal(class(ssimLibrary(myLibrary,summary=F, mySsim))[1],"SsimLibrary")
 
   name(myLibrary)="Fred"
