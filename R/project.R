@@ -4,122 +4,122 @@
 NULL
 
 setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLibrary,name=NULL,id=NULL,projects=NULL,sourceProject=NULL){
-          
-    #This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
-    x=ssimLibrary
-
-    #For fast processing - quickly return without system calls if projects exists and can be easily identified
-    if(is.null(projects)){projects=getProjectSet(x)}
-    findPrj = projects
-
-    if(!is.null(id)){
-      findPrj = subset(findPrj,projectId==id)
+  
+  #This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
+  x=ssimLibrary
+  
+  #For fast processing - quickly return without system calls if projects exists and can be easily identified
+  if(is.null(projects)){projects=getProjectSet(x)}
+  findPrj = projects
+  
+  if(!is.null(id)){
+    findPrj = subset(findPrj,projectId==id)
+  }
+  if(!is.null(name)){
+    pre = findPrj
+    cName=name
+    findPrj = subset(findPrj,name==cName)
+    if(!is.null(id)&&(nrow(pre)>0)&&(nrow(findPrj)==0)){
+      stop(paste0("The library already contains a project id ",id," with a different name ",pre$name))
     }
-    if(!is.null(name)){
-      pre = findPrj
-      cName=name
-      findPrj = subset(findPrj,name==cName)
-      if(!is.null(id)&&(nrow(pre)>0)&&(nrow(findPrj)==0)){
-        stop(paste0("The library already contains a project id ",id," with a different name ",pre$name))
-      }
-    }
-    if(is.null(id)&is.null(name)&(nrow(findPrj)==1)){
-      name = findPrj$name
-    }
-    if(is.null(id)&is.null(name)&(nrow(findPrj)>0)){
-      name = "Project"
-      cName = name
-      findPrj = subset(findPrj,name==cName)
-    }
-
-    if(nrow(findPrj)==1){
-      if(!is.null(sourceProject)){
-        warning("Project ", name," (",findPrj$projectId,") already exists, so sourceProject argument was ignored.")
-      }
-      #Go ahead and create the Projects object without issuing system commands to make sure it is ok
-      .Object@session=.session(x)
-      .Object@filepath=.filepath(x)
-      .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
-      .Object@projectId = as.numeric(findPrj$projectId)
-      return(.Object)
-    }
-
-    #Now go ahead to handle odder cases
-    if(nrow(findPrj)>0){
-      stop(paste0("The library contains more than one project called ",name,". Specify a project id: ",paste(findPrj$projectId,collapse=",")))
-    }
-
-    #If given an id for a project that does not yet exist, complain
-    if(!is.null(id)){
-      stop(paste0("The library does not contain project id ",id,". Please provide a name for the new project - the id will be assigned automatically by SyncroSim."))
-    }
-
-    #Create a new project
-    if(is.null(name)){
-      name="Project"
-    }
+  }
+  if(is.null(id)&is.null(name)&(nrow(findPrj)==1)){
+    name = findPrj$name
+  }
+  if(is.null(id)&is.null(name)&(nrow(findPrj)>0)){
+    name = "Project"
+    cName = name
+    findPrj = subset(findPrj,name==cName)
+  }
+  
+  if(nrow(findPrj)==1){
     if(!is.null(sourceProject)){
-      #complain if source project does not exist.
-      sourcePID = NA
-      slib = .filepath(x)
-      if(class(sourceProject)=="numeric"){
-        
-        if(!is.element(sourceProject,projects$projectId)){
-          stop(paste0("sourceProject id ",sourceProject," not found in the library."))
-        }
-        sourcePID = sourceProject
-      }
-      if(class(sourceProject)=="character"){
-        if(!is.element(sourceProject,projects$name)){
-          stop(paste0("sourceProject name ",sourceProject," not found in the library."))
-        }
-        sourcePID=projects$projectId[projects$name==sourceProject]
-      }
-      if(class(sourceProject)=="Project"){
-        slib=.filepath(sourceProject)
-        sourcePID = .projectId(sourceProject)
-      } 
-   
-      if(is.na(sourcePID)){
-        stop("Source project must be a number, project name, or Project object.")
-      }
-      
-      if(name=="GetSourceCopyCopyCopy"){
-        sourceProjectName = subset(projects,projectId==sourcePID)$name
-        
-        copyName = paste(sourceProjectName,"- Copy")
-        if(!is.element(copyName,projects$name)){
-          name = copyName
-        }else{
-          done=F
-          count=0
-          while(!done){
-            count=count+1
-            cName =paste0(copyName,count)
-            if(!is.element(cName,projects$name)){
-              name=cName
-              done=T
-            }
-          }
-        }
-      }
-      tt = command(list(copy=NULL,project=NULL,slib=slib,tlib=.filepath(x),pid=sourcePID,name=name),.session(x))      
-    }else{
-      tt = command(list(create=NULL,project=NULL,lib=.filepath(x),name=name),.session(x))
+      warning("Project ", name," (",findPrj$projectId,") already exists, so sourceProject argument was ignored.")
     }
-    
-    if(!grepl("Project ID is:",tt[1],fixed=T)){
-      stop(tt)
-    }
-
-    id = as.numeric(strsplit(tt,": ")[[1]][2])
-
+    #Go ahead and create the Projects object without issuing system commands to make sure it is ok
     .Object@session=.session(x)
     .Object@filepath=.filepath(x)
     .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
-    .Object@projectId = as.numeric(id)
+    .Object@projectId = as.numeric(findPrj$projectId)
     return(.Object)
   }
+  
+  #Now go ahead to handle odder cases
+  if(nrow(findPrj)>0){
+    stop(paste0("The library contains more than one project called ",name,". Specify a project id: ",paste(findPrj$projectId,collapse=",")))
+  }
+  
+  #If given an id for a project that does not yet exist, complain
+  if(!is.null(id)){
+    stop(paste0("The library does not contain project id ",id,". Please provide a name for the new project - the id will be assigned automatically by SyncroSim."))
+  }
+  
+  #Create a new project
+  if(is.null(name)){
+    name="Project"
+  }
+  if(!is.null(sourceProject)){
+    #complain if source project does not exist.
+    sourcePID = NA
+    slib = .filepath(x)
+    if(class(sourceProject)=="numeric"){
+      
+      if(!is.element(sourceProject,projects$projectId)){
+        stop(paste0("sourceProject id ",sourceProject," not found in the library."))
+      }
+      sourcePID = sourceProject
+    }
+    if(class(sourceProject)=="character"){
+      if(!is.element(sourceProject,projects$name)){
+        stop(paste0("sourceProject name ",sourceProject," not found in the library."))
+      }
+      sourcePID=projects$projectId[projects$name==sourceProject]
+    }
+    if(class(sourceProject)=="Project"){
+      slib=.filepath(sourceProject)
+      sourcePID = .projectId(sourceProject)
+    } 
+    
+    if(is.na(sourcePID)){
+      stop("Source project must be a number, project name, or Project object.")
+    }
+    
+    if(name=="GetSourceCopyCopyCopy"){
+      sourceProjectName = subset(projects,projectId==sourcePID)$name
+      
+      copyName = paste(sourceProjectName,"- Copy")
+      if(!is.element(copyName,projects$name)){
+        name = copyName
+      }else{
+        done=F
+        count=0
+        while(!done){
+          count=count+1
+          cName =paste0(copyName,count)
+          if(!is.element(cName,projects$name)){
+            name=cName
+            done=T
+          }
+        }
+      }
+    }
+    tt = command(list(copy=NULL,project=NULL,slib=slib,tlib=.filepath(x),pid=sourcePID,name=name),.session(x))      
+  }else{
+    tt = command(list(create=NULL,project=NULL,lib=.filepath(x),name=name),.session(x))
+  }
+  
+  if(!grepl("Project ID is:",tt[1],fixed=T)){
+    stop(tt)
+  }
+  
+  id = as.numeric(strsplit(tt,": ")[[1]][2])
+  
+  .Object@session=.session(x)
+  .Object@filepath=.filepath(x)
+  .Object@datasheetNames = .datasheets(x,scope="all",refresh=T)
+  .Object@projectId = as.numeric(id)
+  return(.Object)
+}
 )
 
 #' Create or open a project or projects.
@@ -164,7 +164,7 @@ setMethod(f='initialize',signature="Project",definition=function(.Object,ssimLib
 #' @name project
 #' @export
 project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL,forceElements=F,overwrite=F){
-    
+  
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }
@@ -244,7 +244,7 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL
     projectSet$order=NULL
     return(projectSet)
   }
-
+  
   #Now assume project is defined
   #distinguish existing projects from those that need to be made
   areIds = is.numeric(project)
@@ -259,11 +259,14 @@ project <- function(ssimObject=NULL,project=NULL,sourceProject=NULL,summary=NULL
     cRow = projectsToMake[i,]
     projExists = !is.na(cRow$exists)
     
-  if (overwrite){
-    command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
-    allProjects[i, "exists"] <- NA
-    projectsToMake[i, "exists"] <- NA        
-  } 
+    if (projExists){    
+      if (overwrite){
+        command(list(delete=NULL,project=NULL,lib=.filepath(ssimObject),pid=cRow$projectId,force=NULL),.session(ssimObject))
+        allProjects[i, "exists"] <- NA
+        projectsToMake[i, "exists"] <- NA        
+      }
+    }
+  }
   
   for(i in seq(length.out=nrow(projectsToMake))){
     cRow = projectsToMake[i,]
