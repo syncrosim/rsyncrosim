@@ -24,12 +24,7 @@ jobs:
         
       - uses: r-lib/actions/setup-r@master
       - uses: r-lib/actions/setup-pandoc@master
-        
-      - name: Install GDAL
-        if: runner.os != 'Windows'
-        
-        run: |
-          sudo apt-get install libgdal-dev
+      - uses: r-lib/actions/setup-tinytex@v1
           
       # From r-lib/actions
       - name: Cache R packages
@@ -52,7 +47,7 @@ jobs:
         shell: Rscript {0}
         
       - name: Check as CRAN
-        run: rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "error")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual","--as-cran"), error_on = "error")
         shell: Rscript {0}
         
       #- name: Upload check results
