@@ -8,6 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
+      - name: Install GDAL
+        run: |
+          apt-get install libgdal-dev
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
