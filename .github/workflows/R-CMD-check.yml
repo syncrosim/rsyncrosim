@@ -10,7 +10,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install GDAL
         run: |
-          apt-get install libgdal-dev
+          sudo apt-get install libgdal-dev
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
