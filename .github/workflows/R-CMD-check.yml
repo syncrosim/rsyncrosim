@@ -54,6 +54,8 @@ jobs:
         shell: Rscript {0}
         
       - name: Check as CRAN
+        env: 
+          NOT_CRAN: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual","--as-cran"), error_on = "error")
         shell: Rscript {0}
         
