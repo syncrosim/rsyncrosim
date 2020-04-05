@@ -21,16 +21,17 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-        
       - uses: r-lib/actions/setup-r@master
       - uses: r-lib/actions/setup-pandoc@master
+      
       - uses: r-lib/actions/setup-tinytex@v1
+        if: runner.os != 'Windows'
       
-      
-      - name: Install GDAL
+      - name: Install GDAL + qpdf
         if: runner.os != 'Windows'
         run: |
           sudo apt-get install libgdal-dev
+          sudo apt-get install qpdf
           
       # From r-lib/actions
       - name: Cache R packages
