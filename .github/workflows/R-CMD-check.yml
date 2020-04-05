@@ -26,6 +26,8 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@master
         
       - name: Install GDAL
+        if: runner.os != 'Windows'
+        
         run: |
           sudo apt-get install libgdal-dev
           
