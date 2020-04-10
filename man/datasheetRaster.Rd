@@ -93,7 +93,9 @@ For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scen
 }
 \examples{
 \dontrun{
-datasheetRaster(myResult,datasheet="OutputSpatialState",
-  subset=expression(grepl("Ts0001",Filename,fixed=T)))
-}   
+datasheetRaster(myResult,
+  datasheet = "OutputSpatialState",
+  subset = expression(grepl("Ts0001", Filename, fixed = T))
+)
+}
 }

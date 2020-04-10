@@ -12,10 +12,10 @@ saveDatasheet(
   name = NULL,
   fileData = NULL,
   append = NULL,
-  forceElements = F,
-  force = F,
-  breakpoint = F,
-  import = T,
+  forceElements = FALSE,
+  force = FALSE,
+  breakpoint = FALSE,
+  import = TRUE,
   path = NULL
 )
 
@@ -25,10 +25,10 @@ saveDatasheet(
   name = NULL,
   fileData = NULL,
   append = NULL,
-  forceElements = F,
-  force = F,
-  breakpoint = F,
-  import = T,
+  forceElements = FALSE,
+  force = FALSE,
+  breakpoint = FALSE,
+  import = TRUE,
   path = NULL
 )
 
@@ -38,10 +38,10 @@ saveDatasheet(
   name = NULL,
   fileData = NULL,
   append = NULL,
-  forceElements = F,
-  force = F,
-  breakpoint = F,
-  import = T,
+  forceElements = FALSE,
+  force = FALSE,
+  breakpoint = FALSE,
+  import = TRUE,
   path = NULL
 )
 }
@@ -54,11 +54,11 @@ saveDatasheet(
 
 \item{fileData}{Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.}
 
-\item{append}{logical. If TRUE, data will be appended to the datasheet if possible, otherwise current values will be overwritten by data. See details for behaviour when append=T. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets.}
+\item{append}{logical. If TRUE, data will be appended to the datasheet if possible, otherwise current values will be overwritten by data. See details for behaviour when append=TRUE. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets.}
 
 \item{forceElements}{logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list.}
 
-\item{force}{logical. If datasheet scope is project/library, and append=F, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=T.}
+\item{force}{logical. If datasheet scope is project/library, and append=FALSE, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=TRUE.}
 
 \item{breakpoint}{Set to TRUE when modifying datasheets in a breakpoint function.}
 
@@ -73,17 +73,17 @@ A success or failure message, or a list of these.
 Saves datasheets to a SsimLibrary/Project/Scenario.
 }
 \details{
-Cautionary note re append=F: Deleting project and library level datasheets that contain lookups will also delete other definitions and results that rely on these lookups. 
+Cautionary note re append=FALSE: Deleting project and library level datasheets that contain lookups will also delete other definitions and results that rely on these lookups.
 
 ssimObject/project/scenario should identify a single ssimObject.
 
-If fileData !=NULL, each element of names(fileData) should correspond uniquely to at most one entry in data. If a name is not found in data the element will be ignored with a warning.  
+If fileData !=NULL, each element of names(fileData) should correspond uniquely to at most one entry in data. If a name is not found in data the element will be ignored with a warning.
 If names(fileData) are full filepaths, rsyncrosim will write each object to the corresponding path for subsequent loading by SyncroSim. Note this is generally more time-consuming because the files must be written twice.
 If names(fileData) are not filepaths (faster, recommended), rsyncrosim will write each element directly to the appropriate SyncroSim input/output folders.
 rsyncrosim will write each element of fileData directly to the appropriate SyncroSim input/output folders.
 If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 
-There are 2 circumstances in which data will not be appended even if append=T:
+There are 2 circumstances in which data will not be appended even if append=TRUE:
 \itemize{
   \item New data will not be appended if it is redundant with existing data, and the table does not allow redundancy.
   \item Old data will be replaced by new data if the datasheet allows only a single row.

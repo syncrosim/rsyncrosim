@@ -49,10 +49,10 @@ Deletes one or more items. Note this is irreversible
 }
 \examples{
 \dontrun{
-myLibrary = ssimLibrary("mylib")
-myProject = project(myLibrary, project="a project")
+myLibrary <- ssimLibrary("mylib")
+myProject <- project(myLibrary, project = "a project")
 project(myLibrary)
-delete(myLibrary, project="a project")
+delete(myLibrary, project = "a project")
 project(myLibrary)
 }
 }

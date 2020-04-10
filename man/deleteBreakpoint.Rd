@@ -24,7 +24,7 @@ This function will delete a Scenario breakpoint.
 }
 \examples{
 \dontrun{
-myScenario = deleteBreakpoint(myScenario)  
-myScenario = deleteBreakpoint(myScenario, transformerName="stsim_Runtime")
+myScenario <- deleteBreakpoint(myScenario)
+myScenario <- deleteBreakpoint(myScenario, transformerName = "stsim_Runtime")
 }
 }

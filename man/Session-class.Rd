@@ -6,7 +6,7 @@
 \alias{Session}
 \title{SyncroSim Session class}
 \description{
-A SyncroSim Session object contains a link to a SyncroSim installation.  \code{SsimLibrary}, \code{Project} 
+A SyncroSim Session object contains a link to a SyncroSim installation.  \code{SsimLibrary}, \code{Project}
 and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
 }
 \section{Slots}{

@@ -32,8 +32,8 @@ Breakpoints are only supported for Stochastic Time Transformers.
 \examples{
 \dontrun{
 callbackFunction <- function(x, iteration, timestep) {
-  print(paste0('Breakpoint hit: ', scenarioId(x)))
+  print(paste0("Breakpoint hit: ", scenarioId(x)))
 }
-myScenario = addBreakpoint(myScenario, "stsim_Runtime", "bi", callbackFunction)
+myScenario <- addBreakpoint(myScenario, "stsim_Runtime", "bi", callbackFunction)
 }
 }

@@ -4,7 +4,7 @@
 \alias{command}
 \title{SyncroSim console command}
 \usage{
-command(args, session = NULL, program = "SyncroSim.Console.exe", wait = T)
+command(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE)
 }
 \arguments{
 \item{args}{Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.}
@@ -13,7 +13,7 @@ command(args, session = NULL, program = "SyncroSim.Console.exe", wait = T)
 
 \item{program}{Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.}
 
-\item{wait}{Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=F.}
+\item{wait}{Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=FALSE.}
 }
 \value{
 Output from the SyncroSim program.
@@ -24,19 +24,19 @@ Issues a command to the SyncroSim console and returns the output.
 \details{
 Example args, and the resulting character string passed to the SyncroSim console:
 \itemize{
-   \item Character string e.g. "--create --help": "--create --help" 
+   \item Character string e.g. "--create --help": "--create --help"
    \item Named list or named vector e.g. list(name1=NULL,name2=value2): "--name1 --name2=value2"
    \item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
 }
 }
 \examples{
-#Use a default session to create a new library in the current working directory.
-args = list(create=NULL,library=NULL,name=paste0(getwd(),"/temp.ssim"),package="stsim")
-output = command(args,session=session(printCmd=TRUE))
+# Use a default session to create a new library in the current working directory.
+args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "stsim")
+output <- command(args, session = session(printCmd = TRUE))
 output
 
-#Three different ways to provide args to command
-command(c("create","help"))
+# Three different ways to provide args to command
+command(c("create", "help"))
 command("--create --help")
-command(list(create=NULL,help=NULL))
+command(list(create = NULL, help = NULL))
 }
