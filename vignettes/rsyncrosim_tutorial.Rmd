@@ -305,7 +305,7 @@ saveDatasheet(myScenario, sheetData, sheetName)
 
 * ***Initial Conditions: Option 1 - Spatial***. Let's first take a look at our rasters.
 
-```{r, fig.align="center"}
+```{r, fig.align="center", fig.dim = c(7,7)}
 rStratum <- raster(stratumTif)
 rSclass <- raster(sclassTif)
 rAge <- raster(ageTif)
@@ -328,7 +328,7 @@ datasheet(myScenario, sheetName)
 
 Let's check if the rasters were inpited correcly. We can extract rasters with `datasheetRaster()`.
 
-```{r, fig.align="center"}
+```{r, fig.align="center", fig.dim = c(7,7)}
 rStratumTest <- datasheetRaster(myScenario, sheetName, "StratumFileName")
 rSclassTest <- datasheetRaster(myScenario, sheetName, "StateClassFileName")
 rAgeTest <- datasheetRaster(myScenario, sheetName, "AgeFileName")
@@ -444,7 +444,7 @@ rmarkdown::paged_table(outputStratumState)
 
 Finally, we can get the state class raster output (here for the Harvest scenario only).
 
-```{r}
+```{r, fig.align = TRUE, fig.dim = c(7,7)}
 myRastersTimestep5 <- datasheetRaster(myProject, 
                                       scenario = resultIDHarvest, 
                                       "OutputSpatialState", 
