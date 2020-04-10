@@ -16,8 +16,7 @@ Imports:
     methods,
     DBI,
     RSQLite,
-    raster, 
-    rmarkdown
+    raster
 Suggests:
     knitr,
     testthat,

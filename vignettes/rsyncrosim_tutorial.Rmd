@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
+  
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4, tibble.print_max = 4)
@@ -128,12 +128,8 @@ myProject <- project(myLibrary, project = "Simple forest landscape")
 
 Like with a library, You can display all the datasheets of a given project with `datasheet()`.
 
-```{r, eval = FALSE}
+```{r}
 datasheet(myProject, summary = T, optional = F)
-```
-```{r, echo = FALSE}
-out <- datasheet(myProject, summary = T, optional = F)
-rmarkdown::paged_table(out)
 ```
 
 ### Setting basic model parameters
@@ -235,12 +231,8 @@ myScenario <- scenario(myProject, "No Harvest")
 
 Once again, we can use `datasheet`() to display all the datasheets available for a given scenario. Doing so also returns the datasheets from higher levels (project and library) so here we subset the scope of the returned output.
 
-```{r, eval = FALSE}
+```{r}
 subset(datasheet(myScenario, summary = T), scope == "scenario")
-```
-```{r, echo = FALSE}
-out <- subset(datasheet(myScenario, summary = T), scope == "scenario")
-rmarkdown::paged_table(out)
 ```
 
 Like previously, we can use datasheets to our scenario parameters.
@@ -394,28 +386,18 @@ saveDatasheet(myScenarioHarvest, data.frame(TransitionGroupID = "Harvest",
 
 We can show the harvest levels for both scenarios.
 
-```{r, eval = FALSE}
+```{r}
 datasheet(myProject, scenario = c("Harvest", "No Harvest"), 
           name = "TransitionTarget")
-```
-```{r, echo = FALSE}
-out <- datasheet(myProject, scenario = c("Harvest", "No Harvest"), 
-                 name = "TransitionTarget")
-rmarkdown::paged_table(out)
 ```
 
 ### Run Scenarios & Get Results
 
 We can now run the scenario and look at the results. We run both scenarios - each Monte Carlo iteration is run in parallel as a separate multiprocessing job.
 
-```{r, eval = FALSE}
+```{r, echo = FALSE}
 resultSummary <- run(myProject, scenario = c("Harvest", "No Harvest"), 
                      jobs = 7, summary = T)
-```
-```{r, echo = FALSE}
-out <- resultSummary <- run(myProject, scenario = c("Harvest", "No Harvest"), 
-                            jobs = 7, summary = T)
-rmarkdown::paged_table(out)
 ```
 
 To take a better look at the results, we first need to # get the scenario IDs of the 2 result scenarios.
@@ -429,17 +411,11 @@ resultIDHarvest <- subset(resultSummary,
 
 We then get a tabular output of the state class (for both scenarios combined).
 
-```{r, eval = FALSE}
+```{r}
 outputStratumState <- datasheet(myProject, 
                                 scenario = c(resultIDNoHarvest, resultIDHarvest), 
                                 name = "OutputStratumState")
 outputStratumState
-```
-```{r, echo = FALSE}
-outputStratumState <- datasheet(myProject, 
-                                scenario = c(resultIDNoHarvest, resultIDHarvest), 
-                                name = "OutputStratumState")
-rmarkdown::paged_table(outputStratumState)
 ```
 
 Finally, we can get the state class raster output (here for the Harvest scenario only).
