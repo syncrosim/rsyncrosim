@@ -10,22 +10,22 @@ NULL
 #' @param session Session.
 #' @return A dataframe of modules
 #' @export
-setGeneric('module',function(session) standardGeneric('module'))
+setGeneric("module", function(session) standardGeneric("module"))
 
 #' @rdname module
-setMethod('module', signature(session="missingOrNULL"), function(session) {
+setMethod("module", signature(session = "missingOrNULL"), function(session) {
   .Deprecated("package")
   stop()
 })
 
 #' @rdname module
-setMethod('module', signature(session="character"), function(session) {
+setMethod("module", signature(session = "character"), function(session) {
   .Deprecated("package")
   stop()
 })
-  
+
 #' @rdname module
-setMethod('module', signature(session="Session"), function(session) {
+setMethod("module", signature(session = "Session"), function(session) {
   .Deprecated("package")
   stop()
 })

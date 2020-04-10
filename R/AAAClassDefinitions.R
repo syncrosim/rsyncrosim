@@ -2,16 +2,16 @@
 # GPL v.3 License
 
 setClassUnion("missingOrNULL", c("missing", "NULL"))
-setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
+setClassUnion("missingOrNULLOrChar", c("missing", "NULL", "character"))
 
-#NOTE: Constructors for each class are defined in the R file bearing the name of the 
-#class (lower case). e.g. session.R, ssimLibrary.R, etc.
+# NOTE: Constructors for each class are defined in the R file bearing the name of the
+# class (lower case). e.g. session.R, ssimLibrary.R, etc.
 
 #' SyncroSim Session class
 #'
-#' A SyncroSim Session object contains a link to a SyncroSim installation.  \code{SsimLibrary}, \code{Project} 
+#' A SyncroSim Session object contains a link to a SyncroSim installation.  \code{SsimLibrary}, \code{Project}
 #' and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
-#' 
+#'
 #' @seealso See \code{\link{session}} for options when creating a Session.
 #' @slot filepath The path to the SyncroSim installation.
 #' @slot silent If FALSE, all SyncroSim output with non-zero exit status is printed. Helpful for debugging. Default=TRUE.
@@ -19,15 +19,15 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL","character"))
 #' @name Session-class
 #' @rdname Session-class
 #' @export Session
-Session <- setClass("Session", representation(filepath="character",silent="logical",printCmd="logical"))
+Session <- setClass("Session", representation(filepath = "character", silent = "logical", printCmd = "logical"))
 
 # SyncroSim Object class
 # SsimLibrary, Project and Scenario all inherit from this abstract class
-# 
+#
 # @slot session The SyncroSim Session.
 # @slot filepath The path to the Library on disk.
 # @slot datasheetNames The names and scope of all datasheets in the Library. Used to speed calculations.
-SsimObject <- setClass("SsimObject", representation(session="Session",filepath="character",datasheetNames="data.frame"))
+SsimObject <- setClass("SsimObject", representation(session = "Session", filepath = "character", datasheetNames = "data.frame"))
 
 #' SyncroSim Library class
 #'
@@ -40,7 +40,7 @@ SsimObject <- setClass("SsimObject", representation(session="Session",filepath="
 #' @name SsimLibrary-class
 #' @rdname SsimLibrary-class
 #' @export SsimLibrary
-SsimLibrary <- setClass("SsimLibrary", contains="SsimObject", representation())
+SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", representation())
 
 #' SyncroSim Scenario class
 #'
@@ -71,4 +71,4 @@ Scenario <- setClass("Scenario", contains = "SsimObject", representation(project
 #' @name Project-class
 #' @rdname Project-class
 #' @export Project
-Project <- setClass("Project", contains="SsimObject",representation(projectId="numeric"))
+Project <- setClass("Project", contains = "SsimObject", representation(projectId = "numeric"))

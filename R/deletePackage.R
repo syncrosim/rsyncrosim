@@ -11,38 +11,37 @@ NULL
 #' @param force logical. If T, delete without requiring confirmation from user.
 #' @return "saved" or error message.
 #' @export
-setGeneric('deletePackage',function(name, session=NULL, force=F) standardGeneric('deletePackage'))
+setGeneric("deletePackage", function(name, session = NULL, force = F) standardGeneric("deletePackage"))
 
 #' @rdname deletePackage
-setMethod('deletePackage', signature(session="character"), function(name, session, force) {
+setMethod("deletePackage", signature(session = "character"), function(name, session, force) {
   return(SyncroSimNotFound(session))
 })
 
 #' @rdname deletePackage
-setMethod('deletePackage', signature(session="missingOrNULL"), function(name,session,force) {
-  session=.session(session)
+setMethod("deletePackage", signature(session = "missingOrNULL"), function(name, session, force) {
+  session <- .session(session)
   return(deletePackage(name, session, force))
 })
 
 #' @rdname deletePackage
-setMethod('deletePackage', signature(session="Session"), function(name, session, force) {
-  
-  installed = package(session)
-  
-  if (!is.element(name, installed$name)){
+setMethod("deletePackage", signature(session = "Session"), function(name, session, force) {
+  installed <- package(session)
+
+  if (!is.element(name, installed$name)) {
     stop("The package is not installed.")
   }
-  
-  if(force){
-    answer="y"
-  }else{
-    answer <- readline(prompt=paste0("Do you really want to remove package '", name, "'? (y/n)"))
+
+  if (force) {
+    answer <- "y"
+  } else {
+    answer <- readline(prompt = paste0("Do you really want to remove package '", name, "'? (y/n)"))
   }
-  
-  if(answer=="y"){
-    tt = command(args=list(uninstall=name),session,program="SyncroSim.PackageManager.exe")
+
+  if (answer == "y") {
+    tt <- command(args = list(uninstall = name), session, program = "SyncroSim.PackageManager.exe")
     return(tt)
-  }else{
+  } else {
     return(NULL)
   }
 })

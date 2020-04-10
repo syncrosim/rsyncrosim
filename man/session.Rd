@@ -6,11 +6,11 @@
 \alias{session,SsimObject-method}
 \title{Creates or returns a SyncroSim session.}
 \usage{
-session(x = NULL, silent = T, printCmd = F)
+session(x = NULL, silent = TRUE, printCmd = FALSE)
 
-\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = T, printCmd = F)
+\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = TRUE, printCmd = FALSE)
 
-\S4method{session}{SsimObject}(x = NULL, silent = T, printCmd = F)
+\S4method{session}{SsimObject}(x = NULL, silent = TRUE, printCmd = FALSE)
 }
 \arguments{
 \item{x}{Character or SsimObject. An optional path to the SyncroSim installation.}
@@ -26,15 +26,15 @@ A SyncroSim Session object.
 Methods to create or return a Syncrosim session.
 }
 \examples{
-#Create a library using a default Session and base package
-myLib = ssimLibrary(name="mylib")
+# Create a library using a default Session and base package
+myLib <- ssimLibrary(name = "mylib")
 
-#Create a library using a non-default Session
-mySession = session("C:/Downloads/SyncroSim")
-myLib = ssimLibrary(name="mylib",session=mySession)
+# Create a library using a non-default Session
+mySession <- session("C:/Downloads/SyncroSim")
+myLib <- ssimLibrary(name = "mylib", session = mySession)
 
-filepath(mySession)     # Lists the folder location of syncrosim session
-version(mySession)      # Lists the version of syncrosim session
-package(mySession)      # Dataframe of the packages installed with this version of syncrosim.
-basePackage(mySession)  # Dataframe of the base packages installed with this version of syncrosim.
+filepath(mySession) # Lists the folder location of syncrosim session
+version(mySession) # Lists the version of syncrosim session
+package(mySession) # Dataframe of the packages installed with this version of syncrosim.
+basePackage(mySession) # Dataframe of the base packages installed with this version of syncrosim.
 }

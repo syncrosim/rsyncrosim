@@ -9,27 +9,28 @@ NULL
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' @export
-setGeneric('dateModified',function(ssimObject) standardGeneric('dateModified'))
+setGeneric("dateModified", function(ssimObject) standardGeneric("dateModified"))
 
 #' @rdname dateModified
-setMethod('dateModified', signature(ssimObject="character"), function(ssimObject) {
-  return(SyncroSimNotFound(ssimObject))})
-  
-#' @rdname dateModified
-setMethod('dateModified', signature(ssimObject="SsimLibrary"), function(ssimObject) {
-  cInfo = info(ssimObject)
-  property=NULL
-  return(subset(cInfo,property=="Last Modified:")$value)
+setMethod("dateModified", signature(ssimObject = "character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname dateModified
-setMethod('dateModified', signature(ssimObject="Project"), function(ssimObject) {
-  scnInfo = project(ssimObject,summary=T)
+setMethod("dateModified", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
+  cInfo <- info(ssimObject)
+  property <- NULL
+  return(subset(cInfo, property == "Last Modified:")$value)
+})
+
+#' @rdname dateModified
+setMethod("dateModified", signature(ssimObject = "Project"), function(ssimObject) {
+  scnInfo <- project(ssimObject, summary = T)
   return(scnInfo$lastModified)
 })
 
 #' @rdname dateModified
-setMethod('dateModified', signature(ssimObject="Scenario"), function(ssimObject) {
-  scnInfo = scenario(ssimObject,summary=T)
+setMethod("dateModified", signature(ssimObject = "Scenario"), function(ssimObject) {
+  scnInfo <- scenario(ssimObject, summary = T)
   return(scnInfo$lastModified)
 })

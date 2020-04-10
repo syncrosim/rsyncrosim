@@ -3,64 +3,61 @@
 
 #' SyncroSim Environment.
 #'
-#' Retrieves SyncroSim specific environment variables. 
+#' Retrieves SyncroSim specific environment variables.
 #'
 #' @return a data.frame of SyncroSim specific environment variables.
 #' @export
 #' @rdname ssimEnvironment
 ssimEnvironment <- function() {
-
-    return(data.frame(
-      PackageDirectory = Sys.getenv("SSIM_PACKAGE_DIRECTORY", unset = NA),
-      ProgramDirectory = Sys.getenv("SSIM_PROGRAM_DIRECTORY", unset = NA),
-      LibraryFilePath = Sys.getenv("SSIM_LIBRARY_FILEPATH", unset = NA),
-      ProjectId = as.integer(Sys.getenv("SSIM_PROJECT_ID", unset = -1)),
-      ScenarioId = as.integer(Sys.getenv("SSIM_SCENARIO_ID", unset = -1)),
-      InputDirectory = Sys.getenv("SSIM_INPUT_DIRECTORY", unset = NA),
-      OutputDirectory = Sys.getenv("SSIM_OUTPUT_DIRECTORY", unset = NA),
-      TempDirectory = Sys.getenv("SSIM_TEMP_DIRECTORY", unset = NA),
-      TransferDirectory = Sys.getenv("SSIM_TRANSFER_DIRECTORY", unset = NA),
-      BeforeIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION", unset = -1)),
-      AfterIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_ITERATION", unset = -1)),
-      BeforeTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP", unset = -1)),
-      AfterTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = -1)), stringsAsFactors = FALSE))
+  return(data.frame(
+    PackageDirectory = Sys.getenv("SSIM_PACKAGE_DIRECTORY", unset = NA),
+    ProgramDirectory = Sys.getenv("SSIM_PROGRAM_DIRECTORY", unset = NA),
+    LibraryFilePath = Sys.getenv("SSIM_LIBRARY_FILEPATH", unset = NA),
+    ProjectId = as.integer(Sys.getenv("SSIM_PROJECT_ID", unset = -1)),
+    ScenarioId = as.integer(Sys.getenv("SSIM_SCENARIO_ID", unset = -1)),
+    InputDirectory = Sys.getenv("SSIM_INPUT_DIRECTORY", unset = NA),
+    OutputDirectory = Sys.getenv("SSIM_OUTPUT_DIRECTORY", unset = NA),
+    TempDirectory = Sys.getenv("SSIM_TEMP_DIRECTORY", unset = NA),
+    TransferDirectory = Sys.getenv("SSIM_TRANSFER_DIRECTORY", unset = NA),
+    BeforeIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION", unset = -1)),
+    AfterIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_ITERATION", unset = -1)),
+    BeforeTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP", unset = -1)),
+    AfterTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = -1)), stringsAsFactors = FALSE
+  ))
 }
 
 envValidateEnvironment <- function() {
+  e <- ssimEnvironment()
 
-    e = ssimEnvironment()
-
-    if (is.na(e$ProgramDirectory)) {
-        stop("This function requires a SyncroSim environment.")
-    }
+  if (is.na(e$ProgramDirectory)) {
+    stop("This function requires a SyncroSim environment.")
+  }
 }
 
 envCreateScenarioFolder <- function(scenario, parentFolder, datasheetName) {
+  sidpart <- paste0("Scenario-", scenario@scenarioId)
 
-    sidpart = paste0("Scenario-", scenario@scenarioId)
+  p <- gsub("\\", "/", parentFolder, fixed = T)
+  f <- file.path(p, sidpart, datasheetName, fsep = .Platform$file.sep)
 
-    p = gsub("\\", "/", parentFolder, fixed = T)
-    f = file.path(p, sidpart, datasheetName, fsep = .Platform$file.sep)
+  if (!dir.exists(f)) {
+    dir.create(f, recursive = T)
+  }
 
-    if (!dir.exists(f)) {
-        dir.create(f, recursive = T)
-    }
-
-    return(f)
+  return(f)
 }
 
 envCreateTempFolder <- function(folderName) {
+  t <- ssimEnvironment()$TempDirectory
+  p <- gsub("\\", "/", t, fixed = T)
 
-    t = ssimEnvironment()$TempDirectory
-    p = gsub("\\", "/", t, fixed = T)
-    
-    f = file.path(p, folderName, fsep = .Platform$file.sep)
+  f <- file.path(p, folderName, fsep = .Platform$file.sep)
 
-    if (!dir.exists(f)) {
-        dir.create(f, recursive = T)
-    }
+  if (!dir.exists(f)) {
+    dir.create(f, recursive = T)
+  }
 
-    return(f)
+  return(f)
 }
 
 #' SyncroSim DataSheet Input Folder
@@ -73,8 +70,8 @@ envCreateTempFolder <- function(folderName) {
 #' @export
 #' @rdname ssimEnvironment-input
 envInputFolder <- function(scenario, datasheetName) {
-    envValidateEnvironment()
-    return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
+  envValidateEnvironment()
+  return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
 }
 
 #' SyncroSim DataSheet Output Folder
@@ -87,8 +84,8 @@ envInputFolder <- function(scenario, datasheetName) {
 #' @export
 #' @rdname ssimEnvironment-output
 envOutputFolder <- function(scenario, datasheetName) {
-    envValidateEnvironment()
-    return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
+  envValidateEnvironment()
+  return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
 }
 
 #' SyncroSim Temporary Folder
@@ -100,8 +97,8 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' @export
 #' @rdname ssimEnvironment-temp
 envTempFolder <- function(folderName) {
-    envValidateEnvironment()
-    return(envCreateTempFolder(folderName))
+  envValidateEnvironment()
+  return(envCreateTempFolder(folderName))
 }
 
 #' Reports progress for a SyncroSim simulation
@@ -113,10 +110,9 @@ envTempFolder <- function(folderName) {
 #' @export
 #' @rdname ssimEnvironment-progress
 envReportProgress <- function(iteration, timestep) {
-
-    envValidateEnvironment()
-    cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
-    flush.console()
+  envValidateEnvironment()
+  cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
+  flush.console()
 }
 
 #' Begins a SyncroSim simulation
@@ -127,7 +123,6 @@ envReportProgress <- function(iteration, timestep) {
 #' @export
 #' @rdname ssimEnvironment-progress
 envBeginSimulation <- function(totalSteps) {
-  
   envValidateEnvironment()
   cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
   flush.console()
@@ -140,7 +135,6 @@ envBeginSimulation <- function(totalSteps) {
 #' @export
 #' @rdname ssimEnvironment-progress
 envStepSimulation <- function() {
-  
   envValidateEnvironment()
   cat("ssim-task-step=1\r\n")
   flush.console()
@@ -153,9 +147,7 @@ envStepSimulation <- function() {
 #' @export
 #' @rdname ssimEnvironment-progress
 envEndSimulation <- function() {
-  
   envValidateEnvironment()
   cat("ssim-task-end=True\r\n")
   flush.console()
 }
-

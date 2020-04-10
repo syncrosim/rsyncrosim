@@ -3,8 +3,8 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#Internal wrappers for functions that are overwritten internally by arguments of the same name.
-#Export for developmet and debugging.
+# Internal wrappers for functions that are overwritten internally by arguments of the same name.
+# Export for developmet and debugging.
 #' @include session.R
 #' @include ssimLibrary.R
 #' @include project.R
@@ -19,30 +19,28 @@ NULL
 #' @include name.R
 NULL
 # @export
-.projectId = projectId
+.projectId <- projectId
 # @export
-.scenarioId = scenarioId
+.scenarioId <- scenarioId
 # @export
-.filepath=filepath
+.filepath <- filepath
 # @export
-.tempfilepath=tempfilepath
+.tempfilepath <- tempfilepath
 # @export
-.session=session
+.session <- session
 # @export
-.project = project
+.project <- project
 # @export
-.scenario = scenario
+.scenario <- scenario
 # @export
-.addon=addon
+.addon <- addon
 # @export
-.datasheet=datasheet
+.datasheet <- datasheet
 # @export
-.name=name
+.name <- name
 # @export
-.datasheets=datasheets
+.datasheets <- datasheets
 # @export
-.subset=subset
+.subset <- subset
 # @export
-.sqlStatement=sqlStatement
-
-
+.sqlStatement <- sqlStatement

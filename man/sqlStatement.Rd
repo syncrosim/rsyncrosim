@@ -28,17 +28,18 @@ Creates SELECT, GROUP BY and WHERE SQL statements.
 The resulting list of SQL statements will be converted to an SQLite database query by the datasheet() function.
 }
 \details{
-Variables are column names of the datasheet. See column names using datasheet(,empty=T).
+Variables are column names of the datasheet. See column names using datasheet(,empty=TRUE).
 Variables not included in groupBy, aggregate or where will be dropped from the table.
-Note that it is not possible to construct a complete SQL query at this stage, 
+Note that it is not possible to construct a complete SQL query at this stage,
 because the datasheet() function may add ScenarioID and/or ProjectID to the query.
 }
 \examples{
 
-#Query the total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID, 
-#including only Timesteps 0,1 and 2, and Iterations 3 and 4.
-mySQL = sqlStatement(groupBy=c("ScenarioID","Iteration","Timestep","StateLabelXID"),
-  aggregate=c("Amount"),where=list(Timestep=c(0,1,2),Iteration=c(3,4)))
-mySQL 
-
+# Query the total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
+# including only Timesteps 0,1 and 2, and Iterations 3 and 4.
+mySQL <- sqlStatement(
+  groupBy = c("ScenarioID", "Iteration", "Timestep", "StateLabelXID"),
+  aggregate = c("Amount"), where = list(Timestep = c(0, 1, 2), Iteration = c(3, 4))
+)
+mySQL
 }

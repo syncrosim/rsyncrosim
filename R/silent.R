@@ -10,19 +10,19 @@ NULL
 #' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
 #' @return logical.
 #' @export
-setGeneric('silent',function(session) standardGeneric('silent'))
+setGeneric("silent", function(session) standardGeneric("silent"))
 
 #' @rdname silent
-setMethod('silent', signature(session="Session"), function(session) session@silent)
+setMethod("silent", signature(session = "Session"), function(session) session@silent)
 
 #' @rdname silent
-setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) {
-  if(class(session)=="character"){
-    session = .session(session)
-  }else{
-    session=.session()
+setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session) {
+  if (class(session) == "character") {
+    session <- .session(session)
+  } else {
+    session <- .session()
   }
-  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
+  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = F))) {
     return(SyncroSimNotFound())
   }
   return(silent(session))
@@ -35,21 +35,22 @@ setMethod('silent', signature(session="missingOrNULLOrChar"), function(session) 
 #' @param session Session
 #' @param value logical
 #' @export
-setGeneric('silent<-',function(session,value) standardGeneric('silent<-'))
+setGeneric("silent<-", function(session, value) standardGeneric("silent<-"))
 #' @rdname silent-set
 setReplaceMethod(
-  f='silent',
-  signature="character",
-  definition=function(session,value){
+  f = "silent",
+  signature = "character",
+  definition = function(session, value) {
     return(session)
-})
+  }
+)
 
 #' @rdname silent-set
 setReplaceMethod(
-  f='silent',
-  signature="Session",
-  definition=function(session,value){
-    session@silent=value
-    return (session)
+  f = "silent",
+  signature = "Session",
+  definition = function(session, value) {
+    session@silent <- value
+    return(session)
   }
 )

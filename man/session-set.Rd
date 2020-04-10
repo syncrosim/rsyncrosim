@@ -24,6 +24,6 @@ An SyncroSim object containing a Session.
 Set the Session of a SsimLibrary, Project or Scenario object.
 }
 \details{
-In order to avoid problems with SyncroSim version compatibility and library updating, 
+In order to avoid problems with SyncroSim version compatibility and library updating,
 the new session must have the same filepath as the session of the SsimObject e.g. filepath(value)==filepath(session(ssimObject))
 }

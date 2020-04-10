@@ -10,19 +10,19 @@ NULL
 #' @param session Session or character. A Session object or path to a session. If NULL, the default session will be used.
 #' @return logical.
 #' @export
-setGeneric('printCmd',function(session=NULL) standardGeneric('printCmd'))
+setGeneric("printCmd", function(session = NULL) standardGeneric("printCmd"))
 
 #' @rdname printCmd
-setMethod('printCmd', signature(session="Session"), function(session) session@printCmd)
+setMethod("printCmd", signature(session = "Session"), function(session) session@printCmd)
 
 #' @rdname printCmd
-setMethod('printCmd', signature(session="missingOrNULLOrChar"), function(session) {
-  if(class(session)=="character"){
-    session = .session(session)
-  }else{
-    session=.session()
+setMethod("printCmd", signature(session = "missingOrNULLOrChar"), function(session) {
+  if (class(session) == "character") {
+    session <- .session(session)
+  } else {
+    session <- .session()
   }
-  if((class(session)=="character")&&(session==SyncroSimNotFound(warn=F))){
+  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = F))) {
     return(SyncroSimNotFound())
   }
   return(printCmd(session))

@@ -43,21 +43,21 @@ For each element of project:
 }
 \examples{
 \dontrun{
-#Load a Library and create a new Project
-myLibrary = ssimLibrary(name="stsim")
-myProject = project(ssimLibrary=myLibrary, project="My new project name")
+# Load a Library and create a new Project
+myLibrary <- ssimLibrary(name = "stsim")
+myProject <- project(ssimLibrary = myLibrary, project = "My new project name")
 
-#Get a named list of existing Projects.
-#Each element in the list is named by a character version of the Project ID.
-myProjects = project(myLibrary,summary=F) 
-names(myProjects)   # vector of the project ids
+# Get a named list of existing Projects.
+# Each element in the list is named by a character version of the Project ID.
+myProjects <- project(myLibrary, summary = F)
+names(myProjects) # vector of the project ids
 
-#Get an existing Project. 
-myProject = myProjects[[1]]
-myProject = project(myLibrary, project="My new project name")
+# Get an existing Project.
+myProject <- myProjects[[1]]
+myProject <- project(myLibrary, project = "My new project name")
 
-#Get/set the project properties
+# Get/set the project properties
 name(myProject)
-name(myProject) = "New project name"
+name(myProject) <- "New project name"
 }
 }

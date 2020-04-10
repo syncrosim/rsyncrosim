@@ -24,11 +24,11 @@ saved or error message.
 Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 }
 \examples{
-myLibrary = ssimLibrary("mylib")
-enableAddon(myLibrary,c("stsimecodep"))
+myLibrary <- ssimLibrary("mylib")
+enableAddon(myLibrary, c("stsimecodep"))
 addon(myLibrary)
 \dontrun{
-disableAddon(myLibrary,c("stsimecodep"))
+disableAddon(myLibrary, c("stsimecodep"))
 }
 addon(myLibrary)
 }

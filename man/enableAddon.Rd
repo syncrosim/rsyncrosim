@@ -24,11 +24,11 @@ saved or error message for each addon.
 Enable addon or addons of an SsimLibrary.
 }
 \examples{
-myLibrary = ssimLibrary()
-enableAddon(myLibrary,c("stsim-ecological-departure"))
+myLibrary <- ssimLibrary()
+enableAddon(myLibrary, c("stsim-ecological-departure"))
 addon(myLibrary)
 \dontrun{
-disableAddon(myLibrary,c("stsim-ecological-departure"))
+disableAddon(myLibrary, c("stsim-ecological-departure"))
 }
 addon(myLibrary)
 }

@@ -17,48 +17,47 @@
 # myDataframe = dataframeFromSSim(myOutput)
 # myDataframe
 # @export
-.dataframeFromSSim<-function(x,colNames=NULL,csv=T,localNames=T,convertToLogical=NULL){
-  if(is.null(colNames)){
-    header=T
-  }else{
-    header=F
+.dataframeFromSSim <- function(x, colNames = NULL, csv = T, localNames = T, convertToLogical = NULL) {
+  if (is.null(colNames)) {
+    header <- T
+  } else {
+    header <- F
   }
-  if(csv){
-    con = textConnection(x)
-    out = read.csv(con,stringsAsFactors=F,header=header)
+  if (csv) {
+    con <- textConnection(x)
+    out <- read.csv(con, stringsAsFactors = F, header = header)
     close(con)
-  }else{
-
-    if(1){
-    #Do the old wierd thing if not csv
-    while(max(grepl("   ",x,fixed=T))){
-      x = gsub("   ","  ",x,fixed=T)
-    }
-    x = gsub("  ",",",x,fixed=T)
-    con = textConnection(x)
-    out = read.csv(con,stringsAsFactors=F,header=header,sep=",",encoding = "UTF-8")
-    if(!is.null(colNames)){
-      lastName = names(out)[length(names(out))]
-      if((ncol(out)>length(colNames))&(sum(!is.na(out[[lastName]]))==0)){
-        out[[lastName]]=NULL
+  } else {
+    if (1) {
+      # Do the old wierd thing if not csv
+      while (max(grepl("   ", x, fixed = T))) {
+        x <- gsub("   ", "  ", x, fixed = T)
       }
-      names(out)=colNames
-    }
+      x <- gsub("  ", ",", x, fixed = T)
+      con <- textConnection(x)
+      out <- read.csv(con, stringsAsFactors = F, header = header, sep = ",", encoding = "UTF-8")
+      if (!is.null(colNames)) {
+        lastName <- names(out)[length(names(out))]
+        if ((ncol(out) > length(colNames)) & (sum(!is.na(out[[lastName]])) == 0)) {
+          out[[lastName]] <- NULL
+        }
+        names(out) <- colNames
+      }
     }
     close(con)
   }
-  if(localNames){
-    names(out)=gsub(" ","",names(out))
-    names(out)=gsub(".","",names(out),fixed=T)
-    names(out)=sapply(names(out),camel)
+  if (localNames) {
+    names(out) <- gsub(" ", "", names(out))
+    names(out) <- gsub(".", "", names(out), fixed = T)
+    names(out) <- sapply(names(out), camel)
   }
-  if(!is.null(convertToLogical)){
-    for(i in seq(length.out=length(convertToLogical))){
-      cName = convertToLogical[[i]]
-      if(is.element(cName,names(out))){
-        out[[cName]][out[[cName]]=="No"]=F
-        out[[cName]][out[[cName]]=="Yes"]=T
-        out[[cName]]=as.logical(out[[cName]])
+  if (!is.null(convertToLogical)) {
+    for (i in seq(length.out = length(convertToLogical))) {
+      cName <- convertToLogical[[i]]
+      if (is.element(cName, names(out))) {
+        out[[cName]][out[[cName]] == "No"] <- F
+        out[[cName]][out[[cName]] == "Yes"] <- T
+        out[[cName]] <- as.logical(out[[cName]])
       }
     }
   }
