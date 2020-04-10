@@ -16,14 +16,14 @@ Imports:
     methods,
     DBI,
     RSQLite,
-    raster
+    raster, 
+    rmarkdown
 Suggests:
     knitr,
     testthat,
     ggplot2,
     Rcpp,
-    rgdal,
-    rmarkdown
+    rgdal
 SystemRequirements: SyncroSim (>=2.1.0)
 Collate: 
     'AAAClassDefinitions.R'
