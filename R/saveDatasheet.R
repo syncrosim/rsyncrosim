@@ -8,7 +8,7 @@ NULL
 #' Saves datasheets to a SsimLibrary/Project/Scenario.
 #'
 #' @details
-#' Cautionary note re append=F: Deleting project and library level datasheets that contain lookups will also delete other definitions and results that rely on these lookups. 
+#' Cautionary note re append=FALSE: Deleting project and library level datasheets that contain lookups will also delete other definitions and results that rely on these lookups. 
 #' 
 #' ssimObject/project/scenario should identify a single ssimObject.
 #' 
@@ -18,7 +18,7 @@ NULL
 #' rsyncrosim will write each element of fileData directly to the appropriate SyncroSim input/output folders.
 #' If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
 #' 
-#' There are 2 circumstances in which data will not be appended even if append=T:
+#' There are 2 circumstances in which data will not be appended even if append=TRUE:
 #' \itemize{
 #'   \item New data will not be appended if it is redundant with existing data, and the table does not allow redundancy.
 #'   \item Old data will be replaced by new data if the datasheet allows only a single row.
@@ -30,15 +30,15 @@ NULL
 # @param project character or integer. Project name or id. Note integer ids are slightly faster.
 # @param scenario character or integer. Project name or id. Note integer ids are slightly faster.
 #' @param fileData Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.
-#' @param append logical. If TRUE, data will be appended to the datasheet if possible, otherwise current values will be overwritten by data. See details for behaviour when append=T. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets. 
+#' @param append logical. If TRUE, data will be appended to the datasheet if possible, otherwise current values will be overwritten by data. See details for behaviour when append=TRUE. Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets. 
 #' @param forceElements logical. If FALSE (default) a single return message will be returns as a character string. Otherwise it will be returned in a list. 
-#' @param force logical. If datasheet scope is project/library, and append=F, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=T.
+#' @param force logical. If datasheet scope is project/library, and append=FALSE, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=TRUE.
 #' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
 #' @param import logical. Set to TRUE to import the data after saving.
 #' @param path character.  An optional output path.
 #' @return A success or failure message, or a list of these.
 #' @export
-setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,fileData=NULL,append=NULL,forceElements=F,force=F,breakpoint=F,import=T,path=NULL) standardGeneric('saveDatasheet'))
+setGeneric('saveDatasheet',function(ssimObject,data,name=NULL,fileData=NULL,append=NULL,forceElements=FALSE,force=FALSE,breakpoint=FALSE,import=TRUE,path=NULL) standardGeneric('saveDatasheet'))
 
 #' @rdname saveDatasheet
 setMethod('saveDatasheet', signature(ssimObject="character"), function(ssimObject,data,name,fileData,append,forceElements,force,breakpoint,import,path) {
@@ -50,7 +50,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
   isFile=NULL
   x = ssimObject 
   if(is.null(append)){
-    if(class(x)=="Scenario"){append=F}else{append=T}
+    if(class(x)=="Scenario"){append=FALSE}else{append=TRUE}
   }
   
   args <- list()
@@ -59,7 +59,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
   if (is.null(path)){
     e = ssimEnvironment()
     if (!is.na(e$TransferDirectory)){
-      import = F
+      import = FALSE
       path = e$TransferDirectory
     }
   }
@@ -77,9 +77,9 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       name = paste0("stsim_", name)
     }
     
-    if (grepl("STSim_", name, fixed = T)){
+    if (grepl("STSim_", name, fixed = TRUE)){
       warning("An STSim_ prefix for a datasheet name is no longer required.")
-      name = paste0("stsim_", gsub("STSim_", "", name, fixed = T))     
+      name = paste0("stsim_", gsub("STSim_", "", name, fixed = TRUE))     
     }
     
     hdat = data
@@ -132,7 +132,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
     #note deletions must happen before files are written.
     scope =sheetNames$scope[sheetNames$name==cName]
     if(length(scope)==0){
-      sheetNames = datasheets(x,refresh=T)
+      sheetNames = datasheets(x,refresh=TRUE)
       scope =sheetNames$scope[sheetNames$name==cName]
       if(length(scope)==0){
         stop("name not found in datasheetNames")
@@ -144,10 +144,10 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       #get info on sheet type
       tt=command(c("list","columns","csv","allprops",paste0("lib=",.filepath(x)),paste0("sheet=",name)),.session(x))
       sheetInfo = .dataframeFromSSim(tt)
-      if(sum(grepl("isExternalFile^True",sheetInfo$properties,fixed=T))>0){
-        sheetInfo$isFile = grepl("isRaster^True",sheetInfo$properties,fixed=T)
+      if(sum(grepl("isExternalFile^True",sheetInfo$properties,fixed=TRUE))>0){
+        sheetInfo$isFile = grepl("isRaster^True",sheetInfo$properties,fixed=TRUE)
       }else{
-        sheetInfo$isFile = grepl("isExternalFile^Yes",sheetInfo$properties,fixed=T)
+        sheetInfo$isFile = grepl("isExternalFile^Yes",sheetInfo$properties,fixed=TRUE)
         #NOTE: this should be isExternalFile - but the flag is set to true even for non-files
       }
       
@@ -176,7 +176,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         stop("names(fileData) must be defined, and each element must correspond uniquely to an entry in data")
       }
       
-      sheetInfo=subset(datasheet(x,summary=T,optional=T),name==cName)
+      sheetInfo=subset(datasheet(x,summary=TRUE,optional=TRUE),name==cName)
       fileDir = .filepath(x)
       if(sheetInfo$isOutput){
         fileDir=paste0(fileDir,".output")
@@ -185,7 +185,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       }
       fileDir=paste0(fileDir,"/Scenario-",.scenarioId(x),"/",cName)
       
-      dir.create(fileDir, showWarnings = FALSE,recursive=T)
+      dir.create(fileDir, showWarnings = FALSE,recursive=TRUE)
       
       for(j in seq(length.out=length(itemNames))){
         cFName = itemNames[j]
@@ -196,8 +196,8 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         #check for cName in datasheet
         
         findName = cDat==cFName
-        findName[is.na(findName)]=F
-        sumFind = sum(findName==TRUE,na.rm=T)
+        findName[is.na(findName)]=FALSE
+        sumFind = sum(findName==TRUE,na.rm=TRUE)
         
         if(sumFind>1){
           stop("Each element of names(fileData) must correspond to at most one entry in data. ",sumFind," entries of ",cName," were found in data.")
@@ -212,13 +212,13 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         }else{
           cOutName=cFName
         }
-        if(!grepl(".tif",cOutName,fixed=T)){
+        if(!grepl(".tif",cOutName,fixed=TRUE)){
           cDat[findName]=paste0(cDat[findName],".tif")
           
           cOutName=paste0(cOutName,".tif")
         }
 
-        raster::writeRaster(cItem,cOutName,format="GTiff",overwrite=T)
+        raster::writeRaster(cItem,cOutName,format="GTiff",overwrite=TRUE)
       }
     }
     for(j in seq(length.out=ncol(cDat))){
@@ -242,7 +242,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
         pathBit = path
     }
     
-    dir.create(pathBit, showWarnings = FALSE,recursive=T)
+    dir.create(pathBit, showWarnings = FALSE,recursive=TRUE)
     
     if (append){
       tempFile = paste0(pathBit,"/","SSIM_APPEND-",cName,".csv")      
@@ -250,7 +250,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
       tempFile = paste0(pathBit,"/","SSIM_OVERWRITE-",cName,".csv") 
     }
 
-    write.csv(cDat,file=tempFile,row.names=F,quote=T)
+    write.csv(cDat,file=tempFile,row.names=FALSE,quote=TRUE)
     if(breakpoint){
       out[[cName]] = "Saved"
       next
@@ -280,7 +280,7 @@ setMethod('saveDatasheet', signature(ssimObject="SsimObject"), function(ssimObje
   if(!forceElements&&(length(out)==1)){
     out=out[[1]]
   }
-  unlink(.tempfilepath(x), recursive = T)
+  unlink(.tempfilepath(x), recursive = TRUE)
   return(out)
 })
 

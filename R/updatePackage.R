@@ -32,7 +32,7 @@ setMethod('updatePackage', signature(session="Session"), function(name, session,
     return (cat(tt, sep="\n"))
   }
   
-  tt = NULL;
+  tt = NULL
   
   if (is.null(name)){
     

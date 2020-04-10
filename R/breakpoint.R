@@ -19,14 +19,14 @@ new_breakpoint<-function(breakpointName,transformerName,arguments,callback,name=
 
 setOldClass("sockconn")
 BreakpointSession <- setClass("BreakpointSession",representation(scenario="Scenario",connection="sockconn",name="character",isMPJob="logical"))
-setMethod(f='initialize',signature="BreakpointSession", definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
+setMethod(f='initialize',signature="BreakpointSession", definition=function(.Object,scenario,ipAddress='127.0.0.1',port=13000,quiet=TRUE,name="Main",startServer=TRUE,isMPJob=FALSE){
 
   location = filepath(session(scenario))
 
   if(startServer){
     args = list(ipaddress=ipAddress,port=port,quiet=quiet)
-    if (isMPJob){args = c(args, "child-process"=T)}
-    tt = command(args,.session(scenario),program="SyncroSim.Server.exe",wait=F)
+    if (isMPJob){args = c(args, "child-process"=TRUE)}
+    tt = command(args,.session(scenario),program="SyncroSim.Server.exe",wait=FALSE)
   }
   .Object@connection = connection(ipAddress,port)
   .Object@scenario = scenario
@@ -35,14 +35,14 @@ setMethod(f='initialize',signature="BreakpointSession", definition=function(.Obj
   return(.Object)
 })
 
-breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=T,name="Main",startServer=T,isMPJob=F){
+breakpointSession<-function(scenario,ipAddress='127.0.0.1',port=13000,quiet=TRUE,name="Main",startServer=TRUE,isMPJob=FALSE){
   return(new("BreakpointSession",scenario,ipAddress,port,quiet,name,startServer,isMPJob))
 }
 
 setGeneric('connection',function(x,...) standardGeneric('connection'))
 setMethod('connection',signature(x="missingOrNULLOrChar"), function(x='127.0.0.1',port=13000) {
   ipAddress = x
-  con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=T,server=F,timeout=4)
+  con = socketConnection(host = ipAddress, port=port,open="r+",encoding="UTF-8",blocking=TRUE,server=FALSE,timeout=4)
   if(!isOpen(con)){
     stop(paste0('Problem connecting to the SyncroSim server. IP:',ipAddress," Port:",port))
   }
@@ -63,7 +63,7 @@ setReplaceMethod(
   }
 )
 
-setGeneric('remoteCall',function(x,message,getResponse=T) standardGeneric('remoteCall'))
+setGeneric('remoteCall',function(x,message,getResponse=TRUE) standardGeneric('remoteCall'))
 setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getResponse) {
 
   if(!getResponse){stop("handle this case")}
@@ -72,7 +72,7 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
   tt = writeLines(message, connection(x),sep = "") #Gives an error
 
   while(getResponse){
-    cRes = readChar(connection(x),1,useBytes=F)
+    cRes = readChar(connection(x),1,useBytes=FALSE)
     if(length(cRes)==0){
       Sys.sleep(1) #try again in a while
     }else{
@@ -80,17 +80,17 @@ setMethod('remoteCall',signature(x="BreakpointSession"),function(x,message,getRe
       res=""
       while(cRes!="\n"){
         res = paste0(res,cRes)
-        cRes = readChar(connection(x),1,useBytes=F)
+        cRes = readChar(connection(x),1,useBytes=FALSE)
       }
 
-      cmd=strsplit(res,"|",fixed=T)[[1]][1]
+      cmd=strsplit(res,"|",fixed=TRUE)[[1]][1]
       if(cmd=='breakpoint-hit'){
-        split = strsplit(res,"|",fixed=T)[[1]]
+        split = strsplit(res,"|",fixed=TRUE)[[1]]
         tt = onBreakpointHit(x,split)
         tt=writeLines('breakpoint-continue',connection(x),sep="")
 
       }else if(cmd=='call-complete'){
-        split = strsplit(res,"|",fixed=T)[[1]]
+        split = strsplit(res,"|",fixed=TRUE)[[1]]
         if (split[2] == 'FAILURE'){
           stop("Server returned a failure: ",split[3])
         }else{
@@ -121,7 +121,7 @@ setMethod('onBreakpointHit',signature(x="BreakpointSession"),function(x,split) {
     if(tt!="NONE"){
       stop("Something is wrong: ",tt)
     }
-    unlink(dataDir,recursive=T)
+    unlink(dataDir,recursive=TRUE)
   }
   NULL
 })
@@ -147,7 +147,7 @@ runJobParallel<- function(cPars) {
         stop("Problem with split-scenario: Can't find the library ",cPars$x,".")
       }
       cScn@breakpoints = cPars$breaks
-      sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=T,isMPJob=T)
+      sess=breakpointSession(cScn,port=cPars$port,name=paste0("Child=",cPars$port),startServer=TRUE,isMPJob=TRUE)
       if(!exists("sess")){
         stop("Problem creating breakpoint session.")
       }

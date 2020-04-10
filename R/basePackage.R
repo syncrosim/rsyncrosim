@@ -19,7 +19,7 @@ setMethod('basePackage', signature(ssimObject="character"), function(ssimObject)
 
 #' @rdname basePackage
 setMethod('basePackage', signature(ssimObject="missingOrNULL"), function(ssimObject) {
-  ssimObject=session()
+  ssimObject = session()
   if((class(ssimObject)=="character")&&(ssimObject==SyncroSimNotFound(warn=F))){
     return(SyncroSimNotFound())
   }

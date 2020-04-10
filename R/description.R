@@ -38,10 +38,10 @@ setMethod('description', signature(ssimObject="SsimObject"), function(ssimObject
     desc = command(list(list=NULL,description=NULL,lib=.filepath(ssimObject),sid=.scenarioId(ssimObject)),session=.session(ssimObject))
   }
   
-  while(max(grepl("  ",desc,fixed=T))){
-    desc = gsub("  "," ",desc,fixed=T)
+  while(max(grepl("  ",desc,fixed=TRUE))){
+    desc = gsub("  "," ",desc,fixed=TRUE)
   }
-  desc=gsub(". ",".",desc,fixed=T)
+  desc=gsub(". ",".",desc,fixed=TRUE)
   
   desc = desc[2:length(desc)]
 
@@ -68,7 +68,7 @@ setReplaceMethod(
         value=paste0(value,inValue[[i]],sep="\n")
       }
     }
-    value = gsub("\n","\\n",value,fixed=T)
+    value = gsub("\n","\\n",value,fixed=TRUE)
     args = list(setprop=NULL,lib=.filepath(ssimObject),description=value)
     if(class(ssimObject)=="Project"){args$pid = .projectId(ssimObject)}
     if(class(ssimObject)=="Scenario"){args$sid = .scenarioId(ssimObject)}

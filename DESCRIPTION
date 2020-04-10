@@ -16,13 +16,13 @@ Imports:
     methods,
     DBI,
     RSQLite,
-    Rcpp,
-    rgdal,
     raster
 Suggests:
     knitr,
     testthat,
-    ggplot2
+    ggplot2,
+    Rcpp,
+    rgdal
 SystemRequirements: SyncroSim (>=2.1.0)
 Collate: 
     'AAAClassDefinitions.R'
@@ -79,3 +79,5 @@ Collate:
     'version.R'
 RoxygenNote: 7.1.0
 VignetteBuilder: knitr
+URL: https://github.com/syncrosim/rsyncrosim
+BugReports: https://github.com/syncrosim/rsyncrosim/issues

@@ -5,9 +5,9 @@ NULL
 
 # @name Session
 # @rdname Session-class
-setMethod(f = 'initialize', signature = "Session", definition = function(.Object, path, silent = F, printCmd = F) {
+setMethod(f = 'initialize', signature = "Session", definition = function(.Object, path, silent = FALSE, printCmd = FALSE) {
 
-  .Object@filepath=gsub("\\","/",gsub("/SyncroSim.Console.exe","",path,fixed=T),fixed=T)
+  .Object@filepath=gsub("\\","/",gsub("/SyncroSim.Console.exe","",path,fixed=TRUE),fixed=TRUE)
   .Object@silent=silent
   .Object@printCmd=printCmd
 
@@ -17,8 +17,8 @@ setMethod(f = 'initialize', signature = "Session", definition = function(.Object
     stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 2.1.0 is required.")
   }
   
-  vs = gsub("Version is: ","",vs,fixed=T)
-  vs = as.numeric(strsplit(vs,".",fixed=T)[[1]])
+  vs = gsub("Version is: ","",vs,fixed=TRUE)
+  vs = as.numeric(strsplit(vs,".",fixed=TRUE)[[1]])
   
   if (vs[1] < 2){
     stop("rsyncrosim requires at least SyncroSim version 2.1.0.")    
@@ -50,7 +50,7 @@ setMethod(f = 'initialize', signature = "Session", definition = function(.Object
 #' package(mySession)      # Dataframe of the packages installed with this version of syncrosim.
 #' basePackage(mySession)  # Dataframe of the base packages installed with this version of syncrosim.
 #' @export
-setGeneric('session',function(x=NULL,silent=T,printCmd=F) standardGeneric('session'))
+setGeneric('session',function(x=NULL,silent=TRUE,printCmd=FALSE) standardGeneric('session'))
 
 #' @rdname session
 setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,printCmd) {
@@ -59,13 +59,13 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
   
   if(!is.null(path)){
     
-    if(!grepl("SyncroSim.Console.exe",path,fixed=T)){
+    if(!grepl("SyncroSim.Console.exe",path,fixed=TRUE)){
       path=paste0(path,"/SyncroSim.Console.exe")
     }
     
     if(!file.exists(path)){
       warning(paste("SyncroSim console could not be found at:",path))
-      return(SyncroSimNotFound(warn=F))
+      return(SyncroSimNotFound(warn=FALSE))
     }
   } else {
       e = ssimEnvironment()
@@ -74,13 +74,13 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
       if (is.na(path) || !dir.exists(path)){
         
         if (.Platform$OS.type == "windows") {
-            envVars = Sys.getenv(c("PROGRAMFILES", "ProgramW6432"), names = F)
+            envVars = Sys.getenv(c("PROGRAMFILES", "ProgramW6432"), names = FALSE)
             envVars = envVars[envVars != ""]
   
             for (i in seq(length.out = length(envVars))) {
                 cPath = paste0(envVars[i], "\\SyncroSim")
                 if (file.exists(paste0(cPath, "\\SyncroSim.Console.exe"))) {
-                    path = cPath;
+                    path = cPath
                     break
                 }
             }
@@ -97,7 +97,7 @@ setMethod('session', signature(x="missingOrNULLOrChar"), function(x,silent,print
 
   if(is.null(path)){
     warning('Default SyncroSim installation not found. Either install SyncroSim in the default location, or explicitly set the session path. See ?session for details.')
-    return(SyncroSimNotFound(warn=F))
+    return(SyncroSimNotFound(warn=FALSE))
   }
   
   return(new("Session",path,silent,printCmd))

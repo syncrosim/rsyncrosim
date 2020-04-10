@@ -23,7 +23,7 @@ setMethod('addon', signature(ssimObject="character"), function(ssimObject) {
 
 #' @rdname addon
 setMethod('addon', signature(ssimObject="missingOrNULL"), function(ssimObject) {
-  ssimObject=.session()
+  ssimObject = .session()
   tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
   tt = .dataframeFromSSim(tt)
   return(tt)

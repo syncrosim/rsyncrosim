@@ -34,13 +34,13 @@ setMethod('owner', signature(ssimObject="SsimLibrary"), function(ssimObject) {
 
 #' @rdname owner
 setMethod('owner', signature(ssimObject="Project"), function(ssimObject) {
-  scnInfo = project(ssimObject,summary=T)
+  scnInfo = project(ssimObject,summary=TRUE)
   return(scnInfo$owner)
 })
 
 #' @rdname owner
 setMethod('owner', signature(ssimObject="Scenario"), function(ssimObject) {
-  scnInfo = scenario(ssimObject,summary=T)
+  scnInfo = scenario(ssimObject,summary=TRUE)
   return(scnInfo$owner)
 })
 

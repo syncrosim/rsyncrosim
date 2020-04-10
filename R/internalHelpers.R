@@ -3,7 +3,7 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-SyncroSimNotFound<-function(inMessage=NULL,warn=T){
+SyncroSimNotFound<-function(inMessage=NULL,warn=TRUE){
   outMessage = "SyncroSim not found."
   if(!is.null(inMessage)){
     if(inMessage!=outMessage){
@@ -126,14 +126,14 @@ getIdsFromListOfObjects<-function(ssimObject,expecting=NULL,scenario=NULL,projec
 getScnSet<-function(ssimObject){
   #get current scenario info
   tt = command(list(list=NULL,scenarios=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  scnSet=.dataframeFromSSim(tt,localNames=T,convertToLogical=c("readOnly"))
+  scnSet=.dataframeFromSSim(tt,localNames=TRUE,convertToLogical=c("readOnly"))
   names(scnSet)[names(scnSet)=="scenarioID"]="scenarioId"
   names(scnSet)[names(scnSet)=="projectID"]="projectId"
   if(nrow(scnSet)==0){
-    scnSet=merge(scnSet,data.frame(scenarioId=NA,exists=NA),all=T)
+    scnSet=merge(scnSet,data.frame(scenarioId=NA,exists=NA),all=TRUE)
     scnSet=subset(scnSet,!is.na(scenarioId))
   }else{
-    scnSet$exists=T
+    scnSet$exists=TRUE
   }
   return(scnSet)
 }
@@ -141,12 +141,12 @@ getScnSet<-function(ssimObject){
 #get projectSet
 getProjectSet<-function(ssimObject){
   tt = command(list(list=NULL,projects=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  projectSet=.dataframeFromSSim(tt,localNames=T,convertToLogical=c("readOnly"))
+  projectSet=.dataframeFromSSim(tt,localNames=TRUE,convertToLogical=c("readOnly"))
   if(nrow(projectSet)==0){
     projectSet[1,"iD"]=NA
   }
   names(projectSet)[names(projectSet)=="iD"]="projectId"
-  projectSet$exists = T
+  projectSet$exists = TRUE
   projectSet=subset(projectSet,!is.na(projectId))
   return(projectSet)
 }
@@ -166,7 +166,7 @@ printAndCapture <- function(x)
 
 #Get name of parent scenario from result scenario name.
 .getParentName<-function(x){
-  out = strsplit(x," ([",fixed=T)[[1]][1]
+  out = strsplit(x," ([",fixed=TRUE)[[1]][1]
   return(out)
 }
 

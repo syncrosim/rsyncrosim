@@ -9,17 +9,17 @@ NULL
 #'
 #' @details
 #' 
-#' If summary=T or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
-#'   If optional=T columns include: scope, package, name, displayName, isSingle, isOutput, data. 
+#' If summary=TRUE or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
+#'   If optional=TRUE columns include: scope, package, name, displayName, isSingle, isOutput, data. 
 #'   data only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
-#'   If optional=F columns include: scope, name, displayName.
+#'   If optional=FALSE columns include: scope, name, displayName.
 #'   All other arguments are ignored.
 #' 
 #' Otherwise, for each element in name a datasheet is returned as follows:
 #' \itemize{
-#'   \item {If lookupsAsFactors=T (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
-#'   \item {If empty=T: }{Each column is given the correct data type. Fast (1 less console command)}
-#'   \item {If empty=F and lookupsAsFactors=F: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
+#'   \item {If lookupsAsFactors=TRUE (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
+#'   \item {If empty=TRUE: }{Each column is given the correct data type. Fast (1 less console command)}
+#'   \item {If empty=FALSE and lookupsAsFactors=FALSE: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
 #'   \item {If ssimObject is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
 #'   \item {If scenario/project is a vector: }{Adds ScenarioID/ProjectID column as necessary.}
 #'   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
@@ -27,21 +27,21 @@ NULL
 #' }
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.
-#' @param name Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=F and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.
+#' @param name Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=FALSE and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.
 #' @param project Character, numeric, or vector of these. One or more Project names, ids or objects. Note that integer ids are slightly faster.
 #' @param scenario Character, numeric, or vector of these. One or more Scenario names, ids or objects. Note that integer ids are slightly faster.
 #' @param summary Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes. 
-#' @param optional Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=F). Ignored if summary=F, empty=F and lookupsAsFactors=F.
+#' @param optional Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=FALSE). Ignored if summary=FALSE, empty=FALSE and lookupsAsFactors=FALSE.
 #' @param empty Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.
 #' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
 #' @param sqlStatement List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
 #' @param includeKey Logical. If TRUE include primary key in table.
 #' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.
 #' @param fastQuery Logical.  If TRUE, the request is optimized for performance.  Ignored if combined with summary, empty, or sqlStatement flags.
-#' @return If summary=T returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
+#' @return If summary=TRUE returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 #' @export
 #' @import RSQLite
-setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=F,empty=F,lookupsAsFactors=T,sqlStatement=list(select="SELECT *",groupBy=""),includeKey=F,forceElements=F,fastQuery=F) standardGeneric('datasheet'))
+setGeneric('datasheet',function(ssimObject,name=NULL,project=NULL,scenario=NULL,summary=NULL,optional=FALSE,empty=FALSE,lookupsAsFactors=TRUE,sqlStatement=list(select="SELECT *",groupBy=""),includeKey=FALSE,forceElements=FALSE,fastQuery=FALSE) standardGeneric('datasheet'))
 
 #Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
@@ -76,7 +76,7 @@ setMethod('datasheet', signature(ssimObject="character"), function(ssimObject,na
 setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,name,project,scenario,summary,optional,empty,lookupsAsFactors,sqlStatement,includeKey,forceElements,fastQuery) {
 
   temp=NULL;ProjectID=NULL; ScenarioID=NULL;colOne=NULL;parentID=NULL;ParentName=NULL
-  xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=T,convertObject=F,complainIfMissing=T)
+  xProjScn = .getFromXProjScn(ssimObject,project,scenario,returnIds=TRUE,convertObject=FALSE,complainIfMissing=TRUE)
   if(class(xProjScn)=="SsimLibrary"){
     x=xProjScn
     pid=NULL
@@ -94,13 +94,13 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   if (!is.null(name)){
     for(i in seq_along(name)){ 
       n = name[i]
-      if (!grepl("_", n, fixed = T)){
+      if (!grepl("_", n, fixed = TRUE)){
         n = paste0("stsim_", n)
       }
       
-      if (grepl("STSim_", n, fixed = T)){
+      if (grepl("STSim_", n, fixed = TRUE)){
         warning("An STSim_ prefix for a datasheet name is no longer required.")
-        n = paste0("stsim_", gsub("STSim_", "", n, fixed = T))     
+        n = paste0("stsim_", gsub("STSim_", "", n, fixed = TRUE))     
       } 
       name[i] <- n
     }    
@@ -109,7 +109,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
   allNames=name
   
   if(is.null(summary)){
-    if(is.null(name)){summary=T}else{summary=F}
+    if(is.null(name)){summary=TRUE}else{summary=FALSE}
   }
   
   #if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
@@ -122,7 +122,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     }
     missingSheets = setdiff(name,sumInfo$name)
     if(length(missingSheets)>0){
-      sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
+      sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=TRUE)
       missingSheets = setdiff(name,sumInfo$name)
       if(length(missingSheets)>0){
         stop(paste0("Datasheets not found: ",paste(missingSheets,collapse=",")))
@@ -149,13 +149,13 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       cSid = sid[i]
       tt = command(list(list=NULL,datasources=NULL,lib=.filepath(x),sid=cSid),session=session(x))
       
-      hasDataInfo = .dataframeFromSSim(tt,csv=F,convertToLogical=c("data","dataInherited"))
+      hasDataInfo = .dataframeFromSSim(tt,csv=FALSE,convertToLogical=c("data","dataInherited"))
       if(!is.element("data",names(hasDataInfo))){
-        hasDataInfo$data=F
-        warning("missing data column. assume F")
+        hasDataInfo$data=FALSE
+        warning("missing data column. assume FALSE")
       }
       if(length(setdiff(hasDataInfo$name,sumInfo$name))>0){
-        sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=T)
+        sumInfo = .datasheets(x,project[[1]],scenario[[1]],refresh=TRUE)
         sumInfo$order=seq(1,nrow(sumInfo))
         if(is.null(name)){
           name=sumInfo$name
@@ -176,13 +176,13 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     }
     
     prevNames=names(sumInfo)
-    sumInfo=merge(sumInfo,hasDatAll,all.x=T)
+    sumInfo=merge(sumInfo,hasDatAll,all.x=TRUE)
     sumInfo=subset(sumInfo,select=c(prevNames,setdiff(names(sumInfo),prevNames)))
     sumInfo=sumInfo[order(sumInfo$order,sumInfo$scenario),];sumInfo$order=NULL
     return(sumInfo)
   }
   
-  dir.create(.tempfilepath(x), showWarnings = FALSE, recursive = T)
+  dir.create(.tempfilepath(x), showWarnings = FALSE, recursive = TRUE)
   outSheetList = list()
   for(kk in seq(length.out=length(allNames))){
     name=allNames[kk]
@@ -190,7 +190,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     datasheetNames = .datasheets(x,scope="all")
     sheetNames= subset(datasheetNames,name==cName)
     if(nrow(sheetNames)==0){
-      datasheetNames = .datasheets(x,scope="all",refresh=T)
+      datasheetNames = .datasheets(x,scope="all",refresh=TRUE)
       sheetNames= subset(datasheetNames,name==cName)
       if(nrow(sheetNames)==0){
         stop("Datasheet ",name," not found in library.")
@@ -204,14 +204,14 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         args = list(list=NULL,columns=NULL,allprops=NULL,csv=NULL,lib=.filepath(x),sheet=name)
         tt = command(args,session=session(x))
         cPropsAll = .dataframeFromSSim(tt)
-        filtered = cPropsAll[grep("isPrimary^Yes",cPropsAll$properties, fixed = T),]
+        filtered = cPropsAll[grep("isPrimary^Yes",cPropsAll$properties, fixed = TRUE),]
         if (nrow(filtered) > 0){
           rmCols = filtered[1]
         }
       }      
     }
     
-    useConsole=F
+    useConsole=FALSE
     tempFile = paste0(.tempfilepath(x), "/", name, ".csv")
     if(!empty){
       #Only query database if output or multiple scenarios/project or complex sql
@@ -280,7 +280,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             stop(tt)
           }   
           
-          sheet = read.csv(tempFile,as.is=T,encoding = "UTF-8")         
+          sheet = read.csv(tempFile,as.is=TRUE,encoding = "UTF-8")         
         }
         
         unlink(tempFile)
@@ -359,7 +359,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       
       outNames = c()
       
-      directQuery=F
+      directQuery=FALSE
       if(lookupsAsFactors&!useConsole){
         directQuery = (length(pid)>1)|(length(sid)>1)
         #TO DO: must export IDs in lookup tables.
@@ -405,19 +405,19 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
         }
         if((cRow$valType=="List")&lookupsAsFactors){
           opts = cRow$formula1
-          opts = strsplit(opts,"|",fixed=T)[[1]]
+          opts = strsplit(opts,"|",fixed=TRUE)[[1]]
           cLevels = c()
           cIDs = c()
           for(j in seq(length.out=length(opts))){
-            cLevels=c(cLevels,strsplit(opts[j],":",fixed=T)[[1]][2])
-            cIDs = as.numeric(c(cIDs,strsplit(opts[j],":",fixed=T)[[1]][1]))
+            cLevels=c(cLevels,strsplit(opts[j],":",fixed=TRUE)[[1]][2])
+            cIDs = as.numeric(c(cIDs,strsplit(opts[j],":",fixed=TRUE)[[1]][1]))
           }
           #Sometimes input is factors, and output is  IDs
           if(length(setdiff(sheet[[cRow$name]],cIDs))==0){
             warning(paste0("Converting ",cRow$name," IDs to factor levels"))
             mergeBit=data.frame(oLev = cLevels)
             mergeBit[[cRow$name]]=cIDs
-            sheet=merge(sheet,mergeBit,all.x=T)
+            sheet=merge(sheet,mergeBit,all.x=TRUE)
             sheet[[cRow$name]]=sheet$oLev;sheet$oLev=NULL
           }
           sheet[[cRow$name]] = factor(sheet[[cRow$name]],levels=cLevels)
@@ -429,11 +429,11 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             if(directQuery){
               lookupSheet =   DBI::dbReadTable(con, name=cRow$formula1)
             }else{
-              lookupPath = gsub(name,cRow$formula1,tempFile,fixed=T)
+              lookupPath = gsub(name,cRow$formula1,tempFile,fixed=TRUE)
               if(!file.exists(lookupPath)){
                 lookupSheet=data.frame(Name=NULL)
               }else{
-                lookupSheet = read.csv(lookupPath,as.is=T)
+                lookupSheet = read.csv(lookupPath,as.is=TRUE)
               }
             }
             if(is.element("ProjectID",names(lookupSheet))){
@@ -470,7 +470,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
                 lookupMerge = subset(lookupSheet,select=c(names(lookupSheet)[1],"Name"))
         
                 names(lookupMerge) = c(cRow$name,"lookupName")
-                sheet=merge(sheet,lookupMerge, all.x=T)
+                sheet=merge(sheet,lookupMerge, all.x=TRUE)
                 sheet[[cRow$name]]=sheet$lookupName
                 sheet$lookupName=NULL
               }
@@ -496,7 +496,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       }
       rmSheets = unique(sheetInfo$formula1[sheetInfo$valType=="DataSheet"])
       for(i in seq(length.out=length(rmSheets))){
-        unlink(gsub(name,rmSheets[i],tempFile,fixed=T))
+        unlink(gsub(name,rmSheets[i],tempFile,fixed=TRUE))
       }
       
       #TO DO: deal with NA values in sheet
@@ -532,7 +532,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
             allProjects = .project(x)
           }
           names(allProjects) = c("ProjectID","ProjectName")
-          sheet=merge(allProjects,sheet,all.y=T)
+          sheet=merge(allProjects,sheet,all.y=TRUE)
         }
       }
     }
@@ -543,22 +543,22 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
       }else{
         if(nrow(sheet)>0){
           
-          allScns = scenario(x,summary=T)
+          allScns = scenario(x,summary=TRUE)
           if(!is.element("parentID",names(allScns))){
-            warning("Missing parentID info from scenario(summary=T).")
+            warning("Missing parentID info from scenario(summary=TRUE).")
             allScns$parentID=NA
           }
           allScns=subset(allScns,select=c(scenarioId,projectId,name,parentID))
           allScns$parentID=suppressWarnings(as.numeric(allScns$parentID))
           parentNames = subset(allScns,select=c(scenarioId,name))
           names(parentNames)=c("parentID","ParentName")
-          allScns=merge(allScns,parentNames,all.x=T)
+          allScns=merge(allScns,parentNames,all.x=TRUE)
           
           allScns = subset(allScns,select=c(scenarioId,projectId,name,parentID,ParentName))
           
           names(allScns) = c("ScenarioID","ProjectID","ScenarioName","ParentID","ParentName")
           
-          sheet=merge(allScns,sheet,all.y=T)
+          sheet=merge(allScns,sheet,all.y=TRUE)
         }
       }
     }
@@ -583,7 +583,7 @@ setMethod('datasheet', signature(ssimObject="SsimObject"), function(ssimObject,n
     outSheetList=outSheetList[[1]]  
   }
   
-  unlink(.tempfilepath(x), recursive = T)
+  unlink(.tempfilepath(x), recursive = TRUE)
   return(outSheetList)
 })
 
