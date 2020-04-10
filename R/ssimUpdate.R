@@ -10,15 +10,15 @@ NULL
 #' @param ssimObject  SsimLibrary/Project/Scenario
 #' @return "saved" or a failure message from the console.
 #' @export
-setGeneric('ssimUpdate',function(ssimObject) standardGeneric('ssimUpdate'))
+setGeneric("ssimUpdate", function(ssimObject) standardGeneric("ssimUpdate"))
 
 #' @rdname ssimUpdate
-setMethod('ssimUpdate', signature(ssimObject="character"), function(ssimObject) {
+setMethod("ssimUpdate", signature(ssimObject = "character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
-  
+
 #' @rdname ssimUpdate
-setMethod('ssimUpdate', signature(ssimObject="SsimObject"), function(ssimObject) {
-  tt = command(list(update=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
+setMethod("ssimUpdate", signature(ssimObject = "SsimObject"), function(ssimObject) {
+  tt <- command(list(update = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   return(tt[1])
 })

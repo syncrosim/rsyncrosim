@@ -11,15 +11,17 @@ NULL
 #' @param scenario A Scenario object.
 #' @return An integer id of the parent scenario.
 #' @export
-setGeneric('parentId',function(scenario) standardGeneric('parentId'))
+setGeneric("parentId", function(scenario) standardGeneric("parentId"))
 
 #' @rdname parentId
-setMethod('parentId', signature(scenario="character"), function(scenario) {
+setMethod("parentId", signature(scenario = "character"), function(scenario) {
   return(SyncroSimNotFound(scenario))
 })
 
 #' @rdname parentId
-setMethod('parentId', signature(scenario="Scenario"), function(scenario) {
-  if(scenario@parentId==0){return(NA)}
+setMethod("parentId", signature(scenario = "Scenario"), function(scenario) {
+  if (scenario@parentId == 0) {
+    return(NA)
+  }
   return(scenario@parentId)
 })

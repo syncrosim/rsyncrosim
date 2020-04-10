@@ -11,35 +11,35 @@ NULL
 #' @return A dataframe of addons.
 #' @examples
 #' \dontrun{
-#' addon(ssimLibrary(name="mylib"))
+#' addon(ssimLibrary(name = "mylib"))
 #' }
 #' @export
-setGeneric('addon',function(ssimObject) standardGeneric('addon'))
+setGeneric("addon", function(ssimObject) standardGeneric("addon"))
 
 #' @rdname addon
-setMethod('addon', signature(ssimObject="character"), function(ssimObject) {
+setMethod("addon", signature(ssimObject = "character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname addon
-setMethod('addon', signature(ssimObject="missingOrNULL"), function(ssimObject) {
-  ssimObject = .session()
-  tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
-  tt = .dataframeFromSSim(tt)
+setMethod("addon", signature(ssimObject = "missingOrNULL"), function(ssimObject) {
+  ssimObject <- .session()
+  tt <- command(list(list = NULL, addons = NULL, csv = NULL), ssimObject)
+  tt <- .dataframeFromSSim(tt)
   return(tt)
 })
 
 #' @rdname addon
-setMethod('addon', signature(ssimObject="Session"), function(ssimObject) {
-  tt = command(list(list=NULL,addons=NULL,csv=NULL),ssimObject)
-  tt = .dataframeFromSSim(tt)
+setMethod("addon", signature(ssimObject = "Session"), function(ssimObject) {
+  tt <- command(list(list = NULL, addons = NULL, csv = NULL), ssimObject)
+  tt <- .dataframeFromSSim(tt)
   return(tt)
 })
 
 #' @rdname addon
-setMethod('addon', signature(ssimObject="SsimObject"), function(ssimObject) {
-  enabled=NULL
-  tt = command(list(list=NULL,addons=NULL,csv=NULL,lib=.filepath(ssimObject)),.session(ssimObject))
-  tt = .dataframeFromSSim(tt,convertToLogical=c("enabled"))
+setMethod("addon", signature(ssimObject = "SsimObject"), function(ssimObject) {
+  enabled <- NULL
+  tt <- command(list(list = NULL, addons = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
+  tt <- .dataframeFromSSim(tt, convertToLogical = c("enabled"))
   return(tt)
 })

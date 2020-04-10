@@ -11,42 +11,41 @@ NULL
 #' @param name Character string or vector of these.
 #' @return saved or error message for each addon.
 #' @examples
-#' myLibrary = ssimLibrary()
-#' enableAddon(myLibrary,c("stsim-ecological-departure"))
+#' myLibrary <- ssimLibrary()
+#' enableAddon(myLibrary, c("stsim-ecological-departure"))
 #' addon(myLibrary)
 #' \dontrun{
-#' disableAddon(myLibrary,c("stsim-ecological-departure"))
+#' disableAddon(myLibrary, c("stsim-ecological-departure"))
 #' }
 #' addon(myLibrary)
 #' @export
-setGeneric('enableAddon',function(ssimLibrary,name) standardGeneric('enableAddon'))
+setGeneric("enableAddon", function(ssimLibrary, name) standardGeneric("enableAddon"))
 
 #' @rdname enableAddon
-setMethod('enableAddon', signature(ssimLibrary="character"), function(ssimLibrary,name) {
+setMethod("enableAddon", signature(ssimLibrary = "character"), function(ssimLibrary, name) {
   return(SyncroSimNotFound(ssimLibrary))
 })
 
 #' @rdname enableAddon
-setMethod('enableAddon', signature(ssimLibrary="SsimLibrary"), function(ssimLibrary,name) {
-  enabled=NULL
-  cAdds = addon(ssimLibrary)
-  retList=list()
-  for(i in seq(length.out=length(name))){
-    cVal = name[i]
-    if(!is.element(cVal,cAdds$name)){
-      print(paste0("Warning - ",cVal," is not among the available addons: ",paste(cAdds$name[cAdds$enabled=="No"],collapse=",")))
+setMethod("enableAddon", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, name) {
+  enabled <- NULL
+  cAdds <- addon(ssimLibrary)
+  retList <- list()
+  for (i in seq(length.out = length(name))) {
+    cVal <- name[i]
+    if (!is.element(cVal, cAdds$name)) {
+      print(paste0("Warning - ", cVal, " is not among the available addons: ", paste(cAdds$name[cAdds$enabled == "No"], collapse = ",")))
       next
     }
-    cAddsLess = subset(cAdds,enabled==F)
-    if(!is.element(cVal,cAddsLess$name)){
-      print(paste0(cVal," is already enabled."))
+    cAddsLess <- subset(cAdds, enabled == F)
+    if (!is.element(cVal, cAddsLess$name)) {
+      print(paste0(cVal, " is already enabled."))
       next
     }
-    
-    tt=command(list(create=NULL,addon=NULL,lib=.filepath(ssimLibrary),name=cVal),.session(ssimLibrary))
-    retList[[cVal]]=tt
+
+    tt <- command(list(create = NULL, addon = NULL, lib = .filepath(ssimLibrary), name = cVal), .session(ssimLibrary))
+    retList[[cVal]] <- tt
   }
-  
-  return (retList)
-}
-)
+
+  return(retList)
+})

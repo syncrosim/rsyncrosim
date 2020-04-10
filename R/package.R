@@ -11,37 +11,36 @@ NULL
 #' @param installed Logical.  True to list installed packages and False to list available pacakges.
 #' @return A dataframe of packages
 #' @export
-setGeneric('package',function(session, installed=T) standardGeneric('package'))
+setGeneric("package", function(session, installed = T) standardGeneric("package"))
 
 #' @rdname package
-setMethod('package', signature(session="missingOrNULL"), function(session, installed=T) {
-  session=.session()
+setMethod("package", signature(session = "missingOrNULL"), function(session, installed = T) {
+  session <- .session()
   return(package(session, installed))
 })
 
 #' @rdname package
-setMethod('package', signature(session="character"), function(session, installed=T) {
+setMethod("package", signature(session = "character"), function(session, installed = T) {
   return(SyncroSimNotFound(session, installed))
 })
-  
+
 #' @rdname package
-setMethod('package', signature(session="Session"), function(session, installed=T) {
-  
-  arg = "installed"
-  
-  if (!installed){
-    arg = "available"
+setMethod("package", signature(session = "Session"), function(session, installed = T) {
+  arg <- "installed"
+
+  if (!installed) {
+    arg <- "available"
   }
-  
-  tt = command(c(arg),session,program="SyncroSim.PackageManager.exe")
-  
-  if(tt[1]=="saved"){
-    out=data.frame(name=NA,displayName=NA,version=NA)
-    out=subset(out,!is.na(name))
-  }else if (grepl("The remote name could not be resolved", tt[1])){
-    out = "Could not connect to the package server."
-  }else{
-    out = .dataframeFromSSim(tt,colNames=c("name","displayName","version"),csv=F)
+
+  tt <- command(c(arg), session, program = "SyncroSim.PackageManager.exe")
+
+  if (tt[1] == "saved") {
+    out <- data.frame(name = NA, displayName = NA, version = NA)
+    out <- subset(out, !is.na(name))
+  } else if (grepl("The remote name could not be resolved", tt[1])) {
+    out <- "Could not connect to the package server."
+  } else {
+    out <- .dataframeFromSSim(tt, colNames = c("name", "displayName", "version"), csv = F)
   }
   return(out)
 })

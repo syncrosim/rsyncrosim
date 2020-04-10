@@ -12,16 +12,16 @@ NULL
 #' @param force logical. If T, delete without requiring confirmation from user.
 #' @return "saved" or error message.
 #' @export
-setGeneric('deleteModule',function(name,session=NULL,force=F) standardGeneric('deleteModule'))
+setGeneric("deleteModule", function(name, session = NULL, force = F) standardGeneric("deleteModule"))
 
 #' @rdname deleteModule
-setMethod('deleteModule', signature(session="missingOrNULLOrChar"), function(name,session,force) {
+setMethod("deleteModule", signature(session = "missingOrNULLOrChar"), function(name, session, force) {
   .Deprecated("deletePackage")
   stop()
 })
 
 #' @rdname deleteModule
-setMethod('deleteModule', signature(session="Session"), function(name,session,force) {
+setMethod("deleteModule", signature(session = "Session"), function(name, session, force) {
   .Deprecated("deletePackage")
   stop()
 })

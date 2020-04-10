@@ -10,16 +10,16 @@ NULL
 #' @param ssimObject Project/Scenario.
 #' @return An integer project id.
 #' @export
-setGeneric('projectId',function(ssimObject) standardGeneric('projectId'))
+setGeneric("projectId", function(ssimObject) standardGeneric("projectId"))
 #' @rdname projectId
-setMethod('projectId', signature(ssimObject="character"), function(ssimObject) {
+setMethod("projectId", signature(ssimObject = "character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
 #' @rdname projectId
-setMethod('projectId', signature(ssimObject="Project"), function(ssimObject) {
+setMethod("projectId", signature(ssimObject = "Project"), function(ssimObject) {
   return(ssimObject@projectId)
 })
 #' @rdname projectId
-setMethod('projectId', signature(ssimObject="Scenario"), function(ssimObject) {
+setMethod("projectId", signature(ssimObject = "Scenario"), function(ssimObject) {
   return(ssimObject@projectId)
 })
