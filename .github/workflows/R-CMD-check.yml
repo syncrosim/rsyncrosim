@@ -46,6 +46,7 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
+          install.packages(c("knitr", "rmarkdown"))
         shell: Rscript {0}
         
       - name: Check

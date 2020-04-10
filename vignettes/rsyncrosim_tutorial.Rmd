@@ -415,7 +415,7 @@ We then get a tabular output of the state class (for both scenarios combined).
 outputStratumState <- datasheet(myProject, 
                                 scenario = c(resultIDNoHarvest, resultIDHarvest), 
                                 name = "OutputStratumState")
-outputStratumState
+head(outputStratumState)
 ```
 
 Finally, we can get the state class raster output (here for the Harvest scenario only).
