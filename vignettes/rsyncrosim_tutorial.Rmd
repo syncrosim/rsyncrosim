@@ -112,12 +112,8 @@ In SyncroSim, a **library** can contain multiple **projects**, and each project 
 
 You can display all the datasheets of a given Library with `datasheet()`. 
 
-```{r, eval=TRUE}
+```{r}
 datasheet(myLibrary, summary = T)
-```
-```{r, echo = FALSE}
-out <- datasheet(myLibrary, summary = T)
-rmarkdown::paged_table(out)
 ```
 
 A syncrosim **project** can be created with `project()`. It is common for a library to contain only one project, as it is the level where a lot of basic model parameters are set.
