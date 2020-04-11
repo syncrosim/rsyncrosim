@@ -22,7 +22,8 @@ Suggests:
     testthat,
     ggplot2,
     Rcpp,
-    rgdal
+    rgdal,
+    rmarkdown
 SystemRequirements: SyncroSim (>=2.1.0)
 Collate: 
     'AAAClassDefinitions.R'
