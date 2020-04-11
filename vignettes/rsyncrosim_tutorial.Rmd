@@ -142,8 +142,8 @@ head(sheetData)
 We then populate the sheet with parameters. We save the sheet with `saveDatasheet`. If we extract it again, the parameter `StateLabelX` is changed.
 
 ```{r}
-sheetData$AmountUnits[1] <- "Hectares"
-sheetData$StateLabelX[1] <- "Forest Type"
+sheetData[["AmountUnits"]][1] <- "Hectares"
+sheetData[["StateLabelX"]][1] <- "Forest Type"
 saveDatasheet(myProject, sheetData, "Terminology")
 datasheet(myProject, "Terminology")
 ```
