@@ -56,7 +56,7 @@ jobs:
       - name: Check as CRAN
         env: 
           NOT_CRAN: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual","--as-cran"), error_on = "error")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual","--as-cran","--no-vignettes","--no-build-vignettes"), error_on = "error")
         shell: Rscript {0}
         
       #- name: Upload check results
