@@ -3,7 +3,18 @@ Type: Package
 Title: The R Interface to SyncroSim
 Version: 1.1.11
 Author: ApexRMS <rsyncrosim@apexrms.com> and Josie Hughes <josie.hughes@canada.ca>
-Maintainer: ApexRMS <rsyncrosim@apexrms.com>
+Authors@R: c(
+    person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
+           role = c("aut", "cre")),
+    person("Josie", "Hughes", email = "josie.hughes@canada.ca",
+           role = "aut"),
+    person("Alex", "Embrey", 
+           role = "aut"),
+    person("Leonardo", "Frid", 
+           role = "aut"), 
+    person("Valentin", "Lucet", 
+           role = "ctb"),
+    person("ApexRMS", role="cph"))
 Description: SyncroSim is a generalized framework for managing scenario-based 
     datasets. This package provides an interface to SyncroSim. Simulation models 
     can be added to SyncroSim in order to transform these datasets, taking 
