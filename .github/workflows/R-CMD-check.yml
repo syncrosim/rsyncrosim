@@ -52,7 +52,7 @@ jobs:
         env: 
           NOT_CRAN: true
         continue-on-error: true
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+        run: rcmdcheck::rcmdcheck(build_args = c("--no-build-vignettes"), args = c("--no-manual"), error_on = "error")
         shell: Rscript {0}
         
       - name: Check as CRAN
