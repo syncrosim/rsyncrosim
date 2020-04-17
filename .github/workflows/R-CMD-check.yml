@@ -50,7 +50,7 @@ jobs:
         
       - name: Check
         env: 
-          NOT_CRAN: false
+          NOT_CRAN: true
         continue-on-error: true
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
