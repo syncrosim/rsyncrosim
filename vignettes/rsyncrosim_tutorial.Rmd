@@ -7,10 +7,12 @@ vignette: >
   %\VignetteIndexEntry{introduction to rsyncrosim}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
   
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = T, comment = "#>", eval = params$EVAL)
 options(tibble.print_min = 4, tibble.print_max = 4)
 library(rsyncrosim)
 library(raster)
@@ -79,7 +81,7 @@ Download and install the latest release of the rsyncrosim package.
 
 Let's first load the necessary packages
 
-```{r, eval = FALSE}
+```{r}
 library(rsyncrosim)
 library(raster)
 ```
