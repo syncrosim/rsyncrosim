@@ -1,7 +1,7 @@
 ## Test environments
-* Pop! OS 19.04 (local, release)
-* Ubuntu 18.04 (CI on GitHub actions, release and devel)
-* Windows 10 (CI on GitHub actions, release and devel)
+* Pop! OS 19.04 (local, 3.6.1)
+* Ubuntu 18.04 (CI on GitHub actions, release 3.6.3 and devel 4.0)
+* Windows 10 (CI on GitHub actions, release 3.6.3 and devel 4.0)
 
 ## R CMD check results
 Duration: 1m 57.8s
