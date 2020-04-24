@@ -17,4 +17,4 @@ New submission
 
 ## Upstream dependencies
 
-The syncrosim software is an upstream dependency as r
+The Syncrosim software is an upstream dependency as rsyncrosim provides an API for it. Therefore, all tests, as well as vignette code, requires Syncrosim to be installed to run. Therefore, all tests in the submitted package should not run (tagged with testthat::skip_on_cran()). In addition, all code from vignettes is set to not be evaluated wehn NOT_CRAN is FALSE is the environment. 
