@@ -10,7 +10,8 @@
 #' such as defining scenarios of inputs, running Monte Carlo simulations, and
 #' viewing charts and maps of outputs.
 #'
-#' To learn more about rsyncrosim, start with the vignette: TO DO
+#' To learn more about rsyncrosim, start with the vignette 
+#' (`browseVignettes("rsyncrosim")``).
 #'
 #' @docType package
 #' @name rsyncrosim

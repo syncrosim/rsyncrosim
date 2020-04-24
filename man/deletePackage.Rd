@@ -26,5 +26,5 @@ deletePackage(name, session = NULL, force = F)
 "saved" or error message.
 }
 \description{
-Deletes a package
+Deletes a package.
 }

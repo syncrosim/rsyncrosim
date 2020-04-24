@@ -16,7 +16,7 @@ silent(session)
 \item{session}{Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.}
 }
 \value{
-logical.
+Logical.
 }
 \description{
 Checks whether a SyncroSim Session is silent or not.

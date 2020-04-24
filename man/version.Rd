@@ -19,5 +19,5 @@ version(session = NULL)
 \item{session}{Session.}
 }
 \description{
-The version of a SyncroSim Session
+The version of a SyncroSim Session.
 }

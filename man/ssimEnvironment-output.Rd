@@ -15,5 +15,5 @@ envOutputFolder(scenario, datasheetName)
 a folder name for the specified data sheet
 }
 \description{
-Creates and returns a SyncroSim DataSheet Output Folder
+Creates and returns a SyncroSim DataSheet Output Folder.
 }

@@ -15,5 +15,5 @@ envInputFolder(scenario, datasheetName)
 a folder name for the specified data sheet
 }
 \description{
-Creates and returns a SyncroSim DataSheet Input Folder
+Creates and returns a SyncroSim DataSheet Input Folder.
 }

@@ -23,5 +23,5 @@ updatePackage(name = NULL, session = NULL, listonly = F)
 \item{listonly}{Logical.  If TRUE, available updates are listed only.}
 }
 \description{
-Updates a SyncroSim package
+Updates a SyncroSim package.
 }

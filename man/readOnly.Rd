@@ -22,7 +22,7 @@ readOnly(ssimObject)
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
 }
 \value{
-logical.
+Logical.
 }
 \description{
 Whether or not an SsimLibrary/ProjectScenario is read-only.

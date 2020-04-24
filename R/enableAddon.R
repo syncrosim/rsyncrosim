@@ -8,8 +8,8 @@ NULL
 #' Enable addon or addons of an SsimLibrary.
 #'
 #' @param ssimLibrary SsimLibrary
-#' @param name Character string or vector of these.
-#' @return saved or error message for each addon.
+#' @param name Character string or vector of addon names
+#' @return Character "saved" in case of success or error message.
 #' @examples
 #' myLibrary <- ssimLibrary()
 #' enableAddon(myLibrary, c("stsim-ecological-departure"))

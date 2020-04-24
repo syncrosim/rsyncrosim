@@ -8,7 +8,7 @@ NULL
 #' Get printCmd setting of a Session object.
 #'
 #' @param session Session or character. A Session object or path to a session. If NULL, the default session will be used.
-#' @return logical.
+#' @return Logical.
 #' @export
 setGeneric("printCmd", function(session = NULL) standardGeneric("printCmd"))
 

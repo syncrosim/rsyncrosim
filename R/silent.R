@@ -8,7 +8,7 @@ NULL
 #' Checks whether a SyncroSim Session is silent or not.
 #'
 #' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
-#' @return logical.
+#' @return Logical.
 #' @export
 setGeneric("silent", function(session) standardGeneric("silent"))
 

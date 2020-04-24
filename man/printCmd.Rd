@@ -16,7 +16,7 @@ printCmd(session = NULL)
 \item{session}{Session or character. A Session object or path to a session. If NULL, the default session will be used.}
 }
 \value{
-logical.
+Logical.
 }
 \description{
 Get printCmd setting of a Session object.

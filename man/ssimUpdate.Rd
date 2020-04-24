@@ -4,7 +4,7 @@
 \alias{ssimUpdate}
 \alias{ssimUpdate,character-method}
 \alias{ssimUpdate,SsimObject-method}
-\title{Apply updates.}
+\title{Apply updates}
 \usage{
 ssimUpdate(ssimObject)
 
@@ -16,7 +16,7 @@ ssimUpdate(ssimObject)
 \item{ssimObject}{SsimLibrary/Project/Scenario}
 }
 \value{
-"saved" or a failure message from the console.
+Character "saved" in case of success or error message.
 }
 \description{
 Apply updates to a SyncroSim Library,or a Project or Scenario associated with a Library.

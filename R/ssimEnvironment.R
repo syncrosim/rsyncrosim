@@ -5,7 +5,7 @@
 #'
 #' Retrieves SyncroSim specific environment variables.
 #'
-#' @return a data.frame of SyncroSim specific environment variables.
+#' @return A data.frame of SyncroSim specific environment variables.
 #' @export
 #' @rdname ssimEnvironment
 ssimEnvironment <- function() {
@@ -62,7 +62,7 @@ envCreateTempFolder <- function(folderName) {
 
 #' SyncroSim DataSheet Input Folder
 #'
-#' Creates and returns a SyncroSim DataSheet Input Folder
+#' Creates and returns a SyncroSim DataSheet Input Folder.
 #'
 #' @param scenario Scenario.  A SyncroSim result scenario.
 #' @param datasheetName character.  The input datasheet name.
@@ -76,7 +76,7 @@ envInputFolder <- function(scenario, datasheetName) {
 
 #' SyncroSim DataSheet Output Folder
 #'
-#' Creates and returns a SyncroSim DataSheet Output Folder
+#' Creates and returns a SyncroSim DataSheet Output Folder.
 #'
 #' @param scenario Scenario.  A SyncroSim result scenario.
 #' @param datasheetName character.  The output datasheet name.
@@ -90,7 +90,7 @@ envOutputFolder <- function(scenario, datasheetName) {
 
 #' SyncroSim Temporary Folder
 #'
-#' Creates and returns a SyncroSim Temporary Folder
+#' Creates and returns a SyncroSim Temporary Folder.
 #'
 #' @param folderName character.  The folder name
 #' @return a temporary folder name
@@ -103,7 +103,7 @@ envTempFolder <- function(folderName) {
 
 #' Reports progress for a SyncroSim simulation
 #'
-#' Reports progress for a SyncroSim simulation
+#' Reports progress for a SyncroSim simulation.
 #'
 #' @param iteration integer.  The current iteration.
 #' @param timestep integer.  The current timestep.
@@ -117,7 +117,7 @@ envReportProgress <- function(iteration, timestep) {
 
 #' Begins a SyncroSim simulation
 #'
-#' Begins a SyncroSim simulation
+#' Begins a SyncroSim simulation.
 #'
 #' @param totalSteps integer.  The total number of steps in the simulation.
 #' @export
@@ -142,7 +142,7 @@ envStepSimulation <- function() {
 
 #' Ends a SyncroSim simulation
 #'
-#' Ends a SyncroSim simulation
+#' Ends a SyncroSim simulation.
 #'
 #' @export
 #' @rdname ssimEnvironment-progress

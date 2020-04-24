@@ -8,7 +8,7 @@ NULL
 #' Whether or not an SsimLibrary/ProjectScenario is read-only.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
-#' @return logical.
+#' @return Logical.
 #' @export
 setGeneric("readOnly", function(ssimObject) standardGeneric("readOnly"))
 

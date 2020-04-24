@@ -8,7 +8,7 @@ NULL
 #' The scenarioId of a Scenario.
 #'
 #' @param scenario Scenario.
-#' @return integer id.
+#' @return Integer id.
 #' @export
 setGeneric("scenarioId", function(scenario) standardGeneric("scenarioId"))
 

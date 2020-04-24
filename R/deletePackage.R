@@ -5,7 +5,7 @@ NULL
 
 #' Deletes a package
 #'
-#' Deletes a package
+#' Deletes a package.
 #' @param name Character. The name of the package to delete.
 #' @param session Session.
 #' @param force logical. If T, delete without requiring confirmation from user.

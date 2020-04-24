@@ -63,7 +63,7 @@ run(
 If summary=F a result Scenario object or a named list of result Scenarios. The name is the parent scenario for each result. If summary=T returns summary info for result scenarios.
 }
 \description{
-Run one or more SyncroSim scenarios
+Run one or more SyncroSim scenarios.
 }
 \details{
 Note that breakpoints are ignored unless ssimObject is a single scenario.

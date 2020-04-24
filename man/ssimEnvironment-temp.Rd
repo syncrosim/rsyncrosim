@@ -13,5 +13,5 @@ envTempFolder(folderName)
 a temporary folder name
 }
 \description{
-Creates and returns a SyncroSim Temporary Folder
+Creates and returns a SyncroSim Temporary Folder.
 }

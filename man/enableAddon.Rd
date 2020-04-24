@@ -15,10 +15,10 @@ enableAddon(ssimLibrary, name)
 \arguments{
 \item{ssimLibrary}{SsimLibrary}
 
-\item{name}{Character string or vector of these.}
+\item{name}{Character string or vector of addon names}
 }
 \value{
-saved or error message for each addon.
+Character "saved" in case of success or error message.
 }
 \description{
 Enable addon or addons of an SsimLibrary.

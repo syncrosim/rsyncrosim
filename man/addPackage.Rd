@@ -21,5 +21,5 @@ addPackage(name, session = NULL)
 \item{session}{Session.}
 }
 \description{
-Adds a package to SyncroSim
+Adds a package to SyncroSim.
 }

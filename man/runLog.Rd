@@ -4,7 +4,7 @@
 \alias{runLog}
 \alias{runLog,character-method}
 \alias{runLog,Scenario-method}
-\title{The runLog of a result Scenario.}
+\title{The runLog of a result Scenario}
 \usage{
 runLog(scenario)
 
@@ -19,5 +19,5 @@ runLog(scenario)
 Character string of the run log.
 }
 \description{
-The runLog of a result Scenario
+The runLog of a result Scenario.
 }

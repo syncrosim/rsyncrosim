@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The runLog of a result Scenario.
-#'
 #' The runLog of a result Scenario
+#'
+#' The runLog of a result Scenario.
 #'
 #' @param scenario A Scenario object.
 #' @return Character string of the run log.

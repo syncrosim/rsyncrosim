@@ -5,7 +5,7 @@ NULL
 
 #' Update Package
 #'
-#' Updates a SyncroSim package
+#' Updates a SyncroSim package.
 #'
 #' @param name Character string.  The name of the package to update.  If NULL, all packages will be updated.
 #' @param session Session.

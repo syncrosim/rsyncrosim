@@ -5,7 +5,7 @@ NULL
 
 #' The SyncroSim version
 #'
-#' The version of a SyncroSim Session
+#' The version of a SyncroSim Session.
 #'
 #' @param session Session.
 #' @export

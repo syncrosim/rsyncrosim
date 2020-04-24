@@ -3,12 +3,12 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Apply updates.
+#' Apply updates
 #'
 #' Apply updates to a SyncroSim Library,or a Project or Scenario associated with a Library.
 #'
 #' @param ssimObject  SsimLibrary/Project/Scenario
-#' @return "saved" or a failure message from the console.
+#' @return Character "saved" in case of success or error message.
 #' @export
 setGeneric("ssimUpdate", function(ssimObject) standardGeneric("ssimUpdate"))
 

@@ -5,7 +5,7 @@ NULL
 
 #' Run scenarios
 #'
-#' Run one or more SyncroSim scenarios
+#' Run one or more SyncroSim scenarios.
 #'
 #' @details
 #' Note that breakpoints are ignored unless ssimObject is a single scenario.

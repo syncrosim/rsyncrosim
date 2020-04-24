@@ -15,10 +15,10 @@ disableAddon(ssimLibrary, name)
 \arguments{
 \item{ssimLibrary}{SsimLibrary}
 
-\item{name}{Character string or vector of these.}
+\item{name}{Character string or vector of addon names}
 }
 \value{
-saved or error message.
+Character "saved" in case of success or error message.
 }
 \description{
 Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.

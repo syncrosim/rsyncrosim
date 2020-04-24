@@ -8,7 +8,7 @@ NULL
 #' The name of an SsimLibrary, Project or Scenario.
 #'
 #' @param ssimObject SsimLibrary, Project, or Scenario.
-#' @return character string
+#' @return Character string
 #' @export
 setGeneric("name", function(ssimObject) standardGeneric("name"))
 

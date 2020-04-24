@@ -23,11 +23,11 @@ envEndSimulation()
 \item{totalSteps}{integer.  The total number of steps in the simulation.}
 }
 \description{
-Reports progress for a SyncroSim simulation
+Reports progress for a SyncroSim simulation.
 
-Begins a SyncroSim simulation
+Begins a SyncroSim simulation.
 
 Steps a SyncroSim simulation
 
-Ends a SyncroSim simulation
+Ends a SyncroSim simulation.
 }
