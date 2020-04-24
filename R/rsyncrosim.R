@@ -11,7 +11,7 @@
 #' viewing charts and maps of outputs.
 #'
 #' To learn more about rsyncrosim, start with the vignette 
-#' (`browseVignettes("rsyncrosim")``).
+#' (`r browseVignettes("rsyncrosim")`).
 #'
 #' @docType package
 #' @name rsyncrosim
