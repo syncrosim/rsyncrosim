@@ -33,18 +33,10 @@ setMethod(
       stop("A library name is required.")
     }
 
-    if (is.null(package)) {
-      package <- "stsim"
-    }
-
     packageOptions <- basePackage(session)
 
     if (nrow(packageOptions) == 0) {
       stop("No base packages are installed.  Use addPackage() or addPackageFile() to install a package.")
-    }
-
-    if (!is.element(package, packageOptions$name)) {
-      stop(paste(package, "not a base package. Use basePackage() to see options."))
     }
 
     if (identical(basename(name), name)) {
@@ -64,6 +56,15 @@ setMethod(
     }
 
     if (!file.exists(path)) {
+      
+      if (is.null(package)){
+        package <- "stsim"        
+      }
+
+      if (!is.element(package, packageOptions$name)) {
+        stop(paste(package, "not a base package. Use basePackage() to see options."))
+      }
+      
       pathBits <- strsplit(path, "/")[[1]]
       dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = F)
 
