@@ -1,6 +1,6 @@
 ---
 title: "Introduction to `rsyncrosim`"
-author: "ApexRMS"
+author: "Colin Daniel, ApexRMS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -18,75 +18,43 @@ library(rsyncrosim)
 library(raster)
 ```
 ```{r, echo = FALSE, message = FALSE}
-mySession <- session("/home/vlucet/Documents/Apex/syncrosim_2_10")
-libraryName <- "../../test_lib/demoLib.ssim"
-myLibrary <- ssimLibrary(name = libraryName, session = mySession, overwrite = T) 
+mySession <- session()
+libraryName <- "demo-library.ssim"
+# mySession <- session("/home/vlucet/Documents/Apex/syncrosim_2_10")
+# libraryName <- "../../test_lib/demoLib.ssim"
+myLibrary <- ssimLibrary(name = libraryName, session = mySession, overwrite = T)
 ```
 
-## About SyncroSim
+## What is `rsyncrosim`?
 
-- **Automatically structure your data:** SyncroSim ties together your
-existing data from disparate formats, such as Excel, CSV, and
-GeoTIFF. No database is required – SyncroSim automatically
-structures your data files for you.
+`rsyncrosim` is a package designed to facilitate the development of modeling workflows in R for the [SyncroSim](https://www.syncrosim.com/) software framework.
 
-- **Use your data to make predictions:** SyncroSim allows you to chain
-together “models” – including existing off-the-shelf programs and
-scripts written in languages such as R, Python and C\# – to
-transform your data into predictions.
+## What is SyncroSim?
 
-- **Engage decision makers:** No longer are forecasts delivered by
-analysts as static reports. Through its unique, easy-to-use
-interface, SyncroSim allows non-technical users to define, run and
-track their own “what-if” scenarios using the original data and
-models.
+SyncroSim is a software platform that helps you turn your *data* into *forecasts*. At the core of SyncroSim is an engine that automatically structures your existing data, regardless of its original format. SyncroSim then feeds this structured data through a pipeline of calculations (i.e. a suite of *models*) in order to transform the data into forecasts. As you develop alternative "what-if" forecasting scenarios, SyncroSim keeps track of all of your model inputs and outputs for you. Finally, SyncroSim  provides a rich interface for you and others to interact with your data and models, in order to explore and track the consequences of alternative "what-if" forecasting scenarios.  
 
-- **Go big:** SyncroSim is specifically designed to handle big data,
-including support for cloud computing, multiprocessing, and large
-rasters.
+For more details consult the SyncroSim [online documentation](https://docs.syncrosim.com/).
 
-### Installation
 
-You can donwload SyncroSim from the [Syncrosim website](https://syncrosim.com/download/). 
+### Installing SyncroSim and `rsyncrosim`
 
-## About `rsyncrosim`
+Before using `rsyncrosim` you will first need to [download and install](https://www.syncrosim.com/download/) the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
 
-The package `rsyncrosim` is an interface for SyncroSim, a generalized framework for managing scenario-based datasets. Simulation models can be added to SyncroSim in order to transform these datasets, taking advantage of general features such as defining scenarios of model inputs, running Monte Carlo simulations, and summarizing model outputs.
+Next you will need to install the `rsyncrosim` R package, either using [CRAN](https://cran.r-project.org/) or from the `rsyncrosim` [GitHub repository](https://github.com/syncrosim/rsyncrosim/releases/). Versions of `rsyncrosim` are available for both Windows and Linux.
+## Quickstart tutorial
 
-### Installation
-
-*Windows:*
-
-- [Download](https://github.com/syncrosim/rsyncrosim/releases/) the
-latest latest release of the Windows rsyncrosim package as a zip
-file (note that the package is not yet available from CRAN)
-
-- Install the package zip file in R. For example in RStudio, open the
-Install Packages window, select Package Archive File (for Install
-from) and rsyncrosim\_X.X.X.zip (for Package archive), where X.X.X
-is the version of the package.
-
-- Run the [demonstration
-script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R)
-and/or view the package documentation (both also found in the doc
-folder of the package once installed)
-
-*Linux:*
-
-Download and install the latest release of the rsyncrosim package.
-
-## A short tutorial
+The following tutorial introduces `rsyncrosim` using the *stsim* [SyncroSim Package](https://docs.syncrosim.com/how_to_guides/package_overview.html). *st-sim* is a SyncroSim Package that lets you develop and run spatially-explicit, stochastic state-and-transition simulation models of landscape change. For more details on *stsim* consult the [ST-Sim online documentation](https://docs.syncrosim.com/). 
 
 ### Preparation
 
-Let's first load the necessary packages
+Let's first load the necessary packages. This includes both `rsyncrosim` and the `raster` R package.
 
 ```{r}
 library(rsyncrosim)
 library(raster)
 ```
 
-For this tutorial, we will first need to the sample raster TIF files provided in the package.
+For this tutorial, we will first need to retrieve the sample raster files (in GeoTIFF format) provided with the `rsyncrosim` package.
 
 ```{r}
 stratumTif <- system.file("extdata", "initial-stratum.tif", 
@@ -97,169 +65,192 @@ ageTif <- system.file("extdata", "initial-age.tif",
                       package = "rsyncrosim")
 ```
 
-The first step in a typical `rsyncrosim` workflow is to open a session with `session()` by providing the path to `syncrosim.exe` on your machine.
+The first step in a typical `rsyncrosim` workflow is to create a SyncroSim Session object in R that provides the connection to your installed copy of the SyncroSim software. A new Session is created using the `session` function, for which the first argument is a path to the folder on your computer into which the SyncroSim software has been installed.
 
 ```{r, eval = FALSE}
-mySession <- session("~/path/to/syncrosim.exe")
+mySession <- session("C:/Program Files/SyncroSim")  # Create a Session based SyncroSim install folder
+mySession <- session()                              # Using default install folder (Windows only)
+mySession                                           # Displays the Session object
+
 ```
 
-The second step is to create a library, mirrored in `rsyncrosim` by a `SsimLibrary` object. Note that we use set `overwrite` to `TRUE` to allow to rerun the analysis from scratch if necessary.
+The next step is to create a SyncroSim [Library](https://docs.syncrosim.com/how_to_guides/library_overview.html). A Library is a file (with `.ssim` extension) that stores all of your model inputs and outputs. The format of each SyncroSim Library is unique to the SyncroSim Package with which it is associated. We use the `ssimLibrary` function to create a new SsimLibrary object in R that is connected (through your Session) to a SyncroSim Library file. Note that an existing Library file can be later opened again by setting `overwrite=FALSE` for the `ssimLibrary` function.
 
 ```{r, eval = FALSE}
-libraryName <- "~/path/to/demoLibrary.ssim"
-myLibrary <- ssimLibrary(name = libraryName, session = mySession, overwrite = T)
+myLibrary <- ssimLibrary(name = "demoLibrary.ssim", session = mySession, overwrite = TRUE)
 ```
 
-In SyncroSim, a **library** can contain multiple **projects**, and each project can contain multiple **scenarios**. Each of those elements contains multiple **datasheets** which contains all the parameters of the model(s) that are implemented in the Library.
-
-You can display all the datasheets of a given Library with `datasheet()`. 
+Each SyncroSim Library contains one or more SyncroSim [Projects](https://docs.syncrosim.com/how_to_guides/library_overview.html), each represented by a Project object in R. Projects typically store model inputs that are common to all your scenarios. In most situations you will need only a single Project for your Library; by default each new Library starts with a single Project named "Definitions" (with a unique `projectId`= 1). The `project` function is used to both create and retrieve Projects.
 
 ```{r}
-datasheet(myLibrary, summary = T)
+# Loads the existing default Project
+myProject = project(myLibrary, project = "Definitions") # Using name for Project
+myProject = project(myLibrary, project = 1) # Using projectId for Project
+
 ```
 
-A syncrosim **project** can be created with `project()`. It is common for a library to contain only one project, as it is the level where a lot of basic model parameters are set.
+Finally, each SyncroSim Project contains one or more [Scenarios](https://docs.syncrosim.com/how_to_guides/library_overview.html), each represented by a Scenario object in R. Scenarios store the specific model inputs and outputs associated with each model run in SyncroSim. Each Scenario can be identified by its unique `scenarioId`. The `scenario` function is used to both create and retrieve Scenarios. 
 
 ```{r}
-myProject <- project(myLibrary, project = "Simple forest landscape")
+# Creates a Scenario object (associated with the default Project)
+myScenario = scenario(myProject, scenario = "My first scenario")
+myScenario
 ```
 
-Like with a library, You can display all the datasheets of a given project with `datasheet()`.
+Finally, each SyncroSim Library contains multiple SyncroSim [Datasheets](https://docs.syncrosim.com/how_to_guides/properties_overview.html). A SyncroSim Datasheet is simply a table of data stored in the Library. Datasheets each have a *scope*: either library, project or scenario. 
+
+For example use the `datasheet` function (with the argument `summary=TRUE`) to list all the available SyncroSim Datasheets for your Library. These typically represent general settings for your SyncroSim Library.
 
 ```{r}
-datasheet(myProject, summary = T, optional = F)
+datasheet(myLibrary, summary = TRUE)
 ```
 
-### Setting basic model parameters
+Note that each datasheet has a *name*. This is important - you will use this later to retrieve the data associated with a specific Datasheet.
 
-Now, let's set up some basic parameters for our basic model. Those are stored in the datasheet *Terminology*. We start by extracting the datasheet. The *Terminology* allows to change the vocabulary to be used throughout the library. By default, it is prepopulated with certain terms. For our basic model, we want to change the terminology of the `StateLabelX` parameter and set the terminology for `AmountUnits`. 
+Similarly you can view the list of Datasheets associated with your Project and your Scenario
+```{r, eval = FALSE}
+datasheet(myProject, summary = TRUE)
+datasheet(myScenario, summary = TRUE)
+```
+
+### Project Definitions
+
+In order to run a model in SyncroSim, we first need to setup all of the required model inputs. As outlined above, inputs come in two forms: Scenario inputs (which *can* vary by Scenario) and Project inputs (which *must* be fixed across all Scenarios). In general most inputs are Scenario inputs; Project inputs are typically reserved for values that must be shared by all Scenarios (e.g. constants, shared lookup values).
+
+Let's begin by configuring our Project inputs. All inputs in SyncroSim are stored in Datasheets. We say that inputs associated with a Project are *project-scoped Datasheets*. For example, in *stsim* there is a project-scoped Datasheet called *Terminology* specifying terms used across all Scenarios. We will use the `datasheet` function to retrieve the current values for this Datasheet, as currently stored in the SyncroSim Library file.
 
 ```{r}
-# Returns empty dataframe with only required column(s)
-sheetData <- datasheet(myProject, "Terminology")
+# Returns a dataframe of the Terminology Datasheet
+sheetData <- datasheet(myProject, name="stsim_Terminology")
 str(sheetData)
-head(sheetData)
 ```
 
-We then populate the sheet with parameters. We save the sheet with `saveDatasheet`. If we extract it again, the parameter `StateLabelX` is changed.
+We can now change the terminology of the `StateLabelX` and `AmountUnits` columns in our Datasheet, and then save those changes back to the SyncroSim Library file.
 
 ```{r}
+# Edit the dataframe values
 sheetData$AmountUnits <- "Hectares"
 sheetData$StateLabelX <- "Forest Type"
-saveDatasheet(myProject, sheetData, "Terminology")
-datasheet(myProject, "Terminology")
+
+# Saves the edits back to the Library file
+saveDatasheet(myProject, sheetData, "stsim_Terminology") 
 ```
 
-Simialrly, we can use other datasheets to parameters at the project level.
+Similarly we can edit other Project-scoped Datasheets for *stsim*. 
 
-- **Stratum** defines the name of primary spatial stratum of the model.
-
+**Stratum**:  Primary Strata in the model
 ```{r}
-sheetData <- datasheet(myProject, "Stratum", empty = T)
+# Retrieves an empty copy of the Datasheet
+sheetData <- datasheet(myProject, "stsim_Stratum", empty = TRUE)
+
+# Helper function in rsyncrosim to add rows to dataframes
 sheetData <- addRow(sheetData, "Entire Forest")
-saveDatasheet(myProject, sheetData, "Stratum", force = T)
-# Returns entire dataframe, including optional columns
-datasheet(myProject, "Stratum", optional = T) 
+
+# Save edits to file
+saveDatasheet(myProject, sheetData, "stsim_Stratum", force = TRUE)
 ```
 
-- **StateLabelX** defines the primary states in our state and transition model.
-
+**StateLabelX**: First dimension of labels for State Classes
 ```{r}
 forestTypes <- c("Coniferous", "Deciduous", "Mixed")
-saveDatasheet(myProject, data.frame(Name = forestTypes), "StateLabelX", force = T)
+saveDatasheet(myProject, data.frame(Name = forestTypes), "stsim_StateLabelX", force = TRUE)
 ```
 
-- **StateLabely** defines the secondary states in our state and transition model. It is unused in our simple model so we only fill one row of the datasheet with "All"
-
+**StateLabelY**: Second dimension of labels for State Classes
 ```{r}
-saveDatasheet(myProject, data.frame(Name = c("All")), "StateLabelY", force = T)
+saveDatasheet(myProject, data.frame(Name = c("All")), "stsim_StateLabelY", force = TRUE)
 ```
 
-- **State Classes** brings together the **StateLabelX** and **StateLabelY**
-
+**State Classes**: Combines **StateLabelX** and **StateLabelY**; assigns each one a unique name and ID
 ```{r}
 stateClasses <- data.frame(Name = forestTypes)
 stateClasses$StateLabelXID <- stateClasses$Name
 stateClasses$StateLabelYID <- "All"
 stateClasses$ID <- c(1, 2, 3)
-saveDatasheet(myProject, stateClasses, "StateClass", force = T)
+saveDatasheet(myProject, stateClasses, "stsim_StateClass", force = TRUE)
 ```
 
-- **Transition Types** defines the type of transition in our model and give each of them a unique name and ID.
-
+**Transition Types**: Defines the types of transition in our model; assigns each one a unique name and ID
 ```{r}
 transitionTypes <- data.frame(Name = c("Fire", "Harvest", "Succession"), ID = c(1, 2, 3))
-saveDatasheet(myProject, transitionTypes, "TransitionType", force = T)
+saveDatasheet(myProject, transitionTypes, "stsim_TransitionType", force = TRUE)
 ```
 
-- **Transition Groups** allows to group transitions for more fine-tuning. In our simple model, we set them as identical from the types. 
-
+**Transition Groups**: Makes the Groups identical to the Types
 ```{r}
 transitionGroups <- data.frame(Name = c("Fire", "Harvest", "Succession"))
 saveDatasheet(myProject, transitionGroups, "TransitionGroup", force = T)
 ```
 
-- **Transition Types by Groups** assignes each type to their groups. Here we keep the memberships identical.
-
+**Transition Types by Groups**: Assigns each Type to its Group
 ```{r}
 transitionTypesGroups <- data.frame(TransitionTypeID = transitionTypes$Name,
                                     TransitionGroupID = transitionGroups$Name)
 saveDatasheet(myProject, transitionTypesGroups, "TransitionTypeGroup", force = T)
 ```
 
-- **Ages** defines the basic parameters to control the age structure of the model.
-
+**Ages** defines the basic parameters to control the age reporting in the model
 ```{r}
 ageFrequency <- 1
 ageMax <- 101
 ageGroups <- c(20, 40, 60, 80, 100)
 
 saveDatasheet(myProject, data.frame(Frequency = ageFrequency, MaximumAge = ageMax),
-              "AgeType", force = T)
-saveDatasheet(myProject, data.frame(MaximumAge = ageGroups), "AgeGroup", force = T)
+              "AgeType", force = TRUE)
+saveDatasheet(myProject, data.frame(MaximumAge = ageGroups), "stsim_AgeGroup", force = TRUE)
 ```
 
-### Creating Scenarios
+### Scenario Inputs
 
-We can create a first **scenario** within our project with `scenario()`.
+Now that we have defined all our Project level definitions we can move on to specifying scenario-specific model inputs. We begin by using the `scenario` function to create a new Scenario in our Project.
 
 ```{r}
 myScenario <- scenario(myProject, "No Harvest")
 ```
 
-Once again, we can use `datasheet`() to display all the datasheets available for a given scenario. Doing so also returns the datasheets from higher levels (project and library) so here we subset the scope of the returned output.
+Once again we can use the `datasheet` function (with `summary=TRUE`) to display all the scenario-scoped Datasheets.
 
-```{r}
-subset(datasheet(myScenario, summary = T), scope == "scenario")
+```{r, eval = FALSE}
+# Subset the list to show only Scenario Datasheets
+subset(datasheet(myScenario, summary = TRUE), scope == "scenario")
 ```
 
-Like previously, we can use datasheets to our scenario parameters.
+We can now use the `datasheet` function to retrieve, one at a time, each of our Scenario-scoped Datasheets from our Library.
 
-- **Run Control** defines the length of the run and whetehr or not it is a spatial run (requires spatial inputs to be set, see below). Here we make the run spatial
-
+**Run Control** defines the length of the run and whether or not it is a spatial run (requires spatial inputs to be set, see below). Here we make the run spatial:
 ```{r}
-sheetName <- "RunControl"
-sheetData <- data.frame(MaximumIteration = 7, MinimumTimestep = 0, MaximumTimestep = 50,
+# Run simulation for 7 realizations and 10 timesteps
+sheetName <- "stsim_RunControl"
+sheetData <- data.frame(MaximumIteration = 7,
+                        MinimumTimestep = 0,
+                        MaximumTimestep = 10,
                         isSpatial = TRUE)
 saveDatasheet(myScenario, sheetData, sheetName)
 ```
 
-- **Deterministic Transitions** first define transitions that take place in the absence of other (probabilistics) transitions. Here we set a minimum age
-
+**Deterministic Transitions** first define transitions that take place in the absence of probabilistic transitions. Here we also set the age boundaries for each State Class:
 ```{r}
-sheetName <- "DeterministicTransition"
+# Add all the deterministic transitions
+sheetName <- "stsim_DeterministicTransition"
 sheetData <- datasheet(myScenario, sheetName, optional = T, empty = T)
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Coniferous", StateClassIDDest = "Coniferous", AgeMin = 21, Location = "C1"))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Deciduous", StateClassIDDest = "Deciduous", Location = "A1"))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Mixed", StateClassIDDest =
-                                            "Mixed", AgeMin = 11, Location = "B1"))
+sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Coniferous",
+                                          StateClassIDDest = "Coniferous",
+                                          AgeMin = 21,
+                                          Location = "C1"))
+sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Deciduous",
+                                          StateClassIDDest = "Deciduous",
+                                          Location = "A1"))
+sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Mixed",
+                                          StateClassIDDest = "Mixed",
+                                          AgeMin = 11,
+                                          Location = "B1"))
 saveDatasheet(myScenario, sheetData, sheetName)
 ```
 
-- **Probabilistic Transition** defines the allowed transitions between states and assigns a probability to each. 
-
+**Probabilistic Transitions** define the transitions between State Classes and assigns a probability to each:
 ```{r}
-sheetName <- "Transition"
+# Add all the probabilistic transition pathways
+sheetName <- "stsim_Transition"
 sheetData <- datasheet(myScenario, sheetName, optional = T, empty = T)
 sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Coniferous", 
                                           StateClassIDDest = "Deciduous", 
@@ -291,11 +282,11 @@ sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Mixed",
 saveDatasheet(myScenario, sheetData, sheetName)
 ```
 
-- **Initial Conditions** sets the starting conditions of the model at time 0. There are two options for setting initial conditions: either spatial or non-spatial In this example we will use spatial initial conditions; however we demonstrate below how also to set initial conditions non-spatially.
+**Initial Conditions** sets the starting conditions of the model at time 0. There are two options for setting initial conditions: either spatial or non-spatial. In this example we will use spatial initial conditions; however we demonstrate below how also to set initial conditions non-spatially.
 
 * ***Initial Conditions: Option 1 - Spatial***. Let's first take a look at our rasters.
 
-```{r, fig.align="center", fig.dim = c(7,7)}
+```{r, fig.align="center", fig.dim = c(5,5)}
 rStratum <- raster(stratumTif)
 rSclass <- raster(sclassTif)
 rAge <- raster(ageTif)
@@ -305,20 +296,19 @@ plot(rSclass)
 plot(rAge)
 ```
 
-We can input these rasters with the **InitialConditionsSpatial** datasheet.
+We can add these rasters as model inputs using the `stsim_InitialConditionsSpatial` datasheet.
 
 ```{r}
-sheetName <- "InitialConditionsSpatial"
+sheetName <- "stsim_InitialConditionsSpatial"
 sheetData <- list(StratumFileName = stratumTif, 
                   StateClassFileName = sclassTif, 
                   AgeFileName = ageTif)
 saveDatasheet(myScenario, sheetData, sheetName)
-datasheet(myScenario, sheetName)
 ```
 
-Let's check if the rasters were inpited correcly. We can extract rasters with `datasheetRaster()`.
+Let's check if the rasters were entered correctly. We can extract rasters with `datasheetRaster` function.
 
-```{r, fig.align="center", fig.dim = c(7,7)}
+```{r, fig.align="center", fig.dim = c(5,5), eval=FALSE}
 rStratumTest <- datasheetRaster(myScenario, sheetName, "StratumFileName")
 rSclassTest <- datasheetRaster(myScenario, sheetName, "StateClassFileName")
 rAgeTest <- datasheetRaster(myScenario, sheetName, "AgeFileName")
@@ -327,18 +317,17 @@ plot(rSclassTest)
 plot(rAgeTest)
 ```
 
-* ***Initial Conditions: Option 2 - Non-spatial***. The second option is to set the proportions of eacgh class, making this a non spatial paramerization. To do so we use the 
-**InitialConditionsNonSpatial** amd **InitialConditionsNonSpatialDistribution** datasheets.
-
+***Initial Conditions: Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial paramerization. To do so we use the 
+`stsim_InitialConditionsNonSpatial` and `stsim_InitialConditionsNonSpatialDistribution` datasheets:
 ```{r}
-sheetName <- "InitialConditionsNonSpatial"
+sheetName <- "stsim_InitialConditionsNonSpatial"
 sheetData <- data.frame(TotalAmount = 100, 
                         NumCells = 100, 
                         CalcFromDist = F)
 saveDatasheet(myScenario, sheetData, sheetName)
 datasheet(myScenario, sheetName)
 
-sheetName <- "InitialConditionsNonSpatialDistribution"
+sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
 sheetData <- data.frame(StratumID = "Entire Forest", 
                         StateClassID = "Coniferous", 
                         RelativeAmount = 1)
@@ -346,21 +335,19 @@ saveDatasheet(myScenario, sheetData, sheetName)
 datasheet(myScenario, sheetName)
 ```
 
-- **Transition Targets** defines targets, in units of area, to be reached by the allocation procedure within SyncroSim.
-
+**Transition Targets** defines targets, in units of area, to be reached by the allocation procedure within SyncroSim:
 ```{r}
 # Transition targets - set harvest to 0 for this scenario
 saveDatasheet(myScenario, 
               data.frame(TransitionGroupID = "Harvest", 
                          Amount = 0),
-              "TransitionTarget")
+              "stsim_TransitionTarget")
 ```
 
-- **Output Options** regulates the model outputs and determines the frequency at which syncrosim saves the model outputs. 
-
+**Output Options** regulates the model outputs and determines the frequency at which syncrosim saves the model outputs:
 ```{r}
 # Output options
-# datasheet(myScenario, "OutputOptions")
+# datasheet(myScenario, "stsim_OutputOptions")
 sheetData <- data.frame(
   SummaryOutputSC = T, SummaryOutputSCTimesteps = 1,
   SummaryOutputTR = T, SummaryOutputTRTimesteps = 1,
@@ -368,10 +355,10 @@ sheetData <- data.frame(
   RasterOutputTR = T, RasterOutputTRTimesteps = 1,
   RasterOutputAge = T, RasterOutputAgeTimesteps = 1
 )
-saveDatasheet(myScenario, sheetData, "OutputOptions")
+saveDatasheet(myScenario, sheetData, "stsim_OutputOptions")
 ```
 
-We are done parameterizing our simple No Harvest scenario. Let's now define a new scenario that implements forest harvesting. Below, we create a second "Harvest" scenario that is a copy of the first scenario, but with a harvest level of 20 acres/timestep.
+We are done parameterizing our simple "No Harvest" scenario. Let's now define a new scenario that implements forest harvesting. Below, we create a second "Harvest" scenario that is a copy of the first scenario, but with a harvest level of 20 acres/year.
 
 ```{r}
 myScenarioHarvest <- scenario(myProject, 
@@ -379,26 +366,26 @@ myScenarioHarvest <- scenario(myProject,
                               sourceScenario = myScenario)
 saveDatasheet(myScenarioHarvest, data.frame(TransitionGroupID = "Harvest", 
                                             Amount = 20), 
-              "TransitionTarget")
+              "stsim_TransitionTarget")
 ```
 
-We can show the harvest levels for both scenarios.
+We can display the harvest levels for both scenarios.
 
 ```{r}
 datasheet(myProject, scenario = c("Harvest", "No Harvest"), 
-          name = "TransitionTarget")
+          name = "stsim_TransitionTarget")
 ```
 
-### Run Scenarios & Get Results
+### Run Scenarios & View Results
 
-We can now run the scenario and look at the results. We run both scenarios - each Monte Carlo iteration is run in parallel as a separate multiprocessing job.
+We can now run the Scenario and look at the results. We run both Scenarios together; each Monte Carlo realization is run in parallel as a separate multiprocessing job. Running a Scenario generates a corresponding new child Scenario, called a *Results Scenario*, which contains the results of the run along with a snapshot of all the model inputs.
 
-```{r, echo = FALSE}
+```{r}
 resultSummary <- run(myProject, scenario = c("Harvest", "No Harvest"), 
-                     jobs = 7, summary = T)
+                     jobs = 7, summary = TRUE)
 ```
 
-To take a better look at the results, we first need to # get the scenario IDs of the 2 result scenarios.
+To look at the results we first need to retrieve the unique `scenarioId` for each child *Result Scenario*.
 
 ```{r}
 resultIDNoHarvest <- subset(resultSummary, 
@@ -407,23 +394,22 @@ resultIDHarvest <- subset(resultSummary,
                           parentID == scenarioId(myScenarioHarvest))$scenarioId
 ```
 
-We then get a tabular output of the state class (for both scenarios combined).
+We then can retrieve tabular output regarding the projected State Class over time (for both scenarios combined) from the `stsim_OutputStratumState` Datasheet.
 
 ```{r}
 outputStratumState <- datasheet(myProject, 
                                 scenario = c(resultIDNoHarvest, resultIDHarvest), 
-                                name = "OutputStratumState")
-head(outputStratumState)
+                                name = "stsim_OutputStratumState")
 ```
 
-Finally, we can get the state class raster output (here for the Harvest scenario only).
+Finally, we can get the State Class raster output (here for the Harvest scenario only).
 
-```{r, fig.align = TRUE, fig.dim = c(7,7)}
+```{r, fig.align = TRUE, fig.dim = c(5,5)}
 myRastersTimestep5 <- datasheetRaster(myProject, 
                                       scenario = resultIDHarvest, 
-                                      "OutputSpatialState", 
+                                      "stsim_OutputSpatialState", 
                                       timestep = 5)
+# Plot raster for timestep 5 (first realization only)
 myRastersTimestep5
-plot(myRastersTimestep5[[1:4]])
-plot(myRastersTimestep5[[4:7]])
+plot(myRastersTimestep5[[1]])
 ```
