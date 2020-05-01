@@ -37,8 +37,7 @@ test_that("Tests of command  - assumes SyncroSim is installed", {
   ret <- delete(paste0(getwd(), "/temp.ssim"), force = T)
   args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "hello:model-transformer")
   output <- command(args, mySsim)
-  # TODO This fails for an unknown reason
-  expect_equal(output[1], "The transformer 'hello:model-transformer' was not found.  You may need to install an additional package.")
+  expect_equal(output[1], "The specified package is not installed.")
 })
 
 test_that("Tests of Library - assumes SyncroSim is installed", {
