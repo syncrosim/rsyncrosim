@@ -18,11 +18,8 @@ library(rsyncrosim)
 library(raster)
 ```
 ```{r, echo = FALSE, message = FALSE}
-mySession <- session()
-addPackage("stsim", mySession)
-libraryName <- "demo-library.ssim"
-# mySession <- session("/home/vlucet/Documents/Apex/syncrosim_2_10")
-# libraryName <- "../../test_lib/demoLib.ssim"
+mySession <- session() # start default session
+libraryName <- "../../test_lib/demoLib.ssim" # test library outside of pakcage root
 myLibrary <- ssimLibrary(name = libraryName, session = mySession, overwrite = T)
 ```
 
@@ -78,7 +75,6 @@ mySession                                           # Displays the Session objec
 The next step is to create a SyncroSim [Library](https://docs.syncrosim.com/how_to_guides/library_overview.html). A Library is a file (with `.ssim` extension) that stores all of your model inputs and outputs. The format of each SyncroSim Library is unique to the SyncroSim Package with which it is associated. We use the `ssimLibrary` function to create a new SsimLibrary object in R that is connected (through your Session) to a SyncroSim Library file. Note that an existing Library file can be later opened again by setting `overwrite=FALSE` for the `ssimLibrary` function.
 
 ```{r, eval = FALSE}
-addPackage("stsim", mySession)   # Get stsim package from SyncroSim online server (only the first time)
 myLibrary <- ssimLibrary(name = "demoLibrary.ssim", session = mySession, overwrite = TRUE)
 ```
 
