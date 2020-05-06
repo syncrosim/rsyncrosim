@@ -96,7 +96,8 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
   }
 
   if (is.null(path)) {
-    stop("Default SyncroSim installation not found. Either install SyncroSim in the default location, or explicitly set the session path. See ?session for details.")
+    warning("Default SyncroSim installation not found. Either install SyncroSim in the default location, or explicitly set the session path. See ?session for details.")
+    stop()
   }
 
   return(new("Session", path, silent, printCmd))
