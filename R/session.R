@@ -84,12 +84,16 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
       else {
         path <- dirname(Sys.which("SyncroSim.Console.exe"))
         
-        if (is.null(path)){
+        if (is.null(path) || (!dir.exists(path))){
           path = paste(path.expand("~"), "SyncroSim", sep='/')
+        }
+        
+        if (!file.exists(paste(path, "/SyncroSim.Console.exe", sep="/"))) {
+          path = NULL;
         }
       }
 
-      if (!dir.exists(path)) {
+      if (is.null(path) || (!dir.exists(path))) {
         path <- NULL
       }
     }
