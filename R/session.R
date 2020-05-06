@@ -82,7 +82,11 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
         }
       }
       else {
-        path <- Sys.which("SyncroSim.Console.exe")
+        path <- dirname(Sys.which("SyncroSim.Console.exe"))
+        
+        if (is.null(path)){
+          path = paste(path.expand("~"), "SyncroSim", sep='/')
+        }
       }
 
       if (!dir.exists(path)) {
@@ -92,8 +96,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
   }
 
   if (is.null(path)) {
-    warning("Default SyncroSim installation not found. Either install SyncroSim in the default location, or explicitly set the session path. See ?session for details.")
-    return(SyncroSimNotFound(warn = FALSE))
+    stop("Default SyncroSim installation not found. Either install SyncroSim in the default location, or explicitly set the session path. See ?session for details.")
   }
 
   return(new("Session", path, silent, printCmd))

@@ -10,19 +10,19 @@
 #' @rdname ssimEnvironment
 ssimEnvironment <- function() {
   return(data.frame(
-    PackageDirectory = Sys.getenv("SSIM_PACKAGE_DIRECTORY", unset = NA),
-    ProgramDirectory = Sys.getenv("SSIM_PROGRAM_DIRECTORY", unset = NA),
-    LibraryFilePath = Sys.getenv("SSIM_LIBRARY_FILEPATH", unset = NA),
-    ProjectId = as.integer(Sys.getenv("SSIM_PROJECT_ID", unset = -1)),
-    ScenarioId = as.integer(Sys.getenv("SSIM_SCENARIO_ID", unset = -1)),
-    InputDirectory = Sys.getenv("SSIM_INPUT_DIRECTORY", unset = NA),
-    OutputDirectory = Sys.getenv("SSIM_OUTPUT_DIRECTORY", unset = NA),
-    TempDirectory = Sys.getenv("SSIM_TEMP_DIRECTORY", unset = NA),
-    TransferDirectory = Sys.getenv("SSIM_TRANSFER_DIRECTORY", unset = NA),
-    BeforeIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION", unset = -1)),
-    AfterIteration = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_ITERATION", unset = -1)),
-    BeforeTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP", unset = -1)),
-    AfterTimestep = as.integer(Sys.getenv("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP", unset = -1)), stringsAsFactors = FALSE
+    PackageDirectory = Sys.getenv(tolower("SSIM_PACKAGE_DIRECTORY"), unset = NA),
+    ProgramDirectory = Sys.getenv(tolower("SSIM_PROGRAM_DIRECTORY"), unset = NA),
+    LibraryFilePath = Sys.getenv(tolower("SSIM_LIBRARY_FILEPATH"), unset = NA),
+    ProjectId = as.integer(Sys.getenv(tolower("SSIM_PROJECT_ID"), unset = -1)),
+    ScenarioId = as.integer(Sys.getenv(tolower("SSIM_SCENARIO_ID"), unset = -1)),
+    InputDirectory = Sys.getenv(tolower("SSIM_INPUT_DIRECTORY"), unset = NA),
+    OutputDirectory = Sys.getenv(tolower("SSIM_OUTPUT_DIRECTORY"), unset = NA),
+    TempDirectory = Sys.getenv(tolower("SSIM_TEMP_DIRECTORY"), unset = NA),
+    TransferDirectory = Sys.getenv(tolower("SSIM_TRANSFER_DIRECTORY"), unset = NA),
+    BeforeIteration = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION"), unset = -1)),
+    AfterIteration = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_AFTER_ITERATION"), unset = -1)),
+    BeforeTimestep = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP"), unset = -1)),
+    AfterTimestep = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP"), unset = -1)), stringsAsFactors = FALSE
   ))
 }
 
