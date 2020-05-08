@@ -47,7 +47,7 @@ For each element of scenario:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Create a new scenario
 myLibrary <- ssimLibrary(name = "stsim")
 myProject <- project(myLibrary, project = "a project")

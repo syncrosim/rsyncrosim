@@ -14,7 +14,7 @@ NULL
 #' @param force logical. If FALSE (default), user will be prompted to approve removal of each item.
 #' @return A list of "saved" or failure messages for each item.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' myLibrary <- ssimLibrary("mylib")
 #' myProject <- project(myLibrary, project = "a project")
 #' project(myLibrary)

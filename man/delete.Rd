@@ -48,7 +48,7 @@ A list of "saved" or failure messages for each item.
 Deletes one or more items. Note this is irreversible
 }
 \examples{
-\dontrun{
+\donttest{
 myLibrary <- ssimLibrary("mylib")
 myProject <- project(myLibrary, project = "a project")
 project(myLibrary)

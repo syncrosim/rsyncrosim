@@ -199,7 +199,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param overwrite Logical. If TRUE an existing Library will be overwritten.
 #' @return An \code{SsimLibrary} object.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Create a library using the default session
 #' myLibrary <- ssimLibrary(name = "myLib")
 #'
