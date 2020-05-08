@@ -87,7 +87,6 @@ Each SyncroSim Library contains one or more SyncroSim [Projects](https://docs.sy
 # Loads the existing default Project
 myProject = project(myLibrary, project = "Definitions") # Using name for Project
 myProject = project(myLibrary, project = 1) # Using projectId for Project
-
 ```
 
 Finally, each SyncroSim Project contains one or more [Scenarios](https://docs.syncrosim.com/how_to_guides/library_overview.html), each represented by a Scenario object in R. Scenarios store the specific model inputs and outputs associated with each model run in SyncroSim. Each Scenario can be identified by its unique `scenarioId`. The `scenario` function is used to both create and retrieve Scenarios. 
