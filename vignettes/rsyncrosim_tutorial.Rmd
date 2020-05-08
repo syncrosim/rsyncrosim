@@ -19,7 +19,6 @@ library(raster)
 ```
 ```{r, echo = FALSE, message = FALSE}
 mySession <- session() # start default session
-mySession <- session("/home/vlucet//Documents/Apex/syncrosim_2_10/")
 addPackage("stsim", mySession)
 temp_dir <- tempdir()
 libraryName <- file.path(temp_dir,"demoLib.ssim") 
