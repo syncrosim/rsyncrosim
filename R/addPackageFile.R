@@ -34,5 +34,5 @@ setMethod("addPackageFile", signature(session = "Session"), function(filename, s
   }
 
   tt <- command(args = list(finstall = filename), session, program = "SyncroSim.PackageManager.exe")
-  return(tt)
+  message(tt)
 })

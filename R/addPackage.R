@@ -32,9 +32,12 @@ setMethod("addPackage", signature(session = "Session"), function(name, session) 
   packages <- package(session)
 
   if (is.element(name, packages$name)) {
-    return(paste(name, ": The package is already installed."))
+    tt <- (paste0("Package <", name, "> is already installed"))
   } else {
     tt <- command(args = list(install = name), session, program = "SyncroSim.PackageManager.exe")
-    return(tt)
+    if (tt == "saved"){
+      tt <- paste0("Package <", name, "> installed.")
+    }
   }
+  message(tt)
 })
