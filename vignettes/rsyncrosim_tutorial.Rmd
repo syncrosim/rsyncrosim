@@ -20,7 +20,8 @@ library(raster)
 ```{r, echo = FALSE, message = FALSE}
 mySession <- session() # start default session
 addPackage("stsim", mySession)
-libraryName <- "../../test_lib/demoLib.ssim" # test library outside of pakcage root
+temp_dir <- tempdir()
+libraryName <- file.path(temp_dir,"demoLib.ssim") 
 myLibrary <- ssimLibrary(name = libraryName, session = mySession, overwrite = T)
 ```
 
