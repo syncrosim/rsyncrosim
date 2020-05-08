@@ -19,7 +19,8 @@ Description: SyncroSim is a generalized framework for managing scenario-based
     SyncroSim. Simulation models can be added to SyncroSim in order to transform 
     these datasets, taking advantage of general features such as defining 
     scenarios of model inputs, running Monte Carlo simulations, and summarizing 
-    model outputs. rsyncrosim requires Syncrosim 2.2.13.
+    model outputs. rsyncrosim requires Syncrosim 2.2.13 (link to the API 
+    documentation: <http://docs.syncrosim.com/>)
 License: GPL-3 | file LICENSE
 LazyData: TRUE
 Encoding: UTF-8
