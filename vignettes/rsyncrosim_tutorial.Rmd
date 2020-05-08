@@ -19,6 +19,7 @@ library(raster)
 ```
 ```{r, echo = FALSE, message = FALSE}
 mySession <- session() # start default session
+mySession <- session("/home/vlucet//Documents/Apex/syncrosim_2_10/")
 addPackage("stsim", mySession)
 temp_dir <- tempdir()
 libraryName <- file.path(temp_dir,"demoLib.ssim") 
@@ -68,7 +69,7 @@ ageTif <- system.file("extdata", "initial-age.tif",
 The first step in a typical `rsyncrosim` workflow is to create a SyncroSim Session object in R that provides the connection to your installed copy of the SyncroSim software. A new Session is created using the `session` function, for which the first argument is a path to the folder on your computer into which the SyncroSim software has been installed.
 
 ```{r, eval = FALSE}
-mySession <- session("C:/Program Files/SyncroSim")  # Create a Session based SyncroSim install folder
+mySession <- session("path/to/install_folder")  # Create a Session based SyncroSim install folder
 mySession <- session()                              # Using default install folder (Windows only)
 mySession                                           # Displays the Session object
 
