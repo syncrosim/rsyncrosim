@@ -3,6 +3,7 @@
 
 old_dir <- getwd()
 temp_dir <- tempdir()
+dir.create(temp_dir)
 setwd(temp_dir)
 myses <- session()
 
