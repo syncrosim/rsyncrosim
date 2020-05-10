@@ -35,7 +35,7 @@ test_that("Tests of command  - assumes SyncroSim is installed", {
   expect_equal(command(list(create = NULL, help = NULL), mySsim)[1], "Creates an item")
 
   ret <- delete(paste0(getwd(), "/temp.ssim"), force = T)
-  args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "hello:model-transformer")
+  args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "nonexistentpackage")
   output <- command(args, mySsim)
   expect_equal(output[1], "The specified package is not installed.")
 })
@@ -45,7 +45,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   myLibrary <- ssimLibrary(name = "temp", session = mySsim) # create new library using default model
   expect_equal(file.exists(filepath(myLibrary)), TRUE)
   expect_equal(as.character(basePackage(myLibrary)$name), "stsim")
-  expect_equal(delete(myLibrary, force = T), "saved")
+  expect_equal(delete(myLibrary, force = T), TRUE)
   expect_equal(file.exists(filepath(myLibrary)), FALSE)
 
   myLibrary <- ssimLibrary(name = "SSimLibrary", session = mySsim)
@@ -57,7 +57,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   allAdds <- addon(myLibrary)
   expect_equal(names(allAdds), c("name", "description", "enabled", "currentVersion", "minimumVersion"))
   expect_equal(names(addon(mySsim)), c("name", "description", "version", "extends"))
-  expect_equal(delete(myLibrary, force = T), "saved")
+  expect_equal(delete(myLibrary, force = T), TRUE)
 
   allAdds <- subset(allAdds, name != "stsim-cbm") # Requires stsim-stockflow to be added first
 
@@ -65,23 +65,23 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
     cAdd <- allAdds$name[1]
     myLibrary <- ssimLibrary(name = "NewLibrary", addon = c(cAdd), session = mySsim)
     expect_equal(subset(addon(myLibrary), enabled)$name, cAdd)
-    expect_equal(disableAddon(myLibrary, cAdd)[[cAdd]], "saved")
+    expect_equal(disableAddon(myLibrary, cAdd)[[cAdd]], TRUE)
     expect_equal(nrow(subset(addon(myLibrary), enabled)), 0)
-    expect_equal(enableAddon(myLibrary, cAdd)[[cAdd]], "saved")
+    expect_equal(enableAddon(myLibrary, cAdd)[[cAdd]], TRUE)
     expect_equal(subset(addon(myLibrary), enabled)$name, cAdd)
   }
 
   # Get/set the various properties of the library
   expect_is("session<-"(myLibrary, mySsim), "SsimLibrary")
 
-  # Chnaged from "The library has no unapplied updates." to NA because testhat cannot detect the command message
-  expect(is.na(ssimUpdate(myLibrary)), "ssimUpdate test failed, value returned is not NA")
+  # Changed from NA to FALSE to match updated behaviors
+  expect_equal(ssimUpdate(myLibrary), FALSE)
   expect_equal(names(ssimLibrary(myLibrary, session = mySsim)), c("property", "value"))
   expect_equal(class(ssimLibrary(myLibrary, summary = F, mySsim))[1], "SsimLibrary")
 
   name(myLibrary) <- "Fred"
   expect_equal(name(myLibrary), "Fred")
-  expect_equal(backup(myLibrary), "Backup complete.")
+  expect_equal(backup(myLibrary), TRUE)
   expect_equal(dir.exists(paste0(filepath(myLibrary), ".backup")), T)
 
   description(myLibrary) <- "A new description.\nTry a linebreak." # NOTE: \n adds a linebreak to the description
