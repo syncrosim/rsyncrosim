@@ -95,7 +95,7 @@ datasheet(
 If summary=TRUE returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
 }
 \description{
-Gets SyncroSim datasheet.
+Retrieves a SyncroSim datasheet.
 }
 \details{
 If summary=TRUE or summary=NULL and name=NULL a dataframe describing the datasheets is returned:

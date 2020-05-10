@@ -20,6 +20,10 @@ addPackageFile(filename, session = NULL)
 
 \item{session}{Session.}
 }
+\value{
+This function invisibly returns `TRUE` upon success (i.e.successful 
+install) and `FALSE` upon failure.
+}
 \description{
-Adds a package to SyncroSim
+Adds a package to SyncroSim from a package file.
 }

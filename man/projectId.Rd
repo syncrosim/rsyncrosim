@@ -22,5 +22,5 @@ projectId(ssimObject)
 An integer project id.
 }
 \description{
-The projectId of a SyncroSim Project or Scenario.
+retrives the projectId of a SyncroSim Project or Scenario.
 }

@@ -16,7 +16,7 @@ command(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE)
 \item{wait}{Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=FALSE.}
 }
 \value{
-Output from the SyncroSim program.
+A chracter string, output from the SyncroSim program.
 }
 \description{
 Issues a command to the SyncroSim console and returns the output.
@@ -30,6 +30,7 @@ Example args, and the resulting character string passed to the SyncroSim console
 }
 }
 \examples{
+\donttest{
 # Use a default session to create a new library in the current working directory.
 args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "stsim")
 output <- command(args, session = session(printCmd = TRUE))
@@ -39,4 +40,5 @@ output
 command(c("create", "help"))
 command("--create --help")
 command(list(create = NULL, help = NULL))
+}
 }

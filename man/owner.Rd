@@ -21,6 +21,9 @@ owner(ssimObject)
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
 }
+\value{
+A character string: the owner of the ssimObject.
+}
 \description{
-The owner of an SsimLibrary/ProjectScenario
+Retrieves the owner of an SsimLibrary/ProjectScenario
 }

@@ -16,9 +16,9 @@ parentId(scenario)
 \item{scenario}{A Scenario object.}
 }
 \value{
-An integer id of the parent scenario.
+An integer id of the parent scenario. If the input scenario does not have a
+parent, the function returns `NA`.
 }
 \description{
-The id of the parent of a SyncroSim results scenario.
-NA if scenario is not a results scenario.
+Retrives the id of the parent of a SyncroSim results scenario.
 }

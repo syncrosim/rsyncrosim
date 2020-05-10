@@ -22,7 +22,8 @@ readOnly(ssimObject)
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
 }
 \value{
-Logical.
+Returns a logical values: `TRUE` if the ssimObject is read only and `FALSE`
+otherwise.
 }
 \description{
 Whether or not an SsimLibrary/ProjectScenario is read-only.

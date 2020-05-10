@@ -22,7 +22,10 @@ dependency(scenario, dependency = NULL, remove = F, force = F)
 \item{force}{logical. If F (default) prompt before removing dependencies.}
 }
 \value{
-If dependency!=NULL, character string (saved or error message) or list of these. Otherwise, a dataframe of existing dependencies, or list of these.
+If dependency is NULL, a dataframe of existing dependencies, or list of these if multiple
+inputs are provided.
+If dependency is not NULL, the function invisibly returns a list bearing the names of the dependencies inputed
+and carrying a boolean `TRUE` upon success (i.e.successful addition or deletion) and `FALSE` upon failure.
 }
 \description{
 Set or remove Scenario dependency(s), or get existing dependencies.

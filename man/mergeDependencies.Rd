@@ -16,8 +16,9 @@ mergeDependencies(ssimObject)
 \item{ssimObject}{Scenario}
 }
 \value{
-logical.
+Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 
+and `FALSE` otherwise.
 }
 \description{
-Whether or not a Scenario is configured to merge dependencies at run time.
+Retrieves whether or not a Scenario is configured to merge dependencies at run time.
 }

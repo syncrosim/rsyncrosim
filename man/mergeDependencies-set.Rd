@@ -17,6 +17,9 @@ mergeDependencies(ssimObject) <- value
 
 \item{value}{Logical. If T the Scenario will be set to merge dependencies at runtime.}
 }
+\value{
+The updated ssimObject.
+}
 \description{
-Whether or not a Scenario is configured to merge dependencies at run time.
+Sets whether or not a Scenario is configured to merge dependencies at run time.
 }

@@ -7,13 +7,13 @@
 \alias{deletePackage,ANY,Session-method}
 \title{Deletes a package}
 \usage{
-deletePackage(name, session = NULL, force = F)
+deletePackage(name, session = NULL, force = FALSE)
 
-\S4method{deletePackage}{ANY,character}(name, session = NULL, force = F)
+\S4method{deletePackage}{ANY,character}(name, session = NULL, force = FALSE)
 
-\S4method{deletePackage}{ANY,missingOrNULL}(name, session = NULL, force = F)
+\S4method{deletePackage}{ANY,missingOrNULL}(name, session = NULL, force = FALSE)
 
-\S4method{deletePackage}{ANY,Session}(name, session = NULL, force = F)
+\S4method{deletePackage}{ANY,Session}(name, session = NULL, force = FALSE)
 }
 \arguments{
 \item{name}{Character. The name of the package to delete.}
@@ -23,8 +23,9 @@ deletePackage(name, session = NULL, force = F)
 \item{force}{logical. If T, delete without requiring confirmation from user.}
 }
 \value{
-"saved" or error message.
+This function invisibly returns `TRUE` upon success (i.e.successful 
+deletion) and `FALSE` upon failure.
 }
 \description{
-Deletes a package.
+Deletes a package from your syncrosim instalation.
 }

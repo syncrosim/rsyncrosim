@@ -17,6 +17,9 @@ owner(ssimObject) <- value
 
 \item{value}{The new owner.}
 }
+\value{
+The updated ssimObject.
+}
 \description{
 Set the owner of an SsimLibrary/Project/Scenario.
 }

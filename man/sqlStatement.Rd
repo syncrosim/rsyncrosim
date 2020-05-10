@@ -34,7 +34,7 @@ Note that it is not possible to construct a complete SQL query at this stage,
 because the datasheet() function may add ScenarioID and/or ProjectID to the query.
 }
 \examples{
-
+\donttest{
 # Query the total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
 # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 mySQL <- sqlStatement(
@@ -42,4 +42,6 @@ mySQL <- sqlStatement(
   aggregate = c("Amount"), where = list(Timestep = c(0, 1, 2), Iteration = c(3, 4))
 )
 mySQL
+}
+
 }

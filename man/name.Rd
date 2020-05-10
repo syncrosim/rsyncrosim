@@ -22,8 +22,8 @@ name(ssimObject)
 \item{ssimObject}{SsimLibrary, Project, or Scenario.}
 }
 \value{
-Character string
+Character string: the name of the ssimObject.
 }
 \description{
-The name of an SsimLibrary, Project or Scenario.
+Retrieves the name of an SsimLibrary, Project or Scenario.
 }

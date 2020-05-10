@@ -16,10 +16,15 @@ addPackage(name, session = NULL)
 \S4method{addPackage}{ANY,Session}(name, session = NULL)
 }
 \arguments{
-\item{name}{Character string.  The name of the package to install from the online package server.}
+\item{name}{Character string.  The name of the package to install.}
 
 \item{session}{Session.}
 }
+\value{
+This function will inivisibly return `TRUE` upon success (i.e.successful 
+install) and `FALSE` upon failure.
+}
 \description{
-Adds a package to SyncroSim.
+Adds a package to SyncroSim. This functions will query the syncrosim 
+package server for the package name provided as input.
 }
