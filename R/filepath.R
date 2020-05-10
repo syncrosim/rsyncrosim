@@ -8,6 +8,10 @@ NULL
 #' The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 #'
 #' @param ssimObject An object containing a filepath.
+#' 
+#' @return 
+#' A character string: the path to a SyncroSim object on disk.
+#' 
 #' @export
 setGeneric("filepath", function(ssimObject) standardGeneric("filepath"))
 

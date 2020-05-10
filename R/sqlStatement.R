@@ -18,10 +18,12 @@ NULL
 #' @param aggregate character string of vector of these. Vector of variables (column names) to aggregate using aggregateFunction
 #' @param aggregateFunction character string. An SQL aggregate function (e.g. SUM, COUNT)
 #' @param where named list. A list of subset variables. Names are column names, and elements are the values to be selected from each column.
-#' @return A list of SELECT, GROUP BY and WHERE SQL statements used by datasheet() to construct an SQLite database query.
+#' 
+#' @return 
+#' A list of SELECT, GROUP BY and WHERE SQL statements used by datasheet() to construct an SQLite database query.
 #'
 #' @examples
-#'
+#' \donttest{
 #' # Query the total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
 #' # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 #' mySQL <- sqlStatement(
@@ -29,6 +31,8 @@ NULL
 #'   aggregate = c("Amount"), where = list(Timestep = c(0, 1, 2), Iteration = c(3, 4))
 #' )
 #' mySQL
+#' }
+#' 
 #' @export
 sqlStatement <- function(groupBy = NULL, aggregate = NULL, aggregateFunction = "SUM", where = NULL) {
   if (is.null(groupBy)) {

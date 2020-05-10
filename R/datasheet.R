@@ -5,7 +5,7 @@ NULL
 
 #' Get a datasheet
 #'
-#' Gets SyncroSim datasheet.
+#' Retrieves a SyncroSim datasheet.
 #'
 #' @details
 #'
@@ -38,7 +38,10 @@ NULL
 #' @param includeKey Logical. If TRUE include primary key in table.
 #' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.
 #' @param fastQuery Logical.  If TRUE, the request is optimized for performance.  Ignored if combined with summary, empty, or sqlStatement flags.
-#' @return If summary=TRUE returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
+#' 
+#' @return 
+#' If summary=TRUE returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
+#' 
 #' @export
 #' @import RSQLite
 setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, summary = NULL, optional = FALSE, empty = FALSE, lookupsAsFactors = TRUE, sqlStatement = list(select = "SELECT *", groupBy = ""), includeKey = FALSE, forceElements = FALSE, fastQuery = FALSE) standardGeneric("datasheet"))

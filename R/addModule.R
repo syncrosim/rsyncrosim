@@ -10,6 +10,7 @@ NULL
 #'
 #' @param filename Character string or vector of these. The path to an .ssimpkg file on disk, or a vector of filepaths.
 #' @param session Session.
+#' 
 setGeneric("addModule", function(filename, session = NULL) standardGeneric("addModule"))
 
 #' @rdname addModule

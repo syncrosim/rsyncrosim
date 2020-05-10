@@ -126,8 +126,7 @@ setMethod(
 
 #' Create or open one or more Scenarios.
 #'
-#' If summary = FALSE, returns one or more \code{\link{Scenario}} objects representing a SyncroSim scenarios.
-#' If summary = TRUE, returns scenario summary info.
+#' Create or retrievs one or more Scenarios from a library 
 #'
 #' @details
 #'
@@ -147,7 +146,12 @@ setMethod(
 #' @param results Logical. If TRUE only return result scenarios.
 #' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.
 #' @param overwrite Logical. If TRUE an existing Scenario will be overwritten.
-#' @return A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
+#' 
+#' @return 
+#' A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
+#' If \code{summary} = FALSE, returns one or more \code{\link{Scenario}} objects representing a SyncroSim scenarios.
+#' If \code{summary} = TRUE, returns scenario summary info.
+#' 
 #' @examples
 #' \donttest{
 #' # Create a new scenario

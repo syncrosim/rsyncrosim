@@ -8,7 +8,10 @@ NULL
 #' Deprecated.  See: \code{\link{package}}
 #'
 #' @param session Session.
-#' @return A dataframe of modules
+#' 
+#' @return 
+#' A dataframe of modules.
+#' 
 #' @export
 setGeneric("module", function(session) standardGeneric("module"))
 

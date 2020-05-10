@@ -8,7 +8,11 @@ NULL
 #' Apply updates to a SyncroSim Library,or a Project or Scenario associated with a Library.
 #'
 #' @param ssimObject  SsimLibrary/Project/Scenario
-#' @return Character "saved" in case of success or error message.
+#' 
+#' @return 
+#' This function invisibly returns `TRUE` upon success (i.e.successful 
+#' update) and `FALSE` upon failure.
+#' 
 #' @export
 setGeneric("ssimUpdate", function(ssimObject) standardGeneric("ssimUpdate"))
 
@@ -19,6 +23,16 @@ setMethod("ssimUpdate", signature(ssimObject = "character"), function(ssimObject
 
 #' @rdname ssimUpdate
 setMethod("ssimUpdate", signature(ssimObject = "SsimObject"), function(ssimObject) {
+  success <- FALSE
   tt <- command(list(update = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
-  return(tt[1])
+  if (!is.na(tt[1])){ 
+    if (tt == "saved"){
+      message("Library successfully updated")
+      success <- TRUE
+    } else{
+      message(tt)
+    }
+  }
+  return(invisible(success))
 })
+  

@@ -5,10 +5,13 @@ NULL
 
 #' The name of a SyncroSim library, project or scenario.
 #'
-#' The name of an SsimLibrary, Project or Scenario.
+#' Retrieves the name of an SsimLibrary, Project or Scenario.
 #'
 #' @param ssimObject SsimLibrary, Project, or Scenario.
-#' @return Character string
+#' 
+#' @return 
+#' Character string: the name of the ssimObject.
+#' 
 #' @export
 setGeneric("name", function(ssimObject) standardGeneric("name"))
 
@@ -42,7 +45,10 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 #' Set the name of a SyncroSim Project, Scenario or Library
 #'
 #' @param ssimObject Scenario/Project/SsimLibrary
-#' @param value The new name.
+#' 
+#' @param value 
+#' The updated ssimObject. 
+#' 
 #' @export
 setGeneric("name<-", function(ssimObject, value) standardGeneric("name<-"))
 

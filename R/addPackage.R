@@ -5,10 +5,16 @@ NULL
 
 #' Adds a package to SyncroSim
 #'
-#' Adds a package to SyncroSim.
+#' Adds a package to SyncroSim. This functions will query the syncrosim 
+#' package server for the package name provided as input.
 #'
-#' @param name Character string.  The name of the package to install from the online package server.
+#' @param name Character string.  The name of the package to install.
 #' @param session Session.
+#' 
+#' @return 
+#' This function will inivisibly return `TRUE` upon success (i.e.successful 
+#' install) and `FALSE` upon failure.
+#' 
 #' @export
 setGeneric("addPackage", function(name, session = NULL) standardGeneric("addPackage"))
 
@@ -25,8 +31,10 @@ setMethod("addPackage", signature(session = "missingOrNULL"), function(name, ses
 
 #' @rdname addPackage
 setMethod("addPackage", signature(session = "Session"), function(name, session) {
+  success <- FALSE
+  
   if (is.null(name)) {
-    stop("A package name is required.")
+    stop("A package name is required")
   }
 
   packages <- package(session)
@@ -36,8 +44,10 @@ setMethod("addPackage", signature(session = "Session"), function(name, session) 
   } else {
     tt <- command(args = list(install = name), session, program = "SyncroSim.PackageManager.exe")
     if (tt == "saved"){
-      tt <- paste0("Package <", name, "> installed.")
+      tt <- paste0("Package <", name, "> installed")
+      success <- TRUE
     }
   }
   message(tt)
+  return(invisible(success))
 })

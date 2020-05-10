@@ -3,12 +3,15 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The runLog of a result Scenario
+#' The run log of a result Scenario
 #'
-#' The runLog of a result Scenario.
+#' The run log of a result Scenario.
 #'
 #' @param scenario A Scenario object.
-#' @return Character string of the run log.
+#' 
+#' @return 
+#' Rteurn a character string: the run log for a result scenario.
+#' 
 #' @export
 setGeneric("runLog", function(scenario) standardGeneric("runLog"))
 

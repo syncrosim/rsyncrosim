@@ -36,7 +36,11 @@ NULL
 #' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
 #' @param import logical. Set to TRUE to import the data after saving.
 #' @param path character.  An optional output path.
-#' @return A success or failure message, or a list of these.
+#' 
+#' @return 
+#' This function invisibly returns a vector or list of logical values for each input: `TRUE` upon success (i.e.successful save)
+#' and `FALSE` upon failure.
+#' 
 #' @export
 setGeneric("saveDatasheet", function(ssimObject, data, name = NULL, fileData = NULL, append = NULL, forceElements = FALSE, force = FALSE, breakpoint = FALSE, import = TRUE, path = NULL) standardGeneric("saveDatasheet"))
 
@@ -94,7 +98,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       if (length(name) != length(data)) {
         stop("Please provide a name for each element of data.")
       }
-      warning("name argument will override names(data).")
+      warning("Name argument will override names(data).")
       names(data) <- name
     } else {
       name <- names(data)
@@ -122,7 +126,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
           cDat[[names(cIn)[j + 1]]] <- cIn[[j + 1]]
         }
       } else {
-        stop("handle this case")
+        stop() #handle this case
       }
     }
 
@@ -139,7 +143,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       sheetNames <- datasheets(x, refresh = TRUE)
       scope <- sheetNames$scope[sheetNames$name == cName]
       if (length(scope) == 0) {
-        stop("name not found in datasheetNames")
+        stop("Name not found in datasheetNames")
       }
     }
 
@@ -284,11 +288,20 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     } else {
       out[[cName]] <- "Saved"
     }
+    
+    if (out[[cName]] == "saved"){
+      message(paste0("Datasheet <",cName, "> saved"))
+      out[[cName]] <- TRUE
+    } else {
+      message(out[[cName]])
+      out[[cName]] <- FALSE
+    }
+    
   }
-
+  
   if (!forceElements && (length(out) == 1)) {
     out <- out[[1]]
   }
   unlink(.tempfilepath(x), recursive = TRUE)
-  return(out)
+  return(invisible(out))
 })

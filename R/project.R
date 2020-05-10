@@ -124,8 +124,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 
 #' Create or open a project or projects.
 #'
-#' If summary = FALSE, returns one or more \code{\link{Project}} objects representing a SyncroSim projects.
-#' If summary = TRUE, returns project summary info.
+#' Creates or retrieves a project or multiple projects from a library.
 #'
 #' @details
 #' For each element of project:
@@ -141,7 +140,11 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' @param summary Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.
 #' @param forceElements Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.
 #' @param overwrite Logical. If TRUE an existing Project will be overwritten.
-#' @return A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.
+#' 
+#' @return 
+#' A \code{Project} object representing a SyncroSim project. If summary is `TRUE`,
+#' a dataframe of project names and descriptions.
+#' 
 #' @examples
 #' \donttest{
 #' # Load a Library and create a new Project
@@ -161,6 +164,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' name(myProject)
 #' name(myProject) <- "New project name"
 #' }
+#' 
 #' @name project
 #' @export
 project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, summary = NULL, forceElements = F, overwrite = F) {
