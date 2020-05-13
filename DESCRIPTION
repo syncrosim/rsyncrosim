@@ -14,13 +14,14 @@ Authors@R: c(
     person("Valentin", "Lucet", 
            role = "ctb"),
     person("ApexRMS", role="cph"))
-Description: SyncroSim is a generalized framework for managing scenario-based 
-    datasets. This package provides an interface to SyncroSim. Simulation models 
-    can be added to SyncroSim in order to transform these datasets, taking 
-    advantage of general features such as defining scenarios of model inputs, 
-    running Monte Carlo simulations, and summarizing model outputs. rsyncrosim
-    requires Syncrosim 2.2.13.
-License: GPL-3 | file LICENSE
+Description: 'SyncroSim' is a generalized framework for managing scenario-based 
+    datasets (<https://syncrosim.com/>). 'rsyncrosim' provides an interface to 
+    'SyncroSim'. Simulation models can be added to 'SyncroSim' in order to 
+    transform these datasets, taking advantage of general features such as 
+    defining scenarios of model inputs, running Monte Carlo simulations, and 
+    summarizing model outputs. rsyncrosim requires Syncrosim 2.2.13 or higher 
+    (API documentation: <http://docs.syncrosim.com/>).
+License: GPL-3 + file LICENSE
 LazyData: TRUE
 Encoding: UTF-8
 Imports:
@@ -35,7 +36,7 @@ Suggests:
     Rcpp,
     rgdal,
     rmarkdown
-SystemRequirements: SyncroSim (>=2.1.0)
+SystemRequirements: SyncroSim (>=2.2.13)
 Collate: 
     'AAAClassDefinitions.R'
     'addModule.R'
@@ -47,10 +48,8 @@ Collate:
     'basePackage.R'
     'breakpoint.R'
     'command.R'
-    'dataframeFromSSim.R'
     'datasheet.R'
     'datasheetRaster.R'
-    'datasheets.R'
     'dateModified.R'
     'delete.R'
     'deleteModule.R'
@@ -60,7 +59,6 @@ Collate:
     'disableAddon.R'
     'enableAddon.R'
     'filepath.R'
-    'getFromXProjScn.R'
     'internalHelpers.R'
     'name.R'
     'scenarioId.R'
@@ -91,5 +89,5 @@ Collate:
     'version.R'
 RoxygenNote: 7.1.0
 VignetteBuilder: knitr
-URL: https://github.com/syncrosim/rsyncrosim
-BugReports: https://github.com/syncrosim/rsyncrosim/issues
+URL: <https://github.com/syncrosim/rsyncrosim>
+BugReports: <https://github.com/syncrosim/rsyncrosim/issues>

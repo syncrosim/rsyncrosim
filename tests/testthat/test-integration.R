@@ -1,11 +1,10 @@
 # Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 
-retDir <- getwd()
-unlink("testLibs", recursive = T)
-dir.create("testLibs")
-setwd("./testLibs")
-
+old_dir <- getwd()
+temp_dir <- tempdir()
+dir.create(temp_dir)
+setwd(temp_dir)
 myses <- session()
 
 test_that("Test simple non-spatial STSim example - assumes that SyncroSim is installed.", {
@@ -175,5 +174,5 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   expect_equal(setdiff(unique(outStatesAllAges$StateLabelXID), c("Coniferous", "Deciduous", "Mixed")), character(0))
 })
 
-setwd(retDir)
-unlink("testLibs", recursive = T)
+setwd(old_dir)
+unlink(temp_dir, recursive = T)

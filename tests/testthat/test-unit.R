@@ -1,10 +1,10 @@
 # Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 
-retDir <- getwd()
-unlink("testLibs", recursive = T)
-dir.create("testLibs")
-setwd("./testLibs")
+old_dir <- getwd()
+temp_dir <- tempdir()
+dir.create(temp_dir)
+setwd(temp_dir)
 
 mySsim <- session()
 addPackage(session = mySsim, name = "stsimsf")
@@ -273,5 +273,5 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   ret <- delete(myLibrary, force = T)
 })
 
-setwd(retDir)
-unlink("testLibs", recursive = T)
+setwd(old_dir)
+unlink(temp_dir, recursive = T)

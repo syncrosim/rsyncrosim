@@ -24,7 +24,7 @@ Character "saved" in case of success or error message.
 Enable addon or addons of an SsimLibrary.
 }
 \examples{
-\dontrun{
+\donttest{
 myLibrary <- ssimLibrary()
 enableAddon(myLibrary, c("stsim-ecological-departure"))
 addon(myLibrary)

@@ -30,7 +30,7 @@ NULL
 #' @param forceElements logical. If TRUE then returns a single raster as a RasterStack; otherwise returns a single raster as a RasterLayer directly.
 #' @return A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' datasheetRaster(myResult,
 #'   datasheet = "OutputSpatialState",
 #'   subset = expression(grepl("Ts0001", Filename, fixed = T))

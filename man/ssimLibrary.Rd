@@ -68,7 +68,7 @@ If summary = NULL, returns library summary info if ssimObject is an SsimLibrary,
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Create a library using the default session
 myLibrary <- ssimLibrary(name = "myLib")
 

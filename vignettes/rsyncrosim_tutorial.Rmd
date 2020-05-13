@@ -20,7 +20,8 @@ library(raster)
 ```{r, echo = FALSE, message = FALSE}
 mySession <- session() # start default session
 addPackage("stsim", mySession)
-libraryName <- "../../test_lib/demoLib.ssim" # test library outside of pakcage root
+temp_dir <- tempdir()
+libraryName <- file.path(temp_dir,"demoLib.ssim") 
 myLibrary <- ssimLibrary(name = libraryName, session = mySession, overwrite = T)
 ```
 
@@ -67,7 +68,7 @@ ageTif <- system.file("extdata", "initial-age.tif",
 The first step in a typical `rsyncrosim` workflow is to create a SyncroSim Session object in R that provides the connection to your installed copy of the SyncroSim software. A new Session is created using the `session` function, for which the first argument is a path to the folder on your computer into which the SyncroSim software has been installed.
 
 ```{r, eval = FALSE}
-mySession <- session("C:/Program Files/SyncroSim")  # Create a Session based SyncroSim install folder
+mySession <- session("path/to/install_folder")  # Create a Session based SyncroSim install folder
 mySession <- session()                              # Using default install folder (Windows only)
 mySession                                           # Displays the Session object
 
@@ -86,7 +87,6 @@ Each SyncroSim Library contains one or more SyncroSim [Projects](https://docs.sy
 # Loads the existing default Project
 myProject = project(myLibrary, project = "Definitions") # Using name for Project
 myProject = project(myLibrary, project = 1) # Using projectId for Project
-
 ```
 
 Finally, each SyncroSim Project contains one or more [Scenarios](https://docs.syncrosim.com/how_to_guides/library_overview.html), each represented by a Scenario object in R. Scenarios store the specific model inputs and outputs associated with each model run in SyncroSim. Each Scenario can be identified by its unique `scenarioId`. The `scenario` function is used to both create and retrieve Scenarios. 

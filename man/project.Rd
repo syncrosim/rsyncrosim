@@ -42,7 +42,7 @@ For each element of project:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Load a Library and create a new Project
 myLibrary <- ssimLibrary(name = "stsim")
 myProject <- project(ssimLibrary = myLibrary, project = "My new project name")

@@ -149,7 +149,7 @@ setMethod(
 #' @param overwrite Logical. If TRUE an existing Scenario will be overwritten.
 #' @return A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Create a new scenario
 #' myLibrary <- ssimLibrary(name = "stsim")
 #' myProject <- project(myLibrary, project = "a project")

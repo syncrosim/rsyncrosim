@@ -10,7 +10,7 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario or Session.
 #' @return A dataframe of addons.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' addon(ssimLibrary(name = "mylib"))
 #' }
 #' @export

@@ -14,7 +14,7 @@ NULL
 #' myLibrary <- ssimLibrary("mylib")
 #' enableAddon(myLibrary, c("stsimecodep"))
 #' addon(myLibrary)
-#' \dontrun{
+#' \donttest{
 #' disableAddon(myLibrary, c("stsimecodep"))
 #' }
 #' addon(myLibrary)
