@@ -76,7 +76,7 @@ setMethod("remoteCall", signature(x = "BreakpointSession"), function(x, message,
   tt <- writeLines(message, connection(x), sep = "") # Gives an error
 
   while (getResponse) {
-    cRes <- readChar(connection(x), 1, useBytes = FALSE)
+    cRes <- suppressWarnings(readChar(connection(x), 1, useBytes = FALSE))
     if (length(cRes) == 0) {
       Sys.sleep(1) # try again in a while
     } else {
@@ -84,7 +84,7 @@ setMethod("remoteCall", signature(x = "BreakpointSession"), function(x, message,
       res <- ""
       while (cRes != "\n") {
         res <- paste0(res, cRes)
-        cRes <- readChar(connection(x), 1, useBytes = FALSE)
+        cRes <- suppressWarnings(readChar(connection(x), 1, useBytes = FALSE))
       }
 
       cmd <- strsplit(res, "|", fixed = TRUE)[[1]][1]
