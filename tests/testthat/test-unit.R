@@ -135,14 +135,14 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myScn <- scenario(myProject, scenario = "one", overwrite = T) # Overwrites existing scenario, assigns new id.
   expect_equal(scenario(myLib)$scenarioId, c(1, 3))
   myScn <- scenario(myProject, scenario = "two", overwrite = T, sourceScenario = 1) # Can copy scenarios between projects.
-  expect_equal(projectId(myScn), 10)
+  expect_equal(projectId(myScn), 11)
   myScn <- scenario(myProject, scenario = "other", overwrite = T, sourceScenario = myOtherScn) # Can copy scenarios between libraries if sourceScenario is a scenario object.
   expect_equal(scenarioId(myScn), 5)
 
   myOtherProject <- project(myOtherLib, project = "copy", sourceProject = myProject) # Can copy projects among libraries provided that sourceProject is a Project object.
 
   # TODO This fails for an unknown reason => BUG SUBMITED
-  myOtherProject <- project(myLib, project = "copy", sourceProject = 10) # Copy a project within the same library.
+  myOtherProject <- project(myLib, project = "copy", sourceProject = 11) # Copy a project within the same library.
   expect_equal(projectId(myOtherProject), 19)
   expect_warning(project(myLib, project = "temp", sourceProject = "temp2"), "Project  (1) already exists, so sourceProject argument was ignored.", fixed = T) # Warns that sourceProject is ignored because "temp" already exists.
   myOtherProject <- project(myLib, project = "copy2", sourceProject = "temp2") # Copy a project by name
