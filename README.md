@@ -48,11 +48,13 @@ The package `rsyncrosim` is an interface for SyncroSim, a generalized framework 
     from) and rsyncrosim\_X.X.X.zip (for Package archive), where X.X.X
     is the version of the package.
 
-  - Run the [demonstration
-    script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R)
-    and/or view the package documentation (both also found in the doc
-    folder of the package once installed)
-
 *Linux:*
 
 Download and install the latest release of the rsyncrosim package.
+
+### Getting Started
+
+  - Run the [demonstration
+    script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R)
+    
+  - View the package [documentation](https://github.com/syncrosim/rsyncrosim/blob/dev/rsyncrosim_1.2.pdf)
