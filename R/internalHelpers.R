@@ -558,3 +558,44 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   }
   stop(paste0("Could not identify a SsimLibrary, Project or Scenario from ssimObject, project, and scenario arguments."))
 }
+
+# Delete Library - internal helper function
+#
+# Deletes a SyncroSim library. Note this is irreversable.
+#
+# @param ssimLibrary SsimLibrary or path to a library
+# @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
+# @return "saved" or failure message.
+# @export
+
+setGeneric("deleteLibrary", function(ssimLibrary, force = F) standardGeneric("deleteLibrary"))
+
+setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, force) {
+  return(deleteLibrary(.filepath(ssimLibrary), force))
+})
+
+setMethod("deleteLibrary", signature(ssimLibrary = "character"), function(ssimLibrary, force) {
+  if (!file.exists(ssimLibrary)) {
+    return(paste0("Library not found: ", ssimLibrary))
+  }
+  if (force) {
+    answer <- "y"
+  } else {
+    answer <- readline(prompt = paste0("Do you really want to delete library ", ssimLibrary, "? (y/n): "))
+  }
+  if (answer == "y") {
+    unlink(ssimLibrary)
+    if (file.exists(ssimLibrary)) {
+      return(paste0("Failed to delete ", ssimLibrary))
+    }
+    
+    unlink(paste0(ssimLibrary, ".backup"), recursive = T, force = T)
+    unlink(paste0(ssimLibrary, ".input"), recursive = T, force = T)
+    unlink(paste0(ssimLibrary, ".output"), recursive = T, force = T)
+    unlink(paste0(ssimLibrary, ".temp"), recursive = T, force = T)
+    
+    return("saved")
+  } else {
+    return("skipped")
+  }
+})

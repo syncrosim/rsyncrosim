@@ -59,6 +59,7 @@ Collate:
     'disableAddon.R'
     'enableAddon.R'
     'filepath.R'
+    'info.R'
     'internalHelpers.R'
     'name.R'
     'scenarioId.R'
