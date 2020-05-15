@@ -26,7 +26,9 @@ NULL
 #' @examples
 #' \donttest{
 #' # Use a default session to create a new library in the current working directory.
-#' args <- list(create = NULL, library = NULL, name = paste0(tempdir(), "/temp.ssim"), package = "stsim")
+#' args <- list(create = NULL, library = NULL, 
+#'         name = paste0(tempdir(), "/temp.ssim"), 
+#'         package = "stsim")
 #' output <- command(args, session = session(printCmd = TRUE))
 #' output
 #'
