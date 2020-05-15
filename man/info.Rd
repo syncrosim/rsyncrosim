@@ -2,15 +2,18 @@
 % Please edit documentation in R/info.R
 \name{info}
 \alias{info}
+\alias{info,SsimLibrary-method}
 \title{Information about an library}
 \usage{
 info(ssimLibrary)
+
+\S4method{info}{SsimLibrary}(ssimLibrary)
 }
 \arguments{
 \item{ssimLibrary}{A \code{SsimLibrary} object.}
 }
 \value{
-A \code{data.frame} with information on the properties of the library object.
+A \code{data.frame} with informations on the properties of the library object.
 }
 \description{
 Get basic information about a Library
