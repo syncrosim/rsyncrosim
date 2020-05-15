@@ -17,6 +17,9 @@ readOnly(ssimObject) <- value
 
 \item{value}{Logical. If T the ssimObject will be read-only.}
 }
+\value{
+The updated ssimObject.
+}
 \description{
 Set the read-only status of an SsimLibrary/Project/Scenario.
 Applies to child objects if ssimObject is an SsimLibrary or Project.

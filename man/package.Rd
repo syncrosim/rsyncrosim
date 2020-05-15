@@ -18,10 +18,11 @@ package(session, installed = T)
 \arguments{
 \item{session}{Session.}
 
-\item{installed}{Logical.  True to list installed packages and False to list available pacakges.}
+\item{installed}{Logical. `TRUE` to list installed packages and `FALSE` to list 
+available packages}
 }
 \value{
-A dataframe of packages
+A dataframe of packages installed.
 }
 \description{
 Packages or installed or available for this version of SyncroSim.

@@ -15,6 +15,10 @@ backup(ssimObject)
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
 }
+\value{
+This function inivisibly returns `TRUE` upon success (i.e.successful 
+backup) and `FALSE` upon failure.
+}
 \description{
 Backup an SsimLibrary.
 }

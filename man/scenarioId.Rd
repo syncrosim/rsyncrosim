@@ -16,8 +16,8 @@ scenarioId(scenario)
 \item{scenario}{Scenario.}
 }
 \value{
-Integer id.
+Integer id of the input scenario.
 }
 \description{
-The scenarioId of a Scenario.
+Retrieves the scenarioId of a Scenario.
 }

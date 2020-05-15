@@ -15,6 +15,9 @@ description(ssimObject)
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
 }
+\value{
+A character string describing the ssimObject.
+}
 \description{
 The description of an SsimLibrary/ProjectScenario.
 }

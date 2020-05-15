@@ -16,7 +16,8 @@ ssimUpdate(ssimObject)
 \item{ssimObject}{SsimLibrary/Project/Scenario}
 }
 \value{
-Character "saved" in case of success or error message.
+This function invisibly returns `TRUE` upon success (i.e.successful 
+update) and `FALSE` upon failure.
 }
 \description{
 Apply updates to a SyncroSim Library,or a Project or Scenario associated with a Library.

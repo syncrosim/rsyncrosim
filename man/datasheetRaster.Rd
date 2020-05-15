@@ -98,4 +98,5 @@ datasheetRaster(myResult,
   subset = expression(grepl("Ts0001", Filename, fixed = T))
 )
 }
+
 }

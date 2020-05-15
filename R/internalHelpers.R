@@ -160,7 +160,6 @@ camel <- function(x) {
 }
 
 # http://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
-# @export
 printAndCapture <- function(x) {
   paste(capture.output(print(x)), collapse = "\n")
 }
@@ -182,7 +181,7 @@ printAndCapture <- function(x) {
 # @return A data frame of output from the SyncroSim console.
 # @examples
 # # Use a default session to create a new library
-# myArgs = list(list=NULL,columns=NULL,lib="C:/Temp/NewLibrary.ssim",sheet="stsim_Stratum",pid=1)
+# myArgs = list(list=NULL,columns=NULL,lib=".",sheet="stsim_Stratum",pid=1)
 # myOutput = command(args=myArgs,mySsim)
 # myDataframe = dataframeFromSSim(myOutput)
 # myDataframe

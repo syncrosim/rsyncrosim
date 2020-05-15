@@ -15,7 +15,7 @@ NULL
 #' @include filepath.R
 #' @include addon.R
 #' @include datasheet.R
-#' @include datasheets.R
+#' @include internalHelpers.R
 #' @include name.R
 NULL
 # @export

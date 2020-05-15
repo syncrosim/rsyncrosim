@@ -204,8 +204,11 @@ getBPNameLongForm <- function(breakpointType) {
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep
 #' @param arguments A vector of timesteps or iterations e.g. c(1,2)
 #' @param callback A function to be called when the breakpoint is hit
+#' 
 #' @return A SyncroSim Scenario with an updated list of breakpoints
+#' 
 #' @details Breakpoints are only supported for Stochastic Time Transformers.
+#' 
 #' @examples
 #' \donttest{
 #' callbackFunction <- function(x, iteration, timestep) {
@@ -241,7 +244,9 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
 #' @param x A SyncroSim Scenario
 #' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
+#' 
 #' @return A SyncroSim Scenario with an updated list of breakpoints
+#' 
 #' @examples
 #' \donttest{
 #' myScenario <- deleteBreakpoint(myScenario)
@@ -286,6 +291,10 @@ setMethod("deleteBreakpoint", signature(x = "Scenario"), function(x, transformer
 #' Lists the breakpoints for a Scenario.
 #'
 #' @param x A SyncroSim Scenario
+#' 
+#' @return 
+#' Does not return anything, used for printing purposes.
+#' 
 #' @export
 setGeneric("breakpoint", function(x) standardGeneric("breakpoint"))
 

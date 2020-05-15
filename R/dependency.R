@@ -19,7 +19,13 @@ NULL
 # @param scenario character string, integer, or vector of these. Name or ID of scenario(s) to which a dependency is to be added (or has been already added if remove=TRUE). If NULL then ssimObject must be a Scenario. Note that integer ids are slightly faster.
 #' @param remove logical. If F (default) dependencies are added. If T, dependencies are removed.
 #' @param force logical. If F (default) prompt before removing dependencies.
-#' @return If dependency!=NULL, character string (saved or error message) or list of these. Otherwise, a dataframe of existing dependencies, or list of these.
+#' 
+#' @return 
+#' If dependency is NULL, a dataframe of existing dependencies, or list of these if multiple
+#' inputs are provided.
+#' If dependency is not NULL, the function invisibly returns a list bearing the names of the dependencies inputed
+#' and carrying a boolean `TRUE` upon success (i.e.successful addition or deletion) and `FALSE` upon failure.
+#' 
 #' @export
 setGeneric("dependency", function(scenario, dependency = NULL, remove = F, force = F) standardGeneric("dependency"))
 
@@ -42,30 +48,32 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
   }
   dependencySet <- .dataframeFromSSim(tt)
   names(dependencySet)[names(dependencySet) == "iD"] <- "scenarioId"
-
+  
   # if no dependency, dependency info for each scenario
   if (is.null(dependency)) {
     return(dependencySet)
   }
-
+  
   allScns <- .scenario(.ssimLibrary(x), summary = T)
-
+  
+  success <- FALSE
   outResults <- list()
-
+  
   if (class(dependency) == "Scenario") {
     dependency <- scenarioId(dependency)
   }
-
+  
   for (j in seq(length.out = length(dependency))) {
     cDepRaw <- dependency[[j]]
     cDep <- NULL
+    
     if (class(cDepRaw) == "Scenario") {
       cDep <- .scenarioId(cDepRaw)
-    }
-    if (class(cDepRaw) == "character") {
+    } 
+    
+    else if (class(cDepRaw) == "character") {
       if (!is.element(cDepRaw, allScns$name)) {
-        warning(cDepRaw, ": dependency scenario not found in library, so ignored.")
-        outResults[[cDepRaw]] <- "Dependency not found in library, so ignored."
+        warning(cDepRaw, ": dependency scenario not found in library, wil be ignored.")
       }
       cDep <- allScns$scenarioId[allScns$name == cDepRaw]
       if (length(cDep) == 0) {
@@ -74,40 +82,53 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
       if (length(cDep) > 1) {
         stop("Found more than one scenario named ", cDepRaw, ". Please specify a dependency scenario id:", paste0(cDep, collapse = ","))
       }
-    }
-    if (class(cDepRaw) == "numeric") {
+    } 
+    
+    else if (class(cDepRaw) == "numeric") {
       if (!is.element(cDepRaw, allScns$scenarioId)) {
-        warning(cDepRaw, ": dependency scenario not found in library, so ignored.")
-        outResults[[cDepRaw]] <- "Dependency not found in library, so ignored."
+        warning(cDepRaw, ": dependency scenario not found in library, will be ignored.")
       }
       cDep <- cDepRaw
     }
+    
     if (is.null(cDep)) {
       stop("dependency must be a Scenario, character string, integer, or vector/list of these.")
     }
     cDepOutName <- paste0(allScns$name[allScns$scenarioId == cDep], " [", cDep, "]")
-
-    # if add
+    
+    # if Add
     if (!remove) {
       if ((nrow(dependencySet) > 0) && is.element(cDep, dependencySet$scenarioId)) {
         # to guarantee order of provided dependency, remove then re-add
         args <- list(delete = NULL, dependency = NULL, lib = .filepath(x), sid = cScn, did = cDep, force = NULL)
         tt <- command(args, .session(x))
-        if (tt[1] != "saved") {
+        
+        if (is.na(tt[1])){
+          warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
+        } else if (tt[1] != "saved"){
           warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
         }
       }
+      
       args <- list(create = NULL, dependency = NULL, lib = .filepath(x), sid = cScn, did = cDep)
       tt <- command(args, .session(x))
-      if (tt[1] != "saved") {
+  
+      if (is.na(tt[1])){
         warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
+        outResults[[cDepOutName]] <- FALSE
+      } else if (tt[1] == "saved"){
+        message(paste0("Dependency: <", cDepOutName, ">, added to scenario: <", outName, ">"))
+        outResults[[cDepOutName]] <- TRUE
+      } else {
+        warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
+        outResults[[cDepOutName]] <- FALSE
       }
-      outResults[[cDepOutName]] <- tt[1]
-    } else { # remove
+      
+      # if Remove
+    } else { 
       if ((nrow(dependencySet) == 0) || !is.element(cDep, dependencySet$scenarioId)) {
-        msg <- paste0(cDepOutName, " is not a dependency of ", outName)
-        warning(msg)
-        outResults[[cDepOutName]] <- msg
+        warning(paste0(cDepOutName, " is not a dependency of ", outName))
+        outResults[[cDepOutName]] <- FALSE
       } else {
         if (force) {
           answer <- "y"
@@ -117,15 +138,20 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
         if (answer == "y") {
           args <- list(delete = NULL, dependency = NULL, lib = .filepath(x), sid = cScn, did = cDep, force = NULL)
           tt <- command(args, .session(x))
-          if (tt[1] != "saved") {
+          if (tt[1] == "saved") {
+            message(paste0("Dependency: <", cDepOutName, ">, deleted from scenario: <", outName, ">"))
+            outResults[[cDepOutName]] <- TRUE
+          } else{
             warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
+            outResults[[cDepOutName]] <- FALSE
           }
-          outResults[[cDepOutName]] <- tt[1]
         } else {
-          outResults[[cDepOutName]] <- "skipped"
+          message("Deletion of dependency ", cDepOutName," skipped")
+          outResults[[cDepOutName]] <- FALSE
         }
       }
     }
+    
   }
-  return(outResults)
+  return(invisible(outResults))
 })

@@ -8,6 +8,11 @@ NULL
 #' Backup an SsimLibrary.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
+#' 
+#' @return 
+#' This function inivisibly returns `TRUE` upon success (i.e.successful 
+#' backup) and `FALSE` upon failure.
+#' 
 #' @export
 setGeneric("backup", function(ssimObject) standardGeneric("backup"))
 
@@ -18,6 +23,7 @@ setMethod("backup", signature(ssimObject = "character"), function(ssimObject) {
 
 #' @rdname backup
 setMethod("backup", signature(ssimObject = "SsimObject"), function(ssimObject) {
+  success <- FALSE
   ds <- datasheet(ssimObject, name = "core_Backup")
   args <- list(lib = .filepath(ssimObject), backup = NULL)
 
@@ -34,5 +40,11 @@ setMethod("backup", signature(ssimObject = "SsimObject"), function(ssimObject) {
   }
 
   tt <- command(args = args, session = .session(ssimObject))
-  return(tt)
+  message(tt)
+  if (tt == "Backup complete."){
+    success <- TRUE
+  } else {
+    success <- FALSE
+  }
+  return(invisible(success))
 })

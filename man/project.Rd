@@ -27,11 +27,11 @@ project(
 \item{overwrite}{Logical. If TRUE an existing Project will be overwritten.}
 }
 \value{
-A \code{Project} object representing a SyncroSim project, or a dataframe of project names and descriptions.
+A \code{Project} object representing a SyncroSim project. If summary is `TRUE`,
+a dataframe of project names and descriptions.
 }
 \description{
-If summary = FALSE, returns one or more \code{\link{Project}} objects representing a SyncroSim projects.
-If summary = TRUE, returns project summary info.
+Creates or retrieves a project or multiple projects from a library.
 }
 \details{
 For each element of project:
@@ -60,4 +60,5 @@ myProject <- project(myLibrary, project = "My new project name")
 name(myProject)
 name(myProject) <- "New project name"
 }
+
 }

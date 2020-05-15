@@ -32,22 +32,29 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' Creates or returns a SyncroSim session.
 #'
 #' Methods to create or return a Syncrosim session.
+#' 
 #' @param x Character or SsimObject. An optional path to the SyncroSim installation.
 #' @param silent Logical. Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
 #' @param printCmd Logical. Applies only if x is a path or NULL. If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.
-#' @return A SyncroSim Session object.
+#' 
+#' @return 
+#' A SyncroSim Session object.
+#' 
 #' @examples
+#' \donttest{
 #' # Create a library using a default Session and base package
 #' myLib <- ssimLibrary(name = "mylib")
 #'
 #' # Create a library using a non-default Session
-#' mySession <- session("C:/Downloads/SyncroSim")
+#' mySession <- session()
 #' myLib <- ssimLibrary(name = "mylib", session = mySession)
 #'
 #' filepath(mySession) # Lists the folder location of syncrosim session
 #' version(mySession) # Lists the version of syncrosim session
 #' package(mySession) # Dataframe of the packages installed with this version of syncrosim.
 #' basePackage(mySession) # Dataframe of the base packages installed with this version of syncrosim.
+#' }
+#' 
 #' @export
 setGeneric("session", function(x = NULL, silent = TRUE, printCmd = FALSE) standardGeneric("session"))
 
@@ -121,7 +128,10 @@ setMethod("session", signature(x = "SsimObject"), function(x, silent, printCmd) 
 #'
 #' @param ssimObject SsimObject/Project/Scenario.
 #' @param value A SyncroSim Session.
-#' @return An SyncroSim object containing a Session.
+#' 
+#' @return 
+#' An SyncroSim object containing a Session.
+#' 
 #' @export
 setGeneric("session<-", function(ssimObject, value) standardGeneric("session<-"))
 

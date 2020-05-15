@@ -8,7 +8,11 @@ NULL
 #' Whether or not an SsimLibrary/ProjectScenario is read-only.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
-#' @return Logical.
+#' 
+#' @return 
+#' Returns a logical values: `TRUE` if the ssimObject is read only and `FALSE`
+#' otherwise.
+#' 
 #' @export
 setGeneric("readOnly", function(ssimObject) standardGeneric("readOnly"))
 
@@ -50,7 +54,12 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
 #' Applies to child objects if ssimObject is an SsimLibrary or Project.
 #'
 #' @param ssimObject Scenario/Project/SsimLibrary
+#' 
 #' @param value Logical. If T the ssimObject will be read-only.
+#' 
+#' @return 
+#' The updated ssimObject.
+#' 
 #' @export
 setGeneric("readOnly<-", function(ssimObject, value) standardGeneric("readOnly<-"))
 

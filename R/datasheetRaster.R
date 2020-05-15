@@ -8,13 +8,6 @@ NULL
 #' Get spatial inputs or outputs from one or more SyncroSim scenarios.
 #' @details
 #'
-# Off for v0.1
-# The Color column of a rat table should have one of these formats:
-# \itemize{
-#   \item {R,G,B,alpha: } {4 numbers representing red, green, blue and alpha, separated by commas, and scaled between 0 and 255. See rgb() for details.}
-#   \item {R colour names: } {See colors() for options.}
-#   \item {hexadecimal colors: } {As returned by R functions such as rainbow(), heat.colors(), terrain.colors(), topo.colors(), gray(), etc.}
-# }
 #'
 #' The names() of the returned raster stack contain metadata.
 #' For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
@@ -28,7 +21,10 @@ NULL
 #' @param timestep integer, character string, or vector of integer/character string. Timestep(s) to include. If NULL then all timesteps are included.  If no Timestep column in the datasheet, then ignored.
 #' @param subset logical expression. logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.
 #' @param forceElements logical. If TRUE then returns a single raster as a RasterStack; otherwise returns a single raster as a RasterLayer directly.
-#' @return A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
+#' 
+#' @return 
+#' A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
+#' 
 #' @examples
 #' \donttest{
 #' datasheetRaster(myResult,
@@ -36,6 +32,7 @@ NULL
 #'   subset = expression(grepl("Ts0001", Filename, fixed = T))
 #' )
 #' }
+#' 
 #' @export
 setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL, forceElements = F) standardGeneric("datasheetRaster"))
 

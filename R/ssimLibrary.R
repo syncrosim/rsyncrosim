@@ -190,6 +190,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'   \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type package in the current working directory.}
 #'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
 #' }
+#' 
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
 #' @param summary logical. Default T
 #' @param package Character. The package type. The default is "stsim".
@@ -197,7 +198,10 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param addon Character or character vector. One or more addons. See addon() for options.
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
 #' @param overwrite Logical. If TRUE an existing Library will be overwritten.
-#' @return An \code{SsimLibrary} object.
+#' 
+#' @return 
+#' An \code{SsimLibrary} object.
+#' 
 #' @examples
 #' \donttest{
 #' # Create a library using the default session
@@ -207,13 +211,14 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' myLibrary <- ssimLibrary(name = "myLib")
 #'
 #' # Create library using a specific session
-#' mySession <- session("C:/Downloads/SyncroSim")
+#' mySession <- session()
 #' myLibrary <- ssimLibrary(name = "myLib", session = mySession)
 #'
 #' session(myLibrary)
 #' filepath(myLibrary)
 #' info(myLibrary)
 #' }
+#' 
 #' @export
 setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = F, overwrite = F) standardGeneric("ssimLibrary"))
 
@@ -276,6 +281,7 @@ setMethod("info", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary) 
 # @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
 # @return "saved" or failure message.
 # @export
+
 setGeneric("deleteLibrary", function(ssimLibrary, force = F) standardGeneric("deleteLibrary"))
 
 setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, force) {

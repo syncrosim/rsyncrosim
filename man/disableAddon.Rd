@@ -18,17 +18,19 @@ disableAddon(ssimLibrary, name)
 \item{name}{Character string or vector of addon names}
 }
 \value{
-Character "saved" in case of success or error message.
+This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon 
+and `FALSE` upon failure.
 }
 \description{
 Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 }
 \examples{
+\donttest{
 myLibrary <- ssimLibrary("mylib")
 enableAddon(myLibrary, c("stsimecodep"))
 addon(myLibrary)
-\donttest{
 disableAddon(myLibrary, c("stsimecodep"))
-}
 addon(myLibrary)
+}
+
 }

@@ -5,13 +5,18 @@ NULL
 
 #' Deletes a package
 #'
-#' Deletes a package.
+#' Deletes a package from your syncrosim instalation.
+#' 
 #' @param name Character. The name of the package to delete.
 #' @param session Session.
 #' @param force logical. If T, delete without requiring confirmation from user.
-#' @return "saved" or error message.
+#' 
+#' @return 
+#' This function invisibly returns `TRUE` upon success (i.e.successful 
+#' deletion) and `FALSE` upon failure.
+#' 
 #' @export
-setGeneric("deletePackage", function(name, session = NULL, force = F) standardGeneric("deletePackage"))
+setGeneric("deletePackage", function(name, session = NULL, force = FALSE) standardGeneric("deletePackage"))
 
 #' @rdname deletePackage
 setMethod("deletePackage", signature(session = "character"), function(name, session, force) {
@@ -27,6 +32,7 @@ setMethod("deletePackage", signature(session = "missingOrNULL"), function(name, 
 #' @rdname deletePackage
 setMethod("deletePackage", signature(session = "Session"), function(name, session, force) {
   installed <- package(session)
+  success <- FALSE
 
   if (!is.element(name, installed$name)) {
     stop("The package is not installed.")
@@ -40,8 +46,13 @@ setMethod("deletePackage", signature(session = "Session"), function(name, sessio
 
   if (answer == "y") {
     tt <- command(args = list(uninstall = name), session, program = "SyncroSim.PackageManager.exe")
-    return(tt)
+    if (tt == "saved"){
+      tt <- paste0("Package <", name,"> deleted")
+      success <- TRUE
+    } 
   } else {
-    return(NULL)
+    tt <- paste0("Deletion of package <", name,"> skipped")
   }
+  message(tt)
+  return(invisible(success))
 })

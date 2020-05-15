@@ -5,10 +5,13 @@ NULL
 
 #' The projectId of a SyncroSim project or scenario.
 #'
-#' The projectId of a SyncroSim Project or Scenario.
+#' retrives the projectId of a SyncroSim Project or Scenario.
 #'
 #' @param ssimObject Project/Scenario.
-#' @return An integer project id.
+#' 
+#' @return 
+#' An integer project id.
+#' 
 #' @export
 setGeneric("projectId", function(ssimObject) standardGeneric("projectId"))
 #' @rdname projectId

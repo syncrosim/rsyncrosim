@@ -5,10 +5,14 @@ NULL
 
 #' Merge Dependencies for a Scenario.
 #'
-#' Whether or not a Scenario is configured to merge dependencies at run time.
+#' Retrieves whether or not a Scenario is configured to merge dependencies at run time.
 #'
 #' @param ssimObject Scenario
-#' @return logical.
+#' 
+#' @return 
+#' Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 
+#' and `FALSE` otherwise.
+#' 
 #' @export
 setGeneric("mergeDependencies", function(ssimObject) standardGeneric("mergeDependencies"))
 
@@ -20,15 +24,24 @@ setMethod("mergeDependencies", signature(ssimObject = "character"), function(ssi
 #' @rdname mergeDependencies
 setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssimObject) {
   scnInfo <- scenario(ssimObject, summary = T)
-  return(scnInfo$mergeDependencies)
+  if (scnInfo$mergeDependencies == "Yes"){
+    value <- TRUE
+  } else if (scnInfo$mergeDependencies == "No"){
+    value <- FALSE
+  }
+  return(value)
 })
 
 #' Merge Dependencies for a Scenario.
 #'
-#' Whether or not a Scenario is configured to merge dependencies at run time.
+#' Sets whether or not a Scenario is configured to merge dependencies at run time.
 #'
 #' @param ssimObject Scenario
 #' @param value Logical. If T the Scenario will be set to merge dependencies at runtime.
+#' 
+#' @return 
+#' The updated ssimObject.
+#' 
 #' @export
 setGeneric("mergeDependencies<-", function(ssimObject, value) standardGeneric("mergeDependencies<-"))
 

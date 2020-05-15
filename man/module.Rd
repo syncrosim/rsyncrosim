@@ -19,7 +19,7 @@ module(session)
 \item{session}{Session.}
 }
 \value{
-A dataframe of modules
+A dataframe of modules.
 }
 \description{
 Deprecated.  See: \code{\link{package}}

@@ -8,7 +8,10 @@ NULL
 #' Base packages installed with this version of SyncroSim
 #'
 #' @param ssimObject Session or SsimLibrary.
-#' @return A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary)
+#' 
+#' @return 
+#' A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary)
+#' 
 #' @export
 setGeneric("basePackage", function(ssimObject = NULL) standardGeneric("basePackage"))
 #' @rdname basePackage

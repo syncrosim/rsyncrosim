@@ -15,7 +15,10 @@ NULL
 #'
 #' @param targetDataframe Dataframe.
 #' @param value Dataframe, character string vector, or list. Columns in value should be a subset of columns in targetDataframe.
-#' @return A dataframe with new rows.
+#' 
+#' @return 
+#' A dataframe with new rows.
+#' 
 #' @export
 setGeneric("addRow", function(targetDataframe, value) standardGeneric("addRow"))
 

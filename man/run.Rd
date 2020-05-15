@@ -60,7 +60,9 @@ run(
 \item{forceElements}{Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.}
 }
 \value{
-If summary=F a result Scenario object or a named list of result Scenarios. The name is the parent scenario for each result. If summary=T returns summary info for result scenarios.
+If \code{summary = FALSE} a result Scenario object or a named list of result Scenarios. 
+The name is the parent scenario for each result. If \code{summary = TRUE}, returns summary info 
+for result scenarios.
 }
 \description{
 Run one or more SyncroSim scenarios.

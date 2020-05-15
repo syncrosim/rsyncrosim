@@ -5,7 +5,9 @@
 #'
 #' Retrieves SyncroSim specific environment variables.
 #'
-#' @return A data.frame of SyncroSim specific environment variables.
+#' @return 
+#' A data.frame of SyncroSim specific environment variables.
+#' 
 #' @export
 #' @rdname ssimEnvironment
 ssimEnvironment <- function() {

@@ -9,15 +9,20 @@ NULL
 #'
 #' @param ssimLibrary SsimLibrary
 #' @param name Character string or vector of addon names
-#' @return Character "saved" in case of success or error message.
+#' 
+#' @return
+#' This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon 
+#' and `FALSE` upon failure.
+#' 
 #' @examples
+#' \donttest{
 #' myLibrary <- ssimLibrary("mylib")
 #' enableAddon(myLibrary, c("stsimecodep"))
 #' addon(myLibrary)
-#' \donttest{
 #' disableAddon(myLibrary, c("stsimecodep"))
-#' }
 #' addon(myLibrary)
+#' }
+#' 
 #' @export
 setGeneric("disableAddon", function(ssimLibrary, name) standardGeneric("disableAddon"))
 
@@ -36,17 +41,25 @@ setMethod("disableAddon", signature(ssimLibrary = "SsimLibrary"), function(ssimL
     cVal <- name[i]
     if (!is.element(cVal, cAdds$name)) {
       print(paste0("Warning - ", cVal, " is not among the available addons: ", paste(cAdds$name[cAdds$enabled == "No"], collapse = ",")))
+      retList[[cVal]] <- FALSE
       next
     }
     cAddsLess <- subset(cAdds, enabled == T)
     if (!is.element(cVal, cAddsLess$name)) {
-      print(paste0(cVal, " is already disabled."))
+      message(paste0(cVal, " is already disabled."))
+      retList[[cVal]] <- FALSE
       next
     }
 
     tt <- command(list(delete = NULL, addon = NULL, force = NULL, lib = .filepath(ssimLibrary), name = cVal), .session(ssimLibrary))
-    retList[[cVal]] <- tt
+    if (tt == "saved"){
+      message(paste0("Addon <", cVal, "> disabled"))
+      retList[[cVal]] <- TRUE
+    } else {
+      message(tt)
+      retList[[cVal]] <- FALSE
+    }
   }
 
-  return(retList)
+  return(invisible(retList))
 })

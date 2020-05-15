@@ -31,4 +31,5 @@ The addon(s) of an SsimLibrary or Session.
 \donttest{
 addon(ssimLibrary(name = "mylib"))
 }
+
 }

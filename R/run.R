@@ -16,7 +16,12 @@ NULL
 #' @param jobs Integer. The number of jobs to run. Passed to SyncroSim where multithreading is handled.
 #' @param transformerName Character.  The name of the transformer to run.
 #' @param forceElements Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.
-#' @return If summary=F a result Scenario object or a named list of result Scenarios. The name is the parent scenario for each result. If summary=T returns summary info for result scenarios.
+#' 
+#' @return 
+#' If \code{summary = FALSE} a result Scenario object or a named list of result Scenarios. 
+#' The name is the parent scenario for each result. If \code{summary = TRUE}, returns summary info 
+#' for result scenarios.
+#' 
 #' @export
 setGeneric("run", function(ssimObject, scenario = NULL, summary = F, jobs = 1, transformerName = NULL, forceElements = F) standardGeneric("run"))
 

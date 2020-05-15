@@ -18,7 +18,8 @@ enableAddon(ssimLibrary, name)
 \item{name}{Character string or vector of addon names}
 }
 \value{
-Character "saved" in case of success or error message.
+This function invisibly returns `TRUE` upon success (i.e.successful activation of the addon 
+and `FALSE` upon failure.
 }
 \description{
 Enable addon or addons of an SsimLibrary.
@@ -31,4 +32,5 @@ addon(myLibrary)
 disableAddon(myLibrary, c("stsim-ecological-departure"))
 addon(myLibrary)
 }
+
 }

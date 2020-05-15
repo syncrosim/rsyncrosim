@@ -42,7 +42,8 @@ delete(
 \item{force}{logical. If FALSE (default), user will be prompted to approve removal of each item.}
 }
 \value{
-A list of "saved" or failure messages for each item.
+This function returns invisibly a list of boolean values corresponding to each of the
+input: `TRUE` upon success (i.e.successful deletion) and `FALSE` upon failure.
 }
 \description{
 Deletes one or more items. Note this is irreversible
@@ -55,4 +56,5 @@ project(myLibrary)
 delete(myLibrary, project = "a project")
 project(myLibrary)
 }
+
 }

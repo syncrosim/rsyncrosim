@@ -5,11 +5,14 @@ NULL
 
 #' The parent scenario id of a SyncroSim Scenario.
 #'
-#' The id of the parent of a SyncroSim results scenario.
-#' NA if scenario is not a results scenario.
+#' Retrives the id of the parent of a SyncroSim results scenario.
 #'
 #' @param scenario A Scenario object.
-#' @return An integer id of the parent scenario.
+#' 
+#' @return 
+#' An integer id of the parent scenario. If the input scenario does not have a
+#' parent, the function returns `NA`.
+#' 
 #' @export
 setGeneric("parentId", function(scenario) standardGeneric("parentId"))
 

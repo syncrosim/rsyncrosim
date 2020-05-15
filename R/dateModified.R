@@ -8,6 +8,11 @@ NULL
 #' The most recent modification date of an SsimLibrary/Project/Scenario
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
+#' 
+#' @return 
+#' A character string of the date and time of the most recent modification 
+#' to the ssimObject provided as input.
+#' 
 #' @export
 setGeneric("dateModified", function(ssimObject) standardGeneric("dateModified"))
 

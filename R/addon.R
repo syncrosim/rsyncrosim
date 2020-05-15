@@ -6,13 +6,17 @@ NULL
 #' addon(s) of an SsimLibrary or Session
 #'
 #' The addon(s) of an SsimLibrary or Session.
-#'
+#' 
 #' @param ssimObject SsimLibrary/Project/Scenario or Session.
-#' @return A dataframe of addons.
+#' 
+#' @return 
+#' A dataframe of addons.
+#' 
 #' @examples
 #' \donttest{
 #' addon(ssimLibrary(name = "mylib"))
 #' }
+#' 
 #' @export
 setGeneric("addon", function(ssimObject) standardGeneric("addon"))
 

@@ -8,6 +8,10 @@ NULL
 #' The description of an SsimLibrary/ProjectScenario.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
+#' 
+#' @return
+#' A character string describing the ssimObject.
+#' 
 #' @export
 setGeneric("description", function(ssimObject) standardGeneric("description"))
 
@@ -17,6 +21,10 @@ setGeneric("description", function(ssimObject) standardGeneric("description"))
 #'
 #' @param ssimObject Scenario/Project/SsimLibrary
 #' @param value The new description.
+#' 
+#' @return
+#' The object with updated description.
+#' 
 #' @export
 setGeneric("description<-", function(ssimObject, value) standardGeneric("description<-"))
 

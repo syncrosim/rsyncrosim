@@ -67,7 +67,8 @@ saveDatasheet(
 \item{path}{character.  An optional output path.}
 }
 \value{
-A success or failure message, or a list of these.
+This function invisibly returns a vector or list of logical values for each input: `TRUE` upon success (i.e.successful save)
+and `FALSE` upon failure.
 }
 \description{
 Saves datasheets to a SsimLibrary/Project/Scenario.

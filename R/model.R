@@ -8,7 +8,10 @@ NULL
 #' Deprecated.  See: \code{\link{package}}
 #'
 #' @param ssimObject Session or SsimLibrary.
-#' @return A dataframe of models (for Session) or named vector of character strings (for SsimLibrary)
+#' 
+#' @return 
+#' A dataframe of models (for Session) or named vector of character strings (for SsimLibrary)
+#' 
 #' @export
 setGeneric("model", function(ssimObject = NULL) standardGeneric("model"))
 

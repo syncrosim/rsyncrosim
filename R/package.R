@@ -8,8 +8,12 @@ NULL
 #' Packages or installed or available for this version of SyncroSim.
 #'
 #' @param session Session.
-#' @param installed Logical.  True to list installed packages and False to list available pacakges.
-#' @return A dataframe of packages
+#' @param installed Logical. `TRUE` to list installed packages and `FALSE` to list 
+#' available packages
+#' 
+#' @return 
+#' A dataframe of packages installed.
+#' 
 #' @export
 setGeneric("package", function(session, installed = T) standardGeneric("package"))
 

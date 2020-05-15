@@ -17,6 +17,9 @@ silent(session) <- value
 
 \item{value}{logical}
 }
+\value{
+The updated ssimObject.
+}
 \description{
 Set silent property of a sessio to TRUE or FALSE
 }

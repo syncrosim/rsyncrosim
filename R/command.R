@@ -14,12 +14,17 @@ NULL
 #'    \item Named list or named vector e.g. list(name1=NULL,name2=value2): "--name1 --name2=value2"
 #'    \item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
 #' }
+#' 
 #' @param args Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.
 #' @param session Session. If NULL, a default session will be used.
 #' @param program Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.
 #' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=FALSE.
-#' @return Output from the SyncroSim program.
+#' 
+#' @return 
+#' A chracter string, output from the SyncroSim program.
+#' 
 #' @examples
+#' \donttest{
 #' # Use a default session to create a new library in the current working directory.
 #' args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "stsim")
 #' output <- command(args, session = session(printCmd = TRUE))
@@ -29,6 +34,7 @@ NULL
 #' command(c("create", "help"))
 #' command("--create --help")
 #' command(list(create = NULL, help = NULL))
+#' }
 #' @export
 command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE) {
 

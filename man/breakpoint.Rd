@@ -12,6 +12,9 @@ breakpoint(x)
 \arguments{
 \item{x}{A SyncroSim Scenario}
 }
+\value{
+Does not return anything, used for printing purposes.
+}
 \description{
 Lists the breakpoints for a Scenario.
 }

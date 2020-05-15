@@ -76,11 +76,12 @@ myLibrary <- ssimLibrary(name = "myLib")
 myLibrary <- ssimLibrary(name = "myLib")
 
 # Create library using a specific session
-mySession <- session("C:/Downloads/SyncroSim")
+mySession <- session()
 myLibrary <- ssimLibrary(name = "myLib", session = mySession)
 
 session(myLibrary)
 filepath(myLibrary)
 info(myLibrary)
 }
+
 }

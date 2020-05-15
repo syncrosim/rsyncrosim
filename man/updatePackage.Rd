@@ -22,6 +22,10 @@ updatePackage(name = NULL, session = NULL, listonly = F)
 
 \item{listonly}{Logical.  If TRUE, available updates are listed only.}
 }
+\value{
+This function invisibly returns `TRUE` upon success (i.e.successful update)
+and `FALSE` upon failure.
+}
 \description{
 Updates a SyncroSim package.
 }

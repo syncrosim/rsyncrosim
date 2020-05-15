@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim
-Version: 1.2
+Version: 1.2.1
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -12,7 +12,7 @@ Authors@R: c(
     person("Leonardo", "Frid", 
            role = "aut"), 
     person("Valentin", "Lucet", 
-           role = "ctb"),
+           role = "aut"),
     person("ApexRMS", role="cph"))
 Description: 'SyncroSim' is a generalized framework for managing scenario-based 
     datasets (<https://syncrosim.com/>). 'rsyncrosim' provides an interface to 
@@ -89,5 +89,5 @@ Collate:
     'version.R'
 RoxygenNote: 7.1.0
 VignetteBuilder: knitr
-URL: <https://github.com/syncrosim/rsyncrosim>
-BugReports: <https://github.com/syncrosim/rsyncrosim/issues>
+URL: https://github.com/syncrosim/rsyncrosim
+BugReports: https://github.com/syncrosim/rsyncrosim/issues

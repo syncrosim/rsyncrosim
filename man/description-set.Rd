@@ -17,6 +17,9 @@ description(ssimObject) <- value
 
 \item{value}{The new description.}
 }
+\value{
+The object with updated description.
+}
 \description{
 Set the description of an SsimLibrary/ProjectScenario.
 }
