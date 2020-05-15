@@ -22,12 +22,17 @@ Duration: 1m 57.8s
 
 There was 1 note:
 
-checking CRAN incoming feasibility ... NOTE
-Maintainer: 'Colin Daniel <colin.daniel@apexrms.com>'
+  Maintainer: 'Colin Daniel <colin.daniel@apexrms.com>'
   
-New submission
+  New submission
+  
+  License components with restrictions and base license permitting such:
+    GPL-3 + file LICENSE
+  File 'LICENSE':
+    YEAR: 2016-2020
+    COPYRIGHT HOLDER: Apex Resource Management Solutions Ltd.
 
-0 errors v | 0 warnings v | 1 note x
+0 errors √ | 0 warnings √ | 1 note x
 
 ## Upstream dependencies
 
