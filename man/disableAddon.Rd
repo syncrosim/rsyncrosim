@@ -26,7 +26,10 @@ Disable addon or addons of an SsimLibrary, or Project/Scenario with an associate
 }
 \examples{
 \donttest{
-myLibrary <- ssimLibrary("mylib")
+temp_dir <- tempdir()
+myses <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+
 enableAddon(myLibrary, c("stsimecodep"))
 addon(myLibrary)
 disableAddon(myLibrary, c("stsimecodep"))

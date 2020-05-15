@@ -204,15 +204,12 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' 
 #' @examples
 #' \donttest{
-#' # Create a library using the default session
-#' myLibrary <- ssimLibrary(name = "myLib")
-#'
-#' # Open a library using the default session
-#' myLibrary <- ssimLibrary(name = "myLib")
+#' # Create or open a library using the default session
+#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
 #'
 #' # Create library using a specific session
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = "myLib", session = mySession)
+#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), session = mySession)
 #'
 #' session(myLibrary)
 #' filepath(myLibrary)

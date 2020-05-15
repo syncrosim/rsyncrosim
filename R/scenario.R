@@ -155,10 +155,14 @@ setMethod(
 #' @examples
 #' \donttest{
 #' # Create a new scenario
-#' myLibrary <- ssimLibrary(name = "stsim")
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' 
 #' myProject <- project(myLibrary, project = "a project")
 #' myScenario <- scenario(myProject, scenario = "a scenario", overwrite = T)
 #' }
+#' 
 #' @name scenario
 #' @export
 scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, summary = NULL, results = F, forceElements = F, overwrite = F) {

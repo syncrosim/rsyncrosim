@@ -29,7 +29,11 @@ The addon(s) of an SsimLibrary or Session.
 }
 \examples{
 \donttest{
-addon(ssimLibrary(name = "mylib"))
+temp_dir <- tempdir()
+myses <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+
+addon(myLibrary)
 }
 
 }

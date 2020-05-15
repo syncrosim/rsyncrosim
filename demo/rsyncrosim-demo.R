@@ -11,7 +11,7 @@ library(raster) # Required to work with spatial data
 # *************************************************************
 
 # Set the Library name
-libraryName <- "/home/<username>/syncrosim/Demonstration Library.ssim"
+libraryName <- file.path(tempdir(),"/DemonstrationLibrary.ssim")
 
 # Get the filenames for the sample raster TIF files used in this script
 stratumTif <- system.file("extdata", "initial-stratum.tif", package = "rsyncrosim")

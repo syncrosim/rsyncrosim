@@ -19,7 +19,10 @@ NULL
 #' 
 #' @examples
 #' \donttest{
-#' myLibrary <- ssimLibrary("mylib")
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' 
 #' myProject <- project(myLibrary, project = "a project")
 #' project(myLibrary)
 #' delete(myLibrary, project = "a project", force = TRUE)

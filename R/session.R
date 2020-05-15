@@ -42,12 +42,10 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' 
 #' @examples
 #' \donttest{
-#' # Create a library using a default Session and base package
-#' myLib <- ssimLibrary(name = "mylib")
-#'
-#' # Create a library using a non-default Session
+#' # Create Session
+#' temp_dir <- tempdir()
 #' mySession <- session()
-#' myLib <- ssimLibrary(name = "mylib", session = mySession)
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 #'
 #' filepath(mySession) # Lists the folder location of syncrosim session
 #' version(mySession) # Lists the version of syncrosim session
