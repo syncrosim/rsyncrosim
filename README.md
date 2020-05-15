@@ -33,7 +33,8 @@ v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/
 
 ## About `rsyncrosim`
 
-The package `rsyncrosim` is an interface for SyncroSim, a generalized framework for managing scenario-based datasets. Simulation models can be added to SyncroSim in order to transform these datasets, taking advantage of general features such as defining scenarios of model inputs, running Monte Carlo simulations, and summarizing model outputs.
+The rsyncrosim R package allows you to script and run SyncroSim
+operations in R.
 
 ### Installation
 
@@ -48,6 +49,11 @@ The package `rsyncrosim` is an interface for SyncroSim, a generalized framework 
     from) and rsyncrosim\_X.X.X.zip (for Package archive), where X.X.X
     is the version of the package.
 
+  - Run the [demonstration
+    script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R)
+    and/or view the package documentation (both also found in the doc
+    folder of the package once installed)
+
 *Linux:*
 
 Download and install the latest release of the rsyncrosim package.
@@ -56,5 +62,6 @@ Download and install the latest release of the rsyncrosim package.
 
   - Run the [demonstration
     script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R)
-    
-  - View the package [documentation](https://github.com/syncrosim/rsyncrosim/blob/dev/rsyncrosim_1.2.pdf)
+
+  - View the package
+    [documentation](https://github.com/syncrosim/rsyncrosim/blob/dev/rsyncrosim_1.2.1.pdf)

@@ -46,3 +46,10 @@ _Windows:_
 _Linux:_ 
 
 Download and install the latest release of the rsyncrosim package.
+
+### Getting Started
+
+- Run the [demonstration
+  script](https://github.com/syncrosim/rsyncrosim/blob/dev/demo/rsyncrosim-demo.R)
+    
+- View the package [documentation](https://github.com/syncrosim/rsyncrosim/blob/dev/rsyncrosim_1.2.1.pdf)
