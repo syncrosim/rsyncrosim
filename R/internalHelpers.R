@@ -196,17 +196,17 @@ printAndCapture <- function(x) {
   }
   if (csv) {
     con <- textConnection(x)
-    out <- read.csv(con, stringsAsFactors = F, header = header)
+    out <- read.csv(con, stringsAsFactors = FALSE, header = header)
     close(con)
   } else {
     if (1) {
       # Do the old wierd thing if not csv
-      while (max(grepl("   ", x, fixed = T))) {
-        x <- gsub("   ", "  ", x, fixed = T)
+      while (max(grepl("   ", x, fixed = TRUE))) {
+        x <- gsub("   ", "  ", x, fixed = TRUE)
       }
-      x <- gsub("  ", ",", x, fixed = T)
+      x <- gsub("  ", ",", x, fixed = TRUE)
       con <- textConnection(x)
-      out <- read.csv(con, stringsAsFactors = F, header = header, sep = ",", encoding = "UTF-8")
+      out <- read.csv(con, stringsAsFactors = FALSE, header = header, sep = ",", encoding = "UTF-8")
       if (!is.null(colNames)) {
         lastName <- names(out)[length(names(out))]
         if ((ncol(out) > length(colNames)) & (sum(!is.na(out[[lastName]])) == 0)) {
@@ -219,15 +219,15 @@ printAndCapture <- function(x) {
   }
   if (localNames) {
     names(out) <- gsub(" ", "", names(out))
-    names(out) <- gsub(".", "", names(out), fixed = T)
+    names(out) <- gsub(".", "", names(out), fixed = TRUE)
     names(out) <- sapply(names(out), camel)
   }
   if (!is.null(convertToLogical)) {
     for (i in seq(length.out = length(convertToLogical))) {
       cName <- convertToLogical[[i]]
       if (is.element(cName, names(out))) {
-        out[[cName]][out[[cName]] == "No"] <- F
-        out[[cName]][out[[cName]] == "Yes"] <- T
+        out[[cName]][out[[cName]] == "No"] <- FALSE
+        out[[cName]][out[[cName]] == "Yes"] <- TRUE
         out[[cName]] <- as.logical(out[[cName]])
       }
     }
@@ -255,7 +255,7 @@ printAndCapture <- function(x) {
 #
 # Note: this function is now internal. Should now only be called from datasheet.
 
-datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh = F) {
+datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh = FALSE) {
   if (!is(x, "SsimObject")) {
     stop("expecting SsimObject.")
   }
@@ -296,7 +296,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 
 # Internal helper - return uniquely identified and valid SyncroSim object
 
-.getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = F, returnIds = NULL, goal = NULL, complainIfMissing = T) {
+.getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = T) {
   # If x is scenario, ignore project and scenario arguments
   Freq <- NULL
   if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
@@ -395,10 +395,10 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     if (areIds) {
       mergeBit <- data.frame(projectId = as.numeric(as.character(project)))
     } else {
-      mergeBit <- data.frame(name = project, stringsAsFactors = F)
+      mergeBit <- data.frame(name = project, stringsAsFactors = FALSE)
     }
     mergeBit$order <- seq(1:length(project))
-    fullProjectSet <- merge(projectSet, mergeBit, all = T)
+    fullProjectSet <- merge(projectSet, mergeBit, all = TRUE)
     missingProjects <- subset(fullProjectSet, is.na(fullProjectSet$exists) & (!is.na(fullProjectSet$order)))
     if (complainIfMissing & (nrow(missingProjects) > 0)) {
       if (areIds) {
@@ -486,7 +486,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     if (areIds) {
       mergeBit <- data.frame(scenarioId = scenario)
     } else {
-      mergeBit <- data.frame(name = scenario, stringsAsFactors = F)
+      mergeBit <- data.frame(name = scenario, stringsAsFactors = FALSE)
     }
     if (!is.null(project)) {
       mergeBit$projectId <- project
@@ -568,7 +568,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 # @return "saved" or failure message.
 # @export
 
-setGeneric("deleteLibrary", function(ssimLibrary, force = F) standardGeneric("deleteLibrary"))
+setGeneric("deleteLibrary", function(ssimLibrary, force = FALSE) standardGeneric("deleteLibrary"))
 
 setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, force) {
   return(deleteLibrary(.filepath(ssimLibrary), force))

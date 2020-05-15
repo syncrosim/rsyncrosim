@@ -23,18 +23,18 @@ setMethod("basePackage", signature(ssimObject = "character"), function(ssimObjec
 #' @rdname basePackage
 setMethod("basePackage", signature(ssimObject = "missingOrNULL"), function(ssimObject) {
   ssimObject <- session()
-  if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = F))) {
+  if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
   tt <- command(c("list", "basepkgs", "csv"), ssimObject)
-  out <- .dataframeFromSSim(tt, localNames = T)
+  out <- .dataframeFromSSim(tt, localNames = TRUE)
   return(out)
 })
 
 #' @rdname basePackage
 setMethod("basePackage", signature(ssimObject = "Session"), function(ssimObject) {
   tt <- command(c("list", "basepkgs", "csv"), ssimObject)
-  out <- .dataframeFromSSim(tt, localNames = T)
+  out <- .dataframeFromSSim(tt, localNames = TRUE)
   return(out)
 })
 

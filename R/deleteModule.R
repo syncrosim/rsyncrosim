@@ -14,7 +14,7 @@ NULL
 #' @return "saved" or error message.
 #' 
 #' @export
-setGeneric("deleteModule", function(name, session = NULL, force = F) standardGeneric("deleteModule"))
+setGeneric("deleteModule", function(name, session = NULL, force = FALSE) standardGeneric("deleteModule"))
 
 #' @rdname deleteModule
 setMethod("deleteModule", signature(session = "missingOrNULLOrChar"), function(name, session, force) {

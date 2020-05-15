@@ -27,7 +27,7 @@ NULL
 #' and carrying a boolean `TRUE` upon success (i.e.successful addition or deletion) and `FALSE` upon failure.
 #' 
 #' @export
-setGeneric("dependency", function(scenario, dependency = NULL, remove = F, force = F) standardGeneric("dependency"))
+setGeneric("dependency", function(scenario, dependency = NULL, remove = FALSE, force = FALSE) standardGeneric("dependency"))
 
 #' @rdname dependency
 setMethod("dependency", signature(scenario = "character"), function(scenario, dependency, remove, force) {

@@ -23,7 +23,7 @@ setMethod("model", signature(ssimObject = "character"), function(ssimObject) {
 #' @rdname model
 setMethod("model", signature(ssimObject = "missingOrNULL"), function(ssimObject) {
   ssimObject <- session()
-  if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = F))) {
+  if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
   .Deprecated("basePackage")

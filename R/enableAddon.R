@@ -46,7 +46,7 @@ setMethod("enableAddon", signature(ssimLibrary = "SsimLibrary"), function(ssimLi
       retList[[cVal]] <- FALSE
       next
     }
-    cAddsLess <- subset(cAdds, enabled == F)
+    cAddsLess <- subset(cAdds, enabled == FALSE)
     if (!is.element(cVal, cAddsLess$name)) {
       message(paste0(cVal, " is already enabled."))
       retList[[cVal]] <- FALSE

@@ -32,14 +32,14 @@ NULL
 #' @export
 # Note delete supports character paths because sometimes we want to delete a library without updating it.
 # Note delete supports project/scenario arguments because sometimes we want to delete objects without creating them.
-setGeneric("delete", function(ssimObject, project = NULL, scenario = NULL, datasheet = NULL, force = F) standardGeneric("delete"))
+setGeneric("delete", function(ssimObject, project = NULL, scenario = NULL, datasheet = NULL, force = FALSE) standardGeneric("delete"))
 
 #' @rdname delete
 setMethod("delete", signature(ssimObject = "character"), function(ssimObject, project, scenario, datasheet, force) {
   if (is.null(datasheet) & is.null(project) & is.null(scenario)) {
     return(deleteLibrary(ssimObject, force))
   } else {
-    if (ssimObject == SyncroSimNotFound(warn = F)) {
+    if (ssimObject == SyncroSimNotFound(warn = FALSE)) {
       return(SyncroSimNotFound())
     }
     
@@ -50,7 +50,7 @@ setMethod("delete", signature(ssimObject = "character"), function(ssimObject, pr
 
 #' @rdname delete
 setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, project, scenario, datasheet, force) {
-  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = scenario, returnIds = T, convertObject = F, complainIfMissing = T)
+  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = scenario, returnIds = T, convertObject = FALSE, complainIfMissing = TRUE)
   
   # expect to have a vector of valid project or scenario ids - checking already done
   x <- xProjScn$ssimObject

@@ -160,7 +160,7 @@ setMethod(
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
 #' 
 #' myProject <- project(myLibrary, project = "a project")
-#' myScenario <- scenario(myProject, scenario = "a scenario", overwrite = T)
+#' myScenario <- scenario(myProject, scenario = "a scenario", overwrite = TRUE)
 #' }
 #' 
 #' @name scenario

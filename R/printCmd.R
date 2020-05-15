@@ -27,7 +27,7 @@ setMethod("printCmd", signature(session = "missingOrNULLOrChar"), function(sessi
   } else {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = F))) {
+  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
   return(printCmd(session))

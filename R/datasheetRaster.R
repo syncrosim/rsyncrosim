@@ -30,12 +30,12 @@ NULL
 #' ## Not run as it would require a result scenario (long runtime)
 #' datasheetRaster(myResult,
 #'   datasheet = "OutputSpatialState",
-#'   subset = expression(grepl("Ts0001", Filename, fixed = T))
+#'   subset = expression(grepl("Ts0001", Filename, fixed = TRUE))
 #' )
 #' }
 #' 
 #' @export
-setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL, forceElements = F) standardGeneric("datasheetRaster"))
+setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, subset = NULL, forceElements = FALSE) standardGeneric("datasheetRaster"))
 
 #' @rdname datasheetRaster
 setMethod("datasheetRaster", signature(ssimObject = "character"), function(ssimObject, datasheet, column, scenario, iteration, timestep, subset, forceElements) {

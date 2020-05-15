@@ -18,18 +18,18 @@ NULL
 setGeneric("package", function(session, installed = T) standardGeneric("package"))
 
 #' @rdname package
-setMethod("package", signature(session = "missingOrNULL"), function(session, installed = T) {
+setMethod("package", signature(session = "missingOrNULL"), function(session, installed = TRUE) {
   session <- .session()
   return(package(session, installed))
 })
 
 #' @rdname package
-setMethod("package", signature(session = "character"), function(session, installed = T) {
+setMethod("package", signature(session = "character"), function(session, installed = TRUE) {
   return(SyncroSimNotFound(session, installed))
 })
 
 #' @rdname package
-setMethod("package", signature(session = "Session"), function(session, installed = T) {
+setMethod("package", signature(session = "Session"), function(session, installed = TRUE) {
   arg <- "installed"
 
   if (!installed) {
@@ -44,7 +44,7 @@ setMethod("package", signature(session = "Session"), function(session, installed
   } else if (grepl("The remote name could not be resolved", tt[1])) {
     out <- "Could not connect to the package server."
   } else {
-    out <- .dataframeFromSSim(tt, colNames = c("name", "displayName", "version"), csv = F)
+    out <- .dataframeFromSSim(tt, colNames = c("name", "displayName", "version"), csv = FALSE)
   }
   return(out)
 })

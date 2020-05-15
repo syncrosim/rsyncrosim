@@ -28,12 +28,12 @@ setMethod("addRow",
   definition = function(targetDataframe, value) {
     inNames <- names(value)
     if (class(value) == "character") {
-      value <- as.data.frame(t(value), stringsAsFactors = F)
+      value <- as.data.frame(t(value), stringsAsFactors = FALSE)
     }
 
     # if value is list
     if (class(value) == "list") {
-      value <- as.data.frame(value, stringsAsFactors = F)
+      value <- as.data.frame(value, stringsAsFactors = FALSE)
 
       if (nrow(value) != 1) {
         stop("Can't convert value to a single row data frame.")
