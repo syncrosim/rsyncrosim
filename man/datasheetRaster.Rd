@@ -16,7 +16,7 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   subset = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{datasheetRaster}{character}(
@@ -27,7 +27,7 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   subset = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{datasheetRaster}{list}(
@@ -38,7 +38,7 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   subset = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{datasheetRaster}{SsimObject}(
@@ -49,7 +49,7 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   subset = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{datasheetRaster}{Scenario}(
@@ -60,7 +60,7 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   subset = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 }
 \arguments{
@@ -96,7 +96,7 @@ For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scen
 ## Not run as it would require a result scenario (long runtime)
 datasheetRaster(myResult,
   datasheet = "OutputSpatialState",
-  subset = expression(grepl("Ts0001", Filename, fixed = T))
+  subset = expression(grepl("Ts0001", Filename, fixed = TRUE))
 )
 }
 

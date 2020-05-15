@@ -6,11 +6,11 @@
 \alias{dependency,Scenario-method}
 \title{Set or remove Scenario dependency(s), or get existing dependencies.}
 \usage{
-dependency(scenario, dependency = NULL, remove = F, force = F)
+dependency(scenario, dependency = NULL, remove = FALSE, force = FALSE)
 
-\S4method{dependency}{character}(scenario, dependency = NULL, remove = F, force = F)
+\S4method{dependency}{character}(scenario, dependency = NULL, remove = FALSE, force = FALSE)
 
-\S4method{dependency}{Scenario}(scenario, dependency = NULL, remove = F, force = F)
+\S4method{dependency}{Scenario}(scenario, dependency = NULL, remove = FALSE, force = FALSE)
 }
 \arguments{
 \item{scenario}{Scenario. The scenario to which a dependency is to be added (or has already been added if remove=TRUE).}

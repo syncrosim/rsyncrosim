@@ -56,7 +56,7 @@ An \code{SsimLibrary} object.
 }
 \description{
 Creates or opens an \code{\link{SsimLibrary}} object.
-If summary = T, returns library summary info.
+If summary = TRUE, returns library summary info.
 If summary = NULL, returns library summary info if ssimObject is an SsimLibrary, SsimLibrary object otherwise.
 }
 \details{

@@ -52,7 +52,7 @@ myProject <- project(ssimObject = myLibrary, project = "My new project name")
 
 # Get a named list of existing Projects.
 # Each element in the list is named by a character version of the Project ID.
-myProjects <- project(myLibrary, summary = F)
+myProjects <- project(myLibrary, summary = FALSE)
 names(myProjects) # vector of the project ids
 
 # Get an existing Project.

@@ -11,7 +11,7 @@ delete(
   project = NULL,
   scenario = NULL,
   datasheet = NULL,
-  force = F
+  force = FALSE
 )
 
 \S4method{delete}{character}(
@@ -19,7 +19,7 @@ delete(
   project = NULL,
   scenario = NULL,
   datasheet = NULL,
-  force = F
+  force = FALSE
 )
 
 \S4method{delete}{SsimObject}(
@@ -27,7 +27,7 @@ delete(
   project = NULL,
   scenario = NULL,
   datasheet = NULL,
-  force = F
+  force = FALSE
 )
 }
 \arguments{

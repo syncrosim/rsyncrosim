@@ -6,11 +6,11 @@
 \alias{deleteModule,ANY,Session-method}
 \title{Delete module or modules}
 \usage{
-deleteModule(name, session = NULL, force = F)
+deleteModule(name, session = NULL, force = FALSE)
 
-\S4method{deleteModule}{ANY,missingOrNULLOrChar}(name, session = NULL, force = F)
+\S4method{deleteModule}{ANY,missingOrNULLOrChar}(name, session = NULL, force = FALSE)
 
-\S4method{deleteModule}{ANY,Session}(name, session = NULL, force = F)
+\S4method{deleteModule}{ANY,Session}(name, session = NULL, force = FALSE)
 }
 \arguments{
 \item{name}{Character string or vector of these. A module or vector of modules to remove. See modules() for options.}

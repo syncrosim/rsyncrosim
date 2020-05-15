@@ -9,11 +9,11 @@
 \usage{
 package(session, installed = T)
 
-\S4method{package}{missingOrNULL}(session, installed = T)
+\S4method{package}{missingOrNULL}(session, installed = TRUE)
 
-\S4method{package}{character}(session, installed = T)
+\S4method{package}{character}(session, installed = TRUE)
 
-\S4method{package}{Session}(session, installed = T)
+\S4method{package}{Session}(session, installed = TRUE)
 }
 \arguments{
 \item{session}{Session.}
