@@ -14,7 +14,7 @@ Tn this version we have addressed all the comments provided by Martina Schmirl:
 * The \value field has been added/updated for all functions
 * All default path have been removed and examples/vignette code uses tempdir()
 * Most \donrun{} instances have been replaced with \donttest{}
-  * **This is likely to cause R CMD check to fail on the CRAN servers as in R 4.0, CMD check now runs examples wrapped in donttest, and this code requires SyncroSim installed (see the Upstream dependencies Section below).**
+  * **This is likely to cause R CMD check to produce an error on the CRAN servers as in R 4.0, CMD check now runs examples wrapped in \donttest{}, and this code requires SyncroSim installed (see the Upstream dependencies Section below).**
 * The behavior of functions that returned strings and printed them has been modified to using message(). Those functions now returns a boolean invisibly.
 
 ## R CMD check results
