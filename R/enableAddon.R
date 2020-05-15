@@ -16,7 +16,10 @@ NULL
 #' 
 #' @examples
 #' \donttest{
-#' myLibrary <- ssimLibrary()
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' 
 #' enableAddon(myLibrary, c("stsim-ecological-departure"))
 #' addon(myLibrary)
 #' disableAddon(myLibrary, c("stsim-ecological-departure"))

@@ -26,7 +26,8 @@ NULL
 #' A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' ## Not run as it would require a result scenario (long runtime)
 #' datasheetRaster(myResult,
 #'   datasheet = "OutputSpatialState",
 #'   subset = expression(grepl("Ts0001", Filename, fixed = T))

@@ -209,12 +209,19 @@ getBPNameLongForm <- function(breakpointType) {
 #' 
 #' @details Breakpoints are only supported for Stochastic Time Transformers.
 #' 
-#' @examples
+#' @examples 
 #' \donttest{
 #' callbackFunction <- function(x, iteration, timestep) {
 #'   print(paste0("Breakpoint hit: ", scenarioId(x)))
 #' }
-#' myScenario <- addBreakpoint(myScenario, "stsim_Runtime", "bi", callbackFunction)
+#' 
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' myScenario <- scenario(mylib, "testScenario")
+#' 
+#' myScenario <- addBreakpoint(x= myScenario, transformerName= "stsim_Runtime", breakpointType = "bi", 
+#'               arguments = c(1,2), callback = callbackFunction)
 #' }
 #' @export
 setGeneric("addBreakpoint", function(x, transformerName, breakpointType, arguments, callback) standardGeneric("addBreakpoint"))
@@ -249,6 +256,12 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
 #' 
 #' @examples
 #' \donttest{
+#' 
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' myScenario <- scenario(mylib, "testScenario")
+#' 
 #' myScenario <- deleteBreakpoint(myScenario)
 #' myScenario <- deleteBreakpoint(myScenario, transformerName = "stsim_Runtime")
 #' }

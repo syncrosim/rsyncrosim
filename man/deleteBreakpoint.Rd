@@ -24,6 +24,12 @@ This function will delete a Scenario breakpoint.
 }
 \examples{
 \donttest{
+
+temp_dir <- tempdir()
+myses <- session()
+mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+myScenario <- scenario(mylib, "testScenario")
+
 myScenario <- deleteBreakpoint(myScenario)
 myScenario <- deleteBreakpoint(myScenario, transformerName = "stsim_Runtime")
 }

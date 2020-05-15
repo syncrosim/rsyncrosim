@@ -147,9 +147,12 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' 
 #' @examples
 #' \donttest{
-#' # Load a Library and create a new Project
-#' myLibrary <- ssimLibrary(name = "stsim")
-#' myProject <- project(ssimLibrary = myLibrary, project = "My new project name")
+#' # Create a Library and create a new Project
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' 
+#' myProject <- project(ssimObject = myLibrary, project = "My new project name")
 #'
 #' # Get a named list of existing Projects.
 #' # Each element in the list is named by a character version of the Project ID.

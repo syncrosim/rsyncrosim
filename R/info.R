@@ -5,7 +5,7 @@
 #' @param ssimLibrary A \code{SsimLibrary} object.
 #' 
 #' @return 
-#' A \code{data.frame} with information on the properties of the library object.
+#' A \code{data.frame} with informations on the properties of the library object.
 #' 
 #' @export
 setGeneric("info", function(ssimLibrary) standardGeneric("info"))
