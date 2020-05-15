@@ -5,16 +5,16 @@
 
 ## Resubmission
 This is a resubmission. 
-Tn this version we have addressed all the comments provided by Martina Schmirl:
+In this version we have addressed all the comments provided by Martina Schmirl:
 
 * License file has been replaced
 * Package name formatting has been updated
 * Version requirements have been clarified
 * Links to the API and its documentation have been added with the right format (i.e. <"">)
-* The \value field has been added/updated for all functions
+* The \\value field has been added/updated for all functions
 * All default path have been removed and examples/vignette code uses tempdir()
-* Most \donrun{} instances have been replaced with \donttest{}
-  * **This is likely to cause R CMD check to produce an error on the CRAN servers as in R 4.0, CMD check now runs examples wrapped in \donttest{}, and this code requires SyncroSim installed (see the Upstream dependencies Section below).**
+* Most \\dontrun{} instances have been replaced with \\donttest{}
+  * **This is likely to cause R CMD check to produce an error on the CRAN servers as in R 4.0, CMD check now runs examples wrapped in \\donttest{}, and this code requires SyncroSim installed (see the Upstream dependencies Section below).**
 * The behavior of functions that returned strings and printed them has been modified to using message(). Those functions now returns a boolean invisibly.
 
 ## R CMD check results
