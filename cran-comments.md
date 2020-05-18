@@ -4,8 +4,12 @@
 * Ubuntu 18.04 (CI (GitHub actions), release 3.6.3 and devel 4.0)
 
 ## Resubmission
-This is a resubmission. 
-In this version we have addressed all the comments provided by Martina Schmirl:
+This is a second resubmission. 
+In version 1.2.2 we addressed all the comments provided by Uwe Ligges:
+
+* License field and descripton file have been updated
+
+In version 1.2.1 we addressed all the comments provided by Martina Schmirl:
 
 * License file has been replaced
 * Package name formatting has been updated
@@ -25,12 +29,6 @@ There was 1 note:
   Maintainer: 'Colin Daniel <colin.daniel@apexrms.com>'
   
   New submission
-  
-  License components with restrictions and base license permitting such:
-    GPL-3 + file LICENSE
-  File 'LICENSE':
-    YEAR: 2016-2020
-    COPYRIGHT HOLDER: Apex Resource Management Solutions Ltd.
 
 0 errors √ | 0 warnings √ | 1 note x
 

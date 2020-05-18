@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to SyncroSim
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -21,7 +21,7 @@ Description: 'SyncroSim' is a generalized framework for managing scenario-based
     defining scenarios of model inputs, running Monte Carlo simulations, and 
     summarizing model outputs. rsyncrosim requires Syncrosim 2.2.13 or higher 
     (API documentation: <http://docs.syncrosim.com/>).
-License: GPL-3 + file LICENSE
+License: MIT + file LICENSE
 LazyData: TRUE
 Encoding: UTF-8
 Imports:

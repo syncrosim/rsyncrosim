@@ -5,8 +5,7 @@
 
 ## The R interface to SyncroSim
 
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)
 
 ## About SyncroSim
