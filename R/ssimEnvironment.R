@@ -39,11 +39,11 @@ envValidateEnvironment <- function() {
 envCreateScenarioFolder <- function(scenario, parentFolder, datasheetName) {
   sidpart <- paste0("Scenario-", scenario@scenarioId)
 
-  p <- gsub("\\", "/", parentFolder, fixed = T)
+  p <- gsub("\\", "/", parentFolder, fixed = TRUE)
   f <- file.path(p, sidpart, datasheetName, fsep = .Platform$file.sep)
 
   if (!dir.exists(f)) {
-    dir.create(f, recursive = T)
+    dir.create(f, recursive = TRUE)
   }
 
   return(f)
@@ -51,12 +51,12 @@ envCreateScenarioFolder <- function(scenario, parentFolder, datasheetName) {
 
 envCreateTempFolder <- function(folderName) {
   t <- ssimEnvironment()$TempDirectory
-  p <- gsub("\\", "/", t, fixed = T)
+  p <- gsub("\\", "/", t, fixed = TRUE)
 
   f <- file.path(p, folderName, fsep = .Platform$file.sep)
 
   if (!dir.exists(f)) {
-    dir.create(f, recursive = T)
+    dir.create(f, recursive = TRUE)
   }
 
   return(f)

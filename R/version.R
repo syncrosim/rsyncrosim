@@ -24,6 +24,6 @@ setMethod("version", signature(session = "missingOrNULL"), function(session) {
 #' @rdname version
 setMethod("version", signature(session = "Session"), function(session) {
   version <- command(list(version = NULL), session)
-  version <- gsub("Version is: ", "", version, fixed = T)
+  version <- gsub("Version is: ", "", version, fixed = TRUE)
   return(version)
 })

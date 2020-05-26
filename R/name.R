@@ -29,13 +29,13 @@ setMethod("name", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
 
 #' @rdname name
 setMethod("name", signature(ssimObject = "Scenario"), function(ssimObject) {
-  scnInfo <- scenario(ssimObject, summary = T)
+  scnInfo <- scenario(ssimObject, summary = TRUE)
   return(scnInfo$name)
 })
 
 #' @rdname name
 setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
-  info <- project(ssimObject, summary = T)
+  info <- project(ssimObject, summary = TRUE)
   return(info$name)
 })
 

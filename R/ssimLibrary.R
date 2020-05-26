@@ -5,7 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = F, overwrite = F) {
+  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = FALSE, overwrite = FALSE) {
     enabled <- NULL
 
     if (is.null(session)) {
@@ -51,7 +51,7 @@ setMethod(
 
     if (overwrite) {
       if (file.exists(path)) {
-        deleteLibrary(path, force = T)
+        deleteLibrary(path, force = TRUE)
       }
     }
 
@@ -66,7 +66,7 @@ setMethod(
       }
       
       pathBits <- strsplit(path, "/")[[1]]
-      dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = F)
+      dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = FALSE)
 
       if (!exists("packageOptions")) {
         packageOptions <- basePackage(session)
@@ -102,7 +102,7 @@ setMethod(
         updateMessage <- command(UpdateArgs, session)
         updateMessage <- paste(updateMessage, collapse = " ")
 
-        if (grepl("Update complete", updateMessage, fixed = T)) {
+        if (grepl("Update complete", updateMessage, fixed = TRUE)) {
           updateMessage <- "saved"
         }
 
@@ -160,9 +160,9 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = F, overwrite = F) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric(".ssimLibrary"))
 
-setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, forceUpdate, overwrite = F) {
+setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, forceUpdate, overwrite = FALSE) {
   return(new("SsimLibrary", name, package, session, addon, forceUpdate))
 })
 
@@ -192,7 +192,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' }
 #' 
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
-#' @param summary logical. Default T
+#' @param summary logical. Default TRUE
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See addon() for options.
@@ -217,19 +217,19 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' }
 #' 
 #' @export
-setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = F, overwrite = F) standardGeneric("ssimLibrary"))
+setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric("ssimLibrary"))
 
 #' @rdname ssimLibrary
 setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, forceUpdate, overwrite) {
   if (class(name) == "SsimLibrary") {
     out <- name
     if (is.null(summary)) {
-      summary <- T
+      summary <- TRUE
     }
   } else {
     out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, forceUpdate, overwrite)
     if (is.null(summary)) {
-      summary <- F
+      summary <- FALSE
     }
   }
   if (!summary) {
@@ -243,7 +243,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
   if (is.null(session)) {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = F))) {
+  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
 

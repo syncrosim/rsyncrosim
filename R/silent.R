@@ -25,7 +25,7 @@ setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session
   } else {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = F))) {
+  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
   return(silent(session))

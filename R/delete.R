@@ -50,7 +50,7 @@ setMethod("delete", signature(ssimObject = "character"), function(ssimObject, pr
 
 #' @rdname delete
 setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, project, scenario, datasheet, force) {
-  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = scenario, returnIds = T, convertObject = FALSE, complainIfMissing = TRUE)
+  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
   
   # expect to have a vector of valid project or scenario ids - checking already done
   x <- xProjScn$ssimObject
@@ -86,7 +86,7 @@ setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, p
     
     if (!is.null(datasheet)) {
       if (is.element(class(ssimObject), c("Project", "Scenario"))) {
-        datasheets <- .datasheets(ssimObject, refresh = T)
+        datasheets <- .datasheets(ssimObject, refresh = TRUE)
       } else {
         datasheets <- .datasheets(.project(ssimObject, project = project[1]))
       }
@@ -150,11 +150,11 @@ setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, p
     
     if (!is.null(datasheet)) {
       if (is.element(class(ssimObject), c("Scenario"))) {
-        datasheets <- .datasheets(ssimObject, refresh = T)
-        scenarioSet <- scenario(.ssimLibrary(ssimObject), summary = T)
+        datasheets <- .datasheets(ssimObject, refresh = TRUE)
+        scenarioSet <- scenario(.ssimLibrary(ssimObject), summary = TRUE)
       } else {
         datasheets <- .datasheets(.scenario(ssimObject, scenario = scenario[1]))
-        scenarioSet <- scenario(ssimObject, summary = T)
+        scenarioSet <- scenario(ssimObject, summary = TRUE)
       }
     }
     

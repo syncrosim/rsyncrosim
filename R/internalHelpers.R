@@ -188,11 +188,11 @@ printAndCapture <- function(x) {
 #
 # Note: this function is now internal. Should now only be called from datasheet.
 
-.dataframeFromSSim <- function(x, colNames = NULL, csv = T, localNames = T, convertToLogical = NULL) {
+.dataframeFromSSim <- function(x, colNames = NULL, csv = TRUE, localNames = TRUE, convertToLogical = NULL) {
   if (is.null(colNames)) {
-    header <- T
+    header <- TRUE
   } else {
-    header <- F
+    header <- FALSE
   }
   if (csv) {
     con <- textConnection(x)
@@ -296,7 +296,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 
 # Internal helper - return uniquely identified and valid SyncroSim object
 
-.getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = T) {
+.getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = TRUE) {
   # If x is scenario, ignore project and scenario arguments
   Freq <- NULL
   if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
@@ -322,9 +322,9 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     goal <- "project"
     if (is.null(returnIds)) {
       if (length(project) > 1) {
-        returnIds <- T
+        returnIds <- TRUE
       } else {
-        returnIds <- F
+        returnIds <- FALSE
       }
     }
   }
@@ -333,9 +333,9 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     goal <- "scenario"
     if (is.null(returnIds)) {
       if (length(scenario) > 1) {
-        returnIds <- T
+        returnIds <- TRUE
       } else {
-        returnIds <- F
+        returnIds <- FALSE
       }
     }
   }
@@ -492,7 +492,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       mergeBit$projectId <- project
     }
     mergeBit$order <- seq(1:length(scenario))
-    fullScnSet <- merge(scnSet, mergeBit, all = T)
+    fullScnSet <- merge(scnSet, mergeBit, all = TRUE)
     missingScns <- subset(fullScnSet, is.na(fullScnSet$exists) & (!is.na(fullScnSet$order)))
     if (complainIfMissing & (nrow(missingScns) > 0)) {
       if (areIds) {
@@ -511,7 +511,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     makeSum <- sum(!is.na(fullScnSet$order) & is.na(fullScnSet$exists))
     if (makeSum > 0) {
       if (is.null(project)) {
-        allProjects <- project(ssimObject, summary = T)
+        allProjects <- project(ssimObject, summary = TRUE)
         if (nrow(allProjects) > 1) {
           stop("Can't create new scenarios because there is more than one project in the ssimObject. Please specify the Project ssimObject to which new scenarios should belong.")
         }
@@ -589,10 +589,10 @@ setMethod("deleteLibrary", signature(ssimLibrary = "character"), function(ssimLi
       return(paste0("Failed to delete ", ssimLibrary))
     }
     
-    unlink(paste0(ssimLibrary, ".backup"), recursive = T, force = T)
-    unlink(paste0(ssimLibrary, ".input"), recursive = T, force = T)
-    unlink(paste0(ssimLibrary, ".output"), recursive = T, force = T)
-    unlink(paste0(ssimLibrary, ".temp"), recursive = T, force = T)
+    unlink(paste0(ssimLibrary, ".backup"), recursive = TRUE, force = TRUE)
+    unlink(paste0(ssimLibrary, ".input"), recursive = TRUE, force = TRUE)
+    unlink(paste0(ssimLibrary, ".output"), recursive = TRUE, force = TRUE)
+    unlink(paste0(ssimLibrary, ".temp"), recursive = TRUE, force = TRUE)
     
     return("saved")
   } else {

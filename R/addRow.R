@@ -67,7 +67,7 @@ setMethod("addRow",
     }
 
     # Note - will not add row if that exact row already exists.
-    out <- merge(targetDataframe, value, all = T)
+    out <- merge(targetDataframe, value, all = TRUE)
 
     # Now fill in missing factor values if possible
     for (i in seq(length.out = ncol(out))) {

@@ -28,23 +28,23 @@ setMethod("readOnly", signature(ssimObject = "SsimLibrary"), function(ssimObject
   oVal <- subset(cInfo, property == "Read Only:")$value
   rVal <- oVal
   if (oVal == "Yes") {
-    rVal <- T
+    rVal <- TRUE
   }
   if (oVal == "No") {
-    rVal <- F
+    rVal <- FALSE
   }
   return(rVal)
 })
 
 #' @rdname readOnly
 setMethod("readOnly", signature(ssimObject = "Project"), function(ssimObject) {
-  scnInfo <- project(ssimObject, summary = T)
+  scnInfo <- project(ssimObject, summary = TRUE)
   return(scnInfo$readOnly)
 })
 
 #' @rdname readOnly
 setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
-  scnInfo <- scenario(ssimObject, summary = T)
+  scnInfo <- scenario(ssimObject, summary = TRUE)
   return(scnInfo$readOnly)
 })
 
@@ -80,7 +80,7 @@ setReplaceMethod(
     if (class(value) != "logical") {
       stop("readOnly must be TRUE or FALSE.")
     }
-    if (value == T) {
+    if (value == TRUE) {
       readOnly <- "yes"
     } else {
       readOnly <- "no"

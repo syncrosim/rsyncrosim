@@ -23,7 +23,7 @@ setMethod("mergeDependencies", signature(ssimObject = "character"), function(ssi
 
 #' @rdname mergeDependencies
 setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssimObject) {
-  scnInfo <- scenario(ssimObject, summary = T)
+  scnInfo <- scenario(ssimObject, summary = TRUE)
   if (scnInfo$mergeDependencies == "Yes"){
     value <- TRUE
   } else if (scnInfo$mergeDependencies == "No"){
@@ -37,7 +37,7 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
 #' Sets whether or not a Scenario is configured to merge dependencies at run time.
 #'
 #' @param ssimObject Scenario
-#' @param value Logical. If T the Scenario will be set to merge dependencies at runtime.
+#' @param value Logical. If TRUE the Scenario will be set to merge dependencies at runtime.
 #' 
 #' @return 
 #' The updated ssimObject.
@@ -62,7 +62,7 @@ setReplaceMethod(
     if (class(value) != "logical") {
       stop("mergeDependencies must be TRUE or FALSE.")
     }
-    if (value == T) {
+    if (value == TRUE) {
       mergeDeps <- "yes"
     } else {
       mergeDeps <- "no"

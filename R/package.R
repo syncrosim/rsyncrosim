@@ -15,7 +15,7 @@ NULL
 #' A dataframe of packages installed.
 #' 
 #' @export
-setGeneric("package", function(session, installed = T) standardGeneric("package"))
+setGeneric("package", function(session, installed = TRUE) standardGeneric("package"))
 
 #' @rdname package
 setMethod("package", signature(session = "missingOrNULL"), function(session, installed = TRUE) {

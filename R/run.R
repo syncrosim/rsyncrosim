@@ -23,11 +23,11 @@ NULL
 #' for result scenarios.
 #' 
 #' @export
-setGeneric("run", function(ssimObject, scenario = NULL, summary = F, jobs = 1, transformerName = NULL, forceElements = F) standardGeneric("run"))
+setGeneric("run", function(ssimObject, scenario = NULL, summary = FALSE, jobs = 1, transformerName = NULL, forceElements = FALSE) standardGeneric("run"))
 
 #' @rdname run
 setMethod("run", signature(ssimObject = "character"), function(ssimObject, scenario, summary, jobs, transformerName, forceElements) {
-  if (ssimObject == SyncroSimNotFound(warn = F)) {
+  if (ssimObject == SyncroSimNotFound(warn = FALSE)) {
     return(SyncroSimNotFound())
   }
   ssimObject <- .ssimLibrary(ssimObject)
@@ -46,7 +46,7 @@ setMethod("run", signature(ssimObject = "list"), function(ssimObject, scenario, 
 
 #' @rdname run
 setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scenario, summary, jobs, transformerName, forceElements) {
-  xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, convertObject = T, returnIds = T, goal = "scenario", complainIfMissing = T)
+  xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, convertObject = TRUE, returnIds = TRUE, goal = "scenario", complainIfMissing = TRUE)
   # Now assume scenario is x is valid object and scenario is valid vector of scenario ids
   x <- xProjScn$ssimObject
   scenario <- xProjScn$scenario
@@ -85,7 +85,7 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
 
       for (i in tt) {
         if (startsWith(i, "Result scenario ID is:")) {
-          resultId <- strsplit(i, ": ", fixed = T)[[1]][2]
+          resultId <- strsplit(i, ": ", fixed = TRUE)[[1]][2]
         } else {
           print(i)
         }
@@ -139,7 +139,7 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
   if (summary && (class(out) == "list")) {
     # summary info for ids
     scnSelect <- unlist(out)
-    out <- .scenario(x, scenario = scnSelect, summary = T)
+    out <- .scenario(x, scenario = scnSelect, summary = TRUE)
   }
 
   if (!forceElements && (class(out) == "list") && (length(out) == 1)) {
@@ -193,8 +193,8 @@ setMethod("run", signature(ssimObject = "BreakpointSession"), function(ssimObjec
     )
 
     tempPath <- paste0(filepath(x@scenario), ".temp/Scenario-", .scenarioId(x@scenario), "/SSimJobs")
-    tempFiles <- list.files(tempPath, include.dirs = F)
-    tempFiles <- tempFiles[grepl(".ssim", tempFiles, fixed = T) & !grepl(".ssim.input", tempFiles, fixed = T) & !grepl(".ssim.output", tempFiles, fixed = T)]
+    tempFiles <- list.files(tempPath, include.dirs = FALSE)
+    tempFiles <- tempFiles[grepl(".ssim", tempFiles, fixed = TRUE) & !grepl(".ssim.input", tempFiles, fixed = TRUE) & !grepl(".ssim.output", tempFiles, fixed = TRUE)]
     if (length(tempFiles) <= 1) {
       resp <- writeLines("shutdown", connection(x), sep = "")
       close(connection(x))
@@ -258,7 +258,7 @@ setMethod("run", signature(ssimObject = "BreakpointSession"), function(ssimObjec
     )
 
     # remove temporary directory
-    unlink(paste0(filepath(x@scenario), ".temp/Scenario-", .scenarioId(x@scenario)), recursive = T)
+    unlink(paste0(filepath(x@scenario), ".temp/Scenario-", .scenarioId(x@scenario)), recursive = TRUE)
 
     return(ret)
   }

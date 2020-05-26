@@ -14,17 +14,17 @@ test_that("Tests of Session - assumes SyncroSim is installed", {
   skip_on_cran()
   expect_is(mySsim, "Session")
   expect_equal(file.exists(filepath(mySsim)), TRUE) # Lists the folder location of syncrosim session
-  expect_output(str(version(mySsim)), "chr", fixed = T) # Lists the version of syncrosim session
+  expect_output(str(version(mySsim)), "chr", fixed = TRUE) # Lists the version of syncrosim session
   expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
   expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
 
-  mySession <- session(silent = F) # modify default session settings
-  expect_equal(silent(mySession), F)
-  silent(mySession) <- T
-  expect_equal(silent(mySession), T)
-  expect_output(session(printCmd = T), "--version")
+  mySession <- session(silent = FALSE) # modify default session settings
+  expect_equal(silent(mySession), FALSE)
+  silent(mySession) <- TRUE
+  expect_equal(silent(mySession), TRUE)
+  expect_output(session(printCmd = TRUE), "--version")
 })
 
 test_that("Tests of command  - assumes SyncroSim is installed", {
@@ -34,7 +34,7 @@ test_that("Tests of command  - assumes SyncroSim is installed", {
   expect_equal(command("--create --help", mySsim)[1], "Creates an item")
   expect_equal(command(list(create = NULL, help = NULL), mySsim)[1], "Creates an item")
 
-  ret <- delete(paste0(getwd(), "/temp.ssim"), force = T)
+  ret <- delete(paste0(getwd(), "/temp.ssim"), force = TRUE)
   args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "nonexistentpackage")
   output <- command(args, mySsim)
   expect_equal(output[1], "The specified package is not installed.")
@@ -45,7 +45,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   myLibrary <- ssimLibrary(name = "temp", session = mySsim) # create new library using default model
   expect_equal(file.exists(filepath(myLibrary)), TRUE)
   expect_equal(as.character(basePackage(myLibrary)$name), "stsim")
-  expect_equal(delete(myLibrary, force = T), TRUE)
+  expect_equal(delete(myLibrary, force = TRUE), TRUE)
   expect_equal(file.exists(filepath(myLibrary)), FALSE)
 
   myLibrary <- ssimLibrary(name = "SSimLibrary", session = mySsim)
@@ -57,7 +57,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   allAdds <- addon(myLibrary)
   expect_equal(names(allAdds), c("name", "description", "enabled", "currentVersion", "minimumVersion"))
   expect_equal(names(addon(mySsim)), c("name", "description", "version", "extends"))
-  expect_equal(delete(myLibrary, force = T), TRUE)
+  expect_equal(delete(myLibrary, force = TRUE), TRUE)
 
   allAdds <- subset(allAdds, name != "stsim-cbm") # Requires stsim-stockflow to be added first
 
@@ -77,31 +77,31 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   # Changed from NA to FALSE to match updated behaviors
   expect_equal(ssimUpdate(myLibrary), FALSE)
   expect_equal(names(ssimLibrary(myLibrary, session = mySsim)), c("property", "value"))
-  expect_equal(class(ssimLibrary(myLibrary, summary = F, mySsim))[1], "SsimLibrary")
+  expect_equal(class(ssimLibrary(myLibrary, summary = FALSE, mySsim))[1], "SsimLibrary")
 
   name(myLibrary) <- "Fred"
   expect_equal(name(myLibrary), "Fred")
   expect_equal(backup(myLibrary), TRUE)
-  expect_equal(dir.exists(paste0(filepath(myLibrary), ".backup")), T)
+  expect_equal(dir.exists(paste0(filepath(myLibrary), ".backup")), TRUE)
 
   description(myLibrary) <- "A new description.\nTry a linebreak." # NOTE: \n adds a linebreak to the description
   expect_equal(description(myLibrary)[2], "Try a linebreak.")
 
   owner(myLibrary) <- "Fred"
   expect_equal(owner(myLibrary), "Fred")
-  readOnly(myLibrary) <- T
-  expect_equal(readOnly(myLibrary), T)
-  readOnly(myLibrary) <- F
-  expect_equal(readOnly(myLibrary), F)
-  expect_equal(grepl("at", dateModified(myLibrary)), T)
-  ret <- delete(myLibrary, force = T)
+  readOnly(myLibrary) <- TRUE
+  expect_equal(readOnly(myLibrary), TRUE)
+  readOnly(myLibrary) <- FALSE
+  expect_equal(readOnly(myLibrary), FALSE)
+  expect_equal(grepl("at", dateModified(myLibrary)), TRUE)
+  ret <- delete(myLibrary, force = TRUE)
 })
 
 test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   skip_on_cran()
 
-  ret <- delete(paste0(getwd(), "/temp26.ssim"), force = T) # delete a library specified by a path
-  ret <- delete(paste0(getwd(), "/temp27.ssim"), force = T)
+  ret <- delete(paste0(getwd(), "/temp26.ssim"), force = TRUE) # delete a library specified by a path
+  ret <- delete(paste0(getwd(), "/temp27.ssim"), force = TRUE)
   myLib <- ssimLibrary(name = "temp26", session = mySsim)
   myOtherLib <- ssimLibrary(name = "temp27", session = mySsim)
   myOtherLibProj <- project(ssimObject = myOtherLib, project = "MyProj")
@@ -109,7 +109,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
   expect_is(myOtherScn, "Scenario")
   expect_equal(scenario(myOtherLib)$scenarioId, 1)
-  ret <- delete(myOtherLib, scenario = "other", force = T)
+  ret <- delete(myOtherLib, scenario = "other", force = TRUE)
   expect_equal(nrow(scenario(myOtherLib)), 0)
   myOtherScn <- scenario(myOtherLib, scenario = "other2")
 
@@ -119,10 +119,10 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myProject <- project(myLib, project = "temp")
   expect_is(myProject, "Project")
   expect_equal(names(datasheet(myProject)), c("scope", "name", "displayName")) # Only scope, name and displayName returned
-  expect_equal(is.element("corestime_Maps", datasheet(myLib, project = "temp")$name), T) # same thing, but more system calls. Generally using ids/objects is faster than using names.
-  expect_equal(names(datasheet(myProject, optional = T)), c("scope", "package", "name", "displayName", "isSingle", "isOutput"))
+  expect_equal(is.element("corestime_Maps", datasheet(myLib, project = "temp")$name), TRUE) # same thing, but more system calls. Generally using ids/objects is faster than using names.
+  expect_equal(names(datasheet(myProject, optional = TRUE)), c("scope", "package", "name", "displayName", "isSingle", "isOutput"))
 
-  expect_error(scenario(myLib, scenario = 1), "Scenario ids (1) not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.", fixed = T) # Fail: need a name to create a scenario
+  expect_error(scenario(myLib, scenario = 1), "Scenario ids (1) not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.", fixed = TRUE) # Fail: need a name to create a scenario
   myScn <- scenario(myLib, scenario = "one") # Ok because only one project in the library.
   expect_is(myScn, "Scenario")
   myProject <- project(myLib, project = "temp2")
@@ -131,12 +131,12 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myScn <- scenario(myProject, scenario = "one") # Creates a new scenario called "one" in the second project.
   expect_equal(scenario(myLib)$name, c("one", "one"))
 
-  expect_error(scenario(myLib, scenario = "one"), "The ssimObject contains more than one scenario called one. Specify a scenario id: 1,2", fixed = T) # Fails because now there are two scenarios called "one" in the library.
-  myScn <- scenario(myProject, scenario = "one", overwrite = T) # Overwrites existing scenario, assigns new id.
+  expect_error(scenario(myLib, scenario = "one"), "The ssimObject contains more than one scenario called one. Specify a scenario id: 1,2", fixed = TRUE) # Fails because now there are two scenarios called "one" in the library.
+  myScn <- scenario(myProject, scenario = "one", overwrite = TRUE) # Overwrites existing scenario, assigns new id.
   expect_equal(scenario(myLib)$scenarioId, c(1, 3))
-  myScn <- scenario(myProject, scenario = "two", overwrite = T, sourceScenario = 1) # Can copy scenarios between projects.
+  myScn <- scenario(myProject, scenario = "two", overwrite = TRUE, sourceScenario = 1) # Can copy scenarios between projects.
   expect_equal(projectId(myScn), 11)
-  myScn <- scenario(myProject, scenario = "other", overwrite = T, sourceScenario = myOtherScn) # Can copy scenarios between libraries if sourceScenario is a scenario object.
+  myScn <- scenario(myProject, scenario = "other", overwrite = TRUE, sourceScenario = myOtherScn) # Can copy scenarios between libraries if sourceScenario is a scenario object.
   expect_equal(scenarioId(myScn), 5)
 
   myOtherProject <- project(myOtherLib, project = "copy", sourceProject = myProject) # Can copy projects among libraries provided that sourceProject is a Project object.
@@ -144,31 +144,31 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   # TODO This fails for an unknown reason => BUG SUBMITED
   myOtherProject <- project(myLib, project = "copy", sourceProject = 11) # Copy a project within the same library.
   expect_equal(projectId(myOtherProject), 19)
-  expect_warning(project(myLib, project = "temp", sourceProject = "temp2"), "Project  (1) already exists, so sourceProject argument was ignored.", fixed = T) # Warns that sourceProject is ignored because "temp" already exists.
+  expect_warning(project(myLib, project = "temp", sourceProject = "temp2"), "Project  (1) already exists, so sourceProject argument was ignored.", fixed = TRUE) # Warns that sourceProject is ignored because "temp" already exists.
   myOtherProject <- project(myLib, project = "copy2", sourceProject = "temp2") # Copy a project by name
   expect_equal(project(myLib)$name, c("copy", "copy2", "temp", "temp2"))
-  ret <- delete(myProject, scenario = "one", force = T)
+  ret <- delete(myProject, scenario = "one", force = TRUE)
   myScn <- scenario(myProject, scenario = "one", sourceScenario = "one") # Ok because only one possible source
   expect_equal(scenarioId(myScn), 6)
-  expect_warning(scenario(myProject, scenario = "one", sourceScenario = "one"), "ourceScenario was ignored because scenario already exists.", fixed = T) # Warns that sourceScenario will be ignored.
-  expect_error(scenario(myProject, scenario = "three", sourceScenario = "one"), "There is more than one scenario called one in the SsimLibrary. Please provide a sourceScenario id: 1,6", fixed = T) # Fail if more than one scenario named sourceScenario in the library.
+  expect_warning(scenario(myProject, scenario = "one", sourceScenario = "one"), "ourceScenario was ignored because scenario already exists.", fixed = TRUE) # Warns that sourceScenario will be ignored.
+  expect_error(scenario(myProject, scenario = "three", sourceScenario = "one"), "There is more than one scenario called one in the SsimLibrary. Please provide a sourceScenario id: 1,6", fixed = TRUE) # Fail if more than one scenario named sourceScenario in the library.
 
-  expect_equal(nrow(scenario(myScn, summary = T)), 1) # return summary info
+  expect_equal(nrow(scenario(myScn, summary = TRUE)), 1) # return summary info
   expect_is(datasheet(myScn, "SSim_SysFolder"), "data.frame") # returns a datasheet
-  expect_is(datasheet(myScn, "SSim_SysFolder", forceElements = T), "list") # returns a list
+  expect_is(datasheet(myScn, "SSim_SysFolder", forceElements = TRUE), "list") # returns a list
 
   expect_equal(length(datasheet(myScn, c("SSim_Setting", "SSim_SysFolder"))), 2) # returns a list
 
-  allScns <- scenario(myProject, summary = F)
+  allScns <- scenario(myProject, summary = FALSE)
   expect_equal(names(allScns), c("4", "5", "6"))
 
-  expect_equal(is.element("ScenarioID", names(datasheet(myLib, c("RunControl", "OutputOptions"), scenario = as.numeric(names(allScns)))[[1]])), T) # returns a list - each sheet contains scenario info if appropriate
+  expect_equal(is.element("ScenarioID", names(datasheet(myLib, c("RunControl", "OutputOptions"), scenario = as.numeric(names(allScns)))[[1]])), TRUE) # returns a list - each sheet contains scenario info if appropriate
 
   expect_equal(length(datasheet(allScns, c("RunControl", "OutputOptions"))), 2) # returns a list - each sheet contains scenario info if appropriate
 
-  expect_warning(datasheet(myScn, "RunControl", scenario = 1), "scenario argument is ignored when ssimObject is a Scenario or list of these.", fixed = T) # Warn of conflict between ssimObject and scenario arguments.
-  expect_warning(datasheet(myProject, "STime_Chart", project = 1), "project argument is ignored when ssimObject is a Project/Scenario or list of these.", fixed = T) # Warn of conflict between ssimObject and project arguments.
-  expect_warning(datasheet(allScns, "RunControl", scenario = 1), "scenario argument is ignored when ssimObject is a list.", fixed = T) # Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
+  expect_warning(datasheet(myScn, "RunControl", scenario = 1), "scenario argument is ignored when ssimObject is a Scenario or list of these.", fixed = TRUE) # Warn of conflict between ssimObject and scenario arguments.
+  expect_warning(datasheet(myProject, "STime_Chart", project = 1), "project argument is ignored when ssimObject is a Project/Scenario or list of these.", fixed = TRUE) # Warn of conflict between ssimObject and project arguments.
+  expect_warning(datasheet(allScns, "RunControl", scenario = 1), "scenario argument is ignored when ssimObject is a list.", fixed = TRUE) # Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
 
   expect_equal(runLog(myScn), "The scenario is not a result scenario: 6") # Returns message if the scenario is not a result scenario.
 
@@ -182,22 +182,22 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   description(myProject) <- "A new description.\nTry a linebreak." # NOTE: \n adds a linebreak to the description
   expect_equal(description(myProject)[1], "A new description.")
   description(myScn) <- "Hi"
-  expect_equal(grepl("Hi", description(myScn)[1]), T)
+  expect_equal(grepl("Hi", description(myScn)[1]), TRUE)
 
   owner(myProject) <- "Fred"
   expect_equal(owner(myProject), "Fred")
   owner(myScn) <- "Alice"
   expect_equal(owner(myScn), "Alice")
 
-  readOnly(myProject) <- T
+  readOnly(myProject) <- TRUE
   expect_equal(readOnly(myProject), "Yes")
-  readOnly(myProject) <- F
+  readOnly(myProject) <- FALSE
   expect_equal(readOnly(myProject), "No")
-  readOnly(myScn) <- T
+  readOnly(myScn) <- TRUE
   expect_equal(readOnly(myScn), "Yes")
 
-  expect_equal(grepl("at", dateModified(myProject)), T)
-  expect_equal(grepl("at", dateModified(myScn)), T)
+  expect_equal(grepl("at", dateModified(myProject)), TRUE)
+  expect_equal(grepl("at", dateModified(myScn)), TRUE)
   expect_equal(parentId(myScn), NA) # NA for scenarios that aren't results.
 
   expect_is(ssimLibrary(myProject), "SsimLibrary") # get parent library
@@ -206,7 +206,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_is(session(myScn), "Session") # get parent session
   expect_equal(projectId(project(myScn)), projectId(myScn)) # get parent project
 
-  expect_equal(file.exists(filepath(myScn)), T)
+  expect_equal(file.exists(filepath(myScn)), TRUE)
   expect_equal(filepath(myScn), filepath(myProject))
   expect_equal(ssimUpdate(myScn), "The library has no unapplied updates.")
   expect_equal(ssimUpdate(myProject), "The library has no unapplied updates.")
@@ -220,22 +220,22 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_equal(dependency(targetScn)$name, c("New scn name", "another scn", "other")) # now "New scn name" has highest precedence.
 
   # test delete - vectors of project/scenario/datasheet
-  retList <- delete(myLib, project = c(1, 10), datasheet = c("STime_Chart", "STime_DistributionType"), force = T)
+  retList <- delete(myLib, project = c(1, 10), datasheet = c("STime_Chart", "STime_DistributionType"), force = TRUE)
   expect_is(retList, "list")
   expect_equal(retList[[1]][["STime_Chart pid1"]], "saved")
 
-  ret <- delete(myLib, scenario = c(6, 7), force = T)
+  ret <- delete(myLib, scenario = c(6, 7), force = TRUE)
   expect_equal(intersect(c(6, 7), scenario(myLib)$scenarioId), integer(0))
-  ret <- delete(myLib, scenario = c("one", "two"), force = T)
+  ret <- delete(myLib, scenario = c("one", "two"), force = TRUE)
   expect_equal(intersect(c("one", "two"), scenario(myLib)$name), character(0))
 
-  ret <- delete(myLib, project = c(1, 10), force = T)
+  ret <- delete(myLib, project = c(1, 10), force = TRUE)
   expect_equal(intersect(c(1, 10), project(myLib)$projectId), integer(0))
-  ret <- delete(myLib, project = c("copy", "copy2"), force = T)
+  ret <- delete(myLib, project = c("copy", "copy2"), force = TRUE)
   expect_equal(intersect(c("copy", "copy2"), project(myLib)$name), logical(0))
 
-  ret <- delete(myLib, force = T)
-  ret <- delete(myOtherLib, force = T)
+  ret <- delete(myLib, force = TRUE)
+  ret <- delete(myOtherLib, force = TRUE)
 })
 
 test_that("Tests of datasheet - assumes SyncroSim is installed", {
@@ -243,7 +243,7 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
   myLibrary <- ssimLibrary(name = "NewLibrary.ssim", session = mySsim)
   myProject <- project(myLibrary, project = "proj")
   myScenario <- scenario(myProject, scenario = "one")
-  myLibraryDataframes <- datasheet(myLibrary, summary = F) # A named list of all the library datasheets for project id 2.
+  myLibraryDataframes <- datasheet(myLibrary, summary = FALSE) # A named list of all the library datasheets for project id 2.
   expect_is(myLibraryDataframes, "list")
   expect_is(myLibraryDataframes[["corestime_Options"]], "data.frame")
 
@@ -252,26 +252,26 @@ test_that("Tests of datasheet - assumes SyncroSim is installed", {
 
   myDeterministicTransitions <- suppressWarnings(datasheet(myScenario, "DeterministicTransition"))
   expect_is(myDeterministicTransitions$StateClassIDSource, "factor")
-  myDeterministicTransitions <- suppressWarnings(datasheet(myScenario, "DeterministicTransition", lookupsAsFactors = F)) # This option returns characters instead of factors.
+  myDeterministicTransitions <- suppressWarnings(datasheet(myScenario, "DeterministicTransition", lookupsAsFactors = FALSE)) # This option returns characters instead of factors.
   expect_is(myDeterministicTransitions$StateClassIDSource, "NULL")
 
   sheetName <- "stsim_StateLabelX"
-  emptyTab <- datasheet(myProject, name = sheetName, empty = F)
+  emptyTab <- datasheet(myProject, name = sheetName, empty = FALSE)
   expect_equal(nrow(emptyTab), 0)
   stateClassDefinition <- addRow(emptyTab, data.frame(Name = c("Coniferous", "Deciduous", "Mixed")))
   expect_equal(stateClassDefinition$Name, c("Coniferous", "Deciduous", "Mixed"))
   ret <- saveDatasheet(myProject, stateClassDefinition, name = sheetName) # append project scope datasheet by default
-  ret <- saveDatasheet(myProject, stateClassDefinition, name = sheetName, append = F, force = T) # remove without prompting
+  ret <- saveDatasheet(myProject, stateClassDefinition, name = sheetName, append = FALSE, force = TRUE) # remove without prompting
 
   stateClassDefinition <- addRow(emptyTab, data.frame(Name = c("Grass")))
   ret <- saveDatasheet(myProject, stateClassDefinition, name = sheetName) # append project scope datasheet by default
   expect_equal(datasheet(myProject, name = sheetName)$Name, c("Coniferous", "Deciduous", "Grass", "Mixed"))
 
-  ret <- delete(myProject, datasheet = sheetName, force = T)
+  ret <- delete(myProject, datasheet = sheetName, force = TRUE)
   expect_equal(nrow(datasheet(myProject, name = sheetName)), 0)
 
-  ret <- delete(myLibrary, force = T)
+  ret <- delete(myLibrary, force = TRUE)
 })
 
 setwd(old_dir)
-unlink(temp_dir, recursive = T)
+unlink(temp_dir, recursive = TRUE)

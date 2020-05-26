@@ -41,7 +41,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
     # Go ahead and create the Projects object without issuing system commands to make sure it is ok
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
-    .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = T)
+    .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
     .Object@projectId <- as.numeric(findPrj$projectId)
     return(.Object)
   }
@@ -92,14 +92,14 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
       if (!is.element(copyName, projects$name)) {
         name <- copyName
       } else {
-        done <- F
+        done <- FALSE
         count <- 0
         while (!done) {
           count <- count + 1
           cName <- paste0(copyName, count)
           if (!is.element(cName, projects$name)) {
             name <- cName
-            done <- T
+            done <- TRUE
           }
         }
       }
@@ -109,7 +109,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
     tt <- command(list(create = NULL, project = NULL, lib = .filepath(x), name = name), .session(x))
   }
 
-  if (!grepl("Project ID is:", tt[1], fixed = T)) {
+  if (!grepl("Project ID is:", tt[1], fixed = TRUE)) {
     stop(tt)
   }
 
@@ -117,7 +117,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 
   .Object@session <- .session(x)
   .Object@filepath <- .filepath(x)
-  .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = T)
+  .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
   .Object@projectId <- as.numeric(id)
   return(.Object)
 })
@@ -170,8 +170,8 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' 
 #' @name project
 #' @export
-project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, summary = NULL, forceElements = F, overwrite = F) {
-  if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = F))) {
+project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, summary = NULL, forceElements = FALSE, overwrite = FALSE) {
+  if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
 
@@ -184,34 +184,34 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   # if ssimObject is a scenario or project, return the project
   if (is.element(class(ssimObject), c("Scenario", "Project")) & is.null(project)) {
     if (is.null(summary)) {
-      summary <- F
+      summary <- FALSE
     }
     if (!summary) {
-      convertObject <- T
-      returnIds <- F
+      convertObject <- TRUE
+      returnIds <- FALSE
     } else {
-      convertObject <- F
-      returnIds <- T
+      convertObject <- FALSE
+      returnIds <- TRUE
     }
   } else {
     # set summary default
     if (is.null(summary)) {
       if (is.null(project)) {
         if (is.null(sourceProject)) {
-          summary <- T
+          summary <- TRUE
         } else {
-          summary <- F
+          summary <- FALSE
           project <- "GetSourceCopyCopyCopy"
         }
       } else {
-        summary <- F
+        summary <- FALSE
       }
     }
-    convertObject <- T
-    returnIds <- T
+    convertObject <- TRUE
+    returnIds <- TRUE
   }
 
-  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = NULL, convertObject = convertObject, returnIds = returnIds, goal = "project", complainIfMissing = F)
+  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = NULL, convertObject = convertObject, returnIds = returnIds, goal = "project", complainIfMissing = FALSE)
 
   if (class(xProjScn) == "Project") {
     if (!overwrite) {
@@ -299,7 +299,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   projectSetOut <- getProjectSet(ssimObject)
   projectSetOut$exists <- NULL
   idList <- data.frame(id = as.numeric(names(projectList)), order = seq(1:length(projectList)))
-  projectSetOut <- merge(idList, projectSetOut, all.x = T)
+  projectSetOut <- merge(idList, projectSetOut, all.x = TRUE)
   if (sum(is.na(projectSetOut$name)) > 0) {
     stop("Something is wrong with project()")
   }

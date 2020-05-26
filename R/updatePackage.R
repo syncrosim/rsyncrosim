@@ -16,7 +16,7 @@ NULL
 #' and `FALSE` upon failure.
 #' 
 #' @export
-setGeneric("updatePackage", function(name = NULL, session = NULL, listonly = F) standardGeneric("updatePackage"))
+setGeneric("updatePackage", function(name = NULL, session = NULL, listonly = FALSE) standardGeneric("updatePackage"))
 
 #' @rdname updatePackage
 setMethod("updatePackage", signature(session = "character"), function(name, session, listonly) {

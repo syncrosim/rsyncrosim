@@ -30,12 +30,12 @@ setMethod("dateModified", signature(ssimObject = "SsimLibrary"), function(ssimOb
 
 #' @rdname dateModified
 setMethod("dateModified", signature(ssimObject = "Project"), function(ssimObject) {
-  scnInfo <- project(ssimObject, summary = T)
+  scnInfo <- project(ssimObject, summary = TRUE)
   return(scnInfo$lastModified)
 })
 
 #' @rdname dateModified
 setMethod("dateModified", signature(ssimObject = "Scenario"), function(ssimObject) {
-  scnInfo <- scenario(ssimObject, summary = T)
+  scnInfo <- scenario(ssimObject, summary = TRUE)
   return(scnInfo$lastModified)
 })

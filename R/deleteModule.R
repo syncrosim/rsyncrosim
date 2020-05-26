@@ -9,7 +9,7 @@ NULL
 #'
 #' @param name Character string or vector of these. A module or vector of modules to remove. See modules() for options.
 #' @param session Session.
-#' @param force logical. If T, delete without requiring confirmation from user.
+#' @param force logical. If TRUE, delete without requiring confirmation from user.
 #' 
 #' @return "saved" or error message.
 #' 

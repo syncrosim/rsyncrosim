@@ -12,24 +12,24 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
 
   # Create the project definition
   libPath <- paste0(getwd(), "/ST-Sim-Command-Line.ssim")
-  ret <- delete(libPath, force = T)
+  ret <- delete(libPath, force = TRUE)
   myLibrary <- ssimLibrary(session = myses, name = libPath)
   myProject <- project(myLibrary, project = "ST-Sim Demonstration")
 
   #***********************************
   # Cover types and state classes
   sheetName <- "Stratum"
-  mySheet <- datasheet(myProject, name = sheetName, empty = F, optional = T)
+  mySheet <- datasheet(myProject, name = sheetName, empty = FALSE, optional = TRUE)
   mySheet[1, "Name"] <- "Entire Forest"
   mySheet[1, "Description"] <- "Another description"
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
-  expect_equal(names(datasheet(myProject, name = sheetName, empty = T, optional = F)), "Name") # returns only truly optional columns
-  expect_equal(datasheet(myProject, name = sheetName, empty = F, optional = F)$Description, "Another description") # returns optional columns and columns with data
-  expect_equal(names(datasheet(myProject, name = sheetName, empty = F, optional = T)), c("Name", "ID", "Color", "Legend", "Description")) # returns all columns
+  expect_equal(names(datasheet(myProject, name = sheetName, empty = TRUE, optional = FALSE)), "Name") # returns only truly optional columns
+  expect_equal(datasheet(myProject, name = sheetName, empty = FALSE, optional = FALSE)$Description, "Another description") # returns optional columns and columns with data
+  expect_equal(names(datasheet(myProject, name = sheetName, empty = FALSE, optional = TRUE)), c("Name", "ID", "Color", "Legend", "Description")) # returns all columns
 
   sheetName <- "StateClass"
   expect_warning(
-    datasheet(myProject, name = sheetName, empty = F),
+    datasheet(myProject, name = sheetName, empty = FALSE),
     "StateLabelXID depends on stsim_StateLabelX. You should load stsim_StateLabelX before setting stsim_StateClass.",
     "StateLabelYID depends on stsim_StateLabelY. You should load stsim_StateLabelY before setting stsim_StateClass."
   )
@@ -43,7 +43,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
 
   sheetName <- "StateClass"
-  mySheet <- datasheet(myProject, name = sheetName, empty = T)
+  mySheet <- datasheet(myProject, name = sheetName, empty = TRUE)
   expect_equal(levels(mySheet$StateLabelXID), c("Coniferous", "Deciduous", "Mixed"))
   mySheet[1:3, "StateLabelXID"] <- levels(mySheet$StateLabelXID) # Valid values
   mySheet$StateLabelYID <- levels(mySheet$StateLabelYID)[1] # Valid values
@@ -83,7 +83,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   #**************************
   # Deterministic transitions
   sheetName <- "DeterministicTransition"
-  mySheet <- datasheet(myScenario, name = sheetName, optional = T, empty = T)
+  mySheet <- datasheet(myScenario, name = sheetName, optional = TRUE, empty = TRUE)
   mySheet <- addRow(mySheet, data.frame(StateClassIDSource = "Coniferous:All", StateClassIDDest = "Coniferous:All", AgeMin = 21, Location = "C1"))
   expect_equal(mySheet$Location, "C1")
   mySheet <- addRow(mySheet, data.frame(StateClassIDSource = "Deciduous:All", StateClassIDDest = "Deciduous:All", Location = "A1"))
@@ -129,7 +129,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
 
   ret <- dependency(myScenario, dependency = "Dependency Scenario") # set dependency
   expect_equal(dependency(myScenario)$name, "Dependency Scenario") # now there is a dependency
-  ret <- dependency(myScenario, dependency = "Dependency Scenario", remove = T, force = T)
+  ret <- dependency(myScenario, dependency = "Dependency Scenario", remove = TRUE, force = TRUE)
   expect_equal(nrow(dependency(myScenario)), 0) # dependency has been removed
   ret <- dependency(myScenario, dependency = "Dependency Scenario") # set dependency
 
@@ -156,7 +156,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   myResults <- run(myProject, scenario = c("Harvest", "No Harvest"), jobs = 4)
   expect_is(myResults[[1]], "Scenario")
 
-  otherResults <- run(myScenario, jobs = 4, summary = T)
+  otherResults <- run(myScenario, jobs = 4, summary = TRUE)
   expect_is(otherResults, "data.frame")
 
   expect_output(runLog(myResults[[1]]), "STARTING SIMULATION") # displays and returns a multiline string
@@ -175,4 +175,4 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
 })
 
 setwd(old_dir)
-unlink(temp_dir, recursive = T)
+unlink(temp_dir, recursive = TRUE)

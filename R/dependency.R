@@ -43,7 +43,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
   # get set of existing dependencies
   args <- list(list = NULL, dependencies = NULL, lib = .filepath(x), sid = cScn, csv = NULL)
   tt <- command(args, .session(x))
-  if (!grepl("ID,Name", tt[1], fixed = T)) {
+  if (!grepl("ID,Name", tt[1], fixed = TRUE)) {
     stop(tt[1])
   }
   dependencySet <- .dataframeFromSSim(tt)
@@ -54,7 +54,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
     return(dependencySet)
   }
   
-  allScns <- .scenario(.ssimLibrary(x), summary = T)
+  allScns <- .scenario(.ssimLibrary(x), summary = TRUE)
   
   success <- FALSE
   outResults <- list()
