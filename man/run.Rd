@@ -11,37 +11,37 @@
 run(
   ssimObject,
   scenario = NULL,
-  summary = F,
+  summary = FALSE,
   jobs = 1,
   transformerName = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{run}{character}(
   ssimObject,
   scenario = NULL,
-  summary = F,
+  summary = FALSE,
   jobs = 1,
   transformerName = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{run}{list}(
   ssimObject,
   scenario = NULL,
-  summary = F,
+  summary = FALSE,
   jobs = 1,
   transformerName = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{run}{SsimObject}(
   ssimObject,
   scenario = NULL,
-  summary = F,
+  summary = FALSE,
   jobs = 1,
   transformerName = NULL,
-  forceElements = F
+  forceElements = FALSE
 )
 
 \S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs, forceElements)

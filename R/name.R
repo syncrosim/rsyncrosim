@@ -49,6 +49,9 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 #' @param value 
 #' The updated ssimObject. 
 #' 
+#' @return 
+#' The updated ssim Object.
+#' 
 #' @export
 setGeneric("name<-", function(ssimObject, value) standardGeneric("name<-"))
 

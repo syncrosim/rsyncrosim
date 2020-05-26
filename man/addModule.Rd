@@ -14,6 +14,9 @@ addModule(filename, session = NULL)
 
 \item{session}{Session.}
 }
+\value{
+Deprecated: produces a error.
+}
 \description{
 Add module or modules to SyncroSim
 Deprecated.  See: \code{\link{addPackage}} and \code{\link{addPackageFile}}

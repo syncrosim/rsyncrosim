@@ -31,6 +31,10 @@ setMethod("filepath", signature(ssimObject = "SsimObject"), function(ssimObject)
 #' The temporary file path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 #'
 #' @param ssimObject An object containing a filepath.
+#' 
+#' @return 
+#' A character string: the temporary file path to a SyncroSim object on disk.
+#' 
 #' @export
 setGeneric("tempfilepath", function(ssimObject) standardGeneric("tempfilepath"))
 

@@ -21,6 +21,13 @@ envEndSimulation()
 \item{timestep}{integer.  The current timestep.}
 
 \item{totalSteps}{integer.  The total number of steps in the simulation.}
+
+\item{NULL}{}
+}
+\value{
+No returned value, used for side effects.
+
+No returned value, used for side effects.
 }
 \description{
 Reports progress for a SyncroSim simulation.

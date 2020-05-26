@@ -23,6 +23,9 @@ name(ssimObject) <- value
 
 \item{value}{The updated ssimObject.}
 }
+\value{
+The updated ssim Object.
+}
 \description{
 Set the name of a SyncroSim Project, Scenario or Library
 }

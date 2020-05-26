@@ -18,6 +18,9 @@ tempfilepath(ssimObject)
 \arguments{
 \item{ssimObject}{An object containing a filepath.}
 }
+\value{
+A character string: the temporary file path to a SyncroSim object on disk.
+}
 \description{
 The temporary file path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
 }

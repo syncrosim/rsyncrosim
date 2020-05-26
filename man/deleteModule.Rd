@@ -17,7 +17,7 @@ deleteModule(name, session = NULL, force = FALSE)
 
 \item{session}{Session.}
 
-\item{force}{logical. If T, delete without requiring confirmation from user.}
+\item{force}{logical. If TRUE, delete without requiring confirmation from user.}
 }
 \value{
 "saved" or error message.

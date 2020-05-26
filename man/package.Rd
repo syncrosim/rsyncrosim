@@ -7,7 +7,7 @@
 \alias{package,Session-method}
 \title{Installed or available packages}
 \usage{
-package(session, installed = T)
+package(session, installed = TRUE)
 
 \S4method{package}{missingOrNULL}(session, installed = TRUE)
 

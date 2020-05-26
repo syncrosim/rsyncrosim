@@ -9,9 +9,9 @@ scenario(
   scenario = NULL,
   sourceScenario = NULL,
   summary = NULL,
-  results = F,
-  forceElements = F,
-  overwrite = F
+  results = FALSE,
+  forceElements = FALSE,
+  overwrite = FALSE
 )
 }
 \arguments{

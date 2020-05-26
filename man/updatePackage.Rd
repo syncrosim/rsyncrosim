@@ -7,13 +7,13 @@
 \alias{updatePackage,ANY,Session-method}
 \title{Update Package}
 \usage{
-updatePackage(name = NULL, session = NULL, listonly = F)
+updatePackage(name = NULL, session = NULL, listonly = FALSE)
 
-\S4method{updatePackage}{ANY,character}(name = NULL, session = NULL, listonly = F)
+\S4method{updatePackage}{ANY,character}(name = NULL, session = NULL, listonly = FALSE)
 
-\S4method{updatePackage}{ANY,missingOrNULL}(name = NULL, session = NULL, listonly = F)
+\S4method{updatePackage}{ANY,missingOrNULL}(name = NULL, session = NULL, listonly = FALSE)
 
-\S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL, listonly = F)
+\S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL, listonly = FALSE)
 }
 \arguments{
 \item{name}{Character string.  The name of the package to update.  If NULL, all packages will be updated.}

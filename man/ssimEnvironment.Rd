@@ -6,6 +6,9 @@
 \usage{
 ssimEnvironment()
 }
+\arguments{
+\item{NULL}{}
+}
 \value{
 A data.frame of SyncroSim specific environment variables.
 }

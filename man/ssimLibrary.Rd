@@ -12,8 +12,8 @@ ssimLibrary(
   package = NULL,
   session = NULL,
   addon = NULL,
-  forceUpdate = F,
-  overwrite = F
+  forceUpdate = FALSE,
+  overwrite = FALSE
 )
 
 \S4method{ssimLibrary}{SsimObject}(
@@ -22,8 +22,8 @@ ssimLibrary(
   package = NULL,
   session = NULL,
   addon = NULL,
-  forceUpdate = F,
-  overwrite = F
+  forceUpdate = FALSE,
+  overwrite = FALSE
 )
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(
@@ -32,14 +32,14 @@ ssimLibrary(
   package = NULL,
   session = NULL,
   addon = NULL,
-  forceUpdate = F,
-  overwrite = F
+  forceUpdate = FALSE,
+  overwrite = FALSE
 )
 }
 \arguments{
 \item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.}
 
-\item{summary}{logical. Default T}
+\item{summary}{logical. Default TRUE}
 
 \item{package}{Character. The package type. The default is "stsim".}
 

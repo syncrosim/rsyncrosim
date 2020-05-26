@@ -9,8 +9,8 @@ project(
   project = NULL,
   sourceProject = NULL,
   summary = NULL,
-  forceElements = F,
-  overwrite = F
+  forceElements = FALSE,
+  overwrite = FALSE
 )
 }
 \arguments{

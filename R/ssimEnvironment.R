@@ -4,6 +4,8 @@
 #' SyncroSim Environment.
 #'
 #' Retrieves SyncroSim specific environment variables.
+#' 
+#' @param NULL
 #'
 #' @return 
 #' A data.frame of SyncroSim specific environment variables.
@@ -68,7 +70,10 @@ envCreateTempFolder <- function(folderName) {
 #'
 #' @param scenario Scenario.  A SyncroSim result scenario.
 #' @param datasheetName character.  The input datasheet name.
-#' @return a folder name for the specified data sheet
+#' 
+#' @return 
+#' a folder name for the specified data sheet
+#' 
 #' @export
 #' @rdname ssimEnvironment-input
 envInputFolder <- function(scenario, datasheetName) {
@@ -82,7 +87,10 @@ envInputFolder <- function(scenario, datasheetName) {
 #'
 #' @param scenario Scenario.  A SyncroSim result scenario.
 #' @param datasheetName character.  The output datasheet name.
-#' @return a folder name for the specified data sheet
+#' 
+#' @return 
+#' a folder name for the specified data sheet
+#' 
 #' @export
 #' @rdname ssimEnvironment-output
 envOutputFolder <- function(scenario, datasheetName) {
@@ -95,7 +103,10 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' Creates and returns a SyncroSim Temporary Folder.
 #'
 #' @param folderName character.  The folder name
-#' @return a temporary folder name
+#' 
+#' @return 
+#' A temporary folder name
+#' 
 #' @export
 #' @rdname ssimEnvironment-temp
 envTempFolder <- function(folderName) {
@@ -109,6 +120,7 @@ envTempFolder <- function(folderName) {
 #'
 #' @param iteration integer.  The current iteration.
 #' @param timestep integer.  The current timestep.
+#' 
 #' @export
 #' @rdname ssimEnvironment-progress
 envReportProgress <- function(iteration, timestep) {
@@ -122,6 +134,7 @@ envReportProgress <- function(iteration, timestep) {
 #' Begins a SyncroSim simulation.
 #'
 #' @param totalSteps integer.  The total number of steps in the simulation.
+#' 
 #' @export
 #' @rdname ssimEnvironment-progress
 envBeginSimulation <- function(totalSteps) {
@@ -133,6 +146,11 @@ envBeginSimulation <- function(totalSteps) {
 #' Steps a SyncroSim simulation
 #'
 #' Steps a SyncroSim simulation
+#' 
+#' @param NULL
+#' 
+#' @return 
+#' No returned value, used for side effects.
 #'
 #' @export
 #' @rdname ssimEnvironment-progress
@@ -145,6 +163,11 @@ envStepSimulation <- function() {
 #' Ends a SyncroSim simulation
 #'
 #' Ends a SyncroSim simulation.
+#' 
+#' @param NULL
+#' 
+#' @return
+#' No returned value, used for side effects.
 #'
 #' @export
 #' @rdname ssimEnvironment-progress

@@ -10,7 +10,7 @@ envTempFolder(folderName)
 \item{folderName}{character.  The folder name}
 }
 \value{
-a temporary folder name
+A temporary folder name
 }
 \description{
 Creates and returns a SyncroSim Temporary Folder.

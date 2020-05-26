@@ -18,6 +18,9 @@ version(session = NULL)
 \arguments{
 \item{session}{Session.}
 }
+\value{
+A character string e.g. "2.2.13".
+}
 \description{
 The version of a SyncroSim Session.
 }

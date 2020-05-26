@@ -8,6 +8,10 @@ NULL
 #' The version of a SyncroSim Session.
 #'
 #' @param session Session.
+#' 
+#' @return
+#' A character string e.g. "2.2.13".
+#' 
 #' @export
 setGeneric("version", function(session = NULL) standardGeneric("version"))
 
