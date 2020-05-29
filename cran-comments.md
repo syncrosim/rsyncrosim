@@ -38,7 +38,7 @@ installed to run. Therefore, all tests in the submitted package should not run
 set to not be evaluated wehn NOT_CRAN is FALSE is the environment.
 
 ## R CMD check results
-Duration: 1m 58.3s
+Duration: 2m 20s
 
 There was 1 note:
 
