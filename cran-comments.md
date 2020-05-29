@@ -9,20 +9,20 @@ In version 1.2.3 we addressed all the comments provided sucessively by by Uwe Li
 Martina Schmirl and Jelena Saf :
 
 * Following a suggestion by Martina Schimrl, the examples are wrapped in \\donttest{}
-instead of \\donttrun{]. They cannot be unwrapped as they will fail on testing platforms given that they require SyncroSim to work (see the Upstream dependencies Section below).
+instead of \\donttrun{]. They cannot be unwrapped as they will fail on testing platforms given that they require an installed version of the SyncroSim software to work (see the Upstream dependencies Section below).
   * ** This is likely to cause R CMD check to produce an error on the CRAN servers 
   as in R 4.0, CMD check now runs examples wrapped in \\donttest{} **
 
 * Following a comment by Martina Schmirl, the behavior of functions that returned 
 strings and printed them has been modified to use message(). These messages are 
 important to keep for the user to obtain critical information about their 
-interaction with the Syncrosim API and should not be suppressed. Those functions now 
+interaction with the Syncrosim software's API and should not be suppressed. Those functions now 
 returns a boolean invisibly.
 
 * Following a comment by Martina Schmirl, all default path have been removed and 
 examples/vignette code uses tempdir() and nothing is written to the user working directory, 
-except in the default use of `ssimLibrary` which much like functions like `write.csv`
-will create a SyncroSim library into the user working directory if they do not 
+except in the default use of `ssimLibrary` which exactly as is done with functions like `write.csv`,
+it will save a file into the user working directory if they do not explicitly
 specify a path.
 
 Smaller changes:
