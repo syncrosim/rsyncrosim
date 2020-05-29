@@ -4,8 +4,6 @@
 #' SyncroSim Environment.
 #'
 #' Retrieves SyncroSim specific environment variables.
-#' 
-#' @param NULL
 #'
 #' @return 
 #' A data.frame of SyncroSim specific environment variables.
@@ -147,8 +145,6 @@ envBeginSimulation <- function(totalSteps) {
 #'
 #' Steps a SyncroSim simulation
 #' 
-#' @param NULL
-#' 
 #' @return 
 #' No returned value, used for side effects.
 #'
@@ -163,8 +159,6 @@ envStepSimulation <- function() {
 #' Ends a SyncroSim simulation
 #'
 #' Ends a SyncroSim simulation.
-#' 
-#' @param NULL
 #' 
 #' @return
 #' No returned value, used for side effects.
