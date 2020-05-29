@@ -13,7 +13,7 @@ info(ssimLibrary)
 \item{ssimLibrary}{A \code{SsimLibrary} object.}
 }
 \value{
-A \code{data.frame} with informations on the properties of the library object.
+A \code{data.frame} with information on the properties of the library object.
 }
 \description{
 Get basic information about a Library

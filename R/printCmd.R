@@ -11,7 +11,7 @@ NULL
 #' If NULL, the default session will be used.
 #' 
 #' @return 
-#' Rteurns a logical value: `TRUE` is the session is confiured to print commands and 
+#' Returns a logical value: `TRUE` is the session is configured to print commands and 
 #' `FALSE` if it is not.
 #' 
 #' @export

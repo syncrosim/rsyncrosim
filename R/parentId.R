@@ -5,7 +5,7 @@ NULL
 
 #' The parent scenario id of a SyncroSim Scenario.
 #'
-#' Retrives the id of the parent of a SyncroSim results scenario.
+#' Retrieves the id of the parent of a SyncroSim results scenario.
 #'
 #' @param scenario A Scenario object.
 #' 

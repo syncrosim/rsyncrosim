@@ -37,7 +37,7 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
 #' Sets whether or not a Scenario is configured to merge dependencies at run time.
 #'
 #' @param ssimObject Scenario
-#' @param value Logical. If TRUE the Scenario will be set to merge dependencies at runtime.
+#' @param value Logical. If TRUE the Scenario will be set to merge dependencies at run time.
 #' 
 #' @return 
 #' The updated ssimObject.

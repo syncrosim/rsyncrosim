@@ -22,7 +22,8 @@ model(ssimObject = NULL)
 \item{ssimObject}{Session or SsimLibrary.}
 }
 \value{
-A dataframe of models (for Session) or named vector of character strings (for SsimLibrary)
+A \code{dataframe} of models (for Session) or named vector of character strings 
+(for \code{SsimLibrary})
 }
 \description{
 Deprecated.  See: \code{\link{package}}

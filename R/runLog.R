@@ -10,7 +10,7 @@ NULL
 #' @param scenario A Scenario object.
 #' 
 #' @return 
-#' Rteurn a character string: the run log for a result scenario.
+#' Returns a character string: the run log for a result scenario.
 #' 
 #' @export
 setGeneric("runLog", function(scenario) standardGeneric("runLog"))

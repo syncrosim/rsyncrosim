@@ -4,7 +4,7 @@
 NULL
 
 # Internal wrappers for functions that are overwritten internally by arguments of the same name.
-# Export for developmet and debugging.
+# Export for development and debugging.
 #' @include session.R
 #' @include ssimLibrary.R
 #' @include project.R

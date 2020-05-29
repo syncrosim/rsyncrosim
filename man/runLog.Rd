@@ -16,7 +16,7 @@ runLog(scenario)
 \item{scenario}{A Scenario object.}
 }
 \value{
-Rteurn a character string: the run log for a result scenario.
+Returns a character string: the run log for a result scenario.
 }
 \description{
 The run log of a result Scenario.

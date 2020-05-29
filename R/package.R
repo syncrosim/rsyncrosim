@@ -12,7 +12,7 @@ NULL
 #' available packages
 #' 
 #' @return 
-#' A dataframe of packages installed.
+#' A \code{data.frame} of packages installed.
 #' 
 #' @export
 setGeneric("package", function(session, installed = TRUE) standardGeneric("package"))

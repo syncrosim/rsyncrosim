@@ -10,7 +10,7 @@ NULL
 #' @param session Session.
 #' 
 #' @return 
-#' A dataframe of modules.
+#' A \code{dataframe} of modules.
 #' 
 #' @export
 setGeneric("module", function(session) standardGeneric("module"))

@@ -15,7 +15,7 @@ mergeDependencies(ssimObject) <- value
 \arguments{
 \item{ssimObject}{Scenario}
 
-\item{value}{Logical. If TRUE the Scenario will be set to merge dependencies at runtime.}
+\item{value}{Logical. If TRUE the Scenario will be set to merge dependencies at run time.}
 }
 \value{
 The updated ssimObject.

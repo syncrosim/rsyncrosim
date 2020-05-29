@@ -22,7 +22,7 @@ package(session, installed = TRUE)
 available packages}
 }
 \value{
-A dataframe of packages installed.
+A \code{data.frame} of packages installed.
 }
 \description{
 Packages or installed or available for this version of SyncroSim.

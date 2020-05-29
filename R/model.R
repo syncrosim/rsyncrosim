@@ -10,7 +10,8 @@ NULL
 #' @param ssimObject Session or SsimLibrary.
 #' 
 #' @return 
-#' A dataframe of models (for Session) or named vector of character strings (for SsimLibrary)
+#' A \code{dataframe} of models (for Session) or named vector of character strings 
+#' (for \code{SsimLibrary})
 #' 
 #' @export
 setGeneric("model", function(ssimObject = NULL) standardGeneric("model"))

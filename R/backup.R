@@ -10,7 +10,7 @@ NULL
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' 
 #' @return 
-#' This function inivisibly returns `TRUE` upon success (i.e.successful 
+#' This function invisibly returns `TRUE` upon success (i.e.successful 
 #' backup) and `FALSE` upon failure.
 #' 
 #' @export
