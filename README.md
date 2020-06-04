@@ -5,8 +5,12 @@
 
 ## The R interface to SyncroSim
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](\(https://opensource.org/licenses/MIT\))
+[![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)](https://github.com/syncrosim/rsyncrosim/actions)
+[![CRAN
+Version](http://www.r-pkg.org/badges/version/rsyncrosim)](https://cran.r-project.org/web/packages/rsyncrosim/index.html)
+[![Downloads](http://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://cran.r-project.org/web/packages/rsyncrosim/index.html)
 
 ## About SyncroSim
 
