@@ -41,9 +41,10 @@ For more details consult the SyncroSim [online documentation](https://docs.syncr
 Before using `rsyncrosim` you will first need to [download and install](https://www.syncrosim.com/download/) the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
 
 Next you will need to install the `rsyncrosim` R package, either using [CRAN](https://cran.r-project.org/) or from the `rsyncrosim` [GitHub repository](https://github.com/syncrosim/rsyncrosim/releases/). Versions of `rsyncrosim` are available for both Windows and Linux.
-## Quickstart tutorial
 
-The following tutorial introduces `rsyncrosim` using the *stsim* [SyncroSim Package](https://docs.syncrosim.com/how_to_guides/package_overview.html). *st-sim* is a SyncroSim Package that lets you develop and run spatially-explicit, stochastic state-and-transition simulation models of landscape change. For more details on *stsim* consult the [ST-Sim online documentation](https://docs.syncrosim.com/). 
+### Quickstart tutorial
+
+The following tutorial introduces `rsyncrosim` using the *stsim* [SyncroSim Package](https://docs.syncrosim.com/how_to_guides/package_overview.html). *st-sim* is a SyncroSim Package that lets you develop and run spatially-explicit, stochastic state-and-transition simulation models of landscape change. For more details on *stsim* consult the [ST-Sim online documentation](https://docs.stsim.net/). 
 
 ### Preparation
 
