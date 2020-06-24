@@ -171,14 +171,15 @@ saveDatasheet(myScenario, data.frame(TransitionGroupID = "Harvest", Amount = 0),
 
 # Output options
 datasheet(myScenario, "OutputOptions")
-sheetData <- data.frame(
-  SummaryOutputSC = T, SummaryOutputSCTimesteps = 1,
-  SummaryOutputTR = T, SummaryOutputTRTimesteps = 1,
-  RasterOutputSC = T, RasterOutputSCTimesteps = 1,
-  RasterOutputTR = T, RasterOutputTRTimesteps = 1,
-  RasterOutputAge = T, RasterOutputAgeTimesteps = 1
-)
+sheetData = data.frame(SummaryOutputSC=T, SummaryOutputSCTimesteps=1,
+                       SummaryOutputTR=T, SummaryOutputTRTimesteps=1)
 saveDatasheet(myScenario, sheetData, "OutputOptions")
+
+datasheet(myScenario, "OutputOptionsSpatial")
+sheetData = data.frame(RasterOutputSC=T, RasterOutputSCTimesteps=1,
+                       RasterOutputTR=T, RasterOutputTRTimesteps=1,
+                       RasterOutputAge=T, RasterOutputAgeTimesteps=1)
+saveDatasheet(myScenario, sheetData, "OutputOptionsSpatial")
 
 # Create a second "Harvest" scenario that is a copy of the first scenario, but with a harvest level of 20 acres/timestep
 myScenarioHarvest <- scenario(myProject, scenario = "Harvest", sourceScenario = myScenario)
