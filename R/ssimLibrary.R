@@ -134,8 +134,8 @@ setMethod(
         packageOptions <- basePackage(session)
       }
       expectedPackage <- packageOptions$name[packageOptions$name == package]
-      if (!grepl(expectedPackage, tt$value[tt$property == "Package Name:"])) {
-        stop(paste0("A library of that name and a different package type ", tt$value[tt$property == "Package Name:"], " already exists."))
+      if (!grepl(expectedPackage, tt$value[tt$property == "Name:"])) {
+        stop(paste0("A library of that name and a different package type ", tt$value[tt$property == "Name:"], " already exists."))
       }
     }
 
