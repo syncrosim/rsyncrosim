@@ -82,7 +82,9 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     }
 
     if (!grepl("_", name, fixed = )) {
-      name <- paste0("stsim_", name)
+      l = ssimLibrary(.filepath(ssimObject), summary=T)
+      p = l$value[l$property == "Package Name:"]
+      name <- paste0(p, "_", name)
     }
 
     if (grepl("STSim_", name, fixed = TRUE)) {

@@ -112,7 +112,9 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   }
 
   if (!grepl("_", datasheet, fixed = )) {
-    datasheet <- paste0("stsim_", datasheet)
+    l = ssimLibrary(.filepath(ssimObject), summary=T)
+    p = l$value[l$property == "Package Name:"]
+    datasheet <- paste0(p, "_", datasheet)
   }
 
   if (grepl("STSim_", datasheet, fixed = TRUE)) {
