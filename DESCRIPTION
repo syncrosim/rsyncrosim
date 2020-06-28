@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.2.5
+Version: 1.2.6
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -44,6 +44,7 @@ Collate:
     'addPackageFile.R'
     'addRow.R'
     'addon.R'
+    'autogentags.R'
     'backup.R'
     'basePackage.R'
     'breakpoint.R'
