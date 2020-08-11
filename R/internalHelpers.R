@@ -36,8 +36,16 @@ backupEnabled <- function(path) {
 
 deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL, cProjName = NULL, cScnName = NULL, out = list(), force) {
   out <- list()
+  lib = ssimLibrary(.filepath(x), summary=T)
+  pkg = lib$value[lib$property == "Package Name:"]
+  
   for (j in seq(length.out = length(datasheet))) {
     cName <- datasheet[j]
+    
+    if (!grepl("_", cName, fixed = TRUE)) {
+      cName <- paste0(pkg, "_", cName)
+    }
+    
     cSheet <- subset(datasheets, name == cName)
     if (nrow(cSheet) == 0) {
       stop("datasheet ", cName, " not found in object identified by ssimObject/project/scenario arguments.")
