@@ -6,11 +6,11 @@
 \alias{autogentags<-,Scenario-method}
 \title{Auto Generation Tags for a Scenario.}
 \usage{
-autogentags(ssimObject, tags) <- value
+autogentags(ssimObject) <- value
 
-\S4method{autogentags}{character}(ssimObject, tags) <- value
+\S4method{autogentags}{character}(ssimObject) <- value
 
-\S4method{autogentags}{Scenario}(ssimObject, tags) <- value
+\S4method{autogentags}{Scenario}(ssimObject) <- value
 }
 \arguments{
 \item{ssimObject}{Scenario}
