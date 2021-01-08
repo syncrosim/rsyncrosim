@@ -258,18 +258,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
 
         if (fastQuery) {
           if (lookupsAsFactors) {
+            
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
-
-            if (sheetNames$scope == "project") {
-              args[["pid"]] <- pid
-            }
-            if (is.element(sheetNames$scope, c("project", "scenario"))) {
-              args[["pid"]] <- pid
-            }
-            if (sheetNames$scope == "scenario") {
-              args[["sid"]] <- sid
-            }
-
+            args <- assignPid(args, sheetNames)
             tt <- command(args, .session(x))
 
             if (!identical(tt, "saved")) {
@@ -278,17 +269,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           }
 
           args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
-
-          if (sheetNames$scope == "project") {
-            args[["pid"]] <- pid
-          }
-          if (is.element(sheetNames$scope, c("project", "scenario"))) {
-            args[["pid"]] <- pid
-          }
-          if (sheetNames$scope == "scenario") {
-            args[["sid"]] <- sid
-          }
-
+          args <- assignPid(args, sheetNames)
           tt <- command(args, .session(x))
 
           if (!identical(tt, "saved")) {
@@ -311,16 +292,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           } else {
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL) # filepath=NULL
           }
-          if (sheetNames$scope == "project") {
-            args[["pid"]] <- pid
-          }
-          if (is.element(sheetNames$scope, c("project", "scenario"))) {
-            args[["pid"]] <- pid
-          }
-          if (sheetNames$scope == "scenario") {
-            args[["sid"]] <- sid
-          }
-
+          args <- assignPid(args, sheetNames)
           tt <- command(args, .session(x))
 
           if (!identical(tt, "saved")) {
@@ -644,3 +616,17 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   unlink(.tempfilepath(x), recursive = TRUE)
   return(outSheetList)
 })
+
+# TODO consider moving helper function to helpers file 
+
+assignPid <- function(args, sheetNames){
+  if (sheetNames$scope == "project") {
+    args[["pid"]] <- pid
+  }
+  if (is.element(sheetNames$scope, c("project", "scenario"))) {
+    args[["pid"]] <- pid
+  }
+  if (sheetNames$scope == "scenario") {
+    args[["sid"]] <- sid
+  }
+}
