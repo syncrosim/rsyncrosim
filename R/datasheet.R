@@ -86,6 +86,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   parentID <- NULL
   ParentName <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
+  
   if (class(xProjScn) == "SsimLibrary") {
     x <- xProjScn
     pid <- NULL
@@ -210,11 +211,14 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
 
   dir.create(.tempfilepath(x), showWarnings = FALSE, recursive = TRUE)
   outSheetList <- list()
+  
   for (kk in seq(length.out = length(allNames))) {
-    name <- allNames[kk]
+    
+    name <- allNames[kk] # TODO fix this name thing here
     cName <- name
     datasheetNames <- .datasheets(x, scope = "all")
     sheetNames <- subset(datasheetNames, name == cName)
+    
     if (nrow(sheetNames) == 0) {
       datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
       sheetNames <- subset(datasheetNames, name == cName)
@@ -239,6 +243,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
 
     useConsole <- FALSE
     tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
+    
     if (!empty) {
       # Only query database if output or multiple scenarios/project or complex sql
       useConsole <- (!sheetNames$isOutput)
@@ -349,6 +354,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
           }
         }
+        
         if (sheetNames$scope == "project") {
           if (is.null(pid)) {
             stop("Specify a project.")
@@ -360,6 +366,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
           }
         }
+        
         sql <- paste(sqlStatement$select, sqlStatement$from, sqlStatement$where, sqlStatement$groupBy)
         sheet <- DBI::dbGetQuery(con, sql)
         DBI::dbDisconnect(con)
@@ -379,9 +386,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       sheet <- data.frame(temp = NA)
       sheet <- subset(sheet, !is.na(temp))
     }
+    
     if (nrow(sheet) > 0) {
       sheet[sheet == ""] <- NA
     }
+    
     if (empty | lookupsAsFactors) {
       tt <- command(c("list", "columns", "csv", paste0("lib=", .filepath(x)), paste0("sheet=", name)), .session(x))
       sheetInfo <- .dataframeFromSSim(tt)
@@ -428,6 +437,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           }
         }
       }
+      
       for (i in seq(length.out = nrow(sheetInfo))) {
         cRow <- sheetInfo[i, ]
         if (!is.element(cRow$name, colnames(sheet))) {
@@ -540,10 +550,13 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           }
         }
       }
+      
       if (lookupsAsFactors && !useConsole && directQuery) {
         DBI::dbDisconnect(con)
       }
+      
       rmSheets <- unique(sheetInfo$formula1[sheetInfo$valType == "DataSheet"])
+      
       for (i in seq(length.out = length(rmSheets))) {
         unlink(gsub(name, rmSheets[i], tempFile, fixed = TRUE))
       }
@@ -570,6 +583,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
+    
     if (is.element("ProjectID", names(sheet))) {
       if (length(pid) == 1) {
         sheet$ProjectID <- NULL
