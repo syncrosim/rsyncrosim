@@ -245,6 +245,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
     
     if (!empty) {
+      # If non empty set, carry on with the retrieving of data
+      
       # Only query database if output or multiple scenarios/project or complex sql
       useConsole <- (!sheetNames$isOutput)
 
@@ -257,28 +259,33 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         unlink(tempFile)
 
         if (fastQuery) {
-          if (lookupsAsFactors) {
-            
-            args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
-            args <- assignPidSid(args, sheetNames, pid, sid)
-            tt <- command(args, .session(x))
-
-            if (!identical(tt, "saved")) {
-              stop(tt)
-            }
-          }
+          
+          # TODO review whether this can be uncommented safely
+          # if (lookupsAsFactors) {
+          #   
+          #   args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
+          #   args <- assignPidSid(args, sheetNames, pid, sid)
+          #   tt <- command(args, .session(x))
+          # 
+          #   if (!identical(tt, "saved")) {
+          #     stop(tt)
+          #   }
+          # }
 
           args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
           args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, .session(x))
-
+          
+          # If error, catch it
           if (!identical(tt, "saved")) {
             if (!grep("No columns found", tt)) {
               stop(tt)
             } else {
               sheet <- data.frame()
             }
+            
           } else {
+            # Otherwise, carry on
             sql <- readChar(tempFile, file.info(tempFile)$size)
 
             drv <- DBI::dbDriver("SQLite")
@@ -287,6 +294,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             DBI::dbDisconnect(fqcon)
           }
         } else {
+          # If fastQuery is false, do this
+          
           if (!optional & (sheetNames$scope != "library")) {
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL, colswithdata = NULL) # filepath=NULL
           } else {
