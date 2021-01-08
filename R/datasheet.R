@@ -212,6 +212,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   dir.create(.tempfilepath(x), showWarnings = FALSE, recursive = TRUE)
   outSheetList <- list()
   
+  # Loop throught all datasheet names
   for (kk in seq(length.out = length(allNames))) {
     
     name <- allNames[kk] # TODO fix this name thing here
