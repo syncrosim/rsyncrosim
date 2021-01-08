@@ -260,7 +260,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           if (lookupsAsFactors) {
             
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
-            args <- assignPid(args, sheetNames, pid, sid)
+            args <- assignPidSid(args, sheetNames, pid, sid)
             tt <- command(args, .session(x))
 
             if (!identical(tt, "saved")) {
@@ -269,7 +269,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           }
 
           args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
-          args <- assignPid(args, sheetNames, pid, sid)
+          args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, .session(x))
 
           if (!identical(tt, "saved")) {
@@ -292,7 +292,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           } else {
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL) # filepath=NULL
           }
-          args <- assignPid(args, sheetNames, pid, sid)
+          args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, .session(x))
 
           if (!identical(tt, "saved")) {
@@ -619,7 +619,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
 
 # TODO consider moving helper function to helpers file 
 
-assignPid <- function(args, sheetNames, pid, sid){
+assignPidSid <- function(args, sheetNames, pid, sid){
   if (sheetNames$scope == "project") {
     args[["pid"]] <- pid
   }
