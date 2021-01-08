@@ -249,13 +249,16 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       # If non empty set, carry on with the retrieving of data
       
       # Only query database if output or multiple scenarios/project or complex sql
-      # UseConsole only if is NOT AN output
+      # UseConsole TRUE only if is NOT AN output, 
+      # Basically an output will make keep console FALSE
       useConsole <- (!sheetNames$isOutput)
       
       # Policy change - always query output directly from database. It is faster.
       useConsole <- useConsole & ((sqlStatement$select == "SELECT *")) # &(!lookupsAsFactors))
       useConsole <- useConsole & !((sheetNames$scope == "project") & (length(pid) > 1))
       useConsole <- useConsole & !((sheetNames$scope == "scenario") & (length(sid) > 1))
+      # => These send you to query building (case for BOTH fastQuery and UseConsole are FALSE) if :
+      # sql statement is complex, or more than one proj/sce is provided
       
       if (useConsole | fastQuery) {
         unlink(tempFile)
@@ -320,6 +323,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         # query database directly if necessary
         # This bit construct a query and call directly without using the console
         # This happens if BOTH fastQuery and UseConsole are FALSE
+        # datasheet(ssimObject = c(mysce, mysce2), name = c("stsim_RunControl"), 
+        #           fastQuery = F) => BRINGS YOU HERE
         # TODO discuss why we can't just use that in all cases
         
         drv <- DBI::dbDriver("SQLite")
