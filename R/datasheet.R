@@ -363,6 +363,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       sheet[sheet == ""] <- NA
     }
     
+    # TODO review this, this bit assign the correct data types 
     if (empty | lookupsAsFactors) {
       tt <- command(c("list", "columns", "csv", paste0("lib=", .filepath(x)), paste0("sheet=", name)), .session(x))
       sheetInfo <- .dataframeFromSSim(tt)
