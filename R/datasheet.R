@@ -420,15 +420,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         } else {
           tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
           args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL, includepk = NULL)
-          if (sheetNames$scope == "project") {
-            args[["pid"]] <- pid
-          }
-          if (is.element(sheetNames$scope, c("project", "scenario"))) {
-            args[["pid"]] <- pid
-          }
-          if (sheetNames$scope == "scenario") {
-            args[["sid"]] <- sid
-          }
+          args <- assignPidSid(args, sheetNames, pid[theSid], sid[theSid])
           tt <- command(args, .session(x))
           if (!identical(tt, "saved")) {
             stop(tt)
