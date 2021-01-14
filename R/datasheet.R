@@ -267,17 +267,17 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         
         if (fastQuery) {
           
-          # TODO review whether this can be uncommented safely
-          # if (lookupsAsFactors) {
-          #   
-          #   args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
-          #   args <- assignPidSid(args, sheetNames, pid, sid)
-          #   tt <- command(args, .session(x))
-          # 
-          #   if (!identical(tt, "saved")) {
-          #     stop(tt)
-          #   }
-          # }
+          # Writes out a
+          if (lookupsAsFactors) {
+
+            args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
+            args <- assignPidSid(args, sheetNames, pid[1], sid[1]) # TODO make sure vector
+            tt <- command(args, .session(x))
+
+            if (!identical(tt, "saved")) {
+              stop(tt)
+            }
+          }
           
           sheetList <- list()
           for (id in seq_along(sid)){
