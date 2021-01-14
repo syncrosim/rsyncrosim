@@ -451,7 +451,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         
         outNames <- c(outNames, cRow$name)
         
-        if ((cRow$type %in% c("Integer", "Double", "Single")) & (cRow$valType %in% c("DataSheet", "List"))) {
+        if ((cRow$type %in% c("Integer", "Double", "Single")) & !(cRow$valType %in% c("DataSheet", "List"))) {
           sheet[[cRow$name]] <- as.numeric(sheet[[cRow$name]])
         }
         if (cRow$type == "String") {
