@@ -212,10 +212,10 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   dir.create(.tempfilepath(x), showWarnings = FALSE, recursive = TRUE)
   outSheetList <- list()
   
-  # Loop throught all datasheet names
+  # Loop through all datasheet names
   for (kk in seq(length.out = length(allNames))) {
     
-    name <- allNames[kk] # TODO fix this name thing here
+    name <- allNames[kk] # TODO see if name and cName are fullt subsituable
     cName <- name
     datasheetNames <- .datasheets(x, scope = "all")
     sheetNames <- subset(datasheetNames, name == cName)
@@ -438,7 +438,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       }
       
       for (i in seq(length.out = nrow(sheetInfo))) {
+        
         cRow <- sheetInfo[i, ]
+        
         if (!is.element(cRow$name, colnames(sheet))) {
           if (sqlStatement$select == "SELECT *") {
             sheet[[cRow$name]] <- NA
@@ -446,7 +448,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             next
           }
         }
+        
         outNames <- c(outNames, cRow$name)
+        
         if ((is.element(cRow$type, c("Integer", "Double", "Single"))) & !is.element(cRow$valType, c("DataSheet", "List"))) {
           sheet[[cRow$name]] <- as.numeric(sheet[[cRow$name]])
         }
