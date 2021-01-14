@@ -644,8 +644,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   return(outSheetList)
 })
 
-# TODO consider moving helper function to helpers file 
-
+# Helper function 
+# Assign PID and SID to the argument list
 assignPidSid <- function(args, sheetNames, pid, sid){
   if (sheetNames$scope == "project") {
     args[["pid"]] <- pid
