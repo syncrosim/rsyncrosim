@@ -242,6 +242,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       }
     }
     
+    # Use console means using the console either to write out a querry to file OR
+    # write the datasheet directly
     useConsole <- FALSE
     tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
     
@@ -320,12 +322,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         unlink(tempFile)
         
       } else {
-        # query database directly if necessary
+        # Query database directly if necessary
         # This bit construct a query and call directly without using the console
         # This happens if BOTH fastQuery and UseConsole are FALSE
-        # datasheet(ssimObject = c(mysce, mysce2), name = c("stsim_RunControl"), 
-        #           fastQuery = F) => BRINGS YOU HERE
-        # TODO discuss why we can't just use that in all cases
         
         drv <- DBI::dbDriver("SQLite")
         con <- DBI::dbConnect(drv, .filepath(x))
