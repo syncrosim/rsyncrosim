@@ -383,15 +383,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         DBI::dbDisconnect(con)
         
         # Filter out columns without data (drop NA columns) 
-        # TODO there might be a better way to do this
         if (!optional && (nrow(sheet) > 0)) {
-          colNames <- names(sheet)
-          for (r in seq(length.out = length(colNames))) {
-            cCol <- colNames[r]
-            if (sum(!is.na(sheet[[cCol]])) == 0) {
-              sheet[[cCol]] <- NULL
-            }
-          }
+          sheet <- sheet[!colSums(is.na(sheet))>0]
         }
       }
     } else {
