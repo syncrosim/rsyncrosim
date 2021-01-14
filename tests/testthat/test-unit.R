@@ -114,7 +114,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myOtherScn <- scenario(myOtherLib, scenario = "other2")
 
   expect_equal(names(project(myOtherLib)), c("projectId", "name", "owner", "lastModified", "readOnly"))
-  expect_equal(names(scenario(myOtherLib)), c("scenarioId", "projectId", "name", "isResult", "parentID", "owner", "lastModified", "readOnly", "mergeDependencies"))
+  expect_equal(names(scenario(myOtherLib)), c("scenarioId", "projectId", "name", "isResult", "parentID", "owner", "lastModified", "readOnly", "mergeDependencies", "ignoreDependencies", "autoGenTags"))
 
   myProject <- project(myLib, project = "temp")
   expect_is(myProject, "Project")
