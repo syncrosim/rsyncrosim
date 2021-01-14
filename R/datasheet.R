@@ -284,7 +284,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
             args <- assignPidSid(args, sheetNames, pid[id], sid[id])
-            tt <- command(args, .session(x)) # TODO bug happens here: command does boolean checks but cant do it on a vector
+            tt <- command(args, .session(x))
             
             # If error, catch it
             if (!identical(tt, "saved")) {
