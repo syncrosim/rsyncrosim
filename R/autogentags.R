@@ -30,7 +30,7 @@ setMethod("autogentags", signature(ssimObject = "Scenario"), function(ssimObject
 #' Sets the Auto Generation Tags for a Scenario.
 #'
 #' @param ssimObject Scenario
-#' @param tags character
+#' @param value character
 #' 
 #' @return 
 #' The updated ssimObject.

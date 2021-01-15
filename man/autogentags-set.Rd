@@ -15,7 +15,7 @@ autogentags(ssimObject) <- value
 \arguments{
 \item{ssimObject}{Scenario}
 
-\item{tags}{character}
+\item{value}{character}
 }
 \value{
 The updated ssimObject.

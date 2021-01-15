@@ -30,7 +30,7 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 #' Sets the Ignore Dependencies Datafeed for a Scenario.
 #'
 #' @param ssimObject Scenario
-#' @param dataFeeds character
+#' @param value Character
 #' 
 #' @return 
 #' The updated ssimObject.
