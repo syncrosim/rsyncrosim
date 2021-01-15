@@ -222,6 +222,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_equal(dependency(targetScn)$name, c("New scn name", "another scn", "other")) # now "New scn name" has highest precedence.
 
   # test delete - vectors of project/scenario/datasheet
+  # Fails in test env
   retList <- delete(myLib, project = project(myLib)$projectId[1:2], 
                     datasheet = c("corestime_Charts", "corestime_DistributionType"), force = TRUE)
   expect_is(retList, "list")
