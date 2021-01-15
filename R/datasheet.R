@@ -429,7 +429,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         } else {
           tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
           args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL, includepk = NULL)
-          args <- assignPidSid(args, sheetNames, pid[theSid], sid[theSid])
+          args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, .session(x))
           if (!identical(tt, "saved")) {
             stop(tt)
