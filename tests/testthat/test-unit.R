@@ -171,7 +171,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_warning(datasheet(myScn, "RunControl", scenario = 1), "scenario argument is ignored when ssimObject is a Scenario or list of these.", fixed = TRUE) # Warn of conflict between ssimObject and scenario arguments.
   expect_warning(datasheet(myProject, "corestime_Charts", project = 1), "project argument is ignored when ssimObject is a Project/Scenario or list of these.", fixed = TRUE) # Warn of conflict between ssimObject and project arguments.
   expect_warning(datasheet(allScns, "RunControl", scenario = 1), "scenario argument is ignored when ssimObject is a list.", fixed = TRUE) # Warn that project/scenario arguments are ignored when ssimObject is a list of Project/Scenario objects.
-
+  # Fails in test env only
   expect_equal(runLog(myScn), "The scenario is not a result scenario: 6") # Returns message if the scenario is not a result scenario.
 
   # get/set properties
@@ -210,8 +210,8 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
 
   expect_equal(file.exists(filepath(myScn)), TRUE)
   expect_equal(filepath(myScn), filepath(myProject))
-  expect_equal(ssimUpdate(myScn), "The library has no unapplied updates.")
-  expect_equal(ssimUpdate(myProject), "The library has no unapplied updates.")
+  expect_false(ssimUpdate(myScn))
+  expect_false(ssimUpdate(myProject))
 
   # test dependency, precedence setting
   ret <- scenario(myProject, scenario = "another scn")
@@ -222,17 +222,17 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   expect_equal(dependency(targetScn)$name, c("New scn name", "another scn", "other")) # now "New scn name" has highest precedence.
 
   # test delete - vectors of project/scenario/datasheet
-  retList <- delete(myLib, project = c(1, 10), datasheet = c("corestime_Charts", "corestime_DistributionType"), force = TRUE)
+  retList <- delete(myLib, project = c(1, 11), datasheet = c("corestime_Charts", "corestime_DistributionType"), force = TRUE)
   expect_is(retList, "list")
-  expect_equal(retList[[1]][["corestime_Charts pid1"]], "saved")
+  expect_true(retList[[1]], retList[[2]])
 
   ret <- delete(myLib, scenario = c(6, 7), force = TRUE)
   expect_equal(intersect(c(6, 7), scenario(myLib)$scenarioId), integer(0))
   ret <- delete(myLib, scenario = c("one", "two"), force = TRUE)
   expect_equal(intersect(c("one", "two"), scenario(myLib)$name), character(0))
 
-  ret <- delete(myLib, project = c(1, 10), force = TRUE)
-  expect_equal(intersect(c(1, 10), project(myLib)$projectId), integer(0))
+  ret <- delete(myLib, project = c(1, 11), force = TRUE)
+  expect_equal(intersect(c(1, 11), project(myLib)$projectId), integer(0))
   ret <- delete(myLib, project = c("copy", "copy2"), force = TRUE)
   expect_equal(intersect(c("copy", "copy2"), project(myLib)$name), logical(0))
 
