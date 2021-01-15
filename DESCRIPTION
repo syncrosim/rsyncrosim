@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.2.7
+Version: 1.2.8
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -90,7 +90,7 @@ Collate:
     'ssimUpdate.R'
     'updatePackage.R'
     'version.R'
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 URL: https://github.com/syncrosim/rsyncrosim
 BugReports: https://github.com/syncrosim/rsyncrosim/issues

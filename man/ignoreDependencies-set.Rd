@@ -15,7 +15,7 @@ ignoreDependencies(ssimObject) <- value
 \arguments{
 \item{ssimObject}{Scenario}
 
-\item{dataFeeds}{character}
+\item{value}{Character}
 }
 \value{
 The updated ssimObject.

@@ -351,12 +351,15 @@ saveDatasheet(myScenario,
 # datasheet(myScenario, "stsim_OutputOptions")
 sheetData <- data.frame(
   SummaryOutputSC = T, SummaryOutputSCTimesteps = 1,
-  SummaryOutputTR = T, SummaryOutputTRTimesteps = 1,
+  SummaryOutputTR = T, SummaryOutputTRTimesteps = 1
+)
+saveDatasheet(myScenario, sheetData, "stsim_OutputOptions")
+sheetData <- data.frame(
   RasterOutputSC = T, RasterOutputSCTimesteps = 1,
   RasterOutputTR = T, RasterOutputTRTimesteps = 1,
   RasterOutputAge = T, RasterOutputAgeTimesteps = 1
 )
-saveDatasheet(myScenario, sheetData, "stsim_OutputOptions")
+saveDatasheet(myScenario, sheetData, "stsim_OutputOptionsSpatial")
 ```
 
 We are done parameterizing our simple "No Harvest" scenario. Let's now define a new scenario that implements forest harvesting. Below, we create a second "Harvest" scenario that is a copy of the first scenario, but with a harvest level of 20 acres/year.

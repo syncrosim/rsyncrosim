@@ -66,9 +66,9 @@ setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name
     stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")
   }
   # Now have scenario/project ids of same type in same library, and ssimObject is library
-
+  
   out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, summary = summary, optional = optional, empty = empty, lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, includeKey = includeKey, forceElements = forceElements, fastQuery = fastQuery) # Off for v0.1
-
+  
   return(out)
 })
 
@@ -86,6 +86,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   parentID <- NULL
   ParentName <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
+  
   if (class(xProjScn) == "SsimLibrary") {
     x <- xProjScn
     pid <- NULL
@@ -99,7 +100,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     }
   }
   # now have valid pid/sid vectors and x is library.
-
+  
   if (!is.null(name)) {
     for (i in seq_along(name)) {
       n <- name[i]
@@ -108,7 +109,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         p = l$value[l$property == "Package Name:"]
         n <- paste0(p, "_", n)
       }
-
+      
       if (grepl("STSim_", n, fixed = TRUE)) {
         warning("An STSim_ prefix for a datasheet name is no longer required.")
         n <- paste0("stsim_", gsub("STSim_", "", n, fixed = TRUE))
@@ -116,9 +117,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       name[i] <- n
     }
   }
-
+  
   allNames <- name
-
+  
   if (is.null(summary)) {
     if (is.null(name)) {
       summary <- TRUE
@@ -126,7 +127,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       summary <- FALSE
     }
   }
-
+  
   # if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if (summary | is.null(name)) {
     sumInfo <- .datasheets(x, project[[1]], scenario[[1]])
@@ -145,24 +146,24 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     }
     sumInfo <- subset(sumInfo, is.element(name, allNames))
   }
-
+  
   # now assume we have one or more names
   if (is.null(name)) {
     stop("Something is wrong in datasheet().")
   }
-
+  
   if (summary & !optional) {
     sumInfo <- subset(sumInfo, select = c("scope", "name", "displayName", "order"))
     sumInfo[order(sumInfo$order), ]
     sumInfo$order <- NULL
     return(sumInfo)
   }
-
+  
   # Add data info - only for scenario scope datasheets if sid is defined
   if (summary) {
     # if no scenario scope sheets, return sumInfo without checking for data
     scnSheetSum <- sum(sumInfo$scope == "scenario")
-
+    
     if (scnSheetSum == 0) {
       sumInfo[order(sumInfo$order), ]
       sumInfo$order <- NULL
@@ -171,7 +172,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     for (i in seq(length.out = length(sid))) {
       cSid <- sid[i]
       tt <- command(list(list = NULL, datasources = NULL, lib = .filepath(x), sid = cSid), session = session(x))
-
+      
       hasDataInfo <- .dataframeFromSSim(tt, csv = FALSE, convertToLogical = c("data", "dataInherited"))
       if (!is.element("data", names(hasDataInfo))) {
         hasDataInfo$data <- FALSE
@@ -192,14 +193,14 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       }
       hasDatBit <- subset(hasDataInfo, select = addCols)
       hasDatBit$scenario <- i
-
+      
       if (i == 1) {
         hasDatAll <- hasDatBit
       } else {
         hasDatAll <- rbind(hasDatAll, hasDatBit)
       }
     }
-
+    
     prevNames <- names(sumInfo)
     sumInfo <- merge(sumInfo, hasDatAll, all.x = TRUE)
     sumInfo <- subset(sumInfo, select = c(prevNames, setdiff(names(sumInfo), prevNames)))
@@ -207,14 +208,18 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     sumInfo$order <- NULL
     return(sumInfo)
   }
-
+  
   dir.create(.tempfilepath(x), showWarnings = FALSE, recursive = TRUE)
   outSheetList <- list()
+  
+  # Loop through all datasheet names
   for (kk in seq(length.out = length(allNames))) {
-    name <- allNames[kk]
+    
+    name <- allNames[kk] # TODO see if name and cName are fullt subsituable
     cName <- name
     datasheetNames <- .datasheets(x, scope = "all")
     sheetNames <- subset(datasheetNames, name == cName)
+    
     if (nrow(sheetNames) == 0) {
       datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
       sheetNames <- subset(datasheetNames, name == cName)
@@ -222,9 +227,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         stop("Datasheet ", name, " not found in library.")
       }
     }
-
+    
     rmCols <- c()
-
+    
     if (!sheetNames$isOutput) {
       if (!includeKey) {
         args <- list(list = NULL, columns = NULL, allprops = NULL, csv = NULL, lib = .filepath(x), sheet = name)
@@ -236,106 +241,117 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
-
+    
+    # Use console means using the console either to write out a querry to file OR
+    # write the datasheet directly
     useConsole <- FALSE
     tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
+    
     if (!empty) {
+      # If non empty set, carry on with the retrieving of data
+      
       # Only query database if output or multiple scenarios/project or complex sql
+      # UseConsole TRUE only if is NOT AN output, 
+      # Basically an output will make keep console FALSE
       useConsole <- (!sheetNames$isOutput)
-
+      
       # Policy change - always query output directly from database. It is faster.
       useConsole <- useConsole & ((sqlStatement$select == "SELECT *")) # &(!lookupsAsFactors))
       useConsole <- useConsole & !((sheetNames$scope == "project") & (length(pid) > 1))
       useConsole <- useConsole & !((sheetNames$scope == "scenario") & (length(sid) > 1))
-
+      # => These send you to query building (case for BOTH fastQuery and UseConsole are FALSE) if :
+      # sql statement is complex, or more than one proj/sce is provided
+      
       if (useConsole | fastQuery) {
         unlink(tempFile)
-
+        
         if (fastQuery) {
+          
+          # Writes out a
           if (lookupsAsFactors) {
+
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
-
-            if (sheetNames$scope == "project") {
-              args[["pid"]] <- pid
-            }
-            if (is.element(sheetNames$scope, c("project", "scenario"))) {
-              args[["pid"]] <- pid
-            }
-            if (sheetNames$scope == "scenario") {
-              args[["sid"]] <- sid
-            }
-
+            args <- assignPidSid(args, sheetNames, pid[1], sid[1]) # TODO make sure vector
             tt <- command(args, .session(x))
 
             if (!identical(tt, "saved")) {
               stop(tt)
             }
           }
-
-          args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
-
-          if (sheetNames$scope == "project") {
-            args[["pid"]] <- pid
-          }
-          if (is.element(sheetNames$scope, c("project", "scenario"))) {
-            args[["pid"]] <- pid
-          }
-          if (sheetNames$scope == "scenario") {
-            args[["sid"]] <- sid
-          }
-
-          tt <- command(args, .session(x))
-
-          if (!identical(tt, "saved")) {
-            if (!grep("No columns found", tt)) {
-              stop(tt)
+          
+          sheetList <- list()
+          for (id in seq_along(sid)){
+            
+            args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
+            args <- assignPidSid(args, sheetNames, pid[id], sid[id])
+            tt <- command(args, .session(x))
+            
+            # If error, catch it
+            if (!identical(tt, "saved")) {
+              if (!grep("No columns found", tt)) {
+                stop(tt)
+              } else {
+                sheet <- data.frame()
+              }
+              
             } else {
-              sheet <- data.frame()
+              # Otherwise, carry on
+              sql <- readChar(tempFile, file.info(tempFile)$size)
+              
+              drv <- DBI::dbDriver("SQLite")
+              fqcon <- DBI::dbConnect(drv, .filepath(x))
+              sheet <- DBI::dbGetQuery(fqcon, sql)
+              
+              # Adding pid and sid because the sql query generated by the 
+              # console does not include them
+              if (nrow(sheet) > 0 & (length(pid)>1 | length(sid)>1)){
+                sheet$ScenarioID <-  sid[id]
+                sheet$ProjectID <-  pid[id]
+              }
+              
+              sheetList[[id]] <- sheet
+              DBI::dbDisconnect(fqcon)
             }
-          } else {
-            sql <- readChar(tempFile, file.info(tempFile)$size)
-
-            drv <- DBI::dbDriver("SQLite")
-            fqcon <- DBI::dbConnect(drv, .filepath(x))
-            sheet <- DBI::dbGetQuery(fqcon, sql)
-            DBI::dbDisconnect(fqcon)
+            
           }
+          sheet <- do.call(rbind, sheetList)
+          
         } else {
+          # If fastQuery is false, do this
+          # THis happens IF fast query is FALSE and if not complex
+          # It writes out the csv to temp file
+          
           if (!optional & (sheetNames$scope != "library")) {
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL, colswithdata = NULL) # filepath=NULL
           } else {
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL) # filepath=NULL
           }
-          if (sheetNames$scope == "project") {
-            args[["pid"]] <- pid
-          }
-          if (is.element(sheetNames$scope, c("project", "scenario"))) {
-            args[["pid"]] <- pid
-          }
-          if (sheetNames$scope == "scenario") {
-            args[["sid"]] <- sid
-          }
-
+          args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, .session(x))
-
+          
           if (!identical(tt, "saved")) {
             stop(tt)
           }
-
+          
           sheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
         }
-
+        
         unlink(tempFile)
+        
       } else {
-        # query database directly if necessary
-
+        # Query database directly if necessary
+        # This bit construct a query and call directly without using the console
+        # This happens if BOTH fastQuery and UseConsole are FALSE
+        
         drv <- DBI::dbDriver("SQLite")
         con <- DBI::dbConnect(drv, .filepath(x))
-
+        
         if (is.null(sqlStatement$where)) {
           sqlStatement$where <- ""
         }
+        
         sqlStatement$from <- paste("FROM", name)
+        
         if (sheetNames$scope == "scenario") {
           if (is.null(sid)) {
             stop("Specify a scenario.")
@@ -349,6 +365,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
           }
         }
+        
         if (sheetNames$scope == "project") {
           if (is.null(pid)) {
             stop("Specify a project.")
@@ -360,34 +377,33 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
           }
         }
+        
         sql <- paste(sqlStatement$select, sqlStatement$from, sqlStatement$where, sqlStatement$groupBy)
         sheet <- DBI::dbGetQuery(con, sql)
         DBI::dbDisconnect(con)
-
-        # Filter out columns without data
+        
+        # Filter out columns without data (drop NA columns) 
         if (!optional && (nrow(sheet) > 0)) {
-          colNames <- names(sheet)
-          for (r in seq(length.out = length(colNames))) {
-            cCol <- colNames[r]
-            if (sum(!is.na(sheet[[cCol]])) == 0) {
-              sheet[[cCol]] <- NULL
-            }
-          }
+          sheet <- sheet[!colSums(is.na(sheet))>0]
         }
       }
     } else {
+      # If empty set
       sheet <- data.frame(temp = NA)
       sheet <- subset(sheet, !is.na(temp))
     }
+    
     if (nrow(sheet) > 0) {
       sheet[sheet == ""] <- NA
     }
+    
+    # TODO review this, this bit assign the correct data types 
     if (empty | lookupsAsFactors) {
       tt <- command(c("list", "columns", "csv", paste0("lib=", .filepath(x)), paste0("sheet=", name)), .session(x))
       sheetInfo <- .dataframeFromSSim(tt)
       sheetInfo$id <- seq(length.out = nrow(sheetInfo))
       sheetInfo <- subset(sheetInfo, !is.element(name, rmCols))
-
+      
       if (!optional) {
         if (!empty) {
           sheetInfo$optional[is.element(sheetInfo$name, names(sheet)) & (sheetInfo$optional == "Yes")] <- "Present"
@@ -395,13 +411,13 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         sheetInfo <- subset(sheetInfo, is.element(optional, c("No", "Present")))
       }
       sheetInfo <- sheetInfo[order(sheetInfo$id), ]
-
+      
       if (nrow(sheet) == 0) {
         sheet[1, 1] <- NA
       }
-
+      
       outNames <- c()
-
+      
       directQuery <- FALSE
       if (lookupsAsFactors & !useConsole) {
         directQuery <- (length(pid) > 1) | (length(sid) > 1)
@@ -413,23 +429,18 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         } else {
           tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
           args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL, includepk = NULL)
-          if (sheetNames$scope == "project") {
-            args[["pid"]] <- pid
-          }
-          if (is.element(sheetNames$scope, c("project", "scenario"))) {
-            args[["pid"]] <- pid
-          }
-          if (sheetNames$scope == "scenario") {
-            args[["sid"]] <- sid
-          }
+          args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, .session(x))
           if (!identical(tt, "saved")) {
-            stop(tt)
+            stop(tt, "You might be asking for a datasheet at the project level but that datasheet has a scenario scope")
           }
         }
       }
+      
       for (i in seq(length.out = nrow(sheetInfo))) {
+        
         cRow <- sheetInfo[i, ]
+        
         if (!is.element(cRow$name, colnames(sheet))) {
           if (sqlStatement$select == "SELECT *") {
             sheet[[cRow$name]] <- NA
@@ -437,8 +448,10 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             next
           }
         }
+        
         outNames <- c(outNames, cRow$name)
-        if ((is.element(cRow$type, c("Integer", "Double", "Single"))) & !is.element(cRow$valType, c("DataSheet", "List"))) {
+        
+        if ((cRow$type %in% c("Integer", "Double", "Single")) & !(cRow$valType %in% c("DataSheet", "List"))) {
           sheet[[cRow$name]] <- as.numeric(sheet[[cRow$name]])
         }
         if (cRow$type == "String") {
@@ -515,9 +528,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
                 if (length(intersect("Name", names(lookupSheet))) == 0) {
                   stop("Something is wrong. Expecting Name in lookup table.")
                 }
-
+                
                 lookupMerge <- subset(lookupSheet, select = c(names(lookupSheet)[1], "Name"))
-
+                
                 names(lookupMerge) <- c(cRow$name, "lookupName")
                 sheet <- merge(sheet, lookupMerge, all.x = TRUE)
                 sheet[[cRow$name]] <- sheet$lookupName
@@ -540,14 +553,17 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           }
         }
       }
+      
       if (lookupsAsFactors && !useConsole && directQuery) {
         DBI::dbDisconnect(con)
       }
+      
       rmSheets <- unique(sheetInfo$formula1[sheetInfo$valType == "DataSheet"])
+      
       for (i in seq(length.out = length(rmSheets))) {
         unlink(gsub(name, rmSheets[i], tempFile, fixed = TRUE))
       }
-
+      
       # TO DO: deal with NA values in sheet
       # put columns in correct order
       sheet$colOne <- sheet[, 1]
@@ -570,6 +586,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
+    
     if (is.element("ProjectID", names(sheet))) {
       if (length(pid) == 1) {
         sheet$ProjectID <- NULL
@@ -583,7 +600,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
-
+    
     if (is.element("ScenarioID", names(sheet))) {
       if (length(sid) == 1) {
         sheet$ScenarioID <- NULL
@@ -599,17 +616,17 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           parentNames <- subset(allScns, select = c(scenarioId, name))
           names(parentNames) <- c("parentID", "ParentName")
           allScns <- merge(allScns, parentNames, all.x = TRUE)
-
+          
           allScns <- subset(allScns, select = c(scenarioId, projectId, name, parentID, ParentName))
-
+          
           names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
-
+          
           sheet <- merge(allScns, sheet, all.y = TRUE)
         }
       }
     }
     outSheetList[[cName]] <- sheet
-
+    
     # return single row datasheets as named vectors (if not for multiple scenarios)
     # note info about data types and lookups will be lost if we do this. so don't.
     if (FALSE && sheetNames$isSingle && (nrow(sheet) <= 1)) {
@@ -622,11 +639,26 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       }
     }
   }
-
+  
   if (!forceElements & (length(outSheetList) == 1)) {
     outSheetList <- outSheetList[[1]]
   }
-
+  
   unlink(.tempfilepath(x), recursive = TRUE)
   return(outSheetList)
 })
+
+# Helper function 
+# Assign PID and SID to the argument list
+assignPidSid <- function(args, sheetNames, pid, sid){
+  if (sheetNames$scope == "project") {
+    args[["pid"]] <- pid
+  }
+  if (is.element(sheetNames$scope, c("project", "scenario"))) {
+    args[["pid"]] <- pid
+  }
+  if (sheetNames$scope == "scenario") {
+    args[["sid"]] <- sid
+  }
+  return(args)
+}
