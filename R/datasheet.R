@@ -432,7 +432,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, .session(x))
           if (!identical(tt, "saved")) {
-            stop(tt)
+            stop(tt, "You might be asking for a datasheet at the project level but that datasheet has a scenario scope")
           }
         }
       }
