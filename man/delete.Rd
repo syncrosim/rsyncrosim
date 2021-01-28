@@ -46,7 +46,7 @@ This function returns invisibly a list of boolean values corresponding to each o
 input: `TRUE` upon success (i.e.successful deletion) and `FALSE` upon failure.
 }
 \description{
-Deletes one or more items. Note this is irreversible
+Deletes one or more items. Note that this is irreversible.
 }
 \examples{
 \donttest{
