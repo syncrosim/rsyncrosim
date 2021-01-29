@@ -584,7 +584,7 @@ setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), function(ssim
 
 setMethod("deleteLibrary", signature(ssimLibrary = "character"), function(ssimLibrary, force) {
   if (!file.exists(ssimLibrary)) {
-    return(paste0("Library not found: ", ssimLibrary))
+    stop(paste0("Library not found: ", ssimLibrary))
   }
   if (force) {
     answer <- "y"
