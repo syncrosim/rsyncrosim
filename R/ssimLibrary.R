@@ -90,7 +90,8 @@ setMethod(
       if (is.null(inName) | forceUpdate) {
         answer <- "y"
       } else {
-        answer <- readline(prompt = paste0("The library has unapplied updates. Do you want to update ", path, "? (y/n): "))
+        message("The library has unapplied updates.\nDo you want to update library with path '", path, "' ?")
+        answer <- readline(prompt = "(y/n):")
       }
       if (answer == "y") {
         UpdateArgs <- list(update = NULL, lib = path)
