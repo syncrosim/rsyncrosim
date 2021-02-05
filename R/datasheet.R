@@ -267,7 +267,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         
         if (fastQuery) {
           
-          # Writes out a
+          # Writes out a file
           if (lookupsAsFactors) {
 
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
