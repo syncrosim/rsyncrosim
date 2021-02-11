@@ -86,6 +86,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   parentID <- NULL
   ParentName <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
+  IDColumns <- c("ScenarioID", "ProjectID")
   
   if (class(xProjScn) == "SsimLibrary") {
     x <- xProjScn
@@ -269,11 +270,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           
           # Writes out a file
           if (lookupsAsFactors) {
-
+            
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
             args <- assignPidSid(args, sheetNames, pid[1], sid[1]) # TODO make sure vector
             tt <- command(args, .session(x))
-
+            
             if (!identical(tt, "saved")) {
               stop(tt)
             }
@@ -308,6 +309,12 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
                 sheet$ScenarioID <-  sid[id]
                 sheet$ProjectID <-  pid[id]
               }
+              
+              # Rearrange on the spot, making sure this is robust for Project-level
+              # datasheets as well
+              IDColumnsForThisSheet <- IDColumns[IDColumns %in% names(sheet)]
+              sheet <- sheet[, c(IDColumnsForThisSheet, 
+                                 names(sheet)[!(names(sheet) %in% IDColumnsForThisSheet)])]
               
               sheetList[[id]] <- sheet
               DBI::dbDisconnect(fqcon)
