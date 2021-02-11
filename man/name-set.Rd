@@ -19,7 +19,7 @@ name(ssimObject) <- value
 \S4method{name}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario/Project/SsimLibrary}
+\item{ssimObject}{Scenario/Project/SsimLibrary.}
 
 \item{value}{The updated ssimObject.}
 }
@@ -27,5 +27,5 @@ name(ssimObject) <- value
 The updated ssim Object.
 }
 \description{
-Set the name of a SyncroSim Project, Scenario or Library
+Set the name of a SyncroSim Project, Scenario or Library.
 }

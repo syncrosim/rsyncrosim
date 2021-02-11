@@ -32,7 +32,7 @@ Reports progress for a SyncroSim simulation.
 
 Begins a SyncroSim simulation.
 
-Steps a SyncroSim simulation
+Steps a SyncroSim simulation.
 
 Ends a SyncroSim simulation.
 }

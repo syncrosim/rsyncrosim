@@ -23,7 +23,7 @@ session(x = NULL, silent = TRUE, printCmd = FALSE)
 A SyncroSim Session object.
 }
 \description{
-Methods to create or return a Syncrosim session.
+Methods to create or return a SyncroSim session.
 }
 \examples{
 \donttest{

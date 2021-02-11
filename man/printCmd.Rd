@@ -17,9 +17,9 @@ printCmd(session = NULL)
 If NULL, the default session will be used.}
 }
 \value{
-Returns a logical value: `TRUE` is the session is configured to print commands and 
+Returns a logical value: `TRUE` if the session is configured to print commands and 
 `FALSE` if it is not.
 }
 \description{
-Retrives a printCmd setting of a Session object.
+Retrieves a printCmd setting of a Session object.
 }

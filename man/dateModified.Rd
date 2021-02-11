@@ -26,5 +26,5 @@ A character string of the date and time of the most recent modification
 to the ssimObject provided as input.
 }
 \description{
-The most recent modification date of an SsimLibrary/Project/Scenario
+The most recent modification date of an SsimLibrary/Project/Scenario.
 }

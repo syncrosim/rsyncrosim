@@ -2,12 +2,12 @@
 % Please edit documentation in R/ssimEnvironment.R
 \name{ssimEnvironment}
 \alias{ssimEnvironment}
-\title{SyncroSim Environment.}
+\title{SyncroSim Environment}
 \usage{
 ssimEnvironment()
 }
 \value{
-A data.frame of SyncroSim specific environment variables.
+Returns a data.frame of SyncroSim specific environment variables.
 }
 \description{
 Retrieves SyncroSim specific environment variables.

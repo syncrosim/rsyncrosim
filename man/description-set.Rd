@@ -13,7 +13,7 @@ description(ssimObject) <- value
 \S4method{description}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario/Project/SsimLibrary}
+\item{ssimObject}{Scenario/Project/SsimLibrary.}
 
 \item{value}{The new description.}
 }

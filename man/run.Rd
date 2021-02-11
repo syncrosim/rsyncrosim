@@ -49,7 +49,7 @@ run(
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.}
 
-\item{scenario}{character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.}
+\item{scenario}{Character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.}
 
 \item{summary}{Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.}
 
@@ -60,7 +60,7 @@ run(
 \item{forceElements}{Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.}
 }
 \value{
-If \code{summary = FALSE} a result Scenario object or a named list of result Scenarios. 
+If \code{summary = FALSE}, returns a result Scenario object or a named list of result Scenarios. 
 The name is the parent scenario for each result. If \code{summary = TRUE}, returns summary info 
 for result scenarios.
 }

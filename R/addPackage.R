@@ -12,7 +12,7 @@ NULL
 #' @param session Session.
 #' 
 #' @return 
-#' This function will inivisibly return `TRUE` upon success (i.e.successful 
+#' This function will invisibly return `TRUE` upon success (i.e.successful 
 #' install) and `FALSE` upon failure.
 #' 
 #' @export

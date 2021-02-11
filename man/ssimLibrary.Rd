@@ -4,7 +4,7 @@
 \alias{ssimLibrary}
 \alias{ssimLibrary,SsimObject-method}
 \alias{ssimLibrary,missingOrNULLOrChar-method}
-\title{Create or open a library.}
+\title{Create or open a library}
 \usage{
 ssimLibrary(
   name = NULL,
@@ -39,7 +39,7 @@ ssimLibrary(
 \arguments{
 \item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.}
 
-\item{summary}{logical. Default TRUE}
+\item{summary}{Logical. Default TRUE.}
 
 \item{package}{Character. The package type. The default is "stsim".}
 
@@ -52,12 +52,12 @@ ssimLibrary(
 \item{overwrite}{Logical. If TRUE an existing Library will be overwritten.}
 }
 \value{
-An \code{SsimLibrary} object.
+Returns a \code{SsimLibrary} object.
 }
 \description{
-Creates or opens an \code{\link{SsimLibrary}} object.
+Creates or opens a \code{\link{SsimLibrary}} object.
 If summary = TRUE, returns library summary info.
-If summary = NULL, returns library summary info if ssimObject is an SsimLibrary, SsimLibrary object otherwise.
+If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, SsimLibrary object otherwise.
 }
 \details{
 \itemize{

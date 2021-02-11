@@ -22,7 +22,7 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL", "character"))
 Session <- setClass("Session", representation(filepath = "character", silent = "logical", printCmd = "logical"))
 
 # SyncroSim Object class
-# SsimLibrary, Project and Scenario all inherit from this abstract class
+# SsimLibrary, Project and Scenario all inherit from this abstract class.
 #
 # @slot session The SyncroSim Session.
 # @slot filepath The path to the Library on disk.
@@ -44,7 +44,7 @@ SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", representation()
 
 #' SyncroSim Scenario class
 #'
-#' \code{Scenario} object representing a SyncroSim Scnario.
+#' \code{Scenario} object representing a SyncroSim Scenario.
 #'
 #' @seealso See \code{\link{scenario}} for options when creating or loading a SyncroSim Scenario.
 #' @slot session The Session associated with the Scenario.
@@ -66,8 +66,8 @@ Scenario <- setClass("Scenario", contains = "SsimObject", representation(project
 #' @seealso See \code{\link{project}} for options when creating or loading a SyncroSim Project.
 #' @slot session The Session associated with the Project's Library.
 #' @slot filepath The path to the Project's Library on disk.
-#' @slot datasheetNames Names and scopes of datasheets in the Project's Library
-#' @slot projectId The Project id
+#' @slot datasheetNames Names and scopes of datasheets in the Project's Library.
+#' @slot projectId The Project id.
 #' @name Project-class
 #' @rdname Project-class
 #' @export Project
