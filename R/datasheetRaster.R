@@ -253,7 +253,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
     warning("No raster data to return.")
     return(list())
   }
-
+  
   nFiles <- unique(cMeta$rasterColumn)
   
   # Case of unique file for many iterations/timestep
