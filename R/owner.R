@@ -5,7 +5,7 @@ NULL
 
 #' The owner of a SsimLibrary/Project/Scenario.
 #'
-#' Retrieves the owner of an SsimLibrary/ProjectScenario
+#' Retrieves the owner of a SsimLibrary/ProjectScenario.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' 
@@ -19,7 +19,7 @@ setGeneric("owner", function(ssimObject) standardGeneric("owner"))
 #'
 #' Set the owner of an SsimLibrary/Project/Scenario.
 #'
-#' @param ssimObject Scenario/Project/SsimLibrary
+#' @param ssimObject Scenario/Project/SsimLibrary.
 #' @param value The new owner.
 #' 
 #' @return 

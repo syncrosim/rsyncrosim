@@ -13,12 +13,12 @@ mergeDependencies(ssimObject) <- value
 \S4method{mergeDependencies}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario}
+\item{ssimObject}{Scenario.}
 
 \item{value}{Logical. If TRUE the Scenario will be set to merge dependencies at run time.}
 }
 \value{
-The updated ssimObject.
+Returns the updated ssimObject.
 }
 \description{
 Sets whether or not a Scenario is configured to merge dependencies at run time.

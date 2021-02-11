@@ -1,11 +1,11 @@
 #' Information about an library
 #' 
-#' Get basic information about a Library
+#' Get basic information about a Library.
 #' 
 #' @param ssimLibrary A \code{SsimLibrary} object.
 #' 
 #' @return 
-#' A \code{data.frame} with information on the properties of the library object.
+#' Returns a \code{data.frame} with information on the properties of the library object.
 #' 
 #' @export
 setGeneric("info", function(ssimLibrary) standardGeneric("info"))

@@ -31,11 +31,11 @@ scenario(
 }
 \value{
 A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
-If \code{summary} = FALSE, returns one or more \code{\link{Scenario}} objects representing a SyncroSim scenarios.
+If \code{summary} = FALSE, returns one or more \code{\link{Scenario}} objects representing SyncroSim scenarios.
 If \code{summary} = TRUE, returns scenario summary info.
 }
 \description{
-Create or retrievs one or more Scenarios from a library
+Create or retrieves one or more Scenarios from a library
 }
 \details{
 For each element of scenario:

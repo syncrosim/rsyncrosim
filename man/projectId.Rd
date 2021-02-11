@@ -19,8 +19,8 @@ projectId(ssimObject)
 \item{ssimObject}{Project/Scenario.}
 }
 \value{
-An integer project id.
+Returns an integer project id.
 }
 \description{
-retrives the projectId of a SyncroSim Project or Scenario.
+Retrieves the projectId of a SyncroSim Project or Scenario.
 }

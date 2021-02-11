@@ -22,8 +22,8 @@ basePackage(ssimObject = NULL)
 \item{ssimObject}{Session or SsimLibrary.}
 }
 \value{
-A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary)
+A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).
 }
 \description{
-Base packages installed with this version of SyncroSim
+Base packages installed with this version of SyncroSim.
 }

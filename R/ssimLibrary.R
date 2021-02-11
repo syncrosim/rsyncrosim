@@ -176,11 +176,11 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
   return(out)
 })
 
-#' Create or open a library.
+#' Create or open a library
 #'
-#' Creates or opens an \code{\link{SsimLibrary}} object.
+#' Creates or opens a \code{\link{SsimLibrary}} object.
 #' If summary = TRUE, returns library summary info.
-#' If summary = NULL, returns library summary info if ssimObject is an SsimLibrary, SsimLibrary object otherwise.
+#' If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, SsimLibrary object otherwise.
 #'
 #' @export
 #' @details
@@ -193,7 +193,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' }
 #' 
 #' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
-#' @param summary logical. Default TRUE
+#' @param summary Logical. Default TRUE.
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See addon() for options.
@@ -201,7 +201,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param overwrite Logical. If TRUE an existing Library will be overwritten.
 #' 
 #' @return 
-#' An \code{SsimLibrary} object.
+#' Returns a \code{SsimLibrary} object.
 #' 
 #' @examples
 #' \donttest{

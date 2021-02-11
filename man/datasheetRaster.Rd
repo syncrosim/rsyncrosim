@@ -76,7 +76,7 @@ datasheetRaster(
 
 \item{timestep}{integer, character string, or vector of integer/character string. Timestep(s) to include. If NULL then all timesteps are included.  If no Timestep column in the datasheet, then ignored.}
 
-\item{subset}{logical expression. logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.}
+\item{subset}{logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.}
 
 \item{forceElements}{logical. If TRUE then returns a single raster as a RasterStack; otherwise returns a single raster as a RasterLayer directly.}
 }

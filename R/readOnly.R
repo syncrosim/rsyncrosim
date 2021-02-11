@@ -3,14 +3,14 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Read-only status of an SsimLibrary/Project/Scenario.
+#' Read-only status of a SsimLibrary/Project/Scenario.
 #'
-#' Whether or not an SsimLibrary/ProjectScenario is read-only.
+#' Whether or not a SsimLibrary/ProjectScenario is read-only.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' 
 #' @return 
-#' Returns a logical values: `TRUE` if the ssimObject is read only and `FALSE`
+#' Returns a logical value: `TRUE` if the ssimObject is read only and `FALSE`
 #' otherwise.
 #' 
 #' @export
@@ -48,12 +48,12 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
   return(scnInfo$readOnly)
 })
 
-#' Set the read/write status of an SsimLibrary/Project/Scenario.
+#' Set the read/write status of a SsimLibrary/Project/Scenario.
 #'
-#' Set the read-only status of an SsimLibrary/Project/Scenario.
-#' Applies to child objects if ssimObject is an SsimLibrary or Project.
+#' Set the read-only status of a SsimLibrary/Project/Scenario.
+#' Applies to child objects if ssimObject is a SsimLibrary or Project.
 #'
-#' @param ssimObject Scenario/Project/SsimLibrary
+#' @param ssimObject Scenario/Project/SsimLibrary.
 #' 
 #' @param value Logical. If T the ssimObject will be read-only.
 #' 

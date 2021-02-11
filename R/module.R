@@ -5,12 +5,12 @@ NULL
 
 #' Installed modules
 #'
-#' Deprecated.  See: \code{\link{package}}
+#' Deprecated.  See: \code{\link{package}}.
 #'
 #' @param session Session.
 #' 
 #' @return 
-#' A \code{dataframe} of modules.
+#' Returns a \code{dataframe} of modules.
 #' 
 #' @export
 setGeneric("module", function(session) standardGeneric("module"))

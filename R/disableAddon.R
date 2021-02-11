@@ -7,11 +7,11 @@ NULL
 #'
 #' Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
 #'
-#' @param ssimLibrary SsimLibrary
-#' @param name Character string or vector of addon names
+#' @param ssimLibrary SsimLibrary.
+#' @param name Character string or vector of addon names.
 #' 
 #' @return
-#' This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon 
+#' This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon) 
 #' and `FALSE` upon failure.
 #' 
 #' @examples

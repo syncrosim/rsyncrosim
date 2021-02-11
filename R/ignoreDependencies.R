@@ -7,10 +7,10 @@ NULL
 #'
 #' Retrieves the Ignore Dependencies Datafeeds for a Scenario.
 #'
-#' @param ssimObject Scenario
+#' @param ssimObject Scenario.
 #' 
 #' @return 
-#' Returns Ignore Dependencies Datafeeds
+#' Returns Ignore Dependencies Datafeeds.
 #' @export
 setGeneric("ignoreDependencies", function(ssimObject) standardGeneric("ignoreDependencies"))
 
@@ -29,11 +29,11 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 #'
 #' Sets the Ignore Dependencies Datafeed for a Scenario.
 #'
-#' @param ssimObject Scenario
-#' @param value Character
+#' @param ssimObject Scenario.
+#' @param value Character.
 #' 
 #' @return 
-#' The updated ssimObject.
+#' Returns the updated ssimObject.
 #' 
 #' @export
 setGeneric("ignoreDependencies<-", function(ssimObject, value) standardGeneric("ignoreDependencies<-"))

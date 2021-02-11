@@ -19,8 +19,8 @@ module(session)
 \item{session}{Session.}
 }
 \value{
-A \code{dataframe} of modules.
+Returns a \code{dataframe} of modules.
 }
 \description{
-Deprecated.  See: \code{\link{package}}
+Deprecated.  See: \code{\link{package}}.
 }

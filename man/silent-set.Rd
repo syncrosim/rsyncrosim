@@ -13,13 +13,13 @@ silent(session) <- value
 \S4method{silent}{Session}(session) <- value
 }
 \arguments{
-\item{session}{Session}
+\item{session}{Session.}
 
-\item{value}{logical}
+\item{value}{Logical.}
 }
 \value{
 The updated ssimObject.
 }
 \description{
-Set silent property of a sessio to TRUE or FALSE
+Set silent property of a session to TRUE or FALSE
 }
