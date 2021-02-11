@@ -632,6 +632,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
+    
     outSheetList[[cName]] <- sheet
     
     # return single row datasheets as named vectors (if not for multiple scenarios)
