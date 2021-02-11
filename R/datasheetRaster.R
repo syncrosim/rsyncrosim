@@ -257,7 +257,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   nFiles <- unique(cMeta$rasterColumn)
   
   # Case of unique file for many iterations/timestep
-  if ((length(nFiles) == 1) & (nrow(cMeta) > 1)) {
+  if ((length(nFiles) == 1) & (nrow(cMeta) > 1) & !is.null(cMeta$Band[1])) {
     if (!file.exists(nFiles)) {
       addPath <- paste0(.filepath(x), ".output/Scenario-", .scenarioId(x), "/", datasheet, "/", nFiles)
       if (!file.exists(addPath)) {
