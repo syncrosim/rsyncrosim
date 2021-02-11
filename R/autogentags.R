@@ -7,10 +7,10 @@ NULL
 #'
 #' Retrieves the Auto Generation Tags for a Scenario.
 #'
-#' @param ssimObject Scenario
+#' @param ssimObject Scenario.
 #' 
 #' @return 
-#' Returns the Auto Generation Tags
+#' Returns the Auto Generation Tags.
 #' @export
 setGeneric("autogentags", function(ssimObject) standardGeneric("autogentags"))
 
@@ -29,8 +29,8 @@ setMethod("autogentags", signature(ssimObject = "Scenario"), function(ssimObject
 #'
 #' Sets the Auto Generation Tags for a Scenario.
 #'
-#' @param ssimObject Scenario
-#' @param value character
+#' @param ssimObject Scenario.
+#' @param value character.
 #' 
 #' @return 
 #' The updated ssimObject.

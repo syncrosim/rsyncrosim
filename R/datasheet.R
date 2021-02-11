@@ -9,7 +9,7 @@ NULL
 #'
 #' @details
 #'
-#' If summary=TRUE or summary=NULL and name=NULL a dataframe describing the datasheets is returned:
+#' If summary=TRUE or summary=NULL and name=NULL a dataframe describing the datasheets is returned.
 #'   If optional=TRUE columns include: scope, package, name, displayName, isSingle, isOutput, data.
 #'   data only displayed for scenarios. dataInherited and dataSource columns added if a scenario has dependencies.
 #'   If optional=FALSE columns include: scope, name, displayName.
@@ -18,11 +18,11 @@ NULL
 #' Otherwise, for each element in name a datasheet is returned as follows:
 #' \itemize{
 #'   \item {If lookupsAsFactors=TRUE (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
-#'   \item {If empty=TRUE: }{Each column is given the correct data type. Fast (1 less console command)}
+#'   \item {If empty=TRUE: }{Each column is given the correct data type. Fast (1 less console command)}.
 #'   \item {If empty=FALSE and lookupsAsFactors=FALSE: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
 #'   \item {If ssimObject is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
 #'   \item {If scenario/project is a vector: }{Adds ScenarioID/ProjectID column as necessary.}
-#'   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}
+#'   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}.
 #'   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}
 #' }
 #'
@@ -36,7 +36,7 @@ NULL
 #' @param lookupsAsFactors Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.
 #' @param sqlStatement List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
 #' @param includeKey Logical. If TRUE include primary key in table.
-#' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise a list of dataframes. Ignored if summary=TRUE.
+#' @param forceElements Logical. If FALSE and name has a single element returns a dataframe; otherwise returns a list of dataframes. Ignored if summary=TRUE.
 #' @param fastQuery Logical.  If TRUE, the request is optimized for performance.  Ignored if combined with summary, empty, or sqlStatement flags.
 #' 
 #' @return 

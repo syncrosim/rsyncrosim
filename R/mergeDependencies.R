@@ -7,7 +7,7 @@ NULL
 #'
 #' Retrieves whether or not a Scenario is configured to merge dependencies at run time.
 #'
-#' @param ssimObject Scenario
+#' @param ssimObject Scenario.
 #' 
 #' @return 
 #' Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 
@@ -36,11 +36,11 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
 #'
 #' Sets whether or not a Scenario is configured to merge dependencies at run time.
 #'
-#' @param ssimObject Scenario
+#' @param ssimObject Scenario.
 #' @param value Logical. If TRUE the Scenario will be set to merge dependencies at run time.
 #' 
 #' @return 
-#' The updated ssimObject.
+#' Returns the updated ssimObject.
 #' 
 #' @export
 setGeneric("mergeDependencies<-", function(ssimObject, value) standardGeneric("mergeDependencies<-"))

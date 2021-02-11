@@ -10,18 +10,18 @@ addBreakpoint(x, transformerName, breakpointType, arguments, callback)
 \S4method{addBreakpoint}{Scenario}(x, transformerName, breakpointType, arguments, callback)
 }
 \arguments{
-\item{x}{A SyncroSim Scenario}
+\item{x}{A SyncroSim Scenario.}
 
-\item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime)}
+\item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime).}
 
-\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep}
+\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.}
 
-\item{arguments}{A vector of timesteps or iterations e.g. c(1,2)}
+\item{arguments}{A vector of timesteps or iterations e.g. c(1,2).}
 
-\item{callback}{A function to be called when the breakpoint is hit}
+\item{callback}{A function to be called when the breakpoint is hit.}
 }
 \value{
-A SyncroSim Scenario with an updated list of breakpoints
+A SyncroSim Scenario with an updated list of breakpoints.
 }
 \description{
 When the Scenario is run the breakpoint's callback function will be called for the specified iterations or timesteps.

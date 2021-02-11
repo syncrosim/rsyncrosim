@@ -7,10 +7,10 @@
 envTempFolder(folderName)
 }
 \arguments{
-\item{folderName}{character.  The folder name}
+\item{folderName}{character.  The folder name.}
 }
 \value{
-A temporary folder name
+Returns a temporary folder name.
 }
 \description{
 Creates and returns a SyncroSim Temporary Folder.

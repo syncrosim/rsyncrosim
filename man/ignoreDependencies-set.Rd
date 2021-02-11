@@ -13,12 +13,12 @@ ignoreDependencies(ssimObject) <- value
 \S4method{ignoreDependencies}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario}
+\item{ssimObject}{Scenario.}
 
-\item{value}{Character}
+\item{value}{Character.}
 }
 \value{
-The updated ssimObject.
+Returns the updated ssimObject.
 }
 \description{
 Sets the Ignore Dependencies Datafeed for a Scenario.

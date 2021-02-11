@@ -19,11 +19,11 @@ package(session, installed = TRUE)
 \item{session}{Session.}
 
 \item{installed}{Logical. `TRUE` to list installed packages and `FALSE` to list 
-available packages}
+available packages.}
 }
 \value{
-A \code{data.frame} of packages installed.
+Returns a \code{data.frame} of packages installed.
 }
 \description{
-Packages or installed or available for this version of SyncroSim.
+Packages installed or available for this version of SyncroSim.
 }

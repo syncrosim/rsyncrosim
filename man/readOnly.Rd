@@ -6,7 +6,7 @@
 \alias{readOnly,SsimLibrary-method}
 \alias{readOnly,Project-method}
 \alias{readOnly,Scenario-method}
-\title{Read-only status of an SsimLibrary/Project/Scenario.}
+\title{Read-only status of a SsimLibrary/Project/Scenario.}
 \usage{
 readOnly(ssimObject)
 
@@ -22,9 +22,9 @@ readOnly(ssimObject)
 \item{ssimObject}{SsimLibrary/Project/Scenario.}
 }
 \value{
-Returns a logical values: `TRUE` if the ssimObject is read only and `FALSE`
+Returns a logical value: `TRUE` if the ssimObject is read only and `FALSE`
 otherwise.
 }
 \description{
-Whether or not an SsimLibrary/ProjectScenario is read-only.
+Whether or not a SsimLibrary/ProjectScenario is read-only.
 }

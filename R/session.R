@@ -31,7 +31,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 
 #' Creates or returns a SyncroSim session.
 #'
-#' Methods to create or return a Syncrosim session.
+#' Methods to create or return a SyncroSim session.
 #' 
 #' @param x Character or SsimObject. An optional path to the SyncroSim installation.
 #' @param silent Logical. Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
@@ -128,7 +128,7 @@ setMethod("session", signature(x = "SsimObject"), function(x, silent, printCmd) 
 #' @param value A SyncroSim Session.
 #' 
 #' @return 
-#' An SyncroSim object containing a Session.
+#' Returns a SyncroSim object containing a Session.
 #' 
 #' @export
 setGeneric("session<-", function(ssimObject, value) standardGeneric("session<-"))

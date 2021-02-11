@@ -5,7 +5,7 @@ NULL
 
 #' The path to a SyncroSim object on disk
 #'
-#' The path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
+#' The path to a SyncroSim Session, SSimLibrary, Project or Scenario on disk.
 #'
 #' @param ssimObject An object containing a filepath.
 #' 
@@ -28,7 +28,7 @@ setMethod("filepath", signature(ssimObject = "SsimObject"), function(ssimObject)
 
 #' The temporary file path to a SyncroSim object on disk
 #'
-#' The temporary file path to a SyncroSim Session, SSimLibarary, Project or Scenario on disk.
+#' The temporary file path to a SyncroSim Session, SSimLibrary, Project or Scenario on disk.
 #'
 #' @param ssimObject An object containing a filepath.
 #' 

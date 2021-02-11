@@ -13,10 +13,10 @@ ignoreDependencies(ssimObject)
 \S4method{ignoreDependencies}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{Scenario}
+\item{ssimObject}{Scenario.}
 }
 \value{
-Returns Ignore Dependencies Datafeeds
+Returns Ignore Dependencies Datafeeds.
 }
 \description{
 Retrieves the Ignore Dependencies Datafeeds for a Scenario.

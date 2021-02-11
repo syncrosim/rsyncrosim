@@ -5,13 +5,13 @@ NULL
 
 #' Enable addon or addons.
 #'
-#' Enable addon or addons of an SsimLibrary.
+#' Enable addon or addons of a SsimLibrary.
 #'
-#' @param ssimLibrary SsimLibrary
-#' @param name Character string or vector of addon names
+#' @param ssimLibrary SsimLibrary.
+#' @param name Character string or vector of addon names.
 #' 
 #' @return
-#' This function invisibly returns `TRUE` upon success (i.e.successful activation of the addon 
+#' This function invisibly returns `TRUE` upon success (i.e.successful activation of the addon) 
 #' and `FALSE` upon failure.
 #' 
 #' @examples

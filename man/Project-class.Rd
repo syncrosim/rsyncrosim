@@ -15,9 +15,9 @@
 
 \item{\code{filepath}}{The path to the Project's Library on disk.}
 
-\item{\code{datasheetNames}}{Names and scopes of datasheets in the Project's Library}
+\item{\code{datasheetNames}}{Names and scopes of datasheets in the Project's Library.}
 
-\item{\code{projectId}}{The Project id}
+\item{\code{projectId}}{The Project id.}
 }}
 
 \seealso{

@@ -12,7 +12,7 @@ envInputFolder(scenario, datasheetName)
 \item{datasheetName}{character.  The input datasheet name.}
 }
 \value{
-a folder name for the specified data sheet
+Returns a folder name for the specified data sheet.
 }
 \description{
 Creates and returns a SyncroSim DataSheet Input Folder.

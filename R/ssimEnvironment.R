@@ -1,12 +1,12 @@
 # Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 
-#' SyncroSim Environment.
+#' SyncroSim Environment
 #'
 #' Retrieves SyncroSim specific environment variables.
 #'
 #' @return 
-#' A data.frame of SyncroSim specific environment variables.
+#' Returns a data.frame of SyncroSim specific environment variables.
 #' 
 #' @export
 #' @rdname ssimEnvironment
@@ -70,7 +70,7 @@ envCreateTempFolder <- function(folderName) {
 #' @param datasheetName character.  The input datasheet name.
 #' 
 #' @return 
-#' a folder name for the specified data sheet
+#' Returns a folder name for the specified data sheet.
 #' 
 #' @export
 #' @rdname ssimEnvironment-input
@@ -87,7 +87,7 @@ envInputFolder <- function(scenario, datasheetName) {
 #' @param datasheetName character.  The output datasheet name.
 #' 
 #' @return 
-#' a folder name for the specified data sheet
+#' Returns a folder name for the specified data sheet.
 #' 
 #' @export
 #' @rdname ssimEnvironment-output
@@ -100,10 +100,10 @@ envOutputFolder <- function(scenario, datasheetName) {
 #'
 #' Creates and returns a SyncroSim Temporary Folder.
 #'
-#' @param folderName character.  The folder name
+#' @param folderName character.  The folder name.
 #' 
 #' @return 
-#' A temporary folder name
+#' Returns a temporary folder name.
 #' 
 #' @export
 #' @rdname ssimEnvironment-temp
@@ -143,7 +143,7 @@ envBeginSimulation <- function(totalSteps) {
 
 #' Steps a SyncroSim simulation
 #'
-#' Steps a SyncroSim simulation
+#' Steps a SyncroSim simulation.
 #' 
 #' @return 
 #' No returned value, used for side effects.

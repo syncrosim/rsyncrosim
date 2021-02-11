@@ -199,13 +199,13 @@ getBPNameLongForm <- function(breakpointType) {
 #'
 #' When the Scenario is run the breakpoint's callback function will be called for the specified iterations or timesteps.
 #'
-#' @param x A SyncroSim Scenario
-#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime)
-#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep
-#' @param arguments A vector of timesteps or iterations e.g. c(1,2)
-#' @param callback A function to be called when the breakpoint is hit
+#' @param x A SyncroSim Scenario.
+#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).
+#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.
+#' @param arguments A vector of timesteps or iterations e.g. c(1,2).
+#' @param callback A function to be called when the breakpoint is hit.
 #' 
-#' @return A SyncroSim Scenario with an updated list of breakpoints
+#' @return A SyncroSim Scenario with an updated list of breakpoints.
 #' 
 #' @details Breakpoints are only supported for Stochastic Time Transformers.
 #' 
@@ -248,11 +248,11 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
 #'
 #' This function will delete a Scenario breakpoint.
 #'
-#' @param x A SyncroSim Scenario
+#' @param x A SyncroSim Scenario.
 #' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
 #' 
-#' @return A SyncroSim Scenario with an updated list of breakpoints
+#' @return A SyncroSim Scenario with an updated list of breakpoints.
 #' 
 #' @examples
 #' \donttest{
@@ -303,7 +303,7 @@ setMethod("deleteBreakpoint", signature(x = "Scenario"), function(x, transformer
 #'
 #' Lists the breakpoints for a Scenario.
 #'
-#' @param x A SyncroSim Scenario
+#' @param x A SyncroSim Scenario.
 #' 
 #' @return 
 #' Does not return anything, used for printing purposes.

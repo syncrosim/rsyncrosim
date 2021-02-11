@@ -13,7 +13,7 @@ owner(ssimObject) <- value
 \S4method{owner}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario/Project/SsimLibrary}
+\item{ssimObject}{Scenario/Project/SsimLibrary.}
 
 \item{value}{The new owner.}
 }
