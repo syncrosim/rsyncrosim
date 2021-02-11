@@ -4,7 +4,7 @@
 \alias{backup}
 \alias{backup,character-method}
 \alias{backup,SsimObject-method}
-\title{Backup an SsimLibrary.}
+\title{Backup a SsimLibrary.}
 \usage{
 backup(ssimObject)
 
@@ -20,5 +20,5 @@ This function invisibly returns `TRUE` upon success (i.e.successful
 backup) and `FALSE` upon failure.
 }
 \description{
-Backup an SsimLibrary.
+Backup a SsimLibrary.
 }

@@ -42,9 +42,9 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 
 #' Set ssimObject name.
 #'
-#' Set the name of a SyncroSim Project, Scenario or Library
+#' Set the name of a SyncroSim Project, Scenario or Library.
 #'
-#' @param ssimObject Scenario/Project/SsimLibrary
+#' @param ssimObject Scenario/Project/SsimLibrary.
 #' 
 #' @param value 
 #' The updated ssimObject. 

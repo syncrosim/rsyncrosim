@@ -23,8 +23,8 @@ model(ssimObject = NULL)
 }
 \value{
 A \code{dataframe} of models (for Session) or named vector of character strings 
-(for \code{SsimLibrary})
+(for \code{SsimLibrary}).
 }
 \description{
-Deprecated.  See: \code{\link{package}}
+Deprecated.  See: \code{\link{package}}.
 }

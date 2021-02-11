@@ -5,7 +5,7 @@ NULL
 
 #' The last date a SsimLibrary/Project/Scenario was modified.
 #'
-#' The most recent modification date of an SsimLibrary/Project/Scenario
+#' The most recent modification date of an SsimLibrary/Project/Scenario.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' 

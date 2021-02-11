@@ -25,5 +25,5 @@ owner(ssimObject)
 A character string: the owner of the ssimObject.
 }
 \description{
-Retrieves the owner of an SsimLibrary/ProjectScenario
+Retrieves the owner of a SsimLibrary/ProjectScenario.
 }
