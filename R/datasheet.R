@@ -600,7 +600,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       } else {
         if (nrow(sheet) > 0) {
           #if (is.null(allProjects)) {
-            allProjects <- .project(x)
+          allProjects <- .project(x)
           #}
           names(allProjects) <- c("ProjectID", "ProjectName")
           sheet <- merge(allProjects, sheet, all.y = TRUE)
