@@ -1,4 +1,4 @@
-# rsyncrosim 1.3.0
+# rsyncrosim 1.2.9
 
 ## Bug fixes:
 
