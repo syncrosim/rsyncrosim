@@ -30,6 +30,6 @@ set to not be evaluated wehn NOT_CRAN is FALSE is the environment.
 ## R CMD check results
 
 -- R CMD check results ----------------------------------- rsyncrosim 1.2.9 ----
-Duration: 1m 18s
+Duration: 1m 15.9s
 
 0 errors v | 0 warnings v | 0 notes v
