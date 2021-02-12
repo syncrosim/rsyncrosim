@@ -10,7 +10,7 @@
 * Fixes issues with breakpoints no longer working.
 * Fixes an error when trying to delete a datasheet.
 * Fixes a cases when the prefix in datasheet names only worked for stsim.
-* Fixes db update for old syncrosim databases.
+* Fixes db update for old SyncroSim databases.
 * Fixes a case when `datasheetRaster` would not output properly when multiple iterations were requested.
 * Fixes inconsistency in deletion of objects.
 * Minor changes and fixes to tests and documentation.
@@ -21,8 +21,8 @@
 
 ## Upstream dependencies
 
-The Syncrosim software is an upstream dependency as rsyncrosim provides an API for it. 
-Therefore, all examples, all tests, as well as vignette code, requires Syncrosim to be 
+The SyncroSim software is an upstream dependency as rsyncrosim provides an API for it. 
+Therefore, all examples, all tests, as well as vignette code, requires SyncroSim to be 
 installed to run. Therefore, all tests in the submitted package should not run 
 (tagged with testthat::skip_on_cran()). In addition, all code from vignettes is 
 set to not be evaluated wehn NOT_CRAN is FALSE is the environment.

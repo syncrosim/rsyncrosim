@@ -6,7 +6,7 @@
 * Fixes issues with breakpoints no longer working.
 * Fixes an error when trying to delete a datasheet.
 * Fixes a cases when the prefix in datasheet names only worked for stsim.
-* Fixes db update for old syncrosim databases.
+* Fixes db update for old SyncroSim databases.
 * Fixes a case when `datasheetRaster` would not output properly when multiple iterations were requested.
 * Fixes inconsistency in deletion of objects.
 * Minor changes and fixes to tests and documentation.

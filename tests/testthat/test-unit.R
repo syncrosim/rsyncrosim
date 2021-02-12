@@ -13,12 +13,12 @@ addPackage(session = mySsim, name = "helloworld")
 test_that("Tests of Session - assumes SyncroSim is installed", {
   skip_on_cran()
   expect_is(mySsim, "Session")
-  expect_equal(file.exists(filepath(mySsim)), TRUE) # Lists the folder location of syncrosim session
-  expect_output(str(version(mySsim)), "chr", fixed = TRUE) # Lists the version of syncrosim session
+  expect_equal(file.exists(filepath(mySsim)), TRUE) # Lists the folder location of SyncroSim session
+  expect_output(str(version(mySsim)), "chr", fixed = TRUE) # Lists the version of SyncroSim session
   expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
   expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
-  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
-  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of syncrosim, listing all of its properties as columns
+  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of SyncroSim, listing all of its properties as columns
+  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of SyncroSim, listing all of its properties as columns
 
   mySession <- session(silent = FALSE) # modify default session settings
   expect_equal(silent(mySession), FALSE)

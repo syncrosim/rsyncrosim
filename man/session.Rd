@@ -32,10 +32,10 @@ temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
-filepath(mySession) # Lists the folder location of syncrosim session
-version(mySession) # Lists the version of syncrosim session
-package(mySession) # Dataframe of the packages installed with this version of syncrosim.
-basePackage(mySession) # Dataframe of the base packages installed with this version of syncrosim.
+filepath(mySession) # Lists the folder location of SyncroSim session
+version(mySession) # Lists the version of SyncroSim session
+package(mySession) # Dataframe of the packages installed with this version of SyncroSim
+basePackage(mySession) # Dataframe of the base packages installed with this version of SyncroSim
 }
 
 }

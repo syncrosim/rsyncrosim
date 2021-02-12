@@ -69,7 +69,7 @@ datasheet(
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.}
 
-\item{name}{Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=FALSE and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.}
+\item{name}{Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=FALSE and name=NULL pulls all datasheets, which is time consuming and not generally recommended.}
 
 \item{project}{Character, numeric, or vector of these. One or more Project names, ids or objects. Note that integer ids are slightly faster.}
 

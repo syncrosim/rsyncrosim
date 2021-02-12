@@ -5,7 +5,7 @@ NULL
 
 #' Adds a package to SyncroSim
 #'
-#' Adds a package to SyncroSim. This functions will query the syncrosim 
+#' Adds a package to SyncroSim. This functions will query the SyncroSim 
 #' package server for the package name provided as input.
 #'
 #' @param name Character string.  The name of the package to install.

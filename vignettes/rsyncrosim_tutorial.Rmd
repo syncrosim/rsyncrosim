@@ -318,7 +318,7 @@ plot(rSclassTest)
 plot(rAgeTest)
 ```
 
-***Initial Conditions: Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial paramerization. To do so we use the 
+***Initial Conditions: Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial parameterization. To do so we use the 
 `stsim_InitialConditionsNonSpatial` and `stsim_InitialConditionsNonSpatialDistribution` datasheets:
 ```{r}
 sheetName <- "stsim_InitialConditionsNonSpatial"
