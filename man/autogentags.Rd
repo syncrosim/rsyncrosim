@@ -13,10 +13,10 @@ autogentags(ssimObject)
 \S4method{autogentags}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{Scenario}
+\item{ssimObject}{Scenario.}
 }
 \value{
-Returns the Auto Generation Tags
+Returns the Auto Generation Tags.
 }
 \description{
 Retrieves the Auto Generation Tags for a Scenario.

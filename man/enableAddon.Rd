@@ -13,16 +13,16 @@ enableAddon(ssimLibrary, name)
 \S4method{enableAddon}{SsimLibrary}(ssimLibrary, name)
 }
 \arguments{
-\item{ssimLibrary}{SsimLibrary}
+\item{ssimLibrary}{SsimLibrary.}
 
-\item{name}{Character string or vector of addon names}
+\item{name}{Character string or vector of addon names.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful activation of the addon 
+This function invisibly returns `TRUE` upon success (i.e.successful activation of the addon) 
 and `FALSE` upon failure.
 }
 \description{
-Enable addon or addons of an SsimLibrary.
+Enable addon or addons of a SsimLibrary.
 }
 \examples{
 \donttest{

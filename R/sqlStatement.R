@@ -14,13 +14,13 @@ NULL
 #' Note that it is not possible to construct a complete SQL query at this stage,
 #' because the datasheet() function may add ScenarioID and/or ProjectID to the query.
 #'
-#' @param groupBy character string or vector of these. Vector of variables (column names) to GROUP BY.
-#' @param aggregate character string of vector of these. Vector of variables (column names) to aggregate using aggregateFunction
-#' @param aggregateFunction character string. An SQL aggregate function (e.g. SUM, COUNT)
-#' @param where named list. A list of subset variables. Names are column names, and elements are the values to be selected from each column.
+#' @param groupBy Character string or vector of these. Vector of variables (column names) to GROUP BY.
+#' @param aggregate Character string of vector of these. Vector of variables (column names) to aggregate using aggregateFunction.
+#' @param aggregateFunction Character string. An SQL aggregate function (e.g. SUM, COUNT).
+#' @param where Named list. A list of subset variables. Names are column names, and elements are the values to be selected from each column.
 #' 
 #' @return 
-#' A list of SELECT, GROUP BY and WHERE SQL statements used by datasheet() to construct an SQLite database query.
+#' Returns a list of SELECT, GROUP BY and WHERE SQL statements used by datasheet() to construct an SQLite database query.
 #'
 #' @examples
 #' \donttest{

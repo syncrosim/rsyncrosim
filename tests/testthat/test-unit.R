@@ -34,7 +34,8 @@ test_that("Tests of command  - assumes SyncroSim is installed", {
   expect_equal(command("--create --help", mySsim)[1], "Creates an item")
   expect_equal(command(list(create = NULL, help = NULL), mySsim)[1], "Creates an item")
 
-  ret <- delete(paste0(getwd(), "/temp.ssim"), force = TRUE)
+  expect_error({delete(paste0(getwd(), "/temp.ssim"), force = TRUE)}, 
+               "Library not found")
   args <- list(create = NULL, library = NULL, name = paste0(getwd(), "/temp.ssim"), package = "nonexistentpackage")
   output <- command(args, mySsim)
   # TODO Fails in test env only
@@ -101,11 +102,9 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
 
 test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   skip_on_cran()
-
-  ret <- delete(paste0(getwd(), "/temp26.ssim"), force = TRUE) # delete a library specified by a path
-  ret <- delete(paste0(getwd(), "/temp27.ssim"), force = TRUE)
-  myLib <- ssimLibrary(name = "temp26", session = mySsim)
-  myOtherLib <- ssimLibrary(name = "temp27", session = mySsim)
+  
+  myLib <- ssimLibrary(name = "temp26", session = mySsim, overwrite = TRUE)
+  myOtherLib <- ssimLibrary(name = "temp27", session = mySsim, overwrite = TRUE)
   myOtherLibProj <- project(ssimObject = myOtherLib, project = "MyProj")
   myOtherScn <- scenario(myOtherLibProj, scenario = "other")
 
@@ -238,8 +237,12 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   ret <- delete(myLib, project = c("copy", "copy2"), force = TRUE)
   expect_equal(intersect(c("copy", "copy2"), project(myLib)$name), logical(0))
 
+  # Test deletions
   ret <- delete(myLib, force = TRUE)
-  ret <- delete(myOtherLib, force = TRUE)
+  ret <- delete(paste0(getwd(), "/temp27.ssim"), force = TRUE) # delete a library specified by a path
+  expect_error({delete(paste0(getwd(), "/temp26.ssim"), force = TRUE)}, 
+               "Library not found") 
+  
 })
 
 test_that("Tests of datasheet - assumes SyncroSim is installed", {

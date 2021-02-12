@@ -5,7 +5,7 @@ NULL
 
 #' Delete library, project, scenario, datasheet
 #'
-#' Deletes one or more items. Note this is irreversible
+#' Deletes one or more items. Note that this is irreversible.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario, or path to a library.
 #' @param project character string, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.

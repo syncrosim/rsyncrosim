@@ -19,7 +19,7 @@ setGeneric("description", function(ssimObject) standardGeneric("description"))
 #'
 #' Set the description of an SsimLibrary/ProjectScenario.
 #'
-#' @param ssimObject Scenario/Project/SsimLibrary
+#' @param ssimObject Scenario/Project/SsimLibrary.
 #' @param value The new description.
 #' 
 #' @return

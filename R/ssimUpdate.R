@@ -5,9 +5,9 @@ NULL
 
 #' Apply updates
 #'
-#' Apply updates to a SyncroSim Library,or a Project or Scenario associated with a Library.
+#' Apply updates to a SyncroSim Library, or a Project or Scenario associated with a Library.
 #'
-#' @param ssimObject  SsimLibrary/Project/Scenario
+#' @param ssimObject  SsimLibrary/Project/Scenario.
 #' 
 #' @return 
 #' This function invisibly returns `TRUE` upon success (i.e.successful 

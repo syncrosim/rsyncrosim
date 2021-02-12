@@ -14,7 +14,7 @@ project(
 )
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Scenario or character. An ssimObject containing a filepath to a library, or a filepath.}
+\item{ssimObject}{SsimLibrary/Scenario or character. A ssimObject containing a filepath to a library, or a filepath.}
 
 \item{project}{Character, integer, or vector of these. Names or ids of one or more projects. Note that integer ids are slightly faster.}
 
@@ -27,8 +27,8 @@ project(
 \item{overwrite}{Logical. If TRUE an existing Project will be overwritten.}
 }
 \value{
-A \code{Project} object representing a SyncroSim project. If summary is `TRUE`,
-a dataframe of project names and descriptions.
+Returns a \code{Project} object representing a SyncroSim project. If summary is `TRUE`,
+returns a dataframe of project names and descriptions.
 }
 \description{
 Creates or retrieves a project or multiple projects from a library.
@@ -36,9 +36,9 @@ Creates or retrieves a project or multiple projects from a library.
 \details{
 For each element of project:
 \itemize{
-  \item {If element identifies an existing project: }{Returns the existing Project}
-  \item {If element identifies more than one project: }{Error}
-  \item {If element does not identify an existing project: }{Creates a new Project named element. Note that SyncroSim automatically assign an id to a new project.}
+  \item {If element identifies an existing project: }{Returns the existing Project}.
+  \item {If element identifies more than one project: }{Error}.
+  \item {If element does not identify an existing project: }{Creates a new Project named element. Note that SyncroSim automatically assigns an id to a new project.}
 }
 }
 \examples{

@@ -5,7 +5,7 @@ NULL
 
 #' Deletes a package
 #'
-#' Deletes a package from your syncrosim instalation.
+#' Deletes a package from your SyncroSim instalation.
 #' 
 #' @param name Character. The name of the package to delete.
 #' @param session Session.

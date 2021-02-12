@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Backup an SsimLibrary.
+#' Backup a SsimLibrary.
 #'
-#' Backup an SsimLibrary.
+#' Backup a SsimLibrary.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario.
 #' 

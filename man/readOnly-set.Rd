@@ -4,7 +4,7 @@
 \alias{readOnly<-}
 \alias{readOnly<-,character-method}
 \alias{readOnly<-,SsimObject-method}
-\title{Set the read/write status of an SsimLibrary/Project/Scenario.}
+\title{Set the read/write status of a SsimLibrary/Project/Scenario.}
 \usage{
 readOnly(ssimObject) <- value
 
@@ -13,7 +13,7 @@ readOnly(ssimObject) <- value
 \S4method{readOnly}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario/Project/SsimLibrary}
+\item{ssimObject}{Scenario/Project/SsimLibrary.}
 
 \item{value}{Logical. If T the ssimObject will be read-only.}
 }
@@ -21,6 +21,6 @@ readOnly(ssimObject) <- value
 The updated ssimObject.
 }
 \description{
-Set the read-only status of an SsimLibrary/Project/Scenario.
-Applies to child objects if ssimObject is an SsimLibrary or Project.
+Set the read-only status of a SsimLibrary/Project/Scenario.
+Applies to child objects if ssimObject is a SsimLibrary or Project.
 }

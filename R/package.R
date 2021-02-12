@@ -5,14 +5,14 @@ NULL
 
 #' Installed or available packages
 #'
-#' Packages or installed or available for this version of SyncroSim.
+#' Packages installed or available for this version of SyncroSim.
 #'
 #' @param session Session.
 #' @param installed Logical. `TRUE` to list installed packages and `FALSE` to list 
-#' available packages
+#' available packages.
 #' 
 #' @return 
-#' A \code{data.frame} of packages installed.
+#' Returns a \code{data.frame} of packages installed.
 #' 
 #' @export
 setGeneric("package", function(session, installed = TRUE) standardGeneric("package"))

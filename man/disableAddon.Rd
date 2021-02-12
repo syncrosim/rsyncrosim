@@ -13,12 +13,12 @@ disableAddon(ssimLibrary, name)
 \S4method{disableAddon}{SsimLibrary}(ssimLibrary, name)
 }
 \arguments{
-\item{ssimLibrary}{SsimLibrary}
+\item{ssimLibrary}{SsimLibrary.}
 
-\item{name}{Character string or vector of addon names}
+\item{name}{Character string or vector of addon names.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon 
+This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon) 
 and `FALSE` upon failure.
 }
 \description{

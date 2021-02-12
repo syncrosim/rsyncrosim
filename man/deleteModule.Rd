@@ -20,8 +20,8 @@ deleteModule(name, session = NULL, force = FALSE)
 \item{force}{logical. If TRUE, delete without requiring confirmation from user.}
 }
 \value{
-"saved" or error message.
+Returns "saved" or error message.
 }
 \description{
-Deprecated.  See: \code{\link{deletePackage}}
+Deprecated.  See: \code{\link{deletePackage}}.
 }

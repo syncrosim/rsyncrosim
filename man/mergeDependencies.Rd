@@ -13,7 +13,7 @@ mergeDependencies(ssimObject)
 \S4method{mergeDependencies}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{Scenario}
+\item{ssimObject}{Scenario.}
 }
 \value{
 Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 

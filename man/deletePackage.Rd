@@ -27,5 +27,5 @@ This function invisibly returns `TRUE` upon success (i.e.successful
 deletion) and `FALSE` upon failure.
 }
 \description{
-Deletes a package from your syncrosim instalation.
+Deletes a package from your SyncroSim instalation.
 }

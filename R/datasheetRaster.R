@@ -19,7 +19,7 @@ NULL
 #' @param scenario character string, integer, or vector of these. The scenarios to include. Required if ssimObject is an SsimLibrary/Project, ignored if ssimObject is a list of Scenarios.
 #' @param iteration integer, character string, or vector of integer/character strings. Iteration(s) to include. If NULL then all iterations are included. If no Iteration column in the datasheet, then ignored.
 #' @param timestep integer, character string, or vector of integer/character string. Timestep(s) to include. If NULL then all timesteps are included.  If no Timestep column in the datasheet, then ignored.
-#' @param subset logical expression. logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.
+#' @param subset logical expression indicating datasheet rows to return. e.g. expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.
 #' @param forceElements logical. If TRUE then returns a single raster as a RasterStack; otherwise returns a single raster as a RasterLayer directly.
 #' 
 #' @return 
@@ -65,7 +65,7 @@ setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject
       started <- TRUE
     }
   }
-
+  
   if ((length(names(out)) == 1) & !forceElements) {
     out <- out[[1]]
   }
@@ -88,10 +88,10 @@ setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssim
   if (length(missingScns) > 0) {
     stop("Scenarios not found in ssimObject: ", paste(missingScns, collapse = ","))
   }
-
+  
   scnList <- .scenario(ssimObject, scenario = scenario)
   scenario <- NULL
-
+  
   return(datasheetRaster(scnList, datasheet, column, scenario, iteration, timestep, subset, forceElements))
 })
 
@@ -110,27 +110,27 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   if (!is.null(scenario)) {
     warning("scenario argument is ignored when ssimObject is a scenario.")
   }
-
+  
   if (!grepl("_", datasheet, fixed = )) {
     l = ssimLibrary(.filepath(ssimObject), summary=T)
     p = l$value[l$property == "Package Name:"]
     datasheet <- paste0(p, "_", datasheet)
   }
-
+  
   if (grepl("STSim_", datasheet, fixed = TRUE)) {
     warning("An STSim_ prefix for a datasheet name is no longer required.")
     datasheet <- paste0("stsim_", gsub("STSim_", "", datasheet, fixed = TRUE))
   }
-
+  
   x <- ssimObject
   cSheets <- .datasheets(x)
   if (!is.element(datasheet, cSheets$name)) {
     cSheets <- .datasheets(x, refresh = TRUE)
   }
-
+  
   # TO DO: make sure datasheet is spatial after opening
   cMeta <- .datasheet(x, name = datasheet, optional = TRUE, lookupsAsFactors = getFactors)
-
+  
   if (nrow(cMeta) == 0) {
     cMeta <- .datasheet(x, name = datasheet, optional = TRUE, lookupsAsFactors = getFactors)
   }
@@ -152,7 +152,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   if (!cProps$isRaster) {
     stop(column, " is not a raster column.")
   }
-
+  
   tryCount <- 0
   while (tryCount <= 1) {
     warningMsg <- ""
@@ -164,7 +164,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
       }
       cMeta <- subset(cMeta, is.element(Timestep, timestep))
     }
-
+    
     if (!is.null(iteration) & is.element("Iteration", names(cMeta))) {
       iteration <- as.numeric(iteration)
       missSteps <- setdiff(iteration, cMeta$Iteration)
@@ -173,7 +173,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
       }
       cMeta <- subset(cMeta, is.element(Iteration, iteration))
     }
-
+    
     if ((nchar(warningMsg) > 0) | (nrow(cMeta) == 0)) {
       if (tryCount == 1) {
         if (nrow(cMeta) == 0) {
@@ -187,7 +187,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
     }
     tryCount <- tryCount + 1
   }
-
+  
   if (grepl("bandColumn", cProps$properties, fixed = TRUE)) {
     propSplit <- strsplit(cProps$properties, "!", fixed = TRUE)[[1]]
     bandBit <- propSplit[grepl("bandColumn", propSplit)]
@@ -201,15 +201,15 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   if (!is.null(subset)) {
     cMeta <- .subset(cMeta, eval(subset))
   }
-
+  
   # Now cMeta contains bandColumn, rasterColumn, and only rows to be exported
   cMeta$outName <- gsub(".tif", "", basename(cMeta$rasterColumn), fixed = TRUE)
-
+  
   if (grepl("It0000-Ts0000-", cMeta$outName[1])) {
     cMeta$outName[1] <- gsub("It0000-Ts0000-", "", cMeta$outName[1], fixed = TRUE)
     cMeta$outName[1] <- paste0(cMeta$outName, ".it0.ts0")
   }
-
+  
   if (is.element("Iteration", names(cMeta)) && (length(setdiff(cMeta$Iteration, c(NA))) > 0)) {
     tsReplaceBits <- cMeta$Iteration
     tsReplaceBits[tsReplaceBits < 10] <- paste0("It000", tsReplaceBits[tsReplaceBits < 10], "-")
@@ -253,9 +253,11 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
     warning("No raster data to return.")
     return(list())
   }
-
+  
   nFiles <- unique(cMeta$rasterColumn)
-  if ((length(nFiles) == 1) & (nrow(cMeta) > 1)) {
+  
+  # Case of unique file for many iterations/timestep
+  if ((length(nFiles) == 1) & (nrow(cMeta) > 1) & !is.null(cMeta$Band[1])) {
     if (!file.exists(nFiles)) {
       addPath <- paste0(.filepath(x), ".output/Scenario-", .scenarioId(x), "/", datasheet, "/", nFiles)
       if (!file.exists(addPath)) {
@@ -273,9 +275,9 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
     if (length(missing) > 0) {
       warning("Some layers not found: ", paste(cMeta$outName[is.element(cMeta$layerName, missing)]))
     }
-
+    
     cMeta <- subset(cMeta, is.element(layerName, names(cStack)))
-
+    
     for (i in 1:nrow(cMeta)) {
       cRow <- cMeta[i, ]
       cName <- cRow$layerName
@@ -283,6 +285,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
       names(cStack)[names(cStack) == cRow$layerName] <- cRow$outName
     }
   } else {
+    # Every other case
     for (i in seq(length.out = nrow(cMeta))) {
       cRow <- cMeta[i, ]
       if (is.na(cRow$rasterColumn)) {
@@ -301,7 +304,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
       } else {
         cRaster <- raster::raster(cRow$rasterColumn, band = cRow$bandColumn)
       }
-
+      
       cRaster@title <- cRow$outName
       if (i == 1) {
         cStack <- raster::stack(cRaster)
@@ -313,11 +316,11 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
       }
     }
   }
-
+  
   # ensure layers are sorted by name
   sortNames <- sort(names(cStack))
   cStack <- raster::subset(cStack, sortNames)
-
+  
   if ((length(names(cStack)) == 1) & !forceElements) {
     cStack <- cStack[[1]]
   }

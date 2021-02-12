@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.2.8
+Version: 1.2.9
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -11,7 +11,9 @@ Authors@R: c(
            role = "aut"),
     person("Leonardo", "Frid", 
            role = "aut"), 
-    person("Valentin", "Lucet", 
+    person("Valentin", "Lucet",
+           role = "aut"),
+    person("Tabitha", "Kennedy", 
            role = "aut"),
     person("ApexRMS", role="cph"))
 Description: 'SyncroSim' is a generalized framework for managing scenario-based 
@@ -36,7 +38,7 @@ Suggests:
     Rcpp,
     rgdal,
     rmarkdown
-SystemRequirements: SyncroSim (>=2.2.13)
+SystemRequirements: SyncroSim (>=2.2.22)
 Collate: 
     'AAAClassDefinitions.R'
     'addModule.R'

@@ -1,33 +1,23 @@
 ## Test environments
-* Windows 10 (local 4.0 // CI (GitHub actions), release 3.6.3 and devel 4.0)
-* Pop! OS 19.04 (local, 3.6.2, docker container 4.0)
-* Ubuntu 18.04 (CI (GitHub actions), release 3.6.3 and devel 4.0)
+* Windows 10 CI (CI (GitHub actions): release 3.6.3 and devel)
+* Ubuntu 18.04 (CI (GitHub actions), release 3.6.3 and devel)
 
-## Resubmission
-This is a resubmission. 
-In version 1.2.3 we addressed all the comments provided sucessively by by Uwe Ligges, 
-Martina Schmirl and Jelena Saf :
+## New release 1.2.9
 
-* Following a suggestion by Martina Schimrl, the examples are wrapped in \\donttest{}
-instead of \\donttrun{]. They cannot be unwrapped as they will fail on testing platforms given that they require an installed version of the SyncroSim software to work (see the Upstream dependencies Section below).
-  * ** This is likely to cause R CMD check to produce an error on the CRAN servers 
-  as in R 4.0, CMD check now runs examples wrapped in \\donttest{} **
+### Bug fixes:
 
-* Following a comment by Martina Schmirl, the behavior of functions that returned 
-strings and printed them has been modified to use message(). These messages are 
-important to keep for the user to obtain critical information about their 
-interaction with the Syncrosim software's API and should not be suppressed. Those functions now 
-returns a boolean invisibly.
+* Fixes a case when `datasheet` could not handle more than one scenario when `fastQuery` was `TRUE`.
+* Fixes issues with breakpoints no longer working.
+* Fixes an error when trying to delete a datasheet.
+* Fixes a cases when the prefix in datasheet names only worked for stsim.
+* Fixes db update for old syncrosim databases.
+* Fixes a case when `datasheetRaster` would not output properly when multiple iterations were requested.
+* Fixes inconsistency in deletion of objects.
+* Minor changes and fixes to tests and documentation.
 
-* Following a comment by Martina Schmirl, all default path have been removed and 
-examples/vignette code uses tempdir() and nothing is written to the user working directory, 
-except in the default use of `ssimLibrary` which exactly as is done with functions like `write.csv`,
-it will save a file into the user working directory if they do not explicitly
-specify a path.
+### New features:
 
-Smaller changes:
-* Descripton file have been updated with undirected quotation marks
-* The \\value field has been added/updated for all functions
+* Adds support for the Ignore Dependencies feature in SyncroSim. NOTE: To use this feature you must install at least version 2.2.22 of SyncroSim.
 
 ## Upstream dependencies
 
@@ -38,12 +28,8 @@ installed to run. Therefore, all tests in the submitted package should not run
 set to not be evaluated wehn NOT_CRAN is FALSE is the environment.
 
 ## R CMD check results
-Duration: 2m 20s
 
-There was 1 note:
+-- R CMD check results ----------------------------------- rsyncrosim 1.2.9 ----
+Duration: 1m 15.9s
 
-  Maintainer: 'Colin Daniel <colin.daniel@apexrms.com>'
-  
-  New submission
-
-0 errors √ | 0 warnings √ | 1 note x
+0 errors v | 0 warnings v | 0 notes v

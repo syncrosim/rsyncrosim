@@ -6,7 +6,7 @@
 \alias{Scenario}
 \title{SyncroSim Scenario class}
 \description{
-\code{Scenario} object representing a SyncroSim Scnario.
+\code{Scenario} object representing a SyncroSim Scenario.
 }
 \section{Slots}{
 

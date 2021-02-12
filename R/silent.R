@@ -10,7 +10,7 @@ NULL
 #' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
 #' 
 #' @return 
-#' Logical value: `TRUE` if the session is silent and `FALSE` otherwise.
+#' Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
 #' 
 #' @export
 setGeneric("silent", function(session) standardGeneric("silent"))
@@ -33,10 +33,10 @@ setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session
 
 #' Set silent property of a Session
 #'
-#' Set silent property of a sessio to TRUE or FALSE
+#' Set silent property of a session to TRUE or FALSE
 #'
-#' @param session Session
-#' @param value logical
+#' @param session Session.
+#' @param value Logical.
 #' 
 #' @return 
 #' The updated ssimObject.
