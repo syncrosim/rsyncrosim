@@ -38,7 +38,7 @@ Suggests:
     Rcpp,
     rgdal,
     rmarkdown
-SystemRequirements: SyncroSim (>=2.2.13)
+SystemRequirements: SyncroSim (>=2.2.22)
 Collate: 
     'AAAClassDefinitions.R'
     'addModule.R'
