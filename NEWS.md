@@ -8,7 +8,7 @@
 * Fixes a cases when the prefix in datasheet names only worked for stsim.
 * Fixes db update for old syncrosim databases.
 * Fixes a case when `datasheetRaster` would not output properly when multiple iterations were requested.
-* Fixes inconsistency in deletion of objects
+* Fixes inconsistency in deletion of objects.
 * Minor changes and fixes to tests and documentation.
 
 ## New features:
