@@ -14,10 +14,10 @@ knitr::opts_chunk$set(
 # rsyncrosim <img src="inst/images/sticker.png" align="right" width=140/>
 ## The R interface to SyncroSim
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)](https://github.com/syncrosim/rsyncrosim/actions)
-[![CRAN Version](https://www.r-pkg.org/badges/version/rsyncrosim)](https://CRAN.R-project.org/package=rsyncrosim)
-[![Downloads](https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://CRAN.R-project.org/package=rsyncrosim)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT/)
+[![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)](https://github.com/syncrosim/rsyncrosim/actions/)
+[![CRAN Version](https://www.r-pkg.org/badges/version/rsyncrosim)](https://CRAN.R-project.org/package=rsyncrosi/m)
+[![Downloads](https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://CRAN.R-project.org/package=rsyncrosim/)
 
 ## About SyncroSim
 
@@ -37,7 +37,7 @@ SyncroSim is specifically designed to handle big data, including support for clo
 The rsyncrosim R package allows you to script and run SyncroSim operations in R. 
 
 ### Installation
-- [Download](https://cran.r-project.org/package=rsyncrosim) from CRAN
+- [Download](https://cran.r-project.org/package=rsyncrosim/) from CRAN
 
 ### Getting Started
 

@@ -6,11 +6,11 @@
 ## The R interface to SyncroSim
 
 [![License:
-MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)](https://github.com/syncrosim/rsyncrosim/actions)
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT/)
+[![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)](https://github.com/syncrosim/rsyncrosim/actions/)
 [![CRAN
-Version](https://www.r-pkg.org/badges/version/rsyncrosim)](https://CRAN.R-project.org/package=rsyncrosim)
-[![Downloads](https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://CRAN.R-project.org/package=rsyncrosim)
+Version](https://www.r-pkg.org/badges/version/rsyncrosim)](https://CRAN.R-project.org/package=rsyncrosim/)
+[![Downloads](https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://CRAN.R-project.org/package=rsyncrosim/)
 
 ## About SyncroSim
 
@@ -41,7 +41,7 @@ operations in R.
 
 ### Installation
 
-  - [Download](https://cran.r-project.org/package=rsyncrosim) from CRAN
+  - [Download](https://cran.r-project.org/package=rsyncrosim/) from CRAN
 
 ### Getting Started
 
