@@ -27,7 +27,7 @@ myLibrary <- ssimLibrary(name = libraryName, session = mySession, overwrite = T)
 
 ## What is `rsyncrosim`?
 
-`rsyncrosim` is a package designed to facilitate the development of modeling workflows in R for the [SyncroSim](https://www.syncrosim.com/) software framework.
+`rsyncrosim` is a package designed to facilitate the development of modeling workflows in R for the [SyncroSim](https://syncrosim.com/) software framework.
 
 ## What is SyncroSim?
 
@@ -38,7 +38,7 @@ For more details consult the SyncroSim [online documentation](https://docs.syncr
 
 ### Installing SyncroSim and `rsyncrosim`
 
-Before using `rsyncrosim` you will first need to [download and install](https://www.syncrosim.com/download/) the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
+Before using `rsyncrosim` you will first need to [download and install](https://syncrosim.com/download/) the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
 
 Next you will need to install the `rsyncrosim` R package, either using [CRAN](https://cran.r-project.org/) or from the `rsyncrosim` [GitHub repository](https://github.com/syncrosim/rsyncrosim/releases/). Versions of `rsyncrosim` are available for both Windows and Linux.
 
