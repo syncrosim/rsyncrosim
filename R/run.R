@@ -212,7 +212,7 @@ setMethod("run", signature(ssimObject = "BreakpointSession"), function(ssimObjec
       args[[i]] <- list(x = files[i], session = session(x@scenario), port = ports[i], breaks = x@scenario@breakpoints)
     }
 
-    # Following http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
+    # Following https://www.win-vector.com/blog/2016/01/parallel-computing-in-r/
     LogFileName <- paste0(dirname(filepath(x@scenario)), "/parallelLog.txt")
     if (file.exists(LogFileName)) file.remove(LogFileName)
 

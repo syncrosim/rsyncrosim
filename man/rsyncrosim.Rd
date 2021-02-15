@@ -3,7 +3,7 @@
 \docType{package}
 \name{rsyncrosim}
 \alias{rsyncrosim}
-\title{rsyncrosim: The R interface to SyncroSim: http://syncrosim.com/}
+\title{rsyncrosim: The R interface to SyncroSim: https://syncrosim.com/}
 \description{
 rsyncrosim provides an interface to SyncroSim, a generalized framework for
 running and managing scenario-based stochastic simulations over space and time.

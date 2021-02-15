@@ -363,8 +363,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           if (is.null(sid)) {
             stop("Specify a scenario.")
           } else {
-            # following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
-            # and http://www.sqlitetutorial.net/sqlite-in/
+            # following https://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
+            # and https://www.sqlitetutorial.net/sqlite-in/
             if (sqlStatement$where == "") {
               sqlStatement$where <- paste0("WHERE ScenarioID IN (", paste(sid, collapse = ","), ")")
             } else {

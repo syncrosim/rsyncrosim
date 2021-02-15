@@ -176,7 +176,7 @@ camel <- function(x) {
   x
 }
 
-# http://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
+# https://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
 printAndCapture <- function(x) {
   paste(capture.output(print(x)), collapse = "\n")
 }
