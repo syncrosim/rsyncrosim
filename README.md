@@ -46,7 +46,7 @@ operations in R.
 ### Getting Started
 
   - Run the
-    [vignette](https://cran.r-project.org/web/packages/rsyncrosim/vignettes/rsyncrosim_tutorial.html)
+    [vignette](https://cran.r-project.org/package=rsyncrosim/vignettes/rsyncrosim_tutorial.html)
 
   - View the package
-    [documentation](https://cran.r-project.org/web/packages/rsyncrosim/rsyncrosim.pdf)
+    [documentation](https://cran.r-project.org/package=rsyncrosim/rsyncrosim.pdf)
