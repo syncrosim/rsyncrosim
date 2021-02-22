@@ -7,7 +7,7 @@ NULL
 #'
 #' Deprecated.  See: \code{\link{package}}.
 #'
-#' @param session Session.
+#' @param session \code{\link{Session}}.
 #' 
 #' @return 
 #' Returns a \code{dataframe} of modules.

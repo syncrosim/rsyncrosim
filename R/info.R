@@ -2,7 +2,7 @@
 #' 
 #' Get basic information about a Library.
 #' 
-#' @param ssimLibrary A \code{SsimLibrary} object.
+#' @param ssimLibrary A \code{\link{SsimLibrary}} object.
 #' 
 #' @return 
 #' Returns a \code{data.frame} with information on the properties of the library object.

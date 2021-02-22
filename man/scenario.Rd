@@ -25,7 +25,7 @@ scenario(
 
 \item{results}{Logical. If TRUE only return result scenarios.}
 
-\item{forceElements}{Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.}
+\item{forceElements}{Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a \code{\link{Scenario}} object. Applies only when summary=FALSE.}
 
 \item{overwrite}{Logical. If TRUE an existing Scenario will be overwritten.}
 }
@@ -35,14 +35,14 @@ If \code{summary} = FALSE, returns one or more \code{\link{Scenario}} objects re
 If \code{summary} = TRUE, returns scenario summary info.
 }
 \description{
-Create or retrieves one or more Scenarios from a library
+Create or retrieves one or more Scenarios from a library.
 }
 \details{
 For each element of scenario:
 \itemize{
-  \item {If element/project/ssimObject uniquely identifies an existing scenario: }{Returns the existing Scenario}
-  \item {If element/project/ssimObject uniquely identifies more than one existing scenario: }{Error}
-  \item {If element/project/ssimObject do not identify an existing scenario or project: }{Error}
+  \item {If element/project/ssimObject uniquely identifies an existing scenario: }{Returns the existing Scenario}.
+  \item {If element/project/ssimObject uniquely identifies more than one existing scenario: }{Error}.
+  \item {If element/project/ssimObject do not identify an existing scenario or project: }{Error}.
   \item {If element/project/ssimObject do not identify an existing scenario and element is numeric: }{Error - a name is required for new scenarios. SyncroSim will automatically assign an id when a scenario is created.}
   \item {If element/project/ssimObject do not identify an existing scenario and do identify a project, and element is a character string: }{Creates a new Scenario named element in the project. SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
 }

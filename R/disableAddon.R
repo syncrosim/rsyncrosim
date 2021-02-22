@@ -5,7 +5,7 @@ NULL
 
 #' Disable addon or addons.
 #'
-#' Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
+#' Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} with an associated SsimLibrary.
 #'
 #' @param ssimLibrary SsimLibrary.
 #' @param name Character string or vector of addon names.

@@ -18,7 +18,7 @@ deletePackage(name, session = NULL, force = FALSE)
 \arguments{
 \item{name}{Character. The name of the package to delete.}
 
-\item{session}{Session.}
+\item{session}{\code{\link{Session}}.}
 
 \item{force}{logical. If T, delete without requiring confirmation from user.}
 }

@@ -13,7 +13,7 @@ runLog(scenario)
 \S4method{runLog}{Scenario}(scenario)
 }
 \arguments{
-\item{scenario}{A Scenario object.}
+\item{scenario}{A \code{\link{Scenario}} object.}
 }
 \value{
 Returns a character string: the run log for a result scenario.

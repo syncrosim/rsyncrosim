@@ -7,7 +7,7 @@
 envTempFolder(folderName)
 }
 \arguments{
-\item{folderName}{character.  The folder name.}
+\item{folderName}{Character.  The folder name.}
 }
 \value{
 Returns a temporary folder name.

@@ -16,7 +16,7 @@ module(session)
 \S4method{module}{Session}(session)
 }
 \arguments{
-\item{session}{Session.}
+\item{session}{\code{\link{Session}}.}
 }
 \value{
 Returns a \code{dataframe} of modules.

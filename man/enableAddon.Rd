@@ -22,7 +22,7 @@ This function invisibly returns `TRUE` upon success (i.e.successful activation o
 and `FALSE` upon failure.
 }
 \description{
-Enable addon or addons of a SsimLibrary.
+Enable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}.
 }
 \examples{
 \donttest{

@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The scenarioId of a scenario.
+#' The scenarioId of a Scenario.
 #'
-#' Retrieves the scenarioId of a Scenario.
+#' Retrieves the scenarioId of a \code{\link{Scenario}}.
 #'
 #' @param scenario Scenario.
 #' 

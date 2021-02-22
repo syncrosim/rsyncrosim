@@ -6,7 +6,7 @@
 \alias{name,SsimLibrary-method}
 \alias{name,Scenario-method}
 \alias{name,Project-method}
-\title{The name of a SyncroSim library, project or scenario.}
+\title{The name of a SsimLibrary, Project or Scenario.}
 \usage{
 name(ssimObject)
 
@@ -25,5 +25,5 @@ name(ssimObject)
 Character string: the name of the ssimObject.
 }
 \description{
-Retrieves the name of an SsimLibrary, Project or Scenario.
+Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 }

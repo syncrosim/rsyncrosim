@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The last date a SsimLibrary/Project/Scenario was modified.
+#' The last date a SsimLibrary, Project or Scenario was modified.
 #'
-#' The most recent modification date of an SsimLibrary/Project/Scenario.
+#' The most recent modification date of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @param ssimObject SsimLibrary, Project or Scenario.
 #' 
 #' @return 
 #' A character string of the date and time of the most recent modification 

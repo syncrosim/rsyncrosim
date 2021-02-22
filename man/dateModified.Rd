@@ -6,7 +6,7 @@
 \alias{dateModified,SsimLibrary-method}
 \alias{dateModified,Project-method}
 \alias{dateModified,Scenario-method}
-\title{The last date a SsimLibrary/Project/Scenario was modified.}
+\title{The last date a SsimLibrary, Project or Scenario was modified.}
 \usage{
 dateModified(ssimObject)
 
@@ -19,12 +19,12 @@ dateModified(ssimObject)
 \S4method{dateModified}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario.}
+\item{ssimObject}{SsimLibrary, Project or Scenario.}
 }
 \value{
 A character string of the date and time of the most recent modification 
 to the ssimObject provided as input.
 }
 \description{
-The most recent modification date of an SsimLibrary/Project/Scenario.
+The most recent modification date of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 }

@@ -14,9 +14,9 @@ dependency(scenario, dependency = NULL, remove = FALSE, force = FALSE)
 }
 \arguments{
 \item{scenario}{character string, integer, or vector of these. Name or ID of scenario(s) to which a dependency is to be added (or has been already added if remove=TRUE). 
-If NULL then ssimObject must be a Scenario. Note that integer ids are slightly faster.}
+If NULL then ssimObject must be a \code{\link{Scenario}}. Note that integer ids are slightly faster.}
 
-\item{dependency}{Scenario, character string, integer, or list/vector of these. The scenario(s) that are the source of the dependency, 
+\item{dependency}{\code{\link{Scenario}}, character string, integer, or list/vector of these. The scenario(s) that are the source of the dependency, 
 in order from lowest to highest precedence. If NULL other arguments are ignored and the list of existing dependencies is returned.}
 
 \item{remove}{logical. If F (default) dependencies are added. If T, dependencies are removed.}

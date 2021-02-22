@@ -7,7 +7,7 @@ NULL
 #'
 #' Base packages installed with this version of SyncroSim.
 #'
-#' @param ssimObject Session or SsimLibrary.
+#' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
 #' A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).

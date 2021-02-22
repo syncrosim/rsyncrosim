@@ -16,7 +16,7 @@ version(session = NULL)
 \S4method{version}{Session}(session = NULL)
 }
 \arguments{
-\item{session}{Session.}
+\item{session}{\code{\link{Session}}.}
 }
 \value{
 A character string e.g. "2.2.13".

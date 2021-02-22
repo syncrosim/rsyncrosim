@@ -66,11 +66,11 @@ envCreateTempFolder <- function(folderName) {
 #'
 #' Creates and returns a SyncroSim DataSheet Input Folder.
 #'
-#' @param scenario Scenario.  A SyncroSim result scenario.
-#' @param datasheetName character.  The input datasheet name.
+#' @param scenario Scenario.  A SyncroSim result \code{\link{Scenario}}.
+#' @param datasheetName Character.  The input datasheet name.
 #' 
 #' @return 
-#' Returns a folder name for the specified data sheet.
+#' Returns a folder name for the specified datasheet.
 #' 
 #' @export
 #' @rdname ssimEnvironment-input
@@ -83,11 +83,11 @@ envInputFolder <- function(scenario, datasheetName) {
 #'
 #' Creates and returns a SyncroSim DataSheet Output Folder.
 #'
-#' @param scenario Scenario.  A SyncroSim result scenario.
-#' @param datasheetName character.  The output datasheet name.
+#' @param scenario Scenario.  A SyncroSim result \code{\link{Scenario}}.
+#' @param datasheetName Character.  The output datasheet name.
 #' 
 #' @return 
-#' Returns a folder name for the specified data sheet.
+#' Returns a folder name for the specified datasheet.
 #' 
 #' @export
 #' @rdname ssimEnvironment-output
@@ -100,7 +100,7 @@ envOutputFolder <- function(scenario, datasheetName) {
 #'
 #' Creates and returns a SyncroSim Temporary Folder.
 #'
-#' @param folderName character.  The folder name.
+#' @param folderName Character.  The folder name.
 #' 
 #' @return 
 #' Returns a temporary folder name.

@@ -5,11 +5,11 @@ NULL
 
 #' Get spatial inputs or outputs from a Scenario(s).
 #'
-#' Get spatial inputs or outputs from one or more SyncroSim scenarios.
+#' Get spatial inputs or outputs from one or more SyncroSim \code{\link{Scenario}}.
 #' @details
 #'
 #'
-#' The names() of the returned raster stack contain metadata.
+#' The names of the returned raster stack contain metadata.
 #' For datasheets without Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)
 #' For datasheets containing Filename this is: paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)
 #'

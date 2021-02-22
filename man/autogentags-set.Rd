@@ -21,5 +21,5 @@ autogentags(ssimObject) <- value
 The updated ssimObject.
 }
 \description{
-Sets the Auto Generation Tags for a Scenario.
+Sets the Auto Generation Tags for a \code{\link{Scenario}}.
 }

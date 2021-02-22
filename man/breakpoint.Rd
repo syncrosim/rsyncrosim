@@ -10,7 +10,7 @@ breakpoint(x)
 \S4method{breakpoint}{Scenario}(x)
 }
 \arguments{
-\item{x}{A SyncroSim Scenario.}
+\item{x}{A SyncroSim \code{\link{Scenario}}.}
 }
 \value{
 Does not return anything, used for printing purposes.

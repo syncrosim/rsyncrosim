@@ -126,15 +126,15 @@ setMethod(
 
 #' Create or open one or more Scenarios.
 #'
-#' Create or retrieves one or more Scenarios from a library 
+#' Create or retrieves one or more Scenarios from a library.
 #'
 #' @details
 #'
 #' For each element of scenario:
 #' \itemize{
-#'   \item {If element/project/ssimObject uniquely identifies an existing scenario: }{Returns the existing Scenario}
-#'   \item {If element/project/ssimObject uniquely identifies more than one existing scenario: }{Error}
-#'   \item {If element/project/ssimObject do not identify an existing scenario or project: }{Error}
+#'   \item {If element/project/ssimObject uniquely identifies an existing scenario: }{Returns the existing Scenario}.
+#'   \item {If element/project/ssimObject uniquely identifies more than one existing scenario: }{Error}.
+#'   \item {If element/project/ssimObject do not identify an existing scenario or project: }{Error}.
 #'   \item {If element/project/ssimObject do not identify an existing scenario and element is numeric: }{Error - a name is required for new scenarios. SyncroSim will automatically assign an id when a scenario is created.}
 #'   \item {If element/project/ssimObject do not identify an existing scenario and do identify a project, and element is a character string: }{Creates a new Scenario named element in the project. SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
 #' }
@@ -144,7 +144,7 @@ setMethod(
 #' @param sourceScenario Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.
 #' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.
 #' @param results Logical. If TRUE only return result scenarios.
-#' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a Scenario object. Applies only when summary=FALSE.
+#' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a \code{\link{Scenario}} object. Applies only when summary=FALSE.
 #' @param overwrite Logical. If TRUE an existing Scenario will be overwritten.
 #' 
 #' @return 

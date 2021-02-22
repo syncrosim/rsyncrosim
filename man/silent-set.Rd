@@ -21,5 +21,5 @@ silent(session) <- value
 The updated ssimObject.
 }
 \description{
-Set silent property of a session to TRUE or FALSE
+Set silent property of a \code{\link{Session}} to TRUE or FALSE.
 }

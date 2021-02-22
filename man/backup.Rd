@@ -13,12 +13,12 @@ backup(ssimObject)
 \S4method{backup}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario.}
+\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 
 backup) and `FALSE` upon failure.
 }
 \description{
-Backup a SsimLibrary.
+Backup a \code{\link{SsimLibrary}}.
 }

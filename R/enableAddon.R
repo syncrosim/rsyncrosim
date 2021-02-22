@@ -5,7 +5,7 @@ NULL
 
 #' Enable addon or addons.
 #'
-#' Enable addon or addons of a SsimLibrary.
+#' Enable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}.
 #'
 #' @param ssimLibrary SsimLibrary.
 #' @param name Character string or vector of addon names.

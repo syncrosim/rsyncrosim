@@ -20,5 +20,5 @@ Returns a logical: `TRUE` is the scenario is configured to merge dependencies at
 and `FALSE` otherwise.
 }
 \description{
-Retrieves whether or not a Scenario is configured to merge dependencies at run time.
+Retrieves whether or not a \code{\link{Scenario}} is configured to merge dependencies at run time.
 }

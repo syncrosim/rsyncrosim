@@ -4,7 +4,7 @@
 \alias{owner<-}
 \alias{owner<-,character-method}
 \alias{owner<-,SsimObject-method}
-\title{Set the owner of an SsimLibrary/Project/Scenario.}
+\title{Set the owner of a SsimLibrary, Project or Scenario.}
 \usage{
 owner(ssimObject) <- value
 
@@ -13,7 +13,7 @@ owner(ssimObject) <- value
 \S4method{owner}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario/Project/SsimLibrary.}
+\item{ssimObject}{Scenario, Project, or SsimLibrary.}
 
 \item{value}{The new owner.}
 }
@@ -21,5 +21,5 @@ owner(ssimObject) <- value
 The updated ssimObject.
 }
 \description{
-Set the owner of an SsimLibrary/Project/Scenario.
+Set the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 }

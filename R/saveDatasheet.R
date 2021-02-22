@@ -5,7 +5,7 @@ NULL
 
 #' Save datasheet(s)
 #'
-#' Saves datasheets to a SsimLibrary/Project/Scenario.
+#' Saves datasheets to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.
 #'
 #' @details
 #' ssimObject/project/scenario should identify a single ssimObject.
@@ -23,7 +23,7 @@ NULL
 #'   \item The append argument will be ignored if the datasheet is a validation source and has a project scope.  In this case the data will be MERGED.
 #' }
 #' 
-#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.
 #' @param data A dataframe, named vector, or list of these. One or more datasheets to load.
 #' @param name Character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.
 # @param project character or integer. Project name or id. Note integer ids are slightly faster.

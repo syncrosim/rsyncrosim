@@ -4,7 +4,7 @@
 \alias{description<-}
 \alias{description<-,character-method}
 \alias{description<-,SsimObject-method}
-\title{Set the description of an SsimLibrary/Project/Scenario.}
+\title{Set the description of a SsimLibrary, Project or Scenario.}
 \usage{
 description(ssimObject) <- value
 
@@ -21,5 +21,5 @@ description(ssimObject) <- value
 The object with updated description.
 }
 \description{
-Set the description of an SsimLibrary/ProjectScenario.
+Set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 }

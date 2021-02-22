@@ -10,7 +10,7 @@ deleteBreakpoint(x, transformerName = NULL, breakpointType = NULL)
 \S4method{deleteBreakpoint}{Scenario}(x, transformerName = NULL, breakpointType = NULL)
 }
 \arguments{
-\item{x}{A SyncroSim Scenario.}
+\item{x}{A SyncroSim \code{\link{Scenario}}.}
 
 \item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.}
 
@@ -20,7 +20,7 @@ deleteBreakpoint(x, transformerName = NULL, breakpointType = NULL)
 A SyncroSim Scenario with an updated list of breakpoints.
 }
 \description{
-This function will delete a Scenario breakpoint.
+This function will delete a \code{\link{Scenario}} breakpoint.
 }
 \examples{
 \donttest{

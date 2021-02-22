@@ -7,7 +7,7 @@ NULL
 #'
 #' The version of a SyncroSim Session.
 #'
-#' @param session Session.
+#' @param session \code{\link{Session}}.
 #' 
 #' @return
 #' A character string e.g. "2.2.13".

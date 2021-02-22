@@ -197,9 +197,9 @@ getBPNameLongForm <- function(breakpointType) {
 
 #' Add a Scenario breakpoint.
 #'
-#' When the Scenario is run the breakpoint's callback function will be called for the specified iterations or timesteps.
+#' When the Scenario is \code{\link{run}} the breakpoint's callback function will be called for the specified iterations or timesteps.
 #'
-#' @param x A SyncroSim Scenario.
+#' @param x A SyncroSim \code{\link{Scenario}}.
 #' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.
 #' @param arguments A vector of timesteps or iterations e.g. c(1,2).
@@ -246,9 +246,9 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
 
 #' Delete a Scenario breakpoint.
 #'
-#' This function will delete a Scenario breakpoint.
+#' This function will delete a \code{\link{Scenario}} breakpoint.
 #'
-#' @param x A SyncroSim Scenario.
+#' @param x A SyncroSim \code{\link{Scenario}}.
 #' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.
 #' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
 #' 
@@ -303,7 +303,7 @@ setMethod("deleteBreakpoint", signature(x = "Scenario"), function(x, transformer
 #'
 #' Lists the breakpoints for a Scenario.
 #'
-#' @param x A SyncroSim Scenario.
+#' @param x A SyncroSim \code{\link{Scenario}}.
 #' 
 #' @return 
 #' Does not return anything, used for printing purposes.

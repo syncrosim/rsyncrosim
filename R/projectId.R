@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The projectId of a SyncroSim project or scenario.
+#' The projectId of a SyncroSim Project or Scenario.
 #'
-#' Retrieves the projectId of a SyncroSim Project or Scenario.
+#' Retrieves the projectId of a SyncroSim \code{\link{Project}} or \code{\link{Scenario}}.
 #'
-#' @param ssimObject Project/Scenario.
+#' @param ssimObject Project or Scenario.
 #' 
 #' @return 
 #' Returns an integer project id.

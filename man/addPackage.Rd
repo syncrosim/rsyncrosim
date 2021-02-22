@@ -18,7 +18,7 @@ addPackage(name, session = NULL)
 \arguments{
 \item{name}{Character string.  The name of the package to install.}
 
-\item{session}{Session.}
+\item{session}{\code{\link{Session}}.}
 }
 \value{
 This function will invisibly return `TRUE` upon success (i.e.successful 

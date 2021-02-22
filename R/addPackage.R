@@ -9,7 +9,7 @@ NULL
 #' package server for the package name provided as input.
 #'
 #' @param name Character string.  The name of the package to install.
-#' @param session Session.
+#' @param session \code{\link{Session}}.
 #' 
 #' @return 
 #' This function will invisibly return `TRUE` upon success (i.e.successful 

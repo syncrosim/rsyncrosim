@@ -6,7 +6,7 @@
 \alias{addon,missingOrNULL-method}
 \alias{addon,Session-method}
 \alias{addon,SsimObject-method}
-\title{addon(s) of an SsimLibrary or Session}
+\title{addon(s) of a SsimLibrary or Session}
 \usage{
 addon(ssimObject)
 
@@ -25,7 +25,7 @@ addon(ssimObject)
 A dataframe of addons.
 }
 \description{
-The addon(s) of an SsimLibrary or Session.
+The addon(s) of a \code{\link{SsimLibrary}} or \code{\link{Session}}.
 }
 \examples{
 \donttest{

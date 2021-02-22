@@ -9,7 +9,7 @@ command(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE)
 \arguments{
 \item{args}{Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.}
 
-\item{session}{Session. If NULL, a default session will be used.}
+\item{session}{\code{\link{Session}}. If NULL, a default session will be used.}
 
 \item{program}{Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.}
 

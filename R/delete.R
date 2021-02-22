@@ -8,8 +8,8 @@ NULL
 #' Deletes one or more items. Note that this is irreversible.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario, or path to a library.
-#' @param project character string, numeric, or vector of these. One or more project names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
-#' @param scenario character string, numeric, or vector of these. One or more scenario names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
+#' @param project character string, numeric, or vector of these. One or more \code{\link{Project}} names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
+#' @param scenario character string, numeric, or vector of these. One or more \code{\link{Scenario}} names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.
 #' @param datasheet character string or vector of these. One or more datasheet names.
 #' @param force logical. If FALSE (default), user will be prompted to approve removal of each item.
 #' 

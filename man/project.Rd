@@ -18,11 +18,11 @@ project(
 
 \item{project}{Character, integer, or vector of these. Names or ids of one or more projects. Note that integer ids are slightly faster.}
 
-\item{sourceProject}{Character, integer, or Project object. If not NULL, new projects will be copies of the sourceProject.}
+\item{sourceProject}{Character, integer, or \code{\link{Project}} object. If not NULL, new projects will be copies of the sourceProject.}
 
 \item{summary}{Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.}
 
-\item{forceElements}{Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a Project object. Applies only when summary=FALSE.}
+\item{forceElements}{Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a \code{\link{Project}} object. Applies only when summary=FALSE.}
 
 \item{overwrite}{Logical. If TRUE an existing Project will be overwritten.}
 }

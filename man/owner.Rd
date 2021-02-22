@@ -6,7 +6,7 @@
 \alias{owner,SsimLibrary-method}
 \alias{owner,Project-method}
 \alias{owner,Scenario-method}
-\title{The owner of a SsimLibrary/Project/Scenario.}
+\title{The owner of a SsimLibrary, Project or Scenario.}
 \usage{
 owner(ssimObject)
 
@@ -19,11 +19,11 @@ owner(ssimObject)
 \S4method{owner}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario.}
+\item{ssimObject}{SsimLibrary, Project or Scenario.}
 }
 \value{
 A character string: the owner of the ssimObject.
 }
 \description{
-Retrieves the owner of a SsimLibrary/ProjectScenario.
+Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 }

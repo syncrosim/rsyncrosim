@@ -16,7 +16,7 @@ package(session, installed = TRUE)
 \S4method{package}{Session}(session, installed = TRUE)
 }
 \arguments{
-\item{session}{Session.}
+\item{session}{\code{\link{Session}}.}
 
 \item{installed}{Logical. `TRUE` to list installed packages and `FALSE` to list 
 available packages.}

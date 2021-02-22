@@ -24,7 +24,7 @@ Session <- setClass("Session", representation(filepath = "character", silent = "
 # SyncroSim Object class
 # SsimLibrary, Project and Scenario all inherit from this abstract class.
 #
-# @slot session The SyncroSim Session.
+# @slot session The SyncroSim \code{\link{Session}}.
 # @slot filepath The path to the Library on disk.
 # @slot datasheetNames The names and scope of all datasheets in the Library. Used to speed calculations.
 SsimObject <- setClass("SsimObject", representation(session = "Session", filepath = "character", datasheetNames = "data.frame"))
@@ -34,7 +34,7 @@ SsimObject <- setClass("SsimObject", representation(session = "Session", filepat
 #' \code{SsimLibrary} object representing a SyncroSim Library.
 #'
 #' @seealso See \code{\link{ssimLibrary}} for options when creating or loading a SyncroSim Library.
-#' @slot session The SyncroSim Session.
+#' @slot session The SyncroSim \code{\link{Session}}.
 #' @slot filepath The path to the Library on disk.
 #' @slot datasheetNames The name and scope of all datasheets in the Library.
 #' @name SsimLibrary-class

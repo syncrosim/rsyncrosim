@@ -21,5 +21,5 @@ ignoreDependencies(ssimObject) <- value
 Returns the updated ssimObject.
 }
 \description{
-Sets the Ignore Dependencies Datafeed for a Scenario.
+Sets the Ignore Dependencies Datafeed for a \code{\link{Scenario}}.
 }

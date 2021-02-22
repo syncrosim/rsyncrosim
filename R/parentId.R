@@ -7,7 +7,7 @@ NULL
 #'
 #' Retrieves the id of the parent of a SyncroSim results scenario.
 #'
-#' @param scenario A Scenario object.
+#' @param scenario A \code{\link{Scenario}} object.
 #' 
 #' @return 
 #' An integer id of the parent scenario. If the input scenario does not have a

@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The owner of a SsimLibrary/Project/Scenario.
+#' The owner of a SsimLibrary, Project or Scenario.
 #'
-#' Retrieves the owner of a SsimLibrary/ProjectScenario.
+#' Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @param ssimObject SsimLibrary, Project or Scenario.
 #' 
 #' @return 
 #' A character string: the owner of the ssimObject. 
@@ -15,11 +15,11 @@ NULL
 #' @export
 setGeneric("owner", function(ssimObject) standardGeneric("owner"))
 
-#' Set the owner of an SsimLibrary/Project/Scenario.
+#' Set the owner of a SsimLibrary, Project or Scenario.
 #'
-#' Set the owner of an SsimLibrary/Project/Scenario.
+#' Set the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #'
-#' @param ssimObject Scenario/Project/SsimLibrary.
+#' @param ssimObject Scenario, Project, or SsimLibrary.
 #' @param value The new owner.
 #' 
 #' @return 

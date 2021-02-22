@@ -7,7 +7,7 @@ NULL
 #'
 #' Packages installed or available for this version of SyncroSim.
 #'
-#' @param session Session.
+#' @param session \code{\link{Session}}.
 #' @param installed Logical. `TRUE` to list installed packages and `FALSE` to list 
 #' available packages.
 #' 

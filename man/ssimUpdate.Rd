@@ -13,12 +13,12 @@ ssimUpdate(ssimObject)
 \S4method{ssimUpdate}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario.}
+\item{ssimObject}{SsimLibrary, Project or Scenario.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 
 update) and `FALSE` upon failure.
 }
 \description{
-Apply updates to a SyncroSim Library, or a Project or Scenario associated with a Library.
+Apply updates to a \code{\link{SsimLibrary}}, or a \code{\link{Project}} or \code{\link{Scenario}} associated with a Library.
 }

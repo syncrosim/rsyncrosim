@@ -7,7 +7,7 @@ NULL
 #'
 #' The run log of a result Scenario.
 #'
-#' @param scenario A Scenario object.
+#' @param scenario A \code{\link{Scenario}} object.
 #' 
 #' @return 
 #' Returns a character string: the run log for a result scenario.

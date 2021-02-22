@@ -19,5 +19,5 @@ autogentags(ssimObject)
 Returns the Auto Generation Tags.
 }
 \description{
-Retrieves the Auto Generation Tags for a Scenario.
+Retrieves the Auto Generation Tags for a \code{\link{Scenario}}.
 }

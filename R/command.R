@@ -16,7 +16,7 @@ NULL
 #' }
 #' 
 #' @param args Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.
-#' @param session Session. If NULL, a default session will be used.
+#' @param session \code{\link{Session}}. If NULL, a default session will be used.
 #' @param program Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.
 #' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=FALSE.
 #' 

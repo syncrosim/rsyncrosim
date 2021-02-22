@@ -5,7 +5,7 @@ NULL
 
 #' Ignore Dependencies for a Scenario.
 #'
-#' Retrieves the Ignore Dependencies Datafeeds for a Scenario.
+#' Retrieves the Ignore Dependencies Datafeeds for a \code{\link{Scenario}}.
 #'
 #' @param ssimObject Scenario.
 #' 
@@ -27,7 +27,7 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 
 #' Ignore Dependencies Datafeeds for a Scenario.
 #'
-#' Sets the Ignore Dependencies Datafeed for a Scenario.
+#' Sets the Ignore Dependencies Datafeed for a \code{\link{Scenario}}.
 #'
 #' @param ssimObject Scenario.
 #' @param value Character.

@@ -4,7 +4,7 @@
 \alias{description}
 \alias{description,character-method}
 \alias{description,SsimObject-method}
-\title{Description of an SsimLibrary/Project/Scenario.}
+\title{Description of a SsimLibrary, Project or Scenario.}
 \usage{
 description(ssimObject)
 
@@ -13,11 +13,11 @@ description(ssimObject)
 \S4method{description}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario.}
+\item{ssimObject}{SsimLibrary, Project or Scenario.}
 }
 \value{
 A character string describing the ssimObject.
 }
 \description{
-The description of an SsimLibrary/ProjectScenario.
+The description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 }

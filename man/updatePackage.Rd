@@ -18,7 +18,7 @@ updatePackage(name = NULL, session = NULL, listonly = FALSE)
 \arguments{
 \item{name}{Character string.  The name of the package to update.  If NULL, all packages will be updated.}
 
-\item{session}{Session.}
+\item{session}{\code{\link{Session}}.}
 
 \item{listonly}{Logical.  If TRUE, available updates are listed only.}
 }
