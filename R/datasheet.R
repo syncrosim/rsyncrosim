@@ -391,7 +391,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         
         # Filter out columns without data (drop NA columns) 
         if (!optional && (nrow(sheet) > 0)) {
-          sheet <- sheet[!colSums(is.na(sheet))>0]
+          sheet <- sheet[!(colSums(is.na(sheet)) == nrow(sheet))]
         }
       }
     } else {
