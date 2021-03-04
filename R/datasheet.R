@@ -321,7 +321,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
             
           }
-          sheet <- do.call(rbind, sheetList)
+          sheet <- do.call(gtools::smartbind, sheetList)
           
         } else {
           # If fastQuery is false, do this

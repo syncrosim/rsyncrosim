@@ -30,7 +30,8 @@ Imports:
     methods,
     DBI,
     RSQLite,
-    raster
+    raster,
+    gtools
 Suggests:
     knitr,
     testthat,
