@@ -10,11 +10,13 @@ NULL
 #' SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
 #'
 #' @param name Character string.  The name of the package to install.
-#' @param session \code{\link{Session}}.
+#' @param session A \code{\link{Session}} object.
 #' 
 #' @return 
 #' This function will invisibly return `TRUE` upon success (i.e.successful 
 #' install) and `FALSE` upon failure.
+#' 
+#' @seealso \link{addPackageFile}
 #' 
 #' @examples
 #' \donttest{
