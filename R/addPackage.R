@@ -7,7 +7,7 @@ NULL
 #'
 #' This function adds a package to SyncroSim. The function first queries the 
 #' SyncroSim package server for the package name provided as input. The list of 
-#' Syncrosim packages can be found \href{https://syncrosim.com/packages/}{here}.
+#' SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
 #'
 #' @param name Character string.  The name of the package to install.
 #' @param session \code{\link{Session}}.
