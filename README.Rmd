@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rsyncrosim <img src="inst/images/sticker.png" align="right" width=140/>
+# rsyncrosim <img src="man/figures/logo.png" align="right" width=140/>
 ## The R interface to SyncroSim
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT/)
