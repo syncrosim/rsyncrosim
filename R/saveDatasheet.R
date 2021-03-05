@@ -50,6 +50,7 @@ setMethod("saveDatasheet", signature(ssimObject = "character"), function(ssimObj
 
 #' @rdname saveDatasheet
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimObject, data, name, fileData, append, forceElements, force, breakpoint, import, path) {
+  
   isFile <- NULL
   x <- ssimObject
   if (is.null(append)) {
@@ -133,7 +134,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
 
     # convert factors to strings
     for (kk in seq(length.out = ncol(cDat))) {
-      if (class(cDat[[kk]]) == "factor") {
+      if (is.factor(cDat[[kk]])) {
         cDat[[kk]] <- as.character(cDat[[kk]])
       }
     }

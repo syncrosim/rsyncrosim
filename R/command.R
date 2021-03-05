@@ -21,7 +21,7 @@ NULL
 #' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=FALSE.
 #' 
 #' @return 
-#' A chracter string, output from the SyncroSim program.
+#' A character string, output from the SyncroSim program.
 #' 
 #' @examples
 #' \donttest{
@@ -40,7 +40,7 @@ NULL
 #' @export
 command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE) {
 
-  # if a syncrosim session is not provided, make one
+  # if a SyncroSim session is not provided, make one
   if (is.null(session)) {
     session <- .session()
   }

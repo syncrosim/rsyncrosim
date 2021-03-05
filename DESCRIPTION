@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.2.8
+Version: 1.2.11
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -11,7 +11,9 @@ Authors@R: c(
            role = "aut"),
     person("Leonardo", "Frid", 
            role = "aut"), 
-    person("Valentin", "Lucet", 
+    person("Valentin", "Lucet",
+           role = "aut"),
+    person("Tabitha", "Kennedy", 
            role = "aut"),
     person("ApexRMS", role="cph"))
 Description: 'SyncroSim' is a generalized framework for managing scenario-based 
@@ -19,8 +21,8 @@ Description: 'SyncroSim' is a generalized framework for managing scenario-based
     'SyncroSim'. Simulation models can be added to 'SyncroSim' in order to 
     transform these datasets, taking advantage of general features such as 
     defining scenarios of model inputs, running Monte Carlo simulations, and 
-    summarizing model outputs. 'rsyncrosim' requires 'Syncrosim' 2.2.13 or higher 
-    (API documentation: <http://docs.syncrosim.com/>).
+    summarizing model outputs. 'rsyncrosim' requires 'SyncroSim' 2.2.13 or higher 
+    (API documentation: <https://docs.syncrosim.com/>).
 License: MIT + file LICENSE
 LazyData: TRUE
 Encoding: UTF-8
@@ -28,7 +30,8 @@ Imports:
     methods,
     DBI,
     RSQLite,
-    raster
+    raster,
+    gtools
 Suggests:
     knitr,
     testthat,
@@ -36,7 +39,7 @@ Suggests:
     Rcpp,
     rgdal,
     rmarkdown
-SystemRequirements: SyncroSim (>=2.2.13)
+SystemRequirements: SyncroSim (>=2.2.22)
 Collate: 
     'AAAClassDefinitions.R'
     'addModule.R'
@@ -92,5 +95,5 @@ Collate:
     'version.R'
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
-URL: https://github.com/syncrosim/rsyncrosim
-BugReports: https://github.com/syncrosim/rsyncrosim/issues
+URL: https://github.com/syncrosim/rsyncrosim/
+BugReports: https://github.com/syncrosim/rsyncrosim/issues/

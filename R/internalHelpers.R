@@ -20,8 +20,17 @@ backupEnabled <- function(path) {
   drv <- DBI::dbDriver("SQLite")
   con <- DBI::dbConnect(drv, path)
 
-  ret <- DBI::dbGetQuery(con, "SELECT * FROM core_Backup")
-  DBI::dbDisconnect(con)
+  tableExists <- DBI::dbExistsTable(con, "core_Backup")
+  
+  # Check for existence of table, if it does not exist assume we want to 
+  # go ahead with the backup
+  if(tableExists){
+    ret <- DBI::dbGetQuery(con, "SELECT * FROM core_Backup")
+    DBI::dbDisconnect(con)
+  } else{
+    DBI::dbDisconnect(con)
+    return(TRUE)
+  }
 
   if (is.na(ret$BeforeUpdate)) {
     return(FALSE)
@@ -167,7 +176,7 @@ camel <- function(x) {
   x
 }
 
-# http://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
+# https://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
 printAndCapture <- function(x) {
   paste(capture.output(print(x)), collapse = "\n")
 }
@@ -584,7 +593,7 @@ setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), function(ssim
 
 setMethod("deleteLibrary", signature(ssimLibrary = "character"), function(ssimLibrary, force) {
   if (!file.exists(ssimLibrary)) {
-    return(paste0("Library not found: ", ssimLibrary))
+    stop(paste0("Library not found: ", ssimLibrary))
   }
   if (force) {
     answer <- "y"

@@ -86,6 +86,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   parentID <- NULL
   ParentName <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
+  IDColumns <- c("ScenarioID", "ProjectID")
   
   if (class(xProjScn) == "SsimLibrary") {
     x <- xProjScn
@@ -267,13 +268,13 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         
         if (fastQuery) {
           
-          # Writes out a
+          # Writes out a file
           if (lookupsAsFactors) {
-
+            
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
             args <- assignPidSid(args, sheetNames, pid[1], sid[1]) # TODO make sure vector
             tt <- command(args, .session(x))
-
+            
             if (!identical(tt, "saved")) {
               stop(tt)
             }
@@ -309,12 +310,18 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
                 sheet$ProjectID <-  pid[id]
               }
               
+              # Rearrange on the spot, making sure this is robust for Project-level
+              # datasheets as well
+              IDColumnsForThisSheet <- IDColumns[IDColumns %in% names(sheet)]
+              sheet <- sheet[, c(IDColumnsForThisSheet, 
+                                 names(sheet)[!(names(sheet) %in% IDColumnsForThisSheet)])]
+              
               sheetList[[id]] <- sheet
               DBI::dbDisconnect(fqcon)
             }
             
           }
-          sheet <- do.call(rbind, sheetList)
+          sheet <- do.call(gtools::smartbind, sheetList)
           
         } else {
           # If fastQuery is false, do this
@@ -356,8 +363,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           if (is.null(sid)) {
             stop("Specify a scenario.")
           } else {
-            # following http://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
-            # and http://www.sqlitetutorial.net/sqlite-in/
+            # following https://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
+            # and https://www.sqlitetutorial.net/sqlite-in/
             if (sqlStatement$where == "") {
               sqlStatement$where <- paste0("WHERE ScenarioID IN (", paste(sid, collapse = ","), ")")
             } else {
@@ -384,7 +391,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         
         # Filter out columns without data (drop NA columns) 
         if (!optional && (nrow(sheet) > 0)) {
-          sheet <- sheet[!colSums(is.na(sheet))>0]
+          sheet <- sheet[!(colSums(is.na(sheet)) == nrow(sheet))]
         }
       }
     } else {
@@ -592,9 +599,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         sheet$ProjectID <- NULL
       } else {
         if (nrow(sheet) > 0) {
-          if (is.null(allProjects)) {
-            allProjects <- .project(x)
-          }
+          #if (is.null(allProjects)) {
+          allProjects <- .project(x)
+          #}
           names(allProjects) <- c("ProjectID", "ProjectName")
           sheet <- merge(allProjects, sheet, all.y = TRUE)
         }
@@ -625,6 +632,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
+    
     outSheetList[[cName]] <- sheet
     
     # return single row datasheets as named vectors (if not for multiple scenarios)

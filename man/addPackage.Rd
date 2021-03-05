@@ -25,6 +25,6 @@ This function will invisibly return `TRUE` upon success (i.e.successful
 install) and `FALSE` upon failure.
 }
 \description{
-Adds a package to SyncroSim. This functions will query the syncrosim 
+Adds a package to SyncroSim. This functions will query the SyncroSim 
 package server for the package name provided as input.
 }

@@ -12,8 +12,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
 
   # Create the project definition
   libPath <- paste0(getwd(), "/ST-Sim-Command-Line.ssim")
-  ret <- delete(libPath, force = TRUE)
-  myLibrary <- ssimLibrary(session = myses, name = libPath)
+  myLibrary <- ssimLibrary(session = myses, name = libPath, overwrite = TRUE)
   myProject <- project(myLibrary, project = "ST-Sim Demonstration")
 
   #***********************************

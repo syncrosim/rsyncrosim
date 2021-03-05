@@ -10,7 +10,6 @@
 ^.*\.sln$
 ^README\.Rmd$
 ^README-.*\.png$
-^NEWS\.md$
 testLibs
 ^\.github$
 cran-comments.md
