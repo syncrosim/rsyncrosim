@@ -33,6 +33,6 @@ assumed to be in same order as dataframe columns.
 \examples{
 
 oldDF <- as.data.frame(mtcars)
-newDF <- addRow(newDF, list(mpg = 100, wt = 10))
+newDF <- addRow(oldDF, list(mpg = 100, wt = 10))
 
 }

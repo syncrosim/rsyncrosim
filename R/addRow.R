@@ -26,7 +26,7 @@ NULL
 #' @examples
 #' 
 #' oldDF <- as.data.frame(mtcars)
-#' newDF <- addRow(newDF, list(mpg = 100, wt = 10))
+#' newDF <- addRow(oldDF, list(mpg = 100, wt = 10))
 #' 
 #' @export
 setGeneric("addRow", function(targetDataframe, value) standardGeneric("addRow"))
