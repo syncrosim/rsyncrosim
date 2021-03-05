@@ -5,8 +5,9 @@ NULL
 
 #' Adds a package to SyncroSim
 #'
-#' Adds a package to SyncroSim. This functions will query the SyncroSim 
-#' package server for the package name provided as input.
+#' This function adds a package to SyncroSim. The function first queries the 
+#' SyncroSim package server for the package name provided as input. The list of 
+#' Syncrosim packages can be found \href{https://syncrosim.com/packages/}{here}.
 #'
 #' @param name Character string.  The name of the package to install.
 #' @param session \code{\link{Session}}.
@@ -14,6 +15,15 @@ NULL
 #' @return 
 #' This function will invisibly return `TRUE` upon success (i.e.successful 
 #' install) and `FALSE` upon failure.
+#' 
+#' @examples
+#' \donttest{
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' 
+#' addPackage(myLibrary, "stsim")
+#' }
 #' 
 #' @export
 setGeneric("addPackage", function(name, session = NULL) standardGeneric("addPackage"))

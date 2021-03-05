@@ -5,12 +5,20 @@ NULL
 
 #' addon(s) of a SsimLibrary or Session
 #'
+#' Some Packages are Add-On Packages. These Packages can only be used to extend 
+#' existing Base Packages; as a result they cannot be used to create new Libraries.
+#' For example, stsimsf is an Add-On Package for stsim which provides optional 
+#' additional functionality for the base ST-Sim model.
+#' More information on add-ons can be found in the 
+#' \href{http://docs.syncrosim.com/how_to_guides/package_addon.html}{syncrosim documentation}.
+#'
 #' The addon(s) of a \code{\link{SsimLibrary}} or \code{\link{Session}}.
 #' 
-#' @param ssimObject SsimLibrary/Project/Scenario or Session.
+#' @param ssimObject An object of type SsimLibrary/Project/Scenario or Session.
 #' 
 #' @return 
-#' A dataframe of addons.
+#' A dataframe listing the addon(s) in use by the library to which the object 
+#' belongs.
 #' 
 #' @examples
 #' \donttest{

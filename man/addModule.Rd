@@ -14,10 +14,6 @@ addModule(filename, session = NULL)
 
 \item{session}{Session.}
 }
-\value{
-Deprecated: produces an error.
-}
 \description{
-Add \code{\link{module}} or modules to SyncroSim
-Deprecated.  See: \code{\link{addPackage}} and \code{\link{addPackageFile}}.
+This function is deprecated.  See \code{\link{addPackage}} and \code{\link{addPackageFile}}.
 }
