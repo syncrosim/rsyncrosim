@@ -20,5 +20,17 @@ This function invisibly returns `TRUE` upon success (i.e.successful
 backup) and `FALSE` upon failure.
 }
 \description{
-Backup a \code{\link{SsimLibrary}}.
+Backup a \code{\link{SsimLibrary}}. The backup folder can be defined in the
+SyncroSim UI, but is by default at the same lebvel than the library file, 
+and is called libraryName.backup
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+myses <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+
+backup(myLibrary)
+}
+
 }
