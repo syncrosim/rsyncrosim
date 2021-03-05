@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Description of an SsimLibrary/Project/Scenario.
+#' Description of a SsimLibrary, Project or Scenario.
 #'
-#' The description of an SsimLibrary/ProjectScenario.
+#' The description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @param ssimObject SsimLibrary, Project or Scenario.
 #' 
 #' @return
 #' A character string describing the ssimObject.
@@ -15,9 +15,9 @@ NULL
 #' @export
 setGeneric("description", function(ssimObject) standardGeneric("description"))
 
-#' Set the description of an SsimLibrary/Project/Scenario.
+#' Set the description of a SsimLibrary, Project or Scenario.
 #'
-#' Set the description of an SsimLibrary/ProjectScenario.
+#' Set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #'
 #' @param ssimObject Scenario/Project/SsimLibrary.
 #' @param value The new description.

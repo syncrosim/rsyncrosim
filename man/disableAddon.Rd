@@ -22,7 +22,7 @@ This function invisibly returns `TRUE` upon success (i.e.successful deactivation
 and `FALSE` upon failure.
 }
 \description{
-Disable addon or addons of an SsimLibrary, or Project/Scenario with an associated SsimLibrary.
+Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} with an associated SsimLibrary.
 }
 \examples{
 \donttest{

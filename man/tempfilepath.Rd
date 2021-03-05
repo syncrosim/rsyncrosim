@@ -22,5 +22,5 @@ tempfilepath(ssimObject)
 A character string: the temporary file path to a SyncroSim object on disk.
 }
 \description{
-The temporary file path to a SyncroSim Session, SSimLibrary, Project or Scenario on disk.
+The temporary file path to a SyncroSim \code{\link{Session}}, \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} on disk.
 }

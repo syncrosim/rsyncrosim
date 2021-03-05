@@ -4,7 +4,7 @@
 \alias{session<-}
 \alias{session<-,character-method}
 \alias{session<-,SsimObject-method}
-\title{Set a SyncroSim session.}
+\title{Set a SyncroSim Session.}
 \usage{
 session(ssimObject) <- value
 
@@ -13,15 +13,15 @@ session(ssimObject) <- value
 \S4method{session}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{SsimObject/Project/Scenario.}
+\item{ssimObject}{SsimObject, \code{\link{Project}} or \code{\link{Scenario}}.}
 
-\item{value}{A SyncroSim Session.}
+\item{value}{A SyncroSim \code{\link{Session}}.}
 }
 \value{
 Returns a SyncroSim object containing a Session.
 }
 \description{
-Set the Session of a SsimLibrary, Project or Scenario object.
+Set the Session of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} object.
 }
 \details{
 In order to avoid problems with SyncroSim version compatibility and library updating,

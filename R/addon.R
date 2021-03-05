@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' addon(s) of an SsimLibrary or Session
+#' addon(s) of a SsimLibrary or Session
 #'
-#' The addon(s) of an SsimLibrary or Session.
+#' The addon(s) of a \code{\link{SsimLibrary}} or \code{\link{Session}}.
 #' 
 #' @param ssimObject SsimLibrary/Project/Scenario or Session.
 #' 

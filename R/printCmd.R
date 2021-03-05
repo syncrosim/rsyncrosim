@@ -5,9 +5,9 @@ NULL
 
 #' Get printCmd of a Session.
 #'
-#' Retrieves a printCmd setting of a Session object.
+#' Retrieves a printCmd setting of a \code{\link{Session}} object.
 #'
-#' @param session Session or character. A Session object or path to a session. 
+#' @param session Session or character. A \code{\link{Session}} object or path to a session. 
 #' If NULL, the default session will be used.
 #' 
 #' @return 

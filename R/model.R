@@ -7,7 +7,7 @@ NULL
 #'
 #' Deprecated.  See: \code{\link{package}}.
 #'
-#' @param ssimObject Session or SsimLibrary.
+#' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
 #' A \code{dataframe} of models (for Session) or named vector of character strings 

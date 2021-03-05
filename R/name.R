@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The name of a SyncroSim library, project or scenario.
+#' The name of a SsimLibrary, Project or Scenario.
 #'
-#' Retrieves the name of an SsimLibrary, Project or Scenario.
+#' Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #'
 #' @param ssimObject SsimLibrary, Project, or Scenario.
 #' 
@@ -42,9 +42,9 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 
 #' Set ssimObject name.
 #'
-#' Set the name of a SyncroSim Project, Scenario or Library.
+#' Set the name of a \code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.
 #'
-#' @param ssimObject Scenario/Project/SsimLibrary.
+#' @param ssimObject SsimLibrary, Project, or Scenario.
 #' 
 #' @param value 
 #' The updated ssimObject. 

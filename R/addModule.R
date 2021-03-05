@@ -5,7 +5,7 @@ NULL
 
 #' Add module
 #'
-#' Add module or modules to SyncroSim
+#' Add \code{\link{module}} or modules to SyncroSim
 #' Deprecated.  See: \code{\link{addPackage}} and \code{\link{addPackageFile}}.
 #'
 #' @param filename Character string or vector of these. The path to an .ssimpkg file on disk, or a vector of filepaths.

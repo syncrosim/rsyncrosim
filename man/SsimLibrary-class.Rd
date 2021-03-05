@@ -11,7 +11,7 @@
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The SyncroSim Session.}
+\item{\code{session}}{The SyncroSim \code{\link{Session}}.}
 
 \item{\code{filepath}}{The path to the Library on disk.}
 

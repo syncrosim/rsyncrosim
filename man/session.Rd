@@ -4,7 +4,7 @@
 \alias{session}
 \alias{session,missingOrNULLOrChar-method}
 \alias{session,SsimObject-method}
-\title{Creates or returns a SyncroSim session.}
+\title{Creates or returns a SyncroSim Session.}
 \usage{
 session(x = NULL, silent = TRUE, printCmd = FALSE)
 
@@ -20,10 +20,10 @@ session(x = NULL, silent = TRUE, printCmd = FALSE)
 \item{printCmd}{Logical. Applies only if x is a path or NULL. If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.}
 }
 \value{
-A SyncroSim Session object.
+A SyncroSim \code{\link{Session}} object.
 }
 \description{
-Methods to create or return a SyncroSim session.
+Methods to create or return a SyncroSim \code{\link{Session}}.
 }
 \examples{
 \donttest{

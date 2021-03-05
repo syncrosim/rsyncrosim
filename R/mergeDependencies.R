@@ -5,7 +5,7 @@ NULL
 
 #' Merge Dependencies for a Scenario.
 #'
-#' Retrieves whether or not a Scenario is configured to merge dependencies at run time.
+#' Retrieves whether or not a \code{\link{Scenario}} is configured to merge dependencies at run time.
 #'
 #' @param ssimObject Scenario.
 #' 
@@ -34,7 +34,7 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
 
 #' Merge Dependencies for a Scenario.
 #'
-#' Sets whether or not a Scenario is configured to merge dependencies at run time.
+#' Sets whether or not a \code{\link{Scenario}} is configured to merge dependencies at run time.
 #'
 #' @param ssimObject Scenario.
 #' @param value Logical. If TRUE the Scenario will be set to merge dependencies at run time.

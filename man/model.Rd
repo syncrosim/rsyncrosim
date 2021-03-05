@@ -19,7 +19,7 @@ model(ssimObject = NULL)
 \S4method{model}{SsimLibrary}(ssimObject = NULL)
 }
 \arguments{
-\item{ssimObject}{Session or SsimLibrary.}
+\item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}}.}
 }
 \value{
 A \code{dataframe} of models (for Session) or named vector of character strings 

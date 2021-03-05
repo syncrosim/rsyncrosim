@@ -19,5 +19,5 @@ silent(session)
 Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
 }
 \description{
-Checks whether a SyncroSim Session is silent or not.
+Checks whether a SyncroSim \code{\link{Session}} is silent or not.
 }

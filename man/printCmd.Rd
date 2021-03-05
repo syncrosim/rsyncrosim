@@ -13,7 +13,7 @@ printCmd(session = NULL)
 \S4method{printCmd}{missingOrNULLOrChar}(session = NULL)
 }
 \arguments{
-\item{session}{Session or character. A Session object or path to a session. 
+\item{session}{Session or character. A \code{\link{Session}} object or path to a session. 
 If NULL, the default session will be used.}
 }
 \value{
@@ -21,5 +21,5 @@ Returns a logical value: `TRUE` if the session is configured to print commands a
 `FALSE` if it is not.
 }
 \description{
-Retrieves a printCmd setting of a Session object.
+Retrieves a printCmd setting of a \code{\link{Session}} object.
 }

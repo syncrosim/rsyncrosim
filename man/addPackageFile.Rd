@@ -18,7 +18,7 @@ addPackageFile(filename, session = NULL)
 \arguments{
 \item{filename}{Character string.  The path to a SyncroSim package file.}
 
-\item{session}{Session.}
+\item{session}{\code{\link{Session}}.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 

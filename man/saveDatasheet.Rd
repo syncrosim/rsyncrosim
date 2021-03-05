@@ -46,7 +46,7 @@ saveDatasheet(
 )
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario.}
+\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.}
 
 \item{data}{A dataframe, named vector, or list of these. One or more datasheets to load.}
 
@@ -71,7 +71,7 @@ This function invisibly returns a vector or list of logical values for each inpu
 and `FALSE` upon failure.
 }
 \description{
-Saves datasheets to a SsimLibrary/Project/Scenario.
+Saves datasheets to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.
 }
 \details{
 ssimObject/project/scenario should identify a single ssimObject.

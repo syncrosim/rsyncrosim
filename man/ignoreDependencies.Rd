@@ -19,5 +19,5 @@ ignoreDependencies(ssimObject)
 Returns Ignore Dependencies Datafeeds.
 }
 \description{
-Retrieves the Ignore Dependencies Datafeeds for a Scenario.
+Retrieves the Ignore Dependencies Datafeeds for a \code{\link{Scenario}}.
 }

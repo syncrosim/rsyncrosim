@@ -5,7 +5,7 @@
 \alias{projectId,character-method}
 \alias{projectId,Project-method}
 \alias{projectId,Scenario-method}
-\title{The projectId of a SyncroSim project or scenario.}
+\title{The projectId of a SyncroSim Project or Scenario.}
 \usage{
 projectId(ssimObject)
 
@@ -16,11 +16,11 @@ projectId(ssimObject)
 \S4method{projectId}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{Project/Scenario.}
+\item{ssimObject}{Project or Scenario.}
 }
 \value{
 Returns an integer project id.
 }
 \description{
-Retrieves the projectId of a SyncroSim Project or Scenario.
+Retrieves the projectId of a SyncroSim \code{\link{Project}} or \code{\link{Scenario}}.
 }

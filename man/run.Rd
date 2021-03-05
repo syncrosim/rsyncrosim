@@ -47,7 +47,7 @@ run(
 \S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs, forceElements)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario or a list of Scenarios. Or the path to a library on disk.}
+\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, \code{\link{Scenario}} or a list of Scenarios. Or the path to a library on disk.}
 
 \item{scenario}{Character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.}
 
@@ -57,7 +57,7 @@ run(
 
 \item{transformerName}{Character.  The name of the transformer to run.}
 
-\item{forceElements}{Logical. If TRUE then returns a single result scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.}
+\item{forceElements}{Logical. If TRUE then returns a single result Scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.}
 }
 \value{
 If \code{summary = FALSE}, returns a result Scenario object or a named list of result Scenarios. 

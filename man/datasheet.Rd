@@ -67,29 +67,29 @@ datasheet(
 )
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario, or list of objects. Note that all objects in a list must be of the same type, and belong to the same library.}
+\item{ssimObject}{\strong{[SsimLibrary/Project/Scenario OR list of objects]}. Note that all objects in a list must be of the same type, and belong to the same library.}
 
-\item{name}{Character or vector of these. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=FALSE and name=NULL pulls all datasheets, which is time consuming and not generally recommended.}
+\item{name}{\strong{[character OR character vector]}. Sheet name(s). If NULL, all datasheets in the ssimObject will be returned. Note that setting summary=FALSE and name=NULL pulls all datasheets, which is timeconsuming and not generally recommended.}
 
-\item{project}{Character, numeric, or vector of these. One or more Project names, ids or objects. Note that integer ids are slightly faster.}
+\item{project}{\strong{[character, numeric, OR vector of these]}. One or more \code{\link{Project}} names, ids or objects. Note that integer ids are slightly faster.}
 
-\item{scenario}{Character, numeric, or vector of these. One or more Scenario names, ids or objects. Note that integer ids are slightly faster.}
+\item{scenario}{\strong{[character, numeric, OR vector of these]}. One or more \code{\link{Scenario}} names, ids or objects. Note that integer ids are slightly faster.}
 
-\item{summary}{Logical. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes.}
+\item{summary}{\strong{[logical]}. If TRUE returns a dataframe of sheet names and other info. If FALSE returns dataframe or list of dataframes.}
 
-\item{optional}{Logical. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=FALSE). Ignored if summary=FALSE, empty=FALSE and lookupsAsFactors=FALSE.}
+\item{optional}{\strong{[logical]}. If summary=TRUE and optional=TRUE returns only scope, name and displayName. If summary=FALSE and optional=TRUE returns all of the datasheet's columns, including the optional columns. If summary=TRUE, optional=FALSE, returns only those columns that are mandatory and contain data (if empty=FALSE). Ignored if summary=FALSE, empty=FALSE and lookupsAsFactors=FALSE.}
 
-\item{empty}{Logical. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.}
+\item{empty}{\strong{[logical]}. If TRUE returns empty dataframes for each datasheet. Ignored if summary=TRUE.}
 
-\item{lookupsAsFactors}{Logical. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.}
+\item{lookupsAsFactors}{\strong{[logical]}. If TRUE (default) dependencies returned as factors with allowed values (levels). Set FALSE to speed calculations. Ignored if summary=TRUE.}
 
-\item{sqlStatement}{List returned by sqlStatement(). SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.}
+\item{sqlStatement}{List returned by \code{\link{sqlStatement}}. SELECT and GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.}
 
-\item{includeKey}{Logical. If TRUE include primary key in table.}
+\item{includeKey}{\strong{[logical]}. If TRUE include primary key in table.}
 
-\item{forceElements}{Logical. If FALSE and name has a single element returns a dataframe; otherwise returns a list of dataframes. Ignored if summary=TRUE.}
+\item{forceElements}{\strong{[logical]}. If FALSE and name has a single element returns a dataframe; otherwise returns a list of dataframes. Ignored if summary=TRUE.}
 
-\item{fastQuery}{Logical.  If TRUE, the request is optimized for performance.  Ignored if combined with summary, empty, or sqlStatement flags.}
+\item{fastQuery}{\strong{[logical}].  If TRUE, the request is optimized for performance.  Ignored if combined with summary, empty, or \code{\link{sqlStatement}} flags.}
 }
 \value{
 If summary=TRUE returns a dataframe of datasheet names and other info, otherwise returns a dataframe or list of these.
@@ -109,7 +109,7 @@ Otherwise, for each element in name a datasheet is returned as follows:
   \item {If lookupsAsFactors=TRUE (default): }{Each column is given the correct data type, and dependencies returned as factors with allowed values (levels). A warning is issued if the lookup has not yet been set.}
   \item {If empty=TRUE: }{Each column is given the correct data type. Fast (1 less console command)}.
   \item {If empty=FALSE and lookupsAsFactors=FALSE: }{Column types are not checked, and the optional argument is ignored. Fast (1 less console command).}
-  \item {If ssimObject is a list of Scenario or Project objects (output from run(), scenario() or project()): }{Adds ScenarioID/ProjectID column if appropriate.}
+  \item {If ssimObject is a list of \code{\link{Scenario}} or \code{\link{Project}} objects (output from \code{\link{run}}, \code{\link{scenario}} or \code{\link{project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
   \item {If scenario/project is a vector: }{Adds ScenarioID/ProjectID column as necessary.}
   \item {If requested datasheet has scenario scope and contains info from more than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns identify the scenario by name, id, and parent (if a result scenario)}.
   \item {If requested datasheet has project scope and contains info from more than one project: }{ProjectID/ProjectName columns identify the project by name and id.}

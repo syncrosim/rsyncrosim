@@ -4,7 +4,7 @@
 \alias{scenarioId}
 \alias{scenarioId,character-method}
 \alias{scenarioId,Scenario-method}
-\title{The scenarioId of a scenario.}
+\title{The scenarioId of a Scenario.}
 \usage{
 scenarioId(scenario)
 
@@ -19,5 +19,5 @@ scenarioId(scenario)
 Integer id of the input scenario.
 }
 \description{
-Retrieves the scenarioId of a Scenario.
+Retrieves the scenarioId of a \code{\link{Scenario}}.
 }

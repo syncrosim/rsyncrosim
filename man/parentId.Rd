@@ -13,7 +13,7 @@ parentId(scenario)
 \S4method{parentId}{Scenario}(scenario)
 }
 \arguments{
-\item{scenario}{A Scenario object.}
+\item{scenario}{A \code{\link{Scenario}} object.}
 }
 \value{
 An integer id of the parent scenario. If the input scenario does not have a

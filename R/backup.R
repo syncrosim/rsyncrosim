@@ -5,9 +5,9 @@ NULL
 
 #' Backup a SsimLibrary.
 #'
-#' Backup a SsimLibrary.
+#' Backup a \code{\link{SsimLibrary}}.
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario.
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #' 
 #' @return 
 #' This function invisibly returns `TRUE` upon success (i.e.successful 

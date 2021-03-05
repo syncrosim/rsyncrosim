@@ -7,12 +7,12 @@
 envOutputFolder(scenario, datasheetName)
 }
 \arguments{
-\item{scenario}{Scenario.  A SyncroSim result scenario.}
+\item{scenario}{Scenario.  A SyncroSim result \code{\link{Scenario}}.}
 
-\item{datasheetName}{character.  The output datasheet name.}
+\item{datasheetName}{Character.  The output datasheet name.}
 }
 \value{
-Returns a folder name for the specified data sheet.
+Returns a folder name for the specified datasheet.
 }
 \description{
 Creates and returns a SyncroSim DataSheet Output Folder.

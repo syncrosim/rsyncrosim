@@ -8,7 +8,7 @@ NULL
 #' Adds a package to SyncroSim from a package file.
 #'
 #' @param filename Character string.  The path to a SyncroSim package file.
-#' @param session Session.
+#' @param session \code{\link{Session}}.
 #' 
 #' @return 
 #' This function invisibly returns `TRUE` upon success (i.e.successful 

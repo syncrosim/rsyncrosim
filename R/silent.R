@@ -5,7 +5,7 @@ NULL
 
 #' Check if a Session is silent
 #'
-#' Checks whether a SyncroSim Session is silent or not.
+#' Checks whether a SyncroSim \code{\link{Session}} is silent or not.
 #'
 #' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
 #' 
@@ -33,7 +33,7 @@ setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session
 
 #' Set silent property of a Session
 #'
-#' Set silent property of a session to TRUE or FALSE
+#' Set silent property of a \code{\link{Session}} to TRUE or FALSE.
 #'
 #' @param session Session.
 #' @param value Logical.

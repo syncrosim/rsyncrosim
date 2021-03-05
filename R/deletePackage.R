@@ -8,7 +8,7 @@ NULL
 #' Deletes a package from your SyncroSim installation.
 #' 
 #' @param name Character. The name of the package to delete.
-#' @param session Session.
+#' @param session \code{\link{Session}}.
 #' @param force logical. If T, delete without requiring confirmation from user.
 #' 
 #' @return 
