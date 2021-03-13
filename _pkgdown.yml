@@ -1,4 +1,3 @@
-url: https://syncrosim.github.io/rsyncrosim
 template:
   params:
     bootswatch: flatly
