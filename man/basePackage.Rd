@@ -26,7 +26,7 @@ A dataframe of base packages (for Session) or named vector of character strings 
 }
 \description{
 This retrieves the Base packages installed with this version of SyncroSim.
-The list ofSyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
+The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
 }
 \examples{
 \donttest{

@@ -6,7 +6,7 @@ NULL
 #' Installed base packages
 #'
 #' This retrieves the Base packages installed with this version of SyncroSim.
-#' The list ofSyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
+#' The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
 #'
 #' @param ssimObject An object of type \code{\link{Session}} or \code{\link{SsimLibrary}}.
 #' 
