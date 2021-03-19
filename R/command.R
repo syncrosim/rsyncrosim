@@ -5,7 +5,8 @@ NULL
 
 #' SyncroSim console command
 #'
-#' Issues a command to the SyncroSim console and returns the output.
+#' This function issues a command to the SyncroSim console, and is mostly
+#' used internally by other functions. 
 #'
 #' @details
 #' Example args, and the resulting character string passed to the SyncroSim console:
@@ -15,10 +16,14 @@ NULL
 #'    \item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
 #' }
 #' 
-#' @param args Character string, named list, named vector, unnamed list, or unnamed vector. Arguments for the SyncroSim console. See details.
+#' @param args Character string, named list, named vector, unnamed list, or unnamed 
+#'     vector. Arguments for the SyncroSim console. See details.
 #' @param session \code{\link{Session}}. If NULL, a default session will be used.
-#' @param program Character. The name of the target SyncroSim executable. Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.
-#' @param wait Logical. If TRUE (default) R will wait for the command to finish before proceeding. Note that silent(session) is ignored if wait=FALSE.
+#' @param program Character. The name of the target SyncroSim executable. 
+#'     Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, 
+#'     SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.
+#' @param wait Logical. If TRUE (default) R will wait for the command to finish 
+#'     before proceeding. Note that silent(session) is ignored if wait=FALSE.
 #' 
 #' @return 
 #' A character string, output from the SyncroSim program.
