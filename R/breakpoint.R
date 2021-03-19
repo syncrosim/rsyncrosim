@@ -197,15 +197,19 @@ getBPNameLongForm <- function(breakpointType) {
 
 #' Add a Scenario breakpoint.
 #'
-#' When the Scenario is \code{\link{run}} the breakpoint's callback function will be called for the specified iterations or timesteps.
+#' This function allows to add breakpoints to a SyncroSim model, for a given 
+#' Scenario. When the Scenario is \code{\link{run}} the function specified by the 
+#' callback argument will be called for the specified iterations or timesteps.
 #'
 #' @param x A SyncroSim \code{\link{Scenario}}.
 #' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).
-#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.
+#' @param breakpointType bi: before iteration; ai: after iteration; bt:before 
+#'     timestep; at: after timestep.
 #' @param arguments A vector of timesteps or iterations e.g. c(1,2).
 #' @param callback A function to be called when the breakpoint is hit.
 #' 
-#' @return A SyncroSim Scenario with an updated list of breakpoints.
+#' @return 
+#' A SyncroSim Scenario with an updated list of breakpoints.
 #' 
 #' @details Breakpoints are only supported for Stochastic Time Transformers.
 #' 
@@ -249,10 +253,13 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
 #' This function will delete a \code{\link{Scenario}} breakpoint.
 #'
 #' @param x A SyncroSim \code{\link{Scenario}}.
-#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.
-#' @param breakpointType bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.
+#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime). Optional.
+#' @param breakpointType bi: before iteration; ai: after iteration; bt:before 
+#'     timestep; at: after timestep.  Optional.
 #' 
 #' @return A SyncroSim Scenario with an updated list of breakpoints.
+#' 
+#' @seealso \code{\link{addBreakpoint}}.
 #' 
 #' @examples
 #' \donttest{
