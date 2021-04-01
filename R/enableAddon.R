@@ -7,12 +7,15 @@ NULL
 #'
 #' Enable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}.
 #'
-#' @param ssimLibrary SsimLibrary.
+#' @param ssimLibrary An object of class SsimLibrary.
 #' @param name Character string or vector of addon names.
 #' 
 #' @return
-#' This function invisibly returns `TRUE` upon success (i.e.successful activation of the addon) 
-#' and `FALSE` upon failure.
+#' This function invisibly returns `TRUE` upon success (i.e.successful activation 
+#' of the addon) or `FALSE` upon failure.
+#' 
+#' @seealso 
+#' \code{\link{addon}}
 #' 
 #' @examples
 #' \donttest{

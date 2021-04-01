@@ -13,16 +13,17 @@ disableAddon(ssimLibrary, name)
 \S4method{disableAddon}{SsimLibrary}(ssimLibrary, name)
 }
 \arguments{
-\item{ssimLibrary}{SsimLibrary.}
+\item{ssimLibrary}{An object of class SsimLibrary.}
 
 \item{name}{Character string or vector of addon names.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon) 
-and `FALSE` upon failure.
+This function invisibly returns `TRUE` upon success (i.e.successful deactivation
+of the addon) or `FALSE` upon failure.
 }
 \description{
-Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} with an associated SsimLibrary.
+Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}, 
+\code{\link{Project}} or \code{\link{Scenario}} with an associated SsimLibrary.
 }
 \examples{
 \donttest{
@@ -36,4 +37,7 @@ disableAddon(myLibrary, c("stsimecodep"))
 addon(myLibrary)
 }
 
+}
+\seealso{
+\code{\link{addon}}
 }
