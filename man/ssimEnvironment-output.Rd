@@ -15,5 +15,13 @@ envOutputFolder(scenario, datasheetName)
 Returns a folder name for the specified datasheet.
 }
 \description{
-Creates and returns a SyncroSim DataSheet Output Folder.
+This function is part of a set of functions designed to facilitate the
+development of R-based Syncrosim Packages. Thus function creates and returns 
+a SyncroSim DataSheet Output Folder.
+}
+\examples{
+\donttest{
+outputFolder <- envOutputFolder()
+}
+
 }

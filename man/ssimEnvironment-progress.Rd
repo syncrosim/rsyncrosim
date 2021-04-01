@@ -18,21 +18,57 @@ envEndSimulation()
 \arguments{
 \item{iteration}{integer.  The current iteration.}
 
-\item{timestep}{integer.  The current timestep.}
+\item{timestep}{integer.  The current timestep.
 
-\item{totalSteps}{integer.  The total number of steps in the simulation.}
+#' @return
+No returned value, used for side effects.}
+
+\item{totalSteps}{integer.  The total number of steps in the simulation.
+
+#' @return
+No returned value, used for side effects.}
 }
 \value{
 No returned value, used for side effects.
 
+\donttest{
+envStepSimulation()
+}
+
 No returned value, used for side effects.
 }
 \description{
-Reports progress for a SyncroSim simulation.
+This function is part of a set of functions designed to facilitate the
+development of R-based Syncrosim Packages. This function reports progress 
+for a SyncroSim simulation.
 
-Begins a SyncroSim simulation.
+This function is part of a set of functions designed to facilitate the
+development of R-based SyncroSim Packages. Specifically, this function begins
+the reporting of a SyncroSim simulation.
 
-Steps a SyncroSim simulation.
+This function is part of a set of functions designed to facilitate the
+development of R-based Syncrosim Packages. This function steps a SyncroSim 
+simulation, and is to be called between \link{\code{envBeginSimulation}} and 
+\link{\code{envEndSimulation}}.
 
-Ends a SyncroSim simulation.
+This function is part of a set of functions designed to facilitate the
+development of R-based Syncrosim Packages. This function ends a SyncroSim 
+simulation.
+}
+\examples{
+\donttest{
+envReportProgress()
+}
+
+\donttest{
+n_iter <- 50
+n_timesteps <- 10
+n_steps <- n_iter * n_timesteps
+envBeginSimulation(n_steps)
+}
+
+\donttest{
+envEndSimulation()
+}
+
 }
