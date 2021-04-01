@@ -8,12 +8,21 @@ NULL
 #' Deletes a package from your SyncroSim installation.
 #' 
 #' @param name Character. The name of the package to delete.
-#' @param session \code{\link{Session}}.
-#' @param force logical. If T, delete without requiring confirmation from user.
+#' @param session An object of class \code{\link{Session}}.
+#' @param force Logical. If TRUE, delete without requiring confirmation from 
+#'     the user.
 #' 
 #' @return 
 #' This function invisibly returns `TRUE` upon success (i.e.successful 
 #' deletion) and `FALSE` upon failure.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' myses <- session()
+#' 
+#' deletePackage("stsim", myses, force = FALSE)
+#' }
 #' 
 #' @export
 setGeneric("deletePackage", function(name, session = NULL, force = FALSE) standardGeneric("deletePackage"))
