@@ -19,12 +19,23 @@ dateModified(ssimObject)
 \S4method{dateModified}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary, Project or Scenario.}
+\item{ssimObject}{An object of class SsimLibrary, Project or Scenario.}
 }
 \value{
 A character string of the date and time of the most recent modification 
 to the ssimObject provided as input.
 }
 \description{
-The most recent modification date of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+The most recent modification date of a \code{\link{SsimLibrary}}, 
+\code{\link{Project}} or \code{\link{Scenario}}.
+}
+\examples{
+\dontrun{
+temp_dir <- tempdir()
+myses <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+
+dateModified(myLibrary)
+}
+
 }
