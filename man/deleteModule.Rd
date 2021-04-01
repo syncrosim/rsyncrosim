@@ -13,15 +13,19 @@ deleteModule(name, session = NULL, force = FALSE)
 \S4method{deleteModule}{ANY,Session}(name, session = NULL, force = FALSE)
 }
 \arguments{
-\item{name}{Character string or vector of these. A module or vector of modules to remove. See modules() for options.}
+\item{name}{Character string or vector of these. A module or vector of modules 
+to remove. See modules() for options.}
 
 \item{session}{\code{\link{Session}}.}
 
 \item{force}{logical. If TRUE, delete without requiring confirmation from user.}
 }
 \value{
-Returns "saved" or error message.
+Returns "saved" if successful, otherwise an error message.
 }
 \description{
-Deprecated.  See: \code{\link{deletePackage}}.
+This function is now deprecated. See: \code{\link{deletePackage}}.
+}
+\seealso{
+\code{\link{deletePackage}}
 }

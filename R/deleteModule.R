@@ -5,13 +5,18 @@ NULL
 
 #' Delete module or modules
 #'
-#' Deprecated.  See: \code{\link{deletePackage}}.
+#' This function is now deprecated. See: \code{\link{deletePackage}}.
 #'
-#' @param name Character string or vector of these. A module or vector of modules to remove. See modules() for options.
+#' @param name Character string or vector of these. A module or vector of modules 
+#'     to remove. See modules() for options.
 #' @param session \code{\link{Session}}.
 #' @param force logical. If TRUE, delete without requiring confirmation from user.
 #' 
-#' @return Returns "saved" or error message.
+#' @return 
+#' Returns "saved" if successful, otherwise an error message.
+#' 
+#' @seealso 
+#' \code{\link{deletePackage}}
 #' 
 #' @export
 setGeneric("deleteModule", function(name, session = NULL, force = FALSE) standardGeneric("deleteModule"))
