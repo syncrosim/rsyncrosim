@@ -1,11 +1,21 @@
-#' Information about an library
+#' Retrieves information about an library
 #' 
-#' Get basic information about a Library.
+#' Retrieves some basic metadata about a Library.
 #' 
-#' @param ssimLibrary A \code{\link{SsimLibrary}} object.
+#' @param ssimLibrary An object of type \code{\link{SsimLibrary}}.
 #' 
 #' @return 
-#' Returns a \code{data.frame} with information on the properties of the library object.
+#' Returns a \code{data.frame} with information on the properties of the library 
+#' object.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' 
+#' info(myLibrary)
+#' }
 #' 
 #' @export
 setGeneric("info", function(ssimLibrary) standardGeneric("info"))
