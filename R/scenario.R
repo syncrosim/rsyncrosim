@@ -128,29 +128,46 @@ setMethod(
 #'
 #' Create or retrieves one or more Scenarios from a library.
 #'
+#' @param ssimObject SsimLibrary/Project or character. An ssimObject containing 
+#'     a filepath to a library, or a filepath.
+#' @param scenario Character, integer, or vector of these. Names or ids of one or 
+#'     more scenarios. Note integer ids are slightly faster.
+#' @param sourceScenario Character or integer. If not NULL, new scenarios will be 
+#'     copies of the sourceScenario.
+#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a 
+#'     named vector/dataframe with the scenarioId, name, description, owner, 
+#'     dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.
+#' @param results Logical. If TRUE only return result scenarios.
+#' @param forceElements Logical. If TRUE then returns a single scenario as a named 
+#'     list; otherwise returns a single scenario as a \code{\link{Scenario}} object. 
+#'     Applies only when summary=FALSE.
+#' @param overwrite Logical. If TRUE an existing Scenario will be overwritten.
+#' 
+#' @return 
+#' A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario 
+#' objects, or a dataframe of scenario names and descriptions. If \code{summary} = FALSE, 
+#' returns one or more \code{\link{Scenario}} objects representing SyncroSim scenarios.
+#' If \code{summary} = TRUE, returns scenario summary info.
+#' 
 #' @details
 #'
 #' For each element of scenario:
 #' \itemize{
-#'   \item {If element/project/ssimObject uniquely identifies an existing scenario: }{Returns the existing Scenario}.
-#'   \item {If element/project/ssimObject uniquely identifies more than one existing scenario: }{Error}.
-#'   \item {If element/project/ssimObject do not identify an existing scenario or project: }{Error}.
-#'   \item {If element/project/ssimObject do not identify an existing scenario and element is numeric: }{Error - a name is required for new scenarios. SyncroSim will automatically assign an id when a scenario is created.}
-#'   \item {If element/project/ssimObject do not identify an existing scenario and do identify a project, and element is a character string: }{Creates a new Scenario named element in the project. SyncroSim automatically assigns an id. If sourceScenario is not NULL the new scenario will be a copy of sourceScenario.}
+#'   \item {If element/project/ssimObject uniquely identifies an existing 
+#'          scenario: }{Returns the existing Scenario}.
+#'   \item {If element/project/ssimObject uniquely identifies more than one existing 
+#'          scenario: }{Error}.
+#'   \item {If element/project/ssimObject do not identify an existing scenario or 
+#'          project: }{Error}.
+#'   \item {If element/project/ssimObject do not identify an existing scenario and 
+#'          element is numeric: }{Error - a name is required for new scenarios. 
+#'          SyncroSim will automatically assign an id when a scenario is created.}
+#'   \item {If element/project/ssimObject do not identify an existing scenario and 
+#'          do identify a project, and element is a character string: }{Creates a 
+#'          new Scenario named element in the project. SyncroSim automatically 
+#'          assigns an id. If sourceScenario is not NULL the new scenario will be 
+#'          a copy of sourceScenario.}
 #' }
-#'
-#' @param ssimObject SsimLibrary/Project or character. An ssimObject containing a filepath to a library, or a filepath.
-#' @param scenario Character, integer, or vector of these. Names or ids of one or more scenarios. Note integer ids are slightly faster.
-#' @param sourceScenario Character or integer. If not NULL, new scenarios will be copies of the sourceScenario.
-#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a named vector/dataframe with the scenarioId, name, description, owner, dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.
-#' @param results Logical. If TRUE only return result scenarios.
-#' @param forceElements Logical. If TRUE then returns a single scenario as a named list; otherwise returns a single scenario as a \code{\link{Scenario}} object. Applies only when summary=FALSE.
-#' @param overwrite Logical. If TRUE an existing Scenario will be overwritten.
-#' 
-#' @return 
-#' A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario objects, or a dataframe of scenario names and descriptions.
-#' If \code{summary} = FALSE, returns one or more \code{\link{Scenario}} objects representing SyncroSim scenarios.
-#' If \code{summary} = TRUE, returns scenario summary info.
 #' 
 #' @examples
 #' \donttest{
