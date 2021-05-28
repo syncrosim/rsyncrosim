@@ -15,9 +15,12 @@ session(x = NULL, silent = TRUE, printCmd = FALSE)
 \arguments{
 \item{x}{Character or SsimObject. An optional path to the SyncroSim installation.}
 
-\item{silent}{Logical. Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.}
+\item{silent}{Logical. Applies only if x is a path or NULL. If TRUE, warnings 
+from the console are ignored. Otherwise they are printed.}
 
-\item{printCmd}{Logical. Applies only if x is a path or NULL. If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.}
+\item{printCmd}{Logical. Applies only if x is a path or NULL. If TRUE, 
+arguments passed to the SyncroSim console are also printed. Helpful for 
+debugging. FALSE by default.}
 }
 \value{
 A SyncroSim \code{\link{Session}} object.
