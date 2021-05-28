@@ -19,9 +19,9 @@ NULL
 #' @examples 
 #' \donttest{
 #' temp_dir <- tempdir()
-#' myses <- session()
+#' mySession <- session()
 #' 
-#' deletePackage("stsim", myses, force = FALSE)
+#' deletePackage("stsim", mySession, force = FALSE)
 #' }
 #' 
 #' @export

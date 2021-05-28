@@ -220,8 +220,8 @@ getBPNameLongForm <- function(breakpointType) {
 #' }
 #' 
 #' temp_dir <- tempdir()
-#' myses <- session()
-#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' mySession <- session()
+#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 #' myScenario <- scenario(mylib, "testScenario")
 #' 
 #' myScenario <- addBreakpoint(x= myScenario, transformerName= "stsim_Runtime", breakpointType = "bi", 
@@ -265,8 +265,8 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
 #' \donttest{
 #' 
 #' temp_dir <- tempdir()
-#' myses <- session()
-#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' mySession <- session()
+#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 #' myScenario <- scenario(mylib, "testScenario")
 #' 
 #' myScenario <- deleteBreakpoint(myScenario)

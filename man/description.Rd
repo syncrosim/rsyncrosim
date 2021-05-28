@@ -25,8 +25,8 @@ Returns a description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 \examples{
 \donttest{
 temp_dir <- tempdir()
-myses <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 myProject <- project(myLibrary)
 
 mydescription <- description(myProject)

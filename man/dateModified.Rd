@@ -32,8 +32,8 @@ The most recent modification date of a \code{\link{SsimLibrary}},
 \examples{
 \dontrun{
 temp_dir <- tempdir()
-myses <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
 dateModified(myLibrary)
 }

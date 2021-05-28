@@ -27,8 +27,8 @@ Enable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}.
 \examples{
 \donttest{
 temp_dir <- tempdir()
-myses <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
 enableAddon(myLibrary, c("stsim-ecological-departure"))
 addon(myLibrary)

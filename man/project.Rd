@@ -45,8 +45,8 @@ For each element of project:
 \donttest{
 # Create a Library and create a new Project
 temp_dir <- tempdir()
-myses <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
 myProject <- project(ssimObject = myLibrary, project = "My new project name")
 

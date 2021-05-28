@@ -27,8 +27,8 @@ This function will delete a \code{\link{Scenario}} breakpoint.
 \donttest{
 
 temp_dir <- tempdir()
-myses <- session()
-mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 myScenario <- scenario(mylib, "testScenario")
 
 myScenario <- deleteBreakpoint(myScenario)
