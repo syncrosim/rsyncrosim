@@ -3,15 +3,26 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The parent scenario id of a SyncroSim Scenario.
-#'
+#' Retrieves The parent scenario id of a SyncroSim Scenario.
+#t
 #' Retrieves the id of the parent of a SyncroSim results scenario.
 #'
-#' @param scenario A \code{\link{Scenario}} object.
+#' @param scenario A object of class \code{\link{Scenario}}.
 #' 
 #' @return 
 #' An integer id of the parent scenario. If the input scenario does not have a
 #' parent, the function returns `NA`.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' parentId(myScenario)
+#' }
 #' 
 #' @export
 setGeneric("parentId", function(scenario) standardGeneric("parentId"))

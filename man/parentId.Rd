@@ -4,7 +4,8 @@
 \alias{parentId}
 \alias{parentId,character-method}
 \alias{parentId,Scenario-method}
-\title{The parent scenario id of a SyncroSim Scenario.}
+\title{Retrieves The parent scenario id of a SyncroSim Scenario.
+Retrieves the id of the parent of a SyncroSim results scenario.}
 \usage{
 parentId(scenario)
 
@@ -13,12 +14,25 @@ parentId(scenario)
 \S4method{parentId}{Scenario}(scenario)
 }
 \arguments{
-\item{scenario}{A \code{\link{Scenario}} object.}
+\item{scenario}{A object of class \code{\link{Scenario}}.}
 }
 \value{
 An integer id of the parent scenario. If the input scenario does not have a
 parent, the function returns `NA`.
 }
 \description{
+Retrieves The parent scenario id of a SyncroSim Scenario.
 Retrieves the id of the parent of a SyncroSim results scenario.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+parentId(myScenario)
+}
+
 }
