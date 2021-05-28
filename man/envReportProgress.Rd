@@ -7,9 +7,9 @@
 envReportProgress(iteration, timestep)
 }
 \arguments{
-\item{iteration}{integer.  The current iteration.}
+\item{iteration}{integer. The current iteration.}
 
-\item{timestep}{integer.  The current timestep.}
+\item{timestep}{integer. The current timestep.}
 }
 \value{
 No returned value, used for side effects.

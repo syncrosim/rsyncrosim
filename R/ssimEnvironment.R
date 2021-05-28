@@ -76,7 +76,7 @@ envCreateTempFolder <- function(folderName) {
 #'
 #' This function is part of a set of functions designed to facilitate the
 #' development of R-based Syncrosim Packages. This function creates and returns 
-#' a SyncroSim DataSheet Input Folder.
+#' a SyncroSim Datasheet Input Folder.
 #'
 #' @param scenario Scenario.  A SyncroSim result \code{\link{Scenario}}.
 #' @param datasheetName Character.  The input datasheet name.
@@ -101,8 +101,8 @@ envInputFolder <- function(scenario, datasheetName) {
 #' development of R-based Syncrosim Packages. Thus function creates and returns 
 #' a SyncroSim DataSheet Output Folder.
 #'
-#' @param scenario Scenario.  A SyncroSim result \code{\link{Scenario}}.
-#' @param datasheetName Character.  The output datasheet name.
+#' @param scenario Scenario. A SyncroSim result \code{\link{Scenario}}.
+#' @param datasheetName Character. The output datasheet name.
 #' 
 #' @return 
 #' Returns a folder name for the specified datasheet.
@@ -124,7 +124,7 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' development of R-based Syncrosim Packages. This function creates and returns 
 #' a SyncroSim Temporary Folder.
 #'
-#' @param folderName Character.  The folder name.
+#' @param folderName Character. The folder name.
 #' 
 #' @return 
 #' Returns a temporary folder name.
@@ -146,8 +146,8 @@ envTempFolder <- function(folderName) {
 #' development of R-based Syncrosim Packages. This function reports progress 
 #' for a SyncroSim simulation.
 #'
-#' @param iteration integer.  The current iteration.
-#' @param timestep integer.  The current timestep.
+#' @param iteration integer. The current iteration.
+#' @param timestep integer. The current timestep.
 #' 
 #' @return
 #' No returned value, used for side effects.

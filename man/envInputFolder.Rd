@@ -17,7 +17,7 @@ Returns a folder name for the specified datasheet.
 \description{
 This function is part of a set of functions designed to facilitate the
 development of R-based Syncrosim Packages. This function creates and returns 
-a SyncroSim DataSheet Input Folder.
+a SyncroSim Datasheet Input Folder.
 }
 \examples{
 \donttest{
