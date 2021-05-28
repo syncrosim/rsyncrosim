@@ -3,14 +3,14 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The path to a SyncroSim object on disk
+#' Retrieves the path to a SyncroSim object on disk
 #'
 #' Retrieves the path to a SyncroSim \code{\link{Session}}, 
 #' \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
 #' on disk.
 #'
-#' @param ssimObject An object containing a filepath (of class SsimLibrary, 
-#'     Project or Scenario).
+#' @param ssimObject An object containing a filepath (of class \code{\link{Session}}, 
+#'     \code{\link{Project}}, or \code{\link{SsimLibrary}}).
 #' 
 #' @return 
 #' A character string: the path to a SyncroSim object on disk.
@@ -39,14 +39,14 @@ setMethod("filepath", signature(ssimObject = "Session"), function(ssimObject) ss
 #' @rdname filepath
 setMethod("filepath", signature(ssimObject = "SsimObject"), function(ssimObject) ssimObject@filepath)
 
-#' The temporary file path to a SyncroSim object on disk
+#' Retrieves the temporary file path to a SyncroSim object on disk
 #'
 #' Retrieves the temporary file path to a SyncroSim \code{\link{Session}}, 
 #' \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
 #' on disk.
 #'
-#' @param ssimObject An object containing a filepath (of class SsimLibrary, 
-#'     Project or Scenario).
+#' @param ssimObject An object containing a filepath (of class \code{\link{Session}}, 
+#'     \code{\link{Project}}, or \code{\link{SsimLibrary}}).
 #' 
 #' @return 
 #' A character string: the temporary file path to a SyncroSim object on disk.

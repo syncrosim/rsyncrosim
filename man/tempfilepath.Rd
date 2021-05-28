@@ -5,7 +5,7 @@
 \alias{tempfilepath,character-method}
 \alias{tempfilepath,Session-method}
 \alias{tempfilepath,SsimObject-method}
-\title{The temporary file path to a SyncroSim object on disk}
+\title{Retrieves the temporary file path to a SyncroSim object on disk}
 \usage{
 tempfilepath(ssimObject)
 
@@ -16,8 +16,8 @@ tempfilepath(ssimObject)
 \S4method{tempfilepath}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object containing a filepath (of class SsimLibrary, 
-Project or Scenario).}
+\item{ssimObject}{An object containing a filepath (of class \code{\link{Session}}, 
+\code{\link{Project}}, or \code{\link{SsimLibrary}}).}
 }
 \value{
 A character string: the temporary file path to a SyncroSim object on disk.
