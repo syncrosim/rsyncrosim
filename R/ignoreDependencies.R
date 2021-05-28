@@ -55,7 +55,7 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 #' myProject <- project(myLibrary)
 #' myScenario <- scenario(myProject)
 #' 
-#' myScenario <- ignoreDependencies(myScenario, NULL)
+#' ignoreDependencies(myScenario) <- NULL
 #' }
 #' 
 #' @export
