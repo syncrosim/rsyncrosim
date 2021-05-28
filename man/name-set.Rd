@@ -22,7 +22,7 @@ name(ssimObject) <- value
 \item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
 or \code{\link{SsimLibrary}}.}
 
-\item{value}{The updated ssimObject.}
+\item{value}{A character string, the new name.}
 }
 \value{
 The updated ssim Object.
