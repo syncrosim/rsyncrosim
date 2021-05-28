@@ -3,7 +3,7 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The name of a SsimLibrary, Project or Scenario.
+#' Retrieves the name of a SsimLibrary, Project or Scenario.
 #'
 #' Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
 #' \code{\link{Scenario}}.
@@ -12,7 +12,7 @@ NULL
 #' or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
-#' Character string: the name of the ssimObject.
+#' A character string: the name of the ssimObject.
 #' 
 #' @examples 
 #' \donttest{
@@ -62,9 +62,7 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 #'
 #' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
 #' or \code{\link{SsimLibrary}}.
-#' 
-#' @param value 
-#' The updated ssimObject. 
+#' @param value A character string, the new name.
 #' 
 #' @return 
 #' The updated ssim Object.
