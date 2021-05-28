@@ -13,12 +13,24 @@ ssimUpdate(ssimObject)
 \S4method{ssimUpdate}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary, Project or Scenario.}
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+or \code{\link{SsimLibrary}}.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 
 update) and `FALSE` upon failure.
 }
 \description{
-Apply updates to a \code{\link{SsimLibrary}}, or a \code{\link{Project}} or \code{\link{Scenario}} associated with a Library.
+Apply updates to a \code{\link{SsimLibrary}}, or a \code{\link{Project}} or 
+\code{\link{Scenario}} associated with a Library.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+
+ssimUpdate(myLibrary)
+}
+
 }
