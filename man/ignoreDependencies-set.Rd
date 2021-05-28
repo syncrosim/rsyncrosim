@@ -13,13 +13,25 @@ ignoreDependencies(ssimObject) <- value
 \S4method{ignoreDependencies}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario.}
+\item{ssimObject}{An object of class \code{\link{Scenario}}.}
 
-\item{value}{Character.}
+\item{value}{The name of the data}
 }
 \value{
 Returns the updated ssimObject.
 }
 \description{
 Sets the Ignore Dependencies Datafeed for a \code{\link{Scenario}}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+myses <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+myScenario <- ignoreDependencies(myScenario, NULL)
+}
+
 }
