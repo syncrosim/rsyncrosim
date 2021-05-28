@@ -13,7 +13,7 @@ autogentags(ssimObject)
 \S4method{autogentags}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{Scenario.}
+\item{ssimObject}{An object of class \code{\link{Scenario}}.}
 }
 \value{
 Returns the Auto Generation Tags.
