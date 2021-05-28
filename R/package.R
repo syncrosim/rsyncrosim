@@ -3,16 +3,24 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Installed or available packages
+#' Retrieves the installed or available packages
 #'
-#' Packages installed or available for this version of SyncroSim.
+#' Retrieves the packages installed or available for this version of SyncroSim.
 #'
-#' @param session \code{\link{Session}}.
+#' @param session An object of class \code{\link{Session}}.
 #' @param installed Logical. `TRUE` to list installed packages and `FALSE` to list 
 #' available packages.
 #' 
 #' @return 
 #' Returns a \code{data.frame} of packages installed.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' 
+#' package(mySession)
+#' }
 #' 
 #' @export
 setGeneric("package", function(session, installed = TRUE) standardGeneric("package"))

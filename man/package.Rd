@@ -5,7 +5,7 @@
 \alias{package,missingOrNULL-method}
 \alias{package,character-method}
 \alias{package,Session-method}
-\title{Installed or available packages}
+\title{Retrieves the installed or available packages}
 \usage{
 package(session, installed = TRUE)
 
@@ -16,7 +16,7 @@ package(session, installed = TRUE)
 \S4method{package}{Session}(session, installed = TRUE)
 }
 \arguments{
-\item{session}{\code{\link{Session}}.}
+\item{session}{An object of class \code{\link{Session}}.}
 
 \item{installed}{Logical. `TRUE` to list installed packages and `FALSE` to list 
 available packages.}
@@ -25,5 +25,14 @@ available packages.}
 Returns a \code{data.frame} of packages installed.
 }
 \description{
-Packages installed or available for this version of SyncroSim.
+Retrieves the packages installed or available for this version of SyncroSim.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+
+package(mySession)
+}
+
 }
