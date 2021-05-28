@@ -5,40 +5,84 @@ NULL
 
 #' Save datasheet(s)
 #'
-#' Saves datasheets to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.
-#'
+#' Saves datasheets to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or 
+#' \code{\link{Scenario}}.
+#' 
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, or 
+#'     \code{\link{Scenario}}.
+#' @param data A dataframe, named vector, or list of these. One or more 
+#'     datasheets to load.
+#' @param name Character or vector of these. The name(s) of the datasheet(s) to 
+#'     be saved. If a vector of names is provided, then a list must be provided 
+#'     for the data argument. Names provided here will override those provided 
+#'     with data argument's list.
+#' @param fileData Named list or raster stack. Names are file names (without paths), 
+#'     corresponding to entries in data. The elements are objects containing the 
+#'     data associated with each name. Currently only supports Raster objects 
+#'     as elements.
+#' @param append Logical. If TRUE, the incoming data will be appended to the 
+#'     datasheet if possible.  Default TRUE for project/library-scope datasheets, 
+#'     and FALSE for scenario-scope datasheets. See 'details' for more information 
+#'     about this argument.
+#' @param forceElements Logical. If FALSE (default) a single return message will 
+#'     be returned as a character string. Otherwise it will be returned in a list.
+#' @param force Logical. If datasheet scope is project/library, and append=FALSE, 
+#'     datasheet will be deleted before loading the new data. This can also delete 
+#'     other definitions and results, so user will be prompted for approval 
+#'     unless force=TRUE.
+#' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
+#' @param import Logical. Set to TRUE to import the data after saving.
+#' @param path Character.  An optional output path.
+# @param project character or integer. Project name or id. Note integer ids are slightly faster.
+# @param scenario character or integer. Project name or id. Note integer ids are slightly faster.
+#' 
 #' @details
 #' ssimObject/project/scenario should identify a single ssimObject.
 #'
-#' If fileData !=NULL, each element of names(fileData) should correspond uniquely to at most one entry in data. If a name is not found in data the element will be ignored with a warning.
-#' If names(fileData) are full filepaths, rsyncrosim will write each object to the corresponding path for subsequent loading by SyncroSim. Note this is generally more time-consuming because the files must be written twice.
-#' If names(fileData) are not filepaths (faster, recommended), rsyncrosim will write each element directly to the appropriate SyncroSim input/output folders.
-#' rsyncrosim will write each element of fileData directly to the appropriate SyncroSim input/output folders.
-#' If fileData != NULL, data should be a dataframe, vector, or list of length 1, not a list of length >1.
+#' If fileData !=NULL, each element of names(fileData) should correspond uniquely 
+#' to at most one entry in data. If a name is not found in data the element will 
+#' be ignored with a warning. If names(fileData) are full filepaths, rsyncrosim 
+#' will write each object to the corresponding path for subsequent loading by SyncroSim. 
+#' Note this is generally more time-consuming because the files must be written twice.
+#' If names(fileData) are not filepaths (faster, recommended), rsyncrosim will 
+#' write each element directly to the appropriate SyncroSim input/output folders.
+#' rsyncrosim will write each element of fileData directly to the appropriate 
+#' SyncroSim input/output folders. If fileData != NULL, data should be a dataframe, 
+#' vector, or list of length 1, not a list of length >1.
 #' 
 #' About the 'append' argument:
 #' 
 #' \itemize{
-#'   \item A datasheet is a VALIDATION SOURCE if its data can be used to validate column values in a different datasheet.
-#'   \item The append argument will be ignored if the datasheet is a validation source and has a project scope.  In this case the data will be MERGED.
+#'   \item A datasheet is a VALIDATION SOURCE if its data can be used to validate 
+#'   column values in a different datasheet.
+#'   \item The append argument will be ignored if the datasheet is a validation 
+#'   source and has a project scope.  In this case the data will be MERGED.
 #' }
 #' 
-#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.
-#' @param data A dataframe, named vector, or list of these. One or more datasheets to load.
-#' @param name Character or vector of these. The name(s) of the datasheet(s) to be saved. If a vector of names is provided, then a list must be provided for the data argument. Names provided here will override those provided with data argument's list.
-# @param project character or integer. Project name or id. Note integer ids are slightly faster.
-# @param scenario character or integer. Project name or id. Note integer ids are slightly faster.
-#' @param fileData Named list or raster stack. Names are file names (without paths), corresponding to entries in data. The elements are objects containing the data associated with each name. Currently only supports Raster objects as elements.
-#' @param append Logical. If TRUE, the incoming data will be appended to the datasheet if possible.  Default TRUE for project/library-scope datasheets, and FALSE for scenario-scope datasheets. See 'details' for more information about this argument.
-#' @param forceElements Logical. If FALSE (default) a single return message will be returned as a character string. Otherwise it will be returned in a list.
-#' @param force Logical. If datasheet scope is project/library, and append=FALSE, datasheet will be deleted before loading the new data. This can also delete other definitions and results, so user will be prompted for approval unless force=TRUE.
-#' @param breakpoint Set to TRUE when modifying datasheets in a breakpoint function.
-#' @param import Logical. Set to TRUE to import the data after saving.
-#' @param path Character.  An optional output path.
-#' 
 #' @return 
-#' This function invisibly returns a vector or list of logical values for each input: `TRUE` upon success (i.e.successful save)
-#' and `FALSE` upon failure.
+#' This function invisibly returns a vector or list of logical values for each 
+#' input: `TRUE` upon success (i.e.successful save) and `FALSE` upon failure.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' # Get all datasheet info
+#' myDatasheets <- datasheet(myScenario)
+#' 
+#' # Get a specific datasheet
+#' myDatasheet <- datasheet(myScenario, name = "RunControl")
+#' 
+#' # Modify datasheet
+#' myDatasheet$MinimumTimestep <- 1
+#' 
+#' # Save datasheet
+#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")
+#' }
 #' 
 #' @export
 setGeneric("saveDatasheet", function(ssimObject, data, name = NULL, fileData = NULL, append = NULL, forceElements = FALSE, force = FALSE, breakpoint = FALSE, import = TRUE, path = NULL) standardGeneric("saveDatasheet"))

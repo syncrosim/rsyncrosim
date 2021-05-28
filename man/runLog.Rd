@@ -4,7 +4,7 @@
 \alias{runLog}
 \alias{runLog,character-method}
 \alias{runLog,Scenario-method}
-\title{The run log of a result Scenario}
+\title{Retrieves the run log of a result Scenario}
 \usage{
 runLog(scenario)
 
@@ -19,5 +19,19 @@ runLog(scenario)
 Returns a character string: the run log for a result scenario.
 }
 \description{
-The run log of a result Scenario.
+Retrieves the run log of a result Scenario.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+# Note: the scenario must be a result scenario. This example only shows the 
+# how to use the function with a Scenario object.
+runLog(myScenario)
+}
+
 }

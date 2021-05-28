@@ -5,7 +5,7 @@ NULL
 
 #' Installed models
 #'
-#' Deprecated.  See: \code{\link{package}}.
+#' Deprecated, models are now distributed in Packages, see: \code{\link{package}}.
 #'
 #' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}}.
 #' 

@@ -18,9 +18,10 @@ deletePackage(name, session = NULL, force = FALSE)
 \arguments{
 \item{name}{Character. The name of the package to delete.}
 
-\item{session}{\code{\link{Session}}.}
+\item{session}{An object of class \code{\link{Session}}.}
 
-\item{force}{logical. If T, delete without requiring confirmation from user.}
+\item{force}{Logical. If TRUE, delete without requiring confirmation from 
+the user.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 
@@ -28,4 +29,13 @@ deletion) and `FALSE` upon failure.
 }
 \description{
 Deletes a package from your SyncroSim installation.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+
+deletePackage("stsim", mySession, force = FALSE)
+}
+
 }

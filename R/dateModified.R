@@ -5,13 +5,23 @@ NULL
 
 #' The last date a SsimLibrary, Project or Scenario was modified.
 #'
-#' The most recent modification date of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+#' The most recent modification date of a \code{\link{SsimLibrary}}, 
+#' \code{\link{Project}} or \code{\link{Scenario}}.
 #'
-#' @param ssimObject SsimLibrary, Project or Scenario.
+#' @param ssimObject  An object of class SsimLibrary, Project or Scenario.
 #' 
 #' @return 
 #' A character string of the date and time of the most recent modification 
 #' to the ssimObject provided as input.
+#' 
+#' @examples
+#' \dontrun{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' 
+#' dateModified(myLibrary)
+#' }
 #' 
 #' @export
 setGeneric("dateModified", function(ssimObject) standardGeneric("dateModified"))

@@ -7,10 +7,22 @@ NULL
 #'
 #' Retrieves the Ignore Dependencies Datafeeds for a \code{\link{Scenario}}.
 #'
-#' @param ssimObject Scenario.
+#' @param ssimObject An object of class \code{\link{Scenario}}.
 #' 
 #' @return 
 #' Returns Ignore Dependencies Datafeeds.
+#' 
+#' @examples
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' ignoreDependencies(myScenario)
+#' }
+#' 
 #' @export
 setGeneric("ignoreDependencies", function(ssimObject) standardGeneric("ignoreDependencies"))
 
@@ -29,11 +41,23 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 #'
 #' Sets the Ignore Dependencies Datafeed for a \code{\link{Scenario}}.
 #'
-#' @param ssimObject Scenario.
-#' @param value Character.
+#' @param ssimObject An object of class \code{\link{Scenario}}.
+#' @param value The datafeed names to be ignored, separated by commas.
 #' 
 #' @return 
 #' Returns the updated ssimObject.
+#' 
+#' @examples
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' # IgnoreDependencies is a string of datafeed names separated by commas
+#' ignoreDependencies(myScenario) <- "stsim_RunControl,stsim_TransitionTarget"
+#' }
 #' 
 #' @export
 setGeneric("ignoreDependencies<-", function(ssimObject, value) standardGeneric("ignoreDependencies<-"))

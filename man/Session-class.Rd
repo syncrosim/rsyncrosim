@@ -6,17 +6,20 @@
 \alias{Session}
 \title{SyncroSim Session class}
 \description{
-A SyncroSim Session object contains a link to a SyncroSim installation.  \code{SsimLibrary}, \code{Project}
-and \code{Scenario} objects contain a \code{Session} used to query and modify the object.
+A SyncroSim Session object contains a link to a SyncroSim installation. 
+\code{SsimLibrary}, \code{Project} and \code{Scenario} objects contain a 
+\code{Session} used to query and modify the object.
 }
 \section{Slots}{
 
 \describe{
 \item{\code{filepath}}{The path to the SyncroSim installation.}
 
-\item{\code{silent}}{If FALSE, all SyncroSim output with non-zero exit status is printed. Helpful for debugging. Default=TRUE.}
+\item{\code{silent}}{If FALSE, all SyncroSim output with non-zero exit status is 
+printed. Helpful for debugging. Default=TRUE.}
 
-\item{\code{printCmd}}{If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. Default=FALSE.}
+\item{\code{printCmd}}{If TRUE, arguments passed to the SyncroSim console are also 
+printed. Helpful for debugging. Default=FALSE.}
 }}
 
 \seealso{

@@ -4,7 +4,7 @@
 \alias{scenarioId}
 \alias{scenarioId,character-method}
 \alias{scenarioId,Scenario-method}
-\title{The scenarioId of a Scenario.}
+\title{Retrieves the scenarioId of a Scenario.}
 \usage{
 scenarioId(scenario)
 
@@ -13,11 +13,23 @@ scenarioId(scenario)
 \S4method{scenarioId}{Scenario}(scenario)
 }
 \arguments{
-\item{scenario}{Scenario.}
+\item{scenario}{An object of class \code{\link{Scenario}}.}
 }
 \value{
 Integer id of the input scenario.
 }
 \description{
 Retrieves the scenarioId of a \code{\link{Scenario}}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+scenarioId(myScenario)
+}
+
 }

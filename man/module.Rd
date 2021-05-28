@@ -22,5 +22,5 @@ module(session)
 Returns a \code{dataframe} of modules.
 }
 \description{
-Deprecated.  See: \code{\link{package}}.
+Deprecated, modules are now distributed in Packages, see: \code{\link{package}}.
 }

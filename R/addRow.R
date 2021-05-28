@@ -5,19 +5,28 @@ NULL
 
 #' Add row(s) to a dataframe.
 #'
-#' Adds row(s) to a dataframe.
+#' This small function is mostly used internally to add rows to empty dataframes
+#' retrieved from the command line.
 #'
 #' @details
 #' Preserves the types and factor levels of the targetDataframe.
 #' Fills missing values if possible using factor levels.
-#' If value is a named vector or list, it will be converted to a single row dataframe.
-#' If value is an unnamed vector or list, the number of elements should equal the number of columns in the targetDataframe; elements are assumed to be in same order as dataframe columns.
+#' If value is a named vector or list, it will be converted to a single row 
+#' dataframe. If value is an unnamed vector or list, the number of elements 
+#' should equal the number of columns in the targetDataframe; elements are 
+#' assumed to be in same order as dataframe columns.
 #'
-#' @param targetDataframe Dataframe.
-#' @param value Dataframe, character string vector, or list. Columns in value should be a subset of columns in targetDataframe.
+#' @param targetDataframe A dataframe.
+#' @param value Dataframe, character string vector, or list. Columns or elements
+#'     in value should be a subset of columns in targetDataframe.
 #' 
 #' @return 
 #' A dataframe with new rows.
+#' 
+#' @examples
+#' 
+#' oldDF <- as.data.frame(mtcars)
+#' newDF <- addRow(oldDF, list(mpg = 100, wt = 10))
 #' 
 #' @export
 setGeneric("addRow", function(targetDataframe, value) standardGeneric("addRow"))

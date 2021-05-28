@@ -6,7 +6,7 @@
 \alias{readOnly,SsimLibrary-method}
 \alias{readOnly,Project-method}
 \alias{readOnly,Scenario-method}
-\title{Read-only status of a SsimLibrary, Project or Scenario.}
+\title{Retrieves the Read-only status of a SsimLibrary, Project or Scenario.}
 \usage{
 readOnly(ssimObject)
 
@@ -19,12 +19,28 @@ readOnly(ssimObject)
 \S4method{readOnly}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary, Project or Scenario.}
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+or \code{\link{SsimLibrary}}.}
 }
 \value{
 Returns a logical value: `TRUE` if the ssimObject is read only and `FALSE`
 otherwise.
 }
 \description{
-Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} is read-only.
+Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+\code{\link{Scenario}} is read-only is read-only.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+readOnly(myLibrary)
+readOnly(myProject)
+readOnly(myScenario)
+}
+
 }

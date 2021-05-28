@@ -47,26 +47,45 @@ run(
 \S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs, forceElements)
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, \code{\link{Scenario}} or a list of Scenarios. Or the path to a library on disk.}
+\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, 
+\code{\link{Scenario}} or a list of Scenarios. Or the path to a library 
+on disk.}
 
-\item{scenario}{Character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.}
+\item{scenario}{Character, integer, or vector of these. Scenario names or ids. 
+Or NULL. Note that integer ids are slightly faster.}
 
-\item{summary}{Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.}
+\item{summary}{Logical. If FALSE (default) result Scenario objects are returned. 
+If TRUE (faster) result scenario ids are returned.}
 
-\item{jobs}{Integer. The number of jobs to run. Passed to SyncroSim where multithreading is handled.}
+\item{jobs}{Integer. The number of jobs to run. Passed to SyncroSim where 
+multithreading is handled.}
 
 \item{transformerName}{Character.  The name of the transformer to run.}
 
-\item{forceElements}{Logical. If TRUE then returns a single result Scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.}
+\item{forceElements}{Logical. If TRUE then returns a single result Scenario 
+as a named list; otherwise returns a single result scenario as a Scenario 
+object. Applies only when summary=FALSE.}
 }
 \value{
-If \code{summary = FALSE}, returns a result Scenario object or a named list of result Scenarios. 
-The name is the parent scenario for each result. If \code{summary = TRUE}, returns summary info 
-for result scenarios.
+If \code{summary = FALSE}, returns a result Scenario object or a named list 
+of result Scenarios. The name is the parent scenario for each result. If 
+\code{summary = TRUE}, returns summary info for result scenarios.
 }
 \description{
-Run one or more SyncroSim scenarios.
+Run one or more SyncroSim \code{\link{Scenario}}(s).
 }
 \details{
-Note that breakpoints are ignored unless ssimObject is a single scenario.
+Note that breakpoints are ignored unless the ssimObject is a single scenario.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+run(myScenario)
+}
+
 }

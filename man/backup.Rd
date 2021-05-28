@@ -13,12 +13,25 @@ backup(ssimObject)
 \S4method{backup}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.}
+\item{ssimObject}{An object of class \code{\link{SsimLibrary}}, 
+\code{\link{Project}} or \code{\link{Scenario}}.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 
 backup) and `FALSE` upon failure.
 }
 \description{
-Backup a \code{\link{SsimLibrary}}.
+Backup a \code{\link{SsimLibrary}}. The backup folder can be defined in the
+SyncroSim UI, but is by default at the same level than the library file, 
+and is called libraryName.backup
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+
+backup(myLibrary)
+}
+
 }

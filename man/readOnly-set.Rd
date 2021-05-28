@@ -13,9 +13,10 @@ readOnly(ssimObject) <- value
 \S4method{readOnly}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{SsimLibrary, Project, or Scenario.}
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+or \code{\link{SsimLibrary}}.}
 
-\item{value}{Logical. If T the ssimObject will be read-only.}
+\item{value}{Logical. If `TRUE` the ssimObject will be read-only.}
 }
 \value{
 The updated ssimObject.
@@ -23,4 +24,18 @@ The updated ssimObject.
 \description{
 Set the read-only status of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 Applies to child objects if ssimObject is a SsimLibrary or Project.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+readOnly(myLibrary) <- FALSE
+readOnly(myProject) <- FALSE
+readOnly(myScenario) <- TRUE
+}
+
 }

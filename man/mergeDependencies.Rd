@@ -13,12 +13,25 @@ mergeDependencies(ssimObject)
 \S4method{mergeDependencies}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{Scenario.}
+\item{ssimObject}{An object of class \code{\link{Scenario}}.}
 }
 \value{
 Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 
 and `FALSE` otherwise.
 }
 \description{
-Retrieves whether or not a \code{\link{Scenario}} is configured to merge dependencies at run time.
+Retrieves whether or not a \code{\link{Scenario}} is configured to merge 
+dependencies at run time.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+mergeDependencies(myScenario)
+}
+
 }

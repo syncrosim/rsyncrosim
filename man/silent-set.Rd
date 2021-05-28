@@ -13,7 +13,7 @@ silent(session) <- value
 \S4method{silent}{Session}(session) <- value
 }
 \arguments{
-\item{session}{Session.}
+\item{session}{An object of class \code{\link{Session}}}
 
 \item{value}{Logical.}
 }
@@ -21,5 +21,15 @@ silent(session) <- value
 The updated ssimObject.
 }
 \description{
-Set silent property of a \code{\link{Session}} to TRUE or FALSE.
+Set silent property of a \code{\link{Session}} to TRUE or FALSE. In a silent
+session, warnings from the console are ignored.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+
+silent(mySession) <- TRUE
+}
+
 }

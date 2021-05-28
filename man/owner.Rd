@@ -6,7 +6,7 @@
 \alias{owner,SsimLibrary-method}
 \alias{owner,Project-method}
 \alias{owner,Scenario-method}
-\title{The owner of a SsimLibrary, Project or Scenario.}
+\title{Retrieves the owner of a SsimLibrary, Project or Scenario.}
 \usage{
 owner(ssimObject)
 
@@ -19,11 +19,27 @@ owner(ssimObject)
 \S4method{owner}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary, Project or Scenario.}
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+or \code{\link{SsimLibrary}}.}
 }
 \value{
 A character string: the owner of the ssimObject.
 }
 \description{
-Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+\code{\link{Scenario}}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+owner(myLibrary)
+owner(myProject)
+owner(myScenario)
+}
+
 }

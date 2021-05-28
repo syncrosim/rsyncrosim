@@ -5,12 +5,22 @@ NULL
 
 #' Check if a Session is silent
 #'
-#' Checks whether a SyncroSim \code{\link{Session}} is silent or not.
+#' Checks whether a SyncroSim \code{\link{Session}} is silent or not. In a silent
+#' session, warnings from the console are ignored.
 #'
-#' @param session Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.
+#' @param session Session or character. An object of class \code{\link{Session}} 
+#'     or path to a session. If NULL, the default session will be used.
 #' 
 #' @return 
 #' Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' 
+#' silent(mySession)
+#' }
 #' 
 #' @export
 setGeneric("silent", function(session) standardGeneric("silent"))
@@ -33,13 +43,22 @@ setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session
 
 #' Set silent property of a Session
 #'
-#' Set silent property of a \code{\link{Session}} to TRUE or FALSE.
+#' Set silent property of a \code{\link{Session}} to TRUE or FALSE. In a silent
+#' session, warnings from the console are ignored.
 #'
-#' @param session Session.
+#' @param session An object of class \code{\link{Session}}
 #' @param value Logical.
 #' 
 #' @return 
 #' The updated ssimObject.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' 
+#' silent(mySession) <- TRUE
+#' }
 #' 
 #' @export
 setGeneric("silent<-", function(session, value) standardGeneric("silent<-"))

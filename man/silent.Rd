@@ -13,11 +13,22 @@ silent(session)
 \S4method{silent}{missingOrNULLOrChar}(session)
 }
 \arguments{
-\item{session}{Session or character. A SyncroSim \code{\link{Session}} object or path to a session. If NULL, the default session will be used.}
+\item{session}{Session or character. An object of class \code{\link{Session}} 
+or path to a session. If NULL, the default session will be used.}
 }
 \value{
 Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
 }
 \description{
-Checks whether a SyncroSim \code{\link{Session}} is silent or not.
+Checks whether a SyncroSim \code{\link{Session}} is silent or not. In a silent
+session, warnings from the console are ignored.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+
+silent(mySession)
+}
+
 }

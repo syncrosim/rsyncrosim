@@ -15,5 +15,13 @@ envInputFolder(scenario, datasheetName)
 Returns a folder name for the specified datasheet.
 }
 \description{
-Creates and returns a SyncroSim DataSheet Input Folder.
+This function is part of a set of functions designed to facilitate the
+development of R-based Syncrosim Packages. This function creates and returns 
+a SyncroSim Datasheet Input Folder.
+}
+\examples{
+\donttest{
+inputFolder <- envInputFolder
+}
+
 }

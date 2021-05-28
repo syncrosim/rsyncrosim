@@ -3,14 +3,27 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The run log of a result Scenario
+#' Retrieves the run log of a result Scenario
 #'
-#' The run log of a result Scenario.
+#' Retrieves the run log of a result Scenario.
 #'
 #' @param scenario A \code{\link{Scenario}} object.
 #' 
 #' @return 
 #' Returns a character string: the run log for a result scenario.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' # Note: the scenario must be a result scenario. This example only shows the 
+#' # how to use the function with a Scenario object.
+#' runLog(myScenario)
+#' }
 #' 
 #' @export
 setGeneric("runLog", function(scenario) standardGeneric("runLog"))

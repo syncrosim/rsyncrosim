@@ -13,11 +13,23 @@ description(ssimObject)
 \S4method{description}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{SsimLibrary, Project or Scenario.}
+\item{ssimObject}{An object of class SsimLibrary, Project or Scenario.}
 }
 \value{
 A character string describing the ssimObject.
 }
 \description{
-The description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+Returns a description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+\code{\link{Scenario}}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+
+mydescription <- description(myProject)
+}
+
 }

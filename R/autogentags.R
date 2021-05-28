@@ -7,10 +7,11 @@ NULL
 #'
 #' Retrieves the Auto Generation Tags for a \code{\link{Scenario}}.
 #'
-#' @param ssimObject Scenario.
+#' @param ssimObject An object of class \code{\link{Scenario}}.
 #' 
 #' @return 
 #' Returns the Auto Generation Tags.
+#' 
 #' @export
 setGeneric("autogentags", function(ssimObject) standardGeneric("autogentags"))
 
@@ -29,7 +30,7 @@ setMethod("autogentags", signature(ssimObject = "Scenario"), function(ssimObject
 #'
 #' Sets the Auto Generation Tags for a \code{\link{Scenario}}.
 #'
-#' @param ssimObject Scenario.
+#' @param ssimObject An object of class \code{\link{Scenario}}.
 #' @param value character.
 #' 
 #' @return 

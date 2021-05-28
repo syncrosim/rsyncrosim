@@ -13,7 +13,7 @@ autogentags(ssimObject) <- value
 \S4method{autogentags}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario.}
+\item{ssimObject}{An object of class \code{\link{Scenario}}.}
 
 \item{value}{character.}
 }

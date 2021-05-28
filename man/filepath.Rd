@@ -5,7 +5,7 @@
 \alias{filepath,character-method}
 \alias{filepath,Session-method}
 \alias{filepath,SsimObject-method}
-\title{The path to a SyncroSim object on disk}
+\title{Retrieves the path to a SyncroSim object on disk}
 \usage{
 filepath(ssimObject)
 
@@ -16,11 +16,25 @@ filepath(ssimObject)
 \S4method{filepath}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object containing a filepath.}
+\item{ssimObject}{An object containing a filepath (of class \code{\link{Session}}, 
+\code{\link{Project}}, or \code{\link{SsimLibrary}}).}
 }
 \value{
 A character string: the path to a SyncroSim object on disk.
 }
 \description{
-The path to a SyncroSim \code{\link{Session}}, \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} on disk.
+Retrieves the path to a SyncroSim \code{\link{Session}}, 
+\code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
+on disk.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+
+# Get the file path
+myFilePath <- filepath(myLibrary)
+}
+
 }

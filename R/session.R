@@ -34,8 +34,11 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' Methods to create or return a SyncroSim \code{\link{Session}}.
 #' 
 #' @param x Character or SsimObject. An optional path to the SyncroSim installation.
-#' @param silent Logical. Applies only if x is a path or NULL. If TRUE, warnings from the console are ignored. Otherwise they are printed.
-#' @param printCmd Logical. Applies only if x is a path or NULL. If TRUE, arguments passed to the SyncroSim console are also printed. Helpful for debugging. FALSE by default.
+#' @param silent Logical. Applies only if x is a path or NULL. If TRUE, warnings 
+#'     from the console are ignored. Otherwise they are printed.
+#' @param printCmd Logical. Applies only if x is a path or NULL. If TRUE, 
+#'     arguments passed to the SyncroSim console are also printed. Helpful for 
+#'     debugging. FALSE by default.
 #' 
 #' @return 
 #' A SyncroSim \code{\link{Session}} object.
@@ -117,12 +120,14 @@ setMethod("session", signature(x = "SsimObject"), function(x, silent, printCmd) 
 
 #' Set a SyncroSim Session.
 #'
-#' Set the Session of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} object.
+#' Set the Session of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' \code{\link{Scenario}} object.
 #'
 #' @details
 #'
-#' In order to avoid problems with SyncroSim version compatibility and library updating,
-#' the new session must have the same filepath as the session of the SsimObject e.g. filepath(value)==filepath(session(ssimObject))
+#' In order to avoid problems with SyncroSim version compatibility and library 
+#' updating, the new session must have the same filepath as the session of the 
+#' SsimObject e.g. filepath(value)==filepath(session(ssimObject))
 #'
 #' @param ssimObject SsimObject, \code{\link{Project}} or \code{\link{Scenario}}.
 #' @param value A SyncroSim \code{\link{Session}}.

@@ -14,7 +14,8 @@ addBreakpoint(x, transformerName, breakpointType, arguments, callback)
 
 \item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime).}
 
-\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.}
+\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before 
+timestep; at: after timestep.}
 
 \item{arguments}{A vector of timesteps or iterations e.g. c(1,2).}
 
@@ -24,7 +25,9 @@ addBreakpoint(x, transformerName, breakpointType, arguments, callback)
 A SyncroSim Scenario with an updated list of breakpoints.
 }
 \description{
-When the Scenario is \code{\link{run}} the breakpoint's callback function will be called for the specified iterations or timesteps.
+This function allows to add breakpoints to a SyncroSim model, for a given 
+Scenario. When the Scenario is \code{\link{run}} the function specified by the 
+callback argument will be called for the specified iterations or timesteps.
 }
 \details{
 Breakpoints are only supported for Stochastic Time Transformers.
@@ -36,8 +39,8 @@ callbackFunction <- function(x, iteration, timestep) {
 }
 
 temp_dir <- tempdir()
-myses <- session()
-mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 myScenario <- scenario(mylib, "testScenario")
 
 myScenario <- addBreakpoint(x= myScenario, transformerName= "stsim_Runtime", breakpointType = "bi", 

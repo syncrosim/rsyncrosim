@@ -3,13 +3,23 @@
 
 #' SyncroSim Environment
 #'
-#' Retrieves SyncroSim specific environment variables.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based Syncrosim Packages. \code{ssimEnvironment} retrieves
+#' specific environment variables.
 #'
 #' @return 
-#' Returns a data.frame of SyncroSim specific environment variables.
+#' Returns a single-row data.frame of SyncroSim specific environment variables.
+#' 
+#' @examples 
+#' \donttest{
+#' # Get the whole set of variables
+#' e <- ssimEnvironment()
+#' 
+#' # Get the path to transfer direcyory, for instance
+#' transferdir <- e$TransferDirectory
+#' }
 #' 
 #' @export
-#' @rdname ssimEnvironment
 ssimEnvironment <- function() {
   return(data.frame(
     PackageDirectory = Sys.getenv(tolower("SSIM_PACKAGE_DIRECTORY"), unset = NA),
@@ -64,7 +74,9 @@ envCreateTempFolder <- function(folderName) {
 
 #' SyncroSim DataSheet Input Folder
 #'
-#' Creates and returns a SyncroSim DataSheet Input Folder.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based Syncrosim Packages. This function creates and returns 
+#' a SyncroSim Datasheet Input Folder.
 #'
 #' @param scenario Scenario.  A SyncroSim result \code{\link{Scenario}}.
 #' @param datasheetName Character.  The input datasheet name.
@@ -72,8 +84,12 @@ envCreateTempFolder <- function(folderName) {
 #' @return 
 #' Returns a folder name for the specified datasheet.
 #' 
+#' @examples 
+#' \donttest{
+#' inputFolder <- envInputFolder
+#' }
+#' 
 #' @export
-#' @rdname ssimEnvironment-input
 envInputFolder <- function(scenario, datasheetName) {
   envValidateEnvironment()
   return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
@@ -81,16 +97,22 @@ envInputFolder <- function(scenario, datasheetName) {
 
 #' SyncroSim DataSheet Output Folder
 #'
-#' Creates and returns a SyncroSim DataSheet Output Folder.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based Syncrosim Packages. Thus function creates and returns 
+#' a SyncroSim DataSheet Output Folder.
 #'
-#' @param scenario Scenario.  A SyncroSim result \code{\link{Scenario}}.
-#' @param datasheetName Character.  The output datasheet name.
+#' @param scenario Scenario. A SyncroSim result \code{\link{Scenario}}.
+#' @param datasheetName Character. The output datasheet name.
 #' 
 #' @return 
 #' Returns a folder name for the specified datasheet.
 #' 
+#' @examples 
+#' \donttest{
+#' outputFolder <- envOutputFolder()
+#' }
+#' 
 #' @export
-#' @rdname ssimEnvironment-output
 envOutputFolder <- function(scenario, datasheetName) {
   envValidateEnvironment()
   return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
@@ -98,15 +120,21 @@ envOutputFolder <- function(scenario, datasheetName) {
 
 #' SyncroSim Temporary Folder
 #'
-#' Creates and returns a SyncroSim Temporary Folder.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based Syncrosim Packages. This function creates and returns 
+#' a SyncroSim Temporary Folder.
 #'
-#' @param folderName Character.  The folder name.
+#' @param folderName Character. The folder name.
 #' 
 #' @return 
 #' Returns a temporary folder name.
 #' 
+#' @examples 
+#' \donttest{
+#' tempFolder <- envTempFolder()
+#' }
+#' 
 #' @export
-#' @rdname ssimEnvironment-temp
 envTempFolder <- function(folderName) {
   envValidateEnvironment()
   return(envCreateTempFolder(folderName))
@@ -114,13 +142,22 @@ envTempFolder <- function(folderName) {
 
 #' Reports progress for a SyncroSim simulation
 #'
-#' Reports progress for a SyncroSim simulation.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based Syncrosim Packages. This function reports progress 
+#' for a SyncroSim simulation.
 #'
-#' @param iteration integer.  The current iteration.
-#' @param timestep integer.  The current timestep.
+#' @param iteration integer. The current iteration.
+#' @param timestep integer. The current timestep.
+#' 
+#' @return
+#' No returned value, used for side effects.
+#' 
+#' @examples 
+#' \donttest{
+#' envReportProgress()
+#' }
 #' 
 #' @export
-#' @rdname ssimEnvironment-progress
 envReportProgress <- function(iteration, timestep) {
   envValidateEnvironment()
   cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
@@ -129,12 +166,24 @@ envReportProgress <- function(iteration, timestep) {
 
 #' Begins a SyncroSim simulation
 #'
-#' Begins a SyncroSim simulation.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based SyncroSim Packages. Specifically, this function begins
+#' the reporting of a SyncroSim simulation.
 #'
 #' @param totalSteps integer.  The total number of steps in the simulation.
 #' 
+#' @return
+#' No returned value, used for side effects.
+#' 
+#' @examples 
+#' \donttest{
+#' n_iter <- 50
+#' n_timesteps <- 10
+#' n_steps <- n_iter * n_timesteps
+#' envBeginSimulation(n_steps)
+#' }
+#' 
 #' @export
-#' @rdname ssimEnvironment-progress
 envBeginSimulation <- function(totalSteps) {
   envValidateEnvironment()
   cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
@@ -143,13 +192,20 @@ envBeginSimulation <- function(totalSteps) {
 
 #' Steps a SyncroSim simulation
 #'
-#' Steps a SyncroSim simulation.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based Syncrosim Packages. This function steps a SyncroSim 
+#' simulation, and is to be called between \code{\link{envBeginSimulation}} and 
+#' \code{\link{envEndSimulation}}.
 #' 
 #' @return 
 #' No returned value, used for side effects.
+#' 
+#' @examples
+#' \donttest{
+#' envStepSimulation()
+#' }
 #'
 #' @export
-#' @rdname ssimEnvironment-progress
 envStepSimulation <- function() {
   envValidateEnvironment()
   cat("ssim-task-step=1\r\n")
@@ -158,13 +214,19 @@ envStepSimulation <- function() {
 
 #' Ends a SyncroSim simulation
 #'
-#' Ends a SyncroSim simulation.
+#' This function is part of a set of functions designed to facilitate the
+#' development of R-based Syncrosim Packages. This function ends a SyncroSim 
+#' simulation.
 #' 
 #' @return
 #' No returned value, used for side effects.
-#'
+#' 
+#' @examples 
+#' \donttest{
+#' envEndSimulation()
+#' }
+#' 
 #' @export
-#' @rdname ssimEnvironment-progress
 envEndSimulation <- function() {
   envValidateEnvironment()
   cat("ssim-task-end=True\r\n")

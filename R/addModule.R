@@ -5,14 +5,10 @@ NULL
 
 #' Add module
 #'
-#' Add \code{\link{module}} or modules to SyncroSim
-#' Deprecated.  See: \code{\link{addPackage}} and \code{\link{addPackageFile}}.
+#' This function is deprecated.  See \code{\link{addPackage}} and \code{\link{addPackageFile}}.
 #'
 #' @param filename Character string or vector of these. The path to an .ssimpkg file on disk, or a vector of filepaths.
 #' @param session Session.
-#' 
-#' @return 
-#' Deprecated: produces an error.
 #' 
 setGeneric("addModule", function(filename, session = NULL) standardGeneric("addModule"))
 

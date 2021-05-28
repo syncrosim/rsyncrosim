@@ -33,13 +33,18 @@ delete(
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or path to a library.}
 
-\item{project}{character string, numeric, or vector of these. One or more \code{\link{Project}} names or ids. Note that project argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
+\item{project}{character string, numeric, or vector of these. One or more 
+\code{\link{Project}} names or ids. Note that project argument is ignored 
+if ssimObject is a list. Note that integer ids are slightly faster.}
 
-\item{scenario}{character string, numeric, or vector of these. One or more \code{\link{Scenario}} names or ids. Note that scenario argument is ignored if ssimObject is a list. Note that integer ids are slightly faster.}
+\item{scenario}{character string, numeric, or vector of these. One or more 
+\code{\link{Scenario}} names or ids. Note that scenario argument is 
+ignored if ssimObject is a list. Note that integer ids are slightly faster.}
 
 \item{datasheet}{character string or vector of these. One or more datasheet names.}
 
-\item{force}{logical. If FALSE (default), user will be prompted to approve removal of each item.}
+\item{force}{logical. If FALSE (default), user will be prompted to approve 
+removal of each item.}
 }
 \value{
 This function returns invisibly a list of boolean values corresponding to each of the
@@ -51,8 +56,8 @@ Deletes one or more items. Note that this is irreversible.
 \examples{
 \donttest{
 temp_dir <- tempdir()
-myses <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
 myProject <- project(myLibrary, project = "a project")
 project(myLibrary)

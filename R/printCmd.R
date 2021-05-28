@@ -3,16 +3,25 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Get printCmd of a Session.
+#' Retrieves a printCmd setting of a Session.
 #'
-#' Retrieves a printCmd setting of a \code{\link{Session}} object.
+#' Retrieves a printCmd setting of a \code{\link{Session}} object. The printCmd
+#' setting configures a session for printing commands sent to the console.
 #'
-#' @param session Session or character. A \code{\link{Session}} object or path to a session. 
-#' If NULL, the default session will be used.
+#' @param session Session or character. An object of class \code{\link{Session}} 
+#' or path to a session. If NULL, the default session will be used.
 #' 
 #' @return 
 #' Returns a logical value: `TRUE` if the session is configured to print commands and 
 #' `FALSE` if it is not.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' 
+#' printCmd(mySession)
+#' }
 #' 
 #' @export
 setGeneric("printCmd", function(session = NULL) standardGeneric("printCmd"))

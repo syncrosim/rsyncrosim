@@ -3,14 +3,22 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The SyncroSim version
+#' Retrieves the SyncroSim version
 #'
-#' The version of a SyncroSim Session.
+#' Retrieves the version of a SyncroSim Session.
 #'
-#' @param session \code{\link{Session}}.
+#' @param session An object of class \code{\link{Session}}.
 #' 
 #' @return
 #' A character string e.g. "2.2.13".
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' 
+#' version(mySession)
+#' }
 #' 
 #' @export
 setGeneric("version", function(session = NULL) standardGeneric("version"))

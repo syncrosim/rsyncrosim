@@ -5,22 +5,40 @@ NULL
 
 #' Run scenarios
 #'
-#' Run one or more SyncroSim scenarios.
+#' Run one or more SyncroSim \code{\link{Scenario}}(s).
 #'
-#' @details
-#' Note that breakpoints are ignored unless ssimObject is a single scenario.
-#'
-#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, \code{\link{Scenario}} or a list of Scenarios. Or the path to a library on disk.
-#' @param scenario Character, integer, or vector of these. Scenario names or ids. Or NULL. Note that integer ids are slightly faster.
-#' @param summary Logical. If FALSE (default) result Scenario objects are returned. If TRUE (faster) result scenario ids are returned.
-#' @param jobs Integer. The number of jobs to run. Passed to SyncroSim where multithreading is handled.
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, 
+#'     \code{\link{Scenario}} or a list of Scenarios. Or the path to a library 
+#'     on disk.
+#' @param scenario Character, integer, or vector of these. Scenario names or ids. 
+#'     Or NULL. Note that integer ids are slightly faster.
+#' @param summary Logical. If FALSE (default) result Scenario objects are returned. 
+#'     If TRUE (faster) result scenario ids are returned.
+#' @param jobs Integer. The number of jobs to run. Passed to SyncroSim where 
+#'     multithreading is handled.
 #' @param transformerName Character.  The name of the transformer to run.
-#' @param forceElements Logical. If TRUE then returns a single result Scenario as a named list; otherwise returns a single result scenario as a Scenario object. Applies only when summary=FALSE.
+#' @param forceElements Logical. If TRUE then returns a single result Scenario 
+#'     as a named list; otherwise returns a single result scenario as a Scenario 
+#'     object. Applies only when summary=FALSE.
+#'     
+#' @details
+#' Note that breakpoints are ignored unless the ssimObject is a single scenario.
 #' 
 #' @return 
-#' If \code{summary = FALSE}, returns a result Scenario object or a named list of result Scenarios. 
-#' The name is the parent scenario for each result. If \code{summary = TRUE}, returns summary info 
-#' for result scenarios.
+#' If \code{summary = FALSE}, returns a result Scenario object or a named list 
+#' of result Scenarios. The name is the parent scenario for each result. If 
+#' \code{summary = TRUE}, returns summary info for result scenarios.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' run(myScenario)
+#' }
 #' 
 #' @export
 setGeneric("run", function(ssimObject, scenario = NULL, summary = FALSE, jobs = 1, transformerName = NULL, forceElements = FALSE) standardGeneric("run"))

@@ -12,9 +12,10 @@ deleteBreakpoint(x, transformerName = NULL, breakpointType = NULL)
 \arguments{
 \item{x}{A SyncroSim \code{\link{Scenario}}.}
 
-\item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime).  Optional.}
+\item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime). Optional.}
 
-\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before timestep; at: after timestep.  Optional.}
+\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before 
+timestep; at: after timestep.  Optional.}
 }
 \value{
 A SyncroSim Scenario with an updated list of breakpoints.
@@ -26,11 +27,14 @@ This function will delete a \code{\link{Scenario}} breakpoint.
 \donttest{
 
 temp_dir <- tempdir()
-myses <- session()
-mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 myScenario <- scenario(mylib, "testScenario")
 
 myScenario <- deleteBreakpoint(myScenario)
 myScenario <- deleteBreakpoint(myScenario, transformerName = "stsim_Runtime")
 }
+}
+\seealso{
+\code{\link{addBreakpoint}}.
 }

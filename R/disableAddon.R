@@ -5,20 +5,24 @@ NULL
 
 #' Disable addon or addons.
 #'
-#' Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} with an associated SsimLibrary.
+#' Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}, 
+#' \code{\link{Project}} or \code{\link{Scenario}} with an associated SsimLibrary.
 #'
-#' @param ssimLibrary SsimLibrary.
+#' @param ssimLibrary An object of class SsimLibrary.
 #' @param name Character string or vector of addon names.
 #' 
 #' @return
-#' This function invisibly returns `TRUE` upon success (i.e.successful deactivation of the addon) 
-#' and `FALSE` upon failure.
+#' This function invisibly returns `TRUE` upon success (i.e.successful deactivation
+#' of the addon) or `FALSE` upon failure.
+#' 
+#' @seealso 
+#' \code{\link{addon}}
 #' 
 #' @examples
 #' \donttest{
 #' temp_dir <- tempdir()
-#' myses <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 #' 
 #' enableAddon(myLibrary, c("stsimecodep"))
 #' addon(myLibrary)

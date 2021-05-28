@@ -19,11 +19,22 @@ basePackage(ssimObject = NULL)
 \S4method{basePackage}{SsimLibrary}(ssimObject = NULL)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}}.}
+\item{ssimObject}{An object of class \code{\link{Session}} or \code{\link{SsimLibrary}}.}
 }
 \value{
 A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).
 }
 \description{
-Base packages installed with this version of SyncroSim.
+This retrieves the Base packages installed with this version of SyncroSim.
+The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+
+basePackage(myLibrary)
+}
+
 }

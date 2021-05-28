@@ -18,13 +18,27 @@ addPackage(name, session = NULL)
 \arguments{
 \item{name}{Character string.  The name of the package to install.}
 
-\item{session}{\code{\link{Session}}.}
+\item{session}{A \code{\link{Session}} object.}
 }
 \value{
 This function will invisibly return `TRUE` upon success (i.e.successful 
 install) and `FALSE` upon failure.
 }
 \description{
-Adds a package to SyncroSim. This functions will query the SyncroSim 
-package server for the package name provided as input.
+This function adds a package to SyncroSim. The function first queries the 
+SyncroSim package server for the package name provided as input. The list of 
+SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+
+addPackage(myLibrary, "stsim")
+}
+
+}
+\seealso{
+\link{addPackageFile}
 }

@@ -13,13 +13,13 @@ enableAddon(ssimLibrary, name)
 \S4method{enableAddon}{SsimLibrary}(ssimLibrary, name)
 }
 \arguments{
-\item{ssimLibrary}{SsimLibrary.}
+\item{ssimLibrary}{An object of class SsimLibrary.}
 
 \item{name}{Character string or vector of addon names.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful activation of the addon) 
-and `FALSE` upon failure.
+This function invisibly returns `TRUE` upon success (i.e.successful activation 
+of the addon) or `FALSE` upon failure.
 }
 \description{
 Enable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}.
@@ -27,8 +27,8 @@ Enable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}.
 \examples{
 \donttest{
 temp_dir <- tempdir()
-myses <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = myses)
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
 enableAddon(myLibrary, c("stsim-ecological-departure"))
 addon(myLibrary)
@@ -36,4 +36,7 @@ disableAddon(myLibrary, c("stsim-ecological-departure"))
 addon(myLibrary)
 }
 
+}
+\seealso{
+\code{\link{addon}}
 }

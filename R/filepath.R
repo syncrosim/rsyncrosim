@@ -3,14 +3,27 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' The path to a SyncroSim object on disk
+#' Retrieves the path to a SyncroSim object on disk
 #'
-#' The path to a SyncroSim \code{\link{Session}}, \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} on disk.
+#' Retrieves the path to a SyncroSim \code{\link{Session}}, 
+#' \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
+#' on disk.
 #'
-#' @param ssimObject An object containing a filepath.
+#' @param ssimObject An object containing a filepath (of class \code{\link{Session}}, 
+#'     \code{\link{Project}}, or \code{\link{SsimLibrary}}).
 #' 
 #' @return 
 #' A character string: the path to a SyncroSim object on disk.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' 
+#' # Get the file path
+#' myFilePath <- filepath(myLibrary)
+#' }
 #' 
 #' @export
 setGeneric("filepath", function(ssimObject) standardGeneric("filepath"))
@@ -26,14 +39,27 @@ setMethod("filepath", signature(ssimObject = "Session"), function(ssimObject) ss
 #' @rdname filepath
 setMethod("filepath", signature(ssimObject = "SsimObject"), function(ssimObject) ssimObject@filepath)
 
-#' The temporary file path to a SyncroSim object on disk
+#' Retrieves the temporary file path to a SyncroSim object on disk
 #'
-#' The temporary file path to a SyncroSim \code{\link{Session}}, \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} on disk.
+#' Retrieves the temporary file path to a SyncroSim \code{\link{Session}}, 
+#' \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
+#' on disk.
 #'
-#' @param ssimObject An object containing a filepath.
+#' @param ssimObject An object containing a filepath (of class \code{\link{Session}}, 
+#'     \code{\link{Project}}, or \code{\link{SsimLibrary}}).
 #' 
 #' @return 
 #' A character string: the temporary file path to a SyncroSim object on disk.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' 
+#' # Get the file path
+#' myFilePath <- tempfilepath(myLibrary)
+#' }
 #' 
 #' @export
 setGeneric("tempfilepath", function(ssimObject) standardGeneric("tempfilepath"))

@@ -7,8 +7,20 @@
 ssimEnvironment()
 }
 \value{
-Returns a data.frame of SyncroSim specific environment variables.
+Returns a single-row data.frame of SyncroSim specific environment variables.
 }
 \description{
-Retrieves SyncroSim specific environment variables.
+This function is part of a set of functions designed to facilitate the
+development of R-based Syncrosim Packages. \code{ssimEnvironment} retrieves
+specific environment variables.
+}
+\examples{
+\donttest{
+# Get the whole set of variables
+e <- ssimEnvironment()
+
+# Get the path to transfer direcyory, for instance
+transferdir <- e$TransferDirectory
+}
+
 }

@@ -3,15 +3,30 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Read-only status of a SsimLibrary, Project or Scenario.
+#' Retrieves the Read-only status of a SsimLibrary, Project or Scenario.
 #'
-#' Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} is read-only.
+#' Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' \code{\link{Scenario}} is read-only is read-only.
 #'
-#' @param ssimObject SsimLibrary, Project or Scenario.
+#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
+#' or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
 #' Returns a logical value: `TRUE` if the ssimObject is read only and `FALSE`
 #' otherwise.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' readOnly(myLibrary)
+#' readOnly(myProject)
+#' readOnly(myScenario)
+#' }
 #' 
 #' @export
 setGeneric("readOnly", function(ssimObject) standardGeneric("readOnly"))
@@ -53,12 +68,25 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
 #' Set the read-only status of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
 #' Applies to child objects if ssimObject is a SsimLibrary or Project.
 #'
-#' @param ssimObject SsimLibrary, Project, or Scenario.
-#' 
-#' @param value Logical. If T the ssimObject will be read-only.
+#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
+#' or \code{\link{SsimLibrary}}.
+#' @param value Logical. If `TRUE` the ssimObject will be read-only.
 #' 
 #' @return 
 #' The updated ssimObject.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' readOnly(myLibrary) <- FALSE
+#' readOnly(myProject) <- FALSE
+#' readOnly(myScenario) <- TRUE
+#' }
 #' 
 #' @export
 setGeneric("readOnly<-", function(ssimObject, value) standardGeneric("readOnly<-"))

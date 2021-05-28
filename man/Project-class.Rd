@@ -6,7 +6,10 @@
 \alias{Project}
 \title{SyncroSim Project class}
 \description{
-\code{Project} object representing a SyncroSim Project.
+\code{Project} object representing a SyncroSim Project. A project the niddle
+level of organization in the SyncroSim workflow, between the \code{\link{ssimLibrary}} 
+and the \code{\link{scenario}}. It contains information relevant to a group 
+of scenarios.
 }
 \section{Slots}{
 
@@ -21,5 +24,6 @@
 }}
 
 \seealso{
-See \code{\link{project}} for options when creating or loading a SyncroSim Project.
+See \code{\link{project}} for options when creating or loading a 
+    SyncroSim Project.
 }

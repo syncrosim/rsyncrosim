@@ -5,25 +5,47 @@ NULL
 
 #' Description of a SsimLibrary, Project or Scenario.
 #'
-#' The description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+#' Returns a description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' \code{\link{Scenario}}.
 #'
-#' @param ssimObject SsimLibrary, Project or Scenario.
+#' @param ssimObject An object of class SsimLibrary, Project or Scenario.
 #' 
 #' @return
 #' A character string describing the ssimObject.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' 
+#' mydescription <- description(myProject)
+#' }
 #' 
 #' @export
 setGeneric("description", function(ssimObject) standardGeneric("description"))
 
 #' Set the description of a SsimLibrary, Project or Scenario.
 #'
-#' Set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+#' Set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' \code{\link{Scenario}}.
 #'
 #' @param ssimObject Scenario/Project/SsimLibrary.
 #' @param value The new description.
 #' 
 #' @return
 #' The object with updated description.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' 
+#' description(myProject) <- mydescription
+#' }
 #' 
 #' @export
 setGeneric("description<-", function(ssimObject, value) standardGeneric("description<-"))

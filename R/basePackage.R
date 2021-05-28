@@ -5,12 +5,22 @@ NULL
 
 #' Installed base packages
 #'
-#' Base packages installed with this version of SyncroSim.
+#' This retrieves the Base packages installed with this version of SyncroSim.
+#' The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
 #'
-#' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}}.
+#' @param ssimObject An object of class \code{\link{Session}} or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
 #' A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).
+#' 
+#' @examples
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' 
+#' basePackage(myLibrary)
+#' }
 #' 
 #' @export
 setGeneric("basePackage", function(ssimObject = NULL) standardGeneric("basePackage"))

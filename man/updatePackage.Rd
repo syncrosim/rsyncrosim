@@ -16,11 +16,12 @@ updatePackage(name = NULL, session = NULL, listonly = FALSE)
 \S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL, listonly = FALSE)
 }
 \arguments{
-\item{name}{Character string.  The name of the package to update.  If NULL, all packages will be updated.}
+\item{name}{Character string.  The name of the package to update. 
+If NULL, all packages will be updated.}
 
-\item{session}{\code{\link{Session}}.}
+\item{session}{An object of class \code{\link{Session}}.}
 
-\item{listonly}{Logical.  If TRUE, available updates are listed only.}
+\item{listonly}{Logical. If TRUE, available updates are listed only.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful update)
@@ -28,4 +29,14 @@ and `FALSE` upon failure.
 }
 \description{
 Updates a SyncroSim package.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+
+updatePackage(name = "stsim", session = mySession, listonly = FALSE)
+updatePackage(name = "stsim", session = mySession, listonly = TRUE)
+}
+
 }
