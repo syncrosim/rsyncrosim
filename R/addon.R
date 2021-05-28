@@ -14,7 +14,7 @@ NULL
 #'
 #' The addon(s) of a \code{\link{SsimLibrary}} or \code{\link{Session}}.
 #' 
-#' @param ssimObject An object of type SsimLibrary/Project/Scenario or Session.
+#' @param ssimObject An object of class SsimLibrary/Project/Scenario or Session.
 #' 
 #' @return 
 #' A dataframe listing the addon(s) in use by the library to which the object 

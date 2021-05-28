@@ -9,7 +9,7 @@ NULL
 #' SyncroSim UI, but is by default at the same level than the library file, 
 #' and is called libraryName.backup
 #'
-#' @param ssimObject An object of type \code{\link{SsimLibrary}}, 
+#' @param ssimObject An object of class \code{\link{SsimLibrary}}, 
 #'     \code{\link{Project}} or \code{\link{Scenario}}.
 #' 
 #' @return 

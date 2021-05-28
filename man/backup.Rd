@@ -13,7 +13,7 @@ backup(ssimObject)
 \S4method{backup}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of type \code{\link{SsimLibrary}}, 
+\item{ssimObject}{An object of class \code{\link{SsimLibrary}}, 
 \code{\link{Project}} or \code{\link{Scenario}}.}
 }
 \value{

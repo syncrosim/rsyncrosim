@@ -13,7 +13,7 @@ mergeDependencies(ssimObject) <- value
 \S4method{mergeDependencies}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of type \code{\link{Scenario}}.}
+\item{ssimObject}{An object of class \code{\link{Scenario}}.}
 
 \item{value}{Logical. If TRUE the Scenario will be set to merge dependencies at run time.}
 }

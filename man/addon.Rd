@@ -19,7 +19,7 @@ addon(ssimObject)
 \S4method{addon}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of type SsimLibrary/Project/Scenario or Session.}
+\item{ssimObject}{An object of class SsimLibrary/Project/Scenario or Session.}
 }
 \value{
 A dataframe listing the addon(s) in use by the library to which the object 

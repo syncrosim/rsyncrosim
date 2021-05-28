@@ -13,7 +13,7 @@ mergeDependencies(ssimObject)
 \S4method{mergeDependencies}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of type \code{\link{Scenario}}.}
+\item{ssimObject}{An object of class \code{\link{Scenario}}.}
 }
 \value{
 Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 

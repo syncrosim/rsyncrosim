@@ -8,7 +8,7 @@ NULL
 #' This retrieves the Base packages installed with this version of SyncroSim.
 #' The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
 #'
-#' @param ssimObject An object of type \code{\link{Session}} or \code{\link{SsimLibrary}}.
+#' @param ssimObject An object of class \code{\link{Session}} or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
 #' A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).

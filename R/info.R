@@ -5,7 +5,7 @@
 #' Minimum Package Version, External input files, External output files, 
 #' Temporary files, Backup files.
 #' 
-#' @param ssimLibrary An object of type \code{\link{SsimLibrary}}.
+#' @param ssimLibrary An object of class \code{\link{SsimLibrary}}.
 #' 
 #' @return 
 #' Returns a \code{data.frame} with information on the properties of the library 

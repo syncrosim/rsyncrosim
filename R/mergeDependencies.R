@@ -8,7 +8,7 @@ NULL
 #' Retrieves whether or not a \code{\link{Scenario}} is configured to merge 
 #' dependencies at run time.
 #'
-#' @param ssimObject An object of type \code{\link{Scenario}}.
+#' @param ssimObject An object of class \code{\link{Scenario}}.
 #' 
 #' @return 
 #' Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 
@@ -49,7 +49,7 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
 #' Sets whether or not a \code{\link{Scenario}} is configured to merge 
 #' dependencies at run time.
 #'
-#' @param ssimObject An object of type \code{\link{Scenario}}.
+#' @param ssimObject An object of class \code{\link{Scenario}}.
 #' @param value Logical. If TRUE the Scenario will be set to merge dependencies at run time.
 #' 
 #' @return 

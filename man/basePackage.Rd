@@ -19,7 +19,7 @@ basePackage(ssimObject = NULL)
 \S4method{basePackage}{SsimLibrary}(ssimObject = NULL)
 }
 \arguments{
-\item{ssimObject}{An object of type \code{\link{Session}} or \code{\link{SsimLibrary}}.}
+\item{ssimObject}{An object of class \code{\link{Session}} or \code{\link{SsimLibrary}}.}
 }
 \value{
 A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).
