@@ -20,7 +20,6 @@
 #' }
 #' 
 #' @export
-#' @rdname ssimEnvironment
 ssimEnvironment <- function() {
   return(data.frame(
     PackageDirectory = Sys.getenv(tolower("SSIM_PACKAGE_DIRECTORY"), unset = NA),
@@ -91,7 +90,6 @@ envCreateTempFolder <- function(folderName) {
 #' }
 #' 
 #' @export
-#' @rdname ssimEnvironment-input
 envInputFolder <- function(scenario, datasheetName) {
   envValidateEnvironment()
   return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
@@ -115,7 +113,6 @@ envInputFolder <- function(scenario, datasheetName) {
 #' }
 #' 
 #' @export
-#' @rdname ssimEnvironment-output
 envOutputFolder <- function(scenario, datasheetName) {
   envValidateEnvironment()
   return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
@@ -138,7 +135,6 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' }
 #' 
 #' @export
-#' @rdname ssimEnvironment-temp
 envTempFolder <- function(folderName) {
   envValidateEnvironment()
   return(envCreateTempFolder(folderName))
@@ -153,7 +149,7 @@ envTempFolder <- function(folderName) {
 #' @param iteration integer.  The current iteration.
 #' @param timestep integer.  The current timestep.
 #' 
-#' #' @return
+#' @return
 #' No returned value, used for side effects.
 #' 
 #' @examples 
@@ -162,7 +158,6 @@ envTempFolder <- function(folderName) {
 #' }
 #' 
 #' @export
-#' @rdname ssimEnvironment-progress
 envReportProgress <- function(iteration, timestep) {
   envValidateEnvironment()
   cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
@@ -177,7 +172,7 @@ envReportProgress <- function(iteration, timestep) {
 #'
 #' @param totalSteps integer.  The total number of steps in the simulation.
 #' 
-#' #' @return
+#' @return
 #' No returned value, used for side effects.
 #' 
 #' @examples 
@@ -189,7 +184,6 @@ envReportProgress <- function(iteration, timestep) {
 #' }
 #' 
 #' @export
-#' @rdname ssimEnvironment-progress
 envBeginSimulation <- function(totalSteps) {
   envValidateEnvironment()
   cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
@@ -206,12 +200,12 @@ envBeginSimulation <- function(totalSteps) {
 #' @return 
 #' No returned value, used for side effects.
 #' 
+#' @examples
 #' \donttest{
 #' envStepSimulation()
 #' }
 #'
 #' @export
-#' @rdname ssimEnvironment-progress
 envStepSimulation <- function() {
   envValidateEnvironment()
   cat("ssim-task-step=1\r\n")
@@ -233,7 +227,6 @@ envStepSimulation <- function() {
 #' }
 #' 
 #' @export
-#' @rdname ssimEnvironment-progress
 envEndSimulation <- function() {
   envValidateEnvironment()
   cat("ssim-task-end=True\r\n")
