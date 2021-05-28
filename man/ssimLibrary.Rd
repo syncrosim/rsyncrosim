@@ -37,7 +37,9 @@ ssimLibrary(
 )
 }
 \arguments{
-\item{name}{Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.}
+\item{name}{Character string or object of class \code{\link{SsimLibrary}}, 
+\code{\link{Project}} or \code{\link{Scenario}} The path to a library 
+or SsimObject.}
 
 \item{summary}{Logical. Default TRUE.}
 
@@ -45,26 +47,36 @@ ssimLibrary(
 
 \item{session}{Session. If NULL, session() will be used.}
 
-\item{addon}{Character or character vector. One or more addons. See addon() for options.}
+\item{addon}{Character or character vector. One or more addons. See \code{\link{addon()}}
+for options.}
 
-\item{forceUpdate}{Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.}
+\item{forceUpdate}{Logical. If FALSE (default) user will be prompted to approve 
+any required updates. If TRUE, required updates will be applied silently.}
 
 \item{overwrite}{Logical. If TRUE an existing Library will be overwritten.}
 }
 \value{
-Returns a \code{SsimLibrary} object.
+Returns a \code{\link{SsimLibrary}} object.
 }
 \description{
 Creates or opens a \code{\link{SsimLibrary}} object.
 If summary = TRUE, returns library summary info.
-If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, SsimLibrary object otherwise.
+If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, 
+SsimLibrary object otherwise.
 }
 \details{
 \itemize{
-  \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SsimLibrary}} associated with the Project or Scenario.}
-  \item {If name is NULL: }{Create/open a SsimLibrary in the current working directory with the filename SsimLibrary.ssim.}
-  \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type package in the current working directory.}
-  \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
+  \item {If name is SyncroSim Project or Scenario: }{Returns the 
+         \code{\link{SsimLibrary}} associated with the Project or Scenario.}
+  \item {If name is NULL: }{Create/open a SsimLibrary in the current working 
+         directory with the filename SsimLibrary.ssim.}
+  \item {If name is a string: }{If string is not a valid path treat as filename 
+         in working directory. If no file suffix provided in string then add 
+         .ssim. Attempts to open a library of that name. If library does not 
+         exist creates a library of type package in the current working directory.}
+  \item {If given a name and a package: }{Create/open a library called <name>.ssim. 
+         Returns an error if the library already exists but is a different type 
+         of package.}
 }
 }
 \examples{

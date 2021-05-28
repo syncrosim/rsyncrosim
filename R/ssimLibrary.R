@@ -180,28 +180,39 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'
 #' Creates or opens a \code{\link{SsimLibrary}} object.
 #' If summary = TRUE, returns library summary info.
-#' If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, SsimLibrary object otherwise.
-#'
-#' @export
-#' @details
-#'
-#' \itemize{
-#'   \item {If name is SyncroSim Project or Scenario: }{Returns the \code{\link{SsimLibrary}} associated with the Project or Scenario.}
-#'   \item {If name is NULL: }{Create/open a SsimLibrary in the current working directory with the filename SsimLibrary.ssim.}
-#'   \item {If name is a string: }{If string is not a valid path treat as filename in working directory. If no file suffix provided in string then add .ssim. Attempts to open a library of that name. If library does not exist creates a library of type package in the current working directory.}
-#'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. Returns an error if the library already exists but is a different type of package.}
-#' }
+#' If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, 
+#' SsimLibrary object otherwise.
 #' 
-#' @param name Character string, Project/Scenario/SsimLibrary. The path to a library or SsimObject.
+#' @param name Character string or object of class \code{\link{SsimLibrary}}, 
+#'     \code{\link{Project}} or \code{\link{Scenario}} The path to a library 
+#'     or SsimObject.
 #' @param summary Logical. Default TRUE.
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
-#' @param addon Character or character vector. One or more addons. See addon() for options.
-#' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve any required updates. If TRUE, required updates will be applied silently.
+#' @param addon Character or character vector. One or more addons. See \code{\link{addon()}}
+#'     for options.
+#' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve 
+#'     any required updates. If TRUE, required updates will be applied silently.
 #' @param overwrite Logical. If TRUE an existing Library will be overwritten.
 #' 
 #' @return 
-#' Returns a \code{SsimLibrary} object.
+#' Returns a \code{\link{SsimLibrary}} object.
+#' 
+#' @details
+#'
+#' \itemize{
+#'   \item {If name is SyncroSim Project or Scenario: }{Returns the 
+#'          \code{\link{SsimLibrary}} associated with the Project or Scenario.}
+#'   \item {If name is NULL: }{Create/open a SsimLibrary in the current working 
+#'          directory with the filename SsimLibrary.ssim.}
+#'   \item {If name is a string: }{If string is not a valid path treat as filename 
+#'          in working directory. If no file suffix provided in string then add 
+#'          .ssim. Attempts to open a library of that name. If library does not 
+#'          exist creates a library of type package in the current working directory.}
+#'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. 
+#'          Returns an error if the library already exists but is a different type 
+#'          of package.}
+#' }
 #' 
 #' @examples
 #' \donttest{
