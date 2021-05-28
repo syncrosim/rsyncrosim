@@ -5,12 +5,27 @@ NULL
 
 #' The name of a SsimLibrary, Project or Scenario.
 #'
-#' Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+#' Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' \code{\link{Scenario}}.
 #'
-#' @param ssimObject SsimLibrary, Project, or Scenario.
+#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
+#' or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
 #' Character string: the name of the ssimObject.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' name(myLibrary)
+#' name(myProject)
+#' name(myScenario)
+#' }
 #' 
 #' @export
 setGeneric("name", function(ssimObject) standardGeneric("name"))
@@ -42,15 +57,28 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 
 #' Set ssimObject name.
 #'
-#' Set the name of a \code{\link{SsimLibrary}}, \code{\link{Project}}, or \code{\link{Scenario}}.
+#' Set the name of a \code{\link{SsimLibrary}}, \code{\link{Project}}, or
+#'  \code{\link{Scenario}}.
 #'
-#' @param ssimObject SsimLibrary, Project, or Scenario.
+#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
+#' or \code{\link{SsimLibrary}}.
 #' 
 #' @param value 
 #' The updated ssimObject. 
 #' 
 #' @return 
 #' The updated ssim Object.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myProject <- project(myLibrary)
+#' myScenario <- scenario(myProject)
+#' 
+#' name(myScenario) <- "Scenario Test"
+#' }
 #' 
 #' @export
 setGeneric("name<-", function(ssimObject, value) standardGeneric("name<-"))
