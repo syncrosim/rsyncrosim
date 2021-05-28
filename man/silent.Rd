@@ -20,7 +20,8 @@ or path to a session. If NULL, the default session will be used.}
 Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
 }
 \description{
-Checks whether a SyncroSim \code{\link{Session}} is silent or not.
+Checks whether a SyncroSim \code{\link{Session}} is silent or not. In a silent
+session, warnings from the console are ignored.
 }
 \examples{
 \donttest{
