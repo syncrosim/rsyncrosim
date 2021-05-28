@@ -189,7 +189,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param summary Logical. Default TRUE.
 #' @param package Character. The package type. The default is "stsim".
 #' @param session Session. If NULL, session() will be used.
-#' @param addon Character or character vector. One or more addons. See \code{\link{addon()}}
+#' @param addon Character or character vector. One or more addons. See \code{\link{addon}}
 #'     for options.
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve 
 #'     any required updates. If TRUE, required updates will be applied silently.
