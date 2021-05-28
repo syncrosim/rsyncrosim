@@ -5,7 +5,7 @@
 \alias{projectId,character-method}
 \alias{projectId,Project-method}
 \alias{projectId,Scenario-method}
-\title{The projectId of a SyncroSim Project or Scenario.}
+\title{Retrieves the projectId of a SyncroSim Project or Scenario.}
 \usage{
 projectId(ssimObject)
 
@@ -16,11 +16,24 @@ projectId(ssimObject)
 \S4method{projectId}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{Project or Scenario.}
+\item{ssimObject}{An object of class \code{\link{Scenario}} or \code{\link{Project}}.}
 }
 \value{
 Returns an integer project id.
 }
 \description{
 Retrieves the projectId of a SyncroSim \code{\link{Project}} or \code{\link{Scenario}}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+projectId(myProject)
+projectId(myScenario)
+}
+
 }
