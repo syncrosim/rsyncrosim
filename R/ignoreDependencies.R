@@ -20,7 +20,7 @@ NULL
 #' myProject <- project(myLibrary)
 #' myScenario <- scenario(myProject)
 #' 
-#' idep <- ignoreDependencies(myScenario)
+#' ignoreDependencies(myScenario)
 #' }
 #' 
 #' @export
@@ -42,7 +42,7 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 #' Sets the Ignore Dependencies Datafeed for a \code{\link{Scenario}}.
 #'
 #' @param ssimObject An object of class \code{\link{Scenario}}.
-#' @param value The name of the data
+#' @param value The datafeed names to be ignored, separated by commas.
 #' 
 #' @return 
 #' Returns the updated ssimObject.
@@ -55,7 +55,8 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 #' myProject <- project(myLibrary)
 #' myScenario <- scenario(myProject)
 #' 
-#' ignoreDependencies(myScenario) <- NULL
+#' # IgnoreDependencies is a string of datafeed names separated by commas
+#' ignoreDependencies(myScenario) <- "stsim_RunControl,stsim_TransitionTarget"
 #' }
 #' 
 #' @export

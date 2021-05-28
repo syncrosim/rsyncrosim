@@ -15,7 +15,7 @@ ignoreDependencies(ssimObject) <- value
 \arguments{
 \item{ssimObject}{An object of class \code{\link{Scenario}}.}
 
-\item{value}{The name of the data}
+\item{value}{The datafeed names to be ignored, separated by commas.}
 }
 \value{
 Returns the updated ssimObject.
@@ -31,7 +31,8 @@ myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySessi
 myProject <- project(myLibrary)
 myScenario <- scenario(myProject)
 
-ignoreDependencies(myScenario) <- NULL
+# IgnoreDependencies is a string of datafeed names separated by commas
+ignoreDependencies(myScenario) <- "stsim_RunControl,stsim_TransitionTarget"
 }
 
 }

@@ -29,7 +29,7 @@ myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySessi
 myProject <- project(myLibrary)
 myScenario <- scenario(myProject)
 
-idep <- ignoreDependencies(myScenario)
+ignoreDependencies(myScenario)
 }
 
 }
