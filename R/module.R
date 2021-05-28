@@ -5,7 +5,7 @@ NULL
 
 #' Installed modules
 #'
-#' Deprecated.  See: \code{\link{package}}.
+#' Deprecated, modules are now distributed in Packages, see: \code{\link{package}}.
 #'
 #' @param session \code{\link{Session}}.
 #' 
