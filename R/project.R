@@ -126,20 +126,30 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #'
 #' Creates or retrieves a project or multiple projects from a library.
 #'
+#' @param ssimObject An object of class  \code{\link{Scenario}} or 
+#'     \code{\link{SsimLibrary}}, or a Character string (i.e. A ssimObject 
+#'     containing a filepath to a library, or a filepath)
+#' @param project Character, integer, or vector of these. Names or ids of one or 
+#'     more projects. Note that integer ids are slightly faster.
+#' @param sourceProject Character, integer, or \code{\link{Project}} object. If 
+#'     not `NULL`, new projects will be copies of the sourceProject.
+#' @param summary Logical. If `TRUE` then return the project(s) in a dataframe with 
+#'     the projectId, name, description, owner, dateModified, readOnly. Default 
+#'     is `TRUE` if `project=NULL` and ssimObject is not Scenario/Project, `FALSE` 
+#'     otherwise.
+#' @param forceElements Logical. If TRUE then returns a single project as a named 
+#'     list; otherwise returns a single project as a \code{\link{Project}} object. 
+#'     Applies only when `summary=FALSE`.
+#' @param overwrite Logical. If `TRUE` an existing Project will be overwritten.
+#' 
 #' @details
 #' For each element of project:
 #' \itemize{
 #'   \item {If element identifies an existing project: }{Returns the existing Project}.
 #'   \item {If element identifies more than one project: }{Error}.
-#'   \item {If element does not identify an existing project: }{Creates a new Project named element. Note that SyncroSim automatically assigns an id to a new project.}
+#'   \item {If element does not identify an existing project: }{Creates a new Project 
+#'   named element. Note that SyncroSim automatically assigns an id to a new project.}
 #' }
-#'
-#' @param ssimObject SsimLibrary/Scenario or character. A ssimObject containing a filepath to a library, or a filepath.
-#' @param project Character, integer, or vector of these. Names or ids of one or more projects. Note that integer ids are slightly faster.
-#' @param sourceProject Character, integer, or \code{\link{Project}} object. If not NULL, new projects will be copies of the sourceProject.
-#' @param summary Logical. If TRUE then return the project(s) in a dataframe with the projectId, name, description, owner, dateModified, readOnly. Default is TRUE if project=NULL and ssimObject is not Scenario/Project, FALSE otherwise.
-#' @param forceElements Logical. If TRUE then returns a single project as a named list; otherwise returns a single project as a \code{\link{Project}} object. Applies only when summary=FALSE.
-#' @param overwrite Logical. If TRUE an existing Project will be overwritten.
 #' 
 #' @return 
 #' Returns a \code{Project} object representing a SyncroSim project. If summary is `TRUE`,
