@@ -13,13 +13,27 @@ owner(ssimObject) <- value
 \S4method{owner}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{Scenario, Project, or SsimLibrary.}
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+or \code{\link{SsimLibrary}}.}
 
-\item{value}{The new owner.}
+\item{value}{A character string, the new owner.}
 }
 \value{
 The updated ssimObject.
 }
 \description{
-Set the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}.
+Set the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+\code{\link{Scenario}}.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary)
+myScenario <- scenario(myProject)
+
+owner(myLibrary) <- "Apex RMS"
+}
+
 }
