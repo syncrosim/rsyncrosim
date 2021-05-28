@@ -5,7 +5,7 @@
 \alias{version,character-method}
 \alias{version,missingOrNULL-method}
 \alias{version,Session-method}
-\title{The SyncroSim version}
+\title{Retrieves the SyncroSim version}
 \usage{
 version(session = NULL)
 
@@ -16,11 +16,20 @@ version(session = NULL)
 \S4method{version}{Session}(session = NULL)
 }
 \arguments{
-\item{session}{\code{\link{Session}}.}
+\item{session}{An object of class \code{\link{Session}}.}
 }
 \value{
 A character string e.g. "2.2.13".
 }
 \description{
-The version of a SyncroSim Session.
+Retrieves the version of a SyncroSim Session.
+}
+\examples{
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+
+version(mySession)
+}
+
 }
