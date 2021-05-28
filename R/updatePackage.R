@@ -7,13 +7,23 @@ NULL
 #'
 #' Updates a SyncroSim package.
 #'
-#' @param name Character string.  The name of the package to update.  If NULL, all packages will be updated.
-#' @param session \code{\link{Session}}.
-#' @param listonly Logical.  If TRUE, available updates are listed only.
+#' @param name Character string.  The name of the package to update. 
+#'     If NULL, all packages will be updated.
+#' @param session An object of class \code{\link{Session}}.
+#' @param listonly Logical. If TRUE, available updates are listed only.
 #' 
 #' @return 
 #' This function invisibly returns `TRUE` upon success (i.e.successful update)
 #' and `FALSE` upon failure.
+#' 
+#' @examples 
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' 
+#' updatePackage(name = "stsim", session = mySession, listonly = FALSE)
+#' updatePackage(name = "stsim", session = mySession, listonly = TRUE)
+#' }
 #' 
 #' @export
 setGeneric("updatePackage", function(name = NULL, session = NULL, listonly = FALSE) standardGeneric("updatePackage"))
