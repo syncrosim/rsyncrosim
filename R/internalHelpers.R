@@ -272,7 +272,7 @@ printAndCapture <- function(x) {
 #
 # Note: this function is now internal. Should now only be called from datasheet.
 
-datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh = FALSE) {
+datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh = FALSE, core = FALSE) {
   if (!is(x, "SsimObject")) {
     stop("expecting SsimObject.")
   }
@@ -280,13 +280,17 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   x <- .getFromXProjScn(x, project, scenario)
   
   # Get datasheet dataframe
-  if (!refresh) {
+  if (!refresh & !core) {
     datasheets <- x@datasheetNames
-  } else {
+  } else if (!core) {
     tt <- command(c("list", "datasheets", "csv", paste0("lib=", .filepath(x))), .session(x))
     datasheets <- .dataframeFromSSim(tt, convertToLogical = c("isOutput", "isSingle"))
     datasheets$scope <- sapply(datasheets$scope, camel)
     # TO DO - export this info from SyncroSim
+  } else {
+    tt <- command(c("list", "datasheets", "csv", "includesys", paste0("lib=", .filepath(x))), .session(x))
+    datasheets <- .dataframeFromSSim(tt, convertToLogical = c("isOutput", "isSingle"))
+    datasheets$scope <- sapply(datasheets$scope, camel)
   }
   datasheets$order <- seq(1, nrow(datasheets))
   if (!is.null(scope) && (scope == "all")) {
