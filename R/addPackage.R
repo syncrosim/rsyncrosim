@@ -65,6 +65,7 @@ setMethod("addPackage", signature(session = "Session"), function(name, filepath,
       }
     }
   } else {
+    packages <- package(session)
     if (is.element(name, packages$name)) {
       tt <- (paste0("Package <", name, "> is already installed"))
     } else {
@@ -75,8 +76,6 @@ setMethod("addPackage", signature(session = "Session"), function(name, filepath,
       }
     }
   }
-
-  packages <- package(session)
 
   message(tt)
   return(invisible(success))
