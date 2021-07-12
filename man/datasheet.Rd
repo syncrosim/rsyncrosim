@@ -84,8 +84,9 @@ slightly faster.}
 \code{\link{Scenario}} names, ids or objects. Note that integer ids are 
 slightly faster.}
 
-\item{summary}{\strong{[logical]}. If TRUE returns a dataframe of sheet names 
-and other info. If FALSE returns dataframe or list of dataframes.}
+\item{summary}{\strong{[logical OR character]}. If TRUE returns a dataframe of sheet names 
+and other info. If FALSE returns dataframe or list of dataframes. If "CORE" returns 
+dataframe of sheets names and other info including built-in core SyncroSim datasheets.}
 
 \item{optional}{\strong{[logical]}. If summary=TRUE and optional=TRUE returns 
 only scope, name and displayName. If summary=FALSE and optional=TRUE returns 
@@ -115,8 +116,8 @@ performance.  Ignored if combined with summary, empty, or
 \code{\link{sqlStatement}} flags.}
 }
 \value{
-If summary=TRUE returns a dataframe of datasheet names and other info, 
-otherwise returns a dataframe or list of these.
+If summary=TRUE or summary="CORE" returns a dataframe of datasheet names 
+and other info, otherwise returns a dataframe or list of these.
 }
 \description{
 This function retrieves a SyncroSim datasheet, either by calling the SyncroSim

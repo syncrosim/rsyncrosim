@@ -22,7 +22,7 @@ NULL
 setGeneric("deleteModule", function(name, session = NULL, force = FALSE) standardGeneric("deleteModule"))
 
 #' @rdname deleteModule
-setMethod("removeModule", signature(session = "missingOrNULLOrChar"), function(name, session, force) {
+setMethod("deleteModule", signature(session = "missingOrNULLOrChar"), function(name, session, force) {
   .Deprecated("removePackage")
   stop()
 })

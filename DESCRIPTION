@@ -87,6 +87,7 @@ Collate:
     'print.R'
     'printCmd.R'
     'readOnly.R'
+    'removePackage.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'

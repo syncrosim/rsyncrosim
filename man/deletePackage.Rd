@@ -5,7 +5,7 @@
 \alias{deletePackage,ANY,character-method}
 \alias{deletePackage,ANY,missingOrNULL-method}
 \alias{deletePackage,ANY,Session-method}
-\title{Deletes a package}
+\title{Deletes a package from your SyncroSim installation.}
 \usage{
 deletePackage(name, session = NULL, force = FALSE)
 
@@ -26,16 +26,10 @@ the user.}
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 
 deletion) and `FALSE` upon failure.
+
+#' @seealso 
+\code{\link{removePackage}}
 }
 \description{
-Deletes a package from your SyncroSim installation.
-}
-\examples{
-\donttest{
-temp_dir <- tempdir()
-mySession <- session()
-
-deletePackage("stsim", mySession, force = FALSE)
-}
-
+This function is now deprecated. See: \code{\link{removePackage}}.
 }
