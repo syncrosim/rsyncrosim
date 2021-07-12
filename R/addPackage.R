@@ -21,8 +21,6 @@ NULL
 #' This function will invisibly return `TRUE` upon success (i.e.successful 
 #' install) and `FALSE` upon failure.
 #' 
-#' @seealso \link{addPackageFile}
-#' 
 #' @examples
 #' \donttest{
 #' temp_dir <- tempdir()
@@ -43,7 +41,7 @@ setMethod("addPackage", signature(session = "character"), function(name, filepat
 #' @rdname addPackage
 setMethod("addPackage", signature(session = "missingOrNULL"), function(name, filepath, session) {
   session <- .session()
-  return(addPackage(name, session))
+  return(addPackage(name, filepath, session))
 })
 
 #' @rdname addPackage
