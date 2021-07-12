@@ -25,18 +25,7 @@ This function invisibly returns `TRUE` upon success (i.e.successful
 install) and `FALSE` upon failure.
 }
 \description{
-This function adds a package to SyncroSim from a package file (ends in .ssimpkg).
-The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
-}
-\examples{
-\donttest{
-temp_dir <- tempdir()
-mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-
-addPackageFile(myLibrary, "path/to/package_file.ssimpkg")
-}
-
+This function is now deprecated. See: \code{\link{addPackage}}.
 }
 \seealso{
 \link{addPackage}

@@ -5,8 +5,7 @@ NULL
 
 #' Adds a package to SyncroSim
 #'
-#' This function adds a package to SyncroSim from a package file (ends in .ssimpkg).
-#' The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
+#' This function is now deprecated. See: \code{\link{addPackage}}.
 #'
 #' @param filename Character string.  The path to a SyncroSim package file.
 #' @param session A \code{\link{Session}} object.
@@ -17,46 +16,23 @@ NULL
 #' 
 #' @seealso \link{addPackage}
 #' 
-#' @examples
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' 
-#' addPackageFile(myLibrary, "path/to/package_file.ssimpkg")
-#' }
-#' 
 #' @export
 setGeneric("addPackageFile", function(filename, session = NULL) standardGeneric("addPackageFile"))
 
 #' @rdname addPackageFile
 setMethod("addPackageFile", signature(session = "character"), function(filename, session) {
-  return(SyncroSimNotFound(session))
+  .Deprecated("addPackage")
+  stop()
 })
 
 #' @rdname addPackageFile
 setMethod("addPackageFile", signature(session = "missingOrNULL"), function(filename, session) {
-  session <- .session()
-  return(addPackageFile(filename, session))
+  .Deprecated("addPackage")
+  stop()
 })
 
 #' @rdname addPackageFile
 setMethod("addPackageFile", signature(session = "Session"), function(filename, session) {
-  success <- FALSE
-  
-  if (is.null(filename)) {
-    stop("A file name is required")
-  }
-  
-  if (!file.exists(filename)) {
-    tt <- paste0("Cannot find file: ", filename)
-  } else{
-    tt <- command(args = list(finstall = filename), session, program = "SyncroSim.PackageManager.exe")
-    if (tt == "saved"){
-      success <- TRUE
-      tt <- paste0("Package installed from file <", filename, ">")
-    }
-  }
-  message(tt)
-  return(invisible(success))
+  .Deprecated("addPackage")
+  stop()
 })

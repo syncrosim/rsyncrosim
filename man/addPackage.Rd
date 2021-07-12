@@ -2,21 +2,24 @@
 % Please edit documentation in R/addPackage.R
 \name{addPackage}
 \alias{addPackage}
-\alias{addPackage,ANY,character-method}
-\alias{addPackage,ANY,missingOrNULL-method}
-\alias{addPackage,ANY,Session-method}
+\alias{addPackage,ANY,ANY,character-method}
+\alias{addPackage,ANY,ANY,missingOrNULL-method}
+\alias{addPackage,ANY,ANY,Session-method}
 \title{Adds a package to SyncroSim}
 \usage{
-addPackage(name, session = NULL)
+addPackage(name, filepath = FALSE, session = NULL)
 
-\S4method{addPackage}{ANY,character}(name, session = NULL)
+\S4method{addPackage}{ANY,ANY,character}(name, filepath = FALSE, session = NULL)
 
-\S4method{addPackage}{ANY,missingOrNULL}(name, session = NULL)
+\S4method{addPackage}{ANY,ANY,missingOrNULL}(name, filepath = FALSE, session = NULL)
 
-\S4method{addPackage}{ANY,Session}(name, session = NULL)
+\S4method{addPackage}{ANY,ANY,Session}(name, filepath = FALSE, session = NULL)
 }
 \arguments{
 \item{name}{Character string.  The name of the package to install.}
+
+\item{filepath}{Logical. If set to `TRUE`, the name is interpreted as a
+file path to a local .ssimpkg. Default is `FALSE`.}
 
 \item{session}{A \code{\link{Session}} object.}
 }
@@ -25,9 +28,12 @@ This function will invisibly return `TRUE` upon success (i.e.successful
 install) and `FALSE` upon failure.
 }
 \description{
-This function adds a package to SyncroSim. The function first queries the 
-SyncroSim package server for the package name provided as input. The list of 
-SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
+This function adds a package to SyncroSim. If only the package name is 
+provided as input, the function queries the  SyncroSim package server for 
+the package name provided as input. If a file path is given as input, the 
+function adds a package to SyncroSim from a local package file (ends in 
+.ssimpkg). The list of SyncroSim packages can be found 
+\href{https://syncrosim.com/packages/}{here}.
 }
 \examples{
 \donttest{
@@ -35,7 +41,7 @@ temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
-addPackage(myLibrary, "stsim")
+addPackage("stsim", myLibrary)
 }
 
 }
