@@ -186,7 +186,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     # note deletions must happen before files are written.
     scope <- sheetNames$scope[sheetNames$name == cName]
     if (length(scope) == 0) {
-      sheetNames <- datasheets(x, refresh = TRUE)
+      sheetNames <- datasheets(x, core = TRUE)
       scope <- sheetNames$scope[sheetNames$name == cName]
       if (length(scope) == 0) {
         stop("Name not found in datasheetNames")
