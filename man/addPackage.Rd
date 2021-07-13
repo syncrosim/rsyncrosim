@@ -45,6 +45,3 @@ addPackage("stsim", myLibrary)
 }
 
 }
-\seealso{
-\link{addPackageFile}
-}

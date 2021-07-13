@@ -95,17 +95,18 @@ Currently we do not have any packages installed! Install `helloworldEnhanced` us
 addPackage("helloworldEnhanced")
 ```
 
-To install the package from a `.ssimpkg` file on your local computer rather than installing directly from the server, you can use the `addPackageFile()` function. Instead of using the package name as the argument, the file path to the `.ssimpkg` is used.
+To install the package from a `.ssimpkg` file on your local computer rather than installing directly from the server, you can use the `addPackage()` function with the `filepath` argument set to `TRUE`. Instead of using the package name as the argument, the file path to the `.ssimpkg` is used.
 
 ```{r, warning = FALSE, eval = FALSE}
 # Install helloworldEnhanced using file path to ssimpkg file
-addPackageFile("path/to/helloworldEnhanced.ssimpkg")
+addPackage("path/to/helloworldEnhanced.ssimpkg",
+           filepath = TRUE)
 ```
 
 ```{r, echo = FALSE, results = FALSE, message = FALSE}
-addPackageFile("c:\\Users\\birch\\OneDrive\\Desktop\\install\\helloworldEnhanced.ssimpkg")
+addPackage("c:\\Users\\birch\\OneDrive\\Desktop\\install\\helloworldEnhanced.ssimpkg",
+           filepath = TRUE)
 ```
-
 
 Now `helloworldEnhanced` should now be included in the package list:
 
