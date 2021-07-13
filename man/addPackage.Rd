@@ -39,9 +39,8 @@ function adds a package to SyncroSim from a local package file (ends in
 \donttest{
 temp_dir <- tempdir()
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
-addPackage("stsim", myLibrary)
+addPackage("stsim", session = mySession)
 }
 
 }

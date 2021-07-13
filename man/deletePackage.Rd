@@ -26,10 +26,10 @@ the user.}
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 
 deletion) and `FALSE` upon failure.
-
-#' @seealso 
-\code{\link{removePackage}}
 }
 \description{
 This function is now deprecated. See: \code{\link{removePackage}}.
+}
+\seealso{
+\code{\link{removePackage}}
 }

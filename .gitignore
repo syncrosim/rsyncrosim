@@ -8,6 +8,9 @@ gitIncantations.txt
 *.suo
 *.user
 *.ssim
+*.ssim.input/
+*.ssim.temp/
+*.ssim.output/
 *.tex
 /vignettes/rsyncrosim_tutorial.html
 /vignettes/demoLib.ssim.temp/RSyncroSim

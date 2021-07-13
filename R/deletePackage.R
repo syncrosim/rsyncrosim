@@ -16,7 +16,7 @@ NULL
 #' This function invisibly returns `TRUE` upon success (i.e.successful 
 #' deletion) and `FALSE` upon failure.
 #' 
-#' #' @seealso 
+#' @seealso 
 #' \code{\link{removePackage}}
 #' 
 #' @export

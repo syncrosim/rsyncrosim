@@ -44,7 +44,7 @@ setGeneric("description", function(ssimObject) standardGeneric("description"))
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 #' myProject <- project(myLibrary)
 #' 
-#' description(myProject) <- mydescription
+#' description(myProject) <- "my description"
 #' }
 #' 
 #' @export

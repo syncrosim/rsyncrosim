@@ -21,7 +21,7 @@ removePackage(name, session = NULL, force = FALSE)
 \item{session}{An object of class \code{\link{Session}}.}
 
 \item{force}{Logical. If TRUE, delete without requiring confirmation from 
-the user.}
+the user. Default is FALSE.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful 

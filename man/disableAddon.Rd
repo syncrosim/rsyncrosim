@@ -31,9 +31,9 @@ temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
-enableAddon(myLibrary, c("stsimecodep"))
+enableAddon(myLibrary, c("stsimsf"))
 addon(myLibrary)
-disableAddon(myLibrary, c("stsimecodep"))
+disableAddon(myLibrary, c("stsimsf"))
 addon(myLibrary)
 }
 

@@ -8,7 +8,7 @@ NULL
 #' @param name Character. The name of the package to delete.
 #' @param session An object of class \code{\link{Session}}.
 #' @param force Logical. If TRUE, delete without requiring confirmation from 
-#'     the user.
+#'     the user. Default is FALSE.
 #' 
 #' @return 
 #' This function invisibly returns `TRUE` upon success (i.e.successful 
