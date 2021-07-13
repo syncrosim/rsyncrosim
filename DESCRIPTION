@@ -33,7 +33,8 @@ Imports:
     DBI,
     RSQLite,
     raster,
-    gtools
+    gtools,
+    here
 Suggests:
     knitr,
     testthat,
