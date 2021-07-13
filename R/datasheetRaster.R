@@ -137,7 +137,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   x <- ssimObject
   cSheets <- .datasheets(x)
   if (!is.element(datasheet, cSheets$name)) {
-    cSheets <- .datasheets(x, refresh = TRUE)
+    cSheets <- .datasheets(x, core = TRUE)
   }
   
   # TO DO: make sure datasheet is spatial after opening

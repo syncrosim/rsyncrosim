@@ -33,7 +33,7 @@ setMethod(
       stop("A library name is required.")
     }
 
-    packageOptions <- basePackage(session)
+    packageOptions <- package(session, installed = "BASE")
 
     if (nrow(packageOptions) == 0) {
       stop("No base packages are installed.  Use addPackage() or addPackageFile() to install a package.")
@@ -62,14 +62,14 @@ setMethod(
       }
 
       if (!is.element(package, packageOptions$name)) {
-        stop(paste(package, "not a base package. Use basePackage() to see options."))
+        stop(paste(package, "not a base package. Use package(installed = \"BASE\") to see options."))
       }
       
       pathBits <- strsplit(path, "/")[[1]]
       dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = FALSE)
 
       if (!exists("packageOptions")) {
-        packageOptions <- basePackage(session)
+        packageOptions <- package(session, installed = "BASE")
       }
       args <- list(create = NULL, library = NULL, name = path, package = packageOptions$name[packageOptions$name == package])
       cStatus <- command(args, session)
@@ -132,7 +132,7 @@ setMethod(
       }
 
       if (!exists("packageOptions")) {
-        packageOptions <- basePackage(session)
+        packageOptions <- package(session, installed = "BASE")
       }
       expectedPackage <- packageOptions$name[packageOptions$name == package]
       if (!grepl(expectedPackage, tt$value[tt$property == "Package Name:"])) {
