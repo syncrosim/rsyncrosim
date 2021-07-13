@@ -5,6 +5,8 @@ vignette: >
   %\VignetteIndexEntry{Introduction to `rsyncrosim`}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
 This vignette will cover the basics of using the `rsyncrosim` package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. Specifically, we will cover the following topics:
