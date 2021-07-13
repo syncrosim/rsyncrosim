@@ -15,7 +15,7 @@ development of R-based Syncrosim Packages. This function ends a SyncroSim
 simulation.
 }
 \examples{
-\donttest{
+\dontrun{
 envEndSimulation()
 }
 

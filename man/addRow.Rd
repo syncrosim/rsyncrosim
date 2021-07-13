@@ -32,7 +32,7 @@ assumed to be in same order as dataframe columns.
 }
 \examples{
 
-oldDF <- as.data.frame(mtcars)
-newDF <- addRow(oldDF, list(mpg = 100, wt = 10))
+oldDataframe <- as.data.frame(mtcars)
+newDataframe <- addRow(oldDataframe, list(mpg = 100, wt = 10))
 
 }

@@ -1,10 +1,10 @@
 ---
-title: "Introduction to `rsyncrosim`"
+title: "Introduction to `ST-Sim` in `rsyncrosim`"
 author: "Colin Daniel, ApexRMS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{introduction to rsyncrosim}
+  %\VignetteIndexEntry{Introduction to `ST-Sim` in `rsyncrosim`}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 params:

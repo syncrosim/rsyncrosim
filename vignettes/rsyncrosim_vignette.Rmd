@@ -1,8 +1,8 @@
 ---
-title: "Introduction to rsyncrosim"
+title: "Introduction to `rsyncrosim`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to rsyncrosim}
+  %\VignetteIndexEntry{Introduction to `rsyncrosim`}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -65,6 +65,7 @@ In a new R script, load the necessary packages. This includes the `rsyncrosim`, 
 # Load R packages
 library(rsyncrosim)  # package for working with SyncroSim
 library(raster)      # package for working with raster data
+library(here)        # package for setting relative paths
 ```
 
 ### Installing SyncroSim packages using `addPackage()`
@@ -78,8 +79,8 @@ if (is.element("epi", package()$name)) removePackage("epi", force = TRUE)
 if (is.element("helloworld", package()$name)) removePackage("helloworld", force = TRUE)
 if (is.element("helloworldEnhanced", package()$name)) removePackage("helloworldEnhanced", force = TRUE)
 if (is.element("landfirevegmodels", package()$name)) removePackage("landfirevegmodels", force = TRUE)
-if (is.element("stsim", package()$name)) removePackage("stsim", force = TRUE)
-if (is.element("stsimsf", package()$name)) removePackage("stsimsf", force = TRUE)
+# if (is.element("stsim", package()$name)) removePackage("stsim", force = TRUE)
+# if (is.element("stsimsf", package()$name)) removePackage("stsimsf", force = TRUE)
 ```
 
 
@@ -88,9 +89,9 @@ if (is.element("stsimsf", package()$name)) removePackage("stsimsf", force = TRUE
 package()
 ```
 
-Currently we do not have any packages installed! Install `helloworldEnhanced` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Currently we do not have the `helloworldEnhanced` package installed! Install `helloworldEnhanced` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
-```{r add package from server, warning = FALSE, eval = FALSE}
+```{r add package from server, warning = FALSE}
 # Install helloworldEnhanced
 addPackage("helloworldEnhanced")
 ```
@@ -100,11 +101,6 @@ To install the package from a `.ssimpkg` file on your local computer rather than
 ```{r add package from path not run, warning = FALSE, eval = FALSE}
 # Install helloworldEnhanced using file path to ssimpkg file
 addPackage("path/to/helloworldEnhanced.ssimpkg",
-           filepath = TRUE)
-```
-
-```{r add package from path run, echo = FALSE, results = FALSE, message = FALSE}
-addPackage("c:\\Users\\birch\\OneDrive\\Desktop\\install\\helloworldEnhanced.ssimpkg",
            filepath = TRUE)
 ```
 
@@ -156,7 +152,7 @@ These objects are hierarchical, such that a Library can contain many projects, a
 
 A SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a> is a file (with `.ssim` extension) that stores all of your model inputs and outputs. The format of each SyncroSim Library is unique to the SyncroSim Package with which it is associated. We use the `ssimLibrary()` function to create a new SsimLibrary object in R that is connected (through your Session) to a SyncroSim Library file. We can also use the `ssimLibrary()` function to open an existing Library. Note that if you want to create a new Library file with an existing Library name rather than opening the existing Library, you can use `overwrite=TRUE` for the `ssimLibrary()` function.
 
-```{r create library, warning = FALSE}
+```{r create library, warning = FALSE, results = FALSE}
 # Create a new library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
@@ -170,7 +166,7 @@ myLibrary
 
 Each SyncroSim Library contains one or more SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a>, each represented by a Project object in R. Projects typically store model inputs that are common to all your scenarios. In most situations you will need only a single Project for your Library; by default each new Library starts with a single Project named "Definitions" (with a unique `projectId`= 1). The `project()` function is used to both create and retrieve Projects. Note that the `ssimObject` here can be the name of a Library or Scenario.
 
-```{r open project, warning = FALSE}
+```{r open project, warning = FALSE, results = FALSE}
 # Open existing project
 myProject = project(ssimObject = myLibrary, project = "Definitions")  # Using name for Project
 myProject = project(ssimObject = myLibrary, project = 1)              # Using projectId for Project
@@ -184,7 +180,7 @@ myProject
 
 Finally, each SyncroSim Project contains one or more <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a>, each represented by a Scenario object in R. Scenarios store the specific model inputs and outputs associated with each model run in SyncroSim. Scenarios can contain multiple models connected by a series of Pipelines, such that the output of one model becomes the input of the next. Each Scenario can be identified by its unique `scenarioId`. The `scenario()` function is used to both create and retrieve Scenarios. Note that the `ssimObject` here can be the name of a Library or a Project.
 
-```{r create scenario, warning = FALSE}
+```{r create scenario, warning = FALSE, results = FALSE}
 # Create a new scenario (associated with the default Project)
 myScenario = scenario(ssimObject = myProject, scenario = "My first scenario")
 
@@ -247,11 +243,11 @@ myInputDataframe <- addRow(myInputDataframe, myInputRow)
 myInputDataframe
 ```
 
-```{r add input data run, warning = FALSE, echo = FALSE}
+```{r add input data run, warning = FALSE, echo = FALSE, results = FALSE}
 # Create input data and add it to the input data frame
 myInputDataframe <- data.frame(
   mMean = 0, mSD = 4,
-  InterceptRasterFileName = "C:\\gitprojects\\helloworldEnhanced\\step5_Spatial\\input-raster.tif")
+  InterceptRasterFileName = here("vignettes", "input-raster.tif"))
 ```
 
 ### Saving modifications to Datasheets using `saveDatasheet()`
@@ -373,7 +369,7 @@ myNewInputDataframe
 # Create input data and add it to the input data frame
 myNewInputDataframe <- data.frame(
   mMean = 2, mSD = 8,
-  InterceptRasterFileName = "C:\\gitprojects\\helloworldEnhanced\\step5_Spatial\\input-raster.tif")
+  InterceptRasterFileName = here("vignettes", "input-raster.tif"))
 ```
 
 Finally, we will save the updated data frame to a SyncroSim Datasheet using `saveDatasheet()`.
@@ -388,31 +384,11 @@ saveDatasheet(ssimObject = myNewScenario, data = myNewInputDataframe,
 
 ### Setting run parameters with `run()`
 
-We will now run our scenarios using the `run()` function in `rsyncrosim`, starting with the first scenario we created ("My first scenario").
+We will now run our scenarios using the `run()` function in `rsyncrosim`, starting with the first scenario we created ("My first scenario"). If we have a large model and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than 1.
 
 ```{r run first scenario, warning = FALSE}
 # Run the first scenario we created
-myResultScenario <- run(myScenario)
-
-# Check class of myResultScenario
-class(myResultScenario)
-```
-
-If we have a large model and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than 1.
-
-```{r run with multiprocessing, warning = FALSE}
-# Set jobs > 1 for multiprocessing 
-myResultsScenario <- run(myScenario, jobs = 6)
-```
-
-Another useful argument of the `run()` function is `summary`. When set to `TRUE` it will return results scenario IDs rather than results scenario objects. By default, it is set to `FALSE`.
-
-```{r run with summary, warning = FALSE}
-# Run the first scenario we created with summary = TRUE
-myResultScenario <- run(myScenario, summary = TRUE)
-
-# Check class of myResultScenario
-class(myResultScenario)
+myResultScenario <- run(myScenario, jobs = 6)
 ```
 
 We can also tell SyncroSim to run all the scenarios in our project at once. Instead of passing a single scenario to the `run()` function, we will tell `run()` which project to use and include a vector of scenarios.
@@ -429,8 +405,8 @@ myResultScenarioAll <- run(myProject,
 For more information use the `runLog()` function, in which the only argument is the result scenario variable.
 
 ```{r get run log, warning = FALSE}
-# Get run details for each of our result scenarios
-runLog(myResultScenarioAll[[1]])
+# Get run details for the first result scenario
+runLog(myResultScenario)
 ```
 
 
@@ -442,21 +418,33 @@ runLog(myResultScenarioAll[[1]])
 The next step is to view the result scenarios. We can load the result tables using the `datasheet()` function.
 
 
-```{r view results datasheets, warning = FALSE}
+```{r view results datasheets, warning = FALSE, results = FALSE}
 # Results of first scenario, first model of first model in Pipeline
-resultsSummary <- datasheet(myResultScenarioAll[[1]],
+resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldEnhanced_IntermediateDatasheet")
 
 # View results table of first model in Pipeline
 head(resultsSummary)
+```
 
+```{r resultsSummary cleaned, echo = FALSE}
+resultsSummary$InterceptRasterFileName <- sub(
+  ".*\\\\", "", resultsSummary$InterceptRasterFileName
+  )
+
+head(resultsSummary)
+```
+
+```{r view results summary 2, warning = FALSE}
 # Results of first scenario, second model in Pipeline
-resultsSummary2 <- datasheet(myResultScenarioAll[[1]],
+resultsSummary2 <- datasheet(myResultScenario,
                              name = "helloworldEnhanced_OutputDatasheet")
 
 # View results table of second model in Pipeline
 head(resultsSummary2)
 ```
+
+
 
 ### Viewing spatial results with `datasheetRaster()`
 
@@ -495,9 +483,18 @@ parentId(myResultScenarioAll[[2]])
 
 Retrieve library information:
   
-```{r library metadata, warning = FALSE}
+```{r library metadata, warning = FALSE, eval = FALSE}
 info(myLibrary)
 ```
+
+```{r, echo = FALSE}
+libInfo <- info(myLibrary)
+libInfo$value[10:13] <- sub(
+  ".*\\\\", "", libInfo$value[10:13]
+  )
+libInfo
+```
+
 
 ### Getting information of any ssimObject
 

@@ -19,8 +19,8 @@ NULL
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' mergeDependencies(myScenario)
 #' }
@@ -60,8 +60,8 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' mergeDependencies(myScenario) <- TRUE
 #' }
