@@ -15,5 +15,5 @@ addModule(filename, session = NULL)
 \item{session}{Session.}
 }
 \description{
-This function is deprecated.  See \code{\link{addPackage}} and \code{\link{addPackageFile}}.
+This function is deprecated.  See \code{\link{addPackage}}.
 }

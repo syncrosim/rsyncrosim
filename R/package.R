@@ -66,12 +66,12 @@ setMethod("package", signature(ssimObject = "Session"), function(ssimObject, ins
     } else if (grepl("The remote name could not be resolved", tt[1])) {
       out <- "Could not connect to the package server."
     } else {
-      out <- .dataframeFromSSim(tt, colNames = c("name", "displayName", "version"), csv = FALSE)
+      out <- .dataframeFromSSim(tt, colNames = c("name", "description", "version"), csv = FALSE)
     }
     return(out)
   } else {
     tt <- command(c("list", arg, "csv"), ssimObject)
-    out <- .dataframeFromSSim(tt, colNames = c("name", "displayName", "version"))
+    out <- .dataframeFromSSim(tt, localNames = TRUE, csv = FALSE)
     return(out)
   }
 })

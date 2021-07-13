@@ -5,7 +5,7 @@ NULL
 
 #' Add module
 #'
-#' This function is deprecated.  See \code{\link{addPackage}} and \code{\link{addPackageFile}}.
+#' This function is deprecated.  See \code{\link{addPackage}}.
 #'
 #' @param filename Character string or vector of these. The path to an .ssimpkg file on disk, or a vector of filepaths.
 #' @param session Session.
@@ -14,6 +14,6 @@ setGeneric("addModule", function(filename, session = NULL) standardGeneric("addM
 
 #' @rdname addModule
 setMethod("addModule", signature(filename = "character"), function(filename, session) {
-  .Deprecated("addPackage or addPackageFile")
+  .Deprecated("addPackage")
   stop()
 })
