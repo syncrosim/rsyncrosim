@@ -75,12 +75,13 @@ library(here)        # package for setting relative paths
 Check if the <a href="https://github.com/ApexRMS/helloworldEnhanced" target="_blank">helloworldEnhanced</a> package is already installed. Use the `package()` function from `rsyncrosim` to first get a list of all currently installed packages in SyncroSim.
 
 ```{r delete SyncroSim packages, echo = FALSE, results = FALSE, message = FALSE}
-if (is.element("demosales", package()$name)) removePackage("demosales", force = TRUE)
-if (is.element("dgsim", package()$name)) removePackage("dgsim", force = TRUE)
-if (is.element("epi", package()$name)) removePackage("epi", force = TRUE)
-if (is.element("helloworld", package()$name)) removePackage("helloworld", force = TRUE)
-if (is.element("helloworldEnhanced", package()$name)) removePackage("helloworldEnhanced", force = TRUE)
-if (is.element("landfirevegmodels", package()$name)) removePackage("landfirevegmodels", force = TRUE)
+package() <- installedPackages
+if (is.element("demosales", installedPackages$name)) removePackage("demosales", force = TRUE)
+if (is.element("dgsim", installedPackages$name)) removePackage("dgsim", force = TRUE)
+if (is.element("epi", installedPackages$name)) removePackage("epi", force = TRUE)
+if (is.element("helloworld", installedPackages$name)) removePackage("helloworld", force = TRUE)
+if (is.element("helloworldEnhanced", installedPackages$name)) removePackage("helloworldEnhanced", force = TRUE)
+if (is.element("landfirevegmodels", installedPackages$name)) removePackage("landfirevegmodels", force = TRUE)
 # if (is.element("stsim", package()$name)) removePackage("stsim", force = TRUE)
 # if (is.element("stsimsf", package()$name)) removePackage("stsimsf", force = TRUE)
 ```
