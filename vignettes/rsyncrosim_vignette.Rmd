@@ -75,7 +75,7 @@ library(here)        # package for setting relative paths
 Check if the <a href="https://github.com/ApexRMS/helloworldEnhanced" target="_blank">helloworldEnhanced</a> package is already installed. Use the `package()` function from `rsyncrosim` to first get a list of all currently installed packages in SyncroSim.
 
 ```{r delete SyncroSim packages, echo = FALSE, results = FALSE, message = FALSE}
-package() <- installedPackages
+installedPackages <- package()
 if (is.element("demosales", installedPackages$name)) removePackage("demosales", force = TRUE)
 if (is.element("dgsim", installedPackages$name)) removePackage("dgsim", force = TRUE)
 if (is.element("epi", installedPackages$name)) removePackage("epi", force = TRUE)
