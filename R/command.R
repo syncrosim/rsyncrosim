@@ -41,6 +41,9 @@ NULL
 #' command(c("create", "help"))
 #' command("--create --help")
 #' command(list(create = NULL, help = NULL))
+#' 
+#' # Call on a different program to find all installed packages
+#' command(list(installed = NULL), program = "SyncroSim.PackageManager.exe")
 #' }
 #' @export
 command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE) {

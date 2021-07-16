@@ -14,7 +14,7 @@ NULL
 #' @param aggregate Character string of vector of these. Vector of variables 
 #'     (column names) to aggregate using aggregateFunction.
 #' @param aggregateFunction Character string. An SQL aggregate function 
-#'     (e.g. SUM, COUNT).
+#'     (e.g. SUM, COUNT). Default is "SUM".
 #' @param where Named list. A list of subset variables. Names are column names, 
 #'     and elements are the values to be selected from each column.
 #'

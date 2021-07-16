@@ -12,9 +12,8 @@ NULL
 #' .ssimpkg). The list of SyncroSim packages can be found 
 #' \href{https://syncrosim.com/packages/}{here}.
 #'
-#' @param name Character string.  The name of the package to install.
-#' @param filepath Logical. If set to `TRUE`, the name is interpreted as a
-#' file path to a local .ssimpkg. Default is `FALSE`.
+#' @param name Character string.  The name or file path of the package to 
+#' install.
 #' @param session A \code{\link{Session}} object.
 #' 
 #' @return 
@@ -26,32 +25,40 @@ NULL
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' 
+#' # Add package from the package server
 #' addPackage("stsim", session = mySession)
+#' }
+#' \dontrun{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' 
+#' # Add package using a local file path
+#' addPackage("c:/path/to/stsim.ssimpkg")
 #' }
 #' 
 #' @export
-setGeneric("addPackage", function(name, filepath = FALSE, session = NULL) standardGeneric("addPackage"))
+setGeneric("addPackage", function(name, session = NULL) standardGeneric("addPackage"))
 
 #' @rdname addPackage
-setMethod("addPackage", signature(session = "character"), function(name, filepath, session) {
+setMethod("addPackage", signature(session = "character"), function(name, session) {
   return(SyncroSimNotFound(session))
 })
 
 #' @rdname addPackage
-setMethod("addPackage", signature(session = "missingOrNULL"), function(name, filepath, session) {
+setMethod("addPackage", signature(session = "missingOrNULL"), function(name, session) {
   session <- .session()
-  return(addPackage(name, filepath, session))
+  return(addPackage(name, session))
 })
 
 #' @rdname addPackage
-setMethod("addPackage", signature(session = "Session"), function(name, filepath, session) {
+setMethod("addPackage", signature(session = "Session"), function(name, session) {
   success <- FALSE
   
   if (is.null(name)) {
     stop("A package name or file path is required")
   }
   
-  if (filepath == TRUE) {
+  if (grepl(".ssimpkg", name)) {
     if (!file.exists(name)) {
       tt <- paste0("Cannot find file: ", name)
     } else{

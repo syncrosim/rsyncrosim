@@ -20,6 +20,7 @@ NULL
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
+#' # Lists the datafeeds to ignore
 #' ignoreDependencies(myScenario)
 #' }
 #' 

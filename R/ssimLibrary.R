@@ -276,7 +276,8 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
 #'                          session = mySession,
 #'                          package = "helloworldEnhanced",
-#'                          template = "example-library")
+#'                          template = "example-library",
+#'                          overwrite = TRUE)
 #' }
 #' 
 #' @export

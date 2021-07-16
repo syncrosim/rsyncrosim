@@ -65,9 +65,12 @@ NULL
 #' 
 #' @examples 
 #' \donttest{
+#' addPackage("helloworldEnhanced")
 #' temp_dir <- tempdir()
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+#'                          session = mySession, package = "helloworldEnhanced",
+#'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
@@ -78,7 +81,7 @@ NULL
 #' myDatasheet <- datasheet(myScenario, name = "RunControl")
 #' 
 #' # Modify datasheet
-#' myDatasheet$MinimumTimestep <- 1
+#' myDatasheet$MaximumTimestep <- 10
 #' 
 #' # Save datasheet
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")

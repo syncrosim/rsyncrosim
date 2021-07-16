@@ -73,7 +73,7 @@ NULL
 #'     summary=TRUE.
 #' @param fastQuery \strong{[logical}].  If TRUE, the request is optimized for 
 #'     performance.  Ignored if combined with summary, empty, or 
-#'     \code{\link{sqlStatement}} flags.
+#'     \code{\link{sqlStatement}} flags. Default is FALSE.
 #' 
 #' @return 
 #' If summary=TRUE or summary="CORE" returns a dataframe of datasheet names 
@@ -82,17 +82,62 @@ NULL
 #'
 #' @examples 
 #' \donttest{
+#' addPackage("helloworldEnhanced")
 #' temp_dir <- tempdir()
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+#'                          session = mySession, package = "helloworldEnhanced",
+#'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' # Get all datasheet info
 #' myDatasheets <- datasheet(myScenario)
 #' 
+#' # can get same info using project and scenario arguments
+#' myDatasheets <- datasheet(myLibrary, project = myProject,
+#'                           scenario = myScenario)
+#' 
+#' # Return a list of dataframes (1 for each datasheet)
+#' myDatasheetList <- datasheet(myScenario, summary = FALSE)
+#' 
 #' # Get a specific datasheet
 #' myDatasheet <- datasheet(myScenario, name = "RunControl")
+#' 
+#' # Include primary key when retrieving a datasheet
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", includeKey = TRUE)
+#' 
+#' # Return all columns, including optional
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", optional = TRUE)
+#' 
+#' # Return datasheet as an element
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
+#' myDatasheet$helloworldEnhanced_RunControl
+#' 
+#' # Get a datasheet without pre-specified values
+#' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)
+#' 
+#' # If datasheet is empty, do not return dependencies as factors
+#' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE,
+#'                               lookupsAsFactors = FALSE)
+#'                               
+#' # Optimize query
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
+#' 
+#' # Get all Library core datasheet info
+#' myDatasheets <- datasheet(myLibrary, summary = "CORE")
+#' 
+#' # Get specific Library core datasheet
+#' myDatasheet <- datasheet(myLibrary, name = "core_Backup", summary = "CORE")
+#' 
+#' # Use an SQL statement to query a datasheet
+#' mySQL <- sqlStatement(
+#'   groupBy = c("ScenarioID"),
+#'   aggregate = c("MinimumTimestep"),
+#'   where = list(MinimumTimestep = c(1))
+#' )
+#' myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
+#'                                    sqlStatement = mySQL)
 #' }
 #' 
 #' @export
@@ -154,7 +199,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     }
   }
   # now have valid pid/sid vectors and x is library.
-  
   if (!is.null(name)) {
     for (i in seq_along(name)) {
       n <- name[i]
@@ -224,7 +268,10 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   }
   
   # now assume we have one or more names
-  if (is.null(name)) {
+  if (is.null(name) & summary == FALSE) {
+    sumInfo <- .datasheets(x, project[[1]], scenario[[1]])
+    allNames <- sumInfo$name
+  } else if (is.null(name) & !summary == FALSE) {
     stop("Something is wrong in datasheet().")
   }
   

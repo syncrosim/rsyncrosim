@@ -21,13 +21,21 @@ NULL
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' 
+#' # List all installed packages
 #' package(mySession)
+#' 
+#' # List all the installed base packages
+#' package(installed = "BASE")
+#' 
+#' # List all available packages on the server (including currently installed)
+#' package(installed = FALSE)
 #' }
 #' \donttest{
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 #' 
+#' # Check the package you're Library is currently using
 #' package(myLibrary)
 #' }
 #' 
