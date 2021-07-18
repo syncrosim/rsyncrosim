@@ -270,6 +270,11 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' filepath(myLibrary)
 #' info(myLibrary)
 #' 
+#' # Load a library with add on
+#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
+#'                          overwrite = TRUE, package = "stsim",
+#'                          addon = "stsimsf")
+#' 
 #' # Create library from template
 #' addPackage("helloworldEnhanced")
 #' mySession <- session()

@@ -85,6 +85,34 @@ NULL
 #' 
 #' # Save datasheet
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")
+#' 
+#' # Append to a datasheet rather than overwriting
+#' myDatasheet$MaximumTimestep <- 5
+#' 
+#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#'               append = TRUE)
+#'           
+#' # Import data after saving
+#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#'               import = TRUE)
+#'         
+#' # Save the new datasheet to a specified output path
+#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#'               path = temp_dir)
+#'               
+#' # Save a raster stack using fileData
+#' # Create a raster stack - add as many raster files as you want here
+#' map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
+#'                         column = "InterceptRasterFile")
+#' inRasters <- raster::stack(map1)
+#' 
+#' # Change the name of the rasters in the input datasheet to match the stack
+#' inSheet <- datasheet(myScenario, name="InputDatasheet")
+#' inSheet[1,"InterceptRasterFile"] <- names(inRasters)[1]
+#' 
+#' # Save the raster stack to the input datasheet
+#' saveDatasheet(myScenario, data=inSheet, name="InputDatasheet", 
+#'               fileData=inRasters)
 #' }
 #' 
 #' @export
