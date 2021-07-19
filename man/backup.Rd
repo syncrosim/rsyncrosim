@@ -29,7 +29,8 @@ and is called libraryName.backup
 \donttest{
 temp_dir <- tempdir()
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+                         session = mySession)
 
 backup(myLibrary)
 }

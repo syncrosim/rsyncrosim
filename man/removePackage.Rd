@@ -16,11 +16,11 @@ removePackage(name, session = NULL, force = FALSE)
 \S4method{removePackage}{ANY,Session}(name, session = NULL, force = FALSE)
 }
 \arguments{
-\item{name}{Character. The name of the package to delete.}
+\item{name}{Character. The name of the package to remove}
 
 \item{session}{An object of class \code{\link{Session}}.}
 
-\item{force}{Logical. If TRUE, delete without requiring confirmation from 
+\item{force}{Logical. If TRUE, remove without requiring confirmation from 
 the user. Default is FALSE.}
 }
 \value{

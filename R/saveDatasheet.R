@@ -260,7 +260,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       if (is.null(itemNames) || is.na(itemNames) || (length(itemNames) == 0)) {
         stop("names(fileData) must be defined, and each element must correspond uniquely to an entry in data")
       }
-
+    
       sheetInfo <- subset(datasheet(x, summary = TRUE, optional = TRUE), name == cName)
       fileDir <- .filepath(x)
       if (sheetInfo$isOutput) {

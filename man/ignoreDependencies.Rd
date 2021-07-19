@@ -29,6 +29,7 @@ myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySessi
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Lists the datafeeds to ignore
 ignoreDependencies(myScenario)
 }
 

@@ -22,16 +22,19 @@ Returns a character string: the run log for a result scenario.
 Retrieves the run log of a result Scenario.
 }
 \examples{
-\donttest{
+\dontrun{
+addPackage("helloworldEnhanced")
 temp_dir <- tempdir()
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+                         session = mySession, package = "helloworldEnhanced",
+                         template = "example-library")
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
-# Note: the scenario must be a result scenario. This example only shows the 
-# how to use the function with a Scenario object.
-runLog(myScenario)
+resultScenario <- run(myScenario)
+
+runLog(resultScenario)
 }
 
 }

@@ -108,7 +108,8 @@ NULL
 #' myDatasheet <- datasheet(myScenario, name = "RunControl", includeKey = TRUE)
 #' 
 #' # Return all columns, including optional
-#' myDatasheet <- datasheet(myScenario, name = "RunControl", optional = TRUE)
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE, 
+#'                          optional = TRUE)
 #' 
 #' # Return datasheet as an element
 #' myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
@@ -275,7 +276,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     stop("Something is wrong in datasheet().")
   }
   
-  if (summary == TRUE | summary == "CORE_SUMMARY" & !optional) {
+  if ((summary == TRUE | summary == "CORE_SUMMARY") & !optional) {
     sumInfo <- subset(sumInfo, select = c("scope", "name", "displayName", "order"))
     sumInfo[order(sumInfo$order), ]
     sumInfo$order <- NULL

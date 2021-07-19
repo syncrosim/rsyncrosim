@@ -98,13 +98,19 @@ session(myLibrary)
 filepath(myLibrary)
 info(myLibrary)
 
+# Load a library with add on
+myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
+                         overwrite = TRUE, package = "stsim",
+                         addon = "stsimsf")
+
 # Create library from template
 addPackage("helloworldEnhanced")
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,
                          package = "helloworldEnhanced",
-                         template = "example-library")
+                         template = "example-library",
+                         overwrite = TRUE)
 }
 
 }

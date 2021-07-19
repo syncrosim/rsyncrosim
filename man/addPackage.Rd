@@ -2,24 +2,22 @@
 % Please edit documentation in R/addPackage.R
 \name{addPackage}
 \alias{addPackage}
-\alias{addPackage,ANY,ANY,character-method}
-\alias{addPackage,ANY,ANY,missingOrNULL-method}
-\alias{addPackage,ANY,ANY,Session-method}
+\alias{addPackage,ANY,character-method}
+\alias{addPackage,ANY,missingOrNULL-method}
+\alias{addPackage,ANY,Session-method}
 \title{Adds a package to SyncroSim}
 \usage{
-addPackage(name, filepath = FALSE, session = NULL)
+addPackage(name, session = NULL)
 
-\S4method{addPackage}{ANY,ANY,character}(name, filepath = FALSE, session = NULL)
+\S4method{addPackage}{ANY,character}(name, session = NULL)
 
-\S4method{addPackage}{ANY,ANY,missingOrNULL}(name, filepath = FALSE, session = NULL)
+\S4method{addPackage}{ANY,missingOrNULL}(name, session = NULL)
 
-\S4method{addPackage}{ANY,ANY,Session}(name, filepath = FALSE, session = NULL)
+\S4method{addPackage}{ANY,Session}(name, session = NULL)
 }
 \arguments{
-\item{name}{Character string.  The name of the package to install.}
-
-\item{filepath}{Logical. If set to `TRUE`, the name is interpreted as a
-file path to a local .ssimpkg. Default is `FALSE`.}
+\item{name}{Character string.  The name or file path of the package to 
+install.}
 
 \item{session}{A \code{\link{Session}} object.}
 }
@@ -40,7 +38,15 @@ function adds a package to SyncroSim from a local package file (ends in
 temp_dir <- tempdir()
 mySession <- session()
 
+# Add package from the package server
 addPackage("stsim", session = mySession)
+}
+\dontrun{
+temp_dir <- tempdir()
+mySession <- session()
+
+# Add package using a local file path
+addPackage("c:/path/to/stsim.ssimpkg")
 }
 
 }

@@ -113,7 +113,7 @@ summary=TRUE.}
 
 \item{fastQuery}{\strong{[logical}].  If TRUE, the request is optimized for 
 performance.  Ignored if combined with summary, empty, or 
-\code{\link{sqlStatement}} flags.}
+\code{\link{sqlStatement}} flags. Default is FALSE.}
 }
 \value{
 If summary=TRUE or summary="CORE" returns a dataframe of datasheet names 
@@ -155,17 +155,63 @@ Otherwise, for each element in name a datasheet is returned as follows:
 }
 \examples{
 \donttest{
+addPackage("helloworldEnhanced")
 temp_dir <- tempdir()
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+                         session = mySession, package = "helloworldEnhanced",
+                         template = "example-library")
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
 # Get all datasheet info
 myDatasheets <- datasheet(myScenario)
 
+# can get same info using project and scenario arguments
+myDatasheets <- datasheet(myLibrary, project = myProject,
+                          scenario = myScenario)
+
+# Return a list of dataframes (1 for each datasheet)
+myDatasheetList <- datasheet(myScenario, summary = FALSE)
+
 # Get a specific datasheet
 myDatasheet <- datasheet(myScenario, name = "RunControl")
+
+# Include primary key when retrieving a datasheet
+myDatasheet <- datasheet(myScenario, name = "RunControl", includeKey = TRUE)
+
+# Return all columns, including optional
+myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE, 
+                         optional = TRUE)
+
+# Return datasheet as an element
+myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
+myDatasheet$helloworldEnhanced_RunControl
+
+# Get a datasheet without pre-specified values
+myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)
+
+# If datasheet is empty, do not return dependencies as factors
+myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE,
+                              lookupsAsFactors = FALSE)
+                              
+# Optimize query
+myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
+
+# Get all Library core datasheet info
+myDatasheets <- datasheet(myLibrary, summary = "CORE")
+
+# Get specific Library core datasheet
+myDatasheet <- datasheet(myLibrary, name = "core_Backup", summary = "CORE")
+
+# Use an SQL statement to query a datasheet
+mySQL <- sqlStatement(
+  groupBy = c("ScenarioID"),
+  aggregate = c("MinimumTimestep"),
+  where = list(MinimumTimestep = c(1))
+)
+myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
+                                   sqlStatement = mySQL)
 }
 
 }
