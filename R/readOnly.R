@@ -8,7 +8,7 @@ NULL
 #' Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
 #' \code{\link{Scenario}} is read-only is read-only.
 #'
-#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
+#' @param ssimObject An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
 #' or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
