@@ -19,7 +19,7 @@ readOnly(ssimObject)
 \S4method{readOnly}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
 or \code{\link{SsimLibrary}}.}
 }
 \value{

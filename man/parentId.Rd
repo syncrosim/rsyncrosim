@@ -4,8 +4,7 @@
 \alias{parentId}
 \alias{parentId,character-method}
 \alias{parentId,Scenario-method}
-\title{Retrieves The parent scenario id of a SyncroSim Scenario.
-Retrieves the id of the parent of a SyncroSim results scenario.}
+\title{Retrieves The parent scenario id of a SyncroSim Scenario.}
 \usage{
 parentId(scenario)
 
@@ -21,7 +20,6 @@ An integer id of the parent scenario. If the input scenario does not have a
 parent, the function returns `NA`.
 }
 \description{
-Retrieves The parent scenario id of a SyncroSim Scenario.
 Retrieves the id of the parent of a SyncroSim results scenario.
 }
 \examples{

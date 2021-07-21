@@ -267,6 +267,7 @@ printAndCapture <- function(x) {
 # @param scenario Scenario name or id. Ignored if x is a Scenario.
 # @param scope "scenario","project", "library", "all", or NULL.
 # @param refresh If FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call (slower).
+# @param core if FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call and include core datasheets.
 # @return A dataframe of datasheet names.
 # @examples
 #
@@ -319,6 +320,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 
 .getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = TRUE) {
   # If x is scenario, ignore project and scenario arguments
+  browser()
   Freq <- NULL
   if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")

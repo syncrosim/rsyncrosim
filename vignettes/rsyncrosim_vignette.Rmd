@@ -102,8 +102,7 @@ To install the package from a `.ssimpkg` file on your local computer rather than
 
 ```{r add package from path not run, warning = FALSE, eval = FALSE}
 # Install helloworldEnhanced using file path to ssimpkg file
-addPackage("path/to/helloworldEnhanced.ssimpkg",
-           filepath = TRUE)
+addPackage("path/to/helloworldEnhanced.ssimpkg")
 ```
 
 Now `helloworldEnhanced` should now be included in the package list:

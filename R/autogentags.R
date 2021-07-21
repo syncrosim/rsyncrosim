@@ -13,7 +13,7 @@ NULL
 #' Returns the Auto Generation Tags.
 #' 
 #' @examples  
-#' \donttest {
+#' \donttest{
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),

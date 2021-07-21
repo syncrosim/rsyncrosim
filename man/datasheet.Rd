@@ -202,7 +202,7 @@ myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
 myDatasheets <- datasheet(myLibrary, summary = "CORE")
 
 # Get specific Library core datasheet
-myDatasheet <- datasheet(myLibrary, name = "core_Backup", summary = "CORE")
+myDatasheet <- datasheet(myLibrary, name = "core_Backup")
 
 # Use an SQL statement to query a datasheet
 mySQL <- sqlStatement(

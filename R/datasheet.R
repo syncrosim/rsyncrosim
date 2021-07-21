@@ -129,7 +129,7 @@ NULL
 #' myDatasheets <- datasheet(myLibrary, summary = "CORE")
 #' 
 #' # Get specific Library core datasheet
-#' myDatasheet <- datasheet(myLibrary, name = "core_Backup", summary = "CORE")
+#' myDatasheet <- datasheet(myLibrary, name = "core_Backup")
 #' 
 #' # Use an SQL statement to query a datasheet
 #' mySQL <- sqlStatement(
@@ -226,14 +226,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       summary <- FALSE
     }
   }
-
-  if (summary == "CORE") {
-    if (is.null(name)) {
-      summary <- "CORE_SUMMARY"
-    } else {
-      summary <- "CORE_OBJECT"
-    }
-  }
   
   # if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if (summary == TRUE) {
@@ -258,7 +250,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   }
   
   # If summary is set to "CORE" use the --includesys command line flag to get core datasheets
-  if (summary == "CORE_SUMMARY") {
+  if (summary == "CORE") {
     sumInfo <- .datasheets(x, project[[1]], scenario[[1]], core = TRUE)
     sumInfo$order <- seq(1, nrow(sumInfo))
     if (is.null(name)) {
@@ -276,7 +268,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     stop("Something is wrong in datasheet().")
   }
   
-  if ((summary == TRUE | summary == "CORE_SUMMARY") & !optional) {
+  if ((summary == TRUE | summary == "CORE") & !optional) {
     sumInfo <- subset(sumInfo, select = c("scope", "name", "displayName", "order"))
     sumInfo[order(sumInfo$order), ]
     sumInfo$order <- NULL
@@ -284,7 +276,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   }
   
   # Add data info - only for scenario scope datasheets if sid is defined
-  if (summary == TRUE | summary == "CORE_SUMMARY") {
+  if (summary == TRUE | summary == "CORE") {
     # if no scenario scope sheets, return sumInfo without checking for data
     scnSheetSum <- sum(sumInfo$scope == "scenario")
     
@@ -346,22 +338,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       sheetNames <- subset(datasheetNames, name == cName)
     
       if (nrow(sheetNames) == 0) {
-        datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
+        datasheetNames <- .datasheets(x, scope = "all", core = TRUE)
         sheetNames <- subset(datasheetNames, name == cName)
         if (nrow(sheetNames) == 0) {
           stop("Datasheet ", name, " not found in library.")
         }
-      }
-    }
-
-    if (summary == "CORE_OBJECT") {
-      name <- allNames[kk] # TODO see if name and cName are fullt subsituable
-      cName <- name
-      datasheetNames <- .datasheets(x, scope = "all", core = TRUE)
-      sheetNames <- subset(datasheetNames, name == cName)
-
-      if (nrow(sheetNames) == 0) {
-        stop("Datasheet ", name, " not found in library.")
       }
     }
     
