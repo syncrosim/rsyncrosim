@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -20,7 +20,8 @@ NULL
 #' \donttest{
 #' temp_dir <- tempdir()
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+#'                          session = mySession)
 #' 
 #' backup(myLibrary)
 #' }
@@ -36,7 +37,7 @@ setMethod("backup", signature(ssimObject = "character"), function(ssimObject) {
 #' @rdname backup
 setMethod("backup", signature(ssimObject = "SsimObject"), function(ssimObject) {
   success <- FALSE
-  ds <- datasheet(ssimObject, name = "core_Backup")
+  ds <- datasheet(ssimObject, name = "core_Backup", summary = "CORE")
   args <- list(lib = .filepath(ssimObject), backup = NULL)
 
   if (!is.na(ds$IncludeInput)) {

@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -45,12 +45,10 @@ NULL
 #'     all datasheets in the ssimObject will be returned. Note that setting 
 #'     summary=FALSE and name=NULL pulls all datasheets, which is timeconsuming 
 #'     and not generally recommended.
-#' @param project \strong{[character, numeric, OR vector of these]}. One or more 
-#'     \code{\link{Project}} names, ids or objects. Note that integer ids are 
-#'     slightly faster.
-#' @param scenario \strong{[character, numeric, OR vector of these]}. One or more 
-#'     \code{\link{Scenario}} names, ids or objects. Note that integer ids are 
-#'     slightly faster.
+#' @param project \strong{[numeric OR numeric vector]}. One or more 
+#'     \code{\link{Project}}ids.
+#' @param scenario \strong{[numeric OR numeric vector]}. One or more 
+#'     \code{\link{Scenario}} ids.
 #' @param summary \strong{[logical OR character]}. If TRUE returns a dataframe of sheet names 
 #'     and other info. If FALSE returns dataframe or list of dataframes. If "CORE" returns 
 #'     dataframe of sheets names and other info including built-in core SyncroSim datasheets.
@@ -73,7 +71,7 @@ NULL
 #'     summary=TRUE.
 #' @param fastQuery \strong{[logical}].  If TRUE, the request is optimized for 
 #'     performance.  Ignored if combined with summary, empty, or 
-#'     \code{\link{sqlStatement}} flags.
+#'     \code{\link{sqlStatement}} flags. Default is FALSE.
 #' 
 #' @return 
 #' If summary=TRUE or summary="CORE" returns a dataframe of datasheet names 
@@ -82,17 +80,62 @@ NULL
 #'
 #' @examples 
 #' \donttest{
+#' addPackage("helloworldEnhanced")
 #' temp_dir <- tempdir()
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+#'                          session = mySession, package = "helloworldEnhanced",
+#'                          template = "example-library")
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' # Get all datasheet info
 #' myDatasheets <- datasheet(myScenario)
 #' 
+#' # can get same info using project and scenario arguments
+#' myDatasheets <- datasheet(myLibrary, project = 1, scenario = 1)
+#' 
+#' # Return a list of dataframes (1 for each datasheet)
+#' myDatasheetList <- datasheet(myScenario, summary = FALSE)
+#' 
 #' # Get a specific datasheet
 #' myDatasheet <- datasheet(myScenario, name = "RunControl")
+#' 
+#' # Include primary key when retrieving a datasheet
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", includeKey = TRUE)
+#' 
+#' # Return all columns, including optional
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE, 
+#'                          optional = TRUE)
+#' 
+#' # Return datasheet as an element
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
+#' myDatasheet$helloworldEnhanced_RunControl
+#' 
+#' # Get a datasheet without pre-specified values
+#' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)
+#' 
+#' # If datasheet is empty, do not return dependencies as factors
+#' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE,
+#'                               lookupsAsFactors = FALSE)
+#'                               
+#' # Optimize query
+#' myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
+#' 
+#' # Get all Library core datasheet info
+#' myDatasheets <- datasheet(myLibrary, summary = "CORE")
+#' 
+#' # Get specific Library core datasheet
+#' myDatasheet <- datasheet(myLibrary, name = "core_Backup")
+#' 
+#' # Use an SQL statement to query a datasheet
+#' mySQL <- sqlStatement(
+#'   groupBy = c("ScenarioID"),
+#'   aggregate = c("MinimumTimestep"),
+#'   where = list(MinimumTimestep = c(1))
+#' )
+#' myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
+#'                                    sqlStatement = mySQL)
 #' }
 #' 
 #' @export
@@ -154,7 +197,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     }
   }
   # now have valid pid/sid vectors and x is library.
-  
   if (!is.null(name)) {
     for (i in seq_along(name)) {
       n <- name[i]
@@ -216,11 +258,14 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   }
   
   # now assume we have one or more names
-  if (is.null(name)) {
+  if (is.null(name) & summary == FALSE) {
+    sumInfo <- .datasheets(x, project[[1]], scenario[[1]])
+    allNames <- sumInfo$name
+  } else if (is.null(name) & !summary == FALSE) {
     stop("Something is wrong in datasheet().")
   }
   
-  if (summary == TRUE | summary == "CORE" & !optional) {
+  if ((summary == TRUE | summary == "CORE") & !optional) {
     sumInfo <- subset(sumInfo, select = c("scope", "name", "displayName", "order"))
     sumInfo[order(sumInfo$order), ]
     sumInfo$order <- NULL
@@ -283,16 +328,18 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   # Loop through all datasheet names
   for (kk in seq(length.out = length(allNames))) {
     
-    name <- allNames[kk] # TODO see if name and cName are fullt subsituable
-    cName <- name
-    datasheetNames <- .datasheets(x, scope = "all")
-    sheetNames <- subset(datasheetNames, name == cName)
-    
-    if (nrow(sheetNames) == 0) {
-      datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
+    if (summary == FALSE) {
+      name <- allNames[kk] # TODO see if name and cName are fullt subsituable
+      cName <- name
+      datasheetNames <- .datasheets(x, scope = "all")
       sheetNames <- subset(datasheetNames, name == cName)
+    
       if (nrow(sheetNames) == 0) {
-        stop("Datasheet ", name, " not found in library.")
+        datasheetNames <- .datasheets(x, scope = "all", core = TRUE)
+        sheetNames <- subset(datasheetNames, name == cName)
+        if (nrow(sheetNames) == 0) {
+          stop("Datasheet ", name, " not found in library.")
+        }
       }
     }
     

@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -53,7 +53,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' filepath(mySession) # Lists the folder location of SyncroSim session
 #' version(mySession) # Lists the version of SyncroSim session
 #' package(mySession) # Dataframe of the packages installed with this version of SyncroSim
-#' basePackage(mySession) # Dataframe of the base packages installed with this version of SyncroSim
+#' package(mySession, installed = "BASE") # Dataframe of the base packages installed with this version of SyncroSim
 #' }
 #' 
 #' @export

@@ -25,16 +25,5 @@ basePackage(ssimObject = NULL)
 A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).
 }
 \description{
-This retrieves the Base packages installed with this version of SyncroSim.
-The list of SyncroSim packages can be found \href{https://syncrosim.com/packages/}{here}.
-}
-\examples{
-\donttest{
-temp_dir <- tempdir()
-mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-
-basePackage(myLibrary)
-}
-
+This function is deprecated.  See \code{\link{package}}.
 }

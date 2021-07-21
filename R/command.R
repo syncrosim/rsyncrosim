@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -41,6 +41,9 @@ NULL
 #' command(c("create", "help"))
 #' command("--create --help")
 #' command(list(create = NULL, help = NULL))
+#' 
+#' # Call on a different program to find all installed packages
+#' command(list(installed = NULL), program = "SyncroSim.PackageManager.exe")
 #' }
 #' @export
 command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE) {

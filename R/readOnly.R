@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -8,7 +8,7 @@ NULL
 #' Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
 #' \code{\link{Scenario}} is read-only is read-only.
 #'
-#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
+#' @param ssimObject An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
 #' or \code{\link{SsimLibrary}}.
 #' 
 #' @return 
@@ -20,8 +20,8 @@ NULL
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' readOnly(myLibrary)
 #' readOnly(myProject)
@@ -80,8 +80,8 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' readOnly(myLibrary) <- FALSE
 #' readOnly(myProject) <- FALSE

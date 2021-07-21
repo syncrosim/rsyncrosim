@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -21,7 +21,18 @@ NULL
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 #' 
+#' # Update Library
 #' ssimUpdate(myLibrary)
+#' 
+#' myProject <- project(myLibrary, name = "My Project")
+#' 
+#' # Update Project
+#' ssimUpdate(myProject)
+#' 
+#' myScenario <- scenario(myLibrary, name = "MyScenario")
+#' 
+#' # Update scenario
+#' ssimUpdate(myScenario)
 #' }
 #' 
 #' @export

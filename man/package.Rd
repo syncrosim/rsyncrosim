@@ -2,24 +2,29 @@
 % Please edit documentation in R/package.R
 \name{package}
 \alias{package}
-\alias{package,missingOrNULL-method}
 \alias{package,character-method}
+\alias{package,missingOrNULL-method}
 \alias{package,Session-method}
+\alias{package,SsimLibrary-method}
 \title{Retrieves the installed or available packages}
 \usage{
-package(session, installed = TRUE)
+package(ssimObject = NULL, installed = TRUE)
 
-\S4method{package}{missingOrNULL}(session, installed = TRUE)
+\S4method{package}{character}(ssimObject = NULL, installed = TRUE)
 
-\S4method{package}{character}(session, installed = TRUE)
+\S4method{package}{missingOrNULL}(ssimObject = NULL, installed = TRUE)
 
-\S4method{package}{Session}(session, installed = TRUE)
+\S4method{package}{Session}(ssimObject = NULL, installed = TRUE)
+
+\S4method{package}{SsimLibrary}(ssimObject)
 }
 \arguments{
-\item{session}{An object of class \code{\link{Session}}.}
+\item{ssimObject}{An object of class \code{\link{Session}} or 
+\code{\link{SsimLibrary}}.}
 
-\item{installed}{Logical. `TRUE` to list installed packages and `FALSE` to list 
-available packages.}
+\item{installed}{Logical or Character. `TRUE` to list installed packages, 
+`FALSE` to list available packages, and "BASE" to list installed base 
+packages. Default is `TRUE`}
 }
 \value{
 Returns a \code{data.frame} of packages installed.
@@ -32,7 +37,22 @@ Retrieves the packages installed or available for this version of SyncroSim.
 temp_dir <- tempdir()
 mySession <- session()
 
+# List all installed packages
 package(mySession)
+
+# List all the installed base packages
+package(installed = "BASE")
+
+# List all available packages on the server (including currently installed)
+package(installed = FALSE)
+}
+\donttest{
+temp_dir <- tempdir()
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+
+# Check the package you're Library is currently using
+package(myLibrary)
 }
 
 }

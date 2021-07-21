@@ -1,11 +1,11 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = FALSE, overwrite = FALSE) {
+  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE) {
     enabled <- NULL
 
     if (is.null(session)) {
@@ -33,10 +33,10 @@ setMethod(
       stop("A library name is required.")
     }
 
-    packageOptions <- basePackage(session)
+    packageOptions <- package(session, installed = "BASE")
 
     if (nrow(packageOptions) == 0) {
-      stop("No base packages are installed.  Use addPackage() or addPackageFile() to install a package.")
+      stop("No base packages are installed.  Use addPackage() to install a package.")
     }
 
     if (identical(basename(name), name)) {
@@ -55,6 +55,7 @@ setMethod(
       }
     }
 
+    # If library does not exist, create it
     if (!file.exists(path)) {
       
       if (is.null(package)){
@@ -62,19 +63,59 @@ setMethod(
       }
 
       if (!is.element(package, packageOptions$name)) {
-        stop(paste(package, "not a base package. Use basePackage() to see options."))
+        stop(paste(package, "not a base package. Use package(installed = \"BASE\") to see options."))
       }
       
       pathBits <- strsplit(path, "/")[[1]]
       dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = FALSE)
 
       if (!exists("packageOptions")) {
-        packageOptions <- basePackage(session)
+        packageOptions <- package(session, installed = "BASE")
       }
-      args <- list(create = NULL, library = NULL, name = path, package = packageOptions$name[packageOptions$name == package])
-      cStatus <- command(args, session)
-      if (cStatus[1] != "saved") {
-        stop("Problem creating library: ", cStatus[1])
+      
+      # If no template specified, create an empty library
+      if (is.null(template)) {
+        args <- list(create = NULL, library = NULL, name = path, package = packageOptions$name[packageOptions$name == package])
+        cStatus <- command(args, session)
+        if (cStatus[1] != "saved") {
+          stop("Problem creating library: ", cStatus[1])
+        }
+      }
+      
+      # If template specified, create library from template
+      if (is.character(template)) {
+        
+        # Check if template exists first
+        args <- list(list = NULL, templates = NULL,
+                     package = packageOptions$name[packageOptions$name == package],
+                     csv = NULL)
+        tt <- command(args, session)
+        tempsDataframe <- read.csv(text = tt)
+        if (template %in% tempsDataframe$Name == FALSE) {
+          stop(paste(template, "does not exist for package",
+                     packageOptions$name[packageOptions$name == package]))
+        } else {
+          
+          # Load template
+          args <- list(create = NULL, library = NULL, name = path,
+                       package = packageOptions$name[packageOptions$name == package],
+                       template = template)
+          cStatus <- command(args, session)
+          if (grepl(cStatus[1], "Creating Library from Template")) {
+            stop("Problem creating library: ", cStatus[1])
+          }
+          
+          # Print out available scenarios for the template
+          args <- list(list = NULL, scenarios = NULL, lib = path, csv = NULL)
+          tt <- command(args, session)
+          tempScenarios <- read.csv(text = tt)
+          message(paste(c("Scenarios available in this template:",
+                        tempScenarios$Name), collapse = "    "))
+        }
+      } 
+      
+      if (!is.null(template) & !is.character(template)) {
+        stop(paste(template, "is not a valid template name"))
       }
     }
 
@@ -83,7 +124,7 @@ setMethod(
     tt <- command(args, session)
 
     if (grepl("Could not find package", tt[[1]])) {
-      stop(paste(tt[[1]], "Use addPackage() or addPackageFile() to install this package."))
+      stop(paste(tt[[1]], "Use addPackage() to install this package."))
     }
 
     if (grepl("The library has unapplied updates", tt[[1]])) {
@@ -132,7 +173,7 @@ setMethod(
       }
 
       if (!exists("packageOptions")) {
-        packageOptions <- basePackage(session)
+        packageOptions <- package(session, installed = "BASE")
       }
       expectedPackage <- packageOptions$name[packageOptions$name == package]
       if (!grepl(expectedPackage, tt$value[tt$property == "Package Name:"])) {
@@ -161,17 +202,17 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric(".ssimLibrary"))
 
-setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, forceUpdate, overwrite = FALSE) {
+setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, template, forceUpdate, overwrite = FALSE) {
   return(new("SsimLibrary", name, package, session, addon, forceUpdate))
 })
 
-setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package, session, addon, forceUpdate, overwrite) {
+setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package, session, addon, template, forceUpdate, overwrite) {
   if (class(name) == "SsimLibrary") {
     out <- name
   } else {
-    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, forceUpdate, overwrite)
+    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite)
   }
   return(out)
 })
@@ -191,6 +232,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param session Session. If NULL, session() will be used.
 #' @param addon Character or character vector. One or more addons. See \code{\link{addon}}
 #'     for options.
+#' @param template Character. Creates the library with the specified template.
 #' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve 
 #'     any required updates. If TRUE, required updates will be applied silently.
 #' @param overwrite Logical. If TRUE an existing Library will be overwritten.
@@ -221,25 +263,40 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'
 #' # Create library using a specific session
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
+#'                          session = mySession)
 #'
 #' session(myLibrary)
 #' filepath(myLibrary)
 #' info(myLibrary)
+#' 
+#' # Load a library with add on
+#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
+#'                          overwrite = TRUE, package = "stsim",
+#'                          addon = "stsimsf")
+#' 
+#' # Create library from template
+#' addPackage("helloworldEnhanced")
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
+#'                          session = mySession,
+#'                          package = "helloworldEnhanced",
+#'                          template = "example-library",
+#'                          overwrite = TRUE)
 #' }
 #' 
 #' @export
-setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric("ssimLibrary"))
+setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric("ssimLibrary"))
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, forceUpdate, overwrite) {
+setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, template, forceUpdate, overwrite) {
   if (class(name) == "SsimLibrary") {
     out <- name
     if (is.null(summary)) {
       summary <- TRUE
     }
   } else {
-    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, forceUpdate, overwrite)
+    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite)
     if (is.null(summary)) {
       summary <- FALSE
     }
@@ -251,7 +308,7 @@ setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary,
 })
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name = NULL, summary = NULL, package, session, addon, forceUpdate, overwrite) {
+setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name = NULL, summary = NULL, package, session, addon, template, forceUpdate, overwrite) {
   if (is.null(session)) {
     session <- .session()
   }
@@ -259,7 +316,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
     return(SyncroSimNotFound())
   }
 
-  newLib <- new("SsimLibrary", name, package, session, addon, forceUpdate, overwrite)
+  newLib <- new("SsimLibrary", name, package, session, addon, template, forceUpdate, overwrite)
   if (!is.null(summary) && summary) {
     return(info(newLib))
   }

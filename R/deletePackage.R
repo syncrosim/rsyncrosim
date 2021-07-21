@@ -1,11 +1,11 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Deletes a package
-#'
 #' Deletes a package from your SyncroSim installation.
+#' 
+#' This function is now deprecated. See: \code{\link{removePackage}}.
 #' 
 #' @param name Character. The name of the package to delete.
 #' @param session An object of class \code{\link{Session}}.
@@ -16,52 +16,26 @@ NULL
 #' This function invisibly returns `TRUE` upon success (i.e.successful 
 #' deletion) and `FALSE` upon failure.
 #' 
-#' @examples 
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' 
-#' deletePackage("stsim", mySession, force = FALSE)
-#' }
+#' @seealso 
+#' \code{\link{removePackage}}
 #' 
 #' @export
 setGeneric("deletePackage", function(name, session = NULL, force = FALSE) standardGeneric("deletePackage"))
 
 #' @rdname deletePackage
 setMethod("deletePackage", signature(session = "character"), function(name, session, force) {
-  return(SyncroSimNotFound(session))
+  .Deprecated("removePackage")
+  stop()
 })
 
 #' @rdname deletePackage
 setMethod("deletePackage", signature(session = "missingOrNULL"), function(name, session, force) {
-  session <- .session(session)
-  return(deletePackage(name, session, force))
+  .Deprecated("removePackage")
+  stop()
 })
 
 #' @rdname deletePackage
 setMethod("deletePackage", signature(session = "Session"), function(name, session, force) {
-  installed <- package(session)
-  success <- FALSE
-
-  if (!is.element(name, installed$name)) {
-    stop("The package is not installed.")
-  }
-
-  if (force) {
-    answer <- "y"
-  } else {
-    answer <- readline(prompt = paste0("Do you really want to remove package '", name, "'? (y/n)"))
-  }
-
-  if (answer == "y") {
-    tt <- command(args = list(uninstall = name), session, program = "SyncroSim.PackageManager.exe")
-    if (tt == "saved"){
-      tt <- paste0("Package <", name,"> deleted")
-      success <- TRUE
-    } 
-  } else {
-    tt <- paste0("Deletion of package <", name,"> skipped")
-  }
-  message(tt)
-  return(invisible(success))
+  .Deprecated("removePackage")
+  stop()
 })

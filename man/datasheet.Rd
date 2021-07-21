@@ -76,16 +76,15 @@ all datasheets in the ssimObject will be returned. Note that setting
 summary=FALSE and name=NULL pulls all datasheets, which is timeconsuming 
 and not generally recommended.}
 
-\item{project}{\strong{[character, numeric, OR vector of these]}. One or more 
-\code{\link{Project}} names, ids or objects. Note that integer ids are 
-slightly faster.}
+\item{project}{\strong{[numeric OR numeric vector]}. One or more 
+\code{\link{Project}}ids.}
 
-\item{scenario}{\strong{[character, numeric, OR vector of these]}. One or more 
-\code{\link{Scenario}} names, ids or objects. Note that integer ids are 
-slightly faster.}
+\item{scenario}{\strong{[numeric OR numeric vector]}. One or more 
+\code{\link{Scenario}} ids.}
 
-\item{summary}{\strong{[logical]}. If TRUE returns a dataframe of sheet names 
-and other info. If FALSE returns dataframe or list of dataframes.}
+\item{summary}{\strong{[logical OR character]}. If TRUE returns a dataframe of sheet names 
+and other info. If FALSE returns dataframe or list of dataframes. If "CORE" returns 
+dataframe of sheets names and other info including built-in core SyncroSim datasheets.}
 
 \item{optional}{\strong{[logical]}. If summary=TRUE and optional=TRUE returns 
 only scope, name and displayName. If summary=FALSE and optional=TRUE returns 
@@ -112,11 +111,11 @@ summary=TRUE.}
 
 \item{fastQuery}{\strong{[logical}].  If TRUE, the request is optimized for 
 performance.  Ignored if combined with summary, empty, or 
-\code{\link{sqlStatement}} flags.}
+\code{\link{sqlStatement}} flags. Default is FALSE.}
 }
 \value{
-If summary=TRUE returns a dataframe of datasheet names and other info, 
-otherwise returns a dataframe or list of these.
+If summary=TRUE or summary="CORE" returns a dataframe of datasheet names 
+and other info, otherwise returns a dataframe or list of these.
 }
 \description{
 This function retrieves a SyncroSim datasheet, either by calling the SyncroSim
@@ -154,17 +153,62 @@ Otherwise, for each element in name a datasheet is returned as follows:
 }
 \examples{
 \donttest{
+addPackage("helloworldEnhanced")
 temp_dir <- tempdir()
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-myProject <- project(myLibrary)
-myScenario <- scenario(myProject)
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+                         session = mySession, package = "helloworldEnhanced",
+                         template = "example-library")
+myProject <- project(myLibrary, project = "Definitions")
+myScenario <- scenario(myProject, scenario = "My Scenario")
 
 # Get all datasheet info
 myDatasheets <- datasheet(myScenario)
 
+# can get same info using project and scenario arguments
+myDatasheets <- datasheet(myLibrary, project = 1, scenario = 1)
+
+# Return a list of dataframes (1 for each datasheet)
+myDatasheetList <- datasheet(myScenario, summary = FALSE)
+
 # Get a specific datasheet
 myDatasheet <- datasheet(myScenario, name = "RunControl")
+
+# Include primary key when retrieving a datasheet
+myDatasheet <- datasheet(myScenario, name = "RunControl", includeKey = TRUE)
+
+# Return all columns, including optional
+myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE, 
+                         optional = TRUE)
+
+# Return datasheet as an element
+myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
+myDatasheet$helloworldEnhanced_RunControl
+
+# Get a datasheet without pre-specified values
+myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)
+
+# If datasheet is empty, do not return dependencies as factors
+myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE,
+                              lookupsAsFactors = FALSE)
+                              
+# Optimize query
+myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
+
+# Get all Library core datasheet info
+myDatasheets <- datasheet(myLibrary, summary = "CORE")
+
+# Get specific Library core datasheet
+myDatasheet <- datasheet(myLibrary, name = "core_Backup")
+
+# Use an SQL statement to query a datasheet
+mySQL <- sqlStatement(
+  groupBy = c("ScenarioID"),
+  aggregate = c("MinimumTimestep"),
+  where = list(MinimumTimestep = c(1))
+)
+myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
+                                   sqlStatement = mySQL)
 }
 
 }

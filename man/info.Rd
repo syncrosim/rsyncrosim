@@ -3,7 +3,7 @@
 \name{info}
 \alias{info}
 \alias{info,SsimLibrary-method}
-\title{Retrieves information about an library}
+\title{Retrieves information about a library}
 \usage{
 info(ssimLibrary)
 
@@ -23,7 +23,7 @@ Minimum Package Version, External input files, External output files,
 Temporary files, Backup files.
 }
 \examples{
-\donttest{
+\dontrun{
 temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)

@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -10,7 +10,8 @@ NULL
 #' @param name Character string.  The name of the package to update. 
 #'     If NULL, all packages will be updated.
 #' @param session An object of class \code{\link{Session}}.
-#' @param listonly Logical. If TRUE, available updates are listed only.
+#' @param listonly Logical. If TRUE, available updates are listed only. Default 
+#' is FALSE.
 #' 
 #' @return 
 #' This function invisibly returns `TRUE` upon success (i.e.successful update)
@@ -21,8 +22,14 @@ NULL
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' 
-#' updatePackage(name = "stsim", session = mySession, listonly = FALSE)
+#' # List all available updates for a package
 #' updatePackage(name = "stsim", session = mySession, listonly = TRUE)
+#' 
+#' # Update ST-Sim package
+#' updatePackage(name = "stsim", session = mySession, listonly = FALSE)
+#' 
+#' # Update all packages
+#' updatePackage(session = mySession)
 #' }
 #' 
 #' @export

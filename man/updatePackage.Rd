@@ -21,7 +21,8 @@ If NULL, all packages will be updated.}
 
 \item{session}{An object of class \code{\link{Session}}.}
 
-\item{listonly}{Logical. If TRUE, available updates are listed only.}
+\item{listonly}{Logical. If TRUE, available updates are listed only. Default 
+is FALSE.}
 }
 \value{
 This function invisibly returns `TRUE` upon success (i.e.successful update)
@@ -35,8 +36,14 @@ Updates a SyncroSim package.
 temp_dir <- tempdir()
 mySession <- session()
 
-updatePackage(name = "stsim", session = mySession, listonly = FALSE)
+# List all available updates for a package
 updatePackage(name = "stsim", session = mySession, listonly = TRUE)
+
+# Update ST-Sim package
+updatePackage(name = "stsim", session = mySession, listonly = FALSE)
+
+# Update all packages
+updatePackage(session = mySession)
 }
 
 }

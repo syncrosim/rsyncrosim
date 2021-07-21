@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -17,9 +17,10 @@ NULL
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
+#' # Lists the datafeeds to ignore
 #' ignoreDependencies(myScenario)
 #' }
 #' 
@@ -52,8 +53,8 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' # IgnoreDependencies is a string of datafeed names separated by commas
 #' ignoreDependencies(myScenario) <- "stsim_RunControl,stsim_TransitionTarget"

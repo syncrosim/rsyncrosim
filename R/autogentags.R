@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -11,6 +11,18 @@ NULL
 #' 
 #' @return 
 #' Returns the Auto Generation Tags.
+#' 
+#' @examples  
+#' \donttest{
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+#'                          session = mySession)
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
+#' 
+#' autogentags(myScenario)
+#' }
 #' 
 #' @export
 setGeneric("autogentags", function(ssimObject) standardGeneric("autogentags"))

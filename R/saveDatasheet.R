@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -65,11 +65,14 @@ NULL
 #' 
 #' @examples 
 #' \donttest{
+#' addPackage("helloworldEnhanced")
 #' temp_dir <- tempdir()
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary)
-#' myScenario <- scenario(myProject)
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+#'                          session = mySession, package = "helloworldEnhanced",
+#'                          template = "example-library")
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' # Get all datasheet info
 #' myDatasheets <- datasheet(myScenario)
@@ -78,10 +81,38 @@ NULL
 #' myDatasheet <- datasheet(myScenario, name = "RunControl")
 #' 
 #' # Modify datasheet
-#' myDatasheet$MinimumTimestep <- 1
+#' myDatasheet$MaximumTimestep <- 10
 #' 
 #' # Save datasheet
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")
+#' 
+#' # Append to a datasheet rather than overwriting
+#' myDatasheet$MaximumTimestep <- 5
+#' 
+#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#'               append = TRUE)
+#'           
+#' # Import data after saving
+#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#'               import = TRUE)
+#'         
+#' # Save the new datasheet to a specified output path
+#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#'               path = temp_dir)
+#'               
+#' # Save a raster stack using fileData
+#' # Create a raster stack - add as many raster files as you want here
+#' map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
+#'                         column = "InterceptRasterFile")
+#' inRasters <- raster::stack(map1)
+#' 
+#' # Change the name of the rasters in the input datasheet to match the stack
+#' inSheet <- datasheet(myScenario, name="InputDatasheet")
+#' inSheet[1,"InterceptRasterFile"] <- names(inRasters)[1]
+#' 
+#' # Save the raster stack to the input datasheet
+#' saveDatasheet(myScenario, data=inSheet, name="InputDatasheet", 
+#'               fileData=inRasters)
 #' }
 #' 
 #' @export
@@ -186,7 +217,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     # note deletions must happen before files are written.
     scope <- sheetNames$scope[sheetNames$name == cName]
     if (length(scope) == 0) {
-      sheetNames <- datasheets(x, refresh = TRUE)
+      sheetNames <- datasheets(x, core = TRUE)
       scope <- sheetNames$scope[sheetNames$name == cName]
       if (length(scope) == 0) {
         stop("Name not found in datasheetNames")
@@ -229,7 +260,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       if (is.null(itemNames) || is.na(itemNames) || (length(itemNames) == 0)) {
         stop("names(fileData) must be defined, and each element must correspond uniquely to an entry in data")
       }
-
+    
       sheetInfo <- subset(datasheet(x, summary = TRUE, optional = TRUE), name == cName)
       fileDir <- .filepath(x)
       if (sheetInfo$isOutput) {

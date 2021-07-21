@@ -78,14 +78,29 @@ Run one or more SyncroSim \code{\link{Scenario}}(s).
 Note that breakpoints are ignored unless the ssimObject is a single scenario.
 }
 \examples{
-\donttest{
+\dontrun{
+addPackage("helloworldEnhanced")
 temp_dir <- tempdir()
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-myProject <- project(myLibrary)
-myScenario <- scenario(myProject)
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+                         session = mySession, package = "helloworldEnhanced",
+                         template = "example-library")
+myProject <- project(myLibrary, project = "Definitions")
+myScenario <- scenario(myProject, scenario = "My Scenario")
 
-run(myScenario)
+# Run with default parameters
+resultScenario <- run(myScenario)
+
+# Only return summary information
+resultScenario <- run(myScenario, summary = TRUE)
+
+# Run with multiprocessing
+resultScenario <- run(myScenario, jobs = 6)
+
+# Specify transformer to run ???
+
+# Return results as a named list
+resultScenario <- run(myScenario, forceElements = TRUE)
 }
 
 }

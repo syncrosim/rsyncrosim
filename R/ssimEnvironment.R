@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 
 #' SyncroSim Environment
@@ -11,7 +11,7 @@
 #' Returns a single-row data.frame of SyncroSim specific environment variables.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Get the whole set of variables
 #' e <- ssimEnvironment()
 #' 
@@ -85,7 +85,7 @@ envCreateTempFolder <- function(folderName) {
 #' Returns a folder name for the specified datasheet.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' inputFolder <- envInputFolder
 #' }
 #' 
@@ -130,7 +130,7 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' Returns a temporary folder name.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' tempFolder <- envTempFolder()
 #' }
 #' 
@@ -153,7 +153,7 @@ envTempFolder <- function(folderName) {
 #' No returned value, used for side effects.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' envReportProgress()
 #' }
 #' 
@@ -176,7 +176,7 @@ envReportProgress <- function(iteration, timestep) {
 #' No returned value, used for side effects.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' n_iter <- 50
 #' n_timesteps <- 10
 #' n_steps <- n_iter * n_timesteps
@@ -201,7 +201,7 @@ envBeginSimulation <- function(totalSteps) {
 #' No returned value, used for side effects.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' envStepSimulation()
 #' }
 #'
@@ -222,7 +222,7 @@ envStepSimulation <- function() {
 #' No returned value, used for side effects.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' envEndSimulation()
 #' }
 #' 

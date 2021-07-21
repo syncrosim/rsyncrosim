@@ -1,11 +1,11 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
 
 #' Delete module or modules
 #'
-#' This function is now deprecated. See: \code{\link{deletePackage}}.
+#' This function is now deprecated. See: \code{\link{removePackage}}.
 #'
 #' @param name Character string or vector of these. A module or vector of modules 
 #'     to remove. See modules() for options.
@@ -16,19 +16,19 @@ NULL
 #' Returns "saved" if successful, otherwise an error message.
 #' 
 #' @seealso 
-#' \code{\link{deletePackage}}
+#' \code{\link{removePackage}}
 #' 
 #' @export
 setGeneric("deleteModule", function(name, session = NULL, force = FALSE) standardGeneric("deleteModule"))
 
 #' @rdname deleteModule
 setMethod("deleteModule", signature(session = "missingOrNULLOrChar"), function(name, session, force) {
-  .Deprecated("deletePackage")
+  .Deprecated("removePackage")
   stop()
 })
 
 #' @rdname deleteModule
 setMethod("deleteModule", signature(session = "Session"), function(name, session, force) {
-  .Deprecated("deletePackage")
+  .Deprecated("removePackage")
   stop()
 })

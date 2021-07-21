@@ -34,8 +34,8 @@ Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-myProject <- project(myLibrary)
-myScenario <- scenario(myProject)
+myProject <- project(myLibrary, project = "Definitions")
+myScenario <- scenario(myProject, scenario = "My Scenario")
 
 owner(myLibrary)
 owner(myProject)

@@ -18,7 +18,7 @@ development of R-based Syncrosim Packages. This function creates and returns
 a SyncroSim Temporary Folder.
 }
 \examples{
-\donttest{
+\dontrun{
 tempFolder <- envTempFolder()
 }
 

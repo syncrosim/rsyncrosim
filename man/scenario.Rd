@@ -70,9 +70,25 @@ For each element of scenario:
 temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myProject <- project(myLibrary, project = "My Project")
 
-myProject <- project(myLibrary, project = "a project")
-myScenario <- scenario(myProject, scenario = "a scenario", overwrite = TRUE)
+# Create a new scenario
+myScenario <- scenario(myProject, scenario = "My Scenario")
+
+
+# Create a new scenario from an existing scenario
+myScenarioCopy <- scenario(myProject, scenario = "My Scenario Copy",
+                           sourceScenario = myScenario)
+                          
+# Find all the scenarios in a library
+scenario(myLibrary)
+
+# Only return the results scenarios for a library
+scenario(myLibrary, results = TRUE)
+
+# Overwrite an existing scenario
+myNewScenario <- scenario(myProject, scenario = "My New Scenario", 
+                         overwrite = TRUE)
 }
 
 }

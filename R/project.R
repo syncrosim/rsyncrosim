@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -172,10 +172,22 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' # Get an existing Project.
 #' myProject <- myProjects[[1]]
 #' myProject <- project(myLibrary, project = "My new project name")
+#' 
+#' # Return a project as a named list
+#' myProjectList <- project(myLibrary, project = 1, forceElements = TRUE)
+#' myProjectList$`1`
 #'
 #' # Get/set the project properties
 #' name(myProject)
 #' name(myProject) <- "New project name"
+#' 
+#' # Create a new project from a copy of an existing project
+#' myNewProject <- project(myLibrary, project = "My copied project",
+#'                         sourceProject = 1)
+#' 
+#' # Overwrite an existing project
+#' myNewProject <- project(myLibrary, project = "My copied project",
+#'                         overwrite = TRUE)
 #' }
 #' 
 #' @name project

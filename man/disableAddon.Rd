@@ -27,13 +27,18 @@ Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}},
 }
 \examples{
 \donttest{
+addPackage("stsim")
 temp_dir <- tempdir()
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+                         session = mySession, package = "stsim")
 
-enableAddon(myLibrary, c("stsimecodep"))
+# Enable add on package
+enableAddon(myLibrary, c("stsimsf"))
 addon(myLibrary)
-disableAddon(myLibrary, c("stsimecodep"))
+
+# Disable add on package
+disableAddon(myLibrary, c("stsimsf"))
 addon(myLibrary)
 }
 

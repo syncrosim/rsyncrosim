@@ -12,6 +12,7 @@ ssimLibrary(
   package = NULL,
   session = NULL,
   addon = NULL,
+  template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE
 )
@@ -22,6 +23,7 @@ ssimLibrary(
   package = NULL,
   session = NULL,
   addon = NULL,
+  template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE
 )
@@ -32,6 +34,7 @@ ssimLibrary(
   package = NULL,
   session = NULL,
   addon = NULL,
+  template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE
 )
@@ -49,6 +52,8 @@ or SsimObject.}
 
 \item{addon}{Character or character vector. One or more addons. See \code{\link{addon}}
 for options.}
+
+\item{template}{Character. Creates the library with the specified template.}
 
 \item{forceUpdate}{Logical. If FALSE (default) user will be prompted to approve 
 any required updates. If TRUE, required updates will be applied silently.}
@@ -86,11 +91,26 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
 
 # Create library using a specific session
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), session = mySession)
+myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
+                         session = mySession)
 
 session(myLibrary)
 filepath(myLibrary)
 info(myLibrary)
+
+# Load a library with add on
+myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
+                         overwrite = TRUE, package = "stsim",
+                         addon = "stsimsf")
+
+# Create library from template
+addPackage("helloworldEnhanced")
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
+                         session = mySession,
+                         package = "helloworldEnhanced",
+                         template = "example-library",
+                         overwrite = TRUE)
 }
 
 }

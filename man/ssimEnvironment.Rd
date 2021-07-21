@@ -15,7 +15,7 @@ development of R-based Syncrosim Packages. \code{ssimEnvironment} retrieves
 specific environment variables.
 }
 \examples{
-\donttest{
+\dontrun{
 # Get the whole set of variables
 e <- ssimEnvironment()
 

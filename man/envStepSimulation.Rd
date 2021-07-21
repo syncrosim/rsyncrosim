@@ -16,7 +16,7 @@ simulation, and is to be called between \code{\link{envBeginSimulation}} and
 \code{\link{envEndSimulation}}.
 }
 \examples{
-\donttest{
+\dontrun{
 envStepSimulation()
 }
 

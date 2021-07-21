@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -38,12 +38,42 @@ NULL
 #' \code{paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)}.
 #' 
 #' @examples
-#' \dontrun{
-#' ## Not run as it would require a result scenario (long runtime)
-#' datasheetRaster(myResult,
-#'   datasheet = "OutputSpatialState",
-#'   subset = expression(grepl("Ts0001", Filename, fixed = TRUE))
+#' \donttest{
+#' addPackage("helloworldEnhanced")
+#' temp_dir <- tempdir()
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
+#'                          session = mySession, package = "helloworldEnhanced",
+#'                          template = "example-library")
+#' myProject <- project(myLibrary, project = "Definitions")
+#' myScenario <- scenario(myProject, scenario = "My Scenario")
+#' resultScenario <- run(myScenario)
+#' resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
+#' 
+#' # Extract specific datasheet rasters by iteration and timestep
+#' resultRaster <- datasheetRaster(resultScenario,
+#'                   datasheet = "IntermediateDatasheet",
+#'                   column = "OutputRasterFile",
+#'                   iteration = 3,
+#'                   timestep = 2
 #' )
+#' 
+#' # Extract specific datasheet rasters using pattern matching
+#' resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
+#' resultRaster <- datasheetRaster(resultScenario, 
+#'                   datasheet = "IntermediateDatasheet",
+#'                   column = "OutputRasterFile",
+#'                   subset = expression(grepl("ts20", 
+#'                                              resultDatasheet$OutputRasterFile,
+#'                                              fixed = TRUE))
+#' )
+#' 
+#' # Return as raster stack
+#' resultRaster <- datasheetRaster(resultScenario, 
+#'                  datasheet = "IntermediateDatasheet",
+#'                  column = "OutputRasterFile",
+#'                  forceElements = TRUE
+#'                  )
 #' }
 #' 
 #' @export
@@ -137,7 +167,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   x <- ssimObject
   cSheets <- .datasheets(x)
   if (!is.element(datasheet, cSheets$name)) {
-    cSheets <- .datasheets(x, refresh = TRUE)
+    cSheets <- .datasheets(x, core = TRUE)
   }
   
   # TO DO: make sure datasheet is spatial after opening

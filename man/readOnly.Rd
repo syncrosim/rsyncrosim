@@ -19,7 +19,7 @@ readOnly(ssimObject)
 \S4method{readOnly}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
 or \code{\link{SsimLibrary}}.}
 }
 \value{
@@ -35,8 +35,8 @@ Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-myProject <- project(myLibrary)
-myScenario <- scenario(myProject)
+myProject <- project(myLibrary, project = "Definitions")
+myScenario <- scenario(myProject, scenario = "My Scenario")
 
 readOnly(myLibrary)
 readOnly(myProject)

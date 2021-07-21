@@ -38,7 +38,7 @@ myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySessi
 filepath(mySession) # Lists the folder location of SyncroSim session
 version(mySession) # Lists the version of SyncroSim session
 package(mySession) # Dataframe of the packages installed with this version of SyncroSim
-basePackage(mySession) # Dataframe of the base packages installed with this version of SyncroSim
+package(mySession, installed = "BASE") # Dataframe of the base packages installed with this version of SyncroSim
 }
 
 }

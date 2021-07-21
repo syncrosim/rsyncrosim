@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # GPL v.3 License
 #' @include AAAClassDefinitions.R
 NULL
@@ -267,6 +267,7 @@ printAndCapture <- function(x) {
 # @param scenario Scenario name or id. Ignored if x is a Scenario.
 # @param scope "scenario","project", "library", "all", or NULL.
 # @param refresh If FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call (slower).
+# @param core if FALSE (default) names are retrieved from x@datasheetNames. If TRUE names are retrieved using a console call and include core datasheets.
 # @return A dataframe of datasheet names.
 # @examples
 #

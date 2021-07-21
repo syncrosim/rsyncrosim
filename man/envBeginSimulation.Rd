@@ -18,7 +18,7 @@ development of R-based SyncroSim Packages. Specifically, this function begins
 the reporting of a SyncroSim simulation.
 }
 \examples{
-\donttest{
+\dontrun{
 n_iter <- 50
 n_timesteps <- 10
 n_steps <- n_iter * n_timesteps

@@ -1,4 +1,4 @@
-#' Retrieves information about an library
+#' Retrieves information about a library
 #' 
 #' Retrieves some basic metadata about a Library: Name, Owner, Last Modified, 
 #' Size, Read Only, Package Name, Package Description, Current Package Version,
@@ -12,7 +12,7 @@
 #' object.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' temp_dir <- tempdir()
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)

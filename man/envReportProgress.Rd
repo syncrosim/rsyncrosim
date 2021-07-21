@@ -20,7 +20,7 @@ development of R-based Syncrosim Packages. This function reports progress
 for a SyncroSim simulation.
 }
 \examples{
-\donttest{
+\dontrun{
 envReportProgress()
 }
 

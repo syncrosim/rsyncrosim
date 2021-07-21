@@ -24,8 +24,8 @@ to remove. See modules() for options.}
 Returns "saved" if successful, otherwise an error message.
 }
 \description{
-This function is now deprecated. See: \code{\link{deletePackage}}.
+This function is now deprecated. See: \code{\link{removePackage}}.
 }
 \seealso{
-\code{\link{deletePackage}}
+\code{\link{removePackage}}
 }

@@ -30,7 +30,18 @@ temp_dir <- tempdir()
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
 
+# Update Library
 ssimUpdate(myLibrary)
+
+myProject <- project(myLibrary, name = "My Project")
+
+# Update Project
+ssimUpdate(myProject)
+
+myScenario <- scenario(myLibrary, name = "MyScenario")
+
+# Update scenario
+ssimUpdate(myScenario)
 }
 
 }
