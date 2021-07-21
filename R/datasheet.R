@@ -45,12 +45,10 @@ NULL
 #'     all datasheets in the ssimObject will be returned. Note that setting 
 #'     summary=FALSE and name=NULL pulls all datasheets, which is timeconsuming 
 #'     and not generally recommended.
-#' @param project \strong{[character, numeric, OR vector of these]}. One or more 
-#'     \code{\link{Project}} names, ids or objects. Note that integer ids are 
-#'     slightly faster.
-#' @param scenario \strong{[character, numeric, OR vector of these]}. One or more 
-#'     \code{\link{Scenario}} names, ids or objects. Note that integer ids are 
-#'     slightly faster.
+#' @param project \strong{[numeric OR numeric vector]}. One or more 
+#'     \code{\link{Project}}ids.
+#' @param scenario \strong{[numeric OR numeric vector]}. One or more 
+#'     \code{\link{Scenario}} ids.
 #' @param summary \strong{[logical OR character]}. If TRUE returns a dataframe of sheet names 
 #'     and other info. If FALSE returns dataframe or list of dataframes. If "CORE" returns 
 #'     dataframe of sheets names and other info including built-in core SyncroSim datasheets.
@@ -95,8 +93,7 @@ NULL
 #' myDatasheets <- datasheet(myScenario)
 #' 
 #' # can get same info using project and scenario arguments
-#' myDatasheets <- datasheet(myLibrary, project = myProject,
-#'                           scenario = myScenario)
+#' myDatasheets <- datasheet(myLibrary, project = 1, scenario = 1)
 #' 
 #' # Return a list of dataframes (1 for each datasheet)
 #' myDatasheetList <- datasheet(myScenario, summary = FALSE)
