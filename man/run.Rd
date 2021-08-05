@@ -47,28 +47,28 @@ run(
 \S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs, forceElements)
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, 
-\code{\link{Scenario}} or a list of Scenarios. Or the path to a library 
+\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
+\code{\link{Scenario}} or a list of Scenarios. Or the path to a library
 on disk.}
 
-\item{scenario}{Character, integer, or vector of these. Scenario names or ids. 
+\item{scenario}{Character, integer, or vector of these. Scenario names or ids.
 Or NULL. Note that integer ids are slightly faster.}
 
-\item{summary}{Logical. If FALSE (default) result Scenario objects are returned. 
+\item{summary}{Logical. If FALSE (default) result Scenario objects are returned.
 If TRUE (faster) result scenario ids are returned.}
 
-\item{jobs}{Integer. The number of jobs to run. Passed to SyncroSim where 
+\item{jobs}{Integer. The number of jobs to run. Passed to SyncroSim where
 multithreading is handled.}
 
 \item{transformerName}{Character.  The name of the transformer to run.}
 
-\item{forceElements}{Logical. If TRUE then returns a single result Scenario 
-as a named list; otherwise returns a single result scenario as a Scenario 
+\item{forceElements}{Logical. If TRUE then returns a single result Scenario
+as a named list; otherwise returns a single result scenario as a Scenario
 object. Applies only when summary=FALSE.}
 }
 \value{
-If \code{summary = FALSE}, returns a result Scenario object or a named list 
-of result Scenarios. The name is the parent scenario for each result. If 
+If \code{summary = FALSE}, returns a result Scenario object or a named list
+of result Scenarios. The name is the parent scenario for each result. If
 \code{summary = TRUE}, returns summary info for result scenarios.
 }
 \description{

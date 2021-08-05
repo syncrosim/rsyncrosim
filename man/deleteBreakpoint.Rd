@@ -14,7 +14,7 @@ deleteBreakpoint(x, transformerName = NULL, breakpointType = NULL)
 
 \item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime). Optional.}
 
-\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before 
+\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before
 timestep; at: after timestep.  Optional.}
 }
 \value{

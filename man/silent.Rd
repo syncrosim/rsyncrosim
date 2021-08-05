@@ -13,11 +13,11 @@ silent(session)
 \S4method{silent}{missingOrNULLOrChar}(session)
 }
 \arguments{
-\item{session}{Session or character. An object of class \code{\link{Session}} 
+\item{session}{Session or character. An object of class \code{\link{Session}}
 or path to a session. If NULL, the default session will be used.}
 }
 \value{
-Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
+Returns a logical value: \code{TRUE} if the session is silent and \code{FALSE} otherwise.
 }
 \description{
 Checks whether a SyncroSim \code{\link{Session}} is silent or not. In a silent

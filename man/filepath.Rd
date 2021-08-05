@@ -16,15 +16,15 @@ filepath(ssimObject)
 \S4method{filepath}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object containing a filepath (of class \code{\link{Session}}, 
+\item{ssimObject}{An object containing a filepath (of class \code{\link{Session}},
 \code{\link{Project}}, or \code{\link{SsimLibrary}}).}
 }
 \value{
 A character string: the path to a SyncroSim object on disk.
 }
 \description{
-Retrieves the path to a SyncroSim \code{\link{Session}}, 
-\code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
+Retrieves the path to a SyncroSim \code{\link{Session}},
+\code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}}
 on disk.
 }
 \examples{

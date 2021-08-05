@@ -17,7 +17,7 @@ parentId(scenario)
 }
 \value{
 An integer id of the parent scenario. If the input scenario does not have a
-parent, the function returns `NA`.
+parent, the function returns \code{NA}.
 }
 \description{
 Retrieves the id of the parent of a SyncroSim results scenario.

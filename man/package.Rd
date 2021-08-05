@@ -19,12 +19,12 @@ package(ssimObject = NULL, installed = TRUE)
 \S4method{package}{SsimLibrary}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}} or 
+\item{ssimObject}{An object of class \code{\link{Session}} or
 \code{\link{SsimLibrary}}.}
 
-\item{installed}{Logical or Character. `TRUE` to list installed packages, 
-`FALSE` to list available packages, and "BASE" to list installed base 
-packages. Default is `TRUE`}
+\item{installed}{Logical or Character. \code{TRUE} to list installed packages,
+\code{FALSE} to list available packages, and "BASE" to list installed base
+packages. Default is \code{TRUE}}
 }
 \value{
 Returns a \code{data.frame} of packages installed.

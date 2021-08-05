@@ -18,11 +18,11 @@ disableAddon(ssimLibrary, name)
 \item{name}{Character string or vector of addon names.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful deactivation
-of the addon) or `FALSE` upon failure.
+This function invisibly returns \code{TRUE} upon success (i.e.successful deactivation
+of the addon) or \code{FALSE} upon failure.
 }
 \description{
-Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}, 
+Disable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}},
 \code{\link{Project}} or \code{\link{Scenario}} with an associated SsimLibrary.
 }
 \examples{

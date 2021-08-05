@@ -19,14 +19,14 @@ name(ssimObject)
 \S4method{name}{Project}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
+\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}},
 or \code{\link{SsimLibrary}}.}
 }
 \value{
 A character string: the name of the ssimObject.
 }
 \description{
-Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 \code{\link{Scenario}}.
 }
 \examples{

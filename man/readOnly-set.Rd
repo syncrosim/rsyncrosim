@@ -13,10 +13,10 @@ readOnly(ssimObject) <- value
 \S4method{readOnly}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}},
 or \code{\link{SsimLibrary}}.}
 
-\item{value}{Logical. If `TRUE` the ssimObject will be read-only.}
+\item{value}{Logical. If \code{TRUE} the ssimObject will be read-only.}
 }
 \value{
 The updated ssimObject.

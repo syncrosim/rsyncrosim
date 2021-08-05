@@ -19,7 +19,7 @@ description(ssimObject)
 A character string describing the ssimObject.
 }
 \description{
-Returns a description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+Returns a description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 \code{\link{Scenario}}.
 }
 \examples{

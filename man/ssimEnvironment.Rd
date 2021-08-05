@@ -19,7 +19,7 @@ specific environment variables.
 # Get the whole set of variables
 e <- ssimEnvironment()
 
-# Get the path to transfer direcyory, for instance
+# Get the path to transfer directory, for instance
 transferdir <- e$TransferDirectory
 }
 

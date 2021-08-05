@@ -12,25 +12,25 @@ sqlStatement(
 )
 }
 \arguments{
-\item{groupBy}{Character string or vector of these. Vector of variables 
+\item{groupBy}{Character string or vector of these. Vector of variables
 (column names) to GROUP BY.}
 
-\item{aggregate}{Character string of vector of these. Vector of variables 
+\item{aggregate}{Character string of vector of these. Vector of variables
 (column names) to aggregate using aggregateFunction.}
 
-\item{aggregateFunction}{Character string. An SQL aggregate function 
+\item{aggregateFunction}{Character string. An SQL aggregate function
 (e.g. SUM, COUNT). Default is "SUM".}
 
-\item{where}{Named list. A list of subset variables. Names are column names, 
+\item{where}{Named list. A list of subset variables. Names are column names,
 and elements are the values to be selected from each column.}
 }
 \value{
-Returns a list of SELECT, GROUP BY and WHERE SQL statements used by the 
+Returns a list of SELECT, GROUP BY and WHERE SQL statements used by the
 \code{\link{datasheet}} function to construct an SQLite database query.
 }
 \description{
 Creates SELECT, GROUP BY and WHERE SQL statements.
-The resulting list of SQL statements will be converted to an SQLite database 
+The resulting list of SQL statements will be converted to an SQLite database
 query by the \code{\link{datasheet}} function.
 }
 \details{

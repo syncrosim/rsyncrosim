@@ -21,7 +21,7 @@ mergeDependencies(ssimObject) <- value
 Returns the updated ssimObject.
 }
 \description{
-Sets whether or not a \code{\link{Scenario}} is configured to merge 
+Sets whether or not a \code{\link{Scenario}} is configured to merge
 dependencies at run time.
 }
 \examples{

@@ -33,22 +33,22 @@ delete(
 \arguments{
 \item{ssimObject}{SsimLibrary/Project/Scenario, or path to a library.}
 
-\item{project}{character string, numeric, or vector of these. One or more 
-\code{\link{Project}} names or ids. Note that project argument is ignored 
+\item{project}{character string, numeric, or vector of these. One or more
+\code{\link{Project}} names or ids. Note that project argument is ignored
 if ssimObject is a list. Note that integer ids are slightly faster.}
 
-\item{scenario}{character string, numeric, or vector of these. One or more 
-\code{\link{Scenario}} names or ids. Note that scenario argument is 
+\item{scenario}{character string, numeric, or vector of these. One or more
+\code{\link{Scenario}} names or ids. Note that scenario argument is
 ignored if ssimObject is a list. Note that integer ids are slightly faster.}
 
 \item{datasheet}{character string or vector of these. One or more datasheet names.}
 
-\item{force}{logical. If FALSE (default), user will be prompted to approve 
+\item{force}{logical. If FALSE (default), user will be prompted to approve
 removal of each item.}
 }
 \value{
 This function returns invisibly a list of boolean values corresponding to each of the
-input: `TRUE` upon success (i.e.successful deletion) and `FALSE` upon failure.
+input: \code{TRUE} upon success (i.e.successful deletion) and \code{FALSE} upon failure.
 }
 \description{
 Deletes one or more items. Note that this is irreversible.

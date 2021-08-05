@@ -14,7 +14,7 @@ addBreakpoint(x, transformerName, breakpointType, arguments, callback)
 
 \item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime).}
 
-\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before 
+\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before
 timestep; at: after timestep.}
 
 \item{arguments}{A vector of timesteps or iterations e.g. c(1,2).}
@@ -25,8 +25,8 @@ timestep; at: after timestep.}
 A SyncroSim Scenario with an updated list of breakpoints.
 }
 \description{
-This function allows to add breakpoints to a SyncroSim model, for a given 
-Scenario. When the Scenario is \code{\link{run}} the function specified by the 
+This function allows to add breakpoints to a SyncroSim model, for a given
+Scenario. When the Scenario is \code{\link{run}} the function specified by the
 callback argument will be called for the specified iterations or timesteps.
 }
 \details{

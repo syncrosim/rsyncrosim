@@ -19,14 +19,14 @@ owner(ssimObject)
 \S4method{owner}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}},
 or \code{\link{SsimLibrary}}.}
 }
 \value{
 A character string: the owner of the ssimObject.
 }
 \description{
-Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 \code{\link{Scenario}}.
 }
 \examples{

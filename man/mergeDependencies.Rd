@@ -16,11 +16,11 @@ mergeDependencies(ssimObject)
 \item{ssimObject}{An object of class \code{\link{Scenario}}.}
 }
 \value{
-Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 
-and `FALSE` otherwise.
+Returns a logical: \code{TRUE} is the scenario is configured to merge dependencies at run time,
+and \code{FALSE} otherwise.
 }
 \description{
-Retrieves whether or not a \code{\link{Scenario}} is configured to merge 
+Retrieves whether or not a \code{\link{Scenario}} is configured to merge
 dependencies at run time.
 }
 \examples{

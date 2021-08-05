@@ -7,7 +7,7 @@
 \title{SyncroSim Library class}
 \description{
 \code{SsimLibrary} object representing a SyncroSim Library. A library is the
-highest level of organization in the SyncroSim workflow and contains at 
+highest level of organization in the SyncroSim workflow and contains at
 least one \code{\link{Project}}.
 }
 \section{Slots}{
@@ -21,6 +21,6 @@ least one \code{\link{Project}}.
 }}
 
 \seealso{
-See \code{\link{ssimLibrary}} for options when creating or loading a 
-    SyncroSim Library.
+See \code{\link{ssimLibrary}} for options when creating or loading a
+SyncroSim Library.
 }

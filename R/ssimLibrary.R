@@ -219,6 +219,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 
 #' Create or open a library
 #'
+#' @description 
 #' Creates or opens a \code{\link{SsimLibrary}} object.
 #' If summary = TRUE, returns library summary info.
 #' If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, 
@@ -240,11 +241,11 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @return 
 #' Returns a \code{\link{SsimLibrary}} object.
 #' 
-#' @details
-#'
+#' @details  
+#' Example arguments:
 #' \itemize{
 #'   \item {If name is SyncroSim Project or Scenario: }{Returns the 
-#'          \code{\link{SsimLibrary}} associated with the Project or Scenario.}
+#'          [SsimLibrary](SsimLibrary) associated with the Project or Scenario.}
 #'   \item {If name is NULL: }{Create/open a SsimLibrary in the current working 
 #'          directory with the filename SsimLibrary.ssim.}
 #'   \item {If name is a string: }{If string is not a valid path treat as filename 

@@ -22,11 +22,11 @@ dateModified(ssimObject)
 \item{ssimObject}{An object of class SsimLibrary, Project or Scenario.}
 }
 \value{
-A character string of the date and time of the most recent modification 
+A character string of the date and time of the most recent modification
 to the ssimObject provided as input.
 }
 \description{
-The most recent modification date of a \code{\link{SsimLibrary}}, 
+The most recent modification date of a \code{\link{SsimLibrary}},
 \code{\link{Project}} or \code{\link{Scenario}}.
 }
 \examples{

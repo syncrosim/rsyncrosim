@@ -16,17 +16,17 @@ updatePackage(name = NULL, session = NULL, listonly = FALSE)
 \S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL, listonly = FALSE)
 }
 \arguments{
-\item{name}{Character string.  The name of the package to update. 
+\item{name}{Character string.  The name of the package to update.
 If NULL, all packages will be updated.}
 
 \item{session}{An object of class \code{\link{Session}}.}
 
-\item{listonly}{Logical. If TRUE, available updates are listed only. Default 
+\item{listonly}{Logical. If TRUE, available updates are listed only. Default
 is FALSE.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful update)
-and `FALSE` upon failure.
+This function invisibly returns \code{TRUE} upon success (i.e.successful update)
+and \code{FALSE} upon failure.
 }
 \description{
 Updates a SyncroSim package.

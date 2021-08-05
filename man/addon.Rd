@@ -22,15 +22,15 @@ addon(ssimObject)
 \item{ssimObject}{An object of class SsimLibrary/Project/Scenario or Session.}
 }
 \value{
-A dataframe listing the addon(s) in use by the library to which the object 
+A dataframe listing the addon(s) in use by the library to which the object
 belongs.
 }
 \description{
-Some Packages are Add-On Packages. These Packages can only be used to extend 
+Some Packages are Add-On Packages. These Packages can only be used to extend
 existing Base Packages; as a result they cannot be used to create new Libraries.
-For example, stsimsf is an Add-On Package for stsim which provides optional 
+For example, stsimsf is an Add-On Package for stsim which provides optional
 additional functionality for the base ST-Sim model.
-More information on add-ons can be found in the 
+More information on add-ons can be found in the
 \href{http://docs.syncrosim.com/how_to_guides/package_addon.html}{syncrosim documentation}.
 }
 \details{

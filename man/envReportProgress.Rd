@@ -16,7 +16,7 @@ No returned value, used for side effects.
 }
 \description{
 This function is part of a set of functions designed to facilitate the
-development of R-based Syncrosim Packages. This function reports progress 
+development of R-based Syncrosim Packages. This function reports progress
 for a SyncroSim simulation.
 }
 \examples{

@@ -21,11 +21,11 @@ session(ssimObject) <- value
 Returns a SyncroSim object containing a Session.
 }
 \description{
-Set the Session of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+Set the Session of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 \code{\link{Scenario}} object.
 }
 \details{
-In order to avoid problems with SyncroSim version compatibility and library 
-updating, the new session must have the same filepath as the session of the 
+In order to avoid problems with SyncroSim version compatibility and library
+updating, the new session must have the same filepath as the session of the
 SsimObject e.g. filepath(value)==filepath(session(ssimObject))
 }

@@ -20,12 +20,12 @@ removePackage(name, session = NULL, force = FALSE)
 
 \item{session}{An object of class \code{\link{Session}}.}
 
-\item{force}{Logical. If TRUE, remove without requiring confirmation from 
+\item{force}{Logical. If TRUE, remove without requiring confirmation from
 the user. Default is FALSE.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful 
-removal) and `FALSE` upon failure.
+This function invisibly returns \code{TRUE} upon success (i.e.successful
+removal) and \code{FALSE} upon failure.
 }
 \description{
 Removes a package from your SyncroSim installation.

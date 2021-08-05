@@ -6,8 +6,8 @@
 \alias{Scenario}
 \title{SyncroSim Scenario class}
 \description{
-\code{Scenario} object representing a SyncroSim Scenario. A Scenario is the 
-lowest level of organization in the SyncroSim workflow, and is often used 
+\code{Scenario} object representing a SyncroSim Scenario. A Scenario is the
+lowest level of organization in the SyncroSim workflow, and is often used
 to isolate information on a single datasheet.
 }
 \section{Slots}{
@@ -23,13 +23,13 @@ to isolate information on a single datasheet.
 
 \item{\code{scenarioId}}{The scenario id.}
 
-\item{\code{parentId}}{For a result scenario, this is the id of the parent scenario. 
+\item{\code{parentId}}{For a result scenario, this is the id of the parent scenario.
 0 indicates this is not a result scenario.}
 
 \item{\code{breakpoints}}{An (optional) list of Breakpoint objects.}
 }}
 
 \seealso{
-See \code{\link{scenario}} for options when creating or loading a 
-    SyncroSim Scenario.
+See \code{\link{scenario}} for options when creating or loading a
+SyncroSim Scenario.
 }

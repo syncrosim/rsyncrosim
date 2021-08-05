@@ -11,8 +11,8 @@ No returned value, used for side effects.
 }
 \description{
 This function is part of a set of functions designed to facilitate the
-development of R-based Syncrosim Packages. This function steps a SyncroSim 
-simulation, and is to be called between \code{\link{envBeginSimulation}} and 
+development of R-based Syncrosim Packages. This function steps a SyncroSim
+simulation, and is to be called between \code{\link{envBeginSimulation}} and
 \code{\link{envEndSimulation}}.
 }
 \examples{

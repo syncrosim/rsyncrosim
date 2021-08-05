@@ -13,13 +13,13 @@ info(ssimLibrary)
 \item{ssimLibrary}{An object of class \code{\link{SsimLibrary}}.}
 }
 \value{
-Returns a \code{data.frame} with information on the properties of the library 
+Returns a \code{data.frame} with information on the properties of the library
 object.
 }
 \description{
-Retrieves some basic metadata about a Library: Name, Owner, Last Modified, 
+Retrieves some basic metadata about a Library: Name, Owner, Last Modified,
 Size, Read Only, Package Name, Package Description, Current Package Version,
-Minimum Package Version, External input files, External output files, 
+Minimum Package Version, External input files, External output files,
 Temporary files, Backup files.
 }
 \examples{

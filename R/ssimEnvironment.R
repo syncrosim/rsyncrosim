@@ -15,7 +15,7 @@
 #' # Get the whole set of variables
 #' e <- ssimEnvironment()
 #' 
-#' # Get the path to transfer direcyory, for instance
+#' # Get the path to transfer directory, for instance
 #' transferdir <- e$TransferDirectory
 #' }
 #' 
@@ -98,7 +98,7 @@ envInputFolder <- function(scenario, datasheetName) {
 #' SyncroSim DataSheet Output Folder
 #'
 #' This function is part of a set of functions designed to facilitate the
-#' development of R-based Syncrosim Packages. Thus function creates and returns 
+#' development of R-based Syncrosim Packages. This function creates and returns 
 #' a SyncroSim DataSheet Output Folder.
 #'
 #' @param scenario Scenario. A SyncroSim result \code{\link{Scenario}}.

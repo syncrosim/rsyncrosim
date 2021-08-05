@@ -19,7 +19,7 @@ name(ssimObject) <- value
 \S4method{name}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}}, 
+\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}},
 or \code{\link{SsimLibrary}}.}
 
 \item{value}{A character string, the new name.}
@@ -29,7 +29,7 @@ The updated ssim Object.
 }
 \description{
 Set the name of a \code{\link{SsimLibrary}}, \code{\link{Project}}, or
- \code{\link{Scenario}}.
+\code{\link{Scenario}}.
 }
 \examples{
 \donttest{

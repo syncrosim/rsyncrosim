@@ -20,12 +20,12 @@ deletePackage(name, session = NULL, force = FALSE)
 
 \item{session}{An object of class \code{\link{Session}}.}
 
-\item{force}{Logical. If TRUE, delete without requiring confirmation from 
+\item{force}{Logical. If TRUE, delete without requiring confirmation from
 the user.}
 }
 \value{
-This function invisibly returns `TRUE` upon success (i.e.successful 
-deletion) and `FALSE` upon failure.
+This function invisibly returns \code{TRUE} upon success (i.e.successful
+deletion) and \code{FALSE} upon failure.
 }
 \description{
 This function is now deprecated. See: \code{\link{removePackage}}.

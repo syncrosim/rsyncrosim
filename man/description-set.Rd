@@ -21,7 +21,7 @@ description(ssimObject) <- value
 The object with updated description.
 }
 \description{
-Set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+Set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 \code{\link{Scenario}}.
 }
 \examples{

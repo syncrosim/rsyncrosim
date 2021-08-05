@@ -14,29 +14,29 @@ project(
 )
 }
 \arguments{
-\item{ssimObject}{An object of class  \code{\link{Scenario}} or 
-\code{\link{SsimLibrary}}, or a Character string (i.e. A ssimObject 
+\item{ssimObject}{An object of class  \code{\link{Scenario}} or
+\code{\link{SsimLibrary}}, or a Character string (i.e. A ssimObject
 containing a filepath to a library, or a filepath)}
 
-\item{project}{Character, integer, or vector of these. Names or ids of one or 
+\item{project}{Character, integer, or vector of these. Names or ids of one or
 more projects. Note that integer ids are slightly faster.}
 
-\item{sourceProject}{Character, integer, or \code{\link{Project}} object. If 
-not `NULL`, new projects will be copies of the sourceProject.}
+\item{sourceProject}{Character, integer, or \code{\link{Project}} object. If
+not \code{NULL}, new projects will be copies of the sourceProject.}
 
-\item{summary}{Logical. If `TRUE` then return the project(s) in a dataframe with 
-the projectId, name, description, owner, dateModified, readOnly. Default 
-is `TRUE` if `project=NULL` and ssimObject is not Scenario/Project, `FALSE` 
+\item{summary}{Logical. If \code{TRUE} then return the project(s) in a dataframe with
+the projectId, name, description, owner, dateModified, readOnly. Default
+is \code{TRUE} if \code{project=NULL} and ssimObject is not Scenario/Project, \code{FALSE}
 otherwise.}
 
-\item{forceElements}{Logical. If TRUE then returns a single project as a named 
-list; otherwise returns a single project as a \code{\link{Project}} object. 
-Applies only when `summary=FALSE`.}
+\item{forceElements}{Logical. If TRUE then returns a single project as a named
+list; otherwise returns a single project as a \code{\link{Project}} object.
+Applies only when \code{summary=FALSE}.}
 
-\item{overwrite}{Logical. If `TRUE` an existing Project will be overwritten.}
+\item{overwrite}{Logical. If \code{TRUE} an existing Project will be overwritten.}
 }
 \value{
-Returns a \code{Project} object representing a SyncroSim project. If summary is `TRUE`,
+Returns a \code{Project} object representing a SyncroSim project. If summary is \code{TRUE},
 returns a dataframe of project names and descriptions.
 }
 \description{
@@ -45,10 +45,10 @@ Creates or retrieves a project or multiple projects from a library.
 \details{
 For each element of project:
 \itemize{
-  \item {If element identifies an existing project: }{Returns the existing Project}.
-  \item {If element identifies more than one project: }{Error}.
-  \item {If element does not identify an existing project: }{Creates a new Project 
-  named element. Note that SyncroSim automatically assigns an id to a new project.}
+\item {If element identifies an existing project: }{Returns the existing Project}.
+\item {If element identifies more than one project: }{Error}.
+\item {If element does not identify an existing project: }{Creates a new Project
+named element. Note that SyncroSim automatically assigns an id to a new project.}
 }
 }
 \examples{

@@ -41,27 +41,25 @@ Suggests:
     Rcpp,
     rgdal,
     rmarkdown,
-    covr
+    covr,
+    lifecycle
 SystemRequirements: SyncroSim (>=2.2.22)
 Collate: 
     'AAAClassDefinitions.R'
-    'addModule.R'
     'addPackage.R'
-    'addPackageFile.R'
     'addRow.R'
     'addon.R'
     'autogentags.R'
     'backup.R'
-    'basePackage.R'
     'breakpoint.R'
     'command.R'
     'datasheet.R'
     'datasheetRaster.R'
     'dateModified.R'
     'delete.R'
-    'deleteModule.R'
     'deletePackage.R'
     'dependency.R'
+    'deprecated.R'
     'description.R'
     'disableAddon.R'
     'enableAddon.R'
@@ -79,8 +77,6 @@ Collate:
     'session.R'
     'internalWrappers.R'
     'mergeDependencies.R'
-    'model.R'
-    'module.R'
     'owner.R'
     'package.R'
     'parentId.R'
@@ -101,3 +97,4 @@ RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 URL: https://syncrosim.github.io/rsyncrosim, https://syncrosim.github.io/rsyncrosim/
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
+Roxygen: list(markdown = TRUE)

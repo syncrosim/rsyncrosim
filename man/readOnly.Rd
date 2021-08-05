@@ -19,15 +19,15 @@ readOnly(ssimObject)
 \S4method{readOnly}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
+\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}},
 or \code{\link{SsimLibrary}}.}
 }
 \value{
-Returns a logical value: `TRUE` if the ssimObject is read only and `FALSE`
+Returns a logical value: \code{TRUE} if the ssimObject is read only and \code{FALSE}
 otherwise.
 }
 \description{
-Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or
 \code{\link{Scenario}} is read-only is read-only.
 }
 \examples{
