@@ -6,30 +6,32 @@
 \alias{Scenario}
 \title{SyncroSim Scenario class}
 \description{
-\code{Scenario} object representing a SyncroSim Scenario. A Scenario is the
-lowest level of organization in the SyncroSim workflow, and is often used
-to isolate information on a single datasheet.
+\code{Scenario} object representing a SyncroSim Scenario. A Scenario is the 
+lowest level of organization in the SyncroSim workflow, and is often used 
+to isolate information on a single Datasheet.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The Session associated with the Scenario.}
+\item{\code{session}}{\code{\link{Session}} object. The Session associated with the 
+Scenario}
 
-\item{\code{filepath}}{The path to the Scenario's Library on disk.}
+\item{\code{filepath}}{character string. The path to the Scenario's SsimLibrary on disk}
 
-\item{\code{datasheetNames}}{Names and scope of all datasheets in Scenario's Library.}
+\item{\code{datasheetNames}}{character string. Names and scope of all Datasheets in
+Scenario's SsimLibrary}
 
-\item{\code{projectId}}{The project id.}
+\item{\code{projectId}}{integer. The Project id}
 
-\item{\code{scenarioId}}{The scenario id.}
+\item{\code{scenarioId}}{integer. The Scenario id}
 
-\item{\code{parentId}}{For a result scenario, this is the id of the parent scenario.
-0 indicates this is not a result scenario.}
+\item{\code{parentId}}{integer. For a result Scenario, this is the id of the parent 
+Scenario. 0 indicates this is not a result Scenario}
 
-\item{\code{breakpoints}}{An (optional) list of Breakpoint objects.}
+\item{\code{breakpoints}}{list of Breakpoint objects (optional)}
 }}
 
 \seealso{
-See \code{\link{scenario}} for options when creating or loading a
-SyncroSim Scenario.
+See \code{\link{scenario}} for options when creating or loading a 
+    SyncroSim Scenario.
 }

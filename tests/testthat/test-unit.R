@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License ## lines 41, 175, 226 fail in test env. 
+# MIT License ## lines 41, 175, 226 fail in test env. 
 
 old_dir <- getwd()
 temp_dir <- tempdir()

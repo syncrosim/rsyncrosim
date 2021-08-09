@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
@@ -9,17 +9,20 @@ NULL
 #' \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
 #' on disk.
 #'
-#' @param ssimObject An object containing a filepath (of class \code{\link{Session}}, 
-#'     \code{\link{Project}}, or \code{\link{SsimLibrary}}).
+#' @param ssimObject \code{\link{Session}}, 
+#'     \code{\link{Project}}, or \code{\link{SsimLibrary}} object
 #' 
 #' @return 
 #' A character string: the path to a SyncroSim object on disk.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session and SsimLibrary
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' 
 #' # Get the file path
 #' myFilePath <- filepath(myLibrary)
@@ -45,19 +48,22 @@ setMethod("filepath", signature(ssimObject = "SsimObject"), function(ssimObject)
 #' \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
 #' on disk.
 #'
-#' @param ssimObject An object containing a filepath (of class \code{\link{Session}}, 
-#'     \code{\link{Project}}, or \code{\link{SsimLibrary}}).
+#' @param ssimObject \code{\link{Session}}, 
+#'     \code{\link{Project}}, or \code{\link{SsimLibrary}} object
 #' 
 #' @return 
 #' A character string: the temporary file path to a SyncroSim object on disk.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
 #' 
-#' # Get the file path
+#' # Set up a SyncroSim Session and SsimLibrary
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+#'  
+#' # Get the temporary file path
 #' myFilePath <- tempfilepath(myLibrary)
 #' }
 #' 

@@ -1,27 +1,40 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Retrieves The parent scenario id of a SyncroSim Scenario.
+#' Retrieves the parent Scenario id
 #'
-#' Retrieves the id of the parent of a SyncroSim results scenario.
+#' Retrieves the id of the parent of a SyncroSim results Scenario.
 #'
-#' @param scenario A object of class \code{\link{Scenario}}.
+#' @param scenario \code{\link{Scenario}} object
 #' 
 #' @return 
-#' An integer id of the parent scenario. If the input scenario does not have a
-#' parent, the function returns `NA`.
+#' An integer id of the parent Scenario. If the input Scenario does not have a
+#' parent, the function returns \code{NA}
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Install helloworldEnhanced SyncroSim package
+#' addPackage("helloworldEnhanced")
+#' 
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession,
+#'                          package = "helloworldEnhanced",
+#'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
-#' parentId(myScenario)
+#' # Run Scenario to generate results
+#' resultScenario <- run(myScenario)
+#' 
+#' # Find the parent ID of the Scenario
+#' parentId(resultScenario)
 #' }
 #' 
 #' @export

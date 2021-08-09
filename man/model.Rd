@@ -7,14 +7,13 @@
 model(ssimObject = NULL)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}}.}
-}
-\value{
-A \code{dataframe} of models (for Session) or named vector of character strings
-(for \code{SsimLibrary}).
+\item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}} object}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
-models are now distributed in Packages;
-Please use \code{\link{package}} instead.
 }
+\details{
+Models are now distributed in Packages; 
+please use \code{\link{package}} instead.
+}
+\keyword{internal}

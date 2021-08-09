@@ -5,7 +5,7 @@
 \alias{removePackage,ANY,character-method}
 \alias{removePackage,ANY,missingOrNULL-method}
 \alias{removePackage,ANY,Session-method}
-\title{Removes a package from your SyncroSim installation.}
+\title{Removes package from SyncroSim installation}
 \usage{
 removePackage(name, session = NULL, force = FALSE)
 
@@ -16,25 +16,27 @@ removePackage(name, session = NULL, force = FALSE)
 \S4method{removePackage}{ANY,Session}(name, session = NULL, force = FALSE)
 }
 \arguments{
-\item{name}{Character. The name of the package to remove}
+\item{name}{character. The name of the package to remove}
 
-\item{session}{An object of class \code{\link{Session}}.}
+\item{session}{\code{\link{Session}} object. If \code{NULL} (default), 
+\code{session()} will be used}
 
-\item{force}{Logical. If TRUE, remove without requiring confirmation from
-the user. Default is FALSE.}
+\item{force}{logical. If \code{TRUE}, remove without requiring confirmation from 
+the user. Default is \code{FALSE}}
 }
 \value{
-This function invisibly returns \code{TRUE} upon success (i.e.successful
+Invisibly returns \code{TRUE} upon success (i.e.successful 
 removal) and \code{FALSE} upon failure.
 }
 \description{
-Removes a package from your SyncroSim installation.
+Removes package from SyncroSim installation
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Set SyncroSim Session
 mySession <- session()
 
+# Remove package from SyncroSim Session
 removePackage("stsim", mySession, force = FALSE)
 }
 

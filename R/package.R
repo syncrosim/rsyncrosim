@@ -1,25 +1,30 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Retrieves the installed or available packages
+#' Installed or available packages
 #'
 #' Retrieves the packages installed or available for this version of SyncroSim.
 #'
-#' @param ssimObject An object of class \code{\link{Session}} or 
-#' \code{\link{SsimLibrary}}.
-#' @param installed Logical or Character. `TRUE` to list installed packages, 
-#' `FALSE` to list available packages, and "BASE" to list installed base 
-#' packages. Default is `TRUE`
+#' @param ssimObject \code{\link{Session}} or 
+#' \code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
+#' will be used
+#' @param installed logical or character. \code{TRUE} (default) to list installed packages, 
+#' \code{FALSE} to list available packages, and "BASE" to list installed base 
+#' packages
 #' 
 #' @return 
 #' Returns a \code{data.frame} of packages installed.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set the SyncroSim Session and SsimLibrary
 #' mySession <- session()
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' 
 #' # List all installed packages
 #' package(mySession)
@@ -29,13 +34,8 @@ NULL
 #' 
 #' # List all available packages on the server (including currently installed)
 #' package(installed = FALSE)
-#' }
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' 
-#' # Check the package you're Library is currently using
+#'  
+#' # Check the package you're SsimLibrary is currently using
 #' package(myLibrary)
 #' }
 #' 

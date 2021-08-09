@@ -1,27 +1,25 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Auto Generation Tags for a Scenario.
+#' Auto Generation Tags for a Scenario
 #'
-#' Retrieves the Auto Generation Tags for a \code{\link{Scenario}}.
+#' Retrieves or sets the Auto Generation Tags for a \code{\link{Scenario}}.
 #'
-#' @param ssimObject An object of class \code{\link{Scenario}}.
+#' @param ssimObject \code{\link{Scenario}} object
+#' @param value character
 #' 
 #' @return 
 #' Returns the Auto Generation Tags.
 #' 
 #' @examples  
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
-#'                          session = mySession)
-#' myProject <- project(myLibrary, project = "Definitions")
-#' myScenario <- scenario(myProject, scenario = "My Scenario")
-#' 
+#' \dontrun{
+#' # Get the Auto Generation Tags for a SyncroSim Scenario
 #' autogentags(myScenario)
+#' 
+#' # Set the Auto Generation Tags for a SyncroSim Scenario
+#' autogentags(myScenario) <- "myTag"
 #' }
 #' 
 #' @export
@@ -38,20 +36,10 @@ setMethod("autogentags", signature(ssimObject = "Scenario"), function(ssimObject
   return(scnInfo$autoGenTags)
 })
 
-#' Auto Generation Tags for a Scenario.
-#'
-#' Sets the Auto Generation Tags for a \code{\link{Scenario}}.
-#'
-#' @param ssimObject An object of class \code{\link{Scenario}}.
-#' @param value character.
-#' 
-#' @return 
-#' The updated ssimObject.
-#' 
 #' @export
 setGeneric("autogentags<-", function(ssimObject, value) standardGeneric("autogentags<-"))
 
-#' @rdname autogentags-set
+#' @rdname autogentags
 setReplaceMethod(
   f = "autogentags",
   signature = "character",
@@ -60,7 +48,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname autogentags-set
+#' @rdname autogentags
 setReplaceMethod(
   f = "autogentags",
   signature = "Scenario",

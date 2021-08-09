@@ -4,7 +4,7 @@
 \alias{parentId}
 \alias{parentId,character-method}
 \alias{parentId,Scenario-method}
-\title{Retrieves The parent scenario id of a SyncroSim Scenario.}
+\title{Retrieves the parent Scenario id}
 \usage{
 parentId(scenario)
 
@@ -13,24 +13,37 @@ parentId(scenario)
 \S4method{parentId}{Scenario}(scenario)
 }
 \arguments{
-\item{scenario}{A object of class \code{\link{Scenario}}.}
+\item{scenario}{\code{\link{Scenario}} object}
 }
 \value{
-An integer id of the parent scenario. If the input scenario does not have a
-parent, the function returns \code{NA}.
+An integer id of the parent Scenario. If the input Scenario does not have a
+parent, the function returns \code{NA}
 }
 \description{
-Retrieves the id of the parent of a SyncroSim results scenario.
+Retrieves the id of the parent of a SyncroSim results Scenario.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Install helloworldEnhanced SyncroSim package
+addPackage("helloworldEnhanced")
+
+# Set the file path and name of the new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib")
+
+# Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = myLibraryName,
+                         session = mySession,
+                         package = "helloworldEnhanced",
+                         template = "example-library")
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
-parentId(myScenario)
+# Run Scenario to generate results
+resultScenario <- run(myScenario)
+
+# Find the parent ID of the Scenario
+parentId(resultScenario)
 }
 
 }

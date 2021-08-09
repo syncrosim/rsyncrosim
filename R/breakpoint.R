@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
@@ -195,18 +195,21 @@ getBPNameLongForm <- function(breakpointType) {
   return(types[[breakpointType]])
 }
 
-#' Add a Scenario breakpoint.
+#' Add a Scenario breakpoint
 #'
-#' This function allows to add breakpoints to a SyncroSim model, for a given 
-#' Scenario. When the Scenario is \code{\link{run}} the function specified by the 
-#' callback argument will be called for the specified iterations or timesteps.
+#' This function allows the user to add breakpoints to a SyncroSim model, for a 
+#' given \code{\link{Scenario}}. When the Scenario is \code{\link{run}} the 
+#' function specified by the callback argument will be called for the specified 
+#' iterations or timesteps.
 #'
-#' @param x A SyncroSim \code{\link{Scenario}}.
-#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime).
-#' @param breakpointType bi: before iteration; ai: after iteration; bt:before 
-#'     timestep; at: after timestep.
-#' @param arguments A vector of timesteps or iterations e.g. c(1,2).
-#' @param callback A function to be called when the breakpoint is hit.
+#' @param x \code{\link{Scenario}} object
+#' @param transformerName character. A Stochastic Time Transformer 
+#' e.g. "stsim_Runtime" (optional)
+#' @param breakpointType character. Options include "bi" (before iteration),
+#' "ai" (after iteration), "bt" (before timestep), or "at" (after timestep) 
+#' (optional)
+#' @param arguments vector of timesteps or iterations e.g. c(1,2) (optional)
+#' @param callback function to be called when the breakpoint is hit (optional)
 #' 
 #' @return 
 #' A SyncroSim Scenario with an updated list of breakpoints.
@@ -214,18 +217,34 @@ getBPNameLongForm <- function(breakpointType) {
 #' @details Breakpoints are only supported for Stochastic Time Transformers.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
+#' # Create callback function
 #' callbackFunction <- function(x, iteration, timestep) {
 #'   print(paste0("Breakpoint hit: ", scenarioId(x)))
 #' }
 #' 
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myScenario <- scenario(mylib, "testScenario")
+#' # Install helloworldEnhanced package
+#' addPackage("helloworldEnhanced")
 #' 
-#' myScenario <- addBreakpoint(x= myScenario, transformerName= "stsim_Runtime", breakpointType = "bi", 
-#'               arguments = c(1,2), callback = callbackFunction)
+#' # Set SsimLibrary name
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set Session and SsimLibrary
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession,
+#'                          package = "helloworldEnhanced")
+#' myScenario <- scenario(myLibrary, "My Scenario")
+#' 
+#' # Add breakpoints before the 1st and 2nd iterations
+#' myScenario <- addBreakpoint(x= myScenario,
+#'                             transformerName= "helloworldEnhanced_Primary",
+#'                             breakpointType = "bi", 
+#'                             arguments = c(1,2),
+#'                             callback = callbackFunction)
+#'                             
+#' # Check that the breakpoints were added
+#' breakpoint(myScenario)
 #' }
 #' @export
 setGeneric("addBreakpoint", function(x, transformerName, breakpointType, arguments, callback) standardGeneric("addBreakpoint"))
@@ -248,29 +267,56 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
   return(x)
 })
 
-#' Delete a Scenario breakpoint.
+#' Delete a Scenario breakpoint
 #'
 #' This function will delete a \code{\link{Scenario}} breakpoint.
 #'
-#' @param x A SyncroSim \code{\link{Scenario}}.
-#' @param transformerName A Stochastic Time Transformer (e.g. stsim_Runtime). Optional.
-#' @param breakpointType bi: before iteration; ai: after iteration; bt:before 
-#'     timestep; at: after timestep.  Optional.
+#' @param x \code{\link{Scenario}} object
+#' @param transformerName character. A Stochastic Time Transformer 
+#' e.g. "stsim_Runtime" (optional)
+#' @param breakpointType character. Options include "bi" (before iteration),
+#' "ai" (after iteration), "bt" (before timestep), or "at" (after timestep) 
+#' (optional)
 #' 
 #' @return A SyncroSim Scenario with an updated list of breakpoints.
 #' 
 #' @seealso \code{\link{addBreakpoint}}.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' # Create callback function
+#' callbackFunction <- function(x, iteration, timestep) {
+#'   print(paste0("Breakpoint hit: ", scenarioId(x)))
+#' }
 #' 
-#' temp_dir <- tempdir()
+#' # Install helloworldEnhanced package
+#' addPackage("helloworldEnhanced")
+#' 
+#' # Set SsimLibrary name
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set Session and SsimLibrary
 #' mySession <- session()
-#' mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myScenario <- scenario(mylib, "testScenario")
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession,
+#'                          package = "helloworldEnhanced")
+#' myScenario <- scenario(myLibrary, "My Scenario")
 #' 
+#' # Add breakpoints before the 1st and 2nd iterations
+#' myScenario <- addBreakpoint(x= myScenario,
+#'                             transformerName= "helloworldEnhanced_Primary",
+#'                             breakpointType = "bi", 
+#'                             arguments = c(1,2),
+#'                             callback = callbackFunction)
+#'                             
+#' # Check that the breakpoints were added
+#' breakpoint(myScenario)
+#' 
+#' # Delete breakpoints
 #' myScenario <- deleteBreakpoint(myScenario)
-#' myScenario <- deleteBreakpoint(myScenario, transformerName = "stsim_Runtime")
+#' 
+#' # Check that breakpoints were deleted
+#' breakpoint(myScenario)
 #' }
 #' @export
 setGeneric("deleteBreakpoint", function(x, transformerName = NULL, breakpointType = NULL) standardGeneric("deleteBreakpoint"))
@@ -306,14 +352,51 @@ setMethod("deleteBreakpoint", signature(x = "Scenario"), function(x, transformer
   return(x)
 })
 
-#' Lists the breakpoints for a Scenario.
+#' Breakpoints for a Scenario
 #'
 #' Lists the breakpoints for a Scenario.
 #'
-#' @param x A SyncroSim \code{\link{Scenario}}.
+#' @param x \code{\link{Scenario}} object
 #' 
 #' @return 
-#' Does not return anything, used for printing purposes.
+#' None
+#' 
+#' @examples 
+#' \dontrun{
+#' # Create callback function
+#' callbackFunction <- function(x, iteration, timestep) {
+#'   print(paste0("Breakpoint hit: ", scenarioId(x)))
+#' }
+#' 
+#' # Install helloworldEnhanced package
+#' addPackage("helloworldEnhanced")
+#' 
+#' # Set SsimLibrary name
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set Session and SsimLibrary
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession,
+#'                          package = "helloworldEnhanced")
+#' myScenario <- scenario(myLibrary, "My Scenario")
+#' 
+#' # Add breakpoints before the 1st and 2nd iterations
+#' myScenario <- addBreakpoint(x= myScenario,
+#'                             transformerName= "helloworldEnhanced_Primary",
+#'                             breakpointType = "bi", 
+#'                             arguments = c(1,2),
+#'                             callback = callbackFunction)
+#'                             
+#' # Check that the breakpoints were added
+#' breakpoint(myScenario)
+#' 
+#' # Delete breakpoints
+#' myScenario <- deleteBreakpoint(myScenario)
+#' 
+#' # Check that breakpoints were deleted
+#' breakpoint(myScenario)
+#' }
 #' 
 #' @export
 setGeneric("breakpoint", function(x) standardGeneric("breakpoint"))

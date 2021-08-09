@@ -2,21 +2,21 @@
 % Please edit documentation in R/ssimEnvironment.R
 \name{envReportProgress}
 \alias{envReportProgress}
-\title{Reports progress for a SyncroSim simulation}
+\title{Reports SyncroSim simulation progress}
 \usage{
 envReportProgress(iteration, timestep)
 }
 \arguments{
-\item{iteration}{integer. The current iteration.}
+\item{iteration}{integer. The current iteration}
 
-\item{timestep}{integer. The current timestep.}
+\item{timestep}{integer. The current timestep}
 }
 \value{
 No returned value, used for side effects.
 }
 \description{
 This function is part of a set of functions designed to facilitate the
-development of R-based Syncrosim Packages. This function reports progress
+development of R-based Syncrosim Packages. This function reports progress 
 for a SyncroSim simulation.
 }
 \examples{

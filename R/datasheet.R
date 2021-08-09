@@ -1,134 +1,147 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Retrieve a SyncroSim datasheet
+#' Retrieve a SyncroSim Datasheet
 #'
-#' This function retrieves a SyncroSim datasheet, either by calling the SyncroSim
-#' console, or by directly querying the database contained in the library.
+#' This function retrieves a SyncroSim Datasheet, either by calling the SyncroSim
+#' console, or by directly querying the \code{\link{SsimLibrary}} database.
 #'
 #' @details
-#' If summary=TRUE or summary=NULL and name=NULL a dataframe describing the 
-#' datasheets is returned. If optional=TRUE columns include: scope, package, 
-#' name, displayName, isSingle, isOutput, data. data only displayed for scenarios. 
-#' dataInherited and dataSource columns added if a scenario has dependencies. If 
-#' optional=FALSE columns include: scope, name, displayName. All other arguments 
-#' are ignored.
+#' If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the 
+#' Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{package}, 
+#' \code{name}, \code{displayName}, \code{isSingle}, \code{isOutput}, \code{data}. data only displayed for 
+#' a SyncroSim \code{\link{Scenario}}. \code{dataInherited} and \code{dataSource} columns 
+#' added if a Scenario has dependencies. If \code{optional=FALSE}, columns include: 
+#' \code{scope}, \code{name}, \code{displayName}. All other arguments are ignored.
 #'
-#' Otherwise, for each element in name a datasheet is returned as follows:
+#' Otherwise, for each element in name a Datasheet is returned as follows:
 #' \itemize{
-#'   \item {If lookupsAsFactors=TRUE (default): }{Each column is given the correct 
+#'   \item {If \code{lookupsAsFactors=TRUE} (default): }{Each column is given the correct 
 #'          data type, and dependencies returned as factors with allowed values (levels). 
 #'          A warning is issued if the lookup has not yet been set.}
-#'   \item {If empty=TRUE: }{Each column is given the correct data type. Fast (1 less 
+#'   \item {If \code{empty=TRUE}: }{Each column is given the correct data type. Fast (1 less 
 #'          console command)}.
-#'   \item {If empty=FALSE and lookupsAsFactors=FALSE: }{Column types are not checked, 
+#'   \item {If \code{empty=FALSE} and \code{lookupsAsFactors=FALSE}: }{Column types are not checked, 
 #'          and the optional argument is ignored. Fast (1 less console command).}
-#'   \item {If ssimObject is a list of \code{\link{Scenario}} or \code{\link{Project}} 
-#'          objects (output from \code{\link{run}}, \code{\link{scenario}} or 
-#'          \code{\link{project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
-#'   \item {If scenario/project is a vector: }{Adds ScenarioID/ProjectID column 
+#'   \item {If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}} 
+#'          objects (output from \code{\link{run}}, \code{\link{Scenario}} or 
+#'          \code{\link{Project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
+#'   \item {If Scenario/Project is a vector: }{Adds ScenarioID/ProjectID column 
 #'          as necessary.}
-#'   \item {If requested datasheet has scenario scope and contains info from more 
-#'          than one scenario: }{ScenarioID/ScenarioName/ScenarioParent columns 
-#'          identify the scenario by name, id, and parent (if a result scenario)}.
-#'   \item {If requested datasheet has project scope and contains info from more 
-#'          than one project: }{ProjectID/ProjectName columns identify the project 
-#'          by name and id.}
+#'   \item {If requested Datasheet has Scenario scope and contains info from more 
+#'          than one Scenario: }{ScenarioID/ScenarioName/ScenarioParent columns 
+#'          identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario)}.
+#'   \item {If requested Datasheet has Project scope and contains info from more 
+#'          than one Project: }{ProjectID/ProjectName columns identify the Project 
+#'          by \code{name} and \code{id}}
 #' }
 #'
-#' @param ssimObject \strong{[SsimLibrary/Project/Scenario OR list of objects]}. 
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}},
+#'     or \code{\link{Scenario}} object or list of objects. 
 #'     Note that all objects in a list must be of the same type, and belong to 
-#'     the same library.
-#' @param name \strong{[character OR character vector]}. Sheet name(s). If NULL, 
+#'     the same SsimLibrary
+#' @param name character or character vector. Sheet name(s). If \code{NULL} (default), 
 #'     all datasheets in the ssimObject will be returned. Note that setting 
-#'     summary=FALSE and name=NULL pulls all datasheets, which is timeconsuming 
-#'     and not generally recommended.
-#' @param project \strong{[numeric OR numeric vector]}. One or more 
-#'     \code{\link{Project}}ids.
-#' @param scenario \strong{[numeric OR numeric vector]}. One or more 
-#'     \code{\link{Scenario}} ids.
-#' @param summary \strong{[logical OR character]}. If TRUE returns a dataframe of sheet names 
-#'     and other info. If FALSE returns dataframe or list of dataframes. If "CORE" returns 
-#'     dataframe of sheets names and other info including built-in core SyncroSim datasheets.
-#' @param optional \strong{[logical]}. If summary=TRUE and optional=TRUE returns 
-#'     only scope, name and displayName. If summary=FALSE and optional=TRUE returns 
-#'     all of the datasheet's columns, including the optional columns. If 
-#'     summary=TRUE, optional=FALSE, returns only those columns that are mandatory 
-#'     and contain data (if empty=FALSE). Ignored if summary=FALSE, empty=FALSE 
-#'     and lookupsAsFactors=FALSE.
-#' @param empty \strong{[logical]}. If TRUE returns empty dataframes for each 
-#'     datasheet. Ignored if summary=TRUE.
-#' @param lookupsAsFactors \strong{[logical]}. If TRUE (default) dependencies 
-#'     returned as factors with allowed values (levels). Set FALSE to speed 
-#'     calculations. Ignored if summary=TRUE.
-#' @param sqlStatement List returned by \code{\link{sqlStatement}}. SELECT and 
-#'     GROUP BY SQL statements passed to SQLite database. Ignored if summary=TRUE.
-#' @param includeKey \strong{[logical]}. If TRUE include primary key in table.
-#' @param forceElements \strong{[logical]}. If FALSE and name has a single element 
-#'     returns a dataframe; otherwise returns a list of dataframes. Ignored if 
-#'     summary=TRUE.
-#' @param fastQuery \strong{[logical}].  If TRUE, the request is optimized for 
+#'     \code{summary=FALSE} and \code{name=NULL} pulls all Datasheets, which is time 
+#'     consuming and not generally recommended
+#' @param project numeric or numeric vector. One or more 
+#'     \code{\link{Project}} ids
+#' @param scenario numeric or numeric vector. One or more 
+#'     \code{\link{Scenario}} ids
+#' @param summary logical or character. If \code{TRUE} (default) returns a data.frame of sheet names 
+#'     and other info. If \code{FALSE} returns data.frame or list of data.frames. If \code{"CORE"} returns 
+#'     data.frame of sheet names and other info including built-in core SyncroSim Datasheets
+#' @param optional logical. If \code{summary=TRUE} and \code{optional=TRUE} returns 
+#'     only \code{scope}, \code{name} and \code{displayName}. If \code{summary=FALSE} and \code{optional=TRUE} returns 
+#'     all of the Datasheet's columns, including the optional columns. If 
+#'     \code{summary=TRUE}, \code{optional=FALSE} (default), returns only those columns that are mandatory 
+#'     and contain data (if \code{empty=FALSE}). Ignored if \code{summary=FALSE}, \code{empty=FALSE}
+#'     and \code{lookupsAsFactors=FALSE}
+#' @param empty logical. If \code{TRUE} returns empty data.frames for each 
+#'     Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}
+#' @param lookupsAsFactors logical. If \code{TRUE} (default) dependencies 
+#'     returned as factors with allowed values (levels). Set \code{FALSE} to speed 
+#'     calculations. Ignored if \code{summary=TRUE}
+#' @param sqlStatement list returned by \code{\link{sqlStatement}}. \code{SELECT} and 
+#'     \code{GROUP BY} SQL statements passed to SQLite database. Ignored if 
+#'     \code{summary=TRUE} (optional)
+#' @param includeKey logical. If \code{TRUE} include primary key in table. Default is 
+#' \code{FALSE}
+#' @param forceElements logical. If \code{FALSE} (default) and name has a single element 
+#'     returns a data.frame; otherwise returns a list of data.frames. Ignored if 
+#'     \code{summary=TRUE}
+#' @param fastQuery logical.  If \code{TRUE}, the request is optimized for 
 #'     performance.  Ignored if combined with summary, empty, or 
-#'     \code{\link{sqlStatement}} flags. Default is FALSE.
+#'     \code{\link{sqlStatement}} flags. Default is \code{FALSE}
 #' 
 #' @return 
-#' If summary=TRUE or summary="CORE" returns a dataframe of datasheet names 
-#' and other info, otherwise returns a dataframe or list of these.
+#' If \code{summary=TRUE} or \code{summary="CORE"} returns a data.frame of Datasheet names 
+#' and other information, otherwise returns a data.frame or list of these.
 #' 
 #'
 #' @examples 
 #' \donttest{
+#' # Install helloworldEnhanced package from package server
 #' addPackage("helloworldEnhanced")
-#' temp_dir <- tempdir()
+#' 
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set the SyncroSim Session
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
-#'                          session = mySession, package = "helloworldEnhanced",
+#' 
+#' # Create a new SsimLibrary with the example template from helloworldEnhanced
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession, 
+#'                          package = "helloworldEnhanced",
 #'                          template = "example-library")
+#'                          
+#' # Set the Project and Scenario
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
-#' # Get all datasheet info
+#' # Get all Datasheet info for the Scenario
 #' myDatasheets <- datasheet(myScenario)
 #' 
-#' # can get same info using project and scenario arguments
+#' # Can get same info using Project and Scenario arguments
 #' myDatasheets <- datasheet(myLibrary, project = 1, scenario = 1)
 #' 
-#' # Return a list of dataframes (1 for each datasheet)
+#' # Return a list of data.frames (1 for each Datasheet)
 #' myDatasheetList <- datasheet(myScenario, summary = FALSE)
 #' 
-#' # Get a specific datasheet
+#' # Get a specific Datasheet
 #' myDatasheet <- datasheet(myScenario, name = "RunControl")
 #' 
-#' # Include primary key when retrieving a datasheet
+#' # Include primary key when retrieving a Datasheet
 #' myDatasheet <- datasheet(myScenario, name = "RunControl", includeKey = TRUE)
 #' 
-#' # Return all columns, including optional
+#' # Return all columns, including optional ones
 #' myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE, 
 #'                          optional = TRUE)
 #' 
-#' # Return datasheet as an element
+#' # Return Datasheet as an element
 #' myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
 #' myDatasheet$helloworldEnhanced_RunControl
 #' 
-#' # Get a datasheet without pre-specified values
+#' # Get a Datasheet without pre-specified values
 #' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)
 #' 
-#' # If datasheet is empty, do not return dependencies as factors
+#' # If Datasheet is empty, do not return dependencies as factors
 #' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE,
 #'                               lookupsAsFactors = FALSE)
 #'                               
 #' # Optimize query
 #' myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
 #' 
-#' # Get all Library core datasheet info
+#' # Get all the SsimLibrary core Datasheet info
 #' myDatasheets <- datasheet(myLibrary, summary = "CORE")
 #' 
-#' # Get specific Library core datasheet
+#' # Get specific SsimLibrary core Datasheet
 #' myDatasheet <- datasheet(myLibrary, name = "core_Backup")
 #' 
-#' # Use an SQL statement to query a datasheet
+#' # Use an SQL statement to query a Datasheet
 #' mySQL <- sqlStatement(
 #'   groupBy = c("ScenarioID"),
 #'   aggregate = c("MinimumTimestep"),

@@ -6,7 +6,9 @@
 \alias{owner,SsimLibrary-method}
 \alias{owner,Project-method}
 \alias{owner,Scenario-method}
-\title{Retrieves the owner of a SsimLibrary, Project or Scenario.}
+\alias{owner<-,character-method}
+\alias{owner<-,SsimObject-method}
+\title{Owner of a SsimLibrary, Project or Scenario}
 \usage{
 owner(ssimObject)
 
@@ -17,29 +19,42 @@ owner(ssimObject)
 \S4method{owner}{Project}(ssimObject)
 
 \S4method{owner}{Scenario}(ssimObject)
+
+\S4method{owner}{character}(ssimObject) <- value
+
+\S4method{owner}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}}, \code{\link{Project}},
-or \code{\link{SsimLibrary}}.}
+\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}}, 
+or \code{\link{SsimLibrary}} object}
+
+\item{value}{character string of the new owner}
 }
 \value{
-A character string: the owner of the ssimObject.
+A character string: the owner of the SsimObject.
 }
 \description{
-Retrieves the owner of a \code{\link{SsimLibrary}}, \code{\link{Project}} or
-\code{\link{Scenario}}.
+Retrieves or sets the owner of a \code{\link{SsimLibrary}},
+\code{\link{Project}} or \code{\link{Scenario}}.
 }
 \examples{
-\donttest{
-temp_dir <- tempdir()
+\dontrun{
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Retrieve the owner of an SsimObject
 owner(myLibrary)
 owner(myProject)
 owner(myScenario)
+
+# Set the owner of a SyncroSim Scenario
+owner(myScenario) <- "Apex RMS"
 }
 
 }

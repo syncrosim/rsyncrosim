@@ -6,24 +6,25 @@
 \alias{Project}
 \title{SyncroSim Project class}
 \description{
-\code{Project} object representing a SyncroSim Project. A project the niddle
-level of organization in the SyncroSim workflow, between the \code{\link{ssimLibrary}}
-and the \code{\link{scenario}}. It contains information relevant to a group
-of scenarios.
+\code{Project} object representing a SyncroSim Project. A Project is the intermediate
+level of organization in the SyncroSim workflow, between the \code{\link{ssimLibrary}} 
+and the \code{\link{scenario}}. It contains information relevant to a group 
+of Scenarios.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The Session associated with the Project's Library.}
+\item{\code{session}}{\code{\link{Session}} object. The Session associated with the 
+Project's SsimLibrary}
 
-\item{\code{filepath}}{The path to the Project's Library on disk.}
+\item{\code{filepath}}{character string. The path to the Project's SsimLibrary on disk}
 
-\item{\code{datasheetNames}}{Names and scopes of datasheets in the Project's Library.}
+\item{\code{datasheetNames}}{Names and scopes of datasheets in the Project's Library}
 
-\item{\code{projectId}}{The Project id.}
+\item{\code{projectId}}{integer. The Project id}
 }}
 
 \seealso{
-See \code{\link{project}} for options when creating or loading a
-SyncroSim Project.
+See \code{\link{project}} for options when creating or loading a 
+    SyncroSim Project.
 }

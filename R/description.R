@@ -1,52 +1,40 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Description of a SsimLibrary, Project or Scenario.
+#' Description of SsimLibrary, Project or Scenario
 #'
-#' Returns a description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' Get or set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
 #' \code{\link{Scenario}}.
 #'
-#' @param ssimObject An object of class SsimLibrary, Project or Scenario.
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' \code{\link{Scenario}} object
+#' @param value character string specifying the new description
 #' 
 #' @return
-#' A character string describing the ssimObject.
+#' A character string: the description of the SsimObject
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, and Project
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' 
+#' # Retrieve the description of the SyncroSim Project
 #' mydescription <- description(myProject)
+#' 
+#' # Set the description of the SyncroSim Project
+#' description(myProject) <- "my description"
 #' }
 #' 
 #' @export
 setGeneric("description", function(ssimObject) standardGeneric("description"))
 
-#' Set the description of a SsimLibrary, Project or Scenario.
-#'
-#' Set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-#' \code{\link{Scenario}}.
-#'
-#' @param ssimObject Scenario/Project/SsimLibrary.
-#' @param value The new description.
-#' 
-#' @return
-#' The object with updated description.
-#' 
-#' @examples 
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary, project = "Definitions")
-#' 
-#' description(myProject) <- "my description"
-#' }
-#' 
 #' @export
 setGeneric("description<-", function(ssimObject, value) standardGeneric("description<-"))
 
@@ -78,7 +66,7 @@ setMethod("description", signature(ssimObject = "SsimObject"), function(ssimObje
   return(desc)
 })
 
-#' @rdname description-set
+#' @rdname description
 setReplaceMethod(
   f = "description",
   signature = "character",
@@ -87,7 +75,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname description-set
+#' @rdname description
 setReplaceMethod(
   f = "description",
   signature = "SsimObject",

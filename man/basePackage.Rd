@@ -7,12 +7,10 @@
 basePackage(ssimObject = NULL)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}} or \code{\link{SsimLibrary}}.}
-}
-\value{
-A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).
+\item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}} object}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 Please use \code{\link{package}} instead.
 }
+\keyword{internal}

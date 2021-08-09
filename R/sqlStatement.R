@@ -1,36 +1,36 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
 #' Construct an SQLite query
 #'
-#' Creates SELECT, GROUP BY and WHERE SQL statements.
+#' Creates \code{SELECT}, \code{GROUP BY} and \code{WHERE} SQL statements.
 #' The resulting list of SQL statements will be converted to an SQLite database 
 #' query by the \code{\link{datasheet}} function.
 #'
-#' @param groupBy Character string or vector of these. Vector of variables 
-#'     (column names) to GROUP BY.
-#' @param aggregate Character string of vector of these. Vector of variables 
-#'     (column names) to aggregate using aggregateFunction.
-#' @param aggregateFunction Character string. An SQL aggregate function 
-#'     (e.g. SUM, COUNT). Default is "SUM".
-#' @param where Named list. A list of subset variables. Names are column names, 
-#'     and elements are the values to be selected from each column.
+#' @param groupBy character string or vector of these. Vector of variables 
+#'     (column names) to \code{GROUP BY} (optional)
+#' @param aggregate character string of vector of these. Vector of variables 
+#'     (column names) to aggregate using \code{aggregateFunction} (optional)
+#' @param aggregateFunction character string. An SQL aggregate function 
+#'     (e.g. \code{SUM}, \code{COUNT}). Default is \code{SUM}
+#' @param where named list. A list of subset variables. Names are column names, 
+#'     and elements are the values to be selected from each column (optional)
 #'
 #' @details
-#' Variables are column names of the datasheet. See column names using datasheet(,empty=TRUE).
-#' Variables not included in groupBy, aggregate or where will be dropped from the table.
+#' Variables are column names of the Datasheet. See column names using \code{datasheet(,empty=TRUE)}
+#' Variables not included in \code{groupBy}, \code{aggregate} or \code{where} will be dropped from the table.
 #' Note that it is not possible to construct a complete SQL query at this stage,
 #' because the \code{\link{datasheet}} function may add ScenarioID and/or ProjectID to the query.
 #'   
 #' @return 
-#' Returns a list of SELECT, GROUP BY and WHERE SQL statements used by the 
+#' Returns a list of \code{SELECT}, \code{GROUP BY} and \code{WHERE} SQL statements used by the 
 #' \code{\link{datasheet}} function to construct an SQLite database query.
 #'
 #' @examples
 #' \donttest{
-#' # Query the total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
+#' # Query total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
 #' # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 #' mySQL <- sqlStatement(
 #'   groupBy = c("ScenarioID", "Iteration", "Timestep", "StateLabelXID"),
@@ -41,17 +41,22 @@ NULL
 #' mySQL
 #' 
 #' # The SQL statement can then be used in the datasheet function
-#' # Load a helloworldEnhanced template scenario
+#' # Install helloworldEnhanced package
 #' addPackage("helloworldEnhanced")
-#' temp_dir <- tempdir()
+#' 
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
-#'                          session = mySession, package = "helloworldEnhanced",
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession, 
+#'                          package = "helloworldEnhanced",
 #'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
-#' # Use the SQL statement when loading the datasheet
+#' # Use the SQL statement when loading the Datasheet
 #' myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
 #'                                    sqlStatement = mySQL)
 #' }

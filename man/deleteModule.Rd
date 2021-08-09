@@ -7,17 +7,16 @@
 deleteModule(name, session = NULL, force = FALSE)
 }
 \arguments{
-\item{name}{Character string or vector of these. A module or vector of modules
-to remove. See modules() for options.}
+\item{name}{character string or vector of these. A module or vector of modules 
+to remove. See modules() for options}
 
-\item{session}{\code{\link{Session}}.}
+\item{session}{\code{\link{Session}} object}
 
-\item{force}{logical. If TRUE, delete without requiring confirmation from user.}
-}
-\value{
-Returns "saved" if successful, otherwise an error message.
+\item{force}{logical. If \code{FALSE} (default), require confirmation from user
+before deletion}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 Please use \code{\link{removePackage}} instead.
 }
+\keyword{internal}

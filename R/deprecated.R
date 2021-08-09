@@ -3,9 +3,11 @@
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #' Please use \code{\link{addPackage}} instead.
 #'
-#' @param filename Character string or vector of these. The path to an .ssimpkg file on disk, or a vector of filepaths.
-#' @param session Session.
+#' @param filename character string or vector of these. The path to an .ssimpkg 
+#' file on disk, or a vector of filepaths.
+#' @param session \code{\link{Session}} object
 #' 
+#' @keywords internal
 addModule <- function(filename, session = NULL) {
   lifecycle::deprecate_warn("1.2.11", "addModule()", "addPackage()")
   addPackage(filename, session)
@@ -16,12 +18,10 @@ addModule <- function(filename, session = NULL) {
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #' Please use \code{\link{addPackage}} instead.
 #'
-#' @param filename Character string.  The path to a SyncroSim package file.
-#' @param session A \code{\link{Session}} object.
+#' @param filename character string.  The path to a SyncroSim package file
+#' @param session \code{\link{Session}} object
 #' 
-#' @return 
-#' This function invisibly returns `TRUE` upon success (i.e.successful 
-#' install) and `FALSE` upon failure.
+#' @keywords internal
 addPackageFile <- function(filename, session = NULL) {
   lifecycle::deprecate_warn("1.2.11", "addPackageFile()", "addPackage()")
   addPackage(filename, session)
@@ -32,10 +32,9 @@ addPackageFile <- function(filename, session = NULL) {
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #' Please use \code{\link{package}} instead.
 #'
-#' @param ssimObject An object of class \code{\link{Session}} or \code{\link{SsimLibrary}}.
+#' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}} object
 #' 
-#' @return 
-#' A dataframe of base packages (for Session) or named vector of character strings (for SsimLibrary).
+#' @keywords internal
 basePackage <- function(ssimObject = NULL) {
   lifecycle::deprecate_warn("1.2.11", "basePackage()", "package()")
   package(ssimObject, installed = "BASE")
@@ -46,29 +45,45 @@ basePackage <- function(ssimObject = NULL) {
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 #' Please use \code{\link{removePackage}} instead.
 #'
-#' @param name Character string or vector of these. A module or vector of modules 
-#'     to remove. See modules() for options.
-#' @param session \code{\link{Session}}.
-#' @param force logical. If TRUE, delete without requiring confirmation from user.
+#' @param name character string or vector of these. A module or vector of modules 
+#'     to remove. See modules() for options
+#' @param session \code{\link{Session}} object
+#' @param force logical. If \code{FALSE} (default), require confirmation from user
+#' before deletion
 #' 
-#' @return 
-#' Returns "saved" if successful, otherwise an error message.
+#' @keywords internal
 deleteModule <- function(name, session = NULL, force = FALSE) {
   lifecycle::deprecate_warn("1.2.11", "deleteModule()", "removePackage()")
+  removePackage(name, session, force)
+}
+
+#' Deletes a package from your SyncroSim installation
+#' 
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' Please use \code{\link{removePackage}} instead.
+#' 
+#' @param name character string or vector of these. A package or vector of 
+#' packages to remove
+#' @param session \code{\link{Session}} object
+#' @param force logical. If \code{FALSE} (default), require confirmation from user
+#' before deletion
+#' 
+#' @keywords internal
+deletePackage <- function(name, session = NULL, force = FALSE) {
+  lifecycle::deprecate_warn("1.2.11", "deletePackage()", "removePackage()")
   removePackage(name, session, force)
 }
 
 #' Installed models
 #'
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
-#' models are now distributed in Packages; 
-#' Please use \code{\link{package}} instead.
-#'
-#' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}}.
 #' 
-#' @return 
-#' A \code{dataframe} of models (for Session) or named vector of character strings 
-#' (for \code{SsimLibrary}).
+#' Models are now distributed in Packages; 
+#' please use \code{\link{package}} instead.
+#'
+#' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}} object
+#' 
+#' @keywords internal
 model <- function(ssimObject = NULL) {
   lifecycle::deprecate_warn("1.2.11", "model()", "package()")
   package(ssimObject)
@@ -80,10 +95,9 @@ model <- function(ssimObject = NULL) {
 #' modules are now distributed in Packages; 
 #' Please use \code{\link{package}} instead.
 #'
-#' @param session \code{\link{Session}}.
+#' @param session \code{\link{Session}} object
 #' 
-#' @return 
-#' Returns a \code{dataframe} of modules.
+#' @keywords internal
 module <- function(session = NULL) {
   lifecycle::deprecate_warn("1.2.11", "module()", "package()")
   package(session)

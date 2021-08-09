@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
@@ -217,26 +217,28 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
   return(out)
 })
 
-#' Create or open a library
+#' Create or open a SsimLibrary
 #'
 #' @description 
 #' Creates or opens a \code{\link{SsimLibrary}} object.
-#' If summary = TRUE, returns library summary info.
-#' If summary = NULL, returns library summary info if ssimObject is a SsimLibrary, 
+#' If \code{summary = TRUE}, returns SsimLibrary summary info.
+#' If \code{summary = NULL}, returns SsimLibrary summary info if ssimObject is a SsimLibrary, 
 #' SsimLibrary object otherwise.
 #' 
-#' @param name Character string or object of class \code{\link{SsimLibrary}}, 
-#'     \code{\link{Project}} or \code{\link{Scenario}} The path to a library 
-#'     or SsimObject.
-#' @param summary Logical. Default TRUE.
-#' @param package Character. The package type. The default is "stsim".
-#' @param session Session. If NULL, session() will be used.
-#' @param addon Character or character vector. One or more addons. See \code{\link{addon}}
-#'     for options.
-#' @param template Character. Creates the library with the specified template.
-#' @param forceUpdate Logical. If FALSE (default) user will be prompted to approve 
-#'     any required updates. If TRUE, required updates will be applied silently.
-#' @param overwrite Logical. If TRUE an existing Library will be overwritten.
+#' @param name \code{\link{SsimLibrary}}, \code{\link{Project}} or 
+#' \code{\link{Scenario}} object, or character string (i.e. path to a SsimLibrary 
+#'     or SsimObject)
+#' @param summary logical. Default is \code{TRUE}
+#' @param package character. The package type. Default is "stsim"
+#' @param session \code{\link{Session}} object. If \code{NULL} (default), session()
+#'  will be used
+#' @param addon character or character vector. One or more addon packages. See 
+#' \code{\link{addon}} for options (optional)
+#' @param template character. Creates the SsimLibrary with the specified template
+#' (optional)
+#' @param forceUpdate logical. If \code{FALSE} (default) user will be prompted to approve 
+#'     any required updates. If \code{TRUE}, required updates will be applied silently
+#' @param overwrite logical. If \code{TRUE} an existing SsimLibrary will be overwritten
 #' 
 #' @return 
 #' Returns a \code{\link{SsimLibrary}} object.
@@ -245,38 +247,39 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' Example arguments:
 #' \itemize{
 #'   \item {If name is SyncroSim Project or Scenario: }{Returns the 
-#'          [SsimLibrary](SsimLibrary) associated with the Project or Scenario.}
-#'   \item {If name is NULL: }{Create/open a SsimLibrary in the current working 
+#'          \code{\link{SsimLibrary}} associated with the Project or Scenario.}
+#'   \item {If name is \code{NULL}: }{Create/open a SsimLibrary in the current working 
 #'          directory with the filename SsimLibrary.ssim.}
 #'   \item {If name is a string: }{If string is not a valid path treat as filename 
 #'          in working directory. If no file suffix provided in string then add 
-#'          .ssim. Attempts to open a library of that name. If library does not 
-#'          exist creates a library of type package in the current working directory.}
-#'   \item {If given a name and a package: }{Create/open a library called <name>.ssim. 
-#'          Returns an error if the library already exists but is a different type 
+#'          .ssim. Attempts to open a SsimLibrary of that name. If SsimLibrary does not 
+#'          exist creates a SsimLibrary of type package in the current working directory.}
+#'   \item {If given a name and a package: }{Create/open a SsimLibrary called <name>.ssim. 
+#'          Returns an error if the SsimLibrary already exists but is a different type 
 #'          of package.}
 #' }
 #' 
 #' @examples
 #' \donttest{
-#' # Create or open a library using the default session
+#' # Create or open a SsimLibrary using the default Session
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
 #'
-#' # Create library using a specific session
+#' # Create SsimLibrary using a specific Session
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
 #'                          session = mySession)
 #'
+#' # Retrieve SsimLibrary properties
 #' session(myLibrary)
 #' filepath(myLibrary)
 #' info(myLibrary)
 #' 
-#' # Load a library with add on
+#' # Load a SsimLibrary with addon package
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
 #'                          overwrite = TRUE, package = "stsim",
 #'                          addon = "stsimsf")
 #' 
-#' # Create library from template
+#' # Create SsimLibrary from template
 #' addPackage("helloworldEnhanced")
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 

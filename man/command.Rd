@@ -7,20 +7,22 @@
 command(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE)
 }
 \arguments{
-\item{args}{Character string, named list, named vector, unnamed list, or unnamed
-vector. Arguments for the SyncroSim console. See details.}
+\item{args}{character string, named list, named vector, unnamed list, or unnamed 
+vector. Arguments for the SyncroSim console. See 'details' for more 
+information about this argument}
 
-\item{session}{\code{\link{Session}}. If NULL, a default session will be used.}
+\item{session}{\code{\link{Session}} object. If \code{NULL}(default), the default
+session will be used}
 
-\item{program}{Character. The name of the target SyncroSim executable.
-Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe,
-SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.}
+\item{program}{character. The name of the target SyncroSim executable. 
+Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe", 
+"SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"}
 
-\item{wait}{Logical. If TRUE (default) R will wait for the command to finish
-before proceeding. Note that silent(session) is ignored if wait=FALSE.}
+\item{wait}{logical. If \code{TRUE}(default) R will wait for the command to finish 
+before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}}
 }
 \value{
-A character string, output from the SyncroSim program.
+Character string: output from the SyncroSim program.
 }
 \description{
 This function issues a command to the SyncroSim console, and is mostly
@@ -29,23 +31,35 @@ used internally by other functions.
 \details{
 Example args, and the resulting character string passed to the SyncroSim console:
 \itemize{
-\item Character string e.g. "--create --help": "--create --help"
-\item Named list or named vector e.g. list(name1=NULL,name2=value2): "--name1 --name2=value2"
-\item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
+   \item Character string e.g. "--create --help": "--create --help"
+   \item Named list or named vector e.g. list(name1=NULL,name2=value2): "--name1 --name2=value2"
+   \item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
 }
 }
 \examples{
 \donttest{
-# Use a default session to create a new library in the current working directory.
+# Install "stsim" if not already installed
+addPackage("stsim")
+
+# Set the file path and name of the new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib.ssim")
+
+# Specify the command line arguments for creating a new stsim SsimLibrary
 args <- list(create = NULL, library = NULL, 
-        name = paste0(tempdir(), "/temp.ssim"), 
+        name = myLibraryName, 
         package = "stsim")
+        
+# Use a default session to create a new SsimLibrary in the current working directory
 output <- command(args, session = session(printCmd = TRUE))
 output
 
-# Three different ways to provide args to command
+# Provide arguments to the command line using an unnamed vector
 command(c("create", "help"))
+
+# Provide arguments to the command line using a character string
 command("--create --help")
+
+# Provide arguments to the command line using a named list
 command(list(create = NULL, help = NULL))
 
 # Call on a different program to find all installed packages

@@ -1,34 +1,39 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Add row(s) to a dataframe.
+#' Add row(s) to a data.frame
 #'
-#' This small function is mostly used internally to add rows to empty dataframes
-#' retrieved from the command line.
+#' This function is mostly used internally to add rows to data.frames
+#' associated with SyncroSim Datasheets retrieved from the command line.
 #'
 #' @details
 #' Preserves the types and factor levels of the targetDataframe.
 #' Fills missing values if possible using factor levels.
 #' If value is a named vector or list, it will be converted to a single row 
-#' dataframe. If value is an unnamed vector or list, the number of elements 
+#' data.frame. If value is an unnamed vector or list, the number of elements 
 #' should equal the number of columns in the targetDataframe; elements are 
-#' assumed to be in same order as dataframe columns.
+#' assumed to be in same order as data.frame columns.
 #'
-#' @param targetDataframe A dataframe.
-#' @param value Dataframe, character string vector, or list. Columns or elements
-#'     in value should be a subset of columns in targetDataframe.
+#' @param targetDataframe data.frame
+#' @param value data.frame, character string, vector, or list. Columns or elements
+#'     in value should be a subset of columns in targetDataframe
 #' 
 #' @return 
 #' A dataframe with new rows.
 #' 
 #' @examples
-#' 
+#' # Create an example data.frame
 #' oldDataframe <- as.data.frame(mtcars)
+#' 
+#' # Add a single row to the example data.frame
 #' newDataframe <- addRow(oldDataframe, list(mpg = 100, wt = 10))
 #' 
+#' # Create an example data.frame with more than one row of data
 #' multipleRows <- data.frame(mpg = c(40, 50, 75), wt = c(4, 7, 6))
+#' 
+#' # Add the old example data.frame to the new example data.frame
 #' newDataframe <- addRow(oldDataframe, multipleRows)
 #' 
 #' @export
@@ -48,7 +53,7 @@ setMethod("addRow",
       value <- as.data.frame(value, stringsAsFactors = FALSE)
 
       if (nrow(value) != 1) {
-        stop("Can't convert value to a single row data frame.")
+        stop("Can't convert value to a single row data.frame.")
       }
     }
 

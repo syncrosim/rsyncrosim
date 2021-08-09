@@ -1,24 +1,26 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Removes a package from your SyncroSim installation.
+#' Removes package from SyncroSim installation
 #' 
-#' @param name Character. The name of the package to remove
-#' @param session An object of class \code{\link{Session}}.
-#' @param force Logical. If TRUE, remove without requiring confirmation from 
-#'     the user. Default is FALSE.
+#' @param name character. The name of the package to remove
+#' @param session \code{\link{Session}} object. If \code{NULL} (default), 
+#' \code{session()} will be used
+#' @param force logical. If \code{TRUE}, remove without requiring confirmation from 
+#'     the user. Default is \code{FALSE}
 #' 
 #' @return 
-#' This function invisibly returns `TRUE` upon success (i.e.successful 
-#' removal) and `FALSE` upon failure.
+#' Invisibly returns \code{TRUE} upon success (i.e.successful 
+#' removal) and \code{FALSE} upon failure.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Set SyncroSim Session
 #' mySession <- session()
 #' 
+#' # Remove package from SyncroSim Session
 #' removePackage("stsim", mySession, force = FALSE)
 #' }
 #' 

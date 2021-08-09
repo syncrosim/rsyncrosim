@@ -1,36 +1,33 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Adds a package to SyncroSim
+#' Adds package to SyncroSim Installation
 #'
-#' This function adds a package to SyncroSim. If only the package name is 
-#' provided as input, the function queries the  SyncroSim package server for 
-#' the package name provided as input. If a file path is given as input, the 
-#' function adds a package to SyncroSim from a local package file (ends in 
-#' .ssimpkg). The list of SyncroSim packages can be found 
-#' \href{https://syncrosim.com/packages/}{here}.
+#' This function installs a package to the SyncroSim \code{\link{Session}}.
+#' If only the package name is provided as input, the function queries the 
+#' SyncroSim package server for the specified package. If a file path is 
+#' provided as input, the function adds a package to SyncroSim from a local 
+#' package file (ends in ".ssimpkg"). The list of SyncroSim packages can be 
+#' found \href{https://syncrosim.com/packages/}{here}.
 #'
-#' @param name Character string.  The name or file path of the package to 
-#' install.
-#' @param session A \code{\link{Session}} object.
+#' @param name character string.  The name or file path of the package to 
+#' install
+#' @param session \code{\link{Session}} object. If \code{NULL} (default),
+#' \code{session()} will be used
 #' 
 #' @return 
-#' This function will invisibly return `TRUE` upon success (i.e.successful 
-#' install) and `FALSE` upon failure.
+#' Invisibly returns \code{TRUE} upon success (i.e.successful 
+#' install) and \code{FALSE} upon failure.
 #' 
 #' @examples
-#' \donttest{
-#' temp_dir <- tempdir()
+#' \dontrun{
+#' # Create a new SyncroSim Session
 #' mySession <- session()
 #' 
 #' # Add package from the package server
 #' addPackage("stsim", session = mySession)
-#' }
-#' \dontrun{
-#' temp_dir <- tempdir()
-#' mySession <- session()
 #' 
 #' # Add package using a local file path
 #' addPackage("c:/path/to/stsim.ssimpkg")

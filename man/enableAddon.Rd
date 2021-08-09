@@ -4,7 +4,7 @@
 \alias{enableAddon}
 \alias{enableAddon,character-method}
 \alias{enableAddon,SsimLibrary-method}
-\title{Enable addon or addons.}
+\title{Enable addon package(s)}
 \usage{
 enableAddon(ssimLibrary, name)
 
@@ -13,24 +13,29 @@ enableAddon(ssimLibrary, name)
 \S4method{enableAddon}{SsimLibrary}(ssimLibrary, name)
 }
 \arguments{
-\item{ssimLibrary}{An object of class SsimLibrary.}
+\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 
-\item{name}{Character string or vector of addon names.}
+\item{name}{character string or vector of addon name(s)}
 }
 \value{
-This function invisibly returns \code{TRUE} upon success (i.e.successful activation
+Invisibly returns \code{TRUE} upon success (i.e.successful activation 
 of the addon) or \code{FALSE} upon failure.
 }
 \description{
-Enable \code{\link{addon}} or addons of a \code{\link{SsimLibrary}}.
+Enable \code{\link{addon}} package(s) of a \code{\link{SsimLibrary}}.
 }
 \examples{
 \donttest{
+# Install "stsim" SyncroSim package
 addPackage("stsim")
-temp_dir <- tempdir()
+
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, and Project
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
-                         session = mySession, package = "stsim")
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, 
+                         package = "stsim")
 
 # Enable add on package
 enableAddon(myLibrary, c("stsimsf"))

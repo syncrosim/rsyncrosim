@@ -5,7 +5,7 @@
 \alias{projectId,character-method}
 \alias{projectId,Project-method}
 \alias{projectId,Scenario-method}
-\title{Retrieves the projectId of a SyncroSim Project or Scenario.}
+\title{Retrieves projectId of SyncroSim Project or Scenario}
 \usage{
 projectId(ssimObject)
 
@@ -16,22 +16,26 @@ projectId(ssimObject)
 \S4method{projectId}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Scenario}} or \code{\link{Project}}.}
+\item{ssimObject}{\code{\link{Scenario}} or \code{\link{Project}} object}
 }
 \value{
-Returns an integer project id.
+An integer: project id.
 }
 \description{
 Retrieves the projectId of a SyncroSim \code{\link{Project}} or \code{\link{Scenario}}.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Set the file path and name of the new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib")
+
+# Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Get Project ID for SyncroSim Project and Scenario
 projectId(myProject)
 projectId(myScenario)
 }

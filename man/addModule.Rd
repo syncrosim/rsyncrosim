@@ -7,11 +7,13 @@
 addModule(filename, session = NULL)
 }
 \arguments{
-\item{filename}{Character string or vector of these. The path to an .ssimpkg file on disk, or a vector of filepaths.}
+\item{filename}{character string or vector of these. The path to an .ssimpkg 
+file on disk, or a vector of filepaths.}
 
-\item{session}{Session.}
+\item{session}{\code{\link{Session}} object}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 Please use \code{\link{addPackage}} instead.
 }
+\keyword{internal}

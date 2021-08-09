@@ -1,36 +1,47 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Delete library, project, scenario, datasheet
+#' Delete SsimLibrary, Project, Scenario, Datasheet
 #'
 #' Deletes one or more items. Note that this is irreversible.
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario, or path to a library.
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}},
+#'     or \code{\link{Scenario}} object, or character (i.e. path to a SsimLibrary)
 #' @param project character string, numeric, or vector of these. One or more 
 #'     \code{\link{Project}} names or ids. Note that project argument is ignored 
-#'     if ssimObject is a list. Note that integer ids are slightly faster.
+#'     if SsimObject is a list. Note that integer ids are slightly faster (optional)
 #' @param scenario character string, numeric, or vector of these. One or more 
-#'     \code{\link{Scenario}} names or ids. Note that scenario argument is 
-#'     ignored if ssimObject is a list. Note that integer ids are slightly faster.
-#' @param datasheet character string or vector of these. One or more datasheet names.
-#' @param force logical. If FALSE (default), user will be prompted to approve 
-#'     removal of each item.
+#'     \code{\link{Scenario}} names or ids. Note that Scenario argument is 
+#'     ignored if SsimObject is a list. Note that integer ids are slightly faster 
+#'     (optional)
+#' @param datasheet character string or vector of these. One or more Datasheet 
+#' names (optional)
+#' @param force logical. If \code{FALSE} (default), user will be prompted to approve 
+#'     removal of each item
 #' 
 #' @return 
-#' This function returns invisibly a list of boolean values corresponding to each of the
-#' input: `TRUE` upon success (i.e.successful deletion) and `FALSE` upon failure.
+#' Invisibly returns a list of boolean values corresponding to each
+#' input: \code{TRUE} upon success (i.e.successful deletion) and \code{FALSE} upon failure.
 #' 
 #' @examples
 #' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
 #' 
+#' # Set up a SyncroSim Session, SsimLibrary, and Project
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' myProject <- project(myLibrary, project = "a project")
+#' 
+#' # Check the Projects associated with this SsimLibrary
 #' project(myLibrary)
+#' 
+#' # Delete Project
 #' delete(myLibrary, project = "a project", force = TRUE)
+#' 
+#' # Check that Project was successfully deleted from SsimLibrary
 #' project(myLibrary)
 #' }
 #' 

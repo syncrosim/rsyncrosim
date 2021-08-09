@@ -1,30 +1,38 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Retrieves the name of a SsimLibrary, Project or Scenario.
+#' Name of a SsimLibrary, Project or Scenario
 #'
-#' Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-#' \code{\link{Scenario}}.
+#' Retrieves or sets the name of a \code{\link{SsimLibrary}}, 
+#' \code{\link{Project}} or \code{\link{Scenario}}.
 #'
-#' @param ssimObject An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
-#' or \code{\link{SsimLibrary}}.
+#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
+#' or \code{\link{SsimLibrary}} object
+#' @param value character string of the new name
 #' 
 #' @return 
-#' A character string: the name of the ssimObject.
+#' A character string: the name of the SsimObject.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
+#' # Retrieve names of the SsimObjects
 #' name(myLibrary)
 #' name(myProject)
 #' name(myScenario)
+#' 
+#' # Set the name of the SyncroSim Scenario
+#' name(myScenario) <- "My Scenario Name"
 #' }
 #' 
 #' @export
@@ -54,34 +62,9 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
   return(info$name)
 })
 
-
-#' Set ssimObject name.
-#'
-#' Set the name of a \code{\link{SsimLibrary}}, \code{\link{Project}}, or
-#'  \code{\link{Scenario}}.
-#'
-#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
-#' or \code{\link{SsimLibrary}}.
-#' @param value A character string, the new name.
-#' 
-#' @return 
-#' The updated ssim Object.
-#' 
-#' @examples 
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary, project = "Definitions")
-#' myScenario <- scenario(myProject, scenario = "My Scenario")
-#' 
-#' name(myScenario) <- "Scenario Test"
-#' }
-#' 
-#' @export
 setGeneric("name<-", function(ssimObject, value) standardGeneric("name<-"))
 
-#' @rdname name-set
+#' @rdname name
 setReplaceMethod(
   f = "name",
   signature = "character",
@@ -90,7 +73,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname name-set
+#' @rdname name
 setReplaceMethod(
   f = "name",
   signature = "SsimLibrary",
@@ -103,7 +86,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname name-set
+#' @rdname name
 setReplaceMethod(
   f = "name",
   signature = "Project",
@@ -116,7 +99,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname name-set
+#' @rdname name
 setReplaceMethod(
   f = "name",
   signature = "Scenario",

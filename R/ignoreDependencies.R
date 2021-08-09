@@ -1,27 +1,35 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Ignore Dependencies for a Scenario.
+#' Ignore dependencies for a Scenario
 #'
-#' Retrieves the Ignore Dependencies Datafeeds for a \code{\link{Scenario}}.
+#' Retrieves or sets the Datafeeds to ignore for a \code{\link{Scenario}}.
 #'
-#' @param ssimObject An object of class \code{\link{Scenario}}.
+#' @param ssimObject \code{\link{Scenario}} object
+#' @param value character string of Datafeed names to be ignored, separated by
+#' commas (optional)
 #' 
 #' @return 
-#' Returns Ignore Dependencies Datafeeds.
+#' A character string: Scenario Datafeeds that will be ignored.
 #' 
 #' @examples
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
-#' # Lists the datafeeds to ignore
+#' # List the Datafeeds to ignore
 #' ignoreDependencies(myScenario)
+#' 
+#' # Set Scenario Datafeeds to ignore
+#' ignoreDependencies(myScenario) <- "stsim_RunControl,stsim_TransitionTarget"
 #' }
 #' 
 #' @export
@@ -38,32 +46,9 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
   return(scnInfo$ignoreDependencies)
 })
 
-#' Ignore Dependencies Datafeeds for a Scenario.
-#'
-#' Sets the Ignore Dependencies Datafeed for a \code{\link{Scenario}}.
-#'
-#' @param ssimObject An object of class \code{\link{Scenario}}.
-#' @param value The datafeed names to be ignored, separated by commas.
-#' 
-#' @return 
-#' Returns the updated ssimObject.
-#' 
-#' @examples
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary, project = "Definitions")
-#' myScenario <- scenario(myProject, scenario = "My Scenario")
-#' 
-#' # IgnoreDependencies is a string of datafeed names separated by commas
-#' ignoreDependencies(myScenario) <- "stsim_RunControl,stsim_TransitionTarget"
-#' }
-#' 
-#' @export
 setGeneric("ignoreDependencies<-", function(ssimObject, value) standardGeneric("ignoreDependencies<-"))
 
-#' @rdname ignoreDependencies-set
+#' @rdname ignoreDependencies
 setReplaceMethod(
   f = "ignoreDependencies",
   signature = "character",
@@ -72,7 +57,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname ignoreDependencies-set
+#' @rdname ignoreDependencies
 setReplaceMethod(
   f = "ignoreDependencies",
   signature = "Scenario",

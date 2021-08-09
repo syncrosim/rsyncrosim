@@ -1,34 +1,35 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
 #' Apply updates
 #'
 #' Apply updates to a \code{\link{SsimLibrary}}, or a \code{\link{Project}} or 
-#' \code{\link{Scenario}} associated with a Library.
+#' \code{\link{Scenario}} associated with a SsimLibrary.
 #'
-#' @param ssimObject An object of class \code{\link{Session}}, \code{\link{Project}}, 
-#' or \code{\link{SsimLibrary}}.
+#' @param ssimObject \code{\link{Session}}, \code{\link{Project}}, 
+#' or \code{\link{SsimLibrary}} object. If \code{NULL} (default), 
+#' \code{session()} will be used
 #' 
 #' @return 
-#' This function invisibly returns `TRUE` upon success (i.e.successful 
-#' update) and `FALSE` upon failure.
+#' Invisibly returns \code{TRUE} upon success (i.e.successful 
+#' update) and \code{FALSE} upon failure.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set the SyncroSim Session, SsimLibrary, and Project
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' 
-#' # Update Library
-#' ssimUpdate(myLibrary)
-#' 
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' myProject <- project(myLibrary, name = "My Project")
 #' 
 #' # Update Project
 #' ssimUpdate(myProject)
 #' 
+#' # Create Scenario
 #' myScenario <- scenario(myLibrary, name = "MyScenario")
 #' 
 #' # Update scenario

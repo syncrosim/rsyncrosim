@@ -4,34 +4,50 @@
 \alias{mergeDependencies}
 \alias{mergeDependencies,character-method}
 \alias{mergeDependencies,Scenario-method}
-\title{Merge Dependencies for a Scenario.}
+\alias{mergeDependencies<-,character-method}
+\alias{mergeDependencies<-,Scenario-method}
+\title{Merge dependencies for a Scenario}
 \usage{
 mergeDependencies(ssimObject)
 
 \S4method{mergeDependencies}{character}(ssimObject)
 
 \S4method{mergeDependencies}{Scenario}(ssimObject)
+
+\S4method{mergeDependencies}{character}(ssimObject) <- value
+
+\S4method{mergeDependencies}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Scenario}}.}
+\item{ssimObject}{\code{\link{Scenario}} object}
+
+\item{value}{logical. If \code{TRUE} the Scenario will be set to merge 
+dependencies at run time. Default is \code{FALSE}}
 }
 \value{
-Returns a logical: \code{TRUE} is the scenario is configured to merge dependencies at run time,
+A logical: \code{TRUE} if the scenario is configured to merge dependencies at run time, 
 and \code{FALSE} otherwise.
 }
 \description{
-Retrieves whether or not a \code{\link{Scenario}} is configured to merge
-dependencies at run time.
+Retrieves or sets whether or not a \code{\link{Scenario}} is configured to 
+merge dependencies at run time.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Retrieve whether or not dependencies will be merged for a Scenario
 mergeDependencies(myScenario)
+
+# Set whether or not dependencies will be merged for a Scenario
+mergeDependencies(myScenario) <- TRUE
 }
 
 }

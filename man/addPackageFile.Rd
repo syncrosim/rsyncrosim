@@ -7,15 +7,12 @@
 addPackageFile(filename, session = NULL)
 }
 \arguments{
-\item{filename}{Character string.  The path to a SyncroSim package file.}
+\item{filename}{character string.  The path to a SyncroSim package file}
 
-\item{session}{A \code{\link{Session}} object.}
-}
-\value{
-This function invisibly returns \code{TRUE} upon success (i.e.successful
-install) and \code{FALSE} upon failure.
+\item{session}{\code{\link{Session}} object}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 Please use \code{\link{addPackage}} instead.
 }
+\keyword{internal}

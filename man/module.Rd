@@ -7,13 +7,11 @@
 module(session = NULL)
 }
 \arguments{
-\item{session}{\code{\link{Session}}.}
-}
-\value{
-Returns a \code{dataframe} of modules.
+\item{session}{\code{\link{Session}} object}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
-modules are now distributed in Packages;
+modules are now distributed in Packages; 
 Please use \code{\link{package}} instead.
 }
+\keyword{internal}

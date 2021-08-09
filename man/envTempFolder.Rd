@@ -7,14 +7,14 @@
 envTempFolder(folderName)
 }
 \arguments{
-\item{folderName}{Character. The folder name.}
+\item{folderName}{character. The folder name}
 }
 \value{
 Returns a temporary folder name.
 }
 \description{
 This function is part of a set of functions designed to facilitate the
-development of R-based Syncrosim Packages. This function creates and returns
+development of R-based Syncrosim Packages. This function creates and returns 
 a SyncroSim Temporary Folder.
 }
 \examples{

@@ -1,56 +1,74 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Get spatial inputs or outputs from a Scenario(s).
+#' Retrieve spatial data from a SyncroSim Datasheet
 #'
-#' Get spatial inputs or outputs from one or more SyncroSim \code{\link{Scenario}}.
+#' This function retrieves spatial columns from one or more SyncroSim 
+#' \code{\link{Scenario}} Datasheets.
 #'
-#' @param ssimObject SsimLibrary/Project/Scenario or list of Scenarios. If 
-#'     SsimLibrary/Project, then scenario argument is required.
-#' @param datasheet character string. The name of the datasheet containing the 
-#'     raster data.
+#' @param ssimObject SsimLibrary/Project/Scenario object or list of Scenario objects. If 
+#'     SsimLibrary/Project, then \code{scenario} argument is required
+#' @param datasheet character string. The name of the Datasheet containing the 
+#'     raster data
 #' @param column character string. The name of the column in the datasheet containing 
-#'     the filenames for raster data. If NULL then use the first column that contains 
-#'     raster filenames.
-#' @param scenario character string, integer, or vector of these. The scenarios to 
-#'     include. Required if ssimObject is an SsimLibrary/Project, ignored if 
-#'     ssimObject is a list of Scenarios.
+#'     the file names for raster data. If \code{NULL} (default) then use the first 
+#'     column that contains raster file names
+#' @param scenario character string, integer, or vector of these. The Scenarios to 
+#'     include. Required if SsimObject is an SsimLibrary/Project, ignored if 
+#'     SsimObject is a list of Scenarios (optional)
 #' @param iteration integer, character string, or vector of integer/character strings. 
-#'     Iteration(s) to include. If NULL then all iterations are included. If no 
-#'     Iteration column in the datasheet, then ignored.
+#'     Iteration(s) to include. If \code{NULL} (default) then all iterations are 
+#'     included. If no Iteration column is in the Datasheet, then ignored
 #' @param timestep integer, character string, or vector of integer/character string. 
-#'     Timestep(s) to include. If NULL then all timesteps are included.  If no 
-#'     Timestep column in the datasheet, then ignored.
-#' @param subset logical expression indicating datasheet rows to return. e.g. 
-#'     expression(grepl("Ts0001",Filename,fixed=T)). See subset() for details.
-#' @param forceElements logical. If TRUE then returns a single raster as a RasterStack; 
-#'     otherwise returns a single raster as a RasterLayer directly.
+#'     Timestep(s) to include. If \code{NULL} (default) then all timesteps are 
+#'     included.  If no Timestep column is in the Datasheet, then ignored
+#' @param subset logical expression indicating Datasheet rows to return. 
+#'     e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for 
+#'     details (optional)
+#' @param forceElements logical. If \code{TRUE} then returns a single raster as a RasterStack; 
+#'     otherwise returns a single raster as a RasterLayer directly. Default is 
+#'     \code{FALSE}
 #' 
 #' @return 
 #' A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
 #' 
 #' @details 
 #' The names of the returned raster stack contain metadata.
-#' For datasheets without Filename this is: \code{paste0(<datasheet name>,".Scn",<scenario id>,
-#' ".",<tif name>)}. For datasheets containing Filename this is: 
+#' For Datasheets without Filename this is: 
+#' 
+#' \code{paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)}.
+#' 
+#' For Datasheets containing Filename this is: 
+#' 
 #' \code{paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)}.
 #' 
 #' @examples
 #' \donttest{
+#' # Install the helloworldEnhanced package from the server
 #' addPackage("helloworldEnhanced")
-#' temp_dir <- tempdir()
+#' 
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
-#'                          session = mySession, package = "helloworldEnhanced",
+#' 
+#' # Use the example template library from helloworldEnhanced
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession,
+#'                          package = "helloworldEnhanced",
 #'                          template = "example-library")
+#' 
+#' # Set up Project and Scenario
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
-#' resultScenario <- run(myScenario)
-#' resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
 #' 
-#' # Extract specific datasheet rasters by iteration and timestep
+#' # Run Scenario to generate results
+#' resultScenario <- run(myScenario)
+#' 
+#' # Extract specific Datasheet rasters by iteration and timestep
 #' resultRaster <- datasheetRaster(resultScenario,
 #'                   datasheet = "IntermediateDatasheet",
 #'                   column = "OutputRasterFile",
@@ -58,7 +76,7 @@ NULL
 #'                   timestep = 2
 #' )
 #' 
-#' # Extract specific datasheet rasters using pattern matching
+#' # Extract specific Datasheet rasters using pattern matching
 #' resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
 #' resultRaster <- datasheetRaster(resultScenario, 
 #'                   datasheet = "IntermediateDatasheet",
@@ -68,7 +86,7 @@ NULL
 #'                                              fixed = TRUE))
 #' )
 #' 
-#' # Return as raster stack
+#' # Return the raster Datasheets as a raster stack
 #' resultRaster <- datasheetRaster(resultScenario, 
 #'                  datasheet = "IntermediateDatasheet",
 #'                  column = "OutputRasterFile",
