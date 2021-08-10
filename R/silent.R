@@ -1,25 +1,31 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Check if a Session is silent
+#' Silent status of SyncroSim Session
 #'
-#' Checks whether a SyncroSim \code{\link{Session}} is silent or not. In a silent
-#' session, warnings from the console are ignored.
+#' Checks or sets whether a SyncroSim \code{\link{Session}} is silent or not. In
+#' a silent session, warnings from the console are ignored.
 #'
-#' @param session Session or character. An object of class \code{\link{Session}} 
-#'     or path to a session. If NULL, the default session will be used.
+#' @param session \code{\link{Session}} object or character (i.e. filepath to a 
+#' session). If \code{NULL}, \code{session()} will be used
+#' @param value logical. If \code{TRUE} (default), the SyncroSim Session will be 
+#' silent
 #' 
 #' @return 
-#' Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
+#' A logical: \code{TRUE} if the session is silent and \code{FALSE} otherwise.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Set up a SyncroSim Session
 #' mySession <- session()
 #' 
+#' # Check the silent status of a SyncroSim Session
 #' silent(mySession)
+#' 
+#' # Set the silent status of a SyncroSim Session
+#' silent(mySession) <- FALSE
 #' }
 #' 
 #' @export
@@ -41,28 +47,8 @@ setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session
   return(silent(session))
 })
 
-#' Set silent property of a Session
-#'
-#' Set silent property of a \code{\link{Session}} to TRUE or FALSE. In a silent
-#' session, warnings from the console are ignored.
-#'
-#' @param session An object of class \code{\link{Session}}
-#' @param value Logical.
-#' 
-#' @return 
-#' The updated ssimObject.
-#' 
-#' @examples 
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' 
-#' silent(mySession) <- TRUE
-#' }
-#' 
-#' @export
 setGeneric("silent<-", function(session, value) standardGeneric("silent<-"))
-#' @rdname silent-set
+#' @rdname silent
 setReplaceMethod(
   f = "silent",
   signature = "character",
@@ -71,7 +57,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname silent-set
+#' @rdname silent
 setReplaceMethod(
   f = "silent",
   signature = "Session",

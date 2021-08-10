@@ -6,7 +6,9 @@
 \alias{readOnly,SsimLibrary-method}
 \alias{readOnly,Project-method}
 \alias{readOnly,Scenario-method}
-\title{Retrieves the Read-only status of a SsimLibrary, Project or Scenario.}
+\alias{readOnly<-,character-method}
+\alias{readOnly<-,SsimObject-method}
+\title{Read-only status of a SsimLibrary, Project or Scenario}
 \usage{
 readOnly(ssimObject)
 
@@ -17,30 +19,44 @@ readOnly(ssimObject)
 \S4method{readOnly}{Project}(ssimObject)
 
 \S4method{readOnly}{Scenario}(ssimObject)
+
+\S4method{readOnly}{character}(ssimObject) <- value
+
+\S4method{readOnly}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
-or \code{\link{SsimLibrary}}.}
+\item{ssimObject}{\code{\link{Scenario}}, 
+\code{\link{Project}}, or \code{\link{SsimLibrary}} object}
+
+\item{value}{logical. If \code{TRUE} the SsimObject will be read-only. Default is 
+\code{FALSE}}
 }
 \value{
-Returns a logical value: `TRUE` if the ssimObject is read only and `FALSE`
+A logical: \code{TRUE} if the SsimObject is read-only and \code{FALSE}
 otherwise.
 }
 \description{
-Whether or not a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-\code{\link{Scenario}} is read-only is read-only.
+Retrieves or sets whether or not a \code{\link{SsimLibrary}}, 
+\code{\link{Project}} or \code{\link{Scenario}} is read-only.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Retrieve the read-only status of a SsimObject
 readOnly(myLibrary)
 readOnly(myProject)
 readOnly(myScenario)
+
+# Set the read-only status of a SsimObject
+readOnly(myScenario) <- TRUE
 }
 
 }

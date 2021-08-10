@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
@@ -29,31 +29,57 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   return(.Object)
 })
 
-#' Creates or returns a SyncroSim Session.
+#' Create or return SyncroSim Session
 #'
 #' Methods to create or return a SyncroSim \code{\link{Session}}.
 #' 
-#' @param x Character or SsimObject. An optional path to the SyncroSim installation.
-#' @param silent Logical. Applies only if x is a path or NULL. If TRUE, warnings 
-#'     from the console are ignored. Otherwise they are printed.
-#' @param printCmd Logical. Applies only if x is a path or NULL. If TRUE, 
+#' @param x character or SsimObject. Path to SyncroSim installation. If \code{NULL}
+#' (default), then default path is used
+#' @param silent logical. Applies only if x is a path or \code{NULL} If \code{TRUE}, warnings 
+#'     from the console are ignored. Otherwise they are printed. Default is \code{FALSE}
+#' @param printCmd logical. Applies only if x is a path or \code{NULL} If \code{TRUE}, 
 #'     arguments passed to the SyncroSim console are also printed. Helpful for 
-#'     debugging. FALSE by default.
+#'     debugging. Default is \code{FALSE}
+#' @param ssimObject \code{\link{Project}} or \code{\link{Scenario}} object
+#' @param value \code{\link{Session}} object
+#' 
+#' @details
+#'
+#' In order to avoid problems with SyncroSim version compatibility and SsimLibrary 
+#' updating, the new Session must have the same filepath as the Session of the 
+#' SsimObject 
+#' e.g. \code{filepath(value)==filepath(session(ssimObject))}.
+#' Therefore, the only time when you will need to set a new SyncroSim Session is if you 
+#' have updated the SyncroSim software and want to update an existing SsimObject
+#' to use the new software.
 #' 
 #' @return 
 #' A SyncroSim \code{\link{Session}} object.
 #' 
 #' @examples
 #' \donttest{
-#' # Create Session
-#' temp_dir <- tempdir()
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, and Project
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+#' myProject <- project(myLibrary, project = "Definitions")
 #'
-#' filepath(mySession) # Lists the folder location of SyncroSim session
-#' version(mySession) # Lists the version of SyncroSim session
-#' package(mySession) # Dataframe of the packages installed with this version of SyncroSim
-#' package(mySession, installed = "BASE") # Dataframe of the base packages installed with this version of SyncroSim
+#' # Lists the folder location of SyncroSim Session
+#' filepath(mySession)
+#' 
+#' # Lists the version of SyncroSim Session
+#' version(mySession)
+#' 
+#' # Data frame of the packages installed with this version of SyncroSim
+#' package(mySession) 
+#' 
+#' # Data frame of the base packages installed with this version of SyncroSim
+#' package(mySession, installed = "BASE") 
+#' 
+#' # Set a new SyncroSim Session for the SyncroSim Project
+#' session(myProject) <- session(x = filepath(session(myProject)))
 #' }
 #' 
 #' @export
@@ -118,27 +144,9 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
 #' @rdname session
 setMethod("session", signature(x = "SsimObject"), function(x, silent, printCmd) x@session)
 
-#' Set a SyncroSim Session.
-#'
-#' Set the Session of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-#' \code{\link{Scenario}} object.
-#'
-#' @details
-#'
-#' In order to avoid problems with SyncroSim version compatibility and library 
-#' updating, the new session must have the same filepath as the session of the 
-#' SsimObject e.g. filepath(value)==filepath(session(ssimObject))
-#'
-#' @param ssimObject SsimObject, \code{\link{Project}} or \code{\link{Scenario}}.
-#' @param value A SyncroSim \code{\link{Session}}.
-#' 
-#' @return 
-#' Returns a SyncroSim object containing a Session.
-#' 
-#' @export
 setGeneric("session<-", function(ssimObject, value) standardGeneric("session<-"))
 
-#' @rdname session-set
+#' @rdname session
 setReplaceMethod(
   f = "session",
   signature = "character",
@@ -147,7 +155,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname session-set
+#' @rdname session
 setReplaceMethod(
   f = "session",
   signature = "SsimObject",

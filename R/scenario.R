@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
@@ -124,74 +124,81 @@ setMethod(
   }
 )
 
-#' Create or open one or more Scenarios.
+#' Create or open Scenario(s)
 #'
-#' Create or retrieves one or more Scenarios from a library.
+#' Create or open one or more \code{\link{Scenarios}} from a 
+#' \code{\link{SsimLibrary}}.
 #'
-#' @param ssimObject SsimLibrary/Project or character. An ssimObject containing 
-#'     a filepath to a library, or a filepath.
-#' @param scenario Character, integer, or vector of these. Names or ids of one or 
-#'     more scenarios. Note integer ids are slightly faster.
-#' @param sourceScenario Character or integer. If not NULL, new scenarios will be 
-#'     copies of the sourceScenario.
-#' @param summary Logical. If TRUE then loads and returns the scenario(s) in a 
+#' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Project}} object,
+#'   or character (i.e. a filepath)
+#' @param scenario character, integer, or vector of these. Names or ids of one or 
+#'     more Scenarios. Note integer ids are slightly faster, but can only be 
+#'     used to open existing Scenarios
+#' @param sourceScenario character or integer. If not \code{NULL} (Default), new 
+#' Scenarios will be copies of the sourceScenario
+#' @param summary logical. If \code{TRUE} then loads and returns the Scenario(s) in a 
 #'     named vector/dataframe with the scenarioId, name, description, owner, 
-#'     dateModified, readOnly, parentID. Default is TRUE if scenario=NULL, FALSE otherwise.
-#' @param results Logical. If TRUE only return result scenarios.
-#' @param forceElements Logical. If TRUE then returns a single scenario as a named 
-#'     list; otherwise returns a single scenario as a \code{\link{Scenario}} object. 
-#'     Applies only when summary=FALSE.
-#' @param overwrite Logical. If TRUE an existing Scenario will be overwritten.
+#'     dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL}, 
+#'     \code{FALSE} otherwise
+#' @param results logical. If \code{TRUE} only return result Scenarios. Default is 
+#' \code{FALSE}
+#' @param forceElements logical. If \code{TRUE} then returns a single Scenario as a named 
+#'     list; if \code{FALSE} (default), returns a single Scenario as a 
+#'     \code{\link{Scenario}} object. Applies only when \code{summary=FALSE}
+#' @param overwrite logical. If \code{TRUE} an existing Scenario will be overwritten.
+#' Default is \code{FALSE}
 #' 
 #' @return 
 #' A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario 
-#' objects, or a dataframe of scenario names and descriptions. If \code{summary} = FALSE, 
-#' returns one or more \code{\link{Scenario}} objects representing SyncroSim scenarios.
-#' If \code{summary} = TRUE, returns scenario summary info.
+#' objects, or a data frame of Scenario names and descriptions. If \code{summary = FALSE}, 
+#' returns one or more \code{\link{Scenario}} objects representing SyncroSim Scenarios.
+#' If \code{summary = TRUE}, returns Scenario summary info.
 #' 
 #' @details
 #'
-#' For each element of scenario:
+#' For each element of Scenario:
 #' \itemize{
-#'   \item {If element/project/ssimObject uniquely identifies an existing 
-#'          scenario: }{Returns the existing Scenario}.
-#'   \item {If element/project/ssimObject uniquely identifies more than one existing 
-#'          scenario: }{Error}.
-#'   \item {If element/project/ssimObject do not identify an existing scenario or 
-#'          project: }{Error}.
-#'   \item {If element/project/ssimObject do not identify an existing scenario and 
-#'          element is numeric: }{Error - a name is required for new scenarios. 
-#'          SyncroSim will automatically assign an id when a scenario is created.}
-#'   \item {If element/project/ssimObject do not identify an existing scenario and 
-#'          do identify a project, and element is a character string: }{Creates a 
-#'          new Scenario named element in the project. SyncroSim automatically 
-#'          assigns an id. If sourceScenario is not NULL the new scenario will be 
+#'   \item {If element/Project/SsimObject uniquely identifies an existing 
+#'          Scenario: }{Returns the existing Scenario}.
+#'   \item {If element/Project/SsimObject uniquely identifies more than one existing 
+#'          Scenario: }{Error}.
+#'   \item {If element/Project/SsimObject do not identify an existing Scenario or 
+#'          Project: }{Error}.
+#'   \item {If element/Project/SsimObject do not identify an existing Scenario and 
+#'          element is numeric: }{Error - a name is required for new Scenarios. 
+#'          SyncroSim will automatically assign an id when a Scenario is created.}
+#'   \item {If element/Project/SsimObject do not identify an existing Scenario and 
+#'          do identify a Project, and element is a character string: }{Creates a 
+#'          new Scenario named element in the Project. SyncroSim automatically 
+#'          assigns an id. If sourceScenario is not \code{NULL} the new Scenario will be 
 #'          a copy of sourceScenario.}
 #' }
 #' 
 #' @examples
 #' \donttest{
-#' # Create a new scenario
-#' temp_dir <- tempdir()
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set the SyncroSim Session, SsimLibrary, and Project
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
 #' myProject <- project(myLibrary, project = "My Project")
 #' 
-#' # Create a new scenario
+#' # Create a new Scenario
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' 
-#' # Create a new scenario from an existing scenario
+#' # Create a new Scenario from an existing Scenario
 #' myScenarioCopy <- scenario(myProject, scenario = "My Scenario Copy",
 #'                            sourceScenario = myScenario)
 #'                           
-#' # Find all the scenarios in a library
+#' # Find all the Scenarios in a SsimLibrary
 #' scenario(myLibrary)
 #' 
-#' # Only return the results scenarios for a library
+#' # Only return the results Scenarios for a SsimLibrary
 #' scenario(myLibrary, results = TRUE)
 #' 
-#' # Overwrite an existing scenario
+#' # Overwrite an existing Scenario
 #' myNewScenario <- scenario(myProject, scenario = "My New Scenario", 
 #'                          overwrite = TRUE)
 #' }

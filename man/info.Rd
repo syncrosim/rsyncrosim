@@ -10,24 +10,28 @@ info(ssimLibrary)
 \S4method{info}{SsimLibrary}(ssimLibrary)
 }
 \arguments{
-\item{ssimLibrary}{An object of class \code{\link{SsimLibrary}}.}
+\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 }
 \value{
-Returns a \code{data.frame} with information on the properties of the library 
+Returns a \code{data.frame} with information on the properties of the SsimLibrary 
 object.
 }
 \description{
-Retrieves some basic metadata about a Library: Name, Owner, Last Modified, 
+Retrieves some basic metadata about a SsimLibrary: Name, Owner, Last Modified, 
 Size, Read Only, Package Name, Package Description, Current Package Version,
 Minimum Package Version, External input files, External output files, 
 Temporary files, Backup files.
 }
 \examples{
 \dontrun{
-temp_dir <- tempdir()
-mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
 
+# Set up a SyncroSim Session and SsimLibrary
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+
+# Get information about SsimLibrary  
 info(myLibrary)
 }
 

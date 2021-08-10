@@ -33,7 +33,8 @@ Imports:
     DBI,
     RSQLite,
     raster,
-    gtools
+    gtools,
+    lifecycle
 Suggests:
     knitr,
     testthat,
@@ -45,23 +46,19 @@ Suggests:
 SystemRequirements: SyncroSim (>=2.2.22)
 Collate: 
     'AAAClassDefinitions.R'
-    'addModule.R'
     'addPackage.R'
-    'addPackageFile.R'
     'addRow.R'
     'addon.R'
     'autogentags.R'
     'backup.R'
-    'basePackage.R'
     'breakpoint.R'
     'command.R'
     'datasheet.R'
     'datasheetRaster.R'
     'dateModified.R'
     'delete.R'
-    'deleteModule.R'
-    'deletePackage.R'
     'dependency.R'
+    'deprecated.R'
     'description.R'
     'disableAddon.R'
     'enableAddon.R'
@@ -79,8 +76,6 @@ Collate:
     'session.R'
     'internalWrappers.R'
     'mergeDependencies.R'
-    'model.R'
-    'module.R'
     'owner.R'
     'package.R'
     'parentId.R'

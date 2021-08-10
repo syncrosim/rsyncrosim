@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 
 #' SyncroSim Environment
 #'
@@ -15,7 +15,7 @@
 #' # Get the whole set of variables
 #' e <- ssimEnvironment()
 #' 
-#' # Get the path to transfer direcyory, for instance
+#' # Get the path to transfer directory, for instance
 #' transferdir <- e$TransferDirectory
 #' }
 #' 
@@ -78,11 +78,11 @@ envCreateTempFolder <- function(folderName) {
 #' development of R-based Syncrosim Packages. This function creates and returns 
 #' a SyncroSim Datasheet Input Folder.
 #'
-#' @param scenario Scenario.  A SyncroSim result \code{\link{Scenario}}.
-#' @param datasheetName Character.  The input datasheet name.
+#' @param scenario \code{\link{Scenario}} object. A SyncroSim result Scenario
+#' @param datasheetName character. The input Datasheet name
 #' 
 #' @return 
-#' Returns a folder name for the specified datasheet.
+#' Returns a folder name for the specified Datasheet.
 #' 
 #' @examples 
 #' \dontrun{
@@ -98,11 +98,11 @@ envInputFolder <- function(scenario, datasheetName) {
 #' SyncroSim DataSheet Output Folder
 #'
 #' This function is part of a set of functions designed to facilitate the
-#' development of R-based Syncrosim Packages. Thus function creates and returns 
+#' development of R-based Syncrosim Packages. This function creates and returns 
 #' a SyncroSim DataSheet Output Folder.
 #'
-#' @param scenario Scenario. A SyncroSim result \code{\link{Scenario}}.
-#' @param datasheetName Character. The output datasheet name.
+#' @param scenario \code{\link{Scenario}} object. A SyncroSim result Scenario
+#' @param datasheetName character. The output Datasheet name
 #' 
 #' @return 
 #' Returns a folder name for the specified datasheet.
@@ -124,7 +124,7 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' development of R-based Syncrosim Packages. This function creates and returns 
 #' a SyncroSim Temporary Folder.
 #'
-#' @param folderName Character. The folder name.
+#' @param folderName character. The folder name
 #' 
 #' @return 
 #' Returns a temporary folder name.
@@ -140,14 +140,14 @@ envTempFolder <- function(folderName) {
   return(envCreateTempFolder(folderName))
 }
 
-#' Reports progress for a SyncroSim simulation
+#' Reports SyncroSim simulation progress
 #'
 #' This function is part of a set of functions designed to facilitate the
 #' development of R-based Syncrosim Packages. This function reports progress 
 #' for a SyncroSim simulation.
 #'
-#' @param iteration integer. The current iteration.
-#' @param timestep integer. The current timestep.
+#' @param iteration integer. The current iteration
+#' @param timestep integer. The current timestep
 #' 
 #' @return
 #' No returned value, used for side effects.
@@ -170,7 +170,7 @@ envReportProgress <- function(iteration, timestep) {
 #' development of R-based SyncroSim Packages. Specifically, this function begins
 #' the reporting of a SyncroSim simulation.
 #'
-#' @param totalSteps integer.  The total number of steps in the simulation.
+#' @param totalSteps integer.  The total number of steps in the simulation
 #' 
 #' @return
 #' No returned value, used for side effects.

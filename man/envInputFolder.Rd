@@ -7,12 +7,12 @@
 envInputFolder(scenario, datasheetName)
 }
 \arguments{
-\item{scenario}{Scenario.  A SyncroSim result \code{\link{Scenario}}.}
+\item{scenario}{\code{\link{Scenario}} object. A SyncroSim result Scenario}
 
-\item{datasheetName}{Character.  The input datasheet name.}
+\item{datasheetName}{character. The input Datasheet name}
 }
 \value{
-Returns a folder name for the specified datasheet.
+Returns a folder name for the specified Datasheet.
 }
 \description{
 This function is part of a set of functions designed to facilitate the

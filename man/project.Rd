@@ -2,7 +2,7 @@
 % Please edit documentation in R/project.R
 \name{project}
 \alias{project}
-\title{Create or open a project or projects.}
+\title{Create or open Project(s)}
 \usage{
 project(
   ssimObject = NULL,
@@ -14,74 +14,73 @@ project(
 )
 }
 \arguments{
-\item{ssimObject}{An object of class  \code{\link{Scenario}} or 
-\code{\link{SsimLibrary}}, or a Character string (i.e. A ssimObject 
-containing a filepath to a library, or a filepath)}
+\item{ssimObject}{\code{\link{Scenario}} or 
+\code{\link{SsimLibrary}} object, or a character string (i.e. a filepath)}
 
-\item{project}{Character, integer, or vector of these. Names or ids of one or 
-more projects. Note that integer ids are slightly faster.}
+\item{project}{\code{\link{Project}} object, character, integer, or vector 
+of these. Names or ids of one or more Projects. Note that integer ids are 
+slightly faster (optional)}
 
-\item{sourceProject}{Character, integer, or \code{\link{Project}} object. If 
-not `NULL`, new projects will be copies of the sourceProject.}
+\item{sourceProject}{\code{\link{Project}} object, character, or integer. If 
+not \code{NULL} (default), new Projects will be copies of the sourceProject}
 
-\item{summary}{Logical. If `TRUE` then return the project(s) in a dataframe with 
+\item{summary}{logical. If \code{TRUE} then return the Project(s) in a data.frame with 
 the projectId, name, description, owner, dateModified, readOnly. Default 
-is `TRUE` if `project=NULL` and ssimObject is not Scenario/Project, `FALSE` 
-otherwise.}
+is \code{TRUE} if \code{project=NULL} and SsimObject is not Scenario/Project, \code{FALSE} 
+otherwise}
 
-\item{forceElements}{Logical. If TRUE then returns a single project as a named 
+\item{forceElements}{logical. If \code{TRUE} then returns a single Project as a named 
 list; otherwise returns a single project as a \code{\link{Project}} object. 
-Applies only when `summary=FALSE`.}
+Applies only when \code{summary=FALSE} Default is \code{FALSE}}
 
-\item{overwrite}{Logical. If `TRUE` an existing Project will be overwritten.}
+\item{overwrite}{logical. If \code{TRUE} an existing Project will be overwritten. 
+Default is \code{FALSE}}
 }
 \value{
-Returns a \code{Project} object representing a SyncroSim project. If summary is `TRUE`,
-returns a dataframe of project names and descriptions.
+Returns a \code{\link{Project}} object representing a SyncroSim Project. If 
+summary is \code{TRUE}, returns a data.frame of Project names and descriptions.
 }
 \description{
-Creates or retrieves a project or multiple projects from a library.
+Creates or retrieves a \code{\link{Project}} or multiple Projects from a
+SsimLibrary.
 }
 \details{
 For each element of project:
 \itemize{
-  \item {If element identifies an existing project: }{Returns the existing Project}.
-  \item {If element identifies more than one project: }{Error}.
-  \item {If element does not identify an existing project: }{Creates a new Project 
-  named element. Note that SyncroSim automatically assigns an id to a new project.}
+  \item {If element identifies an existing Project: }{Returns the existing Project}.
+  \item {If element identifies more than one Project: }{Error}.
+  \item {If element does not identify an existing Project: }{Creates a new Project 
+  named element. Note that SyncroSim automatically assigns an id to a new Project.}
 }
 }
 \examples{
 \donttest{
-# Create a Library and create a new Project
-temp_dir <- tempdir()
-mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+# Set the file path and name of the new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib")
 
+# Set the SyncroSim Session, SsimLibrary, and Project
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
 myProject <- project(ssimObject = myLibrary, project = "My new project name")
 
-# Get a named list of existing Projects.
-# Each element in the list is named by a character version of the Project ID.
+# Get a named list of existing Projects
+# Each element in the list is named by a character version of the Project ID
 myProjects <- project(myLibrary, summary = FALSE)
-names(myProjects) # vector of the project ids
+names(myProjects)
 
 # Get an existing Project.
 myProject <- myProjects[[1]]
 myProject <- project(myLibrary, project = "My new project name")
 
-# Return a project as a named list
-myProjectList <- project(myLibrary, project = 1, forceElements = TRUE)
-myProjectList$`1`
-
-# Get/set the project properties
+# Get/set the Project properties
 name(myProject)
 name(myProject) <- "New project name"
 
-# Create a new project from a copy of an existing project
+# Create a new Project from a copy of an existing Project
 myNewProject <- project(myLibrary, project = "My copied project",
                         sourceProject = 1)
 
-# Overwrite an existing project
+# Overwrite an existing Project
 myNewProject <- project(myLibrary, project = "My copied project",
                         overwrite = TRUE)
 }

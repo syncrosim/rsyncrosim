@@ -6,7 +6,7 @@
 \alias{dateModified,SsimLibrary-method}
 \alias{dateModified,Project-method}
 \alias{dateModified,Scenario-method}
-\title{The last date a SsimLibrary, Project or Scenario was modified.}
+\title{Last date a SsimLibrary, Project or Scenario was modified}
 \usage{
 dateModified(ssimObject)
 
@@ -19,11 +19,12 @@ dateModified(ssimObject)
 \S4method{dateModified}{Scenario}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class SsimLibrary, Project or Scenario.}
+\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
+or \code{\link{Scenario}} object}
 }
 \value{
-A character string of the date and time of the most recent modification 
-to the ssimObject provided as input.
+A character string: date and time of the most recent modification 
+to the SsimObject provided as input.
 }
 \description{
 The most recent modification date of a \code{\link{SsimLibrary}}, 
@@ -31,10 +32,14 @@ The most recent modification date of a \code{\link{SsimLibrary}},
 }
 \examples{
 \dontrun{
-temp_dir <- tempdir()
-mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
 
+# Set up a SyncroSim Session and SsimLibrary
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+
+# Check the last date of modification of the SsimLibrary
 dateModified(myLibrary)
 }
 

@@ -3,18 +3,56 @@
 \name{breakpoint}
 \alias{breakpoint}
 \alias{breakpoint,Scenario-method}
-\title{Lists the breakpoints for a Scenario.}
+\title{Breakpoints for a Scenario}
 \usage{
 breakpoint(x)
 
 \S4method{breakpoint}{Scenario}(x)
 }
 \arguments{
-\item{x}{A SyncroSim \code{\link{Scenario}}.}
+\item{x}{\code{\link{Scenario}} object}
 }
 \value{
-Does not return anything, used for printing purposes.
+None
 }
 \description{
 Lists the breakpoints for a Scenario.
+}
+\examples{
+\dontrun{
+# Create callback function
+callbackFunction <- function(x, iteration, timestep) {
+  print(paste0("Breakpoint hit: ", scenarioId(x)))
+}
+
+# Install helloworldEnhanced package
+addPackage("helloworldEnhanced")
+
+# Set SsimLibrary name
+myLibraryName <- file.path(tempdir(),"testlib")
+
+# Set Session and SsimLibrary
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName,
+                         session = mySession,
+                         package = "helloworldEnhanced")
+myScenario <- scenario(myLibrary, "My Scenario")
+
+# Add breakpoints before the 1st and 2nd iterations
+myScenario <- addBreakpoint(x= myScenario,
+                            transformerName= "helloworldEnhanced_Primary",
+                            breakpointType = "bi", 
+                            arguments = c(1,2),
+                            callback = callbackFunction)
+                            
+# Check that the breakpoints were added
+breakpoint(myScenario)
+
+# Delete breakpoints
+myScenario <- deleteBreakpoint(myScenario)
+
+# Check that breakpoints were deleted
+breakpoint(myScenario)
+}
+
 }

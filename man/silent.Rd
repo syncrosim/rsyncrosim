@@ -4,31 +4,44 @@
 \alias{silent}
 \alias{silent,Session-method}
 \alias{silent,missingOrNULLOrChar-method}
-\title{Check if a Session is silent}
+\alias{silent<-,character-method}
+\alias{silent<-,Session-method}
+\title{Silent status of SyncroSim Session}
 \usage{
 silent(session)
 
 \S4method{silent}{Session}(session)
 
 \S4method{silent}{missingOrNULLOrChar}(session)
+
+\S4method{silent}{character}(session) <- value
+
+\S4method{silent}{Session}(session) <- value
 }
 \arguments{
-\item{session}{Session or character. An object of class \code{\link{Session}} 
-or path to a session. If NULL, the default session will be used.}
+\item{session}{\code{\link{Session}} object or character (i.e. filepath to a 
+session). If \code{NULL}, \code{session()} will be used}
+
+\item{value}{logical. If \code{TRUE} (default), the SyncroSim Session will be 
+silent}
 }
 \value{
-Returns a logical value: `TRUE` if the session is silent and `FALSE` otherwise.
+A logical: \code{TRUE} if the session is silent and \code{FALSE} otherwise.
 }
 \description{
-Checks whether a SyncroSim \code{\link{Session}} is silent or not. In a silent
-session, warnings from the console are ignored.
+Checks or sets whether a SyncroSim \code{\link{Session}} is silent or not. In
+a silent session, warnings from the console are ignored.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Set up a SyncroSim Session
 mySession <- session()
 
+# Check the silent status of a SyncroSim Session
 silent(mySession)
+
+# Set the silent status of a SyncroSim Session
+silent(mySession) <- FALSE
 }
 
 }

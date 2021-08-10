@@ -1,30 +1,38 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Retrieves the run log of a result Scenario
+#' Retrieves run log of result Scenario
 #'
 #' Retrieves the run log of a result Scenario.
 #'
-#' @param scenario A \code{\link{Scenario}} object.
+#' @param scenario \code{\link{Scenario}} object.
 #' 
 #' @return 
-#' Returns a character string: the run log for a result scenario.
+#' A character string: the run log for a result scenario.
 #' 
 #' @examples 
 #' \dontrun{
+#' # Install helloworldEnhanced package
 #' addPackage("helloworldEnhanced")
-#' temp_dir <- tempdir()
+#' 
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"),
-#'                          session = mySession, package = "helloworldEnhanced",
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession, 
+#'                          package = "helloworldEnhanced",
 #'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
+#' # Run Scenario
 #' resultScenario <- run(myScenario)
 #' 
+#' # Retrieve the run log of the result Scenario
 #' runLog(resultScenario)
 #' }
 #' 

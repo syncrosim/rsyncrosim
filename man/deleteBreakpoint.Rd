@@ -3,19 +3,21 @@
 \name{deleteBreakpoint}
 \alias{deleteBreakpoint}
 \alias{deleteBreakpoint,Scenario-method}
-\title{Delete a Scenario breakpoint.}
+\title{Delete a Scenario breakpoint}
 \usage{
 deleteBreakpoint(x, transformerName = NULL, breakpointType = NULL)
 
 \S4method{deleteBreakpoint}{Scenario}(x, transformerName = NULL, breakpointType = NULL)
 }
 \arguments{
-\item{x}{A SyncroSim \code{\link{Scenario}}.}
+\item{x}{\code{\link{Scenario}} object}
 
-\item{transformerName}{A Stochastic Time Transformer (e.g. stsim_Runtime). Optional.}
+\item{transformerName}{character. A Stochastic Time Transformer 
+e.g. "stsim_Runtime" (optional)}
 
-\item{breakpointType}{bi: before iteration; ai: after iteration; bt:before 
-timestep; at: after timestep.  Optional.}
+\item{breakpointType}{character. Options include "bi" (before iteration),
+"ai" (after iteration), "bt" (before timestep), or "at" (after timestep) 
+(optional)}
 }
 \value{
 A SyncroSim Scenario with an updated list of breakpoints.
@@ -24,15 +26,40 @@ A SyncroSim Scenario with an updated list of breakpoints.
 This function will delete a \code{\link{Scenario}} breakpoint.
 }
 \examples{
-\donttest{
+\dontrun{
+# Create callback function
+callbackFunction <- function(x, iteration, timestep) {
+  print(paste0("Breakpoint hit: ", scenarioId(x)))
+}
 
-temp_dir <- tempdir()
+# Install helloworldEnhanced package
+addPackage("helloworldEnhanced")
+
+# Set SsimLibrary name
+myLibraryName <- file.path(tempdir(),"testlib")
+
+# Set Session and SsimLibrary
 mySession <- session()
-mylib <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-myScenario <- scenario(mylib, "testScenario")
+myLibrary <- ssimLibrary(name = myLibraryName,
+                         session = mySession,
+                         package = "helloworldEnhanced")
+myScenario <- scenario(myLibrary, "My Scenario")
 
+# Add breakpoints before the 1st and 2nd iterations
+myScenario <- addBreakpoint(x= myScenario,
+                            transformerName= "helloworldEnhanced_Primary",
+                            breakpointType = "bi", 
+                            arguments = c(1,2),
+                            callback = callbackFunction)
+                            
+# Check that the breakpoints were added
+breakpoint(myScenario)
+
+# Delete breakpoints
 myScenario <- deleteBreakpoint(myScenario)
-myScenario <- deleteBreakpoint(myScenario, transformerName = "stsim_Runtime")
+
+# Check that breakpoints were deleted
+breakpoint(myScenario)
 }
 }
 \seealso{

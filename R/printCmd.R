@@ -1,25 +1,27 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Retrieves a printCmd setting of a Session.
+#' Retrieves printCmd setting of a Session
 #'
 #' Retrieves a printCmd setting of a \code{\link{Session}} object. The printCmd
-#' setting configures a session for printing commands sent to the console.
+#' setting configures a Session for printing commands sent to the console.
 #'
-#' @param session Session or character. An object of class \code{\link{Session}} 
-#' or path to a session. If NULL, the default session will be used.
+#' @param session Session object or character. The Session or path
+#'  to a Session where the printCmd settings are retrieved from. If \code{NULL} (default),
+#'  \code{session()} will be used
 #' 
 #' @return 
-#' Returns a logical value: `TRUE` if the session is configured to print commands and 
-#' `FALSE` if it is not.
+#' A logical : \code{TRUE} if the session is configured to print commands and 
+#' \code{FALSE} if it is not.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Set SyncroSim Session
 #' mySession <- session()
 #' 
+#' # Retrieve printCmd settings for given Session
 #' printCmd(mySession)
 #' }
 #' 

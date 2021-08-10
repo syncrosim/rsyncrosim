@@ -6,21 +6,22 @@
 \alias{SsimLibrary}
 \title{SyncroSim Library class}
 \description{
-\code{SsimLibrary} object representing a SyncroSim Library. A library is the
+\code{SsimLibrary} object representing a SyncroSim Library. A SsimLibrary is the
 highest level of organization in the SyncroSim workflow and contains at 
 least one \code{\link{Project}}.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{The SyncroSim \code{\link{Session}}.}
+\item{\code{session}}{\code{\link{Session}} object}
 
-\item{\code{filepath}}{The path to the Library on disk.}
+\item{\code{filepath}}{character string. The path to the SsimLibrary on disk}
 
-\item{\code{datasheetNames}}{The name and scope of all datasheets in the Library.}
+\item{\code{datasheetNames}}{character string. The name and scope of all Datasheets
+in the SsimLibrary.}
 }}
 
 \seealso{
 See \code{\link{ssimLibrary}} for options when creating or loading a 
-    SyncroSim Library.
+    SyncroSim SsimLibrary.
 }

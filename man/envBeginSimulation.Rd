@@ -7,7 +7,7 @@
 envBeginSimulation(totalSteps)
 }
 \arguments{
-\item{totalSteps}{integer.  The total number of steps in the simulation.}
+\item{totalSteps}{integer.  The total number of steps in the simulation}
 }
 \value{
 No returned value, used for side effects.

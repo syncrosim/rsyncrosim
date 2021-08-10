@@ -4,33 +4,48 @@
 \alias{ignoreDependencies}
 \alias{ignoreDependencies,character-method}
 \alias{ignoreDependencies,Scenario-method}
-\title{Ignore Dependencies for a Scenario.}
+\alias{ignoreDependencies<-,character-method}
+\alias{ignoreDependencies<-,Scenario-method}
+\title{Ignore dependencies for a Scenario}
 \usage{
 ignoreDependencies(ssimObject)
 
 \S4method{ignoreDependencies}{character}(ssimObject)
 
 \S4method{ignoreDependencies}{Scenario}(ssimObject)
+
+\S4method{ignoreDependencies}{character}(ssimObject) <- value
+
+\S4method{ignoreDependencies}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Scenario}}.}
+\item{ssimObject}{\code{\link{Scenario}} object}
+
+\item{value}{character string of Datafeed names to be ignored, separated by
+commas (optional)}
 }
 \value{
-Returns Ignore Dependencies Datafeeds.
+A character string: Scenario Datafeeds that will be ignored.
 }
 \description{
-Retrieves the Ignore Dependencies Datafeeds for a \code{\link{Scenario}}.
+Retrieves or sets the Datafeeds to ignore for a \code{\link{Scenario}}.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
-# Lists the datafeeds to ignore
+# List the Datafeeds to ignore
 ignoreDependencies(myScenario)
+
+# Set Scenario Datafeeds to ignore
+ignoreDependencies(myScenario) <- "stsim_RunControl,stsim_TransitionTarget"
 }
 
 }

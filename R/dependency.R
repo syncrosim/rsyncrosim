@@ -1,13 +1,18 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Set or remove Scenario dependency(s), or get existing dependencies.
+#' Get, set or remove Scenario dependency(s)
+#' 
+#' List dependencies, set dependencies, or remove dependencies from a SyncroSim
+#' \code{\link{Scenario}}. Setting dependencies is a way of linking together
+#' Scenario Datafeeds, such that a change in the Scenario that is the source 
+#' dependency will update the dependent Scenario as well. 
 #'
 #' @details
 #'
-#' If dependency==NULL, other arguments are ignored, and set of existing dependencies 
+#' If \code{dependency==NULL}, other arguments are ignored, and set of existing dependencies 
 #' is returned in order of precedence (from highest to lowest precedence).
 #' Otherwise, returns list of saved or error messages for each dependency of each 
 #' scenario.
@@ -18,32 +23,33 @@ NULL
 #' If the dependency argument includes more than one element, elements are ordered 
 #' from lowest to highest precedence.
 #'
-#' @param scenario Scenario. The scenario to which a dependency is to be added 
-#'     (or has already been added if remove=TRUE).
-#' @param dependency \code{\link{Scenario}}, character string, integer, or 
-#'     list/vector of these. The scenario(s) that are the source of the dependency, 
-#'     in order from lowest to highest precedence. If NULL other arguments are 
-#'     ignored and the list of existing dependencies is returned.
-#' @param scenario character string, integer, or vector of these. Name or ID of 
-#'     scenario(s) to which a dependency is to be added (or has been already 
-#'     added if remove=TRUE). If NULL then ssimObject must be a \code{\link{Scenario}}. 
-#'     Note that integer ids are slightly faster.
-#' @param remove logical. If F (default) dependencies are added. If T, dependencies 
-#'     are removed.
-#' @param force logical. If F (default) prompt before removing dependencies.
+#' @param scenario \code{\link{Scenario}} object, character string, integer, or 
+#' vector of these. The Scenario object, name, or ID to which a dependency is to 
+#' be added (or has already been added if \code{remove=TRUE}). Note that integer ids 
+#' are slightly faster
+#' @param dependency \code{\link{Scenario}} object, character string, integer, or 
+#'     list/vector of these. The Scenario(s) that are the source of the dependency, 
+#'     in order from lowest to highest precedence. If \code{NULL} (default) other arguments are 
+#'     ignored and the list of existing dependencies is returned
+#' @param remove logical. If \code{FALSE} (default) dependencies are added. If \code{TRUE},
+#'  dependencies are removed
+#' @param force logical. If \code{FALSE} (default) prompt before removing dependencies
 #' 
 #' @return 
-#' If dependency is NULL, a dataframe of existing dependencies, or list of these 
-#' if multiple inputs are provided. If dependency is not NULL, the function 
+#' If dependency is \code{NULL}, a data frame of existing dependencies, or list of these 
+#' if multiple inputs are provided. If dependency is not \code{NULL}, the function 
 #' invisibly returns a list bearing the names of the dependencies inputted and 
-#' carrying a logical `TRUE` upon success (i.e.successful addition or deletion) 
-#' and `FALSE` upon failure.
+#' carrying a logical \code{TRUE} upon success (i.e.successful addition or deletion) 
+#' and \code{FALSE} upon failure
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, Project, and 2 Scenarios
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' myNewScenario <- scenario(myProject,

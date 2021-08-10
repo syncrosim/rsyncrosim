@@ -6,7 +6,11 @@
 \alias{name,SsimLibrary-method}
 \alias{name,Scenario-method}
 \alias{name,Project-method}
-\title{Retrieves the name of a SsimLibrary, Project or Scenario.}
+\alias{name<-,character-method}
+\alias{name<-,SsimLibrary-method}
+\alias{name<-,Project-method}
+\alias{name<-,Scenario-method}
+\title{Name of a SsimLibrary, Project or Scenario}
 \usage{
 name(ssimObject)
 
@@ -17,29 +21,46 @@ name(ssimObject)
 \S4method{name}{Scenario}(ssimObject)
 
 \S4method{name}{Project}(ssimObject)
+
+\S4method{name}{character}(ssimObject) <- value
+
+\S4method{name}{SsimLibrary}(ssimObject) <- value
+
+\S4method{name}{Project}(ssimObject) <- value
+
+\S4method{name}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Scenario}}, \code{\link{Project}}, 
-or \code{\link{SsimLibrary}}.}
+\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}}, 
+or \code{\link{SsimLibrary}} object}
+
+\item{value}{character string of the new name}
 }
 \value{
-A character string: the name of the ssimObject.
+A character string: the name of the SsimObject.
 }
 \description{
-Retrieves the name of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-\code{\link{Scenario}}.
+Retrieves or sets the name of a \code{\link{SsimLibrary}}, 
+\code{\link{Project}} or \code{\link{Scenario}}.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Retrieve names of the SsimObjects
 name(myLibrary)
 name(myProject)
 name(myScenario)
+
+# Set the name of the SyncroSim Scenario
+name(myScenario) <- "My Scenario Name"
 }
 
 }

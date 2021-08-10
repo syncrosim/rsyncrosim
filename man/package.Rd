@@ -6,7 +6,7 @@
 \alias{package,missingOrNULL-method}
 \alias{package,Session-method}
 \alias{package,SsimLibrary-method}
-\title{Retrieves the installed or available packages}
+\title{Installed or available packages}
 \usage{
 package(ssimObject = NULL, installed = TRUE)
 
@@ -19,12 +19,13 @@ package(ssimObject = NULL, installed = TRUE)
 \S4method{package}{SsimLibrary}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object of class \code{\link{Session}} or 
-\code{\link{SsimLibrary}}.}
+\item{ssimObject}{\code{\link{Session}} or 
+\code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
+will be used}
 
-\item{installed}{Logical or Character. `TRUE` to list installed packages, 
-`FALSE` to list available packages, and "BASE" to list installed base 
-packages. Default is `TRUE`}
+\item{installed}{logical or character. \code{TRUE} (default) to list installed packages, 
+\code{FALSE} to list available packages, and "BASE" to list installed base 
+packages}
 }
 \value{
 Returns a \code{data.frame} of packages installed.
@@ -34,8 +35,12 @@ Retrieves the packages installed or available for this version of SyncroSim.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
+# Set the file path and name of the new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib")
+
+# Set the SyncroSim Session and SsimLibrary
 mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 
 # List all installed packages
 package(mySession)
@@ -45,13 +50,8 @@ package(installed = "BASE")
 
 # List all available packages on the server (including currently installed)
 package(installed = FALSE)
-}
-\donttest{
-temp_dir <- tempdir()
-mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-
-# Check the package you're Library is currently using
+ 
+# Check the package you're SsimLibrary is currently using
 package(myLibrary)
 }
 

@@ -13,13 +13,13 @@ A SyncroSim Session object contains a link to a SyncroSim installation.
 \section{Slots}{
 
 \describe{
-\item{\code{filepath}}{The path to the SyncroSim installation.}
+\item{\code{filepath}}{The path to the SyncroSim installation}
 
-\item{\code{silent}}{If FALSE, all SyncroSim output with non-zero exit status is 
-printed. Helpful for debugging. Default=TRUE.}
+\item{\code{silent}}{If \code{FALSE}, all SyncroSim output with non-zero exit status is 
+printed. Helpful for debugging. Default is \code{TRUE}}
 
-\item{\code{printCmd}}{If TRUE, arguments passed to the SyncroSim console are also 
-printed. Helpful for debugging. Default=FALSE.}
+\item{\code{printCmd}}{If \code{TRUE}, arguments passed to the SyncroSim console are also 
+printed. Helpful for debugging. Default is \code{FALSE}}
 }}
 
 \seealso{

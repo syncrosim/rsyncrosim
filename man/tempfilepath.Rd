@@ -16,8 +16,8 @@ tempfilepath(ssimObject)
 \S4method{tempfilepath}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{An object containing a filepath (of class \code{\link{Session}}, 
-\code{\link{Project}}, or \code{\link{SsimLibrary}}).}
+\item{ssimObject}{\code{\link{Session}}, 
+\code{\link{Project}}, or \code{\link{SsimLibrary}} object}
 }
 \value{
 A character string: the temporary file path to a SyncroSim object on disk.
@@ -29,11 +29,14 @@ on disk.
 }
 \examples{
 \donttest{
-temp_dir <- tempdir()
-mySession <- session()
-myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
 
-# Get the file path
+# Set up a SyncroSim Session and SsimLibrary
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+ 
+# Get the temporary file path
 myFilePath <- tempfilepath(myLibrary)
 }
 

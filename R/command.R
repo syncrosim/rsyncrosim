@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
@@ -16,30 +16,44 @@ NULL
 #'    \item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
 #' }
 #' 
-#' @param args Character string, named list, named vector, unnamed list, or unnamed 
-#'     vector. Arguments for the SyncroSim console. See details.
-#' @param session \code{\link{Session}}. If NULL, a default session will be used.
-#' @param program Character. The name of the target SyncroSim executable. 
-#'     Options include SyncroSim.Console.exe (default), SyncroSim.Server.exe, 
-#'     SyncroSim.PackageManager.exe and SyncroSim.Multiband.exe.
-#' @param wait Logical. If TRUE (default) R will wait for the command to finish 
-#'     before proceeding. Note that silent(session) is ignored if wait=FALSE.
+#' @param args character string, named list, named vector, unnamed list, or unnamed 
+#'     vector. Arguments for the SyncroSim console. See 'details' for more 
+#'     information about this argument
+#' @param session \code{\link{Session}} object. If \code{NULL}(default), the default
+#'  session will be used
+#' @param program character. The name of the target SyncroSim executable. 
+#'     Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe", 
+#'     "SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"
+#' @param wait logical. If \code{TRUE}(default) R will wait for the command to finish 
+#'     before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}
 #' 
 #' @return 
-#' A character string, output from the SyncroSim program.
+#' Character string: output from the SyncroSim program.
 #' 
 #' @examples
 #' \donttest{
-#' # Use a default session to create a new library in the current working directory.
+#' # Install "stsim" if not already installed
+#' addPackage("stsim")
+#' 
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib.ssim")
+#' 
+#' # Specify the command line arguments for creating a new stsim SsimLibrary
 #' args <- list(create = NULL, library = NULL, 
-#'         name = paste0(tempdir(), "/temp.ssim"), 
+#'         name = myLibraryName, 
 #'         package = "stsim")
+#'         
+#' # Use a default session to create a new SsimLibrary in the current working directory
 #' output <- command(args, session = session(printCmd = TRUE))
 #' output
 #'
-#' # Three different ways to provide args to command
+#' # Provide arguments to the command line using an unnamed vector
 #' command(c("create", "help"))
+#' 
+#' # Provide arguments to the command line using a character string
 #' command("--create --help")
+#' 
+#' # Provide arguments to the command line using a named list
 #' command(list(create = NULL, help = NULL))
 #' 
 #' # Call on a different program to find all installed packages

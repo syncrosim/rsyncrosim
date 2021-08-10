@@ -1,28 +1,37 @@
 # Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
-# GPL v.3 License
+# MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Merge Dependencies for a Scenario.
+#' Merge dependencies for a Scenario
 #'
-#' Retrieves whether or not a \code{\link{Scenario}} is configured to merge 
-#' dependencies at run time.
+#' Retrieves or sets whether or not a \code{\link{Scenario}} is configured to 
+#' merge dependencies at run time.
 #'
-#' @param ssimObject An object of class \code{\link{Scenario}}.
+#' @param ssimObject \code{\link{Scenario}} object
+#' @param value logical. If \code{TRUE} the Scenario will be set to merge 
+#' dependencies at run time. Default is \code{FALSE}
 #' 
 #' @return 
-#' Returns a logical: `TRUE` is the scenario is configured to merge dependencies at run time, 
-#' and `FALSE` otherwise.
+#' A logical: \code{TRUE} if the scenario is configured to merge dependencies at run time, 
+#' and \code{FALSE} otherwise.
 #' 
 #' @examples 
 #' \donttest{
-#' temp_dir <- tempdir()
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
+#' # Retrieve whether or not dependencies will be merged for a Scenario
 #' mergeDependencies(myScenario)
+#' 
+#' # Set whether or not dependencies will be merged for a Scenario
+#' mergeDependencies(myScenario) <- TRUE
 #' }
 #' 
 #' @export
@@ -44,32 +53,9 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
   return(value)
 })
 
-#' Merge Dependencies for a Scenario.
-#'
-#' Sets whether or not a \code{\link{Scenario}} is configured to merge 
-#' dependencies at run time.
-#'
-#' @param ssimObject An object of class \code{\link{Scenario}}.
-#' @param value Logical. If TRUE the Scenario will be set to merge dependencies at run time.
-#' 
-#' @return 
-#' Returns the updated ssimObject.
-#' 
-#' @examples 
-#' \donttest{
-#' temp_dir <- tempdir()
-#' mySession <- session()
-#' myLibrary <- ssimLibrary(name = file.path(temp_dir,"testlib"), session = mySession)
-#' myProject <- project(myLibrary, project = "Definitions")
-#' myScenario <- scenario(myProject, scenario = "My Scenario")
-#' 
-#' mergeDependencies(myScenario) <- TRUE
-#' }
-#' 
-#' @export
 setGeneric("mergeDependencies<-", function(ssimObject, value) standardGeneric("mergeDependencies<-"))
 
-#' @rdname mergeDependencies-set
+#' @rdname mergeDependencies
 setReplaceMethod(
   f = "mergeDependencies",
   signature = "character",
@@ -78,7 +64,7 @@ setReplaceMethod(
   }
 )
 
-#' @rdname mergeDependencies-set
+#' @rdname mergeDependencies
 setReplaceMethod(
   f = "mergeDependencies",
   signature = "Scenario",
