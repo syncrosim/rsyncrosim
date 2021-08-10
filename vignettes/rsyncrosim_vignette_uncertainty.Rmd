@@ -1,0 +1,330 @@
+---
+title: '`rsyncrosim`: introduction to uncertainty'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{`rsyncrosim`: introduction to uncertainty}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
+---
+
+This vignette will cover Monte Carlo realizations for modeling uncertainty using the `rsyncrosim` package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank">`rsyncrosim`</a>, as well as a basic usage tutorial for `rsyncrosim`, see the [Introduction to `rsyncrosim`](ADD LINK HERE) vignette.
+
+
+## SyncroSim Package: helloworldUncertainty
+
+
+To demonstrate how to quantify model uncertainty using the `rsyncrosim` interface, we will need the <a href="https://github.com/ApexRMS/helloworlTime" target="_blank">helloworldUncertainty</a> SyncroSim package. `helloworldUncertainty` was designed to be a simple package to introduce iterations to SyncroSim modeling workflows. The use of iterations allows for repeated simulations that sample from a specified distribution. Each of these simulations is known as a "Monte Carlo realization".
+
+The package takes from the user 3 inputs, *mMean*, *mSD*, and *b*. For each iteration, a value *m*, representing the slope, is sampled from a normal distribution with mean of *mMean* and standard deviation of *mSD*. The *b* value represents the intercept. These input values are run through a linear model, *y=mt+b*, where *t* is *time*, and returns the *y* value as output.
+
+![Infographic of helloworldUncertainty package](./infographic.png)
+
+For more details on the different features of the `helloworldUncertainty` SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_iterations.html" target="_blank">Enhancing a Package tutorial</a>.
+
+
+## Setup
+
+
+### Install SyncroSim
+
+Before using `rsyncrosim` you will first need to <a href="https://syncrosim.com/download/" target="_blank">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
+
+### Installing and loading R packages
+
+You will need to install the `rsyncrosim` R package, either using <a href="https://cran.r-project.org/" target="_blank">CRAN</a> or from the `rsyncrosim` <a href="https://github.com/syncrosim/rsyncrosim/releases/" target="_blank">GitHub repository</a>. Versions of `rsyncrosim` are available for both Windows and Linux.
+
+In a new R script, load the `rsyncrosim` package.
+
+```{r load packages}
+# Load R package for working with SyncroSim
+library(rsyncrosim)
+```
+
+### Installing SyncroSim packages using `addPackage()`
+
+Check if the <a href="https://github.com/ApexRMS/helloworldUncertainty" target="_blank">helloworldUncertainty</a> package is already installed. Use the `package()` function from `rsyncrosim` to first get a list of all currently installed packages in SyncroSim.
+
+```{r delete SyncroSim packages, echo = FALSE, results = FALSE, message = FALSE}
+installedPackages <- package()
+if (is.element("demosales", installedPackages$name)) removePackage("demosales", force = TRUE)
+if (is.element("dgsim", installedPackages$name)) removePackage("dgsim", force = TRUE)
+if (is.element("epi", installedPackages$name)) removePackage("epi", force = TRUE)
+if (is.element("helloworld", installedPackages$name)) removePackage("helloworld", force = TRUE)
+if (is.element("helloworldEnhanced", installedPackages$name)) removePackage("helloworldEnhanced", force = TRUE)
+if (is.element("helloworldTime", installedPackages$name)) removePackage("helloworldTime", force = TRUE)
+if (is.element("helloworldUncertainty", installedPackages$name)) removePackage("helloworldUncertainty", force = TRUE)
+if (is.element("helloworldPipeline", installedPackages$name)) removePackage("helloworldPipeline", force = TRUE)
+if (is.element("helloworldSpatial", installedPackages$name)) removePackage("helloworldSpatial", force = TRUE)
+if (is.element("landfirevegmodels", installedPackages$name)) removePackage("landfirevegmodels", force = TRUE)
+if (is.element("stsim", installedPackages$name)) removePackage("stsim", force = TRUE)
+if (is.element("stsimsf", installedPackages$name)) removePackage("stsimsf", force = TRUE)
+```
+
+
+```{r check packages 1, warning = FALSE}
+# Get list of installed packages
+package()
+```
+
+Currently we do not have the `helloworldUncertainty` package installed! Install `helloworldUncertainty` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+
+```{r add package from server, warning = FALSE}
+# Install helloworldUncertainty
+addPackage("helloworldUncertainty")
+```
+
+Now `helloworldUncertainty` should now be included in the package list:
+
+```{r check packages 2, warning = FALSE}
+# Get list of installed packages
+package()
+```
+
+
+*Note:* you can also update installed packages using the `updatePackage()` function or delete installed packages using the `removePackage()` function in `rsyncrosim`.
+
+### Connecting R to SyncroSim using `session()`
+
+The final step in setting up the R environment for the `rsyncrosim` workflow is to create a SyncroSim Session object in R that provides the connection to your installed copy of the SyncroSim software. A new Session is created using the `session()` function, in which the first argument is a path to the folder on your computer where SyncroSim has been installed. If the first argument is left blank, then the default install folder is used (Windows only).
+
+```{r load session not run, warning = FALSE, eval = FALSE}
+mySession <- session("path/to/install_folder")      # Create a Session based SyncroSim install folder
+mySession <- session()                              # Using default install folder (Windows only)
+mySession                                           # Displays the Session object
+```
+
+```{r load session run, warning = FALSE, eval = TRUE, echo = FALSE}
+# Results of this code shown for above
+mySession <- session()                              # Using default install folder (Windows only)
+mySession                                           # Displays the Session object
+```
+
+You can check to see which version of SyncroSim your R script is connected to by running the `version()` function.
+
+```{r check version, warning = FALSE}
+version(mySession)
+```
+
+
+## Create a modeling workflow
+
+
+When creating a new modeling workflow from scratch, we need to create objects of the following scopes:
+
+* <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a>
+* <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a>
+* <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a>
+
+For more information on these scopes, see the [Introduction to `rsyncrosim`](ADD LINK HERE) vignette.
+
+### Set up Library, Project, and Scenario
+
+```{r create Library, warning = FALSE}
+# Create a new Library
+myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
+                         session = mySession,
+                         package = "helloworldUncertainty",
+                         overwrite = TRUE)
+
+# Open the default Project
+myProject = project(ssimObject = myLibrary, project = "Definitions")
+
+# Create a new Scenario (associated with the default Project)
+myScenario = scenario(ssimObject = myProject, scenario = "My first scenario")
+```
+
+### View model inputs using `datasheet()`
+  
+View the Datasheets associated with your new Scenario using the `datasheet()` function from `rsyncrosim`.
+
+```{r view datasheet list, warning = FALSE}
+# View all Datasheets associated with a Library, Project, or Scenario
+datasheet(myScenario)
+```
+
+From the list of Datasheets above, we can see that there are 3 Datasheets specific to the `helloworldUncertainty` package. Let's view the Input Datasheet as an R data frame.
+
+```{r view specific datasheet, warning = FALSE}
+# View the input Datasheet for the Scenario
+datasheet(myScenario, name = "helloworldUncertainty_InputDatasheet")
+```
+
+### Configure model inputs using `datasheet()` and `addRow()`
+
+**Input Datasheet**
+
+Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the input Datasheet to a new data frame variable, then check the columns that need input values.
+
+```{r assign input data, warning = FALSE}
+# Assign input Datasheet to a new data frame variable
+myInputDataframe <- datasheet(myScenario,
+                              name = "helloworldUncertainty_InputDatasheet")
+
+# Check the columns of the input data frame
+str(myInputDataframe)
+```
+
+The input Datasheet requires 3 values:
+
+* `mMean` : the mean of the slope normal distribution.
+* `mSD` : the standard deviation of the slope normal distribution.
+* `b` : the intercept of the linear equation.
+
+Add these values to a new data frame, then use the `addRow()` function from `rsyncrosim` to update the input Datasheet.
+
+```{r add input data not run, warning = FALSE}
+# Create input data and add it to the input data frame
+myInputRow <- data.frame(mMean = 2, mSD = 4, b = 3)
+myInputDataframe <- addRow(myInputDataframe, myInputRow)
+
+# Check values
+myInputDataframe
+```
+
+Finally, save the updated R data frame as a Datasheet using `saveDatasheet()`.
+
+```{r save input data, warning = FALSE}
+# Save input R data frame as a SyncroSim Datasheet
+saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
+              name = "helloworldUncertainty_InputDatasheet")
+```
+
+**RunControl Datasheet**
+
+The `RunControl` Datasheet provides information about how many time steps and iterations to use in the model. Here, we set the *number of iterations*, as well as the minimum and maximum time steps for our model. Let's take a look at the columns that need input values. 
+
+```{r modify run control}
+# Assign run control Datasheet to a new data frame variable
+runSettings <- datasheet(myScenario, name = "helloworldUncertainty_RunControl")
+
+# Check the columns of the run control data frame
+str(runSettings)
+```
+
+The RunControl Datasheet requires the following 4 columns:
+
+* `MinimumIteration` : starting value of iterations (default=1).
+* `MaximumIteration` : total number of iterations to run the model for.
+* `MinimumTimestep` : the starting time point of the simulation.
+* `MaximumTimestep` : the end time point of the simulation.
+
+We'll add this information to an R data frame and then add it to the Run Control Datasheet using `addRow()`.
+
+```{r}
+# Create run control data and add it to the run control data frame
+runSettingsRow <- data.frame(MinimumIteration = 1,
+                             MaximumIteration = 5,
+                             MinimumTimestep = 1,
+                             MaximumTimestep = 10)
+runSettings <- addRow(runSettings, runSettingsRow)
+
+# Check values
+runSettings
+```
+
+Finally, save the R data frame as a Datasheet using `saveDatasheet()`.
+
+```{r}
+# Save run control R data frame as a SyncroSim Datasheet
+saveDatasheet(ssimObject = myScenario, data = runSettings,
+              name = "helloworldUncertainty_RunControl")
+```
+
+
+## Run Scenarios
+
+### Setting run parameters with `run()`
+
+We will now run our Scenario using the `run()` function in `rsyncrosim`. If we have a large model and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than 1.
+
+```{r run first Scenario, warning = FALSE}
+# Run the first Scenario we created
+myResultScenario <- run(myScenario, jobs = 5)
+```
+
+
+## View results
+
+
+### Viewing results with `datasheet()`
+
+The next step is to view the result Scenarios. We can load the result tables using the `datasheet()` function.
+
+
+```{r view results datasheets, warning = FALSE}
+# Results of first Scenario
+resultsSummary <- datasheet(myResultScenario,
+                            name = "helloworldUncertainty_OutputDatasheet")
+
+# View results table
+head(resultsSummary)
+```
+
+
+### Plotting uncertainty
+
+Now that we have run multiple iterations, we can visualize the uncertainty in our results. For this plot, we will plot the average *y* values over time, as well as the minimum and maximum. First, we can get these values using SQL statements when querying the output Datasheet. We will use the `sqlStatement()` function to create these queries, and the `sqlStatement` argument in the `datasheet()` function to retrieve the corresponding results.
+
+```{r, out.width = 600, fig.align = "center"}
+# Create SQL query for the minimum values of y
+yMin <- sqlStatement(groupBy = "Timestep",
+                     aggregate = "y",
+                     aggregateFunction = "MIN")
+
+# Create SQL query for the maximum values of y
+yMax <- sqlStatement(groupBy = "Timestep",
+                     aggregate = "y",
+                     aggregateFunction = "MAX")
+
+# Create SQL query for the average values of y
+yAvg <- sqlStatement(groupBy = "Timestep",
+                     aggregate = "y",
+                     aggregateFunction = "AVG")
+
+# Retrieve the minimum values of y in a data frame
+yMinDataframe <- datasheet(myResultScenario,
+                           name = "helloworldUncertainty_OutputDatasheet",
+                           sqlStatement = yMin)
+
+# Retrieve the maximum values of y in a data frame
+yMaxDataframe <- datasheet(myResultScenario,
+                           name = "helloworldUncertainty_OutputDatasheet",
+                           sqlStatement = yMax)
+
+# Retrieve the average values of y in a data frame
+yAvgDataframe <- datasheet(myResultScenario,
+                           name = "helloworldUncertainty_OutputDatasheet",
+                           sqlStatement = yAvg)
+
+# Combine results data frames into one
+resultsDataframe <- merge(yAvgDataframe, 
+                    merge(yMinDataframe, yMaxDataframe, by = "Timestep"),
+                    by = "Timestep")
+
+
+# Plot lines for the average y, minimum y, and maximum y
+plot(resultsDataframe$Timestep, resultsDataframe$y,
+     main = "Change in y over time",
+     type = "l", col = "orange", 
+     ylim = c(min(resultsSummary$y), max(resultsSummary$y)),
+     xlab = "Timestep", ylab = "y")
+lines(resultsDataframe$Timestep, resultsDataframe$y.x, lty = 3)
+lines(resultsDataframe$Timestep, resultsDataframe$y.y, lty = 3)
+```
+
+```{r dplyr way of doing above, eval = FALSE, echo = FALSE}
+resultsSummary %>%
+  group_by(Timestep) %>%
+  summarize(y = quantile(y, c(0.20, 0.50, 0.80)), quant = c(0.20, 0.50, 0.80)) %>%
+  spread(quant, y) %>%
+  ggplot() +
+  geom_ribbon(aes(x = Timestep, ymin = `0.2`, ymax = `0.8`), alpha = 0.2) +
+  geom_line(aes(x = Timestep, y = `0.5`)) +
+  ylab("y") +
+  ggtitle("Change in y over time") +
+  theme_classic()
+```
+
+

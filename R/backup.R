@@ -40,7 +40,7 @@ setMethod("backup", signature(ssimObject = "character"), function(ssimObject) {
 #' @rdname backup
 setMethod("backup", signature(ssimObject = "SsimObject"), function(ssimObject) {
   success <- FALSE
-  ds <- datasheet(ssimObject, name = "core_Backup", summary = "CORE")
+  ds <- datasheet(ssimObject, name = "core_Backup")
   args <- list(lib = .filepath(ssimObject), backup = NULL)
 
   if (!is.na(ds$IncludeInput)) {
