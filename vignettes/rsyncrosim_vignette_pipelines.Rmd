@@ -227,6 +227,30 @@ saveDatasheet(ssimObject = myScenario, data = runSettings,
               name = "helloworldPipeline_RunControl")
 ```
 
+**Pipeline Datasheet**
+
+This packages makes use of pipelines to link the output of one model to the input of a second model. To implement pipelines in our package, we need to specify the order in which to run the two models in our Pipeline by editing the `Pipeline` Datasheet. The `Pipeline` Datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` Datasheet we know that the `StageNameID` is a factor with 2 levels: "First Model" and "Second Model". We will set the data for this Datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
+
+```{r modify pipeline, eval = FALSE}
+# Assign Pipeline Datasheet to a new data frame variable
+myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
+
+# Check the columns of the Pipeline data frame
+str(myPipelineDataframe)
+
+# Create Pipeline data and add it to the Pipeline data frame
+myPipelineRow <- data.frame(StageNameID = c("First Model", "Second Model"),
+                            RunOrder = c(1, 2))
+
+myPipelineDataframe <- addRow(myPipelineDataframe, myPipelineRow)
+
+# Check values
+myPipelineDataframe
+
+# Save Pipeline R data frame as a SyncroSim Datasheet
+saveDatasheet(ssimObject = myScenario, data = myPipelineDataframe,
+              name = "core_Pipeline")
+```
 
 ## Run Scenarios
 
@@ -248,7 +272,7 @@ myResultScenario <- run(myScenario, jobs = 5)
 The next step is to view the intermediate output of the results Scenario. We can load the result tables using the `datasheet()` function. The Intermediate Datasheet corresponds to the results from the first model.
 
 
-```{r view results datasheets, warning = FALSE}
+```{r view results datasheets for model 1, warning = FALSE}
 # Results of first Scenario
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldPipeline_IntermediateDatasheet")
@@ -263,7 +287,7 @@ We can see that for every timestep in an iteration we have a new value of *y* co
 
 Now, we can view the results of the second model, also using `datasheet()`. The Output Datasheet corresponds to the results from the second model.
 
-```{r view results datasheets, warning = FALSE}
+```{r view results datasheets for model 2, warning = FALSE}
 # Results of first Scenario
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldPipeline_OutputDatasheet")

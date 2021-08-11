@@ -140,18 +140,17 @@ When creating a new modeling workflow from scratch, we need to create objects of
 * <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a>
 * <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a>
 
-These objects are hierarchical, such that a Library can contain many Projects, and each Project can contain many Scenarios. All parameters or configurations set in a Library are inherited by all Projects within the Library, and all parameters or configurations set in a Project are inherited by all Scenarios within that Project. See below for further information on these model objects.
+These objects are hierarchical, such that a Library can contain many Projects, and each Project can contain many Scenarios. All parameters or configurations set in a Library are inherited by all Projects within the Library, and all parameters or configurations set in a Project are inherited by all Scenarios within that Project. See below for further information on these SyncroSim objects.
 
 ### Create a new Library using `ssimLibrary()`
 
-A SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a> is a file (with `.ssim` extension) that stores all of your model inputs and outputs. The format of each SyncroSim Library is unique to the SyncroSim Package with which it is associated. We use the `ssimLibrary()` function to create a new SsimLibrary object in R that is connected (through your Session) to a SyncroSim Library file. We can also use the `ssimLibrary()` function to open an existing Library. Note that if you want to create a new Library file with an existing Library name rather than opening the existing Library, you can use `overwrite=TRUE` for the `ssimLibrary()` function.
+A SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a> is a file (with `.ssim` extension) that stores all of your model inputs and outputs. The format of each SyncroSim Library is unique to the SyncroSim Package with which it is associated. We use the `ssimLibrary()` function to create a new SsimLibrary object in R that is connected (through your Session) to a SyncroSim Library file.
 
 ```{r create Library, warning = FALSE, eval = FALSE, results = FALSE}
 # Create a new Library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
-                         package = "helloworldTime",
-                         overwrite = TRUE)
+                         package = "helloworldTime")
 
 # Check Library information
 myLibrary
@@ -172,6 +171,13 @@ myLibraryOutput@filepath <- "path/to/helloworldLibrary.ssim"
 myLibraryOutput
 ```
 
+We can also use the `ssimLibrary()` function to open an existing Library. For instance, now that we have created a Library called "helloworldLibrary.ssim", we would simply specify that we want to open this Library using the `name` argument.  Note that if you want to create a new Library file with an existing Library name rather than opening the existing Library, you can use `overwrite=TRUE` for the `ssimLibrary()` function.
+```{r}
+# Open existing Library
+myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim")
+```
+
+Note that if you want to create a new Library file with an existing Library name rather than opening the existing Library, you can use `overwrite=TRUE` for the `ssimLibrary()` function.
 
 ### Open a Project using `project()`
 
@@ -201,7 +207,11 @@ myProjectOutput
 
 ### Create a new Scenario using `scenario()`
 
-Finally, each SyncroSim Project contains one or more <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a>, each represented by a Scenario object in R. Scenarios store the specific model inputs and outputs associated with each model run in SyncroSim. Scenarios can contain multiple models connected by a series of Pipelines, such that the output of one model becomes the input of the next. Each Scenario can be identified by its unique `scenarioId`. The `scenario()` function is used to both create and retrieve Scenarios. Note that the `ssimObject` here can be the name of a Library or a Project.
+Finally, each SyncroSim Project contains one or more <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a>, each represented by a Scenario object in R. 
+
+Scenarios store the specific inputs and outputs associated with each Transformer in SyncroSim. SyncroSim models can be broken down into one or more of these Transformers. Each Transformer essentially runs a series of calculations on the input data to *transform* it into the output data. Scenarios can contain multiple Transformers connected by a series of Pipelines, such that the output of one Transformer becomes the input of the next. 
+
+Each Scenario can be identified by its unique `scenarioId`. The `scenario()` function is used to both create and retrieve Scenarios. Note that the `ssimObject` here can be the name of a Library or a Project.
 
 ```{r create Scenario, warning = FALSE, eval = FALSE, results = FALSE}
 # Create a new Scenario (associated with the default Project)
@@ -226,14 +236,22 @@ myScenarioOutput
 
 ### View model inputs using `datasheet()`
   
-Each SyncroSim Library contains multiple SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/properties_overview.html" target="_blank">Datasheets</a>. A SyncroSim Datasheet is simply a table of data stored in the Library. Datasheets each have a *scope*: either <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a>, 
+Each SyncroSim Library contains multiple SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/properties_overview.html" target="_blank">Datasheets</a>. A SyncroSim Datasheet is simply a table of data stored in the Library, and they represent the input and output data for Transformers. Datasheets each have a *scope*: either <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a>, 
 <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Project</a>, or 
-<a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenario</a>. We can view Datasheets of varying scopes using the `datasheet()` function from `rsyncrosim`.
+<a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenario</a>. Datasheets with a Library scope represent data that is specified only once for the entire Library, such as the location of the backup folder. Datasheets with a Project scope represent data that are shared over all Scenarios within a Project. Datasheets with a Scenario scope represent data that must be specified for each generated Scenario. We can view Datasheets of varying scopes using the `datasheet()` function from `rsyncrosim`.
 
 ```{r view datasheet list, warning = FALSE}
 # View all Datasheets associated with a Library, Project, or Scenario
 datasheet(myScenario)
 ```
+
+If we want to see more information about each Datasheet, such as the scope of the Datasheet or if it only accepts a single row of data, we can set the `optional` argument to `FALSE`.
+
+```{r}
+datasheet(myScenario, optional = TRUE)
+```
+
+From this output we can see the the `RunControl` Datasheet and `InputDatasheet` only accept a single row of data (i.e. `isSingle = TRUE`). This is something to consider when we configure our model inputs.
 
 To view a specific Datasheet rather than just a data frame of available Datasheets, set the `name` parameter in the `datasheet()` function to the name of the Datasheet you want to view. The general syntax of the name is: "\<name of package\>_\<name of Datasheet\>". From the list of Datasheets above, we can see that there are 3 Datasheets specific to the `helloworldTime` package.
 
@@ -242,14 +260,14 @@ To view a specific Datasheet rather than just a data frame of available Datashee
 datasheet(myScenario, name = "helloworldTime_InputDatasheet")
 ```
 
-Here, we are viewing a SyncroSim Datasheet as an R data frame. Although both SyncroSim Datasheets and R data frames are both represented as tables of data with predefined columns and an unlimited number of rows, the underlying structure of these tables differ.
+Here, we are viewing the contents of a SyncroSim Datasheet as an R data frame. Although both SyncroSim Datasheets and R data frames are both represented as tables of data with predefined columns and an unlimited number of rows, the underlying structure of these tables differ.
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
 Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the input Datasheet to a new data frame variable.
 
 ```{r assign input data, warning = FALSE}
-# Assign input Datasheet to a new data frame variable
+# Assign contents of the input Datasheet to an R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldTime_InputDatasheet")
 ```
@@ -266,11 +284,13 @@ The input Datasheet requires 2 values:
 * `m` : the slope of the linear equation.
 * `b` : the intercept of the linear equation.
 
-We can add these values to a new data frame, then use the `addRow()` function from `rsyncrosim` to update the input Datasheet. The `addRow()` function takes the `targetDataframe` as the first value (in this case, our input Datasheet that we want to update), and the new rows to append to this data frame as the second value.
+Now we will update the input data frame. This can be done in many ways (e.g. using the `dplyr` package), but `rsyncrosim` also provides a helper function called `addRow()` for easily adding new rows to R data frames. The `addRow()` function takes the `targetDataframe` as the first value (in this case, our input data frame that we want to update), and the data frame of new rows to append to the input data frame as the second value.
+
+Note that in the previous section we discovered that the input Datasheets only accept a single row of values, so we can only have one value each for our slope (*m*) and intercept (*b*).
 
 ```{r add input data not run, warning = FALSE}
 # Create input data and add it to the input data frame
-myInputRow <- data.frame(m = 2, b = 10)
+myInputRow <- data.frame(m = 3, b = 10)
 myInputDataframe <- addRow(myInputDataframe, myInputRow)
 
 # Check values
@@ -279,10 +299,10 @@ myInputDataframe
 
 ### Saving modifications to Datasheets using `saveDatasheet()`
 
-Now that we have added values to the input Datasheet, we will save our updated Datasheet to the Library, Project, and/or Scenario using the `saveDatasheet()` function.
+Now that we have a complete data frame of input values, we will save this data frame to a SyncroSim Datasheet using the `saveDatasheet()` function. We can save our Datasheet at the Library, Project, or Scenario level, but in this case we will save it at the Scenario level.
 
 ```{r save input data, warning = FALSE}
-# Save input R data frame as a SyncroSim Datasheet
+# Save input R data frame to a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
               name = "helloworldTime_InputDatasheet")
 ```
@@ -295,7 +315,7 @@ There is one other Datasheet that we need to configure for our package to run. T
 * `MaximumTimestep` : the end time point of the simulation.
 
 ```{r modify run control}
-# Assign run control Datasheet to a new data frame variable
+# Assign contents of the run control Datasheet to an R data frame
 runSettings <- datasheet(myScenario, name = "helloworldTime_RunControl")
 
 # Check the columns of the run control data frame
@@ -309,13 +329,77 @@ runSettings <- addRow(runSettings, runSettingsRow)
 # Check values
 runSettings
 
-# Save run control R data frame as a SyncroSim Datasheet
+# Save run control R data frame to a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = runSettings,
               name = "helloworldTime_RunControl")
 ```
 
 
-## Edit Scenarios
+## Run Scenarios
+
+### Setting run parameters with `run()`
+
+We will now run our Scenarios using the `run()` function in `rsyncrosim`, starting with the first Scenario we created ("My first scenario").
+
+```{r run first Scenario, warning = FALSE}
+# Run the first Scenario we created
+myResultScenario <- run(myScenario)
+```
+
+
+### Checking the run log with `runLog()`
+
+For more information use the `runLog()` function, in which the only argument is the result Scenario variable.
+
+```{r get run log, warning = FALSE}
+# Get run details for the first result Scenario
+runLog(myResultScenario)
+```
+
+
+## View results
+
+### Results Scenarios
+
+A Results Scenario is generated when a Scenario is run, and is an exact copy of the original Scenario (i.e. it contains the original Scenario's values for all input Datasheets). The Results Scenario is passed to the Transformer in order to generate model output, with the results of the Transformer's calculations then being added to the Results Scenario as output Datsheets. In this way the Results Scenario contains both the output of the run and a snapshot record of all the model inputs.
+
+Check out the current Scenarios in your Library using the `scenario()` function.
+
+```{r}
+# Check Scenarios that currently exist in your Library
+scenario(myLibrary)
+```
+
+The first Scenario is our original Scenario, and the second is the Results Scenario with a time and date stamp of when it was run. We can also see some other information about these Scenarios, such as whether or not the Scenario is a result or not (i.e. `isResult` column).
+
+We can also look at how the Datasheets differ between the Results Scenario and the original Scenario using the `datasheet()` function.
+
+```{r}
+# Take a look at original Scenario Datasheets
+datasheet(myScenario, optional = TRUE)
+
+# Take a look at Results Scenario Datasheets
+datasheet(myResultScenario, optional = TRUE)
+```
+
+Looking at the `data` column, the `OutputDatasheet` does not contain any data in the original Scenario, but does in the Results Scenario.
+
+
+### Viewing results with `datasheet()`
+
+The next step is to view the output Datasheets added to the Result Scenario when it was run. We can load the result tables using the `datasheet()` function, and setting the `name` parameter to the Datasheet with new data added.
+
+
+```{r view results datasheets, warning = FALSE}
+# Results of first Scenario
+resultsSummary <- datasheet(myResultScenario,
+                            name = "helloworldTime_OutputDatasheet")
+
+# View results table
+head(resultsSummary)
+```
+
+## Working with multiple Scenarios
 
 
 You may want to test multiple alternative Scenarios that have slightly different inputs. To save time, you can copy a Scenario that you've already made, give it a different name, and modify the inputs. To copy a completed Scenario, use the `scenario()` function with the `sourceScenario` argument set to the name of the Scenario you want to copy.
@@ -324,7 +408,7 @@ You may want to test multiple alternative Scenarios that have slightly different
 # Check which Scenarios you currently have in your Library
 scenario(myLibrary)['name']
 
-# Create a new Scenario based off an old Scenario
+# Create a new Scenario as a copy of an existing Scenario
 myNewScenario <- scenario(ssimObject = myProject,
                           scenario = "My second scenario",
                           sourceScenario = myScenario)
@@ -334,7 +418,7 @@ scenario(myLibrary)['name']
 ```
 
 
-To edit the new Scenario, we must first load the Datasheet and assign it to a new variable using the `datasheet()` function. We will set the `empty` argument to `TRUE` so that instead of getting the values from the old Scenario, we can add a data frame of new values.
+To edit the new Scenario, we must first load the contents of the input Datasheet and assign it to a new R data frame using the `datasheet()` function. We will set the `empty` argument to `TRUE` so that instead of getting the values from the existing Scenario, we can start with an empty data frame again.
 
 ```{r load input data from new Scenario, warning = FALSE}
 # Load empty input Datasheets as an R data frame
@@ -365,18 +449,11 @@ saveDatasheet(ssimObject = myNewScenario, data = myNewInputDataframe,
               name = "helloworldTime_InputDatasheet")
 ```
 
-## Run Scenarios
+We will keep the `RunControl` Datasheet the same as the first Scenario.
 
-### Setting run parameters with `run()`
+### Run Scenarios
 
-We will now run our Scenarios using the `run()` function in `rsyncrosim`, starting with the first Scenario we created ("My first scenario").
-
-```{r run first Scenario, warning = FALSE}
-# Run the first Scenario we created
-myResultScenario <- run(myScenario)
-```
-
-We can also tell SyncroSim to run all the Scenarios in our Project at once. Instead of passing a single Scenario to the `run()` function, we will tell `run()` which Project to use and include a vector of Scenarios.
+We now have two SyncroSim Scenarios. We can run all the Scenarios in our Project at once by telling `run()` which Project to use and including a vector of Scenarios in the `scenario` argument.
 
 ```{r run multiple Scenarios, warning = FALSE}
 # Run all Scenarios
@@ -385,36 +462,17 @@ myResultScenarioAll <- run(myProject,
                                         "My second scenario"))
 ```
 
-### Checking the run log with `runLog()`
+### View Results
 
-For more information use the `runLog()` function, in which the only argument is the result Scenario variable.
+The output that is returned from running many Scenarios at once is actually a list of result Scenario objects. To view the results, we can still use the `datasheet()` function, we just need to index for the result Scenario object we are interested in.
 
-```{r get run log, warning = FALSE}
-# Get run details for the first result Scenario
-runLog(myResultScenario)
+```{r}
+datasheet(myResultScenarioAll[2], name = "OutputDatasheet")
 ```
 
+### Identifying the parent Scenario of a Results Scenario using `parentId()`
 
-## View results
-
-
-### Viewing results with `datasheet()`
-
-The next step is to view the result Scenarios. We can load the result tables using the `datasheet()` function.
-
-
-```{r view results datasheets, warning = FALSE}
-# Results of first Scenario
-resultsSummary <- datasheet(myResultScenario,
-                            name = "helloworldTime_OutputDatasheet")
-
-# View results table
-head(resultsSummary)
-```
-
-### Identifying the parent Scenario of a result Scenario using `parentId()`
-
-If you have many alternative Scenarios and many results Scenarios, you can always find the parent Scenario that led to a result Scenario using the `rsyncrosim` function `parentId()`.
+If you have many alternative Scenarios and many Results Scenarios, you can always find the parent Scenario that was run in order to generate the Results Scenario using the `rsyncrosim` function `parentId()`.
 
 ```{r get parent ID, warning = FALSE}
 parentId(myResultScenarioAll[[1]])
@@ -482,3 +540,11 @@ Now, you can use the `backup()` function from `rsyncrosim` to backup a Library, 
 ```{r, warning = FALSE}
 backup(myLibrary)
 ```
+
+## `rsyncrosim` and the SyncroSim Windows User Interface
+
+It can be useful to work in both `rsyncrosim` and the SyncroSim Windows User Interface at the same time. You can easily modify Datasheets and run Scenarios in `rsyncrosim`, while updating the Library and plotting outputs in the User Interface. To sync the Library in the User Interface with the latest changes from the `rsyncrosim` code, click the refresh icon in the upper tool bar of the User Interface.
+
+![Using `rsyncrosim` with the SyncroSim Windows User Interface](./rsyncrosim-with-UI.PNG){width=600px}
+
+

@@ -133,25 +133,27 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
 myProject = project(ssimObject = myLibrary, project = "Definitions")
 
 # Create a new Scenario (associated with the default Project)
-myScenario = scenario(ssimObject = myProject, scenario = "My first scenario")
+myScenario = scenario(ssimObject = myProject, scenario = "My spatial scenario")
 ```
 
 ### View model inputs using `datasheet()`
   
 View the Datasheets associated with your new Scenario using the `datasheet()` function from `rsyncrosim`.
 
-```{r view datasheet list, warning = FALSE, eval = FALSE}
-# View all Datasheets associated with a library, project, or scenario
+```{r view datasheet list, warning = FALSE}
+# View all Datasheets associated with a Library, Project, or Scenario
 datasheet(myScenario)
 ```
 
-From the list of Datasheets above, we can see that there are 4 Datasheets specific to the `helloworldPipeline` package, including an Input Datasheet, an Intermediate Datasheet, an Output Datasheet, and a Run Control Datasheet.
+From the list of Datasheets above, we can see that there are 4 Datasheets specific to the `helloworldSpatial` package, including an Input Datasheet, an Intermediate Datasheet, an Output Datasheet, and a Run Control Datasheet.
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
-Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the input Datasheet to a new data frame variable.
+Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) and run control Datasheet (`RunControl`) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core `Pipeline` Datasheet to specify which models are run in which order.
 
-Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the Input Datasheet to a new data frame variable, then check the columns that need input values. We can assign the input Datasheet to an R data frame using the `datasheet()` function in `rsyncrosim`.
+**Input Datasheet**
+
+First, assign the input Datasheet to a new data frame variable, then check the columns that need input values. We can assign the input Datasheet to an R data frame using the `datasheet()` function in `rsyncrosim`.
 
 ```{r assign input data, warning = FALSE}
 # Assign input Datasheet to a new data frame variable
@@ -162,57 +164,55 @@ myInputDataframe <- datasheet(myScenario,
 str(myInputDataframe)
 ```
 
-Notice that the type of the `InterceptRasterFileName` is a character. This is because it is a file path to an external file.
+Notice that the type of the `InterceptRasterFile` is a character. This is because it is a file path to an external file.
 
 The input Datasheet requires 3 values:
 
 * `mMean` : the mean of a normal distribution that will determine the slope of the linear equation.
 * `mSD` : the standard deviation of a normal distribution that will determine the slope of the linear equation.
-* `InterceptRasterFileName` : the file path to a raster image, in which each cell of the image will be an intercept in the linear equation.
+* `InterceptRasterFile` : the file path to a raster image, in which each cell of the image will be an intercept in the linear equation.
 
-We can add these values to a new data frame, then use the `addRow()` function from `rsyncrosim` to update the input Datasheet. The `addRow()` function takes the `targetDataframe` as the first value (in this case, our input Datasheet that we want to update), and the new rows to append to this data frame as the second value.
+In this example, the external file we are using for the `InterceptRasterFile` is a simple 5x5 raster TIF file generated using the `raster` package in R. The file used in this vignete can be found <a href="https://github.com/ApexRMS/helloworldSpatial/blob/main/images/input-raster.tif" target="_blank">here</a>.
 
-```{r add input data not run, warning = FALSE, eval = FALSE}
+![raster image used](./input-raster.png)
+
+Add these values to a new data frame, then use the `addRow()` function from `rsyncrosim` to update the input Datasheet.
+
+```{r add input data not run, warning = FALSE}
 # Create input data and add it to the input data frame
 myInputRow <- data.frame(mMean = 0, mSD = 4,
-                         InterceptRasterFileName = "path/to/raster-image.tif")
+                         InterceptRasterFile = "path/to/raster-image.tif")
 myInputDataframe <- addRow(myInputDataframe, myInputRow)
 
 # Check values
 myInputDataframe
 ```
 
-```{r add input data run, warning = FALSE, eval = FALSE, echo = FALSE, results = FALSE}
+```{r add input data run, warning = FALSE, echo = FALSE, results = FALSE}
 # Create input data and add it to the input data frame
 myInputDataframe <- data.frame(
   mMean = 0, mSD = 4,
-  InterceptRasterFileName = here::here("vignettes", "input-raster.tif"))
+  InterceptRasterFile = here::here("vignettes", "input-raster.tif"))
 ```
 
-### Saving modifications to Datasheets using `saveDatasheet()`
+Finally, save the updated input Datasheet to the Library, Project, and/or Scenario using the `saveDatasheet()` function.
 
-Now that we have added values to the input Datasheet, we will save our updated Datasheet to the Library, Project, and/or Scenario using the `saveDatasheet()` function.
-
-```{r save input data, warning = FALSE, eval = FALSE}
+```{r save input data, warning = FALSE}
 # Save input R data frame as a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
               name = "helloworldSpatial_InputDatasheet")
 ```
 
-### Configuring values for the remaining Datasheets
+**RunControl Datasheet**
 
-There are a couple other Datasheets that we need to configure for our package to run. First, the `RunControl` Datasheet provides information about how many time steps and iterations to use. Second, the `Pipeline` Datasheet from the built-in SyncroSim Core specifies which models (i.e. SyncroSim Transformers) should be run in which order.
-
-**`RunControl` Datasheet**
-
-We need to set the number of iterations and the minimum and maximum time steps for our model. We'll add this information to an R data frame as well and then add it to the Run Control Datasheet using `addRow()`. We need to specify data for the following 4 columns:
+The `RunControl` Datasheet sets the number of iterations and the minimum and maximum time steps for our model. We'll add this information to an R data frame as well and then add it to the Run Control Datasheet using `addRow()`. We need to specify data for the following 4 columns:
 
 * `MinimumIteration` : starting value of iterations (default=1).
 * `MaximumIteration` : total number of iterations to run the model for.
 * `MinimumTimestep` : the starting time point of the simulation.
 * `MaximumTimestep` : the end time point of the simulation.
 
-```{r modify run control, eval = FALSE}
+```{r modify run control}
 # Assign run control Datasheet to a new data frame variable
 runSettings <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 
@@ -234,14 +234,15 @@ saveDatasheet(ssimObject = myScenario, data = runSettings,
               name = "helloworldSpatial_RunControl")
 ```
 
-**`Pipeline` Datasheet**
+**Pipeline Datasheet**
 
-Finally, we need to specify the order in which to run the two models in our Pipeline by editing the Pipeline Datasheet. The Pipeline Datasheet is part of the built-in SyncroSim core. To access the core datasheets, we must add the argument `summary = "CORE"`. From viewing the structure of the Pipeline Datasheet we know that the `StageNameID` is a factor with 2 levels: "First Model" and "Second Model". We will set the data for this Datasheet such that "First Model" is run first, and then "Second Model".
+The `helloworldSpatial` package also makes use of pipelines to link the output of one model to the input of a second model. To learn more about pipelines, see the [`rsyncrosim`: introduction to pipelines](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html) vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
 
-```{r modify pipeline, eval = FALSE}
+To implement pipelines in our package, we need to specify the order in which to run our two models by editing the `Pipeline` Datasheet. The `Pipeline` Datasheet is part of the built-in SyncroSim core. From viewing the structure of the `Pipeline` Datasheet we know that the `StageNameID` is a factor with 2 levels: "First Model" and "Second Model". We will set the data for this Datasheet such that "First Model" is run first, and then "Second Model".
+
+```{r modify pipeline}
 # Assign Pipeline Datasheet to a new data frame variable
-myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline",
-                                 summary = "CORE")
+myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
 
 # Check the columns of the Pipeline data frame
 str(myPipelineDataframe)
@@ -261,104 +262,27 @@ saveDatasheet(ssimObject = myScenario, data = myPipelineDataframe,
 ```
 
 
-## Edit Scenarios
-
-
-You may want to test multiple alternative scenarios that have slightly different inputs. To save time, you can copy a scenario that you've already made, give it a different name, and modify the inputs. To copy a completed scenario, use the `scenario()` function with the `sourceScenario` argument set to the name of the scenario you want to copy.
-
-```{r create new scenario from source, warning = FALSE, eval = FALSE}
-# Check which scenarios you currently have in your library
-scenario(myLibrary)['name']
-
-# Create a new scenario based off an old scenario
-myNewScenario <- scenario(ssimObject = myProject,
-                          scenario = "My second scenario",
-                          sourceScenario = myScenario)
-
-# Make sure this new scenario has been added to the library
-scenario(myLibrary)['name']
-```
-
-
-To edit the new scenario, we must first load the Datasheet and assign it to a new variable using the `datasheet()` function. We will set the `empty` argument to `TRUE` so that instead of getting the values from the old scenario, we can add a data frame of new values.
-
-```{r load input data from new scenario, warning = FALSE, eval = FALSE}
-# Load empty input Datasheets as an R data frame
-myNewInputDataframe <- datasheet(myNewScenario,
-                              name = "helloworldSpatial_InputDatasheet",
-                              empty=TRUE)
-
-# Check that we have an empty data frame
-str(myNewInputDataframe)
-```
-
-Now, all we need to do is add our data frame of values the same way we did before, using the `addRow()` function.
-
-```{r edit input data for new scenario not run, warning = FALSE, eval = FALSE}
-# Create input data and add it to the input data frame
-newInputRow <- data.frame(mMean = 2, mSD = 8,
-                          InterceptRasterFileName = "path/to/raster-image.tif")
-myNewInputDataframe <- addRow(myNewInputDataframe, newInputRow)
-
-# View the new inputs
-myNewInputDataframe
-```
-
-```{r edit input data for new scenario run, warning = FALSE, eval = FALSE, eval = FALSE, echo = FALSE}
-# Create input data and add it to the input data frame
-myNewInputDataframe <- data.frame(
-  mMean = 2, mSD = 8,
-  InterceptRasterFileName = here::here("vignettes", "input-raster.tif"))
-```
-
-Finally, we will save the updated data frame to a SyncroSim Datasheet using `saveDatasheet()`.
-
-```{r save new scenario, warning = FALSE, eval = FALSE}
-# Save R data frame to a SyncroSim Datasheet
-saveDatasheet(ssimObject = myNewScenario, data = myNewInputDataframe,
-              name = "helloworldSpatial_InputDatasheet")
-```
-
 ## Run Scenarios
 
 ### Setting run parameters with `run()`
 
-We will now run our scenarios using the `run()` function in `rsyncrosim`, starting with the first scenario we created ("My first scenario"). If we have a large model and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than 1.
+We will now run our Scenario using the `run()` function in `rsyncrosim`. If we have a large model and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than 1.
 
-```{r run first scenario, warning = FALSE, eval = FALSE}
-# Run the first scenario we created
-myResultScenario <- run(myScenario, jobs = 6)
+```{r run first Scenario, warning = FALSE}
+# Run the first Scenario we created
+myResultScenario <- run(myScenario, jobs = 5)
 ```
-
-We can also tell SyncroSim to run all the scenarios in our project at once. Instead of passing a single scenario to the `run()` function, we will tell `run()` which project to use and include a vector of scenarios.
-
-```{r run multiple scenarios, warning = FALSE, eval = FALSE}
-# Run all scenarios
-myResultScenarioAll <- run(myProject,
-                           scenario = c("My first scenario",
-                                        "My second scenario"))
-```
-
-### Checking the run log with `runLog()`
-
-For more information use the `runLog()` function, in which the only argument is the result scenario variable.
-
-```{r get run log, warning = FALSE, eval = FALSE}
-# Get run details for the first result scenario
-runLog(myResultScenario)
-```
-
 
 ## View results
 
 
 ### Viewing non-spatial results with `datasheet()`
 
-The next step is to view the result scenarios. We can load the result tables using the `datasheet()` function.
+The next step is to view the result Scenarios. For each step in the pipeline, We can load the result tables using the `datasheet()` function.
 
 
 ```{r view results datasheets, warning = FALSE, eval = FALSE, results = FALSE}
-# Results of first scenario, first model of first model in Pipeline
+# Results of first Scenario, first model of first model in Pipeline
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldSpatial_IntermediateDatasheet")
 
@@ -366,16 +290,20 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-```{r resultsSummary cleaned, echo = FALSE, eval = FALSE}
-resultsSummary$InterceptRasterFileName <- sub(
-  ".*\\\\", "", resultsSummary$InterceptRasterFileName
+```{r resultsSummary cleaned, echo = FALSE}
+# Results of first Scenario, first model of first model in Pipeline
+resultsSummary <- datasheet(myResultScenario,
+                            name = "helloworldSpatial_IntermediateDatasheet")
+
+resultsSummary$OutputRasterFile <- sub(
+  ".*\\\\", "", resultsSummary$OutputRasterFile
   )
 
 head(resultsSummary)
 ```
 
-```{r view results summary 2, warning = FALSE, eval = FALSE}
-# Results of first scenario, second model in Pipeline
+```{r view results summary 2, warning = FALSE}
+# Results of first Scenario, second model in Pipeline
 resultsSummary2 <- datasheet(myResultScenario,
                              name = "helloworldSpatial_OutputDatasheet")
 
@@ -383,19 +311,19 @@ resultsSummary2 <- datasheet(myResultScenario,
 head(resultsSummary2)
 ```
 
+From viewing these Datasheets, we can see that the spatial output is contained within the `IntermediateDatasheet`, in the column called `OutputRasterFile`.
 
 
 ### Viewing spatial results with `datasheetRaster()`
 
-For spatial results, we want to load the results as raster images. To do this, we will use the `datasheetRaster()` function from `rsyncrosim`. The results contain many raster images, since we have a raster for each combination of iteration and time step. We can use the `iteration` and `timestep` arguments to specify a single raster image or a subset of raster images we want to view. Since we have multiple parent scenarios, we also need to specify the parent scenario using the `scenario` argument.
+For spatial results, we want to load the results as raster images. To do this, we will use the `datasheetRaster()` function from `rsyncrosim`. The first argument is the result Scenario object. Next, we specify the name of the Datasheet containing raster images using the `datasheet` argument, amd the column pertaining to the raster images using the `column` argument. The results contain many raster images, since we have a raster for each combination of iteration and time step. We can use the `iteration` and `timestep` arguments to specify a single raster image or a subset of raster images we want to view. 
 
-```{r view results raster, warning = FALSE, eval = FALSE}
-# Load raster files for first result scenario with time step and iteration
+```{r view results raster, warning = FALSE}
+# Load raster files for first result Scenario with time step and iteration
 rasterMaps <- datasheetRaster(
-  myResultScenarioAll,
-  scenario = "My second scenario",
+  myResultScenario,
   datasheet = "helloworldSpatial_IntermediateDatasheet",
-  column = "InterceptRasterFileName",
+  column = "OutputRasterFile",
   iteration = 1,
   timestep = 5
   )
@@ -403,75 +331,4 @@ rasterMaps <- datasheetRaster(
 # View results
 rasterMaps
 plot(rasterMaps[[1]])
-```
-
-### Identifying the parent scenario of a result scenario using `parentId()`
-
-If you have many alternative scenarios and many results scenarios, you can always find the parent scenario that led to a result scenario using the `rsyncrosim` function `parentId()`.
-
-```{r get parent ID, warning = FALSE, eval = FALSE}
-parentId(myResultScenarioAll[[1]])
-parentId(myResultScenarioAll[[2]])
-```
-
-
-## Access model metadata
-
-
-### Getting library information using `info()`
-
-Retrieve library information:
-  
-```{r library metadata, warning = FALSE, eval = FALSE}
-info(myLibrary)
-```
-
-```{r, echo = FALSE, eval = FALSE}
-libInfo <- info(myLibrary)
-libInfo$value[10:13] <- sub(
-  ".*\\\\", "", libInfo$value[10:13]
-  )
-libInfo
-```
-
-
-### Getting information of any ssimObject
-
-The following functions can be used to get useful information about a Library, Project, or Scenario:
-
-* `name()` : used to retrieve or assign a name
-* `owner()` : used to retrieve or assign an owner
-* `dateModified()` : used to retrieve the date when the last changes were made
-* `readOnly()` : used to retrieve or assign the read only status
-* `filepath()` : retrieve local file path
-* `description()` : retrieve or add a description
-
-You can also find identification numbers of projects or scenarios using the following functions:
-
-* `projectID()` : used to retrieve the project identification number
-* `scenarioID()` : used to retrieve the scenario identification number
-
-## Backup your Library
-
-Once you have finished running your models, you may want to back up the inputs and results into a zipped .backup subfolder. First, we want to modify the Library Backup Datasheet to allow the backup of model outputs. Since this Datasheet is part of the built-in SyncroSim core, the name of the Datasheet has the prefix "core" and we must use the `summary = "CORE"` argument when loading it.
-
-```{r backup library, warning = FALSE, eval = FALSE}
-# Get the current values for the Library's Backup Datasheet
-sheetData <- datasheet(myLibrary, name = "core_Backup", summary = "CORE")   
-
-# View current values for the Library's Backup Datasheet
-sheetData
-
-# Add output to the Library's Backup Datasheet and save
-sheetData$IncludeOutput <- TRUE 
-saveDatasheet(myLibrary, data = sheetData, name = "core_Backup")
-
-# Check to make sure IncludeOutput is now TRUE
-datasheet(myLibrary, "core_Backup", summary = "CORE")
-```
-
-Now, you can use the `backup()` function from `rsyncrosim` to backup a Library, Project, or Scenario.
-
-```{r, warning = FALSE, eval = FALSE}
-backup(myLibrary)
 ```
