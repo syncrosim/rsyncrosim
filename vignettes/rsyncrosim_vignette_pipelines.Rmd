@@ -1,27 +1,27 @@
 ---
-title: '`rsyncrosim`: introduction to uncertainty'
+title: '`rsyncrosim`: introduction to pipelines'
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{`rsyncrosim`: introduction to uncertainty}
+  %\VignetteIndexEntry{`rsyncrosim`: introduction to pipelines}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
-This vignette will cover Monte Carlo realizations for modeling uncertainty using the `rsyncrosim` package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank">`rsyncrosim`</a>, as well as a basic usage tutorial for `rsyncrosim`, see the [Introduction to `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html) vignette.
+This vignette will cover how to use model pipelines using the `rsyncrosim` package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank">`rsyncrosim`</a>, as well as a basic usage tutorial for `rsyncrosim`, see the [Introduction to `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html) vignette. To learn how to use iterations in the `rsyncrosim` interface, see the [`rsyncrosim`: introduction to uncertainty](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_uncertainty.html) vignette.
 
 
-## SyncroSim Package: `helloworldUncertainty`
+## SyncroSim Package: `helloworldPipeline`
 
 
-To demonstrate how to quantify model uncertainty using the `rsyncrosim` interface, we will need the <a href="https://github.com/ApexRMS/helloworldUncertainty" target="_blank">helloworldUncertainty</a> SyncroSim package. `helloworldUncertainty` was designed to be a simple package to introduce iterations to SyncroSim modeling workflows. The use of iterations allows for repeated simulations that sample from a specified distribution. Each of these simulations is known as a "Monte Carlo realization".
+To demonstrate how to link models in a pipeline using the `rsyncrosim` interface, we will need the <a href="https://github.com/ApexRMS/helloworldPipeline" target="_blank">helloworldPipeline</a> SyncroSim package. `helloworldPipeline` was designed to be a simple package to introduce pipelines to SyncroSim modeling workflows. Models connected by pipelines are useful as the user can now access intermediate outputs without having to create multiple Scenarios.
 
-The package takes from the user 3 inputs, *mMean*, *mSD*, and *b*. For each iteration, a value *m*, representing the slope, is sampled from a normal distribution with mean of *mMean* and standard deviation of *mSD*. The *b* value represents the intercept. These input values are run through a linear model, *y=mt+b*, where *t* is *time*, and returns the *y* value as output.
+The package takes from the user 3 inputs, *mMean*, *mSD*, and *b*. For each iteration, a value *m*, representing the slope, is sampled from a normal distribution with mean of *mMean* and standard deviation of *mSD*. The *b* value represents the intercept. In the first model in the pipeline, these input values are run through a linear model, *y=mt+b*, where *t* is *time*, and returns the *y* value as output. The second model takes *y* as input and calculates the cumulative sum of *y* over time.
 
-![Infographic of helloworldUncertainty package](./infographic.png)
+![Infographic of helloworldPipeline package](./infographic.png)
 
-For more details on the different features of the `helloworldUncertainty` SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_iterations.html" target="_blank">Enhancing a Package: Representing Uncertainty</a> tutorial.
+For more details on the different features of the `helloworldPipeline` SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
 
 
 ## Setup
@@ -44,7 +44,7 @@ library(rsyncrosim)
 
 ### Installing SyncroSim packages using `addPackage()`
 
-Check if the <a href="https://github.com/ApexRMS/helloworldUncertainty" target="_blank">helloworldUncertainty</a> package is already installed. Use the `package()` function from `rsyncrosim` to first get a list of all currently installed packages in SyncroSim.
+Check if the <a href="https://github.com/ApexRMS/helloworldPipeline" target="_blank">helloworldPipeline</a> package is already installed. Use the `package()` function from `rsyncrosim` to first get a list of all currently installed packages in SyncroSim.
 
 ```{r delete SyncroSim packages, echo = FALSE, results = FALSE, message = FALSE}
 installedPackages <- package()
@@ -68,14 +68,14 @@ if (is.element("stsimsf", installedPackages$name)) removePackage("stsimsf", forc
 package()
 ```
 
-Currently we do not have the `helloworldUncertainty` package installed! Install `helloworldUncertainty` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Currently we do not have the `helloworldPipeline` package installed! Install `helloworldPipeline` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r add package from server, warning = FALSE}
-# Install helloworldUncertainty
-addPackage("helloworldUncertainty")
+# Install helloworldPipeline
+addPackage("helloworldPipeline")
 ```
 
-Now `helloworldUncertainty` should now be included in the package list:
+Now `helloworldPipeline` should now be included in the package list:
 
 ```{r check packages 2, warning = FALSE}
 # Get list of installed packages
@@ -87,7 +87,7 @@ package()
 
 ### Connecting R to SyncroSim using `session()`
 
-The final step in setting up the R environment for the `rsyncrosim` workflow is to create a SyncroSim Session object in R that provides the connection to your installed copy of the SyncroSim software. A new Session is created using the `session()` function, in which the first argument is a path to the folder on your computer where SyncroSim has been installed. If the first argument is left blank, then the default install folder is used (Windows only).
+Connect to your installed copy of the SyncroSim software using `session()`. The first argument is a path to the folder on your computer where SyncroSim has been installed. If the first argument is left blank, then the default install folder is used (Windows only).
 
 ```{r load session not run, warning = FALSE, eval = FALSE}
 mySession <- session("path/to/install_folder")      # Create a Session based SyncroSim install folder
@@ -117,7 +117,7 @@ When creating a new modeling workflow from scratch, we need to create objects of
 * <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a>
 * <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a>
 
-For more information on these scopes, see the [Introduction to `rsyncrosim`](ADD LINK HERE) vignette.
+For more information on these scopes, see the [Introduction to `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html) vignette.
 
 ### Set up Library, Project, and Scenario
 
@@ -125,7 +125,7 @@ For more information on these scopes, see the [Introduction to `rsyncrosim`](ADD
 # Create a new Library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
-                         package = "helloworldUncertainty",
+                         package = "helloworldPipeline",
                          overwrite = TRUE)
 
 # Open the default Project
@@ -144,23 +144,18 @@ View the Datasheets associated with your new Scenario using the `datasheet()` fu
 datasheet(myScenario)
 ```
 
-From the list of Datasheets above, we can see that there are 3 Datasheets specific to the `helloworldUncertainty` package. Let's view the Input Datasheet as an R data frame.
-
-```{r view specific datasheet, warning = FALSE}
-# View the input Datasheet for the Scenario
-datasheet(myScenario, name = "helloworldUncertainty_InputDatasheet")
-```
+From the list of Datasheets above, we can see that there are 4 Datasheets specific to the `helloworldPipeline` package, including an Input Datasheet, an Intermediate Datasheet, and an Output Datasheet. The Intermediate Datasheet will comprise of the results from the first model in our workflow, whereas the Output Datasheet will comprise of the results from the second model.
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
 **Input Datasheet**
 
-Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the input Datasheet to a new data frame variable, then check the columns that need input values.
+Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the Input Datasheet to a new data frame variable, then check the columns that need input values. We can assign the Input Datasheet to an R data frame using the `datasheet()` function in `rsyncrosim`.
 
 ```{r assign input data, warning = FALSE}
 # Assign input Datasheet to a new data frame variable
 myInputDataframe <- datasheet(myScenario,
-                              name = "helloworldUncertainty_InputDatasheet")
+                              name = "helloworldPipeline_InputDatasheet")
 
 # Check the columns of the input data frame
 str(myInputDataframe)
@@ -188,16 +183,16 @@ Finally, save the updated R data frame as a Datasheet using `saveDatasheet()`.
 ```{r save input data, warning = FALSE}
 # Save input R data frame as a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
-              name = "helloworldUncertainty_InputDatasheet")
+              name = "helloworldPipeline_InputDatasheet")
 ```
 
 **RunControl Datasheet**
 
-The `RunControl` Datasheet provides information about how many time steps and iterations to use in the model. Here, we set the *number of iterations*, as well as the minimum and maximum time steps for our model. Let's take a look at the columns that need input values. 
+The `RunControl` Datasheet provides information about how many time steps and iterations to use in the model. Here, we set the number of iterations, as well as the minimum and maximum time steps for our model. Let's take a look at the columns that need input values. 
 
 ```{r modify run control}
 # Assign run control Datasheet to a new data frame variable
-runSettings <- datasheet(myScenario, name = "helloworldUncertainty_RunControl")
+runSettings <- datasheet(myScenario, name = "helloworldPipeline_RunControl")
 
 # Check the columns of the run control data frame
 str(runSettings)
@@ -229,7 +224,7 @@ Finally, save the R data frame as a Datasheet using `saveDatasheet()`.
 ```{r}
 # Save run control R data frame as a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = runSettings,
-              name = "helloworldUncertainty_RunControl")
+              name = "helloworldPipeline_RunControl")
 ```
 
 
@@ -248,84 +243,33 @@ myResultScenario <- run(myScenario, jobs = 5)
 ## View results
 
 
-### Viewing results with `datasheet()`
+### Viewing intermediate results with `datasheet()`
 
-The next step is to view the result Scenarios. We can load the result tables using the `datasheet()` function.
+The next step is to view the intermediate output of the results Scenario. We can load the result tables using the `datasheet()` function. The Intermediate Datasheet corresponds to the results from the first model.
 
 
 ```{r view results datasheets, warning = FALSE}
 # Results of first Scenario
 resultsSummary <- datasheet(myResultScenario,
-                            name = "helloworldUncertainty_OutputDatasheet")
+                            name = "helloworldPipeline_IntermediateDatasheet")
 
 # View results table
 head(resultsSummary)
 ```
 
+We can see that for every timestep in an iteration we have a new value of *y* corresponding to *y=mt+b*.
 
-### Plotting uncertainty
+### Viewing final results with `datasheet()`
 
-Now that we have run multiple iterations, we can visualize the uncertainty in our results. For this plot, we will plot the average *y* values over time, as well as the minimum and maximum. First, we can get these values using SQL statements when querying the output Datasheet. We will use the `sqlStatement()` function to create these queries, and the `sqlStatement` argument in the `datasheet()` function to retrieve the corresponding results.
+Now, we can view the results of the second model, also using `datasheet()`. The Output Datasheet corresponds to the results from the second model.
 
-```{r, out.width = 600, fig.align = "center"}
-# Create SQL query for the minimum values of y
-yMin <- sqlStatement(groupBy = "Timestep",
-                     aggregate = "y",
-                     aggregateFunction = "MIN")
+```{r view results datasheets, warning = FALSE}
+# Results of first Scenario
+resultsSummary <- datasheet(myResultScenario,
+                            name = "helloworldPipeline_OutputDatasheet")
 
-# Create SQL query for the maximum values of y
-yMax <- sqlStatement(groupBy = "Timestep",
-                     aggregate = "y",
-                     aggregateFunction = "MAX")
-
-# Create SQL query for the average values of y
-yAvg <- sqlStatement(groupBy = "Timestep",
-                     aggregate = "y",
-                     aggregateFunction = "AVG")
-
-# Retrieve the minimum values of y in a data frame
-yMinDataframe <- datasheet(myResultScenario,
-                           name = "helloworldUncertainty_OutputDatasheet",
-                           sqlStatement = yMin)
-
-# Retrieve the maximum values of y in a data frame
-yMaxDataframe <- datasheet(myResultScenario,
-                           name = "helloworldUncertainty_OutputDatasheet",
-                           sqlStatement = yMax)
-
-# Retrieve the average values of y in a data frame
-yAvgDataframe <- datasheet(myResultScenario,
-                           name = "helloworldUncertainty_OutputDatasheet",
-                           sqlStatement = yAvg)
-
-# Combine results data frames into one
-resultsDataframe <- merge(yAvgDataframe, 
-                    merge(yMinDataframe, yMaxDataframe, by = "Timestep"),
-                    by = "Timestep")
-
-
-# Plot lines for the average y, minimum y, and maximum y
-plot(resultsDataframe$Timestep, resultsDataframe$y,
-     main = "Change in y over time",
-     type = "l", col = "orange", 
-     ylim = c(min(resultsSummary$y), max(resultsSummary$y)),
-     xlab = "Timestep", ylab = "y")
-lines(resultsDataframe$Timestep, resultsDataframe$y.x, lty = 3)
-lines(resultsDataframe$Timestep, resultsDataframe$y.y, lty = 3)
+# View results table
+head(resultsSummary)
 ```
 
-```{r tidyverse way of doing above, eval = FALSE, echo = FALSE}
-resultsSummary %>%
-  group_by(Timestep) %>%
-  summarize(y = quantile(y, c(0.20, 0.50, 0.80)),
-            quant = c(0.20, 0.50, 0.80)) %>%
-  spread(quant, y) %>%
-  ggplot() +
-  geom_ribbon(aes(x = Timestep, ymin = `0.2`, ymax = `0.8`), alpha = 0.2) +
-  geom_line(aes(x = Timestep, y = `0.5`)) +
-  ylab("y") +
-  ggtitle("Change in y over time") +
-  theme_classic()
-```
-
-
+We can see for each timestep in an iteration, we have a new value of *yCum*, representing the cumulative value of *y* over time.

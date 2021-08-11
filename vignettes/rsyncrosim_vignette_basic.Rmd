@@ -1,6 +1,6 @@
 ---
 title: "Introduction to `rsyncrosim`"
-output: rmarkdown::pdf_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to `rsyncrosim`}
   %\VignetteEngine{knitr::rmarkdown}
@@ -37,7 +37,7 @@ The package takes from the user 2 inputs, *m* and *b*, representing a slope and 
 
 ![Infographic of helloworldTime package](./infographic-basic.png){width=600px}
 
-For more details on the different features of the `helloworldTime` SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_timesteps.html" target="_blank">Enhancing a Package tutorial</a>.
+For more details on the different features of the `helloworldTime` SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_timesteps.html" target="_blank">Enhancing a Package: Adding Timesteps</a> tutorial.
 
 
 ## Setup
