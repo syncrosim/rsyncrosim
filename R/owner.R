@@ -38,6 +38,7 @@ NULL
 #' @export
 setGeneric("owner", function(ssimObject) standardGeneric("owner"))
 
+#' @export
 setGeneric("owner<-", function(ssimObject, value) standardGeneric("owner<-"))
 
 #' @rdname owner

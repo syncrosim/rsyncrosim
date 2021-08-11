@@ -84,7 +84,14 @@ if (is.element("stsimsf", installedPackages$name)) removePackage("stsimsf", forc
 package()
 ```
 
-Currently we do not have the `helloworldTime` package installed! Install `helloworldTime` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Currently we do not have any packages installed! To see which packages are available from the SyncroSim package server, you can use the `installed = FALSE` argument in the `package()` function.
+
+```{r}
+availablePackages <- package(installed = FALSE)
+head(availablePackages)
+```
+
+Install `helloworldTime` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r add package from server, warning = FALSE}
 # Install helloworldTime

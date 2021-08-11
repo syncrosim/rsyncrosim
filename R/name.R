@@ -62,6 +62,7 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
   return(info$name)
 })
 
+#' @export
 setGeneric("name<-", function(ssimObject, value) standardGeneric("name<-"))
 
 #' @rdname name

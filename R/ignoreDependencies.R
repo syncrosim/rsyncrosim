@@ -46,6 +46,7 @@ setMethod("ignoreDependencies", signature(ssimObject = "Scenario"), function(ssi
   return(scnInfo$ignoreDependencies)
 })
 
+#' @export
 setGeneric("ignoreDependencies<-", function(ssimObject, value) standardGeneric("ignoreDependencies<-"))
 
 #' @rdname ignoreDependencies

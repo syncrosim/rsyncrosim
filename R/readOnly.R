@@ -72,6 +72,7 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
   return(scnInfo$readOnly)
 })
 
+#' @export
 setGeneric("readOnly<-", function(ssimObject, value) standardGeneric("readOnly<-"))
 
 #' @rdname readOnly
