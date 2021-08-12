@@ -144,7 +144,7 @@ datasheet(myScenario, name = "helloworldUncertainty_InputDatasheet")
 
 **Input Datasheet**
 
-Currently our input Scenario Datasheet is empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the contents of the input Datasheet to a new data frame variable, then check the columns that need input values.
+Currently our input Scenario Datasheet is empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the contents of the input Datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
 
 ```{r assign input data, warning = FALSE}
 # Load the input Datasheet to an R data frame

@@ -8,6 +8,8 @@
 #' @param session \code{\link{Session}} object
 #' 
 #' @keywords internal
+#' 
+#' @export
 addModule <- function(filename, session = NULL) {
   lifecycle::deprecate_warn("1.2.11", "addModule()", "addPackage()")
   addPackage(filename, session)
@@ -22,6 +24,8 @@ addModule <- function(filename, session = NULL) {
 #' @param session \code{\link{Session}} object
 #' 
 #' @keywords internal
+#' 
+#' @export
 addPackageFile <- function(filename, session = NULL) {
   lifecycle::deprecate_warn("1.2.11", "addPackageFile()", "addPackage()")
   addPackage(filename, session)
@@ -35,6 +39,8 @@ addPackageFile <- function(filename, session = NULL) {
 #' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}} object
 #' 
 #' @keywords internal
+#' 
+#' @export
 basePackage <- function(ssimObject = NULL) {
   lifecycle::deprecate_warn("1.2.11", "basePackage()", "package()")
   package(ssimObject, installed = "BASE")
@@ -52,6 +58,8 @@ basePackage <- function(ssimObject = NULL) {
 #' before deletion
 #' 
 #' @keywords internal
+#' 
+#' @export
 deleteModule <- function(name, session = NULL, force = FALSE) {
   lifecycle::deprecate_warn("1.2.11", "deleteModule()", "removePackage()")
   removePackage(name, session, force)
@@ -69,6 +77,8 @@ deleteModule <- function(name, session = NULL, force = FALSE) {
 #' before deletion
 #' 
 #' @keywords internal
+#' 
+#' @export
 deletePackage <- function(name, session = NULL, force = FALSE) {
   lifecycle::deprecate_warn("1.2.11", "deletePackage()", "removePackage()")
   removePackage(name, session, force)
@@ -84,6 +94,8 @@ deletePackage <- function(name, session = NULL, force = FALSE) {
 #' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}} object
 #' 
 #' @keywords internal
+#' 
+#' @export
 model <- function(ssimObject = NULL) {
   lifecycle::deprecate_warn("1.2.11", "model()", "package()")
   package(ssimObject)
@@ -98,6 +110,8 @@ model <- function(ssimObject = NULL) {
 #' @param session \code{\link{Session}} object
 #' 
 #' @keywords internal
+#' 
+#' @export
 module <- function(session = NULL) {
   lifecycle::deprecate_warn("1.2.11", "module()", "package()")
   package(session)
@@ -112,9 +126,11 @@ module <- function(session = NULL) {
 #' @param datasheetName character. The input Datasheet name
 #' 
 #' @keywords internal
+#' 
+#' @export
 envInputFolder <- function(scenario, datasheetName) {
-  envValidateEnvironment()
-  return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
+  lifecycle::deprecate_warn("1.2.11", "envInputFolder()", "runtimeInputFolder()")
+  runtimeInputFolder(scenario, datasheetName)
 }
 
 #' SyncroSim DataSheet Output Folder
@@ -126,9 +142,11 @@ envInputFolder <- function(scenario, datasheetName) {
 #' @param datasheetName character. The output Datasheet name
 #' 
 #' @keywords internal
+#' 
+#' @export
 envOutputFolder <- function(scenario, datasheetName) {
-  envValidateEnvironment()
-  return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
+  lifecycle::deprecate_warn("1.2.11", "envOutputFolder()", "runtimeOutputFolder()")
+  runtimeOutputFolder(scenario, datasheetName)
 }
 
 #' SyncroSim Temporary Folder
@@ -139,9 +157,11 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' @param folderName character. The folder name
 #'
 #' @keywords internal
+#' 
+#' @export
 envTempFolder <- function(folderName) {
-  envValidateEnvironment()
-  return(envCreateTempFolder(folderName))
+  lifecycle::deprecate_warn("1.2.11", "envTempFolder()", "runtimeTempFolder()")
+  runtimeTempFolder(folderName)
 }
 
 #' Reports SyncroSim simulation progress
@@ -151,15 +171,13 @@ envTempFolder <- function(folderName) {
 #'
 #' @param iteration integer. The current iteration
 #' @param timestep integer. The current timestep
-#' 
-#' @return
-#' No returned value, used for side effects.
-#' 
+#'
 #' @keywords internal
+#' 
+#' @export
 envReportProgress <- function(iteration, timestep) {
-  envValidateEnvironment()
-  cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
-  flush.console()
+  lifecycle::deprecate_warn("1.2.11", "envReportProgress()", "progressBar()")
+  progressBar(type = "report", iteration = iteration, timestep = timestep)
 }
 
 #' Begins a SyncroSim simulation
@@ -170,10 +188,11 @@ envReportProgress <- function(iteration, timestep) {
 #' @param totalSteps integer.  The total number of steps in the simulation
 #' 
 #' @keywords internal
+#' 
+#' @export
 envBeginSimulation <- function(totalSteps) {
-  envValidateEnvironment()
-  cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
-  flush.console()
+  lifecycle::deprecate_warn("1.2.11", "envBeginSimulation()", "progressBar()")
+  progressBar(type = "report", totalSteps = totalSteps)
 }
 
 #' Steps a SyncroSim simulation
@@ -182,10 +201,11 @@ envBeginSimulation <- function(totalSteps) {
 #' Please use \code{\link{progressBar}} instead.
 #' 
 #' @keywords internal
+#' 
+#' @export
 envStepSimulation <- function() {
-  envValidateEnvironment()
-  cat("ssim-task-step=1\r\n")
-  flush.console()
+  lifecycle::deprecate_warn("1.2.11", "envStepSimulation()", "progressBar()")
+  progressBar(type = "step")
 }
 
 #' Ends a SyncroSim simulation
@@ -194,8 +214,9 @@ envStepSimulation <- function() {
 #' Please use \code{\link{progressBar}} instead.
 #' 
 #' @keywords internal
+#' 
+#' @export
 envEndSimulation <- function() {
-  envValidateEnvironment()
-  cat("ssim-task-end=True\r\n")
-  flush.console()
+  lifecycle::deprecate_warn("1.2.11", "envEndSimulation()", "progressBar()")
+  progressBar(type = "end")
 }

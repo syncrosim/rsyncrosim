@@ -11,9 +11,6 @@ envReportProgress(iteration, timestep)
 
 \item{timestep}{integer. The current timestep}
 }
-\value{
-No returned value, used for side effects.
-}
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
 Please use \code{\link{progressBar}} instead.

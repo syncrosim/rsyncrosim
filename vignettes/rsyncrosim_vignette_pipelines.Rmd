@@ -15,11 +15,11 @@ This vignette will cover how to use model pipelines using the `rsyncrosim` packa
 ## SyncroSim Package: `helloworldPipeline`
 
 
-To demonstrate how to link models in a pipeline using the `rsyncrosim` interface, we will need the <a href="https://github.com/ApexRMS/helloworldPipeline" target="_blank">helloworldPipeline</a> SyncroSim package. `helloworldPipeline` was designed to be a simple package to introduce pipelines to SyncroSim modeling workflows. Models connected by pipelines are useful as the user can now access intermediate outputs without having to create multiple Scenarios.
+To demonstrate how to link models in a pipeline using the `rsyncrosim` interface, we will need the <a href="https://github.com/ApexRMS/helloworldPipeline" target="_blank">helloworldPipeline</a> SyncroSim package. `helloworldPipeline` was designed to be a simple package to introduce pipelines to SyncroSim modeling workflows. Models (i.e. Transformers) connected by pipelines allow the user to implement multiple Transformers in a modeling workflow and access intermediate outputs of a Transformer without having to create multiple Scenarios.
 
-The package takes from the user 3 inputs, *mMean*, *mSD*, and *b*. For each iteration, a value *m*, representing the slope, is sampled from a normal distribution with mean of *mMean* and standard deviation of *mSD*. The *b* value represents the intercept. In the first model in the pipeline, these input values are run through a linear model, *y=mt+b*, where *t* is *time*, and returns the *y* value as output. The second model takes *y* as input and calculates the cumulative sum of *y* over time.
+The package takes from the user 3 inputs, *mMean*, *mSD*, and *b*. For each iteration, a value *m*, representing the slope, is sampled from a normal distribution with mean of *mMean* and standard deviation of *mSD*. The *b* value represents the intercept. In the first model in the pipeline, these input values are run through a linear model, *y=mt+b*, where *t* is *time*, and the *y* value is returned as output. The second model takes *y* as input and calculates the cumulative sum of *y* over time, returning a new variable *yCum* as output.
 
-![Infographic of helloworldPipeline package](./infographic.png)
+![Infographic of helloworldPipeline package](./infographic-pipeline.png){width=600px}
 
 For more details on the different features of the `helloworldPipeline` SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
 
@@ -44,8 +44,6 @@ library(rsyncrosim)
 
 ### Installing SyncroSim packages using `addPackage()`
 
-Check if the <a href="https://github.com/ApexRMS/helloworldPipeline" target="_blank">helloworldPipeline</a> package is already installed. Use the `package()` function from `rsyncrosim` to first get a list of all currently installed packages in SyncroSim.
-
 ```{r delete SyncroSim packages, echo = FALSE, results = FALSE, message = FALSE}
 installedPackages <- package()
 if (is.element("demosales", installedPackages$name)) removePackage("demosales", force = TRUE)
@@ -62,32 +60,23 @@ if (is.element("stsim", installedPackages$name)) removePackage("stsim", force = 
 if (is.element("stsimsf", installedPackages$name)) removePackage("stsimsf", force = TRUE)
 ```
 
-
-```{r check packages 1, warning = FALSE}
-# Get list of installed packages
-package()
-```
-
-Currently we do not have the `helloworldPipeline` package installed! Install `helloworldPipeline` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Install `helloworldPipeline` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r add package from server, warning = FALSE}
 # Install helloworldPipeline
 addPackage("helloworldPipeline")
 ```
 
-Now `helloworldPipeline` should now be included in the package list:
+`helloworldPipeline` should now be included in the package list returned by the `package()` function in `rsyncrosim`:
 
 ```{r check packages 2, warning = FALSE}
 # Get list of installed packages
 package()
 ```
 
-
-*Note:* you can also update installed packages using the `updatePackage()` function or delete installed packages using the `removePackage()` function in `rsyncrosim`.
-
 ### Connecting R to SyncroSim using `session()`
 
-Connect to your installed copy of the SyncroSim software using `session()`. The first argument is a path to the folder on your computer where SyncroSim has been installed. If the first argument is left blank, then the default install folder is used (Windows only).
+Finish setting up the R environment for the `rsyncrosim` workflow by creating a SyncroSim Session object. Use the `session()` function to connect R to your installed copy of the SyncroSim software.
 
 ```{r load session not run, warning = FALSE, eval = FALSE}
 mySession <- session("path/to/install_folder")      # Create a Session based SyncroSim install folder
@@ -101,7 +90,7 @@ mySession <- session()                              # Using default install fold
 mySession                                           # Displays the Session object
 ```
 
-You can check to see which version of SyncroSim your R script is connected to by running the `version()` function.
+Use the `version()` function to ensure you are using the latest version of SyncroSim.
 
 ```{r check version, warning = FALSE}
 version(mySession)
@@ -144,16 +133,18 @@ View the Datasheets associated with your new Scenario using the `datasheet()` fu
 datasheet(myScenario)
 ```
 
-From the list of Datasheets above, we can see that there are 4 Datasheets specific to the `helloworldPipeline` package, including an Input Datasheet, an Intermediate Datasheet, and an Output Datasheet. The Intermediate Datasheet will comprise of the results from the first model in our workflow, whereas the Output Datasheet will comprise of the results from the second model.
+From the list of Datasheets above, we can see that there are four Datasheets specific to the `helloworldPipeline` package, including an Input Datasheet, an Intermediate Datasheet, and an Output Datasheet. These three Datasheets are connected by Transformers. The values from the Input Datasheet are used as the input for the first Transformer, which *transforms* the input data to output data through a series of model calculations. The output data from the first Transformer is contained within the Intermediate Datasheet. The values from the Intermediate Datasheet are then used as input for the second Transformer. The output from the second Transformer is stored in the Output Datasheet.
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
+Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) and Run Control Datasheet (`RunControl`) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core `Pipeline` Datasheet to specify which Transformers are run in which order.
+
 **Input Datasheet**
 
-Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) so we can run our model. First, assign the Input Datasheet to a new data frame variable, then check the columns that need input values. We can assign the Input Datasheet to an R data frame using the `datasheet()` function in `rsyncrosim`.
+First, assign the contents of the input Datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
 
 ```{r assign input data, warning = FALSE}
-# Assign input Datasheet to a new data frame variable
+# Load input Datasheet to a new R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldPipeline_InputDatasheet")
 
@@ -161,13 +152,13 @@ myInputDataframe <- datasheet(myScenario,
 str(myInputDataframe)
 ```
 
-The input Datasheet requires 3 values:
+The input Datasheet requires three values:
 
 * `mMean` : the mean of the slope normal distribution.
 * `mSD` : the standard deviation of the slope normal distribution.
 * `b` : the intercept of the linear equation.
 
-Add these values to a new data frame, then use the `addRow()` function from `rsyncrosim` to update the input Datasheet.
+Add these values to a new data frame, then use the `addRow()` function from `rsyncrosim` to update the input data frame
 
 ```{r add input data not run, warning = FALSE}
 # Create input data and add it to the input data frame
@@ -178,10 +169,10 @@ myInputDataframe <- addRow(myInputDataframe, myInputRow)
 myInputDataframe
 ```
 
-Finally, save the updated R data frame as a Datasheet using `saveDatasheet()`.
+Finally, save the updated R data frame to a SyncroSim Datasheet using `saveDatasheet()`.
 
 ```{r save input data, warning = FALSE}
-# Save input R data frame as a SyncroSim Datasheet
+# Save input R data frame to a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
               name = "helloworldPipeline_InputDatasheet")
 ```
@@ -191,10 +182,10 @@ saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
 The `RunControl` Datasheet provides information about how many time steps and iterations to use in the model. Here, we set the number of iterations, as well as the minimum and maximum time steps for our model. Let's take a look at the columns that need input values. 
 
 ```{r modify run control}
-# Assign run control Datasheet to a new data frame variable
+# Load RunControl Datasheet to a new R data frame
 runSettings <- datasheet(myScenario, name = "helloworldPipeline_RunControl")
 
-# Check the columns of the run control data frame
+# Check the columns of the RunControl data frame
 str(runSettings)
 ```
 
@@ -205,10 +196,10 @@ The RunControl Datasheet requires the following 4 columns:
 * `MinimumTimestep` : the starting time point of the simulation.
 * `MaximumTimestep` : the end time point of the simulation.
 
-We'll add this information to an R data frame and then add it to the Run Control Datasheet using `addRow()`.
+We'll add this information to a new data frame and then add it to the Run Control data frame using `addRow()`.
 
 ```{r}
-# Create run control data and add it to the run control data frame
+# Create RunControl data and add it to the RunControl data frame
 runSettingsRow <- data.frame(MinimumIteration = 1,
                              MaximumIteration = 5,
                              MinimumTimestep = 1,
@@ -219,20 +210,20 @@ runSettings <- addRow(runSettings, runSettingsRow)
 runSettings
 ```
 
-Finally, save the R data frame as a Datasheet using `saveDatasheet()`.
+Finally, save the R data frame to a SyncroSim Datasheet using `saveDatasheet()`.
 
 ```{r}
-# Save run control R data frame as a SyncroSim Datasheet
+# Save RunControl R data frame to a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = runSettings,
               name = "helloworldPipeline_RunControl")
 ```
 
 **Pipeline Datasheet**
 
-This packages makes use of pipelines to link the output of one model to the input of a second model. To implement pipelines in our package, we need to specify the order in which to run the two models in our Pipeline by editing the `Pipeline` Datasheet. The `Pipeline` Datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` Datasheet we know that the `StageNameID` is a factor with 2 levels: "First Model" and "Second Model". We will set the data for this Datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
+We must modify a third Datasheet to be able to use the output of one Transformer as the input of a second Transformer. To implement pipelines in our package, we need to specify the order in which to run the Transformers in our pipeline by editing the `Pipeline` Datasheet. The `Pipeline` Datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` Datasheet we know that the `StageNameID` is a factor with two levels: "First Model" and "Second Model". We will set the data for this Datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
 
 ```{r modify pipeline, eval = FALSE}
-# Assign Pipeline Datasheet to a new data frame variable
+# Load Pipeline Datasheet to a new R data frame
 myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
 
 # Check the columns of the Pipeline data frame
@@ -247,7 +238,7 @@ myPipelineDataframe <- addRow(myPipelineDataframe, myPipelineRow)
 # Check values
 myPipelineDataframe
 
-# Save Pipeline R data frame as a SyncroSim Datasheet
+# Save Pipeline R data frame to a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = myPipelineDataframe,
               name = "core_Pipeline")
 ```
@@ -256,20 +247,32 @@ saveDatasheet(ssimObject = myScenario, data = myPipelineDataframe,
 
 ### Setting run parameters with `run()`
 
-We will now run our Scenario using the `run()` function in `rsyncrosim`. If we have a large model and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than 1.
+We will now run our Scenario using the `run()` function in `rsyncrosim`. If we have a large modeling workflow and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than one.
 
 ```{r run first Scenario, warning = FALSE}
 # Run the first Scenario we created
 myResultScenario <- run(myScenario, jobs = 5)
 ```
 
+Once the run is complete, we can compare the original Scenario to the Results Scenario to see which Datasheets have been modified. Using the `datasheet()` function with the `optional` argument set to `TRUE`, we see that data has been added to both the Intermediate and Output Datasheets after running the Scenario (see `data` column below).
+
+```{r}
+# Datasheets for original Scenario
+datasheet(myScenario, optional = TRUE)
+
+# Datasheets for Results Scenario
+datasheet(myResultScenario, optional = TRUE)
+```
+
+
 
 ## View results
 
+The next step is to view the output Datasheets added to the Result Scenario when it was run.
 
 ### Viewing intermediate results with `datasheet()`
 
-The next step is to view the intermediate output of the results Scenario. We can load the result tables using the `datasheet()` function. The Intermediate Datasheet corresponds to the results from the first model.
+First, we will view the intermediate output Datasheet from the Results Scenario. We can load the result tables using the `datasheet()` function. The Intermediate Datasheet corresponds to the results from the first model.
 
 
 ```{r view results datasheets for model 1, warning = FALSE}
@@ -285,7 +288,7 @@ We can see that for every timestep in an iteration we have a new value of *y* co
 
 ### Viewing final results with `datasheet()`
 
-Now, we can view the results of the second model, also using `datasheet()`. The Output Datasheet corresponds to the results from the second model.
+Now, we will view the final output Datasheet from the Results Scenario. Again, we will use `datasheet()` to load the result table. The Output Datasheet corresponds to the results from the second model.
 
 ```{r view results datasheets for model 2, warning = FALSE}
 # Results of first Scenario
