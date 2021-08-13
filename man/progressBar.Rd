@@ -33,7 +33,18 @@ Packages, such as beginning, stepping, ending, and reporting the progress
 for a SyncroSim simulation.
 }
 \examples{
-\donttest{
+\dontrun{
+# Begin the progress bar for a simulation
+progressBar(type = "begin", totalSteps = numIterations * numTimesteps)
+
+# Increase the progress bar by one step for a simulation
+progressBar(type = "step")
+
+# Report progress for a simulation
+progressBar(type = "report", iteration = iter, timestep = ts)
+
+# End the progress bar for a simulation
+progressBar(type = "end")
 }
 
 }
