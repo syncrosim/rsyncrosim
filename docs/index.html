@@ -67,22 +67,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/rsyncrosim_install_beta.html">Installing beta release</a>
+      <a href="articles/a01_rsyncrosim_vignette_basic.html">Introduction to `rsyncrosim`</a>
     </li>
     <li>
-      <a href="articles/rsyncrosim_stsim_vignette.html">Introduction to `ST-Sim` in `rsyncrosim`</a>
+      <a href="articles/a02_rsyncrosim_vignette_uncertainty.html">`rsyncrosim`: introduction to uncertainty</a>
     </li>
     <li>
-      <a href="articles/rsyncrosim_vignette_basic.html">Introduction to `rsyncrosim`</a>
+      <a href="articles/a03_rsyncrosim_vignette_pipelines.html">`rsyncrosim`: introduction to pipelines</a>
     </li>
     <li>
-      <a href="articles/rsyncrosim_vignette_pipelines.html">`rsyncrosim`: introduction to pipelines</a>
+      <a href="articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a>
     </li>
     <li>
-      <a href="articles/rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a>
+      <a href="articles/a05_rsyncrosim_stsim_vignette.html">Introduction to `ST-Sim` in `rsyncrosim`</a>
     </li>
     <li>
-      <a href="articles/rsyncrosim_vignette_uncertainty.html">`rsyncrosim`: introduction to uncertainty</a>
+      <a href="articles/a06_rsyncrosim_install_beta.html">Installing beta release</a>
     </li>
   </ul>
 </li>
@@ -131,6 +131,13 @@
 </h2>
 <p>The simplest way to run <strong>SyncroSim</strong> from the command-line is to use the R programming language, in conjunction with the open-source <strong>rsyncrosim</strong> R package. This R package is designed to make it simple to script modeling workflows for <strong>SyncroSim</strong> in R, by providing functions that allow users to create models from scratch, populate those models with inputs, run the models for multiple scenarios, and access both spatial and tabular model output. The package is designed to work with any <strong>SyncroSim</strong> Package.</p>
 <p>A key feature of the <strong>rsyncrosim</strong> package is its ability to work seamlessly with the <strong>SyncroSim</strong> user interface. By integrating model scripting and visualization, users can interactively explore and validate their models in the user interface as they step through their R code, and at the same time generate a permanent, repeatable record of their entire modeling workflow – including both pre- and post-processing of model inputs and outputs – in an R script.</p>
+</div>
+<div id="about-st-sim" class="section level2">
+<h2 class="hasAnchor">
+<a href="#about-st-sim" class="anchor"></a>About <code>ST-Sim</code>
+</h2>
+<p><strong>ST-Sim</strong> is a <strong>SyncroSim</strong> Package that lets you develop and run spatially-explicit, stochastic state-and-transition simulation models (<a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.12597" target="_blank">STSMs</a>) of landscape change.</p>
+<p>For more details consult the <strong>ST-Sim</strong> <a href="https://docs.stsim.net/index.html" target="_blank">online documentation</a>.</p>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
@@ -143,7 +150,16 @@
 <h3 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h3>
 <ul>
-<li><p>Run the <a href="https://cran.r-project.org/package=rsyncrosim/vignettes/rsyncrosim_tutorial.html">vignette</a></p></li>
+<li>
+<p>Run the vignettes:</p>
+<ul>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_basic.html">Introduction to <code>rsyncrosim</code></a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_uncertainty.html"><code>rsyncrosim</code>: introduction to uncertainty</a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>: introduction to pipelines</a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_spatial.html"><code>rsyncrosim</code>: introduction to spatial data</a></p></li>
+<li><p><a href="https://cran.r-project.org/package=rsyncrosim/vignettes/rsyncrosim_tutorial.html">Introduction to <code>ST-Sim</code> in <code>rsyncrosim</code></a></p></li>
+</ul>
+</li>
 <li><p>View the package <a href="https://cran.r-project.org/package=rsyncrosim/rsyncrosim.pdf">documentation</a></p></li>
 </ul>
 </div>
