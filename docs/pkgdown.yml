@@ -1,0 +1,15 @@
+pandoc: 2.11.4
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  rsyncrosim_install_beta: rsyncrosim_install_beta.html
+  rsyncrosim_stsim_vignette: rsyncrosim_stsim_vignette.html
+  rsyncrosim_vignette_basic: rsyncrosim_vignette_basic.html
+  rsyncrosim_vignette_pipelines: rsyncrosim_vignette_pipelines.html
+  rsyncrosim_vignette_spatial: rsyncrosim_vignette_spatial.html
+  rsyncrosim_vignette_uncertainty: rsyncrosim_vignette_uncertainty.html
+last_built: 2021-09-07T20:30Z
+urls:
+  reference: https://syncrosim.github.io/rsyncrosim/reference
+  article: https://syncrosim.github.io/rsyncrosim/articles
+

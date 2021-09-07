@@ -13,11 +13,9 @@ gitIncantations.txt
 *.ssim.output/
 *.ssim.backup/
 *.tex
-/vignettes/rsyncrosim_stsim_vignette.Rmd
 /vignettes/rsyncrosim_tutorial.html
 /vignettes/demoLib.ssim.temp/RSyncroSim
 /vignettes/demo-library.ssim.input
 /vignettes/demo-library.ssim.output
 /vignettes/demoLib.ssim.input/Scenario-2/stsim_InitialConditionsSpatial
-docs
 .vs
