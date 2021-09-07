@@ -2,11 +2,11 @@
 title: "Introduction to `ST-Sim` in `rsyncrosim`"
 author: "Colin Daniel, ApexRMS"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Introduction to `ST-Sim` in `rsyncrosim`}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
+# output: rmarkdown::html_vignette
+# vignette: >
+#  %\VignetteIndexEntry{Introduction to `ST-Sim` in `rsyncrosim`}
+#  %\VignetteEngine{knitr::rmarkdown}
+#  %\usepackage[utf8]{inputenc}
 params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
