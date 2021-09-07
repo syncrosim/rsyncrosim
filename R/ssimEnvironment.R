@@ -159,7 +159,18 @@ runtimeTempFolder <- function(folderName) {
 #' No returned value, used for side effects
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
+#' # Begin the progress bar for a simulation
+#' progressBar(type = "begin", totalSteps = numIterations * numTimesteps)
+#' 
+#' # Increase the progress bar by one step for a simulation
+#' progressBar(type = "step")
+#' 
+#' # Report progress for a simulation
+#' progressBar(type = "report", iteration = iter, timestep = ts)
+#' 
+#' # End the progress bar for a simulation
+#' progressBar(type = "end")
 #' }
 #' 
 #' @export
