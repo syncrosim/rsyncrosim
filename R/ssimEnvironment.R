@@ -170,7 +170,7 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
   
   # Begin progress bar tracking
   if (type == "begin") {
-    if (is.integer(totalSteps)) {
+    if (is.numeric(totalSteps)) {
       cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
       flush.console()
     } else {
@@ -189,7 +189,7 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
   
   # Report iteration and timestep in UI  
   } else if (type == "report") {
-    if (is.integer(iteration) & is.integer(timestep)) {
+    if (is.numeric(iteration) & is.numeric(timestep)) {
       cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
       flush.console()
     } else {
