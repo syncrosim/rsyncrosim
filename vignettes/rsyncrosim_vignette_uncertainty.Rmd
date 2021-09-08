@@ -262,7 +262,7 @@ head(resultsSummary)
 
 Now that we have run multiple iterations, we can visualize the uncertainty in our results. For this plot, we will plot the average *y* values over time, while showing the 20th and 80th percentiles.
 
-To create a plot using the Results Scenario we just generated, open the current Library in the User Interface and sync the updates from `rsyncrosim` using the "refresh" button in the upper toolbar. All the updates made in `rsyncrosim` should appear in the User Interface. We can now add the Results Scenario to the Results Viewer and create our plot. For more information on generating plots in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_chart_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_chart_customize.html" target="_blank">customizing</a> charts.
+To create a plot using the Results Scenario we just generated, open the current Library in the User Interface and sync the updates from `rsyncrosim` using the "refresh" button in the upper toolbar (circled in red below). All the updates made in `rsyncrosim` should appear in the User Interface. We can now add the Results Scenario to the Results Viewer and create our plot. For more information on generating plots in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_chart_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_chart_customize.html" target="_blank">customizing</a> charts.
 
 ![Using `rsyncrosim` with the SyncroSim Windows User Interface to plot uncertainty](./rsyncrosim-with-UI-uncertainty.png){width=600px}
 
