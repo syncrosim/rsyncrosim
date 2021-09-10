@@ -44,8 +44,8 @@ because the \code{\link{datasheet}} function may add ScenarioID and/or ProjectID
 # Query total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
 # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 mySQL <- sqlStatement(
-  groupBy = c("ScenarioID", "Iteration", "Timestep", "StateLabelXID"),
-  aggregate = c("Amount"),
+  groupBy = c("ScenarioID", "Iteration", "Timestep"),
+  aggregate = c("yCum"),
   aggregateFunction = "SUM",
   where = list(Timestep = c(0, 1, 2), Iteration = c(3, 4))
 )
@@ -67,9 +67,15 @@ myLibrary <- ssimLibrary(name = myLibraryName,
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Run Scenario to generate results
+resultScenario <- run(myScenario)
+
 # Use the SQL statement when loading the Datasheet
-myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
+myAggregatedDataFrame <- datasheet(resultScenario, name = "OutputDatasheet",
                                    sqlStatement = mySQL)
+                                   
+# View aggregated DataFrame
+myAggregatedDataFrame
 }
 
 }

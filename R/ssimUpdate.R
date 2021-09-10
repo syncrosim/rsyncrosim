@@ -23,7 +23,8 @@ NULL
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, and Project
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession,
+#'                          overwrite=TRUE)
 #' myProject <- project(myLibrary, project = "My Project")
 #' 
 #' # Update Project

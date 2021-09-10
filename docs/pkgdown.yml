@@ -1,4 +1,4 @@
-pandoc: 2.11.4
+pandoc: 2.14.0.2
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -8,7 +8,7 @@ articles:
   a04_rsyncrosim_vignette_spatial: a04_rsyncrosim_vignette_spatial.html
   a05_rsyncrosim_stsim_vignette: a05_rsyncrosim_stsim_vignette.html
   a06_rsyncrosim_install_beta: a06_rsyncrosim_install_beta.html
-last_built: 2021-09-09T23:49Z
+last_built: 2021-09-10T16:36Z
 urls:
   reference: https://syncrosim.github.io/rsyncrosim/reference
   article: https://syncrosim.github.io/rsyncrosim/articles

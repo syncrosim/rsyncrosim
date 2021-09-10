@@ -264,7 +264,7 @@ any required updates. If <code>TRUE</code>, required updates will be applied sil
 <span class='co'># Make sure packages are installed</span>
 <span class='fu'><a href='addPackage.html'>addPackage</a></span><span class='op'>(</span><span class='st'>"stsim"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Package &lt;stsim&gt; is already installed</span></div><div class='input'><span class='fu'><a href='addPackage.html'>addPackage</a></span><span class='op'>(</span><span class='st'>"stsimsf"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Package &lt;stsimsf&gt; is already installed</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Package &lt;stsimsf&gt; installed</span></div><div class='input'>
 <span class='co'># Create or open a SsimLibrary using the default Session</span>
 <span class='va'>myLibrary</span> <span class='op'>&lt;-</span> <span class='fu'>ssimLibrary</span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"mylib"</span><span class='op'>)</span><span class='op'>)</span>
 
@@ -279,36 +279,7 @@ any required updates. If <code>TRUE</code>, required updates will be applied sil
 </div><div class='output co'>#&gt; class               : Session
 #&gt; filepath [character]: C:/Program Files/SyncroSim
 #&gt; silent [logical]    : TRUE
-#&gt; printCmd [logical]  : FALSE</div><div class='input'><span class='fu'><a href='filepath.html'>filepath</a></span><span class='op'>(</span><span class='va'>myLibrary</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "C:\\Users\\birch\\AppData\\Local\\Temp\\Rtmpo5Dja6/mylib.ssim"</div><div class='input'><span class='fu'><a href='info.html'>info</a></span><span class='op'>(</span><span class='va'>myLibrary</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                    property
-#&gt; 1                     Name:
-#&gt; 2                    Owner:
-#&gt; 3            Last Modified:
-#&gt; 4                     Size:
-#&gt; 5                Read Only:
-#&gt; 6             Package Name:
-#&gt; 7      Package Description:
-#&gt; 8  Current Package Version:
-#&gt; 9  Minimum Package Version:
-#&gt; 10    External input files:
-#&gt; 11   External output files:
-#&gt; 12         Temporary files:
-#&gt; 13            Backup files:
-#&gt;                                                                    value
-#&gt; 1                                                                  mylib
-#&gt; 2                                                                    N/A
-#&gt; 3                                                  2021-09-09 at 4:53 PM
-#&gt; 4                                                    616 KB  (630,784 B)
-#&gt; 5                                                                     No
-#&gt; 6                                                                  stsim
-#&gt; 7                       The ST-Sim state-and-transition simulation model
-#&gt; 8                                                                  3.3.2
-#&gt; 9                                                                 3.2.18
-#&gt; 10  C:\\Users\\birch\\AppData\\Local\\Temp\\Rtmpo5Dja6\\mylib.ssim.input
-#&gt; 11 C:\\Users\\birch\\AppData\\Local\\Temp\\Rtmpo5Dja6\\mylib.ssim.output
-#&gt; 12   C:\\Users\\birch\\AppData\\Local\\Temp\\Rtmpo5Dja6\\mylib.ssim.temp
-#&gt; 13 C:\\Users\\birch\\AppData\\Local\\Temp\\Rtmpo5Dja6\\mylib.ssim.backup</div><div class='input'>
+#&gt; printCmd [logical]  : FALSE</div><div class='input'>
 <span class='co'># Load a SsimLibrary with addon package</span>
 <span class='va'>myLibrary</span> <span class='op'>&lt;-</span> <span class='fu'>ssimLibrary</span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"mylib"</span><span class='op'>)</span>,
                          overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, package <span class='op'>=</span> <span class='st'>"stsim"</span>,

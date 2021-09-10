@@ -329,10 +329,10 @@
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   scenarioId projectId                                          name isResult
 ## 1          1         1                             My first scenario       No
-## 2          2         1 My first scenario ([1] @ 09-Sep-2021 4:55 PM)      Yes
+## 2          2         1 My first scenario ([1] @ 10-Sep-2021 9:43 AM)      Yes
 ##   parentID owner          lastModified readOnly mergeDependencies
-## 1       NA   N/A 2021-09-09 at 4:55 PM       No                No
-## 2        1   N/A 2021-09-09 at 4:55 PM       No                No
+## 1       NA   N/A 2021-09-10 at 9:43 AM       No                No
+## 2        1   N/A 2021-09-10 at 9:43 AM       No                No
 ##   ignoreDependencies autoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
@@ -354,18 +354,18 @@
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep       y
-## 1         1        1  9.6002
-## 2         1        2 16.2004
-## 3         1        3 22.8006
-## 4         1        4 29.4008
-## 5         1        5 36.0010
-## 6         1        6 42.6012</code></pre>
+## 1         1        1  4.8647
+## 2         1        2  6.7294
+## 3         1        3  8.5940
+## 4         1        4 10.4587
+## 5         1        5 12.3234
+## 6         1        6 14.1881</code></pre>
 </div>
 <div id="plotting-uncertainty-in-the-syncrosim-windows-user-interface" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plotting-uncertainty-in-the-syncrosim-windows-user-interface" class="anchor"></a>Plotting uncertainty in the SyncroSim Windows User Interface</h3>
 <p>Now that we have run multiple iterations, we can visualize the uncertainty in our results. For this plot, we will plot the average <em>y</em> values over time, while showing the 20th and 80th percentiles.</p>
-<p>To create a plot using the Results Scenario we just generated, open the current Library in the User Interface and sync the updates from <code>rsyncrosim</code> using the “refresh” button in the upper toolbar. All the updates made in <code>rsyncrosim</code> should appear in the User Interface. We can now add the Results Scenario to the Results Viewer and create our plot. For more information on generating plots in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_chart_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_chart_customize.html" target="_blank">customizing</a> charts.</p>
+<p>To create a plot using the Results Scenario we just generated, open the current Library in the User Interface and sync the updates from <code>rsyncrosim</code> using the “refresh” button in the upper toolbar (circled in red below). All the updates made in <code>rsyncrosim</code> should appear in the User Interface. We can now add the Results Scenario to the Results Viewer and create our plot. For more information on generating plots in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_chart_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_chart_customize.html" target="_blank">customizing</a> charts.</p>
 <div class="figure">
 <img src="rsyncrosim-with-UI-uncertainty.png" width="600" alt=""><p class="caption">Using <code>rsyncrosim</code> with the SyncroSim Windows User Interface to plot uncertainty</p>
 </div>

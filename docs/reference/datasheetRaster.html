@@ -293,7 +293,8 @@ For Datasheets without Filename this is:</p>
 <span class='va'>myLibrary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ssimLibrary.html'>ssimLibrary</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='va'>myLibraryName</span>,
                          session <span class='op'>=</span> <span class='va'>mySession</span>,
                          package <span class='op'>=</span> <span class='st'>"helloworldEnhanced"</span>,
-                         template <span class='op'>=</span> <span class='st'>"example-library"</span><span class='op'>)</span>
+                         template <span class='op'>=</span> <span class='st'>"example-library"</span>,
+                         overwrite<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Scenarios available in this template:    My Scenario</span></div><div class='input'>
 <span class='co'># Set up Project and Scenario</span>
 <span class='va'>myProject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span><span class='op'>(</span><span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"Definitions"</span><span class='op'>)</span>
@@ -312,14 +313,28 @@ For Datasheets without Filename this is:</p>
 
 <span class='co'># Extract specific Datasheet rasters using pattern matching</span>
 <span class='va'>resultDatasheet</span> <span class='op'>&lt;-</span> <span class='fu'><a href='datasheet.html'>datasheet</a></span><span class='op'>(</span><span class='va'>resultScenario</span>, name <span class='op'>=</span> <span class='st'>"IntermediateDatasheet"</span><span class='op'>)</span>
-<span class='va'>resultRaster</span> <span class='op'>&lt;-</span> <span class='fu'>datasheetRaster</span><span class='op'>(</span><span class='va'>resultScenario</span>, 
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>resultDatasheet</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Iteration Timestep         y
+#&gt; 1         1        1  399.2143
+#&gt; 2         1        2  802.7626
+#&gt; 3         1        3 1206.3109
+#&gt; 4         1        4 1609.8592
+#&gt; 5         1        5 2013.4075
+#&gt; 6         1        6 2416.9559
+#&gt;                                                                                                                                                        OutputRasterFile
+#&gt; 1 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpywAF04\\testlib_datasheetRaster.ssim.input\\Scenario-3\\helloworldEnhanced_IntermediateDatasheet\\rasterMap_iter1_ts1.tif
+#&gt; 2 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpywAF04\\testlib_datasheetRaster.ssim.input\\Scenario-3\\helloworldEnhanced_IntermediateDatasheet\\rasterMap_iter1_ts2.tif
+#&gt; 3 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpywAF04\\testlib_datasheetRaster.ssim.input\\Scenario-3\\helloworldEnhanced_IntermediateDatasheet\\rasterMap_iter1_ts3.tif
+#&gt; 4 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpywAF04\\testlib_datasheetRaster.ssim.input\\Scenario-3\\helloworldEnhanced_IntermediateDatasheet\\rasterMap_iter1_ts4.tif
+#&gt; 5 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpywAF04\\testlib_datasheetRaster.ssim.input\\Scenario-3\\helloworldEnhanced_IntermediateDatasheet\\rasterMap_iter1_ts5.tif
+#&gt; 6 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpywAF04\\testlib_datasheetRaster.ssim.input\\Scenario-3\\helloworldEnhanced_IntermediateDatasheet\\rasterMap_iter1_ts6.tif</div><div class='input'><span class='va'>resultRaster</span> <span class='op'>&lt;-</span> <span class='fu'>datasheetRaster</span><span class='op'>(</span><span class='va'>resultScenario</span>, 
                   datasheet <span class='op'>=</span> <span class='st'>"IntermediateDatasheet"</span>,
                   column <span class='op'>=</span> <span class='st'>"OutputRasterFile"</span>,
                   subset <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"ts20"</span>, 
                                              <span class='va'>resultDatasheet</span><span class='op'>$</span><span class='va'>OutputRasterFile</span>,
                                              fixed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in is.factor(x): object 'resultDatasheet' not found</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in grepl("ts20", resultDatasheet$OutputRasterFile, fixed = TRUE): object 'resultDatasheet' not found</span></div><div class='input'>
 <span class='co'># Return the raster Datasheets as a raster stack</span>
 <span class='va'>resultRaster</span> <span class='op'>&lt;-</span> <span class='fu'>datasheetRaster</span><span class='op'>(</span><span class='va'>resultScenario</span>, 
                  datasheet <span class='op'>=</span> <span class='st'>"IntermediateDatasheet"</span>,

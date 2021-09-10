@@ -276,8 +276,6 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'
 #' # Retrieve SsimLibrary properties
 #' session(myLibrary)
-#' filepath(myLibrary)
-#' info(myLibrary)
 #' 
 #' # Load a SsimLibrary with addon package
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),

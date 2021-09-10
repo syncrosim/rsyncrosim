@@ -95,12 +95,6 @@ NULL
 #' 
 #' # Save Datasheet
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")
-#' 
-#' # Append to a Datasheet rather than overwriting
-#' myDatasheet$MaximumTimestep <- 5
-#' 
-#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
-#'               append = TRUE)
 #'           
 #' # Import data after saving
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
