@@ -120,7 +120,7 @@ About the 'append' argument:
 addPackage("helloworldEnhanced")
 
 # Set the file path and name of the new SsimLibrary
-myLibraryName <- file.path(tempdir(),"testlib")
+myLibraryName <- file.path(tempdir(),"testlib_saveDatasheet")
 
 # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()

@@ -50,7 +50,7 @@ NULL
 #' addPackage("helloworldEnhanced")
 #' 
 #' # Specify file path and name of new SsimLibrary
-#' myLibraryName <- file.path(tempdir(), "testlib")
+#' myLibraryName <- file.path(tempdir(), "testlib_datasheetRaster")
 #' 
 #' # Set up a SyncroSim Session
 #' mySession <- session()

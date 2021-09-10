@@ -81,7 +81,7 @@ SsimLibrary." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -222,18 +222,19 @@ summary is <code>TRUE</code>, returns a data.frame of Project names and descript
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Set the file path and name of the new SsimLibrary</span>
-<span class='va'>myLibraryName</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='st'>"testlib"</span><span class='op'>)</span>
+<span class='va'>myLibraryName</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='st'>"testlib_project"</span><span class='op'>)</span>
 
 <span class='co'># Set the SyncroSim Session, SsimLibrary, and Project</span>
 <span class='va'>mySession</span> <span class='op'>&lt;-</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>myLibrary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ssimLibrary.html'>ssimLibrary</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='va'>myLibraryName</span>, session <span class='op'>=</span> <span class='va'>mySession</span><span class='op'>)</span> 
-<span class='va'>myProject</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span>ssimObject <span class='op'>=</span> <span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"My new project name"</span><span class='op'>)</span>
+<span class='va'>myProject</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span>ssimObject <span class='op'>=</span> <span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"My project name"</span><span class='op'>)</span>
+<span class='va'>myproject2</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span>ssimObject <span class='op'>=</span> <span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"My new project name"</span><span class='op'>)</span>
 
 <span class='co'># Get a named list of existing Projects</span>
 <span class='co'># Each element in the list is named by a character version of the Project ID</span>
 <span class='va'>myProjects</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span><span class='va'>myLibrary</span>, summary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>myProjects</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "11" "21"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "11" "1" </div><div class='input'>
 <span class='co'># Get an existing Project.</span>
 <span class='va'>myProject</span> <span class='op'>&lt;-</span> <span class='va'>myProjects</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 <span class='va'>myProject</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span><span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"My new project name"</span><span class='op'>)</span>
@@ -245,7 +246,7 @@ summary is <code>TRUE</code>, returns a data.frame of Project names and descript
 <span class='co'># Create a new Project from a copy of an existing Project</span>
 <span class='va'>myNewProject</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span><span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"My copied project"</span>,
                         sourceProject <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in .local(.Object, ...): sourceProject id 1 not found in the library.</span></div><div class='input'>
+
 <span class='co'># Overwrite an existing Project</span>
 <span class='va'>myNewProject</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span><span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"My copied project"</span>,
                         overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>

@@ -21,7 +21,7 @@ a SyncroSim Datasheet Input Folder.
 }
 \examples{
 \dontrun{
-inputFolder <- runtimeInputFolder
+inputFolder <- runtimeInputFolder()
 }
 
 }

@@ -20,7 +20,7 @@ development of R-based Syncrosim Packages. This function creates and returns
 a SyncroSim DataSheet Output Folder.
 }
 \examples{
-\donttest{
+\dontrun{
 outputFolder <- runtimeOutputFolder()
 }
 

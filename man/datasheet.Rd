@@ -160,7 +160,7 @@ Otherwise, for each element in name a Datasheet is returned as follows:
 addPackage("helloworldEnhanced")
 
 # Set the file path and name of the new SsimLibrary
-myLibraryName <- file.path(tempdir(),"testlib")
+myLibraryName <- file.path(tempdir(),"testlib_datasheet")
 
 # Set the SyncroSim Session
 mySession <- session()

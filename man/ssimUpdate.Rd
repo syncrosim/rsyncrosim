@@ -33,7 +33,7 @@ myLibraryName <- file.path(tempdir(),"testlib")
 # Set the SyncroSim Session, SsimLibrary, and Project
 mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
-myProject <- project(myLibrary, name = "My Project")
+myProject <- project(myLibrary, project = "My Project")
 
 # Update Project
 ssimUpdate(myProject)
