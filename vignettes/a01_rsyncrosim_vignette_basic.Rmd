@@ -1,6 +1,7 @@
 ---
 title: "Introduction to `rsyncrosim`"
 output: rmarkdown::html_vignette
+#output: pdf_document
 vignette: >
   %\VignetteIndexEntry{Introduction to `rsyncrosim`}
   %\VignetteEngine{knitr::rmarkdown}
@@ -178,7 +179,8 @@ myLibraryOutput@filepath <- "path/to/helloworldLibrary.ssim"
 myLibraryOutput
 ```
 
-We can also use the `ssimLibrary()` function to open an existing Library. For instance, now that we have created a Library called "helloworldLibrary.ssim", we would simply specify that we want to open this Library using the `name` argument.  Note that if you want to create a new Library file with an existing Library name rather than opening the existing Library, you can use `overwrite=TRUE` for the `ssimLibrary()` function.
+We can also use the `ssimLibrary()` function to open an existing Library. For instance, now that we have created a Library called "helloworldLibrary.ssim", we would simply specify that we want to open this Library using the `name` argument.  
+
 ```{r}
 # Open existing Library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim")
@@ -399,11 +401,11 @@ The next step is to view the output Datasheets added to the Result Scenario when
 
 ```{r view results datasheets, warning = FALSE}
 # Results of first Scenario
-resultsSummary <- datasheet(myResultScenario,
+myOutputDataframe <- datasheet(myResultScenario,
                             name = "helloworldTime_OutputDatasheet")
 
 # View results table
-head(resultsSummary)
+head(myOutputDataframe)
 ```
 
 ## Working with multiple Scenarios
@@ -525,18 +527,21 @@ You can also find identification numbers of Projects or Scenarios using the foll
 
 ## Backup your Library
 
-Once you have finished running your models, you may want to backup the inputs and results into a zipped .backup subfolder. First, we want to modify the Library Backup Datasheet to allow the backup of model outputs. Since this Datasheet is part of the built-in SyncroSim core, the name of the Datasheet has the prefix "core".
+Once you have finished running your models, you may want to backup the inputs and results into a zipped .backup subfolder. First, we want to modify the Library Backup Datasheet to allow the backup of model outputs. Since this Datasheet is part of the built-in SyncroSim core, the name of the Datasheet has the prefix "core". We can get a list of all the core Datasheets with a Library scope using the `datasheet()` function.
 
 ```{r backup Library, warning = FALSE}
+# Find all core Library-scoped Datasheets
+datasheet(myLibrary, summary = "CORE")
+
 # Get the current values for the Library's Backup Datasheet
-sheetData <- datasheet(myLibrary, name = "core_Backup")   
+myDataframe <- datasheet(myLibrary, name = "core_Backup")   
 
 # View current values for the Library's Backup Datasheet
-sheetData
+myDataframe
 
 # Add output to the Library's Backup Datasheet and save
-sheetData$IncludeOutput <- TRUE 
-saveDatasheet(myLibrary, data = sheetData, name = "core_Backup")
+myDataframe$IncludeOutput <- TRUE 
+saveDatasheet(myLibrary, data = myDataframe, name = "core_Backup")
 
 # Check to make sure IncludeOutput is now TRUE
 datasheet(myLibrary, "core_Backup")
@@ -550,7 +555,7 @@ backup(myLibrary)
 
 ## `rsyncrosim` and the SyncroSim Windows User Interface
 
-It can be useful to work in both `rsyncrosim` and the SyncroSim Windows User Interface at the same time. You can easily modify Datasheets and run Scenarios in `rsyncrosim`, while updating the Library and plotting outputs in the User Interface. To sync the Library in the User Interface with the latest changes from the `rsyncrosim` code, click the refresh icon in the upper tool bar of the User Interface.
+It can be useful to work in both `rsyncrosim` and the SyncroSim Windows User Interface at the same time. You can easily modify Datasheets and run Scenarios in `rsyncrosim`, while simultaneously refreshing the Library and plotting outputs in the User Interface as you go. To sync the Library in the User Interface with the latest changes from the `rsyncrosim` code, click the refresh icon (circled in red below) in the upper tool bar of the User Interface.
 
 ![Using `rsyncrosim` with the SyncroSim Windows User Interface](./rsyncrosim-with-UI.PNG){width=600px}
 
