@@ -146,22 +146,218 @@ From this list of Datasheets, we can see that there are 82 Datasheets specific t
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
-SC note: I think this paragraph below should be replaced by the one below the Project Definitions heading. 
+Currently our input Datasheets are empty! We need to add some values to these Datasheets so we can run our models. We will use the `datasheet()` function to retrieve input Datasheets from our Library, and the `addRows` function to add rows of values to these Datasheets. Both of these functions are contained in the `rsyncrosim` package. 
 
-Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) and run control Datasheet (`RunControl`) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core `Pipeline` Datasheet to specify which models are run in which order. For more information on using pipelines, see the [`rsyncrosim`: introduction to pipelines](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html) vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
+Inputs for `stsim` come in two forms: Scenario inputs (which *can* vary by Scenario) and Project inputs (which *must* be fixed across all Scenarios). In general most inputs are Scenario inputs; Project inputs are typically reserved for values that must be shared by all Scenarios (e.g. constants, shared lookup values). We refer to Project input Datasheets as *Project-scoped Datasheets* and Scenario input Datasheets as *Scenario-scoped Datasheets*. We will start by retrieving some Project-scoped input Datasheets to add and edit their values.  
 
+#### Project-scoped Datasheets
 
+**Terminology**:
 
-**Input Datasheet**
-
-SC Note: what is the stsim equivalent of Input Datasheets?
-
-
-
-
-Finally, for this tutorial, we need to retrieve the sample raster files (in GeoTIFF format) provided with the `rsyncrosim` package.
+The Project-scoped Datasheet called *Terminology* specifies terms used across all Scenarios in the same Project. Use the `datasheet` function to retrieve the current values for this Datasheet, as currently stored in the SyncroSim Library file.
 
 ```{r}
+# Load the Terminology Datasheet to a new R data frame 
+inputTerminology <- datasheet(myProject, name="stsim_Terminology")
+
+# Check the columns of the Terminology data frame
+str(inputTerminology)
+```
+
+We can change the terminology of the `StateLabelX` and `AmountUnits` columns in this Datasheet, and then save those changes back to the SyncroSim Library file.
+
+```{r}
+# Edit the values of the `StateLabelX` and `AmountUnits` columns
+terminology$AmountUnits <- "Hectares"
+terminology$StateLabelX <- "Forest Type"
+
+# Saves edits as a SyncroSim Datasheet
+saveDatasheet(myProject, terminology, "stsim_Terminology") 
+```
+
+Similarly, we can edit other Project-scoped Datasheets for *stsim*. 
+
+**Stratum**:  Primary Strata in the model
+```{r}
+# Load a copy of the Stratum Datasheet.
+# To load an empty copy of this Datasheet, specify the argument `empty = TRUE` in the `datasheet()` function.
+stratum <- datasheet(myProject, "stsim_Stratum", empty = TRUE)
+
+# Use the `addRow()` to add a value to the stratum  data frame
+stratum <- addRow(stratum, "Entire Forest")
+
+# Save edits as a SyncroSim Datasheet
+saveDatasheet(myProject, stratum, "stsim_Stratum", force = TRUE)
+```
+
+**StateLabelX**: First dimension of labels for State Classes
+
+It is also possible to add values to a Datasheet without loading it into R. Below we create a vector of `forestTypes` and add this to the *stsim_StateLabelX* Datasheet as a data frame using `saveDatasheet()`.
+```{r}
+# Create a vector containing the State Class labels 
+forestTypes <- c("Coniferous", "Deciduous", "Mixed")
+
+# Add values as a data frame to an stsim Datasheet
+saveDatasheet(myProject, data.frame(Name = forestTypes), "stsim_StateLabelX", force = TRUE)
+```
+
+**StateLabelY**: Second dimension of labels for State Classes
+```{r}
+# Add values as a data frame directly to an stsim Datasheet
+saveDatasheet(myProject, data.frame(Name = c("All")), "stsim_StateLabelY", force = TRUE)
+```
+
+**State Classes**: Combine **StateLabelX** and **StateLabelY**, and assign each class a unique name and ID
+```{r}
+# Create a new R data frame containing the names of the State Classes and their corresponding StateLabelX ID, StateLabelY ID, and a unique numeric ID
+stateClasses <- data.frame(Name = forestTypes)
+stateClasses$StateLabelXID <- stateClasses$Name
+stateClasses$StateLabelYID <- "All"
+stateClasses$ID <- c(1, 2, 3)
+
+# Save stateClasses R data frame to a SyncroSim Datasheet
+saveDatasheet(myProject, stateClasses, "stsim_StateClass", force = TRUE)
+```
+
+**Transition Types**: Assign a unique name and ID to each type of transition in our model.
+```{r}
+# Create an R data frame containing a column of transition type names and a column for their unique numerical IDs 
+transitionTypes <- data.frame(Name = c("Fire", "Harvest", "Succession"), ID = c(1, 2, 3))
+
+# Save transitionTypes R data frame to a SyncroSim Datasheet
+saveDatasheet(myProject, transitionTypes, "stsim_TransitionType", force = TRUE)
+```
+
+**Transition Groups**: Create Transition Groups identical to the Types
+```{r}
+# Create an R data frame containing a column of transition type names 
+transitionGroups <- data.frame(Name = c("Fire", "Harvest", "Succession"))
+
+# Save transitionGroups R data frame to a SyncroSim Datasheet
+saveDatasheet(myProject, transitionGroups, "TransitionGroup", force = T)
+```
+
+**Transition Types by Groups**: Assign each Type to its Group
+```{r}
+# Create an R data frame that contains Transition Type Group names
+transitionTypesGroups <- data.frame(TransitionTypeID = transitionTypes$Name,
+                                    TransitionGroupID = transitionGroups$Name)
+
+# Save transitionTypesGroups R data frame to a SyncroSim Datasheet
+saveDatasheet(myProject, transitionTypesGroups, "TransitionTypeGroup", force = T)
+```
+
+**Ages**: Define the basic parameters to control the age reporting in the model
+```{r}
+# Define values for age reporting
+ageFrequency <- 1
+ageMax <- 101
+ageGroups <- c(20, 40, 60, 80, 100)
+
+# Add values as R data frames to the appropriate SyncroSim Datasheet
+saveDatasheet(myProject, data.frame(Frequency = ageFrequency, MaximumAge = ageMax),
+              "AgeType", force = TRUE)
+saveDatasheet(myProject, data.frame(MaximumAge = ageGroups), "stsim_AgeGroup", force = TRUE)
+```
+
+#### Scenario-scoped Datasheets
+
+Now that we have defined all our Project-scoped input Datasheets, we can move on to specifying Scenario-specific model inputs. We begin by using the `scenario` function to create a new Scenario in our Project.
+
+```{r}
+# Create a new SyncroSim Scenario
+myScenario <- scenario(myProject, "No Harvest")
+```
+
+Once again we can use the `datasheet()` function (with `summary=TRUE`) to display all the Scenario-scoped Datasheets.
+
+```{r, eval = FALSE}
+# Subset the full Datasheet list to show only Scenario-scoped Datasheets
+subset(datasheet(myScenario, summary = TRUE), scope == "scenario")
+```
+
+We can now use the `datasheet()` function to retrieve, one at a time, each of our Scenario-scoped Datasheets from our Library.
+
+**Run Control**: Define the length of the run and whether or not it is a spatial run (requires spatial inputs to be set, see below). Here we make the run spatial.
+```{r}
+# Create an R data frame specifying to run the simulation for 7 realizations and 10 timesteps
+runControl <- data.frame(MaximumIteration = 7,
+                        MinimumTimestep = 0,
+                        MaximumTimestep = 10,
+                        isSpatial = TRUE)
+
+# Save transitionTypesGroups R data frame to a SyncroSim Datasheet
+saveDatasheet(myScenario, runControl, "stsim_RunControl")
+```
+
+**Deterministic Transitions**: Define transitions that take place in the absence of probabilistic transitions. Here we also set the age boundaries for each State Class.
+```{r}
+# Load  an empty Deterministic Transitions Datasheet to a new R data frame
+dTransitions <- datasheet(myScenario, "stsim_DeterministicTransition", optional = T, empty = T)
+
+# Add all Deterministic Transitions to the R data frame
+dTransitions <- addRow(dTransitions, data.frame(StateClassIDSource = "Coniferous",
+                                          StateClassIDDest = "Coniferous",
+                                          AgeMin = 21,
+                                          Location = "C1"))
+dTransitions <- addRow(dTransitions, data.frame(StateClassIDSource = "Deciduous",
+                                          StateClassIDDest = "Deciduous",
+                                          Location = "A1"))
+dTransitions <- addRow(dTransitions, data.frame(StateClassIDSource = "Mixed",
+                                          StateClassIDDest = "Mixed",
+                                          AgeMin = 11,
+                                          Location = "B1"))
+
+# Save dTransitions R data frame to a SyncroSim Datasheet
+saveDatasheet(myScenario, dTransitions, "stsim_DeterministicTransition")
+```
+
+**Probabilistic Transitions**: Define transitions between State Classes and assigns a probability to each.
+```{r}
+# Load  an empty Probabilistic Transitions Datasheet to a new R data frame
+pTransitions <- datasheet(myScenario, "stsim_Transition", optional = T, empty = T)
+
+# Add all Probabilistic Transitions to the R data frame
+pTransitions <- addRow(pTransitions, data.frame(StateClassIDSource = "Coniferous", 
+                                          StateClassIDDest = "Deciduous", 
+                                          TransitionTypeID = "Fire", 
+                                          Probability = 0.01))
+pTransitions <- addRow(pTransitions, data.frame(StateClassIDSource = "Coniferous",
+                                          StateClassIDDest = "Deciduous", 
+                                          TransitionTypeID = "Harvest", 
+                                          Probability = 1, 
+                                          AgeMin = 40))
+pTransitions <- addRow(pTransitions, data.frame(StateClassIDSource = "Deciduous",
+                                          StateClassIDDest = "Deciduous", 
+                                          TransitionTypeID = "Fire", 
+                                          Probability = 0.002))
+pTransitions <- addRow(pTransitions, data.frame(StateClassIDSource = "Deciduous",
+                                          StateClassIDDest = "Mixed", 
+                                          TransitionTypeID = "Succession", 
+                                          Probability = 0.1, 
+                                          AgeMin = 10))
+pTransitions <- addRow(pTransitions, data.frame(StateClassIDSource = "Mixed", 
+                                          StateClassIDDest = "Deciduous", 
+                                          TransitionTypeID = "Fire", 
+                                          Probability = 0.005))
+pTransitions <- addRow(pTransitions, data.frame(StateClassIDSource = "Mixed", 
+                                          StateClassIDDest = "Coniferous",
+                                          TransitionTypeID = "Succession", 
+                                          Probability = 0.1, 
+                                          AgeMin = 20))
+
+# Save pTransitions R data frame to a SyncroSim Datasheet
+saveDatasheet(myScenario, pTransitions, "stsim_Transition")
+```
+
+**Initial Conditions**: Set the starting conditions of the model at time 0. There are two options for setting initial conditions: either spatial or non-spatial. In this example we will use spatial initial conditions; however, we also demonstrat how to set initial conditions non-spatially below.
+
+* ***Initial Conditions: Option 1 - Spatial***. Let's first take a look at our rasters.
+
+First we will retrieve the sample raster files (in GeoTIFF format) provided with the `rsyncrosim` package. 
+
+```{r}
+# Load sample .tif files
 stratumTif <- system.file("extdata", "initial-stratum.tif", 
                           package = "rsyncrosim")
 sclassTif <- system.file("extdata", "initial-sclass.tif", 
@@ -171,191 +367,19 @@ ageTif <- system.file("extdata", "initial-age.tif",
 ```
 
 
-
-### Project Definitions
-
-In order to run a model in SyncroSim, we first need to setup all of the required model inputs. Inputs for `stsim` come in two forms: Scenario inputs (which *can* vary by Scenario) and Project inputs (which *must* be fixed across all Scenarios). In general most inputs are Scenario inputs; Project inputs are typically reserved for values that must be shared by all Scenarios (e.g. constants, shared lookup values).
-
-Let's begin by configuring our Project inputs. All inputs in SyncroSim are stored in Datasheets. We say that inputs associated with a Project are *project-scoped Datasheets*. For example, in *stsim* there is a project-scoped Datasheet called *Terminology* specifying terms used across all Scenarios. We will use the `datasheet` function to retrieve the current values for this Datasheet, as currently stored in the SyncroSim Library file.
-
-```{r}
-# Returns a dataframe of the Terminology Datasheet
-sheetData <- datasheet(myProject, name="stsim_Terminology")
-str(sheetData)
-```
-
-We can now change the terminology of the `StateLabelX` and `AmountUnits` columns in our Datasheet, and then save those changes back to the SyncroSim Library file.
-
-```{r}
-# Edit the dataframe values
-sheetData$AmountUnits <- "Hectares"
-sheetData$StateLabelX <- "Forest Type"
-
-# Saves the edits back to the Library file
-saveDatasheet(myProject, sheetData, "stsim_Terminology") 
-```
-
-Similarly we can edit other Project-scoped Datasheets for *stsim*. 
-
-**Stratum**:  Primary Strata in the model
-```{r}
-# Retrieves an empty copy of the Datasheet
-sheetData <- datasheet(myProject, "stsim_Stratum", empty = TRUE)
-
-# Helper function in rsyncrosim to add rows to dataframes
-sheetData <- addRow(sheetData, "Entire Forest")
-
-# Save edits to file
-saveDatasheet(myProject, sheetData, "stsim_Stratum", force = TRUE)
-```
-
-**StateLabelX**: First dimension of labels for State Classes
-```{r}
-forestTypes <- c("Coniferous", "Deciduous", "Mixed")
-saveDatasheet(myProject, data.frame(Name = forestTypes), "stsim_StateLabelX", force = TRUE)
-```
-
-**StateLabelY**: Second dimension of labels for State Classes
-```{r}
-saveDatasheet(myProject, data.frame(Name = c("All")), "stsim_StateLabelY", force = TRUE)
-```
-
-**State Classes**: Combines **StateLabelX** and **StateLabelY**; assigns each one a unique name and ID
-```{r}
-stateClasses <- data.frame(Name = forestTypes)
-stateClasses$StateLabelXID <- stateClasses$Name
-stateClasses$StateLabelYID <- "All"
-stateClasses$ID <- c(1, 2, 3)
-saveDatasheet(myProject, stateClasses, "stsim_StateClass", force = TRUE)
-```
-
-**Transition Types**: Defines the types of transition in our model; assigns each one a unique name and ID
-```{r}
-transitionTypes <- data.frame(Name = c("Fire", "Harvest", "Succession"), ID = c(1, 2, 3))
-saveDatasheet(myProject, transitionTypes, "stsim_TransitionType", force = TRUE)
-```
-
-**Transition Groups**: Makes the Groups identical to the Types
-```{r}
-transitionGroups <- data.frame(Name = c("Fire", "Harvest", "Succession"))
-saveDatasheet(myProject, transitionGroups, "TransitionGroup", force = T)
-```
-
-**Transition Types by Groups**: Assigns each Type to its Group
-```{r}
-transitionTypesGroups <- data.frame(TransitionTypeID = transitionTypes$Name,
-                                    TransitionGroupID = transitionGroups$Name)
-saveDatasheet(myProject, transitionTypesGroups, "TransitionTypeGroup", force = T)
-```
-
-**Ages** defines the basic parameters to control the age reporting in the model
-```{r}
-ageFrequency <- 1
-ageMax <- 101
-ageGroups <- c(20, 40, 60, 80, 100)
-
-saveDatasheet(myProject, data.frame(Frequency = ageFrequency, MaximumAge = ageMax),
-              "AgeType", force = TRUE)
-saveDatasheet(myProject, data.frame(MaximumAge = ageGroups), "stsim_AgeGroup", force = TRUE)
-```
-
-### Scenario Inputs
-
-Now that we have defined all our Project level definitions we can move on to specifying scenario-specific model inputs. We begin by using the `scenario` function to create a new Scenario in our Project.
-
-```{r}
-myScenario <- scenario(myProject, "No Harvest")
-```
-
-Once again we can use the `datasheet` function (with `summary=TRUE`) to display all the scenario-scoped Datasheets.
-
-```{r, eval = FALSE}
-# Subset the list to show only Scenario Datasheets
-subset(datasheet(myScenario, summary = TRUE), scope == "scenario")
-```
-
-We can now use the `datasheet` function to retrieve, one at a time, each of our Scenario-scoped Datasheets from our Library.
-
-**Run Control** defines the length of the run and whether or not it is a spatial run (requires spatial inputs to be set, see below). Here we make the run spatial:
-```{r}
-# Run simulation for 7 realizations and 10 timesteps
-sheetName <- "stsim_RunControl"
-sheetData <- data.frame(MaximumIteration = 7,
-                        MinimumTimestep = 0,
-                        MaximumTimestep = 10,
-                        isSpatial = TRUE)
-saveDatasheet(myScenario, sheetData, sheetName)
-```
-
-**Deterministic Transitions** first define transitions that take place in the absence of probabilistic transitions. Here we also set the age boundaries for each State Class:
-```{r}
-# Add all the deterministic transitions
-sheetName <- "stsim_DeterministicTransition"
-sheetData <- datasheet(myScenario, sheetName, optional = T, empty = T)
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Coniferous",
-                                          StateClassIDDest = "Coniferous",
-                                          AgeMin = 21,
-                                          Location = "C1"))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Deciduous",
-                                          StateClassIDDest = "Deciduous",
-                                          Location = "A1"))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Mixed",
-                                          StateClassIDDest = "Mixed",
-                                          AgeMin = 11,
-                                          Location = "B1"))
-saveDatasheet(myScenario, sheetData, sheetName)
-```
-
-**Probabilistic Transitions** define the transitions between State Classes and assigns a probability to each:
-```{r}
-# Add all the probabilistic transition pathways
-sheetName <- "stsim_Transition"
-sheetData <- datasheet(myScenario, sheetName, optional = T, empty = T)
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Coniferous", 
-                                          StateClassIDDest = "Deciduous", 
-                                          TransitionTypeID = "Fire", 
-                                          Probability = 0.01))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Coniferous",
-                                          StateClassIDDest = "Deciduous", 
-                                          TransitionTypeID = "Harvest", 
-                                          Probability = 1, 
-                                          AgeMin = 40))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Deciduous",
-                                          StateClassIDDest = "Deciduous", 
-                                          TransitionTypeID = "Fire", 
-                                          Probability = 0.002))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Deciduous",
-                                          StateClassIDDest = "Mixed", 
-                                          TransitionTypeID = "Succession", 
-                                          Probability = 0.1, 
-                                          AgeMin = 10))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Mixed", 
-                                          StateClassIDDest = "Deciduous", 
-                                          TransitionTypeID = "Fire", 
-                                          Probability = 0.005))
-sheetData <- addRow(sheetData, data.frame(StateClassIDSource = "Mixed", 
-                                          StateClassIDDest = "Coniferous",
-                                          TransitionTypeID = "Succession", 
-                                          Probability = 0.1, 
-                                          AgeMin = 20))
-saveDatasheet(myScenario, sheetData, sheetName)
-```
-
-**Initial Conditions** sets the starting conditions of the model at time 0. There are two options for setting initial conditions: either spatial or non-spatial. In this example we will use spatial initial conditions; however we demonstrate below how also to set initial conditions non-spatially.
-
-* ***Initial Conditions: Option 1 - Spatial***. Let's first take a look at our rasters.
-
 ```{r, fig.align="center", fig.dim = c(5,5)}
+# Create raster layers from the .tif files
 rStratum <- raster(stratumTif)
 rSclass <- raster(sclassTif)
 rAge <- raster(ageTif)
 
+# Plot raster layers
 plot(rStratum)
 plot(rSclass)
 plot(rAge)
 ```
 
-We can add these rasters as model inputs using the `stsim_InitialConditionsSpatial` datasheet.
+We can add these rasters as model inputs using the `stsim_InitialConditionsSpatial` Datasheet.
 
 ```{r}
 sheetName <- "stsim_InitialConditionsSpatial"
@@ -376,7 +400,7 @@ plot(rSclassTest)
 plot(rAgeTest)
 ```
 
-***Initial Conditions: Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial parameterization. To do so we use the 
+* ***Initial Conditions: Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial parameterization. To do so we use the 
 `stsim_InitialConditionsNonSpatial` and `stsim_InitialConditionsNonSpatialDistribution` datasheets:
 ```{r}
 sheetName <- "stsim_InitialConditionsNonSpatial"
