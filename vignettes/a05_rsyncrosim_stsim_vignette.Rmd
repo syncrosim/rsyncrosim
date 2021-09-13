@@ -158,7 +158,7 @@ The Project-scoped Datasheet called *Terminology* specifies terms used across al
 
 ```{r}
 # Load the Terminology Datasheet to a new R data frame 
-inputTerminology <- datasheet(myProject, name="stsim_Terminology")
+terminology <- datasheet(myProject, name="stsim_Terminology")
 
 # Check the columns of the Terminology data frame
 str(inputTerminology)
@@ -350,9 +350,9 @@ pTransitions <- addRow(pTransitions, data.frame(StateClassIDSource = "Mixed",
 saveDatasheet(myScenario, pTransitions, "stsim_Transition")
 ```
 
-**Initial Conditions**: Set the starting conditions of the model at time 0. There are two options for setting initial conditions: either spatial or non-spatial. In this example we will use spatial initial conditions; however, we also demonstrat how to set initial conditions non-spatially below.
+**Initial Conditions**: Set the starting conditions of the model at time 0. There are two options for setting initial conditions: either spatial or non-spatial. In this example we will use spatial initial conditions; however, we also demonstrate how to set initial conditions non-spatially below.
 
-* ***Initial Conditions: Option 1 - Spatial***. Let's first take a look at our rasters.
+* ***Option 1 - Spatial***. Let's first take a look at our rasters.
 
 First we will retrieve the sample raster files (in GeoTIFF format) provided with the `rsyncrosim` package. 
 
@@ -382,74 +382,94 @@ plot(rAge)
 We can add these rasters as model inputs using the `stsim_InitialConditionsSpatial` Datasheet.
 
 ```{r}
-sheetName <- "stsim_InitialConditionsSpatial"
-sheetData <- list(StratumFileName = stratumTif, 
+# Create an R list of the input raster layers
+ICSpatial <- list(StratumFileName = stratumTif, 
                   StateClassFileName = sclassTif, 
                   AgeFileName = ageTif)
-saveDatasheet(myScenario, sheetData, sheetName)
+
+# Save initialConditionsSpatial R list to a SyncroSim Datasheet
+saveDatasheet(myScenario, ICSpatial, "stsim_InitialConditionsSpatial")
 ```
 
-Let's check if the rasters were entered correctly. We can extract rasters with `datasheetRaster` function.
+Let's check if the rasters were entered correctly. We can extract rasters with the `datasheetRaster()` function.
 
 ```{r, fig.align="center", fig.dim = c(5,5), eval=FALSE}
-rStratumTest <- datasheetRaster(myScenario, sheetName, "StratumFileName")
-rSclassTest <- datasheetRaster(myScenario, sheetName, "StateClassFileName")
-rAgeTest <- datasheetRaster(myScenario, sheetName, "AgeFileName")
+# Load input raster layers from the `stsim_InitialConditionsSpatial` Datasheet.
+rStratumTest <- datasheetRaster(myScenario, "stsim_InitialConditionsSpatial", "StratumFileName")
+rSclassTest <- datasheetRaster(myScenario, "stsim_InitialConditionsSpatial", "StateClassFileName")
+rAgeTest <- datasheetRaster(myScenario, "stsim_InitialConditionsSpatial", "AgeFileName")
+
+# Plot raster layers
 plot(rStratumTest)
 plot(rSclassTest)
 plot(rAgeTest)
 ```
 
-* ***Initial Conditions: Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial parameterization. To do so we use the 
-`stsim_InitialConditionsNonSpatial` and `stsim_InitialConditionsNonSpatialDistribution` datasheets:
+* ***Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial parameterization. To do so, we use the `stsim_InitialConditionsNonSpatial` and `stsim_InitialConditionsNonSpatialDistribution` datasheets:
 ```{r}
-sheetName <- "stsim_InitialConditionsNonSpatial"
-sheetData <- data.frame(TotalAmount = 100, 
-                        NumCells = 100, 
-                        CalcFromDist = F)
-saveDatasheet(myScenario, sheetData, sheetName)
-datasheet(myScenario, sheetName)
+# Create non-spatial initial conditions data and add it to an R data frame
+ICNonSpatial <- data.frame(TotalAmount = 100, 
+                           NumCells = 100, 
+                           CalcFromDist = F)
 
-sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
-sheetData <- data.frame(StratumID = "Entire Forest", 
-                        StateClassID = "Coniferous", 
-                        RelativeAmount = 1)
-saveDatasheet(myScenario, sheetData, sheetName)
-datasheet(myScenario, sheetName)
+# Save the ICNonSpatial R data frame to a SyncroSim Datasheet
+saveDatasheet(myScenario, ICNonSpatial, "stsim_InitialConditionsNonSpatial")
+
+# View the updated Datasheet
+datasheet(myScenario, "stsim_InitialConditionsNonSpatial")
+
+# Create non-spatial initial conditions distribution data and add it to an R data frame
+ICNonSpatialDistribution <- data.frame(StratumID = "Entire Forest", 
+                                       StateClassID = "Coniferous", 
+                                       RelativeAmount = 1)
+
+# Save the ICNonSpatial R data frame to a SyncroSim Datasheet
+saveDatasheet(myScenario, ICNonSpatialDistribution, "stsim_InitialConditionsNonSpatialDistribution")
+
+# View the updated Datasheet
+datasheet(myScenario, "stsim_InitialConditionsNonSpatialDistribution")
 ```
 
-**Transition Targets** defines targets, in units of area, to be reached by the allocation procedure within SyncroSim:
+**Transition Targets**: Define targets, in units of area, to be reached by the allocation procedure within SyncroSim.
 ```{r}
-# Transition targets - set harvest to 0 for this scenario
+# Set the transition target for harvest to 0
 saveDatasheet(myScenario, 
               data.frame(TransitionGroupID = "Harvest", 
                          Amount = 0),
               "stsim_TransitionTarget")
 ```
 
-**Output Options** regulates the model outputs and determines the frequency at which syncrosim saves the model outputs:
+**Output Options**: Regulate the model outputs and determine the frequency at which syncrosim saves the model outputs.
 ```{r}
-# Output options
-# datasheet(myScenario, "stsim_OutputOptions")
-sheetData <- data.frame(
-  SummaryOutputSC = T, SummaryOutputSCTimesteps = 1,
-  SummaryOutputTR = T, SummaryOutputTRTimesteps = 1
-)
-saveDatasheet(myScenario, sheetData, "stsim_OutputOptions")
-sheetData <- data.frame(
+# Create output options for spatial model and add it to an R data frame
+outputOptionsSpatial <- data.frame(
   RasterOutputSC = T, RasterOutputSCTimesteps = 1,
   RasterOutputTR = T, RasterOutputTRTimesteps = 1,
   RasterOutputAge = T, RasterOutputAgeTimesteps = 1
 )
-saveDatasheet(myScenario, sheetData, "stsim_OutputOptionsSpatial")
+
+# Save the outputOptionsSpatial R data frame to a SyncroSim Datasheet
+saveDatasheet(myScenario, outputOptionsSpatial, "stsim_OutputOptionsSpatial")
+
+# Create output options for non-spatial model and add it to an R data frame
+outputOptionsNonSpatial <- data.frame(
+  SummaryOutputSC = T, SummaryOutputSCTimesteps = 1,
+  SummaryOutputTR = T, SummaryOutputTRTimesteps = 1
+)
+
+# Save the outputOptionsNonSpatial R data frame to a SyncroSim Datasheet
+saveDatasheet(myScenario, outputOptionsNonSpatial, "stsim_OutputOptions")
 ```
 
 We are done parameterizing our simple "No Harvest" scenario. Let's now define a new scenario that implements forest harvesting. Below, we create a second "Harvest" scenario that is a copy of the first scenario, but with a harvest level of 20 acres/year.
 
 ```{r}
+# Create a copy of the no harvest scenario (i.e myScenario) and name it myScenarioHarvest
 myScenarioHarvest <- scenario(myProject, 
                               scenario = "Harvest", 
                               sourceScenario = myScenario)
+
+# Set the transition target for harvest to 20 acres/year
 saveDatasheet(myScenarioHarvest, data.frame(TransitionGroupID = "Harvest", 
                                             Amount = 20), 
               "stsim_TransitionTarget")
@@ -458,25 +478,29 @@ saveDatasheet(myScenarioHarvest, data.frame(TransitionGroupID = "Harvest",
 We can display the harvest levels for both scenarios.
 
 ```{r}
+# View the transition targets for the Harvest and No Harvest scenarios
 datasheet(myProject, scenario = c("Harvest", "No Harvest"), 
           name = "stsim_TransitionTarget")
 ```
 
-### Run Scenarios & View Results
+## Run Scenarios
 
-We can now run the Scenario and look at the results. We run both Scenarios together; each Monte Carlo realization is run in parallel as a separate multiprocessing job. Running a Scenario generates a corresponding new child Scenario, called a *Results Scenario*, which contains the results of the run along with a snapshot of all the model inputs.
+We will now run both Scenarios using the `run()` function in `rsyncrosim`. Running a Scenario generates a corresponding new child Scenario, called a *Results Scenario*, which contains the results of the run along with a snapshot of all the model inputs. If we have a large modeling workflow and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than one.
 
 ```{r}
-resultSummary <- run(myProject, scenario = c("Harvest", "No Harvest"), 
+myResultScenario <- run(myProject, scenario = c("Harvest", "No Harvest"), 
                      jobs = 7, summary = TRUE)
 ```
+
+
+## View results
 
 To look at the results we first need to retrieve the unique `scenarioId` for each child *Result Scenario*.
 
 ```{r}
-resultIDNoHarvest <- subset(resultSummary, 
+resultIDNoHarvest <- subset(myResultScenario, 
                             parentID == scenarioId(myScenario))$scenarioId
-resultIDHarvest <- subset(resultSummary, 
+resultIDHarvest <- subset(myResultScenario, 
                           parentID == scenarioId(myScenarioHarvest))$scenarioId
 ```
 
