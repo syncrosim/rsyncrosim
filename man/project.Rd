@@ -56,12 +56,13 @@ For each element of project:
 \examples{
 \donttest{
 # Set the file path and name of the new SsimLibrary
-myLibraryName <- file.path(tempdir(),"testlib")
+myLibraryName <- file.path(tempdir(),"testlib_project")
 
 # Set the SyncroSim Session, SsimLibrary, and Project
 mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
-myProject <- project(ssimObject = myLibrary, project = "My new project name")
+myProject <- project(ssimObject = myLibrary, project = "My project name")
+myproject2 <- project(ssimObject = myLibrary, project = "My new project name")
 
 # Get a named list of existing Projects
 # Each element in the list is named by a character version of the Project ID

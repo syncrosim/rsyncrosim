@@ -86,7 +86,7 @@ envCreateTempFolder <- function(folderName) {
 #' 
 #' @examples 
 #' \dontrun{
-#' inputFolder <- runtimeInputFolder
+#' inputFolder <- runtimeInputFolder()
 #' }
 #' 
 #' @export
@@ -108,7 +108,7 @@ runtimeInputFolder <- function(scenario, datasheetName) {
 #' Returns a folder name for the specified datasheet.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' outputFolder <- runtimeOutputFolder()
 #' }
 #' 

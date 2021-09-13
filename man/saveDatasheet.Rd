@@ -120,7 +120,7 @@ About the 'append' argument:
 addPackage("helloworldEnhanced")
 
 # Set the file path and name of the new SsimLibrary
-myLibraryName <- file.path(tempdir(),"testlib")
+myLibraryName <- file.path(tempdir(),"testlib_saveDatasheet")
 
 # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 mySession <- session()
@@ -142,12 +142,6 @@ myDatasheet$MaximumTimestep <- 10
 
 # Save Datasheet
 saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")
-
-# Append to a Datasheet rather than overwriting
-myDatasheet$MaximumTimestep <- 5
-
-saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
-              append = TRUE)
           
 # Import data after saving
 saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
@@ -155,7 +149,7 @@ saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
         
 # Save the new Datasheet to a specified output path
 saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
-              path = temp_dir)
+              path = tempdir())
               
 # Save a raster stack using fileData
 # Create a raster stack - add as many raster files as you want here

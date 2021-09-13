@@ -81,7 +81,7 @@ Scenario associated with a SsimLibrary." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -188,18 +188,19 @@ update) and <code>FALSE</code> upon failure.</p>
 
 <span class='co'># Set the SyncroSim Session, SsimLibrary, and Project</span>
 <span class='va'>mySession</span> <span class='op'>&lt;-</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>myLibrary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ssimLibrary.html'>ssimLibrary</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='va'>myLibraryName</span>, session <span class='op'>=</span> <span class='va'>mySession</span><span class='op'>)</span>
-<span class='va'>myProject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span><span class='op'>(</span><span class='va'>myLibrary</span>, name <span class='op'>=</span> <span class='st'>"My Project"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in project(myLibrary, name = "My Project"): unused argument (name = "My Project")</span></div><div class='input'>
+<span class='va'>myLibrary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ssimLibrary.html'>ssimLibrary</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='va'>myLibraryName</span>, session <span class='op'>=</span> <span class='va'>mySession</span>,
+                         overwrite<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>myProject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span><span class='op'>(</span><span class='va'>myLibrary</span>, project <span class='op'>=</span> <span class='st'>"My Project"</span><span class='op'>)</span>
+
 <span class='co'># Update Project</span>
 <span class='fu'>ssimUpdate</span><span class='op'>(</span><span class='va'>myProject</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'ssimObject' in selecting a method for function 'ssimUpdate': object 'myProject' not found</span></div><div class='input'>
+
 <span class='co'># Create Scenario</span>
-<span class='va'>myScenario</span> <span class='op'>&lt;-</span> <span class='fu'><a href='scenario.html'>scenario</a></span><span class='op'>(</span><span class='va'>myLibrary</span>, name <span class='op'>=</span> <span class='st'>"MyScenario"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in scenario(myLibrary, name = "MyScenario"): unused argument (name = "MyScenario")</span></div><div class='input'>
+<span class='va'>myScenario</span> <span class='op'>&lt;-</span> <span class='fu'><a href='scenario.html'>scenario</a></span><span class='op'>(</span><span class='va'>myLibrary</span>, scenario <span class='op'>=</span> <span class='st'>"My Scenario"</span><span class='op'>)</span>
+
 <span class='co'># Update scenario</span>
 <span class='fu'>ssimUpdate</span><span class='op'>(</span><span class='va'>myScenario</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'ssimObject' in selecting a method for function 'ssimUpdate': object 'myScenario' not found</span></div><div class='input'><span class='co'># }</span>
+<span class='co'># }</span>
 
 </div></pre>
   </div>
