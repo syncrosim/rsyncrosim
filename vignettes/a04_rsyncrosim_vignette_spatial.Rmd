@@ -56,7 +56,6 @@ if (is.element("helloworldTime", installedPackages$name)) removePackage("hellowo
 if (is.element("helloworldUncertainty", installedPackages$name)) removePackage("helloworldUncertainty", force = TRUE)
 if (is.element("helloworldPipeline", installedPackages$name)) removePackage("helloworldPipeline", force = TRUE)
 if (is.element("helloworldSpatial", installedPackages$name)) removePackage("helloworldSpatial", force = TRUE)
-if (is.element("landfirevegmodels", installedPackages$name)) removePackage("landfirevegmodels", force = TRUE)
 if (is.element("stsim", installedPackages$name)) removePackage("stsim", force = TRUE)
 if (is.element("stsimsf", installedPackages$name)) removePackage("stsimsf", force = TRUE)
 ```

@@ -214,7 +214,7 @@ before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</cod
 <span class='co'># Use a default session to create a new SsimLibrary in the current working directory</span>
 <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>command</span><span class='op'>(</span><span class='va'>args</span>, session <span class='op'>=</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span>printCmd <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "--version"
-#&gt; [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpywAF04/testlib.ssim --package=stsim"</div><div class='input'><span class='va'>output</span>
+#&gt; [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpS8896W/testlib.ssim --package=stsim"</div><div class='input'><span class='va'>output</span>
 </div><div class='output co'>#&gt; character(0)
 #&gt; attr(,"status")
 #&gt; [1] 65535</div><div class='input'>
@@ -259,8 +259,13 @@ before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</cod
 #&gt; [11] "  --help        Prints help for an argument."  </div><div class='input'>
 <span class='co'># Call on a different program to find all installed packages</span>
 <span class='fu'>command</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>installed <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>, program <span class='op'>=</span> <span class='st'>"SyncroSim.PackageManager.exe"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "helloworldSpatial      Example demonstrating how to use spatial data         1.0.0      "
-#&gt; [2] "stsim                  The ST-Sim state-and-transition simulation model      3.3.2      "</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; [1] "helloworldSpatial      Example demonstrating how to use spatial data                                                 1.0.1       "
+#&gt; [2] "landfirevegmodels      Landfire vegetation models                                                                    1.1.0       "
+#&gt; [3] "lucas                  Land Use and Carbon Scenario Simulator (LUCAS)                                                1.0.5       "
+#&gt; [4] "netlogo                Runs the NetLogo agent-based modeling environment                                             1.2.0       "
+#&gt; [5] "stconnect              Connectivity planning for future climate and land-use change                                  1.1.14      "
+#&gt; [6] "stsim                  The ST-Sim state-and-transition simulation model                                              3.3.3       "
+#&gt; [7] "stsimecodep            Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class      3.3.0       "</div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

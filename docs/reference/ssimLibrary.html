@@ -286,11 +286,11 @@ any required updates. If <code>TRUE</code>, required updates will be applied sil
                          addon <span class='op'>=</span> <span class='st'>"stsimsf"</span><span class='op'>)</span>
 
 <span class='co'># Create SsimLibrary from template</span>
-<span class='fu'><a href='addPackage.html'>addPackage</a></span><span class='op'>(</span><span class='st'>"helloworldEnhanced"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Package &lt;helloworldEnhanced&gt; is already installed</span></div><div class='input'><span class='va'>mySession</span> <span class='op'>&lt;-</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='addPackage.html'>addPackage</a></span><span class='op'>(</span><span class='st'>"helloworldSpatial"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Package &lt;helloworldSpatial&gt; is already installed</span></div><div class='input'><span class='va'>mySession</span> <span class='op'>&lt;-</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>myLibrary</span> <span class='op'>&lt;-</span> <span class='fu'>ssimLibrary</span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"mylib"</span><span class='op'>)</span>, 
                          session <span class='op'>=</span> <span class='va'>mySession</span>,
-                         package <span class='op'>=</span> <span class='st'>"helloworldEnhanced"</span>,
+                         package <span class='op'>=</span> <span class='st'>"helloworldSpatial"</span>,
                          template <span class='op'>=</span> <span class='st'>"example-library"</span>,
                          overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Scenarios available in this template:    My Scenario</span></div><div class='input'><span class='co'># }</span>

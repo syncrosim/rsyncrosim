@@ -111,11 +111,11 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          addon = "stsimsf")
 
 # Create SsimLibrary from template
-addPackage("helloworldEnhanced")
+addPackage("helloworldSpatial")
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,
-                         package = "helloworldEnhanced",
+                         package = "helloworldSpatial",
                          template = "example-library",
                          overwrite = TRUE)
 }

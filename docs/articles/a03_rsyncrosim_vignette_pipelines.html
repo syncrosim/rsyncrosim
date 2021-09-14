@@ -157,8 +157,27 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>##                 name                                description version
-## 1 helloworldPipeline Example demonstrating how to use pipelines   1.0.0</code></pre>
+<pre><code>##                 name
+## 1 helloworldPipeline
+## 2  landfirevegmodels
+## 3              lucas
+## 4            netlogo
+## 5          stconnect
+## 6        stsimecodep
+##                                                                                description
+## 1                                               Example demonstrating how to use pipelines
+## 2                                                               Landfire vegetation models
+## 3                                           Land Use and Carbon Scenario Simulator (LUCAS)
+## 4                                        Runs the NetLogo agent-based modeling environment
+## 5                             Connectivity planning for future climate and land-use change
+## 6 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
+##   version
+## 1   1.0.0
+## 2   1.1.0
+## 3   1.0.5
+## 4   1.2.0
+## 5  1.1.14
+## 6   3.3.0</code></pre>
 </div>
 <div id="connecting-r-to-syncrosim-using-session" class="section level3">
 <h3 class="hasAnchor">
@@ -176,7 +195,7 @@
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.3"</code></pre>
+<pre><code>## [1] "2.3.5"</code></pre>
 </div>
 </div>
 <div id="create-a-modeling-workflow" class="section level2">
@@ -386,13 +405,13 @@
 
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep       y
-## 1         1        1  7.5325
-## 2         1        2 12.0650
-## 3         1        3 16.5976
-## 4         1        4 21.1301
-## 5         1        5 25.6626
-## 6         1        6 30.1951</code></pre>
+<pre><code>##   Iteration Timestep      y
+## 1         1        1 3.0995
+## 2         1        2 3.1989
+## 3         1        3 3.2984
+## 4         1        4 3.3978
+## 5         1        5 3.4973
+## 6         1        6 3.5968</code></pre>
 <p>We can see that for every timestep in an iteration we have a new value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
 <div id="viewing-final-results-with-datasheet" class="section level3">
