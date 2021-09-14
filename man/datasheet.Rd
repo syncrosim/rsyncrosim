@@ -156,8 +156,8 @@ Otherwise, for each element in name a Datasheet is returned as follows:
 }
 \examples{
 \donttest{
-# Install helloworldEnhanced package from package server
-addPackage("helloworldEnhanced")
+# Install helloworldSpatial package from package server
+addPackage("helloworldSpatial")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib_datasheet")
@@ -165,10 +165,10 @@ myLibraryName <- file.path(tempdir(),"testlib_datasheet")
 # Set the SyncroSim Session
 mySession <- session()
 
-# Create a new SsimLibrary with the example template from helloworldEnhanced
+# Create a new SsimLibrary with the example template from helloworldSpatial
 myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession, 
-                         package = "helloworldEnhanced",
+                         package = "helloworldSpatial",
                          template = "example-library")
                          
 # Set the Project and Scenario
@@ -196,7 +196,7 @@ myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE,
 
 # Return Datasheet as an element
 myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
-myDatasheet$helloworldEnhanced_RunControl
+myDatasheet$helloworldSpatial_RunControl
 
 # Get a Datasheet without pre-specified values
 myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)

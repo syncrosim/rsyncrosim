@@ -113,8 +113,8 @@ For Datasheets containing Filename this is:
 }
 \examples{
 \donttest{
-# Install the helloworldEnhanced package from the server
-addPackage("helloworldEnhanced")
+# Install the helloworldSpatial package from the server
+addPackage("helloworldSpatial")
 
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib_datasheetRaster")
@@ -122,10 +122,10 @@ myLibraryName <- file.path(tempdir(), "testlib_datasheetRaster")
 # Set up a SyncroSim Session
 mySession <- session()
 
-# Use the example template library from helloworldEnhanced
+# Use the example template library from helloworldSpatial
 myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession,
-                         package = "helloworldEnhanced",
+                         package = "helloworldSpatial",
                          template = "example-library",
                          overwrite=TRUE)
 

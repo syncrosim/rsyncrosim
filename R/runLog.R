@@ -14,8 +14,8 @@ NULL
 #' 
 #' @examples 
 #' \dontrun{
-#' # Install helloworldEnhanced package
-#' addPackage("helloworldEnhanced")
+#' # Install helloworldSpatial package
+#' addPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
@@ -24,7 +24,7 @@ NULL
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession, 
-#'                          package = "helloworldEnhanced",
+#'                          package = "helloworldSpatial",
 #'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")

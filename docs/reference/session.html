@@ -226,19 +226,49 @@ to use the new software.</p>
 </div><div class='output co'>#&gt; [1] "C:/Program Files/SyncroSim"</div><div class='input'>
 <span class='co'># Lists the version of SyncroSim Session</span>
 <span class='fu'><a href='version.html'>version</a></span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2.3.3"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2.3.5"</div><div class='input'>
 <span class='co'># Data frame of the packages installed with this version of SyncroSim</span>
 <span class='fu'><a href='package.html'>package</a></span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt;                 name                                      description version
-#&gt; 1 helloworldEnhanced   Example demonstrating how to enhance a package   1.0.1
-#&gt; 2  helloworldSpatial    Example demonstrating how to use spatial data   1.0.0
-#&gt; 3              stsim The ST-Sim state-and-transition simulation model   3.3.2</div><div class='input'>
+</div><div class='output co'>#&gt;                name
+#&gt; 1 helloworldSpatial
+#&gt; 2 landfirevegmodels
+#&gt; 3             lucas
+#&gt; 4           netlogo
+#&gt; 5         stconnect
+#&gt; 6             stsim
+#&gt; 7       stsimecodep
+#&gt;                                                                                description
+#&gt; 1                                            Example demonstrating how to use spatial data
+#&gt; 2                                                               Landfire vegetation models
+#&gt; 3                                           Land Use and Carbon Scenario Simulator (LUCAS)
+#&gt; 4                                        Runs the NetLogo agent-based modeling environment
+#&gt; 5                             Connectivity planning for future climate and land-use change
+#&gt; 6                                         The ST-Sim state-and-transition simulation model
+#&gt; 7 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
+#&gt;   version
+#&gt; 1   1.0.1
+#&gt; 2   1.1.0
+#&gt; 3   1.0.5
+#&gt; 4   1.2.0
+#&gt; 5  1.1.14
+#&gt; 6   3.3.3
+#&gt; 7   3.3.0</div><div class='input'>
 <span class='co'># Data frame of the base packages installed with this version of SyncroSim</span>
 <span class='fu'><a href='package.html'>package</a></span><span class='op'>(</span><span class='va'>mySession</span>, installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt;                 name                                      description version
-#&gt; 1 helloworldEnhanced   Example demonstrating how to enhance a package   1.0.1
-#&gt; 2  helloworldSpatial    Example demonstrating how to use spatial data   1.0.0
-#&gt; 3              stsim The ST-Sim state-and-transition simulation model   3.3.2</div><div class='input'>
+</div><div class='output co'>#&gt;                name
+#&gt; 1 helloworldSpatial
+#&gt; 2 landfirevegmodels
+#&gt; 3             lucas
+#&gt; 4           netlogo
+#&gt; 5         stconnect
+#&gt; 6             stsim
+#&gt;                                                    description version
+#&gt; 1                Example demonstrating how to use spatial data   1.0.1
+#&gt; 2                                   Landfire vegetation models   1.1.0
+#&gt; 3               Land Use and Carbon Scenario Simulator (LUCAS)   1.0.5
+#&gt; 4            Runs the NetLogo agent-based modeling environment   1.2.0
+#&gt; 5 Connectivity planning for future climate and land-use change  1.1.14
+#&gt; 6             The ST-Sim state-and-transition simulation model   3.3.3</div><div class='input'>
 <span class='co'># Set a new SyncroSim Session for the SyncroSim Project</span>
 <span class='fu'>session</span><span class='op'>(</span><span class='va'>myProject</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>session</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='filepath.html'>filepath</a></span><span class='op'>(</span><span class='fu'>session</span><span class='op'>(</span><span class='va'>myProject</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># }</span>

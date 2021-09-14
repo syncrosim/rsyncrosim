@@ -69,12 +69,10 @@ if (is.element("demosales", installedPackages$name)) removePackage("demosales", 
 if (is.element("dgsim", installedPackages$name)) removePackage("dgsim", force = TRUE)
 if (is.element("epi", installedPackages$name)) removePackage("epi", force = TRUE)
 if (is.element("helloworld", installedPackages$name)) removePackage("helloworld", force = TRUE)
-if (is.element("helloworldEnhanced", installedPackages$name)) removePackage("helloworldEnhanced", force = TRUE)
 if (is.element("helloworldTime", installedPackages$name)) removePackage("helloworldTime", force = TRUE)
 if (is.element("helloworldUncertainty", installedPackages$name)) removePackage("helloworldUncertainty", force = TRUE)
 if (is.element("helloworldPipeline", installedPackages$name)) removePackage("helloworldPipeline", force = TRUE)
 if (is.element("helloworldSpatial", installedPackages$name)) removePackage("helloworldSpatial", force = TRUE)
-if (is.element("landfirevegmodels", installedPackages$name)) removePackage("landfirevegmodels", force = TRUE)
 if (is.element("stsim", installedPackages$name)) removePackage("stsim", force = TRUE)
 if (is.element("stsimsf", installedPackages$name)) removePackage("stsimsf", force = TRUE)
 ```

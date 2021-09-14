@@ -44,8 +44,8 @@ NULL
 #' package(myLibrary)
 #' 
 #' # Check the templates available for an installed package
-#' addPackage("helloworldEnhanced")
-#' package(listTemplates = "helloworldEnhanced")
+#' addPackage("helloworldSpatial")
+#' package(listTemplates = "helloworldSpatial")
 #' }
 #' 
 #' @export

@@ -42,8 +42,8 @@ callbackFunction <- function(x, iteration, timestep) {
   print(paste0("Breakpoint hit: ", scenarioId(x)))
 }
 
-# Install helloworldEnhanced package
-addPackage("helloworldEnhanced")
+# Install helloworldSpatial package
+addPackage("helloworldSpatial")
 
 # Set SsimLibrary name
 myLibraryName <- file.path(tempdir(),"testlib")
@@ -52,12 +52,12 @@ myLibraryName <- file.path(tempdir(),"testlib")
 mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession,
-                         package = "helloworldEnhanced")
+                         package = "helloworldSpatial")
 myScenario <- scenario(myLibrary, "My Scenario")
 
 # Add breakpoints before the 1st and 2nd iterations
 myScenario <- addBreakpoint(x= myScenario,
-                            transformerName= "helloworldEnhanced_Primary",
+                            transformerName= "helloworldSpatial_Primary",
                             breakpointType = "bi", 
                             arguments = c(1,2),
                             callback = callbackFunction)

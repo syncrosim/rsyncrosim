@@ -157,8 +157,27 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>##                    name                                 description version
-## 1 helloworldUncertainty Example demonstrating how to use iterations   1.0.0</code></pre>
+<pre><code>##                    name
+## 1 helloworldUncertainty
+## 2     landfirevegmodels
+## 3                 lucas
+## 4               netlogo
+## 5             stconnect
+## 6           stsimecodep
+##                                                                                description
+## 1                                              Example demonstrating how to use iterations
+## 2                                                               Landfire vegetation models
+## 3                                           Land Use and Carbon Scenario Simulator (LUCAS)
+## 4                                        Runs the NetLogo agent-based modeling environment
+## 5                             Connectivity planning for future climate and land-use change
+## 6 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
+##   version
+## 1   1.0.0
+## 2   1.1.0
+## 3   1.0.5
+## 4   1.2.0
+## 5  1.1.14
+## 6   3.3.0</code></pre>
 </div>
 <div id="connecting-r-to-syncrosim-using-session" class="section level3">
 <h3 class="hasAnchor">
@@ -176,7 +195,7 @@
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.3"</code></pre>
+<pre><code>## [1] "2.3.5"</code></pre>
 </div>
 </div>
 <div id="create-a-modeling-workflow" class="section level2">
@@ -327,12 +346,12 @@
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check that we have two Scenarios, and one is a Results Scenario</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   scenarioId projectId                                          name isResult
-## 1          1         1                             My first scenario       No
-## 2          2         1 My first scenario ([1] @ 10-Sep-2021 9:43 AM)      Yes
-##   parentID owner          lastModified readOnly mergeDependencies
-## 1       NA   N/A 2021-09-10 at 9:43 AM       No                No
-## 2        1   N/A 2021-09-10 at 9:43 AM       No                No
+<pre><code>##   scenarioId projectId                                           name isResult
+## 1          1         1                              My first scenario       No
+## 2          2         1 My first scenario ([1] @ 14-Sep-2021 12:11 PM)      Yes
+##   parentID owner           lastModified readOnly mergeDependencies
+## 1       NA   N/A 2021-09-14 at 12:11 PM       No                No
+## 2        1   N/A 2021-09-14 at 12:11 PM       No                No
 ##   ignoreDependencies autoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
@@ -354,12 +373,12 @@
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep       y
-## 1         1        1  4.8647
-## 2         1        2  6.7294
-## 3         1        3  8.5940
-## 4         1        4 10.4587
-## 5         1        5 12.3234
-## 6         1        6 14.1881</code></pre>
+## 1         1        1  9.2501
+## 2         1        2 15.5003
+## 3         1        3 21.7504
+## 4         1        4 28.0006
+## 5         1        5 34.2507
+## 6         1        6 40.5009</code></pre>
 </div>
 <div id="plotting-uncertainty-in-the-syncrosim-windows-user-interface" class="section level3">
 <h3 class="hasAnchor">
