@@ -56,22 +56,11 @@ code, and at the same time generate a permanent, repeatable record of
 their entire modeling workflow – including both pre- and post-processing
 of model inputs and outputs – in an R script.
 
-## About `ST-Sim`
-
-**ST-Sim** is a **SyncroSim** Package that lets you develop and run
-spatially-explicit, stochastic state-and-transition simulation models
-(<a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.12597" target="_blank">STSMs</a>)
-of landscape change.
-
-For more details consult the **ST-Sim**
-<a href="https://docs.stsim.net/index.html" target="_blank">online
-documentation</a>.
-
 ### Installation
 
 -   [Download](https://cran.r-project.org/package=rsyncrosim/) from CRAN
 
--   [Download](https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_install_beta.html)
+-   [Download](https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.html)
     from GitHub
 
 ### Getting Started
@@ -79,19 +68,19 @@ documentation</a>.
 -   Run the vignettes:
 
     -   [Introduction to
-        `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_basic.html)
+        `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html)
 
     -   [`rsyncrosim`: introduction to
-        uncertainty](https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_uncertainty.html)
+        uncertainty](https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html)
 
     -   [`rsyncrosim`: introduction to
-        pipelines](https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_pipelines.html)
+        pipelines](https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html)
 
     -   [`rsyncrosim`: introduction to spatial
-        data](https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_spatial.html)
+        data](https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.html)
 
     -   [Introduction to `ST-Sim` in
-        `rsyncrosim`](https://cran.r-project.org/package=rsyncrosim/vignettes/rsyncrosim_tutorial.html)
+        `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.html)
 
 -   View the package
     [documentation](https://cran.r-project.org/package=rsyncrosim/rsyncrosim.pdf)

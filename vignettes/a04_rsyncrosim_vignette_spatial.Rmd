@@ -43,37 +43,6 @@ library(rsyncrosim)  # package for working with SyncroSim
 library(raster)      # package for working with raster data
 ```
 
-### Installing SyncroSim packages using `addPackage()`
-
-```{r delete SyncroSim packages, echo = FALSE, results = FALSE, message = FALSE}
-installedPackages <- package()
-if (is.element("demosales", installedPackages$name)) removePackage("demosales", force = TRUE)
-if (is.element("dgsim", installedPackages$name)) removePackage("dgsim", force = TRUE)
-if (is.element("epi", installedPackages$name)) removePackage("epi", force = TRUE)
-if (is.element("helloworld", installedPackages$name)) removePackage("helloworld", force = TRUE)
-if (is.element("helloworldEnhanced", installedPackages$name)) removePackage("helloworldEnhanced", force = TRUE)
-if (is.element("helloworldTime", installedPackages$name)) removePackage("helloworldTime", force = TRUE)
-if (is.element("helloworldUncertainty", installedPackages$name)) removePackage("helloworldUncertainty", force = TRUE)
-if (is.element("helloworldPipeline", installedPackages$name)) removePackage("helloworldPipeline", force = TRUE)
-if (is.element("helloworldSpatial", installedPackages$name)) removePackage("helloworldSpatial", force = TRUE)
-if (is.element("stsim", installedPackages$name)) removePackage("stsim", force = TRUE)
-if (is.element("stsimsf", installedPackages$name)) removePackage("stsimsf", force = TRUE)
-```
-
-Install `helloworldSpatial` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
-
-```{r add package from server, warning = FALSE}
-# Install helloworldSpatial
-addPackage("helloworldSpatial")
-```
-
-`helloworldSpatial` should now be included in the package list returned by the `package()` function in `rsyncrosim`:
-
-```{r check packages 2, warning = FALSE}
-# Get list of installed packages
-package()
-```
-
 ### Connecting R to SyncroSim using `session()`
 
 Finish setting up the R environment for the `rsyncrosim` workflow by creating a SyncroSim Session object. Use the `session()` function to connect R to your installed copy of the SyncroSim software.
@@ -97,6 +66,34 @@ Use the `version()` function to ensure you are using the latest version of Syncr
 version(mySession)
 ```
 
+### Installing SyncroSim packages using `addPackage()`
+
+Install `helloworldSpatial` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+
+```{r remove package from server run, warning=FALSE, include=FALSE}
+installedPackages <- package()
+if (is.element(
+  "helloworldSpatial", installedPackages$name)) removePackage(
+    "helloworldSpatial", force = TRUE)
+```
+
+```{r add package from server, warning = FALSE}
+# Install helloworldSpatial
+addPackage("helloworldSpatial")
+```
+
+`helloworldSpatial` should now be included in the package list returned by the `package()` function in `rsyncrosim`:
+
+```{r check packages 2, warning = FALSE, eval=FALSE}
+# Get list of installed packages
+package()
+```
+
+```{r check packages run, warning=FALSE, echo=FALSE}
+spatial_pkg <- installedPackages[installedPackages$name == "helloworldSpatial", ]
+row.names(spatial_pkg) <- NULL
+spatial_pkg
+```
 
 ## Create a modeling workflow
 

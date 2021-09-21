@@ -1,15 +1,15 @@
 ---
-title: "Installing beta release"
+title: "Installing GitHub release"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Installing beta release}
+  %\VignetteIndexEntry{Installing GitHub release}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
-Follow these instructions to install the `rsyncrosim` beta release from GitHub.
+Follow these instructions to install the latest `rsyncrosim` release from GitHub.
 
 1. Open RStudio (or any R IDE)
 

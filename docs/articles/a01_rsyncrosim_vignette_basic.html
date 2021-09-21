@@ -73,10 +73,10 @@
       <a href="../articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a>
     </li>
     <li>
-      <a href="../articles/a05_rsyncrosim_stsim_vignette.html">Introduction to `ST-Sim` in `rsyncrosim`</a>
+      <a href="../articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a>
     </li>
     <li>
-      <a href="../articles/a06_rsyncrosim_install_beta.html">Installing beta release</a>
+      <a href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a>
     </li>
   </ul>
 </li>
@@ -156,34 +156,36 @@
 <code class="sourceCode R"><span class="co"># Load R package for working with SyncroSim</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://syncrosim.github.io/rsyncrosim">rsyncrosim</a></span><span class="op">)</span></code></pre></div>
 </div>
+<div id="connecting-r-to-syncrosim-using-session" class="section level3">
+<h3 class="hasAnchor">
+<a href="#connecting-r-to-syncrosim-using-session" class="anchor"></a>Connecting R to SyncroSim using <code>session()</code>
+</h3>
+<p>The next step in setting up the R environment for the <code>rsyncrosim</code> workflow is to create a SyncroSim Session object in R that provides the connection to your installed copy of the SyncroSim software. A new Session is created using the <code><a href="../reference/session.html">session()</a></code> function, in which the first argument is a path to the folder on your computer where SyncroSim has been installed. If the first argument is left blank, then the default install folder is used (Windows only).</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span>
+<span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span>
+<span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></code></pre></div>
+<pre><code>## class               : Session
+## filepath [character]: C:/Program Files/SyncroSim
+## silent [logical]    : TRUE
+## printCmd [logical]  : FALSE</code></pre>
+<p>You can check to see which version of SyncroSim your R script is connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2.3.5"</code></pre>
+</div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installing-syncrosim-packages-using-addpackage" class="anchor"></a>Installing SyncroSim packages using <code>addPackage()</code>
 </h3>
-<p>Check if the <a href="https://github.com/ApexRMS/helloworldTime" target="_blank">helloworldTime</a> package is already installed. Use the <code><a href="../reference/package.html">package()</a></code> function from <code>rsyncrosim</code> to first get a list of all currently installed packages in SyncroSim.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>Finally, check if the <a href="https://github.com/ApexRMS/helloworldTime" target="_blank">helloworldTime</a> package is already installed. Use the <code><a href="../reference/package.html">package()</a></code> function from <code>rsyncrosim</code> to first get a list of all currently installed packages in SyncroSim.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>##                name
-## 1 landfirevegmodels
-## 2             lucas
-## 3           netlogo
-## 4         stconnect
-## 5       stsimecodep
-##                                                                                description
-## 1                                                               Landfire vegetation models
-## 2                                           Land Use and Carbon Scenario Simulator (LUCAS)
-## 3                                        Runs the NetLogo agent-based modeling environment
-## 4                             Connectivity planning for future climate and land-use change
-## 5 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
-##   version
-## 1   1.1.0
-## 2   1.0.5
-## 3   1.2.0
-## 4  1.1.14
-## 5   3.3.0</code></pre>
+<pre><code>## [1] name        description version    
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 <p>Currently we do not have any packages installed! To see which packages are available from the SyncroSim package server, you can use the <code>installed = FALSE</code> argument in the <code><a href="../reference/package.html">package()</a></code> function.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">availablePackages</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span>installed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">availablePackages</span><span class="op">)</span></code></pre></div>
 <pre><code>##                 name
@@ -208,58 +210,21 @@
 ## 5   1.0.1
 ## 6   1.0.0</code></pre>
 <p>Install <code>helloworldTime</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install helloworldTime</span>
 <span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldTime"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Package &lt;helloworldTime&gt; installed</code></pre>
 <p>To install the package from a <code>.ssimpkg</code> file on your local computer rather than installing directly from the server, you can use the <code><a href="../reference/addPackage.html">addPackage()</a></code> function with the <code>filepath</code> argument set to <code>TRUE</code>. Instead of using the package name as the argument, the file path to the <code>.ssimpkg</code> is used.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install helloworldTime using file path to ssimpkg file</span>
 <span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"path/to/helloworldTime.ssimpkg"</span><span class="op">)</span></code></pre></div>
 <p>Now <code>helloworldTime</code> should be included in the package list:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>##                name
-## 1    helloworldTime
-## 2 landfirevegmodels
-## 3             lucas
-## 4           netlogo
-## 5         stconnect
-## 6       stsimecodep
-##                                                                                description
-## 1                                               Example demonstrating how to use timesteps
-## 2                                                               Landfire vegetation models
-## 3                                           Land Use and Carbon Scenario Simulator (LUCAS)
-## 4                                        Runs the NetLogo agent-based modeling environment
-## 5                             Connectivity planning for future climate and land-use change
-## 6 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
-##   version
-## 1   1.0.0
-## 2   1.1.0
-## 3   1.0.5
-## 4   1.2.0
-## 5  1.1.14
-## 6   3.3.0</code></pre>
+<pre><code>##             name                                description version
+## 1 helloworldTime Example demonstrating how to use timesteps   1.0.0</code></pre>
 <p><em>Note:</em> you can also update installed packages using the <code><a href="../reference/updatePackage.html">updatePackage()</a></code> function or delete installed packages using the <code><a href="../reference/removePackage.html">removePackage()</a></code> function in <code>rsyncrosim</code>.</p>
-</div>
-<div id="connecting-r-to-syncrosim-using-session" class="section level3">
-<h3 class="hasAnchor">
-<a href="#connecting-r-to-syncrosim-using-session" class="anchor"></a>Connecting R to SyncroSim using <code>session()</code>
-</h3>
-<p>The final step in setting up the R environment for the <code>rsyncrosim</code> workflow is to create a SyncroSim Session object in R that provides the connection to your installed copy of the SyncroSim software. A new Session is created using the <code><a href="../reference/session.html">session()</a></code> function, in which the first argument is a path to the folder on your computer where SyncroSim has been installed. If the first argument is left blank, then the default install folder is used (Windows only).</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span>
-<span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span>
-<span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></code></pre></div>
-<pre><code>## class               : Session
-## filepath [character]: C:/Program Files/SyncroSim
-## silent [logical]    : TRUE
-## printCmd [logical]  : FALSE</code></pre>
-<p>You can check to see which version of SyncroSim your R script is connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.5"</code></pre>
 </div>
 </div>
 <div id="create-a-modeling-workflow" class="section level2">
@@ -470,19 +435,19 @@
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get run details for the first result Scenario</span>
 <span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></code></pre></div>
-<pre><code>## Run Log                                                                                                                                                                                                                                                                                               
-## STARTING SIMULATION: 2021-09-14 : 12:10:14 PM
+<pre><code>## Run Log                                                                                                                                                                                                                                                                                            
+## STARTING SIMULATION: 2021-09-21 : 3:44:27 PM
 ## 
 ## Parent Scenario is: [1] My first scenario
-## Result scenario is: [2] My first scenario ([1] @ 14-Sep-2021 12:10 PM)
+## Result scenario is: [2] My first scenario ([1] @ 21-Sep-2021 3:44 PM)
 ## 
 ## CONFIGURING: Primary
 ## 
 ## RUNNING: Primary
 ## 
-## SIMULATION COMPLETE: 2021-09-14 : 12:10:22 PM
-## Total simulation time: 00:00:07</code></pre>
-<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                               \nSTARTING SIMULATION: 2021-09-14 : 12:10:14 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 14-Sep-2021 12:10 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2021-09-14 : 12:10:22 PM\nTotal simulation time: 00:00:07      "</code></pre>
+## SIMULATION COMPLETE: 2021-09-21 : 3:44:35 PM
+## Total simulation time: 00:00:08</code></pre>
+<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2021-09-21 : 3:44:27 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 21-Sep-2021 3:44 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2021-09-21 : 3:44:35 PM\nTotal simulation time: 00:00:08      "</code></pre>
 </div>
 </div>
 <div id="view-results" class="section level2">
@@ -496,12 +461,12 @@
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check Scenarios that currently exist in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   scenarioId projectId                                           name isResult
-## 1          1         1                              My first scenario       No
-## 2          2         1 My first scenario ([1] @ 14-Sep-2021 12:10 PM)      Yes
-##   parentID owner           lastModified readOnly mergeDependencies
-## 1       NA   N/A 2021-09-14 at 12:10 PM       No                No
-## 2        1   N/A 2021-09-14 at 12:10 PM       No                No
+<pre><code>##   scenarioId projectId                                          name isResult
+## 1          1         1                             My first scenario       No
+## 2          2         1 My first scenario ([1] @ 21-Sep-2021 3:44 PM)      Yes
+##   parentID owner          lastModified readOnly mergeDependencies
+## 1       NA   N/A 2021-09-21 at 3:44 PM       No                No
+## 2        1   N/A 2021-09-21 at 3:44 PM       No                No
 ##   ignoreDependencies autoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
@@ -559,9 +524,9 @@
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check which Scenarios you currently have in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                             name
-## 1                              My first scenario
-## 2 My first scenario ([1] @ 14-Sep-2021 12:10 PM)</code></pre>
+<pre><code>##                                            name
+## 1                             My first scenario
+## 2 My first scenario ([1] @ 21-Sep-2021 3:44 PM)</code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a new Scenario as a copy of an existing Scenario</span>
 <span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,
@@ -570,10 +535,10 @@
 
 <span class="co"># Make sure this new Scenario has been added to the Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                             name
-## 1                              My first scenario
-## 2 My first scenario ([1] @ 14-Sep-2021 12:10 PM)
-## 3                             My second scenario</code></pre>
+<pre><code>##                                            name
+## 1                             My first scenario
+## 2 My first scenario ([1] @ 21-Sep-2021 3:44 PM)
+## 3                            My second scenario</code></pre>
 <p>To edit the new Scenario, we must first load the contents of the input Datasheet and assign it to a new R data frame using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the <code>empty</code> argument to <code>TRUE</code> so that instead of getting the values from the existing Scenario, we can start with an empty data frame again.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load empty input Datasheets as an R data frame</span>
@@ -659,7 +624,7 @@
 <pre><code>##                    property                                      value
 ## 1                     Name:                          helloworldLibrary
 ## 2                    Owner:                                        N/A
-## 3            Last Modified:                     2021-09-14 at 12:10 PM
+## 3            Last Modified:                      2021-09-21 at 3:45 PM
 ## 4                     Size:                        188 KB  (192,512 B)
 ## 5                Read Only:                                         No
 ## 6             Package Name:                             helloworldTime

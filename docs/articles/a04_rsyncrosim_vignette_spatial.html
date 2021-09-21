@@ -73,10 +73,10 @@
       <a href="../articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a>
     </li>
     <li>
-      <a href="../articles/a05_rsyncrosim_stsim_vignette.html">Introduction to `ST-Sim` in `rsyncrosim`</a>
+      <a href="../articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a>
     </li>
     <li>
-      <a href="../articles/a06_rsyncrosim_install_beta.html">Installing beta release</a>
+      <a href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a>
     </li>
   </ul>
 </li>
@@ -145,47 +145,12 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>      <span class="co"># package for working with raster data</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
 </div>
-<div id="installing-syncrosim-packages-using-addpackage" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installing-syncrosim-packages-using-addpackage" class="anchor"></a>Installing SyncroSim packages using <code>addPackage()</code>
-</h3>
-<p>Install <code>helloworldSpatial</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Install helloworldSpatial</span>
-<span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Package &lt;helloworldSpatial&gt; installed</code></pre>
-<p><code>helloworldSpatial</code> should now be included in the package list returned by the <code><a href="../reference/package.html">package()</a></code> function in <code>rsyncrosim</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Get list of installed packages</span>
-<span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>##                name
-## 1 helloworldSpatial
-## 2 landfirevegmodels
-## 3             lucas
-## 4           netlogo
-## 5         stconnect
-## 6       stsimecodep
-##                                                                                description
-## 1                                            Example demonstrating how to use spatial data
-## 2                                                               Landfire vegetation models
-## 3                                           Land Use and Carbon Scenario Simulator (LUCAS)
-## 4                                        Runs the NetLogo agent-based modeling environment
-## 5                             Connectivity planning for future climate and land-use change
-## 6 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
-##   version
-## 1   1.0.1
-## 2   1.1.0
-## 3   1.0.5
-## 4   1.2.0
-## 5  1.1.14
-## 6   3.3.0</code></pre>
-</div>
 <div id="connecting-r-to-syncrosim-using-session" class="section level3">
 <h3 class="hasAnchor">
 <a href="#connecting-r-to-syncrosim-using-session" class="anchor"></a>Connecting R to SyncroSim using <code>session()</code>
 </h3>
 <p>Finish setting up the R environment for the <code>rsyncrosim</code> workflow by creating a SyncroSim Session object. Use the <code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of the SyncroSim software.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span>
 <span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span>
 <span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></code></pre></div>
@@ -194,9 +159,25 @@
 ## silent [logical]    : TRUE
 ## printCmd [logical]  : FALSE</code></pre>
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "2.3.5"</code></pre>
+</div>
+<div id="installing-syncrosim-packages-using-addpackage" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installing-syncrosim-packages-using-addpackage" class="anchor"></a>Installing SyncroSim packages using <code>addPackage()</code>
+</h3>
+<p>Install <code>helloworldSpatial</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Install helloworldSpatial</span>
+<span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Package &lt;helloworldSpatial&gt; installed</code></pre>
+<p><code>helloworldSpatial</code> should now be included in the package list returned by the <code><a href="../reference/package.html">package()</a></code> function in <code>rsyncrosim</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Get list of installed packages</span>
+<span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>##                name                                   description version
+## 1 helloworldSpatial Example demonstrating how to use spatial data   1.0.1</code></pre>
 </div>
 </div>
 <div id="create-a-modeling-workflow" class="section level2">
@@ -390,13 +371,13 @@
 
 <span class="co"># View results table of first Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep        y        OutputRasterFile
-## 1         1        1  88.4768 rasterMap_iter1_ts1.tif
-## 2         1        2 181.2877 rasterMap_iter1_ts2.tif
-## 3         1        3 274.0985 rasterMap_iter1_ts3.tif
-## 4         1        4 366.9093 rasterMap_iter1_ts4.tif
-## 5         1        5 459.7202 rasterMap_iter1_ts5.tif
-## 6         1        6 552.5310 rasterMap_iter1_ts6.tif</code></pre>
+<pre><code>##   Iteration Timestep       y        OutputRasterFile
+## 1         1        1 -2.5300 rasterMap_iter1_ts1.tif
+## 2         1        2 -0.7259 rasterMap_iter1_ts2.tif
+## 3         1        3  1.0781 rasterMap_iter1_ts3.tif
+## 4         1        4  2.8822 rasterMap_iter1_ts4.tif
+## 5         1        5  4.6862 rasterMap_iter1_ts5.tif
+## 6         1        6  6.4903 rasterMap_iter1_ts6.tif</code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load results of second Transformer in Pipeline</span>
 <span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -404,13 +385,13 @@
 
 <span class="co"># View results table of second Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep      yCum
-## 1         1        1   88.4768
-## 2         1        2  269.7645
-## 3         1        3  543.8630
-## 4         1        4  910.7723
-## 5         1        5 1370.4925
-## 6         1        6 1923.0235</code></pre>
+<pre><code>##   Iteration Timestep    yCum
+## 1         1        1 -2.5300
+## 2         1        2 -3.2559
+## 3         1        3 -2.1778
+## 4         1        4  0.7044
+## 5         1        5  5.3906
+## 6         1        6 11.8809</code></pre>
 <p>From viewing these Datasheets, we can see that the spatial output is contained within the <code>IntermediateDatasheet</code>, in the column called <code>OutputRasterFile</code>.</p>
 </div>
 <div id="viewing-spatial-results-with-datasheetraster" class="section level3">
@@ -437,7 +418,7 @@
 ## crs        : +proj=longlat +datum=WGS84 +no_defs 
 ## source     : rasterMap_iter1_ts5.tif 
 ## names      : rasterMap_iter1_ts5.it1.ts5 
-## values     : 15.93635, 20.68061  (min, max)</code></pre>
+## values     : -2.26501, 2.479248  (min, max)</code></pre>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>

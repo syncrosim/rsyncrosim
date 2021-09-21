@@ -7,8 +7,8 @@ articles:
   a03_rsyncrosim_vignette_pipelines: a03_rsyncrosim_vignette_pipelines.html
   a04_rsyncrosim_vignette_spatial: a04_rsyncrosim_vignette_spatial.html
   a05_rsyncrosim_stsim_vignette: a05_rsyncrosim_stsim_vignette.html
-  a06_rsyncrosim_install_beta: a06_rsyncrosim_install_beta.html
-last_built: 2021-09-14T19:04Z
+  a06_rsyncrosim_install_github: a06_rsyncrosim_install_github.html
+last_built: 2021-09-21T22:38Z
 urls:
   reference: https://syncrosim.github.io/rsyncrosim/reference
   article: https://syncrosim.github.io/rsyncrosim/articles

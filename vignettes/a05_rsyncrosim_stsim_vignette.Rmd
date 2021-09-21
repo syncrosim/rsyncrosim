@@ -2,7 +2,7 @@
 title: "`rsyncrosim`: introduction to `ST-Sim`"
 output: rmarkdown::html_vignette
 vignette: >
- %\VignetteIndexEntry{Introduction to `ST-Sim` in `rsyncrosim`}
+ %\VignetteIndexEntry{`rsyncrosim`: introduction to `ST-Sim`}
  %\VignetteEngine{knitr::rmarkdown}
  %\usepackage[utf8]{inputenc}
 params:
@@ -60,6 +60,13 @@ version(mySession)
 ### Installing SyncroSim packages using `addPackage()`
 
 Install `stsim` using the `rsyncrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+
+```{r remove package from server run, warning=FALSE, include=FALSE}
+installedPackages <- package()
+if (is.element(
+  "stsim", installedPackages$name)) removePackage(
+    "stsim", force = TRUE)
+```
 
 ```{r add package from server not run, warning=FALSE}
 # Install stsim

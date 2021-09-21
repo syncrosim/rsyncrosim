@@ -115,10 +115,10 @@
       <a href="../articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a>
     </li>
     <li>
-      <a href="../articles/a05_rsyncrosim_stsim_vignette.html">Introduction to `ST-Sim` in `rsyncrosim`</a>
+      <a href="../articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a>
     </li>
     <li>
-      <a href="../articles/a06_rsyncrosim_install_beta.html">Installing beta release</a>
+      <a href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a>
     </li>
   </ul>
 </li>
@@ -209,46 +209,79 @@ for a specified package.</p>
 
 <span class='co'># List all installed packages</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                name
-#&gt; 1 helloworldSpatial
-#&gt; 2 landfirevegmodels
-#&gt; 3             lucas
-#&gt; 4           netlogo
-#&gt; 5         stconnect
-#&gt; 6             stsim
-#&gt; 7       stsimecodep
-#&gt;                                                                                description
-#&gt; 1                                            Example demonstrating how to use spatial data
-#&gt; 2                                                               Landfire vegetation models
-#&gt; 3                                           Land Use and Carbon Scenario Simulator (LUCAS)
-#&gt; 4                                        Runs the NetLogo agent-based modeling environment
-#&gt; 5                             Connectivity planning for future climate and land-use change
-#&gt; 6                                         The ST-Sim state-and-transition simulation model
-#&gt; 7 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
-#&gt;   version
-#&gt; 1   1.0.1
-#&gt; 2   1.1.0
-#&gt; 3   1.0.5
-#&gt; 4   1.2.0
-#&gt; 5  1.1.14
-#&gt; 6   3.3.3
-#&gt; 7   3.3.0</div><div class='input'>
+</div><div class='output co'>#&gt;                       name
+#&gt; 1       helloworldPipeline
+#&gt; 2     helloworldPipelinePy
+#&gt; 3        helloworldSpatial
+#&gt; 4           helloworldTime
+#&gt; 5         helloworldTimePy
+#&gt; 6    helloworldUncertainty
+#&gt; 7  helloworldUncertaintyPy
+#&gt; 8        landfirevegmodels
+#&gt; 9                    lucas
+#&gt; 10                 netlogo
+#&gt; 11               stconnect
+#&gt; 12                   stsim
+#&gt; 13             stsimecodep
+#&gt; 14                 stsimsf
+#&gt;                                                                                 description
+#&gt; 1                                                Example demonstrating how to use pipelines
+#&gt; 2                                    Example demonstrating how to use pipelines with python
+#&gt; 3                                             Example demonstrating how to use spatial data
+#&gt; 4                                                Example demonstrating how to use timesteps
+#&gt; 5                            Example demonstrating how to use timesteps with a python model
+#&gt; 6                                               Example demonstrating how to use iterations
+#&gt; 7                                   Example demonstrating how to use iterations with python
+#&gt; 8                                                                Landfire vegetation models
+#&gt; 9                                            Land Use and Carbon Scenario Simulator (LUCAS)
+#&gt; 10                                        Runs the NetLogo agent-based modeling environment
+#&gt; 11                             Connectivity planning for future climate and land-use change
+#&gt; 12                                         The ST-Sim state-and-transition simulation model
+#&gt; 13 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
+#&gt; 14                             Integrates stocks and flows into the ST-Sim simulation model
+#&gt;    version
+#&gt; 1    1.0.0
+#&gt; 2    1.0.0
+#&gt; 3    1.0.1
+#&gt; 4    1.0.0
+#&gt; 5    1.0.0
+#&gt; 6    1.0.0
+#&gt; 7    1.0.0
+#&gt; 8    1.1.0
+#&gt; 9    1.0.5
+#&gt; 10   1.2.0
+#&gt; 11  1.1.14
+#&gt; 12   3.3.3
+#&gt; 13   3.3.0
+#&gt; 14   3.3.1</div><div class='input'>
 <span class='co'># List all the installed base packages</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                name
-#&gt; 1 helloworldSpatial
-#&gt; 2 landfirevegmodels
-#&gt; 3             lucas
-#&gt; 4           netlogo
-#&gt; 5         stconnect
-#&gt; 6             stsim
-#&gt;                                                    description version
-#&gt; 1                Example demonstrating how to use spatial data   1.0.1
-#&gt; 2                                   Landfire vegetation models   1.1.0
-#&gt; 3               Land Use and Carbon Scenario Simulator (LUCAS)   1.0.5
-#&gt; 4            Runs the NetLogo agent-based modeling environment   1.2.0
-#&gt; 5 Connectivity planning for future climate and land-use change  1.1.14
-#&gt; 6             The ST-Sim state-and-transition simulation model   3.3.3</div><div class='input'>
+</div><div class='output co'>#&gt;                       name
+#&gt; 1       helloworldPipeline
+#&gt; 2     helloworldPipelinePy
+#&gt; 3        helloworldSpatial
+#&gt; 4           helloworldTime
+#&gt; 5         helloworldTimePy
+#&gt; 6    helloworldUncertainty
+#&gt; 7  helloworldUncertaintyPy
+#&gt; 8        landfirevegmodels
+#&gt; 9                    lucas
+#&gt; 10                 netlogo
+#&gt; 11               stconnect
+#&gt; 12                   stsim
+#&gt;                                                       description version
+#&gt; 1                      Example demonstrating how to use pipelines   1.0.0
+#&gt; 2          Example demonstrating how to use pipelines with python   1.0.0
+#&gt; 3                   Example demonstrating how to use spatial data   1.0.1
+#&gt; 4                      Example demonstrating how to use timesteps   1.0.0
+#&gt; 5  Example demonstrating how to use timesteps with a python model   1.0.0
+#&gt; 6                     Example demonstrating how to use iterations   1.0.0
+#&gt; 7         Example demonstrating how to use iterations with python   1.0.0
+#&gt; 8                                      Landfire vegetation models   1.1.0
+#&gt; 9                  Land Use and Carbon Scenario Simulator (LUCAS)   1.0.5
+#&gt; 10              Runs the NetLogo agent-based modeling environment   1.2.0
+#&gt; 11   Connectivity planning for future climate and land-use change  1.1.14
+#&gt; 12               The ST-Sim state-and-transition simulation model   3.3.3</div><div class='input'>
 <span class='co'># List all available packages on the server (including currently installed)</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     name
