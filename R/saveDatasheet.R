@@ -35,10 +35,6 @@ NULL
 #' @param import logical. Set to \code{TRUE} to import the data after saving. 
 #' Default is \code{FALSE}
 #' @param path character.  output path (optional)
-# @param project character or integer. Project name or id. Note integer ids are
-# slightly faster.
-# @param scenario character or integer. Project name or id. Note integer ids 
-# are slightly faster.
 #' 
 #' @details
 #' SsimObject/Project/Scenario should identify a single SsimObject.
