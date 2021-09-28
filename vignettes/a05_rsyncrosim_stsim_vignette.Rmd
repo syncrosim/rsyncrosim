@@ -9,19 +9,19 @@ params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
-This vignette will cover how to develop and run spatially-explicit, stochastic state-and-transition simulation models of landscape change using the `rsyncrosim` package within the [SyncroSim](https://syncrosim.com/) software framework. For an overview of [SyncroSim](https://syncrosim.com/) and `rsyncrosim`, as well as a basic usage tutorial for `rsyncrosim`, see the [Introduction to `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#setup-1)  vignette.  
+This vignette will cover how to develop and run spatially-explicit, stochastic state-and-transition simulation models of landscape change using the `rsyncrosim` package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and `rsyncrosim`, as well as a basic usage tutorial for `rsyncrosim`, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#setup-1" target="_blank">Introduction to `rsyncrosim`</a> vignette.  
 
 ## SyncroSim Package: `stsim`
 
-To demonstrate how to create and run spatially-explicit, stochastic state-and-transition simulation models (STSMs) of landscape change, we will be using the [stsim](https://github.com/ApexRMS/stsim) SyncroSim package. STSMs are well-suited for integrating uncertainty into model projections, and have been applied to a variety of landscapes and management questions. In this `stsim` example below, we will model changes in forest cover types under two scenarios: no harvest within a landscape, and harvest of 20 acres per year. To do this, we will set a number of model parameters describing how many timesteps and iterations the model will run for, transition types and their probabilities, transition targets (particularly, for the harvest transition type), etc. Next, we will provide `stsim` with a set of initial conditions that describe the starting landscape at time 0, and specify parameters for the model's output. After running both scenarios, we will view the output data in tabular form and as a raster layer. Spatial and non-spatial examples of this exercise are provided.   
+To demonstrate how to create and run spatially-explicit, stochastic state-and-transition simulation models (STSMs) of landscape change, we will be using the <a href="https://github.com/ApexRMS/stsim" target="_blank">stsim</a> SyncroSim package. STSMs are well-suited for integrating uncertainty into model projections, and have been applied to a variety of landscapes and management questions. In this `stsim` example below, we will model changes in forest cover types under two scenarios: no harvest within a landscape, and harvest of 20 acres per year. To do this, we will set a number of model parameters describing how many timesteps and iterations the model will run for, transition types and their probabilities, transition targets (particularly, for the harvest transition type), etc. Next, we will provide `stsim` with a set of initial conditions that describe the starting landscape at time 0, and specify parameters for the model's output. After running both scenarios, we will view the output data in tabular form and as a raster layer. Spatial and non-spatial examples of this exercise are provided.   
 
-For more details on `stsim`, consult the [ST-Sim online documentation](https://docs.stsim.net/).
+For more details on `stsim`, consult the <a href="https://docs.stsim.net/" target="_blank">ST-Sim online documentation</a>.
 
 ## Setup
 
 ### Install SyncroSim
 
-Before using `rsyncrosim` you will first need to [download and install](https://syncrosim.com/download/) the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
+Before using `rsyncrosim` you will first need to <a href="https://syncrosim.com/download/" target="_blank">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
 
 ### Installing and loading R packages
 
@@ -97,7 +97,9 @@ When creating a new modeling workflow from scratch, we need to create objects of
 * <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a>
 * <a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a>
 
-For more information on these scopes, see the [Introduction to `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html) vignette.
+For more information on these scopes, see the 
+
+<a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html" target="_blank">Introduction to `rsyncrosim`</a> vignette.
 
 ### Set up Library, Project, and Scenario
 
@@ -180,14 +182,20 @@ It is also possible to add values to a Datasheet without loading it into R. Belo
 forestTypes <- c("Coniferous", "Deciduous", "Mixed")
 
 # Add values as a data frame to a SyncroSim Datasheet
-saveDatasheet(myProject, data.frame(Name = forestTypes), "stsim_StateLabelX", force = TRUE)
+saveDatasheet(myProject, 
+              data.frame(Name = forestTypes), 
+              "stsim_StateLabelX", 
+              force = TRUE)
 ```
 
 
 **StateLabelY**: Second dimension of labels for State Classes
 ```{r save StateLabelY not run, warning = FALSE}
 # Add values as a data frame directly to an stsim Datasheet
-saveDatasheet(myProject, data.frame(Name = c("All")), "stsim_StateLabelY", force = TRUE)
+saveDatasheet(myProject, 
+              data.frame(Name = c("All")), 
+              "stsim_StateLabelY", 
+              force = TRUE)
 ```
 
 **State Classes**: Combine `StateLabelX` and `StateLabelY`, and assign each class a unique name and ID
@@ -205,7 +213,8 @@ saveDatasheet(myProject, stateClasses, "stsim_StateClass", force = TRUE)
 **Transition Types**: Assign a unique name and ID to each type of transition in our model.
 ```{r save transitionTypes not run, warning = FALSE}
 # Create an R data frame containing transition type data 
-transitionTypes <- data.frame(Name = c("Fire", "Harvest", "Succession"), ID = c(1, 2, 3))
+transitionTypes <- data.frame(Name = c("Fire", "Harvest", "Succession"), 
+                              ID = c(1, 2, 3))
 
 # Save transitionTypes R data frame to a SyncroSim Datasheet
 saveDatasheet(myProject, transitionTypes, "stsim_TransitionType", force = TRUE)
@@ -227,7 +236,10 @@ transitionTypesGroups <- data.frame(TransitionTypeID = transitionTypes$Name,
                                     TransitionGroupID = transitionGroups$Name)
 
 # Save transitionTypesGroups R data frame to a SyncroSim Datasheet
-saveDatasheet(myProject, transitionTypesGroups, "TransitionTypeGroup", force = T)
+saveDatasheet(myProject, 
+              transitionTypesGroups, 
+              "TransitionTypeGroup", 
+              force = T)
 ```
 
 **Ages**: Define the basic parameters to control the age reporting in the model
@@ -238,9 +250,14 @@ ageMax <- 101
 ageGroups <- c(20, 40, 60, 80, 100)
 
 # Add values as R data frames to the appropriate SyncroSim Datasheet
-saveDatasheet(myProject, data.frame(Frequency = ageFrequency, MaximumAge = ageMax),
-              "AgeType", force = TRUE)
-saveDatasheet(myProject, data.frame(MaximumAge = ageGroups), "stsim_AgeGroup", force = TRUE)
+saveDatasheet(myProject, 
+              data.frame(Frequency = ageFrequency, MaximumAge = ageMax),
+              "AgeType", 
+              force = TRUE)
+saveDatasheet(myProject, 
+              data.frame(MaximumAge = ageGroups), 
+              "stsim_AgeGroup", 
+              force = TRUE)
 ```
 
 #### Scenario-scoped Datasheets
@@ -280,20 +297,26 @@ saveDatasheet(myScenario, runControl, "stsim_RunControl")
 **Deterministic Transitions**: Define transitions that take place in the absence of probabilistic transitions. Here we also set the age boundaries for each State Class.
 ```{r save dTransitions run, warning = FALSE}
 # Load  an empty Deterministic Transitions Datasheet to a new R data frame
-dTransitions <- datasheet(myScenario, "stsim_DeterministicTransition", optional = T, empty = T)
+dTransitions <- datasheet(myScenario, 
+                          "stsim_DeterministicTransition", 
+                          optional = T, 
+                          empty = T)
 
 # Add all Deterministic Transitions to the R data frame
-dTransitions <- addRow(dTransitions, data.frame(StateClassIDSource = "Coniferous",
-                                                StateClassIDDest = "Coniferous",
-                                                AgeMin = 21,
-                                                Location = "C1"))
-dTransitions <- addRow(dTransitions, data.frame(StateClassIDSource = "Deciduous",
-                                                StateClassIDDest = "Deciduous",
-                                                Location = "A1"))
-dTransitions <- addRow(dTransitions, data.frame(StateClassIDSource = "Mixed",
-                                                StateClassIDDest = "Mixed",
-                                                AgeMin = 11,
-                                                 Location = "B1"))
+dTransitions <- addRow(dTransitions, data.frame(
+  StateClassIDSource = "Coniferous",
+  StateClassIDDest = "Coniferous",
+  AgeMin = 21,
+  Location = "C1"))
+dTransitions <- addRow(dTransitions, data.frame(
+  StateClassIDSource = "Deciduous",
+  StateClassIDDest = "Deciduous",
+  Location = "A1"))
+dTransitions <- addRow(dTransitions, data.frame(
+  StateClassIDSource = "Mixed",
+  StateClassIDDest = "Mixed",
+  AgeMin = 11,
+  Location = "B1"))
 
 # Save dTransitions R data frame to a SyncroSim Datasheet
 saveDatasheet(myScenario, dTransitions, "stsim_DeterministicTransition")
@@ -381,23 +404,6 @@ ICSpatial <- list(StratumFileName = stratumTif,
 
 # Save initialConditionsSpatial R list to a SyncroSim Datasheet
 saveDatasheet(myScenario, ICSpatial, "stsim_InitialConditionsSpatial")
-```
-
-Let's check if the rasters were entered correctly. We can extract rasters with the `datasheetRaster()` function.
-
-```{r check initial conditions rasters, fig.align="center", fig.dim = c(5,5), warning=FALSE}
-# Load input raster layers from the `stsim_InitialConditionsSpatial` Datasheet.
-rStratumTest <- datasheetRaster(myScenario, "stsim_InitialConditionsSpatial",
-                                "StratumFileName")
-rSclassTest <- datasheetRaster(myScenario, "stsim_InitialConditionsSpatial",
-                               "StateClassFileName")
-rAgeTest <- datasheetRaster(myScenario, "stsim_InitialConditionsSpatial",
-                            "AgeFileName")
-
-# Plot raster layers
-plot(rStratumTest)
-plot(rSclassTest)
-plot(rAgeTest)
 ```
 
 * ***Option 2 - Non-spatial***. The second option is to set the proportions of each class, making this a non-spatial parameterization. To do so, we use the `stsim_InitialConditionsNonSpatial` and `stsim_InitialConditionsNonSpatialDistribution` datasheets:
@@ -505,12 +511,13 @@ We can now retrieve tabular output regarding the projected State Class over time
 
 ```{r}
 # Retrieve output projected State Class for both Scenarios in tabular form
-outputStratumState <- datasheet(myProject, 
-                                scenario = c(resultIDNoHarvest, resultIDHarvest), 
-                                name = "stsim_OutputStratumState")
+outputStratumState <- datasheet(
+  myProject, 
+  scenario = c(resultIDNoHarvest, resultIDHarvest), 
+  name = "stsim_OutputStratumState")
 ```
 
-Finally, we can get the State Class raster output (here for the Harvest scenario only).
+Finally, we can get the State Class raster output using the `datasheetRaster()` function (here for the Harvest scenario only). 
 
 ```{r view myRastersTimestep5 run, warning = FALSE, fig.align = TRUE, fig.dim = c(5,5)}
 # Retrieve the output State Class raster for the Harvest scenario at timestep 5
