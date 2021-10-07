@@ -115,7 +115,7 @@
 
     
     
-<p>This vignette will cover incorporating spatial data into SyncroSim models using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html">Introduction to <code>rsyncrosim</code></a> vignette. To learn how to use iterations in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_uncertainty.html"><code>rsyncrosim</code>: introduction to uncertainty</a> vignette. To learn how to link models using pipelines in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>: introduction to pipelines</a> vignette.</p>
+<p>This vignette will cover incorporating spatial data into SyncroSim models using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction to <code>rsyncrosim</code></a> vignette. To learn how to use iterations in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html" target="_blank"><code>rsyncrosim</code>: introduction to uncertainty</a> vignette. To learn how to link models using pipelines in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html" target="_blank"><code>rsyncrosim</code>: introduction to pipelines</a> vignette.</p>
 <div id="syncrosim-package-helloworldspatial" class="section level2">
 <h2 class="hasAnchor">
 <a href="#syncrosim-package-helloworldspatial" class="anchor"></a>SyncroSim Package: helloworldSpatial</h2>
@@ -371,13 +371,13 @@
 
 <span class="co"># View results table of first Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep       y        OutputRasterFile
-## 1         1        1 -2.5300 rasterMap_iter1_ts1.tif
-## 2         1        2 -0.7259 rasterMap_iter1_ts2.tif
-## 3         1        3  1.0781 rasterMap_iter1_ts3.tif
-## 4         1        4  2.8822 rasterMap_iter1_ts4.tif
-## 5         1        5  4.6862 rasterMap_iter1_ts5.tif
-## 6         1        6  6.4903 rasterMap_iter1_ts6.tif</code></pre>
+<pre><code>##   Iteration Timestep         y        OutputRasterFile
+## 1         1        1  -38.4638 rasterMap_iter1_ts1.tif
+## 2         1        2  -72.5936 rasterMap_iter1_ts2.tif
+## 3         1        3 -106.7234 rasterMap_iter1_ts3.tif
+## 4         1        4 -140.8533 rasterMap_iter1_ts4.tif
+## 5         1        5 -174.9831 rasterMap_iter1_ts5.tif
+## 6         1        6 -209.1129 rasterMap_iter1_ts6.tif</code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load results of second Transformer in Pipeline</span>
 <span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -385,13 +385,13 @@
 
 <span class="co"># View results table of second Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep    yCum
-## 1         1        1 -2.5300
-## 2         1        2 -3.2559
-## 3         1        3 -2.1778
-## 4         1        4  0.7044
-## 5         1        5  5.3906
-## 6         1        6 11.8809</code></pre>
+<pre><code>##   Iteration Timestep      yCum
+## 1         1        1  -38.4638
+## 2         1        2 -111.0574
+## 3         1        3 -217.7808
+## 4         1        4 -358.6341
+## 5         1        5 -533.6172
+## 6         1        6 -742.7301</code></pre>
 <p>From viewing these Datasheets, we can see that the spatial output is contained within the <code>IntermediateDatasheet</code>, in the column called <code>OutputRasterFile</code>.</p>
 </div>
 <div id="viewing-spatial-results-with-datasheetraster" class="section level3">
@@ -418,7 +418,7 @@
 ## crs        : +proj=longlat +datum=WGS84 +no_defs 
 ## source     : rasterMap_iter1_ts5.tif 
 ## names      : rasterMap_iter1_ts5.it1.ts5 
-## values     : -2.26501, 2.479248  (min, max)</code></pre>
+## values     : -9.451781, -4.707524  (min, max)</code></pre>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>

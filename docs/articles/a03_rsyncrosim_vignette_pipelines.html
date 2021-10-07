@@ -115,7 +115,7 @@
 
     
     
-<p>This vignette will cover how to use model pipelines using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html">Introduction to <code>rsyncrosim</code></a> vignette. To learn how to use iterations in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_uncertainty.html"><code>rsyncrosim</code>: introduction to uncertainty</a> vignette.</p>
+<p>This vignette will cover how to implement model pipelines using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction to <code>rsyncrosim</code></a> vignette. To learn how to use iterations in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html" target="_blank"><code>rsyncrosim</code>: introduction to uncertainty</a> vignette.</p>
 <div id="syncrosim-package-helloworldpipeline" class="section level2">
 <h2 class="hasAnchor">
 <a href="#syncrosim-package-helloworldpipeline" class="anchor"></a>SyncroSim Package: <code>helloworldPipeline</code>
@@ -387,12 +387,12 @@
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep       y
-## 1         1        1  9.0047
-## 2         1        2 15.0094
-## 3         1        3 21.0141
-## 4         1        4 27.0188
-## 5         1        5 33.0235
-## 6         1        6 39.0282</code></pre>
+## 1         1        1  8.9512
+## 2         1        2 14.9024
+## 3         1        3 20.8535
+## 4         1        4 26.8047
+## 5         1        5 32.7559
+## 6         1        6 38.7071</code></pre>
 <p>We can see that for every timestep in an iteration we have a new value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
 <div id="viewing-final-results-with-datasheet" class="section level3">

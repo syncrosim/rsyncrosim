@@ -99,7 +99,7 @@ When creating a new modeling workflow from scratch, we need to create objects of
 
 For more information on these scopes, see the 
 
-<a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html" target="_blank">Introduction to `rsyncrosim`</a> vignette.
+<a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction to `rsyncrosim`</a> vignette.
 
 ### Set up Library, Project, and Scenario
 

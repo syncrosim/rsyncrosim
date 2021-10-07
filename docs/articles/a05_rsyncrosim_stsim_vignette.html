@@ -116,13 +116,13 @@
 
     
     
-<p>This vignette will cover how to develop and run spatially-explicit, stochastic state-and-transition simulation models of landscape change using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/">SyncroSim</a> and <code>rsyncrosim</code>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#setup-1">Introduction to <code>rsyncrosim</code></a> vignette.</p>
+<p>This vignette will cover how to develop and run spatially-explicit, stochastic state-and-transition simulation models of landscape change using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <code>rsyncrosim</code>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#setup-1" target="_blank">Introduction to <code>rsyncrosim</code></a> vignette.</p>
 <div id="syncrosim-package-stsim" class="section level2">
 <h2 class="hasAnchor">
 <a href="#syncrosim-package-stsim" class="anchor"></a>SyncroSim Package: <code>stsim</code>
 </h2>
-<p>To demonstrate how to create and run spatially-explicit, stochastic state-and-transition simulation models (STSMs) of landscape change, we will be using the <a href="https://github.com/ApexRMS/stsim">stsim</a> SyncroSim package. STSMs are well-suited for integrating uncertainty into model projections, and have been applied to a variety of landscapes and management questions. In this <code>stsim</code> example below, we will model changes in forest cover types under two scenarios: no harvest within a landscape, and harvest of 20 acres per year. To do this, we will set a number of model parameters describing how many timesteps and iterations the model will run for, transition types and their probabilities, transition targets (particularly, for the harvest transition type), etc. Next, we will provide <code>stsim</code> with a set of initial conditions that describe the starting landscape at time 0, and specify parameters for the model’s output. After running both scenarios, we will view the output data in tabular form and as a raster layer. Spatial and non-spatial examples of this exercise are provided.</p>
-<p>For more details on <code>stsim</code>, consult the <a href="https://docs.stsim.net/">ST-Sim online documentation</a>.</p>
+<p>To demonstrate how to create and run spatially-explicit, stochastic state-and-transition simulation models (STSMs) of landscape change, we will be using the <a href="https://github.com/ApexRMS/stsim" target="_blank">stsim</a> SyncroSim package. STSMs are well-suited for integrating uncertainty into model projections, and have been applied to a variety of landscapes and management questions. In this <code>stsim</code> example below, we will model changes in forest cover types under two scenarios: no harvest within a landscape, and harvest of 20 acres per year. To do this, we will set a number of model parameters describing how many timesteps and iterations the model will run for, transition types and their probabilities, transition targets (particularly, for the harvest transition type), etc. Next, we will provide <code>stsim</code> with a set of initial conditions that describe the starting landscape at time 0, and specify parameters for the model’s output. After running both scenarios, we will view the output data in tabular form and as a raster layer. Spatial and non-spatial examples of this exercise are provided.</p>
+<p>For more details on <code>stsim</code>, consult the <a href="https://docs.stsim.net/" target="_blank">ST-Sim online documentation</a>.</p>
 </div>
 <div id="setup" class="section level2">
 <h2 class="hasAnchor">
@@ -130,7 +130,7 @@
 <div id="install-syncrosim" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-syncrosim" class="anchor"></a>Install SyncroSim</h3>
-<p>Before using <code>rsyncrosim</code> you will first need to <a href="https://syncrosim.com/download/">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.</p>
+<p>Before using <code>rsyncrosim</code> you will first need to <a href="https://syncrosim.com/download/" target="_blank">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.</p>
 </div>
 <div id="installing-and-loading-r-packages" class="section level3">
 <h3 class="hasAnchor">
@@ -186,7 +186,8 @@
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a></li>
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a></li>
 </ul>
-<p>For more information on these scopes, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html">Introduction to <code>rsyncrosim</code></a> vignette.</p>
+<p>For more information on these scopes, see the</p>
+<p><a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction to <code>rsyncrosim</code></a> vignette.</p>
 <div id="set-up-library-project-and-scenario" class="section level3">
 <h3 class="hasAnchor">
 <a href="#set-up-library-project-and-scenario" class="anchor"></a>Set up Library, Project, and Scenario</h3>
@@ -291,12 +292,18 @@
 <span class="va">forestTypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Coniferous"</span>, <span class="st">"Deciduous"</span>, <span class="st">"Mixed"</span><span class="op">)</span>
 
 <span class="co"># Add values as a data frame to a SyncroSim Datasheet</span>
-<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="va">forestTypes</span><span class="op">)</span>, <span class="st">"stsim_StateLabelX"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, 
+              <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="va">forestTypes</span><span class="op">)</span>, 
+              <span class="st">"stsim_StateLabelX"</span>, 
+              force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_StateLabelX&gt; saved</code></pre>
 <p><strong>StateLabelY</strong>: Second dimension of labels for State Classes</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Add values as a data frame directly to an stsim Datasheet</span>
-<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"All"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"stsim_StateLabelY"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, 
+              <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"All"</span><span class="op">)</span><span class="op">)</span>, 
+              <span class="st">"stsim_StateLabelY"</span>, 
+              force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_StateLabelY&gt; saved</code></pre>
 <p><strong>State Classes</strong>: Combine <code>StateLabelX</code> and <code>StateLabelY</code>, and assign each class a unique name and ID</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
@@ -312,7 +319,8 @@
 <p><strong>Transition Types</strong>: Assign a unique name and ID to each type of transition in our model.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create an R data frame containing transition type data </span>
-<span class="va">transitionTypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Fire"</span>, <span class="st">"Harvest"</span>, <span class="st">"Succession"</span><span class="op">)</span>, ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="va">transitionTypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Fire"</span>, <span class="st">"Harvest"</span>, <span class="st">"Succession"</span><span class="op">)</span>, 
+                              ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Save transitionTypes R data frame to a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="va">transitionTypes</span>, <span class="st">"stsim_TransitionType"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -332,7 +340,10 @@
                                     TransitionGroupID <span class="op">=</span> <span class="va">transitionGroups</span><span class="op">$</span><span class="va">Name</span><span class="op">)</span>
 
 <span class="co"># Save transitionTypesGroups R data frame to a SyncroSim Datasheet</span>
-<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="va">transitionTypesGroups</span>, <span class="st">"TransitionTypeGroup"</span>, force <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, 
+              <span class="va">transitionTypesGroups</span>, 
+              <span class="st">"TransitionTypeGroup"</span>, 
+              force <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_TransitionTypeGroup&gt; saved</code></pre>
 <p><strong>Ages</strong>: Define the basic parameters to control the age reporting in the model</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -342,11 +353,16 @@
 <span class="va">ageGroups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">80</span>, <span class="fl">100</span><span class="op">)</span>
 
 <span class="co"># Add values as R data frames to the appropriate SyncroSim Datasheet</span>
-<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Frequency <span class="op">=</span> <span class="va">ageFrequency</span>, MaximumAge <span class="op">=</span> <span class="va">ageMax</span><span class="op">)</span>,
-              <span class="st">"AgeType"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, 
+              <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Frequency <span class="op">=</span> <span class="va">ageFrequency</span>, MaximumAge <span class="op">=</span> <span class="va">ageMax</span><span class="op">)</span>,
+              <span class="st">"AgeType"</span>, 
+              force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_AgeType&gt; saved</code></pre>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>MaximumAge <span class="op">=</span> <span class="va">ageGroups</span><span class="op">)</span>, <span class="st">"stsim_AgeGroup"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, 
+              <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>MaximumAge <span class="op">=</span> <span class="va">ageGroups</span><span class="op">)</span>, 
+              <span class="st">"stsim_AgeGroup"</span>, 
+              force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_AgeGroup&gt; saved</code></pre>
 </div>
 <div id="scenario-scoped-datasheets" class="section level4">
@@ -408,20 +424,26 @@
 <p><strong>Deterministic Transitions</strong>: Define transitions that take place in the absence of probabilistic transitions. Here we also set the age boundaries for each State Class.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load  an empty Deterministic Transitions Datasheet to a new R data frame</span>
-<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="st">"stsim_DeterministicTransition"</span>, optional <span class="op">=</span> <span class="cn">T</span>, empty <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, 
+                          <span class="st">"stsim_DeterministicTransition"</span>, 
+                          optional <span class="op">=</span> <span class="cn">T</span>, 
+                          empty <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="co"># Add all Deterministic Transitions to the R data frame</span>
-<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">dTransitions</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>StateClassIDSource <span class="op">=</span> <span class="st">"Coniferous"</span>,
-                                                StateClassIDDest <span class="op">=</span> <span class="st">"Coniferous"</span>,
-                                                AgeMin <span class="op">=</span> <span class="fl">21</span>,
-                                                Location <span class="op">=</span> <span class="st">"C1"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">dTransitions</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>StateClassIDSource <span class="op">=</span> <span class="st">"Deciduous"</span>,
-                                                StateClassIDDest <span class="op">=</span> <span class="st">"Deciduous"</span>,
-                                                Location <span class="op">=</span> <span class="st">"A1"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">dTransitions</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>StateClassIDSource <span class="op">=</span> <span class="st">"Mixed"</span>,
-                                                StateClassIDDest <span class="op">=</span> <span class="st">"Mixed"</span>,
-                                                AgeMin <span class="op">=</span> <span class="fl">11</span>,
-                                                 Location <span class="op">=</span> <span class="st">"B1"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">dTransitions</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  StateClassIDSource <span class="op">=</span> <span class="st">"Coniferous"</span>,
+  StateClassIDDest <span class="op">=</span> <span class="st">"Coniferous"</span>,
+  AgeMin <span class="op">=</span> <span class="fl">21</span>,
+  Location <span class="op">=</span> <span class="st">"C1"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">dTransitions</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  StateClassIDSource <span class="op">=</span> <span class="st">"Deciduous"</span>,
+  StateClassIDDest <span class="op">=</span> <span class="st">"Deciduous"</span>,
+  Location <span class="op">=</span> <span class="st">"A1"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">dTransitions</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  StateClassIDSource <span class="op">=</span> <span class="st">"Mixed"</span>,
+  StateClassIDDest <span class="op">=</span> <span class="st">"Mixed"</span>,
+  AgeMin <span class="op">=</span> <span class="fl">11</span>,
+  Location <span class="op">=</span> <span class="st">"B1"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Save dTransitions R data frame to a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">dTransitions</span>, <span class="st">"stsim_DeterministicTransition"</span><span class="op">)</span></code></pre></div>
@@ -508,30 +530,11 @@
 <span class="co"># Save initialConditionsSpatial R list to a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">ICSpatial</span>, <span class="st">"stsim_InitialConditionsSpatial"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_InitialConditionsSpatial&gt; saved</code></pre>
-<p>Let’s check if the rasters were entered correctly. We can extract rasters with the <code><a href="../reference/datasheetRaster.html">datasheetRaster()</a></code> function.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Load input raster layers from the `stsim_InitialConditionsSpatial` Datasheet.</span>
-<span class="va">rStratumTest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="st">"stsim_InitialConditionsSpatial"</span>,
-                                <span class="st">"StratumFileName"</span><span class="op">)</span>
-<span class="va">rSclassTest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="st">"stsim_InitialConditionsSpatial"</span>,
-                               <span class="st">"StateClassFileName"</span><span class="op">)</span>
-<span class="va">rAgeTest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="st">"stsim_InitialConditionsSpatial"</span>,
-                            <span class="st">"AgeFileName"</span><span class="op">)</span>
-
-<span class="co"># Plot raster layers</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rStratumTest</span><span class="op">)</span></code></pre></div>
-<p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/check%20initial%20conditions%20rasters-1.png" width="480" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rSclassTest</span><span class="op">)</span></code></pre></div>
-<p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/check%20initial%20conditions%20rasters-2.png" width="480" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rAgeTest</span><span class="op">)</span></code></pre></div>
-<p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/check%20initial%20conditions%20rasters-3.png" width="480" style="display: block; margin: auto;"></p>
 <ul>
 <li>
 <strong><em>Option 2 - Non-spatial</em></strong>. The second option is to set the proportions of each class, making this a non-spatial parameterization. To do so, we use the <code>stsim_InitialConditionsNonSpatial</code> and <code>stsim_InitialConditionsNonSpatialDistribution</code> datasheets:</li>
 </ul>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create non-spatial initial conditions data and add it to an R data frame</span>
 <span class="va">ICNonSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TotalAmount <span class="op">=</span> <span class="fl">100</span>, 
                            NumCells <span class="op">=</span> <span class="fl">100</span>, 
@@ -540,7 +543,7 @@
 <span class="co"># Save the ICNonSpatial R data frame to a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">ICNonSpatial</span>, <span class="st">"stsim_InitialConditionsNonSpatial"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_InitialConditionsNonSpatial&gt; saved</code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create non-spatial initial conditions distribution data and add it to an R data frame</span>
 <span class="va">ICNonSpatialDistribution</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>StratumID <span class="op">=</span> <span class="st">"Entire Forest"</span>, 
                                        StateClassID <span class="op">=</span> <span class="st">"Coniferous"</span>, 
@@ -551,7 +554,7 @@
               <span class="st">"stsim_InitialConditionsNonSpatialDistribution"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_InitialConditionsNonSpatialDistribution&gt; saved</code></pre>
 <p><strong>Transition Targets</strong>: Define targets, in units of area, to be reached by the allocation procedure within SyncroSim.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Set the transition target for harvest to 0</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, 
               <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TransitionGroupID <span class="op">=</span> <span class="st">"Harvest"</span>, 
@@ -559,7 +562,7 @@
               <span class="st">"stsim_TransitionTarget"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_TransitionTarget&gt; saved</code></pre>
 <p><strong>Output Options</strong>: Regulate the model outputs and determine the frequency at which syncrosim saves the model outputs.</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create output options for spatial model and add it to an R data frame</span>
 <span class="va">outputOptionsSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   RasterOutputSC <span class="op">=</span> <span class="cn">T</span>, RasterOutputSCTimesteps <span class="op">=</span> <span class="fl">1</span>,
@@ -570,7 +573,7 @@
 <span class="co"># Save the outputOptionsSpatial R data frame to a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">outputOptionsSpatial</span>, <span class="st">"stsim_OutputOptionsSpatial"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_OutputOptionsSpatial&gt; saved</code></pre>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create output options for non-spatial model and add it to an R data frame</span>
 <span class="va">outputOptionsNonSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   SummaryOutputSC <span class="op">=</span> <span class="cn">T</span>, SummaryOutputSCTimesteps <span class="op">=</span> <span class="fl">1</span>,
@@ -581,7 +584,7 @@
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">outputOptionsNonSpatial</span>, <span class="st">"stsim_OutputOptions"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_OutputOptions&gt; saved</code></pre>
 <p>We are done parameterizing our simple “No Harvest” Scenario. Let’s now define a new Scenario that implements forest harvesting. Below, we create a second “Harvest” Scenario that is a copy of the first Scenario, but with a harvest level of 20 acres/year.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a copy of the no harvest scenario (i.e myScenario) and name it myScenarioHarvest</span>
 <span class="va">myScenarioHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myProject</span>, 
                               scenario <span class="op">=</span> <span class="st">"Harvest"</span>, 
@@ -593,7 +596,7 @@
               <span class="st">"stsim_TransitionTarget"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;stsim_TransitionTarget&gt; saved</code></pre>
 <p>We can display the harvest levels for both scenarios.</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># View the transition targets for the Harvest and No Harvest scenarios</span>
 <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Harvest"</span>, <span class="st">"No Harvest"</span><span class="op">)</span>, 
           name <span class="op">=</span> <span class="st">"stsim_TransitionTarget"</span><span class="op">)</span></code></pre></div>
@@ -614,7 +617,7 @@
 <a href="#setting-run-parameters-with-run" class="anchor"></a>Setting run parameters with <code>run()</code>
 </h3>
 <p>We will now run both Scenarios using the <code><a href="../reference/run.html">run()</a></code> function in <code>rsyncrosim</code>. Running a Scenario generates a corresponding new child Scenario, called a <em>Results Scenario</em>, which contains the results of the run along with a snapshot of all the model inputs. If we have a large modeling workflow and we want to parallelize the run using multiprocessing, we can set the <code>jobs</code> argument to be a value greater than one.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run both Scenarios</span>
 <span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Harvest"</span>, <span class="st">"No Harvest"</span><span class="op">)</span>, 
                      jobs <span class="op">=</span> <span class="fl">7</span>, summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -626,20 +629,21 @@
 <h2 class="hasAnchor">
 <a href="#view-results" class="anchor"></a>View results</h2>
 <p>The next step is to view the output Datasheets added to the Result Scenario when it was run. To look at the results we first need to retrieve the unique <code>scenarioId</code> for each child <em>Result Scenario</em>.</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve Scenario IDs</span>
 <span class="va">resultIDNoHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, 
                             <span class="va">parentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">scenarioId</span>
 <span class="va">resultIDHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, 
                           <span class="va">parentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenarioHarvest</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">scenarioId</span></code></pre></div>
 <p>We can now retrieve tabular output regarding the projected State Class over time (for both scenarios combined) from the <code>stsim_OutputStratumState</code> Datasheet.</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve output projected State Class for both Scenarios in tabular form</span>
-<span class="va">outputStratumState</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myProject</span>, 
-                                scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">resultIDNoHarvest</span>, <span class="va">resultIDHarvest</span><span class="op">)</span>, 
-                                name <span class="op">=</span> <span class="st">"stsim_OutputStratumState"</span><span class="op">)</span></code></pre></div>
-<p>Finally, we can get the State Class raster output (here for the Harvest scenario only).</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<span class="va">outputStratumState</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span>
+  <span class="va">myProject</span>, 
+  scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">resultIDNoHarvest</span>, <span class="va">resultIDHarvest</span><span class="op">)</span>, 
+  name <span class="op">=</span> <span class="st">"stsim_OutputStratumState"</span><span class="op">)</span></code></pre></div>
+<p>Finally, we can get the State Class raster output using the <code><a href="../reference/datasheetRaster.html">datasheetRaster()</a></code> function (here for the Harvest scenario only).</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve the output State Class raster for the Harvest scenario at timestep 5</span>
 <span class="va">myRastersTimestep5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span><span class="va">myProject</span>, 
                                       scenario <span class="op">=</span> <span class="va">resultIDHarvest</span>, 
@@ -654,7 +658,7 @@
 ## names      :  sc.it1.ts5,  sc.it2.ts5,  sc.it3.ts5,  sc.it4.ts5,  sc.it5.ts5,  sc.it6.ts5,  sc.it7.ts5 
 ## min values : -2147483648, -2147483648, -2147483648, -2147483648, -2147483648, -2147483648, -2147483648 
 ## max values :  2147483647,  2147483647,  2147483647,  2147483647,  2147483647,  2147483647,  2147483647</code></pre>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot raster for the first realization of timestep 5</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">myRastersTimestep5</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/view%20myRastersTimestep5%20run-1.png" width="480" style="display: block; margin: auto auto auto 0;"></p>
