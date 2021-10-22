@@ -47,7 +47,7 @@ returns one or more \code{\link{Scenario}} objects representing SyncroSim Scenar
 If \code{summary = TRUE}, returns Scenario summary info.
 }
 \description{
-Create or open one or more \code{\link{Scenarios}} from a 
+Create or open one or more \code{\link{Scenario}}s from a 
 \code{\link{SsimLibrary}}.
 }
 \details{
