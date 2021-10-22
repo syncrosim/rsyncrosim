@@ -36,6 +36,7 @@ setMethod("autogentags", signature(ssimObject = "Scenario"), function(ssimObject
   return(scnInfo$autoGenTags)
 })
 
+#' @rdname autogentags
 #' @export
 setGeneric("autogentags<-", function(ssimObject, value) standardGeneric("autogentags<-"))
 
