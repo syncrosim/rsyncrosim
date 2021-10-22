@@ -2,7 +2,7 @@
 * Windows 10 CI (CI (GitHub actions): release 3.6.3 and devel)
 * Ubuntu 18.04 (CI (GitHub actions), release 3.6.3 and devel)
 
-## New release 1.2.9
+## New release 1.3.1
 
 ### Bug fixes:
 
@@ -25,7 +25,7 @@ The SyncroSim software is an upstream dependency as rsyncrosim provides an API f
 Therefore, all examples, all tests, as well as vignette code, requires SyncroSim to be 
 installed to run. Therefore, all tests in the submitted package should not run 
 (tagged with testthat::skip_on_cran()). In addition, all code from vignettes is 
-set to not be evaluated wehn NOT_CRAN is FALSE is the environment.
+set to not be evaluated when NOT_CRAN is FALSE is the environment.
 
 ## R CMD check results
 
