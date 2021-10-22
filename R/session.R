@@ -144,6 +144,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
 #' @rdname session
 setMethod("session", signature(x = "SsimObject"), function(x, silent, printCmd) x@session)
 
+#' @rdname session
 #' @export
 setGeneric("session<-", function(ssimObject, value) standardGeneric("session<-"))
 

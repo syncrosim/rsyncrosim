@@ -4,6 +4,7 @@
 \alias{ignoreDependencies}
 \alias{ignoreDependencies,character-method}
 \alias{ignoreDependencies,Scenario-method}
+\alias{ignoreDependencies<-}
 \alias{ignoreDependencies<-,character-method}
 \alias{ignoreDependencies<-,Scenario-method}
 \title{Ignore dependencies for a Scenario}
@@ -13,6 +14,8 @@ ignoreDependencies(ssimObject)
 \S4method{ignoreDependencies}{character}(ssimObject)
 
 \S4method{ignoreDependencies}{Scenario}(ssimObject)
+
+ignoreDependencies(ssimObject) <- value
 
 \S4method{ignoreDependencies}{character}(ssimObject) <- value
 

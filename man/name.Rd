@@ -6,6 +6,7 @@
 \alias{name,SsimLibrary-method}
 \alias{name,Scenario-method}
 \alias{name,Project-method}
+\alias{name<-}
 \alias{name<-,character-method}
 \alias{name<-,SsimLibrary-method}
 \alias{name<-,Project-method}
@@ -21,6 +22,8 @@ name(ssimObject)
 \S4method{name}{Scenario}(ssimObject)
 
 \S4method{name}{Project}(ssimObject)
+
+name(ssimObject) <- value
 
 \S4method{name}{character}(ssimObject) <- value
 

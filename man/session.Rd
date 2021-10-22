@@ -4,6 +4,7 @@
 \alias{session}
 \alias{session,missingOrNULLOrChar-method}
 \alias{session,SsimObject-method}
+\alias{session<-}
 \alias{session<-,character-method}
 \alias{session<-,SsimObject-method}
 \title{Create or return SyncroSim Session}
@@ -13,6 +14,8 @@ session(x = NULL, silent = TRUE, printCmd = FALSE)
 \S4method{session}{missingOrNULLOrChar}(x = NULL, silent = TRUE, printCmd = FALSE)
 
 \S4method{session}{SsimObject}(x = NULL, silent = TRUE, printCmd = FALSE)
+
+session(ssimObject) <- value
 
 \S4method{session}{character}(ssimObject) <- value
 

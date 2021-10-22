@@ -35,6 +35,7 @@ NULL
 #' @export
 setGeneric("description", function(ssimObject) standardGeneric("description"))
 
+#' @rdname description
 #' @export
 setGeneric("description<-", function(ssimObject, value) standardGeneric("description<-"))
 

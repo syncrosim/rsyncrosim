@@ -20,3 +20,6 @@ gitIncantations.txt
 /vignettes/demoLib.ssim.input/Scenario-2/stsim_InitialConditionsSpatial
 .vs
 /rsyncrosim_binaries/
+
+# Don't build pkgdown site from actions
+**/pkgdown.yaml

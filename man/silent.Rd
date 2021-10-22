@@ -4,6 +4,7 @@
 \alias{silent}
 \alias{silent,Session-method}
 \alias{silent,missingOrNULLOrChar-method}
+\alias{silent<-}
 \alias{silent<-,character-method}
 \alias{silent<-,Session-method}
 \title{Silent status of SyncroSim Session}
@@ -13,6 +14,8 @@ silent(session)
 \S4method{silent}{Session}(session)
 
 \S4method{silent}{missingOrNULLOrChar}(session)
+
+silent(session) <- value
 
 \S4method{silent}{character}(session) <- value
 

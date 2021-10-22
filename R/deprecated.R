@@ -202,6 +202,7 @@ envBeginSimulation <- function(totalSteps) {
 #' 
 #' @keywords internal
 #' 
+#' @rdname envStepSimulation
 #' @export
 envStepSimulation <- function() {
   lifecycle::deprecate_warn("1.2.11", "envStepSimulation()", "progressBar()")

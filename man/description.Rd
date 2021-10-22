@@ -2,6 +2,7 @@
 % Please edit documentation in R/description.R
 \name{description}
 \alias{description}
+\alias{description<-}
 \alias{description,character-method}
 \alias{description,SsimObject-method}
 \alias{description<-,character-method}
@@ -9,6 +10,8 @@
 \title{Description of SsimLibrary, Project or Scenario}
 \usage{
 description(ssimObject)
+
+description(ssimObject) <- value
 
 \S4method{description}{character}(ssimObject)
 
