@@ -1,7 +1,7 @@
-^.*\.ssim$
-^.*\.ssim.backup$
-^.*\.ssim.output$
-^.*\.ssim.input$
+^.*\*.ssim$
+^.*\*.ssim.backup$
+^.*\*.ssim.output$
+^.*\*.ssim.input$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .rxproj$
