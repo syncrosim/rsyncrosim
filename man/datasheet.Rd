@@ -195,7 +195,7 @@ myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE,
                          optional = TRUE)
 
 # Return Datasheet as an element
-myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = T)
+myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = TRUE)
 myDatasheet$helloworldSpatial_RunControl
 
 # Get a Datasheet without pre-specified values
