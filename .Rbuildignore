@@ -19,3 +19,7 @@ Dockerfile
 ^docs$
 ^pkgdown$
 ^codecov\.yml$
+^rsyncrosim_binaries$
+^docs$
+^inst$
+^demo$
