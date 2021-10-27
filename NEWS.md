@@ -1,7 +1,5 @@
 # rsyncrosim 1.3.2
 
-# rsyncrosim 1.3.1
-
 ## Breaking changes
 
 * Updated rsyncrosim to be compatible with the new SyncroSim software update (version 2.3).

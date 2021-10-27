@@ -34,12 +34,11 @@
 The SyncroSim software is an upstream dependency as rsyncrosim provides an API for it. 
 Therefore, all examples, all tests, as well as vignette code, requires SyncroSim to be 
 installed to run. Therefore, all tests in the submitted package should not run 
-(tagged with testthat::skip_on_cran()). In addition, all code from vignettes is 
-set to not be evaluated when NOT_CRAN is FALSE is the environment.
+(tagged with testthat::skip_on_cran()). In addition, all vignettes are only available on the rsyncrosim website and are set to not be included in the package build. Furthermore, examples in the documentation are prevented from being checked using `\donttest{}`.
 
 ## R CMD check results
 
--- R CMD check results ----------------------------------- rsyncrosim 1.3.1 ----
-Duration: 1m 12.5s
+-- R CMD check results ----------------------------------- rsyncrosim 1.3.2 ----
+Duration: 1m 20.8s
 
 0 errors v | 0 warnings v | 0 notes v
