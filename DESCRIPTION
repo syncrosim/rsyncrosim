@@ -93,5 +93,6 @@ Collate:
     'updatePackage.R'
     'version.R'
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr
 URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/

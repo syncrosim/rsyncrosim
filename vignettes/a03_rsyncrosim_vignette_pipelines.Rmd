@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{`rsyncrosim`: introduction to pipelines}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\usepackage[utf8]{inputenc}
 params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---

@@ -1,23 +1,33 @@
 ## Test environments
-* Windows 10 CI (CI (GitHub actions): release 3.6.3 and devel)
-* Ubuntu 18.04 (CI (GitHub actions), release 3.6.3 and devel)
+* Windows Server 2019 (CI (GitHub actions): release 4.1.1 and devel)
+* Ubuntu 20.04 (CI (GitHub actions), release 4.1.1 and devel)
 
 ## New release 1.3.1
 
-### Bug fixes:
+## Breaking changes
 
-* Fixes a case when `datasheet` could not handle more than one scenario when `fastQuery` was `TRUE`.
-* Fixes issues with breakpoints no longer working.
-* Fixes an error when trying to delete a datasheet.
-* Fixes a cases when the prefix in datasheet names only worked for stsim.
-* Fixes db update for old SyncroSim databases.
-* Fixes a case when `datasheetRaster` would not output properly when multiple iterations were requested.
-* Fixes inconsistency in deletion of objects.
-* Minor changes and fixes to tests and documentation.
+* Updated rsyncrosim to be compatible with the new SyncroSim software update (version 2.3).
+* Deprecated functions `addPackageFile`, `basePackage`, `deletePackage`, `envInputFolder`, `envOutputFolder`, `envTempFolder`, `envReportProgress`, `envStepSimulation`, `envBeginSimulation`, and `envEndSimulation`.
+* Replaced functionality of deprecated functions by adding arguments to functions `addPackage`, `package`, and adding new functions `removepackage`,  `progressBar`, `runtimeInputFolder`, `runtimeOutputFolder`, and `runtimeTempFolder`.
 
-### New features:
+## Bug fixes:
 
-* Adds support for the Ignore Dependencies feature in SyncroSim. NOTE: To use this feature you must install at least version 2.2.22 of SyncroSim.
+* Fixed cryptic warning message in `saveDatasheet` function.
+* Fixed rbind error in `datasheet(..., fastQuery = T)` with multiple scenarios call when different column number of difference scenarios. Now using the more robust `gtools::smartbind` instead.
+* Fixed bug where rsyncrosim drops any column with NAs when `datasheet(..., fastQuery=T)`. Now only columns for which all rows are NA are dropped.
+
+## New features:
+
+* New [rsyncrosim website](https://syncrosim.github.io/rsyncrosim/).
+* 4 new vignettes/articles that follow the [Enhancing a Package](https://docs.syncrosim.com/how_to_guides/package_enhance_overview.html) tutorial on the [SyncroSim](https://docs.syncrosim.com/index.html) website.
+* All vignettes/articles now show outputs.
+* Improved documentation of each function with in-depth usage examples.
+* Added a `template` argument to the `ssimLibrary` function to allow importing of pre-designed SyncroSim Library templates.
+* Modified `summary` argument in the `datasheet` function so when set to `TRUE` will only show Library-specific datasheets. To show all Datasheets, a new input "CORE" must be used.
+
+## Minor improvements and fixes
+
+* Updated copyright headers on all functions
 
 ## Upstream dependencies
 
@@ -29,7 +39,7 @@ set to not be evaluated when NOT_CRAN is FALSE is the environment.
 
 ## R CMD check results
 
--- R CMD check results ----------------------------------- rsyncrosim 1.2.9 ----
-Duration: 1m 15.9s
+-- R CMD check results ----------------------------------- rsyncrosim 1.3.1 ----
+Duration: 1m 12.5s
 
 0 errors v | 0 warnings v | 0 notes v
