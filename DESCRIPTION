@@ -26,7 +26,6 @@ Description: 'SyncroSim' is a generalized framework for managing scenario-based
     summarizing model outputs. 'rsyncrosim' requires 'SyncroSim' 2.3.5 or higher 
     (API documentation: <https://docs.syncrosim.com/>).
 License: MIT + file LICENSE
-LazyData: TRUE
 Encoding: UTF-8
 Imports:
     methods,
@@ -93,6 +92,5 @@ Collate:
     'updatePackage.R'
     'version.R'
 RoxygenNote: 7.1.1
-VignetteBuilder: knitr
 URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
