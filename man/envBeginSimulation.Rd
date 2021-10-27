@@ -10,7 +10,7 @@ envBeginSimulation(totalSteps)
 \item{totalSteps}{integer.  The total number of steps in the simulation}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{progressBar}} instead.
 }
 \keyword{internal}

@@ -10,7 +10,7 @@ basePackage(ssimObject = NULL)
 \item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}} object}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{package}} instead.
 }
 \keyword{internal}

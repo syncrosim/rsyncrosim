@@ -10,7 +10,7 @@ model(ssimObject = NULL)
 \item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}} object}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 }
 \details{
 Models are now distributed in Packages; 

@@ -10,7 +10,7 @@ module(session = NULL)
 \item{session}{\code{\link{Session}} object}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 modules are now distributed in Packages; 
 Please use \code{\link{package}} instead.
 }

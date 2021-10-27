@@ -1,12 +1,11 @@
-^.*\*.ssim$
-^.*\*.ssim.backup$
-^.*\*.ssim.output$
-^.*\*.ssim.input$
+^.*\.ssim$
+^.*\.ssim.backup$
+^.*\.ssim.output$
+^.*\.ssim.input$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .rxproj$
 .rxproj.user$
-.vs/*
 ^.*\.sln$
 ^README\.Rmd$
 ^README-.*\.png$
@@ -23,3 +22,6 @@ Dockerfile
 ^docs$
 ^inst$
 ^demo$
+^vignettes$
+rsyncrosim.Rcheck
+rsyncrosim_1.3.1.tar.gz

@@ -1,6 +1,6 @@
 #' Add module
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{addPackage}} instead.
 #'
 #' @param filename character string or vector of these. The path to an .ssimpkg 
@@ -17,7 +17,7 @@ addModule <- function(filename, session = NULL) {
 
 #' Adds a package to SyncroSim
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{addPackage}} instead.
 #'
 #' @param filename character string.  The path to a SyncroSim package file
@@ -33,7 +33,7 @@ addPackageFile <- function(filename, session = NULL) {
 
 #' Installed base packages
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{package}} instead.
 #'
 #' @param ssimObject \code{\link{Session}} or \code{\link{SsimLibrary}} object
@@ -48,7 +48,7 @@ basePackage <- function(ssimObject = NULL) {
 
 #' Delete module or modules
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{removePackage}} instead.
 #'
 #' @param name character string or vector of these. A module or vector of modules 
@@ -67,7 +67,7 @@ deleteModule <- function(name, session = NULL, force = FALSE) {
 
 #' Deletes a package from your SyncroSim installation
 #' 
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{removePackage}} instead.
 #' 
 #' @param name character string or vector of these. A package or vector of 
@@ -86,7 +86,7 @@ deletePackage <- function(name, session = NULL, force = FALSE) {
 
 #' Installed models
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' 
 #' Models are now distributed in Packages; 
 #' please use \code{\link{package}} instead.
@@ -103,7 +103,7 @@ model <- function(ssimObject = NULL) {
 
 #' Installed modules
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' modules are now distributed in Packages; 
 #' Please use \code{\link{package}} instead.
 #'
@@ -119,7 +119,7 @@ module <- function(session = NULL) {
 
 #' SyncroSim DataSheet Input Folder
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{runtimeInputFolder}} instead.
 #'
 #' @param scenario \code{\link{Scenario}} object. A SyncroSim result Scenario
@@ -135,7 +135,7 @@ envInputFolder <- function(scenario, datasheetName) {
 
 #' SyncroSim DataSheet Output Folder
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{runtimeOutputFolder}} instead.
 #'
 #' @param scenario \code{\link{Scenario}} object. A SyncroSim result Scenario
@@ -151,7 +151,7 @@ envOutputFolder <- function(scenario, datasheetName) {
 
 #' SyncroSim Temporary Folder
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{runtimeTempFolder}} instead.
 #' 
 #' @param folderName character. The folder name
@@ -166,7 +166,7 @@ envTempFolder <- function(folderName) {
 
 #' Reports SyncroSim simulation progress
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{progressBar}} instead.
 #'
 #' @param iteration integer. The current iteration
@@ -182,7 +182,7 @@ envReportProgress <- function(iteration, timestep) {
 
 #' Begins a SyncroSim simulation
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{progressBar}} instead.
 #'
 #' @param totalSteps integer.  The total number of steps in the simulation
@@ -197,10 +197,12 @@ envBeginSimulation <- function(totalSteps) {
 
 #' Steps a SyncroSim simulation
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{progressBar}} instead.
 #' 
 #' @keywords internal
+#' 
+#' @export
 envStepSimulation <- function() {
   lifecycle::deprecate_warn("1.2.11", "envStepSimulation()", "progressBar()")
   progressBar(type = "step")
@@ -208,7 +210,7 @@ envStepSimulation <- function() {
 
 #' Ends a SyncroSim simulation
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use \code{\link{progressBar}} instead.
 #' 
 #' @keywords internal

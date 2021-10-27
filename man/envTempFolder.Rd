@@ -10,7 +10,7 @@ envTempFolder(folderName)
 \item{folderName}{character. The folder name}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{runtimeTempFolder}} instead.
 }
 \keyword{internal}

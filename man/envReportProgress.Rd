@@ -12,7 +12,7 @@ envReportProgress(iteration, timestep)
 \item{timestep}{integer. The current timestep}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{progressBar}} instead.
 }
 \keyword{internal}

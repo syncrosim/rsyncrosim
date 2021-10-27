@@ -12,7 +12,7 @@ envOutputFolder(scenario, datasheetName)
 \item{datasheetName}{character. The output Datasheet name}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{runtimeOutputFolder}} instead.
 }
 \keyword{internal}

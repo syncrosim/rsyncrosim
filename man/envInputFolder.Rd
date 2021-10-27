@@ -12,7 +12,7 @@ envInputFolder(scenario, datasheetName)
 \item{datasheetName}{character. The input Datasheet name}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{runtimeInputFolder}} instead.
 }
 \keyword{internal}
