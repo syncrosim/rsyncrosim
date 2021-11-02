@@ -33,32 +33,38 @@ NULL
 #' # Query total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
 #' # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 #' mySQL <- sqlStatement(
-#'   groupBy = c("ScenarioID", "Iteration", "Timestep", "StateLabelXID"),
-#'   aggregate = c("Amount"),
+#'   groupBy = c("ScenarioID", "Iteration", "Timestep"),
+#'   aggregate = c("yCum"),
 #'   aggregateFunction = "SUM",
 #'   where = list(Timestep = c(0, 1, 2), Iteration = c(3, 4))
 #' )
 #' mySQL
 #' 
 #' # The SQL statement can then be used in the datasheet function
-#' # Install helloworldEnhanced package
-#' addPackage("helloworldEnhanced")
+#' # Install helloworldSpatial package
+#' addPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib")
+#' myLibraryName <- file.path(tempdir(),"testlib_sqlStatement")
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession, 
-#'                          package = "helloworldEnhanced",
+#'                          package = "helloworldSpatial",
 #'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
+#' # Run Scenario to generate results
+#' resultScenario <- run(myScenario)
+#' 
 #' # Use the SQL statement when loading the Datasheet
-#' myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
+#' myAggregatedDataFrame <- datasheet(resultScenario, name = "OutputDatasheet",
 #'                                    sqlStatement = mySQL)
+#'                                    
+#' # View aggregated DataFrame
+#' myAggregatedDataFrame
 #' }
 #' 
 #' @export

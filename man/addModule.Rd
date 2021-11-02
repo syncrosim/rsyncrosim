@@ -13,7 +13,7 @@ file on disk, or a vector of filepaths.}
 \item{session}{\code{\link{Session}} object}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{addPackage}} instead.
 }
 \keyword{internal}

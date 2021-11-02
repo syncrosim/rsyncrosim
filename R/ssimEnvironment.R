@@ -86,11 +86,11 @@ envCreateTempFolder <- function(folderName) {
 #' 
 #' @examples 
 #' \dontrun{
-#' inputFolder <- envInputFolder
+#' inputFolder <- runtimeInputFolder()
 #' }
 #' 
 #' @export
-envInputFolder <- function(scenario, datasheetName) {
+runtimeInputFolder <- function(scenario, datasheetName) {
   envValidateEnvironment()
   return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
 }
@@ -108,12 +108,12 @@ envInputFolder <- function(scenario, datasheetName) {
 #' Returns a folder name for the specified datasheet.
 #' 
 #' @examples 
-#' \donttest{
-#' outputFolder <- envOutputFolder()
+#' \dontrun{
+#' outputFolder <- runtimeOutputFolder()
 #' }
 #' 
 #' @export
-envOutputFolder <- function(scenario, datasheetName) {
+runtimeOutputFolder <- function(scenario, datasheetName) {
   envValidateEnvironment()
   return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
 }
@@ -131,104 +131,85 @@ envOutputFolder <- function(scenario, datasheetName) {
 #' 
 #' @examples 
 #' \dontrun{
-#' tempFolder <- envTempFolder()
+#' tempFolder <- runtimeTempFolder()
 #' }
 #' 
 #' @export
-envTempFolder <- function(folderName) {
+runtimeTempFolder <- function(folderName) {
   envValidateEnvironment()
   return(envCreateTempFolder(folderName))
 }
 
-#' Reports SyncroSim simulation progress
-#'
-#' This function is part of a set of functions designed to facilitate the
-#' development of R-based Syncrosim Packages. This function reports progress 
+#' Sets the progress bar in the SyncroSim User Interface
+#' 
+#' This function is designed to facilitate the development of R-based Syncrosim 
+#' Packages, such as beginning, stepping, ending, and reporting the progress 
 #' for a SyncroSim simulation.
-#'
-#' @param iteration integer. The current iteration
-#' @param timestep integer. The current timestep
 #' 
-#' @return
-#' No returned value, used for side effects.
-#' 
-#' @examples 
-#' \dontrun{
-#' envReportProgress()
-#' }
-#' 
-#' @export
-envReportProgress <- function(iteration, timestep) {
-  envValidateEnvironment()
-  cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
-  flush.console()
-}
-
-#' Begins a SyncroSim simulation
-#'
-#' This function is part of a set of functions designed to facilitate the
-#' development of R-based SyncroSim Packages. Specifically, this function begins
-#' the reporting of a SyncroSim simulation.
-#'
-#' @param totalSteps integer.  The total number of steps in the simulation
-#' 
-#' @return
-#' No returned value, used for side effects.
-#' 
-#' @examples 
-#' \dontrun{
-#' n_iter <- 50
-#' n_timesteps <- 10
-#' n_steps <- n_iter * n_timesteps
-#' envBeginSimulation(n_steps)
-#' }
-#' 
-#' @export
-envBeginSimulation <- function(totalSteps) {
-  envValidateEnvironment()
-  cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
-  flush.console()
-}
-
-#' Steps a SyncroSim simulation
-#'
-#' This function is part of a set of functions designed to facilitate the
-#' development of R-based Syncrosim Packages. This function steps a SyncroSim 
-#' simulation, and is to be called between \code{\link{envBeginSimulation}} and 
-#' \code{\link{envEndSimulation}}.
+#' @param type character. Update to apply to progress bar. Options include
+#' "begin", "end", "step", and "report" (Default is "step")
+#' @param iteration integer. The current iteration. Only used if 
+#' \code{type = "report"}
+#' @param timestep integer. The current timestep. Only used if 
+#' \code{type = "report"}
+#' @param totalSteps integer. The total number of steps in the simulation. Only
+#' used if \code{type = "begin"}
 #' 
 #' @return 
-#' No returned value, used for side effects.
-#' 
-#' @examples
-#' \dontrun{
-#' envStepSimulation()
-#' }
-#'
-#' @export
-envStepSimulation <- function() {
-  envValidateEnvironment()
-  cat("ssim-task-step=1\r\n")
-  flush.console()
-}
-
-#' Ends a SyncroSim simulation
-#'
-#' This function is part of a set of functions designed to facilitate the
-#' development of R-based Syncrosim Packages. This function ends a SyncroSim 
-#' simulation.
-#' 
-#' @return
-#' No returned value, used for side effects.
+#' No returned value, used for side effects
 #' 
 #' @examples 
 #' \dontrun{
-#' envEndSimulation()
+#' # Begin the progress bar for a simulation
+#' progressBar(type = "begin", totalSteps = numIterations * numTimesteps)
+#' 
+#' # Increase the progress bar by one step for a simulation
+#' progressBar(type = "step")
+#' 
+#' # Report progress for a simulation
+#' progressBar(type = "report", iteration = iter, timestep = ts)
+#' 
+#' # End the progress bar for a simulation
+#' progressBar(type = "end")
 #' }
 #' 
 #' @export
-envEndSimulation <- function() {
+progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalSteps = NULL) {
+  
+  # Check Program Directory
   envValidateEnvironment()
-  cat("ssim-task-end=True\r\n")
-  flush.console()
+  
+  # Begin progress bar tracking
+  if (type == "begin") {
+    if (is.numeric(totalSteps)) {
+      cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
+      flush.console()
+    } else {
+      stop("totalSteps argument must be an integer")
+    }
+    
+  # End progress bar tracking
+  } else if (type == "end") {
+    cat("ssim-task-end=True\r\n")
+    flush.console()
+    
+  # Step progress bar
+  } else if (type == "step") {
+    cat("ssim-task-step=1\r\n")
+    flush.console()
+  
+  # Report iteration and timestep in UI  
+  } else if (type == "report") {
+    if (is.numeric(iteration) & is.numeric(timestep)) {
+      cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
+      flush.console()
+    } else {
+      stop("iteration and timestep arguments must be integers")
+    }
+  
+  # Throw error if type not specified correctly  
+  } else {
+    stop("Invalid type argument")
+  }
+  
 }

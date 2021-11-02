@@ -4,6 +4,7 @@
 \alias{mergeDependencies}
 \alias{mergeDependencies,character-method}
 \alias{mergeDependencies,Scenario-method}
+\alias{mergeDependencies<-}
 \alias{mergeDependencies<-,character-method}
 \alias{mergeDependencies<-,Scenario-method}
 \title{Merge dependencies for a Scenario}
@@ -13,6 +14,8 @@ mergeDependencies(ssimObject)
 \S4method{mergeDependencies}{character}(ssimObject)
 
 \S4method{mergeDependencies}{Scenario}(ssimObject)
+
+mergeDependencies(ssimObject) <- value
 
 \S4method{mergeDependencies}{character}(ssimObject) <- value
 

@@ -20,39 +20,67 @@ Version](https://img.shields.io/github/r-package/v/syncrosim/rsyncrosim?label=Gi
 
 ## About SyncroSim
 
-  - **Automatically structure your data:** SyncroSim ties together your
-    existing data from disparate formats, such as Excel, CSV, and
-    GeoTIFF. No database is required – SyncroSim automatically
-    structures your data files for you.
+<a href="https://syncrosim.com/" target="_blank">SyncroSim</a> is a
+software platform that helps you turn your *data* into *forecasts*. At
+the core of SyncroSim is an engine that automatically structures your
+existing data, regardless of its original format. **SyncroSim**
+transforms this structured data into forecasts by running it through a
+Pipeline of calculations (i.e. a suite of *models*). Finally,
+**SyncroSim** provides a rich interface to interact with your data and
+models, allowing you to explore and track the consequences of
+alternative “what-if” forecasting Scenarios. Within this software
+framework is the ability to use and create
+<a href="https://docs.syncrosim.com/how_to_guides/package_overview.html" target="_blank">SyncroSim
+packages</a>.
 
-  - **Use your data to make predictions:** SyncroSim allows you to chain
-    together “models” – including existing off-the-shelf programs and
-    scripts written in languages such as R, Python and C\# – to
-    transform your data into predictions.
-
-  - **Engage decision makers:** No longer are forecasts delivered by
-    analysts as static reports. Through its unique, easy-to-use
-    interface, SyncroSim allows non-technical users to define, run and
-    track their own “what-if” scenarios using the original data and
-    models.
-
-  - **Go big:** SyncroSim is specifically designed to handle big data,
-    including support for cloud computing, multiprocessing, and large
-    rasters.
+For more details consult the **SyncroSim**
+<a href="https://docs.syncrosim.com/" target="_blank">online
+documentation</a>.
 
 ## About `rsyncrosim`
 
-The rsyncrosim R package allows you to script and run SyncroSim
-operations in R.
+The simplest way to run **SyncroSim** from the command-line is to use
+the R programming language, in conjunction with the open-source
+**rsyncrosim** R package. This R package is designed to make it simple
+to script modeling workflows for **SyncroSim** in R, by providing
+functions that allow users to create models from scratch, populate those
+models with inputs, run the models for multiple scenarios, and access
+both spatial and tabular model output. The package is designed to work
+with any **SyncroSim** Package.
+
+A key feature of the **rsyncrosim** package is its ability to work
+seamlessly with the **SyncroSim** user interface. By integrating model
+scripting and visualization, users can interactively explore and
+validate their models in the user interface as they step through their R
+code, and at the same time generate a permanent, repeatable record of
+their entire modeling workflow – including both pre- and post-processing
+of model inputs and outputs – in an R script.
 
 ### Installation
 
-  - [Download](https://cran.r-project.org/package=rsyncrosim/) from CRAN
+-   [Download](https://cran.r-project.org/package=rsyncrosim/) from CRAN
+
+-   [Download](https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.html)
+    from GitHub
 
 ### Getting Started
 
-  - Run the
-    [vignette](https://cran.r-project.org/package=rsyncrosim/vignettes/rsyncrosim_tutorial.html)
+-   Run the vignettes:
 
-  - View the package
+    -   [Introduction to
+        `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html)
+
+    -   [`rsyncrosim`: introduction to
+        uncertainty](https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html)
+
+    -   [`rsyncrosim`: introduction to
+        pipelines](https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html)
+
+    -   [`rsyncrosim`: introduction to spatial
+        data](https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.html)
+
+    -   [Introduction to `ST-Sim` in
+        `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.html)
+
+-   View the package
     [documentation](https://cran.r-project.org/package=rsyncrosim/rsyncrosim.pdf)

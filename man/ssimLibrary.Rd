@@ -89,18 +89,21 @@ Example arguments:
 }
 \examples{
 \donttest{
+# Make sure packages are installed
+addPackage("stsim")
+addPackage("stsimsf")
+
 # Create or open a SsimLibrary using the default Session
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
 
 # Create SsimLibrary using a specific Session
 mySession <- session()
+
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          session = mySession)
 
 # Retrieve SsimLibrary properties
 session(myLibrary)
-filepath(myLibrary)
-info(myLibrary)
 
 # Load a SsimLibrary with addon package
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
@@ -108,11 +111,11 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          addon = "stsimsf")
 
 # Create SsimLibrary from template
-addPackage("helloworldEnhanced")
+addPackage("helloworldSpatial")
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,
-                         package = "helloworldEnhanced",
+                         package = "helloworldSpatial",
                          template = "example-library",
                          overwrite = TRUE)
 }

@@ -2,6 +2,7 @@
 % Please edit documentation in R/owner.R
 \name{owner}
 \alias{owner}
+\alias{owner<-}
 \alias{owner,character-method}
 \alias{owner,SsimLibrary-method}
 \alias{owner,Project-method}
@@ -11,6 +12,8 @@
 \title{Owner of a SsimLibrary, Project or Scenario}
 \usage{
 owner(ssimObject)
+
+owner(ssimObject) <- value
 
 \S4method{owner}{character}(ssimObject)
 

@@ -16,7 +16,7 @@ packages to remove}
 before deletion}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+`r lifecycle::badge("deprecated")`
 Please use \code{\link{removePackage}} instead.
 }
 \keyword{internal}

@@ -6,7 +6,6 @@
 ^\.Rproj\.user$
 .rxproj$
 .rxproj.user$
-.vs/*
 ^.*\.sln$
 ^README\.Rmd$
 ^README-.*\.png$
@@ -19,3 +18,10 @@ Dockerfile
 ^docs$
 ^pkgdown$
 ^codecov\.yml$
+^rsyncrosim_binaries$
+^docs$
+^inst$
+^demo$
+^vignettes$
+rsyncrosim.Rcheck
+rsyncrosim_1.3.1.tar.gz

@@ -15,17 +15,17 @@ NULL
 #' 
 #' @examples 
 #' \donttest{
-#' # Install helloworldEnhanced SyncroSim package
-#' addPackage("helloworldEnhanced")
+#' # Install helloworldSpatial SyncroSim package
+#' addPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib")
+#' myLibraryName <- file.path(tempdir(),"testlib_parentId")
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession,
-#'                          package = "helloworldEnhanced",
+#'                          package = "helloworldSpatial",
 #'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")

@@ -4,6 +4,7 @@
 \alias{autogentags}
 \alias{autogentags,character-method}
 \alias{autogentags,Scenario-method}
+\alias{autogentags<-}
 \alias{autogentags<-,character-method}
 \alias{autogentags<-,Scenario-method}
 \title{Auto Generation Tags for a Scenario}
@@ -13,6 +14,8 @@ autogentags(ssimObject)
 \S4method{autogentags}{character}(ssimObject)
 
 \S4method{autogentags}{Scenario}(ssimObject)
+
+autogentags(ssimObject) <- value
 
 \S4method{autogentags}{character}(ssimObject) <- value
 

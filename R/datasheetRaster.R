@@ -46,20 +46,21 @@ NULL
 #' 
 #' @examples
 #' \donttest{
-#' # Install the helloworldEnhanced package from the server
-#' addPackage("helloworldEnhanced")
+#' # Install the helloworldSpatial package from the server
+#' addPackage("helloworldSpatial")
 #' 
 #' # Specify file path and name of new SsimLibrary
-#' myLibraryName <- file.path(tempdir(), "testlib")
+#' myLibraryName <- file.path(tempdir(), "testlib_datasheetRaster")
 #' 
 #' # Set up a SyncroSim Session
 #' mySession <- session()
 #' 
-#' # Use the example template library from helloworldEnhanced
+#' # Use the example template library from helloworldSpatial
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession,
-#'                          package = "helloworldEnhanced",
-#'                          template = "example-library")
+#'                          package = "helloworldSpatial",
+#'                          template = "example-library",
+#'                          overwrite=TRUE)
 #' 
 #' # Set up Project and Scenario
 #' myProject <- project(myLibrary, project = "Definitions")
@@ -78,6 +79,7 @@ NULL
 #' 
 #' # Extract specific Datasheet rasters using pattern matching
 #' resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
+#' head(resultDatasheet)
 #' resultRaster <- datasheetRaster(resultScenario, 
 #'                   datasheet = "IntermediateDatasheet",
 #'                   column = "OutputRasterFile",

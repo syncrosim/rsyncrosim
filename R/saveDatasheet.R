@@ -35,10 +35,6 @@ NULL
 #' @param import logical. Set to \code{TRUE} to import the data after saving. 
 #' Default is \code{FALSE}
 #' @param path character.  output path (optional)
-# @param project character or integer. Project name or id. Note integer ids are
-# slightly faster.
-# @param scenario character or integer. Project name or id. Note integer ids 
-# are slightly faster.
 #' 
 #' @details
 #' SsimObject/Project/Scenario should identify a single SsimObject.
@@ -69,17 +65,17 @@ NULL
 #' 
 #' @examples 
 #' \donttest{
-#' # Install helloworldEnhanced package
-#' addPackage("helloworldEnhanced")
+#' # Install helloworldSpatial package
+#' addPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib")
+#' myLibraryName <- file.path(tempdir(),"testlib_saveDatasheet")
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession, 
-#'                          package = "helloworldEnhanced",
+#'                          package = "helloworldSpatial",
 #'                          template = "example-library")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
@@ -95,12 +91,6 @@ NULL
 #' 
 #' # Save Datasheet
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")
-#' 
-#' # Append to a Datasheet rather than overwriting
-#' myDatasheet$MaximumTimestep <- 5
-#' 
-#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
-#'               append = TRUE)
 #'           
 #' # Import data after saving
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
@@ -108,7 +98,7 @@ NULL
 #'         
 #' # Save the new Datasheet to a specified output path
 #' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
-#'               path = temp_dir)
+#'               path = tempdir())
 #'               
 #' # Save a raster stack using fileData
 #' # Create a raster stack - add as many raster files as you want here

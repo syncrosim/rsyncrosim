@@ -126,7 +126,7 @@ setMethod(
 
 #' Create or open Scenario(s)
 #'
-#' Create or open one or more \code{\link{Scenarios}} from a 
+#' Create or open one or more \code{\link{Scenario}}s from a 
 #' \code{\link{SsimLibrary}}.
 #'
 #' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Project}} object,

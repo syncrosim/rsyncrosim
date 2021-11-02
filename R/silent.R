@@ -47,6 +47,8 @@ setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session
   return(silent(session))
 })
 
+#' @rdname silent
+#' @export
 setGeneric("silent<-", function(session, value) standardGeneric("silent<-"))
 #' @rdname silent
 setReplaceMethod(

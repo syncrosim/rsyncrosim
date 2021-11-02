@@ -53,6 +53,8 @@ setMethod("mergeDependencies", signature(ssimObject = "Scenario"), function(ssim
   return(value)
 })
 
+#' @rdname mergeDependencies
+#' @export
 setGeneric("mergeDependencies<-", function(ssimObject, value) standardGeneric("mergeDependencies<-"))
 
 #' @rdname mergeDependencies
