@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
       </span>
     </div>
 
@@ -172,7 +172,7 @@
 <p>You can check to see which version of SyncroSim your R script is connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.5"</code></pre>
+<pre><code>## [1] "2.3.6"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -436,18 +436,18 @@
 <code class="sourceCode R"><span class="co"># Get run details for the first result Scenario</span>
 <span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></code></pre></div>
 <pre><code>## Run Log                                                                                                                                                                                                                                                                                            
-## STARTING SIMULATION: 2021-10-07 : 9:48:39 AM
+## STARTING SIMULATION: 2021-11-03 : 2:36:45 PM
 ## 
 ## Parent Scenario is: [1] My first scenario
-## Result scenario is: [2] My first scenario ([1] @ 07-Oct-2021 9:48 AM)
+## Result scenario is: [2] My first scenario ([1] @ 03-Nov-2021 2:36 PM)
 ## 
 ## CONFIGURING: Primary
 ## 
 ## RUNNING: Primary
 ## 
-## SIMULATION COMPLETE: 2021-10-07 : 9:48:47 AM
-## Total simulation time: 00:00:07</code></pre>
-<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2021-10-07 : 9:48:39 AM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 07-Oct-2021 9:48 AM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2021-10-07 : 9:48:47 AM\nTotal simulation time: 00:00:07      "</code></pre>
+## SIMULATION COMPLETE: 2021-11-03 : 2:36:53 PM
+## Total simulation time: 00:00:08</code></pre>
+<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2021-11-03 : 2:36:45 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 03-Nov-2021 2:36 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2021-11-03 : 2:36:53 PM\nTotal simulation time: 00:00:08      "</code></pre>
 </div>
 </div>
 <div id="view-results" class="section level2">
@@ -463,10 +463,10 @@
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   scenarioId projectId                                          name isResult
 ## 1          1         1                             My first scenario       No
-## 2          2         1 My first scenario ([1] @ 07-Oct-2021 9:48 AM)      Yes
+## 2          2         1 My first scenario ([1] @ 03-Nov-2021 2:36 PM)      Yes
 ##   parentID owner          lastModified readOnly mergeDependencies
-## 1       NA   N/A 2021-10-07 at 9:48 AM       No                No
-## 2        1   N/A 2021-10-07 at 9:48 AM       No                No
+## 1       NA   N/A 2021-11-03 at 2:36 PM       No                No
+## 2        1   N/A 2021-11-03 at 2:36 PM       No                No
 ##   ignoreDependencies autoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
@@ -526,7 +526,7 @@
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
 <pre><code>##                                            name
 ## 1                             My first scenario
-## 2 My first scenario ([1] @ 07-Oct-2021 9:48 AM)</code></pre>
+## 2 My first scenario ([1] @ 03-Nov-2021 2:36 PM)</code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a new Scenario as a copy of an existing Scenario</span>
 <span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,
@@ -537,7 +537,7 @@
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
 <pre><code>##                                            name
 ## 1                             My first scenario
-## 2 My first scenario ([1] @ 07-Oct-2021 9:48 AM)
+## 2 My first scenario ([1] @ 03-Nov-2021 2:36 PM)
 ## 3                            My second scenario</code></pre>
 <p>To edit the new Scenario, we must first load the contents of the input Datasheet and assign it to a new R data frame using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the <code>empty</code> argument to <code>TRUE</code> so that instead of getting the values from the existing Scenario, we can start with an empty data frame again.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
@@ -624,8 +624,8 @@
 <pre><code>##                    property                                      value
 ## 1                     Name:                          helloworldLibrary
 ## 2                    Owner:                                        N/A
-## 3            Last Modified:                      2021-10-07 at 9:49 AM
-## 4                     Size:                        188 KB  (192,512 B)
+## 3            Last Modified:                      2021-11-03 at 2:37 PM
+## 4                     Size:                        192 KB  (196,608 B)
 ## 5                Read Only:                                         No
 ## 6             Package Name:                             helloworldTime
 ## 7      Package Description: Example demonstrating how to use timesteps
@@ -677,10 +677,11 @@
 ## 4  library              core_Options                  Options
 ## 5  library core_ProcessorGroupOption  Processor Group Options
 ## 6  library  core_ProcessorGroupValue   Processor Group Values
-## 7  library              core_RConfig          R Configuration
-## 8  library             core_Settings                 Settings
-## 9  library            core_SysFolder                  Folders
-## 10 library         corestime_Options          Spatial Options</code></pre>
+## 7  library             core_PyConfig     Python Configuration
+## 8  library              core_RConfig          R Configuration
+## 9  library             core_Settings                 Settings
+## 10 library            core_SysFolder                  Folders
+## 11 library         corestime_Options          Spatial Options</code></pre>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get the current values for the Library's Backup Datasheet</span>
 <span class="va">myDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Backup"</span><span class="op">)</span>   
