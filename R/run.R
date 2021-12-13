@@ -17,6 +17,9 @@ NULL
 #'     If \code{TRUE} (faster) result Scenario ids are returned
 #' @param jobs integer. The number of jobs to run. Passed to SyncroSim where 
 #'     multithreading is handled
+#' @param copySpatialInputs logical. If \code{FALSE} (default) then a copy of spatial
+#'     inputs is not created for each job. Otherwise, a copy of spatial inputs is 
+#'     created for each job. Applies only when \code{jobs}>1
 #' @param transformerName character.  The name of the transformer to run (optional)
 #' @param forceElements logical. If \code{TRUE} then returns a single result Scenario 
 #'     as a named list; if \code{FALSE} (default) returns a single result Scenario as 
@@ -61,29 +64,29 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("run", function(ssimObject, scenario = NULL, summary = FALSE, jobs = 1, transformerName = NULL, forceElements = FALSE) standardGeneric("run"))
+setGeneric("run", function(ssimObject, scenario = NULL, summary = FALSE, jobs = 1, copySpatialInputs = FALSE, transformerName = NULL, forceElements = FALSE) standardGeneric("run"))
 
 #' @rdname run
-setMethod("run", signature(ssimObject = "character"), function(ssimObject, scenario, summary, jobs, transformerName, forceElements) {
+setMethod("run", signature(ssimObject = "character"), function(ssimObject, scenario, summary, jobs, copySpatialInputs, transformerName, forceElements) {
   if (ssimObject == SyncroSimNotFound(warn = FALSE)) {
     return(SyncroSimNotFound())
   }
   ssimObject <- .ssimLibrary(ssimObject)
-  out <- run(ssimObject, scenario, summary, jobs, transformerName, forceElements)
+  out <- run(ssimObject, scenario, summary, jobs, copySpatialInputs, transformerName, forceElements)
   return(out)
 })
 
 #' @rdname run
-setMethod("run", signature(ssimObject = "list"), function(ssimObject, scenario, summary, jobs, transformerName, forceElements) {
+setMethod("run", signature(ssimObject = "list"), function(ssimObject, scenario, summary, jobs, copySpatialInputs, transformerName, forceElements) {
   x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", scenario = scenario)
   ssimObject <- x$ssimObject
   scenario <- x$objs
-  out <- run(ssimObject, scenario, summary, jobs, transformerName, forceElements)
+  out <- run(ssimObject, scenario, summary, jobs, copySpatialInputs, transformerName, forceElements)
   return(out)
 })
 
 #' @rdname run
-setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scenario, summary, jobs, transformerName, forceElements) {
+setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scenario, summary, jobs, copySpatialInputs, transformerName, forceElements) {
   xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, convertObject = TRUE, returnIds = TRUE, goal = "scenario", complainIfMissing = TRUE)
   # Now assume scenario is x is valid object and scenario is valid vector of scenario ids
   x <- xProjScn$ssimObject
@@ -113,10 +116,14 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
     }
 
     if ((class(breakpoints) != "list") | (length(breakpoints) == 0)) {
-      args <- list(run = NULL, lib = .filepath(x), sid = cScn, jobs = jobs)
+      args <- list(run = NULL, lib = .filepath(x), sid = cScn, noextfiles = NULL, jobs = jobs)
 
       if (!is.null(transformerName)) {
         args[["trx"]] <- transformerName
+      }
+      
+      if (copySpatialInputs == TRUE) {
+        args[["noextfiles"]] <- NULL
       }
 
       tt <- command(args, .session(x))
@@ -187,7 +194,7 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
 })
 
 #' @rdname run
-setMethod("run", signature(ssimObject = "BreakpointSession"), function(ssimObject, scenario, summary, jobs, forceElements) {
+setMethod("run", signature(ssimObject = "BreakpointSession"), function(ssimObject, scenario, summary, jobs, copySpatialInputs, forceElements) {
   x <- ssimObject
   l <- ssimLibrary(name = x@scenario@filepath, session = x@scenario@session)
   msg <- paste0("create-result --sid=", .scenarioId(x@scenario))
@@ -301,3 +308,4 @@ setMethod("run", signature(ssimObject = "BreakpointSession"), function(ssimObjec
     return(ret)
   }
 })
+

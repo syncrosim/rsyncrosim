@@ -55,7 +55,7 @@ mySession                                           # Displays the Session objec
 
 ```{r load session run, warning = FALSE, echo = FALSE}
 # Results of this code shown for above
-mySession <- session()                              # Using default install folder (Windows only)
+mySession <- session(printCmd=T)                              # Using default install folder (Windows only)
 mySession                                           # Displays the Session object
 ```
 
