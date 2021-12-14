@@ -15,6 +15,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
+  filtercol = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -26,6 +27,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
+  filtercol = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -37,6 +39,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
+  filtercol = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -48,6 +51,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
+  filtercol = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -59,6 +63,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
+  filtercol = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -85,6 +90,9 @@ included. If no Iteration column is in the Datasheet, then ignored}
 \item{timestep}{integer, character string, or vector of integer/character string. 
 Timestep(s) to include. If \code{NULL} (default) then all timesteps are 
 included.  If no Timestep column is in the Datasheet, then ignored}
+
+\item{filtercol}{character string. Filters a Datasheet by a value in a column 
+(e.g. "TransitionGroupID=20"). Default is \code{NULL}}
 
 \item{subset}{logical expression indicating Datasheet rows to return. 
 e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for 
