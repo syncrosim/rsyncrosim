@@ -15,7 +15,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
-  filtercol = NULL,
+  filterColumn = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -27,7 +27,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
-  filtercol = NULL,
+  filterColumn = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -39,7 +39,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
-  filtercol = NULL,
+  filterColumn = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -51,7 +51,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
-  filtercol = NULL,
+  filterColumn = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -63,7 +63,7 @@ datasheetRaster(
   scenario = NULL,
   iteration = NULL,
   timestep = NULL,
-  filtercol = NULL,
+  filterColumn = NULL,
   subset = NULL,
   forceElements = FALSE
 )
@@ -91,7 +91,7 @@ included. If no Iteration column is in the Datasheet, then ignored}
 Timestep(s) to include. If \code{NULL} (default) then all timesteps are 
 included.  If no Timestep column is in the Datasheet, then ignored}
 
-\item{filtercol}{character string. Filters a Datasheet by a value in a column 
+\item{filterColumn}{character string. Filters a Datasheet by a value in a column 
 (e.g. "TransitionGroupID=20"). Default is \code{NULL}}
 
 \item{subset}{logical expression indicating Datasheet rows to return. 

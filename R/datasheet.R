@@ -61,6 +61,8 @@ NULL
 #'     and \code{lookupsAsFactors=FALSE}
 #' @param empty logical. If \code{TRUE} returns empty data.frames for each 
 #'     Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}
+#' @param filterColumn character string. Filters a Datasheet by a value in a column 
+#'     (e.g. "TransitionGroupID=20"). Default is \code{NULL}
 #' @param lookupsAsFactors logical. If \code{TRUE} (default) dependencies 
 #'     returned as factors with allowed values (levels). Set \code{FALSE} to speed 
 #'     calculations. Ignored if \code{summary=TRUE}
@@ -153,11 +155,11 @@ NULL
 #' 
 #' @export
 #' @import RSQLite
-setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, summary = NULL, optional = FALSE, empty = FALSE, lookupsAsFactors = TRUE, sqlStatement = list(select = "SELECT *", groupBy = ""), includeKey = FALSE, forceElements = FALSE, fastQuery = FALSE) standardGeneric("datasheet"))
+setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, summary = NULL, optional = FALSE, empty = FALSE, filterColumn = NULL, lookupsAsFactors = TRUE, sqlStatement = list(select = "SELECT *", groupBy = ""), includeKey = FALSE, forceElements = FALSE, fastQuery = FALSE) standardGeneric("datasheet"))
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name, project, scenario, summary, optional, empty, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
+setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
   cScn <- ssimObject[[1]]
   x <- NULL
   if (class(cScn) == "Scenario") {
@@ -176,18 +178,20 @@ setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name
   }
   # Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, summary = summary, optional = optional, empty = empty, lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, includeKey = includeKey, forceElements = forceElements, fastQuery = fastQuery) # Off for v0.1
+  out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, summary = summary, optional = optional, empty = empty, filterColumn = filterColumn, lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, includeKey = includeKey, forceElements = forceElements, fastQuery = fastQuery) # Off for v0.1
   
   return(out)
 })
 
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "character"), function(ssimObject, name, project, scenario, summary, optional, empty, lookupsAsFactors, sqlStatement, includeKey, fastQuery) {
+setMethod("datasheet", signature(ssimObject = "character"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, lookupsAsFactors, sqlStatement, includeKey, fastQuery) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject, name, project, scenario, summary, optional, empty, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
+setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
+  browser()
+  
   temp <- NULL
   ProjectID <- NULL
   ScenarioID <- NULL
@@ -354,6 +358,32 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           stop("Datasheet ", name, " not found in library.")
         }
       }
+      
+      # Check here if filterColumn exists in current datasheet if not null
+      # Also check here if second part of filterColumn is not an int, find corresponding ID int
+      browser()
+      if (!is.null(filterColumn)) {
+        filterSplit = strsplit(filterColumn, "=")[[1]] # may have to change depending on expression
+        datasheetCol = filterSplit[1]
+        colID = filterSplit[2]
+        
+        # Check if column exists in Datasheet
+        args <- list(list = NULL, columns = NULL, lib = .filepath(x), sheet = name)
+        tt <- command(args, session = session(x))
+        datasheetCols <- .dataframeFromSSim(tt)
+        
+        if (!(datasheetCol %in% datasheetCols$Name)) {
+          filterColumn <- NULL
+        }
+        else if (sheetNames$isOutput & is.character(colID)) {
+          inputDatasheetName <- datasheetCols[datasheetCols["Name" == datasheetCol]]$Formula1
+          args <- list(export = NULL, lib = .filepath(x), sheet = inputDatasheetName)
+          tt <- command(args, session = session(x))
+          inputDatasheet <- .dataframeFromSSim(tt)
+          newColID <- inputDatasheet[inputDatasheet["Name" == colID]][datasheetCol]
+          filterColumn <- paste0(datasheetCol, "=", newColID)
+        }
+      }
     }
     
     rmCols <- c()
@@ -383,6 +413,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       # Basically an output will make keep console FALSE
       useConsole <- (!sheetNames$isOutput)
       
+      # Use console if filterColumn argument is used
+      if (!is.null(filterColumn)){
+        useConsole <- TRUE
+      }
+
       # Policy change - always query output directly from database. It is faster.
       useConsole <- useConsole & ((sqlStatement$select == "SELECT *")) # &(!lookupsAsFactors))
       useConsole <- useConsole & !((sheetNames$scope == "project") & (length(pid) > 1))
@@ -461,6 +496,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL) # filepath=NULL
           }
           args <- assignPidSid(args, sheetNames, pid, sid)
+          
+          if (!is.null(filterColumn)){
+            args[["filtercol"]] <- filterColumn
+          }
+          
           tt <- command(args, .session(x))
           
           if (!identical(tt, "saved")) {
