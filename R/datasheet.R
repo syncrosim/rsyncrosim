@@ -370,17 +370,26 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         # Check if column exists in Datasheet
         args <- list(list = NULL, columns = NULL, lib = .filepath(x), sheet = name)
         tt <- command(args, session = session(x))
-        datasheetCols <- .dataframeFromSSim(tt)
+        datasheetCols <- .dataframeFromSSim(tt, csv = FALSE)
         
-        if (!(datasheetCol %in% datasheetCols$Name)) {
+        if (!(datasheetCol %in% datasheetCols$name)) {
           filterColumn <- NULL
         }
-        else if (sheetNames$isOutput & is.character(colID)) {
-          inputDatasheetName <- datasheetCols[datasheetCols["Name" == datasheetCol]]$Formula1
-          args <- list(export = NULL, lib = .filepath(x), sheet = inputDatasheetName)
+        else if (is.na(suppressWarnings(as.integer(colID)))) {
+          if (sheetNames$isOutput){
+            inputDatasheetName <- subset(datasheetCols, name == datasheetCol)$formula1
+          } else {
+            inputDatasheetName <- name
+          }
+          tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
+          unlink(tempFile)
+          args <- list(export = NULL, lib = .filepath(x), sheet = inputDatasheetName,
+                       file = tempFile, valsheets = NULL, extfilepaths = NULL,
+                       includepk = NULL, force = NULL)
+          args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, session = session(x))
-          inputDatasheet <- .dataframeFromSSim(tt)
-          newColID <- inputDatasheet[inputDatasheet["Name" == colID]][datasheetCol]
+          inputDatasheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
+          newColID <- inputDatasheet[grepl(colID, inputDatasheet$Name),][[datasheetCol]]
           filterColumn <- paste0(datasheetCol, "=", newColID)
         }
       }

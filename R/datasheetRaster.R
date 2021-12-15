@@ -193,7 +193,6 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   }
   
   # TO DO: make sure datasheet is spatial after opening
-  # TO DO: make sure that filterColumn exists in current datasheet (try catch?)
   cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, lookupsAsFactors = getFactors)
   
   if (nrow(cMeta) == 0) {
