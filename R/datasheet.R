@@ -190,8 +190,6 @@ setMethod("datasheet", signature(ssimObject = "character"), function(ssimObject,
 
 #' @rdname datasheet
 setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
-  browser()
-  
   temp <- NULL
   ProjectID <- NULL
   ScenarioID <- NULL
@@ -361,7 +359,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       
       # Check here if filterColumn exists in current datasheet if not null
       # Also check here if second part of filterColumn is not an int, find corresponding ID int
-      browser()
       if (!is.null(filterColumn)) {
         filterSplit = strsplit(filterColumn, "=")[[1]] # may have to change depending on expression
         datasheetCol = filterSplit[1]
