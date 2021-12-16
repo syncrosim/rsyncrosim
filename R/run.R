@@ -122,7 +122,6 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
         args[["trx"]] <- transformerName
       }
       
-      browser()
       if ((copyExternalInputs == TRUE) | (jobs == 1)) {
         args[["noextfiles"]] <- NULL
       }
