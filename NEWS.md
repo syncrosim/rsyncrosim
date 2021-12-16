@@ -1,4 +1,4 @@
-# rsyncrosim 1.3.2
+# rsyncrosim 1.3.3
 
 ## Breaking changes
 

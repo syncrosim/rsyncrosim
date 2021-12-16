@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.3</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
 <p>In a new R script, load the necessary packages. This includes the <code>rsyncrosim</code> and <code>raster</code> R packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load R packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://syncrosim.github.io/rsyncrosim">rsyncrosim</a></span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>      <span class="co"># package for working with raster data</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
 </div>
@@ -161,7 +161,7 @@
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.6"</code></pre>
+<pre><code>## [1] "2.3.7"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -371,13 +371,13 @@
 
 <span class="co"># View results table of first Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep          y        OutputRasterFile
-## 1         1        1  -205.3280 rasterMap_iter1_ts1.tif
-## 2         1        2  -406.3221 rasterMap_iter1_ts2.tif
-## 3         1        3  -607.3161 rasterMap_iter1_ts3.tif
-## 4         1        4  -808.3101 rasterMap_iter1_ts4.tif
-## 5         1        5 -1009.3042 rasterMap_iter1_ts5.tif
-## 6         1        6 -1210.2982 rasterMap_iter1_ts6.tif</code></pre>
+<pre><code>##   Iteration Timestep         y        OutputRasterFile
+## 1         1        1  -37.4566 rasterMap_iter1_ts1.tif
+## 2         1        2  -70.5791 rasterMap_iter1_ts2.tif
+## 3         1        3 -103.7017 rasterMap_iter1_ts3.tif
+## 4         1        4 -136.8243 rasterMap_iter1_ts4.tif
+## 5         1        5 -169.9469 rasterMap_iter1_ts5.tif
+## 6         1        6 -203.0694 rasterMap_iter1_ts6.tif</code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load results of second Transformer in Pipeline</span>
 <span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -385,13 +385,13 @@
 
 <span class="co"># View results table of second Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep       yCum
-## 1         1        1  -205.3280
-## 2         1        2  -611.6501
-## 3         1        3 -1218.9662
-## 4         1        4 -2027.2763
-## 5         1        5 -3036.5805
-## 6         1        6 -4246.8787</code></pre>
+<pre><code>##   Iteration Timestep      yCum
+## 1         1        1  -37.4566
+## 2         1        2 -108.0357
+## 3         1        3 -211.7374
+## 4         1        4 -348.5617
+## 5         1        5 -518.5086
+## 6         1        6 -721.5780</code></pre>
 <p>From viewing these Datasheets, we can see that the spatial output is contained within the <code>IntermediateDatasheet</code>, in the column called <code>OutputRasterFile</code>.</p>
 </div>
 <div id="viewing-spatial-results-with-datasheetraster" class="section level3">
@@ -418,7 +418,7 @@
 ## crs        : +proj=longlat +datum=WGS84 +no_defs 
 ## source     : rasterMap_iter1_ts5.tif 
 ## names      : rasterMap_iter1_ts5.it1.ts5 
-## values     : -42.82463, -38.08037  (min, max)</code></pre>
+## values     : -9.250333, -4.506076  (min, max)</code></pre>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>
