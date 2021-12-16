@@ -13,6 +13,7 @@ run(
   scenario = NULL,
   summary = FALSE,
   jobs = 1,
+  copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
 )
@@ -22,6 +23,7 @@ run(
   scenario = NULL,
   summary = FALSE,
   jobs = 1,
+  copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
 )
@@ -31,6 +33,7 @@ run(
   scenario = NULL,
   summary = FALSE,
   jobs = 1,
+  copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
 )
@@ -40,11 +43,12 @@ run(
   scenario = NULL,
   summary = FALSE,
   jobs = 1,
+  copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
 )
 
-\S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs, forceElements)
+\S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs, copyExternalInputs, forceElements)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or
@@ -60,6 +64,10 @@ If \code{TRUE} (faster) result Scenario ids are returned}
 
 \item{jobs}{integer. The number of jobs to run. Passed to SyncroSim where 
 multithreading is handled}
+
+\item{copyExternalInputs}{logical. If \code{FALSE} (default) then a copy of external
+input files (e.g. GeoTIFF files) is not created for each job. Otherwise, a 
+copy of external inputs is created for each job. Applies only when \code{jobs}>1}
 
 \item{transformerName}{character.  The name of the transformer to run (optional)}
 

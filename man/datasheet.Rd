@@ -15,6 +15,7 @@ datasheet(
   summary = NULL,
   optional = FALSE,
   empty = FALSE,
+  filterColumn = NULL,
   lookupsAsFactors = TRUE,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
@@ -30,6 +31,7 @@ datasheet(
   summary = NULL,
   optional = FALSE,
   empty = FALSE,
+  filterColumn = NULL,
   lookupsAsFactors = TRUE,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
@@ -45,6 +47,7 @@ datasheet(
   summary,
   optional,
   empty,
+  filterColumn,
   lookupsAsFactors,
   sqlStatement,
   includeKey,
@@ -59,6 +62,7 @@ datasheet(
   summary = NULL,
   optional = FALSE,
   empty = FALSE,
+  filterColumn = NULL,
   lookupsAsFactors = TRUE,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
@@ -96,6 +100,9 @@ and \code{lookupsAsFactors=FALSE}}
 
 \item{empty}{logical. If \code{TRUE} returns empty data.frames for each 
 Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}}
+
+\item{filterColumn}{character string. Filters a Datasheet by a value in a column 
+(e.g. "TransitionGroupID=20"). Default is \code{NULL}}
 
 \item{lookupsAsFactors}{logical. If \code{TRUE} (default) dependencies 
 returned as factors with allowed values (levels). Set \code{FALSE} to speed 

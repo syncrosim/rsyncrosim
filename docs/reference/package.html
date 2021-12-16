@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
       </span>
     </div>
 
@@ -210,20 +210,20 @@ for a specified package.</p>
 <span class='co'># List all installed packages</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                       name
-#&gt; 1                      epi
-#&gt; 2                epiDataBc
-#&gt; 3            epiDataCanada
-#&gt; 4             epiDataWorld
-#&gt; 5          epiForecastIHME
-#&gt; 6    epiModelDeathHospital
-#&gt; 7       epiModelVocVaccine
-#&gt; 8               epiPublish
-#&gt; 9             epiTransform
-#&gt; 10              helloworld
-#&gt; 11      helloworldPipeline
-#&gt; 12    helloworldPipelinePy
-#&gt; 13       helloworldSpatial
-#&gt; 14     helloworldSpatialPy
+#&gt; 1               demodigits
+#&gt; 2                      epi
+#&gt; 3                epiDataBc
+#&gt; 4            epiDataCanada
+#&gt; 5             epiDataWorld
+#&gt; 6          epiForecastIHME
+#&gt; 7    epiModelDeathHospital
+#&gt; 8       epiModelVocVaccine
+#&gt; 9               epiPublish
+#&gt; 10            epiTransform
+#&gt; 11              helloworld
+#&gt; 12      helloworldPipeline
+#&gt; 13    helloworldPipelinePy
+#&gt; 14       helloworldSpatial
 #&gt; 15          helloworldTime
 #&gt; 16        helloworldTimePy
 #&gt; 17   helloworldUncertainty
@@ -237,19 +237,19 @@ for a specified package.</p>
 #&gt; 25             stsimecodep
 #&gt; 26                 stsimsf
 #&gt;                                                                                 description
-#&gt; 1                                                                     Epidemic Base Package
-#&gt; 2                                                                          BC COVID-19 Data
-#&gt; 3                                                                    Canadian COVID-19 Data
-#&gt; 4                                                                       World COVID-19 Data
-#&gt; 5                                                                   IHME COVID-19 Forecasts
-#&gt; 6                                                             Death + Hospitalization Model
-#&gt; 7                                                                       VOC + Vaccine Model
-#&gt; 8                                                                          Data Publication
-#&gt; 9                                                                   Remove Seasonal Effects
-#&gt; 10                                            Example demonstrating how to create a package
-#&gt; 11                                               Example demonstrating how to use pipelines
-#&gt; 12                                   Example demonstrating how to use pipelines with python
-#&gt; 13                                            Example demonstrating how to use spatial data
+#&gt; 1                                                                               Demo Digits
+#&gt; 2                                                                     Epidemic Base Package
+#&gt; 3                                                                          BC COVID-19 Data
+#&gt; 4                                                                    Canadian COVID-19 Data
+#&gt; 5                                                                       World COVID-19 Data
+#&gt; 6                                                                   IHME COVID-19 Forecasts
+#&gt; 7                                                             Death + Hospitalization Model
+#&gt; 8                                                                       VOC + Vaccine Model
+#&gt; 9                                                                          Data Publication
+#&gt; 10                                                                  Remove Seasonal Effects
+#&gt; 11                                                                      Hello World Package
+#&gt; 12                                               Example demonstrating how to use pipelines
+#&gt; 13                                   Example demonstrating how to use pipelines with python
 #&gt; 14                                            Example demonstrating how to use spatial data
 #&gt; 15                                               Example demonstrating how to use timesteps
 #&gt; 16                           Example demonstrating how to use timesteps with a python model
@@ -264,8 +264,8 @@ for a specified package.</p>
 #&gt; 25 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
 #&gt; 26                             Integrates stocks and flows into the ST-Sim simulation model
 #&gt;    version
-#&gt; 1    1.1.0
-#&gt; 2    1.0.0
+#&gt; 1    1.0.0
+#&gt; 2    1.1.0
 #&gt; 3    1.0.0
 #&gt; 4    1.0.0
 #&gt; 5    1.0.0
@@ -273,10 +273,10 @@ for a specified package.</p>
 #&gt; 7    1.0.0
 #&gt; 8    1.0.0
 #&gt; 9    1.0.0
-#&gt; 10   1.0.1
+#&gt; 10   1.0.0
 #&gt; 11   1.0.0
 #&gt; 12   1.0.0
-#&gt; 13   1.0.1
+#&gt; 13   1.0.0
 #&gt; 14   1.0.1
 #&gt; 15   1.0.0
 #&gt; 16   1.0.0
@@ -289,16 +289,16 @@ for a specified package.</p>
 #&gt; 23  1.1.14
 #&gt; 24   3.3.3
 #&gt; 25   3.3.0
-#&gt; 26   3.3.1</div><div class='input'>
+#&gt; 26   3.3.2</div><div class='input'>
 <span class='co'># List all the installed base packages</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                       name
-#&gt; 1                      epi
-#&gt; 2               helloworld
-#&gt; 3       helloworldPipeline
-#&gt; 4     helloworldPipelinePy
-#&gt; 5        helloworldSpatial
-#&gt; 6      helloworldSpatialPy
+#&gt; 1               demodigits
+#&gt; 2                      epi
+#&gt; 3               helloworld
+#&gt; 4       helloworldPipeline
+#&gt; 5     helloworldPipelinePy
+#&gt; 6        helloworldSpatial
 #&gt; 7           helloworldTime
 #&gt; 8         helloworldTimePy
 #&gt; 9    helloworldUncertainty
@@ -309,11 +309,11 @@ for a specified package.</p>
 #&gt; 14               stconnect
 #&gt; 15                   stsim
 #&gt;                                                       description version
-#&gt; 1                                           Epidemic Base Package   1.1.0
-#&gt; 2                   Example demonstrating how to create a package   1.0.1
-#&gt; 3                      Example demonstrating how to use pipelines   1.0.0
-#&gt; 4          Example demonstrating how to use pipelines with python   1.0.0
-#&gt; 5                   Example demonstrating how to use spatial data   1.0.1
+#&gt; 1                                                     Demo Digits   1.0.0
+#&gt; 2                                           Epidemic Base Package   1.1.0
+#&gt; 3                                             Hello World Package   1.0.0
+#&gt; 4                      Example demonstrating how to use pipelines   1.0.0
+#&gt; 5          Example demonstrating how to use pipelines with python   1.0.0
 #&gt; 6                   Example demonstrating how to use spatial data   1.0.1
 #&gt; 7                      Example demonstrating how to use timesteps   1.0.0
 #&gt; 8  Example demonstrating how to use timesteps with a python model   1.0.0
@@ -370,7 +370,7 @@ for a specified package.</p>
 #&gt; 11  1.1.14
 #&gt; 12   3.3.3
 #&gt; 13   3.3.0
-#&gt; 14   3.3.1</div><div class='input'> 
+#&gt; 14   3.3.2</div><div class='input'> 
 <span class='co'># Check the package you're SsimLibrary is currently using</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>myLibrary</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    name                                      description version

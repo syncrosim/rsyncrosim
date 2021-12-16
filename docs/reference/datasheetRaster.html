@@ -81,7 +81,7 @@ Scenario Datasheets." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
       </span>
     </div>
 
@@ -314,20 +314,20 @@ For Datasheets without Filename this is:</p>
 <span class='co'># Extract specific Datasheet rasters using pattern matching</span>
 <span class='va'>resultDatasheet</span> <span class='op'>&lt;-</span> <span class='fu'><a href='datasheet.html'>datasheet</a></span><span class='op'>(</span><span class='va'>resultScenario</span>, name <span class='op'>=</span> <span class='st'>"IntermediateDatasheet"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>resultDatasheet</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   Iteration Timestep         y
-#&gt; 1         1        1  240.2282
-#&gt; 2         1        2  484.7904
-#&gt; 3         1        3  729.3525
-#&gt; 4         1        4  973.9147
-#&gt; 5         1        5 1218.4769
-#&gt; 6         1        6 1463.0391
+</div><div class='output co'>#&gt;   Iteration Timestep          y
+#&gt; 1         1        1  -344.1105
+#&gt; 2         1        2  -683.8870
+#&gt; 3         1        3 -1023.6634
+#&gt; 4         1        4 -1363.4399
+#&gt; 5         1        5 -1703.2164
+#&gt; 6         1        6 -2042.9929
 #&gt;                                                                                                                                                       OutputRasterFile
-#&gt; 1 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpSWNSqr\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts1.tif
-#&gt; 2 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpSWNSqr\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts2.tif
-#&gt; 3 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpSWNSqr\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts3.tif
-#&gt; 4 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpSWNSqr\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts4.tif
-#&gt; 5 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpSWNSqr\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts5.tif
-#&gt; 6 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpSWNSqr\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts6.tif</div><div class='input'><span class='va'>resultRaster</span> <span class='op'>&lt;-</span> <span class='fu'>datasheetRaster</span><span class='op'>(</span><span class='va'>resultScenario</span>, 
+#&gt; 1 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpiArgKt\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts1.tif
+#&gt; 2 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpiArgKt\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts2.tif
+#&gt; 3 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpiArgKt\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts3.tif
+#&gt; 4 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpiArgKt\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts4.tif
+#&gt; 5 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpiArgKt\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts5.tif
+#&gt; 6 C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpiArgKt\\testlib_datasheetRaster.ssim.input\\Scenario-2\\helloworldSpatial_IntermediateDatasheet\\rasterMap_iter1_ts6.tif</div><div class='input'><span class='va'>resultRaster</span> <span class='op'>&lt;-</span> <span class='fu'>datasheetRaster</span><span class='op'>(</span><span class='va'>resultScenario</span>, 
                   datasheet <span class='op'>=</span> <span class='st'>"IntermediateDatasheet"</span>,
                   column <span class='op'>=</span> <span class='st'>"OutputRasterFile"</span>,
                   subset <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"ts20"</span>, 
