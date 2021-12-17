@@ -7,7 +7,6 @@ setMethod(
   f = "initialize", signature = "SsimLibrary",
   definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE) {
     enabled <- NULL
-
     if (is.null(session)) {
       e <- ssimEnvironment()
       if (!is.na(e$ProgramDirectory)) {
@@ -85,33 +84,54 @@ setMethod(
       # If template specified, create library from template
       if (is.character(template)) {
         
-        # Check if template exists first
+        # Check if template exists first in base package
         args <- list(list = NULL, templates = NULL,
                      package = packageOptions$name[packageOptions$name == package],
                      csv = NULL)
         tt <- command(args, session)
         tempsDataframe <- read.csv(text = tt)
+        
         if (template %in% tempsDataframe$Name == FALSE) {
-          stop(paste(template, "does not exist for package",
-                     packageOptions$name[packageOptions$name == package]))
-        } else {
           
-          # Load template
-          args <- list(create = NULL, library = NULL, name = path,
-                       package = packageOptions$name[packageOptions$name == package],
-                       template = template)
-          cStatus <- command(args, session)
-          if (grepl(cStatus[1], "Creating Library from Template")) {
-            stop("Problem creating library: ", cStatus[1])
+          # Check addon packages for template
+          allPackageOptions <- package(session)
+          args <- list(list = NULL, templates = NULL,
+                       package = allPackageOptions$name[allPackageOptions$name == addon],
+                       csv = NULL)
+          tt <- command(args, session)
+          tempsDataframe <- read.csv(text = tt)
+          addonTemplate = paste0(addon, "_", template)
+          
+          if (addonTemplate %in% tempsDataframe$Name == FALSE) {
+            
+            stop(paste(template, "does not exist for package",
+                       packageOptions$name[packageOptions$name == package],
+                       "or addon", allPackageOptions$name[allPackageOptions$name == addon]))
+          } else {
+            template = addonTemplate
+            tempPackage = addon
           }
           
-          # Print out available scenarios for the template
-          args <- list(list = NULL, scenarios = NULL, lib = path, csv = NULL)
-          tt <- command(args, session)
-          tempScenarios <- read.csv(text = tt)
-          message(paste(c("Scenarios available in this template:",
-                        tempScenarios$Name), collapse = "    "))
+        } else {
+          tempPackage = package
         }
+          
+        # Load template
+        args <- list(create = NULL, library = NULL, name = path,
+                     package = tempPackage,
+                     template = template)
+        cStatus <- command(args, session)
+        
+        if (grepl(cStatus[1], "Creating Library from Template")) {
+          stop("Problem creating library: ", cStatus[1])
+        }
+        
+        # Print out available scenarios for the template
+        args <- list(list = NULL, scenarios = NULL, lib = path, csv = NULL)
+        tt <- command(args, session)
+        tempScenarios <- read.csv(text = tt)
+        message(paste(c("Scenarios available in this template:",
+                      tempScenarios$Name), collapse = "    "))
       } 
       
       if (!is.null(template) & !is.character(template)) {
