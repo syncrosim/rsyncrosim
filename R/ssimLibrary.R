@@ -84,36 +84,46 @@ setMethod(
       # If template specified, create library from template
       if (is.character(template)) {
         
+        # Check if .ssim is appended to the template
+        if (grepl(".ssim", template)) {
+          template <- gsub(".ssim", "", template)
+        }
+        
         # Check if template exists first in base package
         args <- list(list = NULL, templates = NULL,
                      package = packageOptions$name[packageOptions$name == package],
                      csv = NULL)
         tt <- command(args, session)
-        tempsDataframe <- read.csv(text = tt)
+        baseTempsDataframe <- read.csv(text = tt)
+        baseTemplate <- paste0(package, "_", template)
+        baseTemplateExists <- baseTemplate %in% baseTempsDataframe$Name
         
-        if (template %in% tempsDataframe$Name == FALSE) {
-          
-          # Check addon packages for template
+        if (!baseTemplateExists & !is.null(addon)) {
           allPackageOptions <- package(session)
           args <- list(list = NULL, templates = NULL,
                        package = allPackageOptions$name[allPackageOptions$name == addon],
                        csv = NULL)
           tt <- command(args, session)
-          tempsDataframe <- read.csv(text = tt)
-          addonTemplate = paste0(addon, "_", template)
-          
-          if (addonTemplate %in% tempsDataframe$Name == FALSE) {
-            
-            stop(paste(template, "does not exist for package",
-                       packageOptions$name[packageOptions$name == package],
-                       "or addon", allPackageOptions$name[allPackageOptions$name == addon]))
-          } else {
-            template = addonTemplate
-            tempPackage = addon
-          }
-          
+          addonTempsDataframe <- read.csv(text = tt)
+          addonTemplate <- paste0(addon, "_", template)
+          addonTemplateExists <- addonTemplate %in% addonTempsDataframe
         } else {
+          addonTemplateExists <- FALSE
+        }
+        
+        if (baseTemplateExists) {
+          template = baseTemplate
           tempPackage = package
+        } else if (addonTemplateExists) {
+          template = addonTemplate
+          tempPackage = addon
+        } else if (!is.null(addon)){
+          stop(paste(template, "does not exist for package",
+                     packageOptions$name[packageOptions$name == package],
+                     "or addon", allPackageOptions$name[allPackageOptions$name == addon]))
+        } else {
+          stop(paste(template, "does not exist for package",
+                     packageOptions$name[packageOptions$name == package]))
         }
           
         # Load template
