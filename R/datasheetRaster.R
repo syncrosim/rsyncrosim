@@ -161,7 +161,6 @@ setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssim
 
 #' @rdname datasheetRaster
 setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements) {
-  browser()
   rat <- NULL
   if (is.null(subset)) {
     getFactors <- FALSE

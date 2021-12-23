@@ -89,7 +89,6 @@ setMethod("run", signature(ssimObject = "list"), function(ssimObject, scenario, 
 setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scenario, summary, jobs, copyExternalInputs, transformerName, forceElements) {
   xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, convertObject = TRUE, returnIds = TRUE, goal = "scenario", complainIfMissing = TRUE)
   # Now assume scenario is x is valid object and scenario is valid vector of scenario ids
-  browser()
   x <- xProjScn$ssimObject
   scenario <- xProjScn$scenario
   scenarioSet <- xProjScn$scenarioSet

@@ -90,7 +90,6 @@ setMethod(
         }
         
         # Check if template exists first in base package
-        browser()
         args <- list(list = NULL, templates = NULL,
                      package = packageOptions$name[packageOptions$name == package],
                      csv = NULL)
