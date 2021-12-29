@@ -154,12 +154,13 @@ resultRaster <- datasheetRaster(resultScenario,
 
 # Extract specific Datasheet rasters using pattern matching
 resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
-head(resultDatasheet)
+colnames(resultDatasheet)
+outputRasterPaths <- resultDatasheet$OutputRasterFile
 resultRaster <- datasheetRaster(resultScenario, 
                   datasheet = "IntermediateDatasheet",
                   column = "OutputRasterFile",
                   subset = expression(grepl("ts20", 
-                                             resultDatasheet$OutputRasterFile,
+                                             outputRasterPaths,
                                              fixed = TRUE))
 )
 

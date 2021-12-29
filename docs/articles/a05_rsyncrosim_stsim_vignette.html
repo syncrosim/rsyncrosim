@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.5</span>
       </span>
     </div>
 
@@ -139,7 +139,7 @@
 <p>In a new R script, load the necessary packages. This includes the <code>rsyncrosim</code> and <code>raster</code> R packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load R packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://syncrosim.github.io/rsyncrosim">rsyncrosim</a></span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>      <span class="co"># package for working with raster data</span></code></pre></div>
 </div>
 <div id="connecting-r-to-syncrosim-using-session" class="section level3">
@@ -158,7 +158,7 @@
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.6"</code></pre>
+<pre><code>## [1] "2.3.8"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -174,7 +174,7 @@
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##    name                                      description version
-## 1 stsim The ST-Sim state-and-transition simulation model   3.3.3</code></pre>
+## 1 stsim The ST-Sim state-and-transition simulation model   3.3.5</code></pre>
 </div>
 </div>
 <div id="create-a-modeling-workflow" class="section level2">
@@ -499,12 +499,9 @@
 </ul>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load sample .tif files</span>
-<span class="va">stratumTif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"initial-stratum.tif"</span>, 
-                          package <span class="op">=</span> <span class="st">"rsyncrosim"</span><span class="op">)</span>
-<span class="va">sclassTif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"initial-sclass.tif"</span>, 
-                         package <span class="op">=</span> <span class="st">"rsyncrosim"</span><span class="op">)</span>
-<span class="va">ageTif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"initial-age.tif"</span>, 
-                      package <span class="op">=</span> <span class="st">"rsyncrosim"</span><span class="op">)</span></code></pre></div>
+<span class="va">stratumTif</span> <span class="op">&lt;-</span> <span class="st">"initial-stratum.tif"</span>
+<span class="va">sclassTif</span> <span class="op">&lt;-</span> <span class="st">"initial-sclass.tif"</span>
+<span class="va">ageTif</span> <span class="op">&lt;-</span> <span class="st">"initial-age.tif"</span></code></pre></div>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create raster layers from the .tif files</span>
 <span class="va">rStratum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">stratumTif</span><span class="op">)</span>

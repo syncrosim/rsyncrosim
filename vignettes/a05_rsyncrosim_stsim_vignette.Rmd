@@ -371,18 +371,22 @@ saveDatasheet(myScenario, pTransitions, "stsim_Transition")
 
 * ***Option 1 - Spatial***. Let's first take a look at our rasters. We will retrieve the sample raster files (in GeoTIFF format) provided with the `rsyncrosim` package. 
 
-```{r}
+```{r echo = FALSE}
 # Load sample .tif files
-stratumTif <- system.file("extdata", "initial-stratum.tif", 
-                          package = "rsyncrosim")
-sclassTif <- system.file("extdata", "initial-sclass.tif", 
-                         package = "rsyncrosim")
-ageTif <- system.file("extdata", "initial-age.tif", 
-                      package = "rsyncrosim")
+stratumTif <- "C:/gitprojects/rsyncrosim/vignettes/initial-stratum.tif"
+sclassTif <- "C:/gitprojects/rsyncrosim/vignettes/initial-sclass.tif"
+ageTif <- "C:/gitprojects/rsyncrosim/vignettes/initial-age.tif"
+```
+
+```{r eval = FALSE}
+# Load sample .tif files
+stratumTif <- "initial-stratum.tif"
+sclassTif <- "initial-sclass.tif"
+ageTif <- "initial-age.tif"
 ```
 
 
-```{r plot initial conditions rasters, warning = FALSE, fig.align="center", fig.dim = c(5,5)}
+```{r plot initial conditions rasters, warning = FALSE, message = FALSE, fig.align = "center", fig.dim = c(5,5)}
 # Create raster layers from the .tif files
 rStratum <- raster(stratumTif)
 rSclass <- raster(sclassTif)

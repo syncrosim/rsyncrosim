@@ -81,7 +81,7 @@ used internally by other functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.5</span>
       </span>
     </div>
 
@@ -214,7 +214,7 @@ before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</cod
 <span class='co'># Use a default session to create a new SsimLibrary in the current working directory</span>
 <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>command</span><span class='op'>(</span><span class='va'>args</span>, session <span class='op'>=</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span>printCmd <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "--version"
-#&gt; [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpiArgKt/testlib.ssim --package=stsim"</div><div class='input'><span class='va'>output</span>
+#&gt; [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpK2sENK/testlib.ssim --package=stsim"</div><div class='input'><span class='va'>output</span>
 </div><div class='output co'>#&gt; character(0)
 #&gt; attr(,"status")
 #&gt; [1] 65535</div><div class='input'>
@@ -259,32 +259,15 @@ before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</cod
 #&gt; [11] "  --help        Prints help for an argument."  </div><div class='input'>
 <span class='co'># Call on a different program to find all installed packages</span>
 <span class='fu'>command</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>installed <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>, program <span class='op'>=</span> <span class='st'>"SyncroSim.PackageManager.exe"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "demodigits                   Demo Digits                                                                                   1.0.0       "
-#&gt;  [2] "epi                          Epidemic Base Package                                                                         1.1.0       "
-#&gt;  [3] "epiDataBc                    BC COVID-19 Data                                                                              1.0.0       "
-#&gt;  [4] "epiDataCanada                Canadian COVID-19 Data                                                                        1.0.0       "
-#&gt;  [5] "epiDataWorld                 World COVID-19 Data                                                                           1.0.0       "
-#&gt;  [6] "epiForecastIHME              IHME COVID-19 Forecasts                                                                       1.0.0       "
-#&gt;  [7] "epiModelDeathHospital        Death + Hospitalization Model                                                                 1.0.0       "
-#&gt;  [8] "epiModelVocVaccine           VOC + Vaccine Model                                                                           1.0.0       "
-#&gt;  [9] "epiPublish                   Data Publication                                                                              1.0.0       "
-#&gt; [10] "epiTransform                 Remove Seasonal Effects                                                                       1.0.0       "
-#&gt; [11] "helloworld                   Hello World Package                                                                           1.0.0       "
-#&gt; [12] "helloworldPipeline           Example demonstrating how to use pipelines                                                    1.0.0       "
-#&gt; [13] "helloworldPipelinePy         Example demonstrating how to use pipelines with python                                        1.0.0       "
-#&gt; [14] "helloworldSpatial            Example demonstrating how to use spatial data                                                 1.0.1       "
-#&gt; [15] "helloworldTime               Example demonstrating how to use timesteps                                                    1.0.0       "
-#&gt; [16] "helloworldTimePy             Example demonstrating how to use timesteps with a python model                                1.0.0       "
-#&gt; [17] "helloworldUncertainty        Example demonstrating how to use iterations                                                   1.0.0       "
-#&gt; [18] "helloworldUncertaintyPy      Example demonstrating how to use iterations with python                                       1.0.0       "
-#&gt; [19] "landfirevegmodels            Landfire vegetation models                                                                    1.1.0       "
-#&gt; [20] "lucas                        Land Use and Carbon Scenario Simulator (LUCAS)                                                1.0.5       "
-#&gt; [21] "modelKarlenPypm              Karlen PyPm Model                                                                             1.0.0       "
-#&gt; [22] "netlogo                      Runs the NetLogo agent-based modeling environment                                             1.2.0       "
-#&gt; [23] "stconnect                    Connectivity planning for future climate and land-use change                                  1.1.14      "
-#&gt; [24] "stsim                        The ST-Sim state-and-transition simulation model                                              3.3.3       "
-#&gt; [25] "stsimecodep                  Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class      3.3.0       "
-#&gt; [26] "stsimsf                      Integrates stocks and flows into the ST-Sim simulation model                                  3.3.2       "</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; [1] "helloworldConda            Example demonstrating how to create a package with Conda environments                                               1.0.1       "
+#&gt; [2] "helloworldPipeline         Example demonstrating how to use pipelines                                                                          1.0.0       "
+#&gt; [3] "helloworldSpatial          Example demonstrating how to use spatial data                                                                       1.0.2       "
+#&gt; [4] "helloworldTime             Example demonstrating how to use timesteps                                                                          1.0.0       "
+#&gt; [5] "helloworldUncertainty      Example demonstrating how to use iterations                                                                         1.0.0       "
+#&gt; [6] "stconnect                  Connectivity planning for future climate and land-use change                                                        1.1.16      "
+#&gt; [7] "stsim                      The ST-Sim state-and-transition simulation model                                                                    3.3.5       "
+#&gt; [8] "stsimcbmcfs3               Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.      1.0.12      "
+#&gt; [9] "stsimsf                    Integrates stocks and flows into the ST-Sim simulation model                                                        3.3.4       "</div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
