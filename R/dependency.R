@@ -90,7 +90,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
     stop(tt[1])
   }
   dependencySet <- .dataframeFromSSim(tt)
-  names(dependencySet)[names(dependencySet) == "iD"] <- "scenarioId"
+  names(dependencySet)[names(dependencySet) == "iD"] <- "ScenarioID"
   
   # if no dependency, dependency info for each scenario
   if (is.null(dependency)) {
@@ -115,10 +115,10 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
     } 
     
     else if (class(cDepRaw) == "character") {
-      if (!is.element(cDepRaw, allScns$name)) {
+      if (!is.element(cDepRaw, allScns$Name)) {
         warning(cDepRaw, ": dependency scenario not found in library, wil be ignored.")
       }
-      cDep <- allScns$scenarioId[allScns$name == cDepRaw]
+      cDep <- allScns$scenarioId[allScns$Name == cDepRaw]
       if (length(cDep) == 0) {
         stop("Could not find dependency scenario ", cDepRaw)
       }
@@ -128,7 +128,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
     } 
     
     else if (class(cDepRaw) == "numeric") {
-      if (!is.element(cDepRaw, allScns$scenarioId)) {
+      if (!is.element(cDepRaw, allScns$ScenarioID)) {
         warning(cDepRaw, ": dependency scenario not found in library, will be ignored.")
       }
       cDep <- cDepRaw
@@ -137,11 +137,11 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
     if (is.null(cDep)) {
       stop("dependency must be a Scenario, character string, integer, or vector/list of these.")
     }
-    cDepOutName <- paste0(allScns$name[allScns$scenarioId == cDep], " [", cDep, "]")
+    cDepOutName <- paste0(allScns$Name[allScns$ScenarioID == cDep], " [", cDep, "]")
     
     # if Add
     if (!remove) {
-      if ((nrow(dependencySet) > 0) && is.element(cDep, dependencySet$scenarioId)) {
+      if ((nrow(dependencySet) > 0) && is.element(cDep, dependencySet$ScenarioID)) {
         # to guarantee order of provided dependency, remove then re-add
         args <- list(delete = NULL, dependency = NULL, lib = .filepath(x), sid = cScn, did = cDep, force = NULL)
         tt <- command(args, .session(x))
@@ -169,7 +169,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
       
       # if Remove
     } else { 
-      if ((nrow(dependencySet) == 0) || !is.element(cDep, dependencySet$scenarioId)) {
+      if ((nrow(dependencySet) == 0) || !is.element(cDep, dependencySet$ScenarioID)) {
         warning(paste0(cDepOutName, " is not a dependency of ", outName))
         outResults[[cDepOutName]] <- FALSE
       } else {

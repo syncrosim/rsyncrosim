@@ -161,7 +161,7 @@
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.8"</code></pre>
+<pre><code>## [1] "2.3.10"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -351,7 +351,7 @@
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run the first Scenario we created</span>
 <span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span>, jobs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Running scenario [1] My spatial scenario"</code></pre>
+<pre><code>## [1] "Running scenario [1] "</code></pre>
 <p>After the Scenario has been run, a Results Scenario is created that contains results in the output Datasheets.</p>
 </div>
 </div>
@@ -372,12 +372,12 @@
 <span class="co"># View results table of first Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep         y        OutputRasterFile
-## 1         1        1  -29.4803 rasterMap_iter1_ts1.tif
-## 2         1        2  -54.6267 rasterMap_iter1_ts2.tif
-## 3         1        3  -79.7730 rasterMap_iter1_ts3.tif
-## 4         1        4 -104.9194 rasterMap_iter1_ts4.tif
-## 5         1        5 -130.0657 rasterMap_iter1_ts5.tif
-## 6         1        6 -155.2121 rasterMap_iter1_ts6.tif</code></pre>
+## 1         1        1  -38.0266 rasterMap_iter1_ts1.tif
+## 2         1        2  -71.7192 rasterMap_iter1_ts2.tif
+## 3         1        3 -105.4118 rasterMap_iter1_ts3.tif
+## 4         1        4 -139.1043 rasterMap_iter1_ts4.tif
+## 5         1        5 -172.7969 rasterMap_iter1_ts5.tif
+## 6         1        6 -206.4895 rasterMap_iter1_ts6.tif</code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load results of second Transformer in Pipeline</span>
 <span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -386,12 +386,12 @@
 <span class="co"># View results table of second Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep      yCum
-## 1         1        1  -29.4803
-## 2         1        2  -84.1070
-## 3         1        3 -163.8800
-## 4         1        4 -268.7994
-## 5         1        5 -398.8651
-## 6         1        6 -554.0772</code></pre>
+## 1         1        1  -38.0266
+## 2         1        2 -109.7458
+## 3         1        3 -215.1576
+## 4         1        4 -354.2619
+## 5         1        5 -527.0588
+## 6         1        6 -733.5483</code></pre>
 <p>From viewing these Datasheets, we can see that the spatial output is contained within the <code>IntermediateDatasheet</code>, in the column called <code>OutputRasterFile</code>.</p>
 </div>
 <div id="viewing-spatial-results-with-datasheetraster" class="section level3">
@@ -418,7 +418,7 @@
 ## crs        : +proj=longlat +datum=WGS84 +no_defs 
 ## source     : rasterMap_iter1_ts5.tif 
 ## names      : rasterMap_iter1_ts5.it1.ts5 
-## values     : -7.655087, -2.91083  (min, max)</code></pre>
+## values     : -9.364336, -4.620078  (min, max)</code></pre>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>

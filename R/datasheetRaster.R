@@ -47,7 +47,7 @@ NULL
 #' \code{paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)}.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Install the helloworldSpatial package from the server
 #' addPackage("helloworldSpatial")
 #' 
@@ -145,10 +145,10 @@ setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssim
   scnSet <- .scenario(ssimObject)
   missingScns <- scenario
   if (is.character(scenario)) {
-    missingScns <- setdiff(scenario, scnSet$name)
+    missingScns <- setdiff(scenario, scnSet$Name)
   }
   if (is.numeric(scenario)) {
-    missingScns <- setdiff(scenario, scnSet$scenarioId)
+    missingScns <- setdiff(scenario, scnSet$ScenarioID)
   }
   if (length(missingScns) > 0) {
     stop("Scenarios not found in ssimObject: ", paste(missingScns, collapse = ","))

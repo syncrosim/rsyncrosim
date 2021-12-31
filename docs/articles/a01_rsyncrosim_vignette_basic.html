@@ -172,7 +172,7 @@
 <p>You can check to see which version of SyncroSim your R script is connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.8"</code></pre>
+<pre><code>## [1] "2.3.10"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -425,7 +425,7 @@
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run the first Scenario we created</span>
 <span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Running scenario [1] My first scenario"</code></pre>
+<pre><code>## [1] "Running scenario [1] "</code></pre>
 </div>
 <div id="checking-the-run-log-with-runlog" class="section level3">
 <h3 class="hasAnchor">
@@ -436,18 +436,18 @@
 <code class="sourceCode R"><span class="co"># Get run details for the first result Scenario</span>
 <span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></code></pre></div>
 <pre><code>## Run Log                                                                                                                                                                                                                                                                                            
-## STARTING SIMULATION: 2021-12-29 : 1:28:25 PM
+## STARTING SIMULATION: 2021-12-31 : 2:10:51 PM
 ## 
 ## Parent Scenario is: [1] My first scenario
-## Result scenario is: [2] My first scenario ([1] @ 29-Dec-2021 1:28 PM)
+## Result scenario is: [2] My first scenario ([1] @ 31-Dec-2021 2:10 PM)
 ## 
 ## CONFIGURING: Primary
 ## 
 ## RUNNING: Primary
 ## 
-## SIMULATION COMPLETE: 2021-12-29 : 1:28:34 PM
-## Total simulation time: 00:00:08</code></pre>
-<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2021-12-29 : 1:28:25 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 29-Dec-2021 1:28 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2021-12-29 : 1:28:34 PM\nTotal simulation time: 00:00:08      "</code></pre>
+## SIMULATION COMPLETE: 2021-12-31 : 2:11:00 PM
+## Total simulation time: 00:00:09</code></pre>
+<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2021-12-31 : 2:10:51 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 31-Dec-2021 2:10 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2021-12-31 : 2:11:00 PM\nTotal simulation time: 00:00:09      "</code></pre>
 </div>
 </div>
 <div id="view-results" class="section level2">
@@ -461,13 +461,13 @@
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check Scenarios that currently exist in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   scenarioId projectId                                          name isResult
+<pre><code>##   ScenarioID ProjectID                                          Name IsResult
 ## 1          1         1                             My first scenario       No
-## 2          2         1 My first scenario ([1] @ 29-Dec-2021 1:28 PM)      Yes
-##   parentID owner          lastModified readOnly mergeDependencies
-## 1       NA   N/A 2021-12-29 at 1:28 PM       No                No
-## 2        1   N/A 2021-12-29 at 1:28 PM       No                No
-##   ignoreDependencies autoGenTags
+## 2          2         1 My first scenario ([1] @ 31-Dec-2021 2:10 PM)      Yes
+##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies
+## 1       NA   N/A 2021-12-31 at 2:10 PM         No                No
+## 2        1   N/A 2021-12-31 at 2:11 PM         No                No
+##   IgnoreDependencies AutoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
 <p>The first Scenario is our original Scenario, and the second is the Results Scenario with a time and date stamp of when it was run. We can also see some other information about these Scenarios, such as whether or not the Scenario is a result or not (i.e. <code>isResult</code> column).</p>
@@ -523,10 +523,10 @@
 <p>You may want to test multiple alternative Scenarios that have slightly different inputs. To save time, you can copy a Scenario that you’ve already made, give it a different name, and modify the inputs. To copy a completed Scenario, use the <code><a href="../reference/scenario.html">scenario()</a></code> function with the <code>sourceScenario</code> argument set to the name of the Scenario you want to copy.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check which Scenarios you currently have in your Library</span>
-<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                            name
+<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
+<pre><code>##                                            Name
 ## 1                             My first scenario
-## 2 My first scenario ([1] @ 29-Dec-2021 1:28 PM)</code></pre>
+## 2 My first scenario ([1] @ 31-Dec-2021 2:10 PM)</code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a new Scenario as a copy of an existing Scenario</span>
 <span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,
@@ -534,10 +534,10 @@
                           sourceScenario <span class="op">=</span> <span class="va">myScenario</span><span class="op">)</span>
 
 <span class="co"># Make sure this new Scenario has been added to the Library</span>
-<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                            name
+<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
+<pre><code>##                                            Name
 ## 1                             My first scenario
-## 2 My first scenario ([1] @ 29-Dec-2021 1:28 PM)
+## 2 My first scenario ([1] @ 31-Dec-2021 2:10 PM)
 ## 3                            My second scenario</code></pre>
 <p>To edit the new Scenario, we must first load the contents of the input Datasheet and assign it to a new R data frame using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the <code>empty</code> argument to <code>TRUE</code> so that instead of getting the values from the existing Scenario, we can start with an empty data frame again.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
@@ -577,8 +577,8 @@
 <span class="va">myResultScenarioAll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myProject</span>,
                            scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"My first scenario"</span>,
                                         <span class="st">"My second scenario"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Running scenario [1] My first scenario"
-## [1] "Running scenario [3] My second scenario"</code></pre>
+<pre><code>## [1] "Running scenario [1] "
+## [1] "Running scenario [3] "</code></pre>
 </div>
 <div id="view-results-1" class="section level3">
 <h3 class="hasAnchor">
@@ -624,7 +624,7 @@
 <pre><code>##                    property                                      value
 ## 1                     Name:                          helloworldLibrary
 ## 2                    Owner:                                        N/A
-## 3            Last Modified:                      2021-12-29 at 1:29 PM
+## 3            Last Modified:                      2021-12-31 at 2:11 PM
 ## 4                     Size:                        196 KB  (200,704 B)
 ## 5                Read Only:                                         No
 ## 6             Package Name:                             helloworldTime

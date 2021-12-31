@@ -208,7 +208,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     pid <- xProjScn$project
     sid <- xProjScn$scenario
     if (!is.null(sid) & is.null(pid)) {
-      pid <- subset(xProjScn$scenarioSet, is.element(scenarioId, sid))$projectId
+      pid <- subset(xProjScn$scenarioSet, is.element(ScenarioID, sid))$ProjectID
     }
   }
   # now have valid pid/sid vectors and x is library.
@@ -681,7 +681,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             if (is.element("ProjectID", names(lookupSheet))) {
               if (identical(pid, NULL) & !identical(sid, NULL)) {
                 allScns <- scenario(x)
-                findPrjs <- allScns$projectId[is.element(allScns$scenarioId, sid)]
+                findPrjs <- allScns$ProjectID[is.element(allScns$ScenarioID, sid)]
               } else {
                 findPrjs <- pid
               }
@@ -780,24 +780,23 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
-    
     if (is.element("ScenarioID", names(sheet))) {
       if (length(sid) == 1) {
         sheet$ScenarioID <- NULL
       } else {
         if (nrow(sheet) > 0) {
           allScns <- scenario(x, summary = TRUE)
-          if (!is.element("parentID", names(allScns))) {
-            warning("Missing parentID info from scenario(summary=TRUE).")
-            allScns$parentID <- NA
+          if (!is.element("ParentID", names(allScns))) {
+            warning("Missing ParentID info from scenario(summary=TRUE).")
+            allScns$ParentID <- NA
           }
-          allScns <- subset(allScns, select = c(scenarioId, projectId, name, parentID))
-          allScns$parentID <- suppressWarnings(as.numeric(allScns$parentID))
-          parentNames <- subset(allScns, select = c(scenarioId, name))
-          names(parentNames) <- c("parentID", "ParentName")
+          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID))
+          allScns$ParentID <- suppressWarnings(as.numeric(allScns$ParentID))
+          parentNames <- subset(allScns, select = c(ScenarioID, Name))
+          names(parentNames) <- c("ParentID", "ParentName")
           allScns <- merge(allScns, parentNames, all.x = TRUE)
           
-          allScns <- subset(allScns, select = c(scenarioId, projectId, name, parentID, ParentName))
+          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID, ParentName))
           
           names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
           

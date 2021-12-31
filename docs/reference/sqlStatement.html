@@ -240,18 +240,18 @@ because the <code><a href='datasheet.html'>datasheet</a></code> function may add
 
 <span class='co'># Run Scenario to generate results</span>
 <span class='va'>resultScenario</span> <span class='op'>&lt;-</span> <span class='fu'><a href='run.html'>run</a></span><span class='op'>(</span><span class='va'>myScenario</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Running scenario [1] My Scenario"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "Running scenario [1] "</div><div class='input'>
 <span class='co'># Use the SQL statement when loading the Datasheet</span>
 <span class='va'>myAggregatedDataFrame</span> <span class='op'>&lt;-</span> <span class='fu'><a href='datasheet.html'>datasheet</a></span><span class='op'>(</span><span class='va'>resultScenario</span>, name <span class='op'>=</span> <span class='st'>"OutputDatasheet"</span>,
                                    sqlStatement <span class='op'>=</span> <span class='va'>mySQL</span><span class='op'>)</span>
                                    
 <span class='co'># View aggregated DataFrame</span>
 <span class='va'>myAggregatedDataFrame</span>
-</div><div class='output co'>#&gt;   Iteration Timestep       yCum
-#&gt; 1         3        1  -462.5417
-#&gt; 2         3        2 -1383.2910
-#&gt; 3         4        1    -4.3394
-#&gt; 4         4        2    -8.6842</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt;   Iteration Timestep      yCum
+#&gt; 1         3        1  569.2135
+#&gt; 2         3        2 1711.9745
+#&gt; 3         4        1  628.8797
+#&gt; 4         4        2 1890.9731</div><div class='input'><span class='co'># }</span>
 
 </div></pre>
   </div>

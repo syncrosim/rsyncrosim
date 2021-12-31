@@ -120,7 +120,7 @@ For Datasheets containing Filename this is:
 \code{paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Install the helloworldSpatial package from the server
 addPackage("helloworldSpatial")
 

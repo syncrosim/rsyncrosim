@@ -160,7 +160,7 @@
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.8"</code></pre>
+<pre><code>## [1] "2.3.10"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -340,7 +340,7 @@
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run the first Scenario we created</span>
 <span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span>, jobs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Running scenario [1] My first scenario"</code></pre>
+<pre><code>## [1] "Running scenario [1] "</code></pre>
 <p>Once the run is complete, we can compare the original Scenario to the Results Scenario to see which Datasheets have been modified. Using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function with the <code>optional</code> argument set to <code>TRUE</code>, we see that data has been added to both the Intermediate and Output Datasheets after running the Scenario (see <code>data</code> column below).</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Datasheets for original Scenario</span>
@@ -387,12 +387,12 @@
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep       y
-## 1         1        1  1.3946
-## 2         1        2 -0.2109
-## 3         1        3 -1.8163
-## 4         1        4 -3.4218
-## 5         1        5 -5.0272
-## 6         1        6 -6.6326</code></pre>
+## 1         1        1  5.0671
+## 2         1        2  7.1343
+## 3         1        3  9.2014
+## 4         1        4 11.2685
+## 5         1        5 13.3357
+## 6         1        6 15.4028</code></pre>
 <p>We can see that for every timestep in an iteration we have a new value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
 <div id="viewing-final-results-with-datasheet" class="section level3">

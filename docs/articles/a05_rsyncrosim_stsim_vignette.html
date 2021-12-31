@@ -158,7 +158,7 @@
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.8"</code></pre>
+<pre><code>## [1] "2.3.10"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -618,8 +618,8 @@
 <code class="sourceCode R"><span class="co"># Run both Scenarios</span>
 <span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Harvest"</span>, <span class="st">"No Harvest"</span><span class="op">)</span>, 
                      jobs <span class="op">=</span> <span class="fl">7</span>, summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Running scenario [3] Harvest"
-## [1] "Running scenario [2] No Harvest"</code></pre>
+<pre><code>## [1] "Running scenario [3] "
+## [1] "Running scenario [2] "</code></pre>
 </div>
 </div>
 <div id="view-results" class="section level2">
@@ -629,9 +629,9 @@
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve Scenario IDs</span>
 <span class="va">resultIDNoHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, 
-                            <span class="va">parentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">scenarioId</span>
+                            <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span>
 <span class="va">resultIDHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, 
-                          <span class="va">parentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenarioHarvest</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">scenarioId</span></code></pre></div>
+                          <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenarioHarvest</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span></code></pre></div>
 <p>We can now retrieve tabular output regarding the projected State Class over time (for both scenarios combined) from the <code>stsim_OutputStratumState</code> Datasheet.</p>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve output projected State Class for both Scenarios in tabular form</span>
