@@ -32,9 +32,12 @@ NULL
 #' @param forceElements logical. If \code{TRUE} then returns a single raster as a RasterStack; 
 #'     otherwise returns a single raster as a RasterLayer directly. Default is 
 #'     \code{FALSE}
+#' @param pathOnly logical. If \code{TRUE} then returns a list of filepaths to the raster
+#'     files on disk. Default is \code{FALSE}
 #' 
 #' @return 
-#' A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
+#' A RasterLayer, RasterStack or RasterBrick object, or List. See raster package 
+#' documentation for details.
 #' 
 #' @details 
 #' The names of the returned raster stack contain metadata.
@@ -100,15 +103,15 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, filterColumn = NULL, subset = NULL, forceElements = FALSE) standardGeneric("datasheetRaster"))
+setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, filterColumn = NULL, subset = NULL, forceElements = FALSE, pathOnly = FALSE) standardGeneric("datasheetRaster"))
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "character"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements) {
+setMethod("datasheetRaster", signature(ssimObject = "character"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements) {
+setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
   if (class(ssimObject[[1]]) != "Scenario") {
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
@@ -119,7 +122,7 @@ setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject
   started <- FALSE
   for (i in 1:length(ssimObject)) {
     cScn <- ssimObject[[i]]
-    cOut <- datasheetRaster(cScn, datasheet = datasheet, column = column, scenario = scenario, iteration = iteration, timestep = timestep, filterColumn = filterColumn, subset = subset, forceElements = forceElements)
+    cOut <- datasheetRaster(cScn, datasheet = datasheet, column = column, scenario = scenario, iteration = iteration, timestep = timestep, filterColumn = filterColumn, subset = subset, forceElements = forceElements, pathOnly = pathOnly)
     if (!((class(cOut) == "list") && (length(cOut) == 0))) {
       names(cOut) <- paste0("scn", .scenarioId(cScn), ".", names(cOut))
       if (!started) {
@@ -138,7 +141,7 @@ setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject
 })
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements) {
+setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
   if (is.null(scenario)) {
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
   }
@@ -161,7 +164,7 @@ setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssim
 })
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements) {
+setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
   rat <- NULL
   if (is.null(subset)) {
     getFactors <- FALSE
@@ -382,6 +385,11 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
         names(cStack) <- c(oldNames, cRow$outName)
       }
     }
+  }
+  
+  # If return pathOnly = TRUE, just return filepaths to rasters
+  if (pathOnly) {
+    return(cMeta$rasterColumn)
   }
   
   # ensure layers are sorted by name
