@@ -46,7 +46,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   skip_on_cran()
   myLibrary <- ssimLibrary(name = "temp", session = mySsim) # create new library using default model
   expect_equal(file.exists(filepath(myLibrary)), TRUE)
-  expect_equal(as.character(basePackage(myLibrary)$name), "stsim")
+  expect_equal(as.character(package(myLibrary)$name), "stsim")
   expect_equal(delete(myLibrary, force = TRUE), TRUE)
   expect_equal(file.exists(filepath(myLibrary)), FALSE)
 

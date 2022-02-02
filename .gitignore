@@ -25,3 +25,4 @@ rsyncrosim.Rcheck
 # Don't build pkgdown site from actions
 **/pkgdown.yaml
 debugging.R
+binaries/
