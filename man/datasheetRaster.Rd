@@ -120,7 +120,7 @@ For Datasheets containing Filename this is:
 \code{paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Install the helloworldSpatial package from the server
 addPackage("helloworldSpatial")
 
@@ -154,12 +154,13 @@ resultRaster <- datasheetRaster(resultScenario,
 
 # Extract specific Datasheet rasters using pattern matching
 resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
-head(resultDatasheet)
+colnames(resultDatasheet)
+outputRasterPaths <- resultDatasheet$OutputRasterFile
 resultRaster <- datasheetRaster(resultScenario, 
                   datasheet = "IntermediateDatasheet",
                   column = "OutputRasterFile",
                   subset = expression(grepl("ts20", 
-                                             resultDatasheet$OutputRasterFile,
+                                             outputRasterPaths,
                                              fixed = TRUE))
 )
 

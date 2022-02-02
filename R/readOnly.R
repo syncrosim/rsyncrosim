@@ -63,13 +63,23 @@ setMethod("readOnly", signature(ssimObject = "SsimLibrary"), function(ssimObject
 #' @rdname readOnly
 setMethod("readOnly", signature(ssimObject = "Project"), function(ssimObject) {
   scnInfo <- project(ssimObject, summary = TRUE)
-  return(scnInfo$readOnly)
+  readOnlyStatus <- scnInfo$IsReadOnly
+  if (readOnlyStatus == "No") {
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
 })
 
 #' @rdname readOnly
 setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
   scnInfo <- scenario(ssimObject, summary = TRUE)
-  return(scnInfo$readOnly)
+  readOnlyStatus <- scnInfo$IsReadOnly
+  if (readOnlyStatus == "No") {
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
 })
 
 #' @rdname readOnly

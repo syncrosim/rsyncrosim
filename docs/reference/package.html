@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.6</span>
       </span>
     </div>
 
@@ -209,121 +209,64 @@ for a specified package.</p>
 
 <span class='co'># List all installed packages</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                       name
-#&gt; 1               demodigits
-#&gt; 2                      epi
-#&gt; 3                epiDataBc
-#&gt; 4            epiDataCanada
-#&gt; 5             epiDataWorld
-#&gt; 6          epiForecastIHME
-#&gt; 7    epiModelDeathHospital
-#&gt; 8       epiModelVocVaccine
-#&gt; 9               epiPublish
-#&gt; 10            epiTransform
-#&gt; 11              helloworld
-#&gt; 12      helloworldPipeline
-#&gt; 13    helloworldPipelinePy
-#&gt; 14       helloworldSpatial
-#&gt; 15          helloworldTime
-#&gt; 16        helloworldTimePy
-#&gt; 17   helloworldUncertainty
-#&gt; 18 helloworldUncertaintyPy
-#&gt; 19       landfirevegmodels
-#&gt; 20                   lucas
-#&gt; 21         modelKarlenPypm
-#&gt; 22                 netlogo
-#&gt; 23               stconnect
-#&gt; 24                   stsim
-#&gt; 25             stsimecodep
-#&gt; 26                 stsimsf
-#&gt;                                                                                 description
-#&gt; 1                                                                               Demo Digits
-#&gt; 2                                                                     Epidemic Base Package
-#&gt; 3                                                                          BC COVID-19 Data
-#&gt; 4                                                                    Canadian COVID-19 Data
-#&gt; 5                                                                       World COVID-19 Data
-#&gt; 6                                                                   IHME COVID-19 Forecasts
-#&gt; 7                                                             Death + Hospitalization Model
-#&gt; 8                                                                       VOC + Vaccine Model
-#&gt; 9                                                                          Data Publication
-#&gt; 10                                                                  Remove Seasonal Effects
-#&gt; 11                                                                      Hello World Package
-#&gt; 12                                               Example demonstrating how to use pipelines
-#&gt; 13                                   Example demonstrating how to use pipelines with python
-#&gt; 14                                            Example demonstrating how to use spatial data
-#&gt; 15                                               Example demonstrating how to use timesteps
-#&gt; 16                           Example demonstrating how to use timesteps with a python model
-#&gt; 17                                              Example demonstrating how to use iterations
-#&gt; 18                                  Example demonstrating how to use iterations with python
-#&gt; 19                                                               Landfire vegetation models
-#&gt; 20                                           Land Use and Carbon Scenario Simulator (LUCAS)
-#&gt; 21                                                                        Karlen PyPm Model
-#&gt; 22                                        Runs the NetLogo agent-based modeling environment
-#&gt; 23                             Connectivity planning for future climate and land-use change
-#&gt; 24                                         The ST-Sim state-and-transition simulation model
-#&gt; 25 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
-#&gt; 26                             Integrates stocks and flows into the ST-Sim simulation model
+</div><div class='output co'>#&gt;                     name
+#&gt; 1             helloworld
+#&gt; 2        helloworldConda
+#&gt; 3     helloworldPipeline
+#&gt; 4      helloworldSpatial
+#&gt; 5         helloworldTime
+#&gt; 6  helloworldUncertainty
+#&gt; 7                netlogo
+#&gt; 8              stconnect
+#&gt; 9                  stsim
+#&gt; 10          stsimcbmcfs3
+#&gt; 11               stsimsf
+#&gt;                                                                                                       description
+#&gt; 1                                                                   Example demonstrating how to create a package
+#&gt; 2                                           Example demonstrating how to create a package with Conda environments
+#&gt; 3                                                                      Example demonstrating how to use pipelines
+#&gt; 4                                                                   Example demonstrating how to use spatial data
+#&gt; 5                                                                      Example demonstrating how to use timesteps
+#&gt; 6                                                                     Example demonstrating how to use iterations
+#&gt; 7                                                               Runs the NetLogo agent-based modeling environment
+#&gt; 8                                                    Connectivity planning for future climate and land-use change
+#&gt; 9                                                                The ST-Sim state-and-transition simulation model
+#&gt; 10 Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.
+#&gt; 11                                                   Integrates stocks and flows into the ST-Sim simulation model
 #&gt;    version
-#&gt; 1    1.0.0
-#&gt; 2    1.1.0
+#&gt; 1    1.0.1
+#&gt; 2    1.0.1
 #&gt; 3    1.0.0
-#&gt; 4    1.0.0
+#&gt; 4    1.0.3
 #&gt; 5    1.0.0
 #&gt; 6    1.0.0
-#&gt; 7    1.0.0
-#&gt; 8    1.0.0
-#&gt; 9    1.0.0
-#&gt; 10   1.0.0
-#&gt; 11   1.0.0
-#&gt; 12   1.0.0
-#&gt; 13   1.0.0
-#&gt; 14   1.0.1
-#&gt; 15   1.0.0
-#&gt; 16   1.0.0
-#&gt; 17   1.0.0
-#&gt; 18   1.0.0
-#&gt; 19   1.1.0
-#&gt; 20   1.0.5
-#&gt; 21   1.0.0
-#&gt; 22   1.2.0
-#&gt; 23  1.1.14
-#&gt; 24   3.3.3
-#&gt; 25   3.3.0
-#&gt; 26   3.3.2</div><div class='input'>
+#&gt; 7    1.2.0
+#&gt; 8   1.1.16
+#&gt; 9    3.3.5
+#&gt; 10  1.0.13
+#&gt; 11   3.3.4</div><div class='input'>
 <span class='co'># List all the installed base packages</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                       name
-#&gt; 1               demodigits
-#&gt; 2                      epi
-#&gt; 3               helloworld
-#&gt; 4       helloworldPipeline
-#&gt; 5     helloworldPipelinePy
-#&gt; 6        helloworldSpatial
-#&gt; 7           helloworldTime
-#&gt; 8         helloworldTimePy
-#&gt; 9    helloworldUncertainty
-#&gt; 10 helloworldUncertaintyPy
-#&gt; 11       landfirevegmodels
-#&gt; 12                   lucas
-#&gt; 13                 netlogo
-#&gt; 14               stconnect
-#&gt; 15                   stsim
-#&gt;                                                       description version
-#&gt; 1                                                     Demo Digits   1.0.0
-#&gt; 2                                           Epidemic Base Package   1.1.0
-#&gt; 3                                             Hello World Package   1.0.0
-#&gt; 4                      Example demonstrating how to use pipelines   1.0.0
-#&gt; 5          Example demonstrating how to use pipelines with python   1.0.0
-#&gt; 6                   Example demonstrating how to use spatial data   1.0.1
-#&gt; 7                      Example demonstrating how to use timesteps   1.0.0
-#&gt; 8  Example demonstrating how to use timesteps with a python model   1.0.0
-#&gt; 9                     Example demonstrating how to use iterations   1.0.0
-#&gt; 10        Example demonstrating how to use iterations with python   1.0.0
-#&gt; 11                                     Landfire vegetation models   1.1.0
-#&gt; 12                 Land Use and Carbon Scenario Simulator (LUCAS)   1.0.5
-#&gt; 13              Runs the NetLogo agent-based modeling environment   1.2.0
-#&gt; 14   Connectivity planning for future climate and land-use change  1.1.14
-#&gt; 15               The ST-Sim state-and-transition simulation model   3.3.3</div><div class='input'>
+</div><div class='output co'>#&gt;                    name
+#&gt; 1            helloworld
+#&gt; 2       helloworldConda
+#&gt; 3    helloworldPipeline
+#&gt; 4     helloworldSpatial
+#&gt; 5        helloworldTime
+#&gt; 6 helloworldUncertainty
+#&gt; 7               netlogo
+#&gt; 8             stconnect
+#&gt; 9                 stsim
+#&gt;                                                             description version
+#&gt; 1                         Example demonstrating how to create a package   1.0.1
+#&gt; 2 Example demonstrating how to create a package with Conda environments   1.0.1
+#&gt; 3                            Example demonstrating how to use pipelines   1.0.0
+#&gt; 4                         Example demonstrating how to use spatial data   1.0.3
+#&gt; 5                            Example demonstrating how to use timesteps   1.0.0
+#&gt; 6                           Example demonstrating how to use iterations   1.0.0
+#&gt; 7                     Runs the NetLogo agent-based modeling environment   1.2.0
+#&gt; 8          Connectivity planning for future climate and land-use change  1.1.16
+#&gt; 9                      The ST-Sim state-and-transition simulation model   3.3.5</div><div class='input'>
 <span class='co'># List all available packages on the server (including currently installed)</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     name
@@ -339,8 +282,9 @@ for a specified package.</p>
 #&gt; 10               netlogo
 #&gt; 11             stconnect
 #&gt; 12                 stsim
-#&gt; 13           stsimecodep
-#&gt; 14               stsimsf
+#&gt; 13          stsimcbmcfs3
+#&gt; 14           stsimecodep
+#&gt; 15               stsimsf
 #&gt;                                                                                                                               description
 #&gt; 1                                                                 Example SyncroSim Base Package of a very simple sales forecasting model
 #&gt; 2                                                                                          Simulates demographics of wildlife populations
@@ -349,37 +293,39 @@ for a specified package.</p>
 #&gt; 5                                                                                                              Example using spatial data
 #&gt; 6                                                                                                                 Example using timesteps
 #&gt; 7                                                                                       Example using iterations to represent uncertainty
-#&gt; 8                                                                                                                    Land Fire Veg Models
+#&gt; 8                                                                                                              LANDFIRE vegetation models
 #&gt; 9                                                                                          Land Use and Carbon Scenario Simulator (LUCAS)
 #&gt; 10                                                                                      Runs the NetLogo agent-based modeling environment
 #&gt; 11                                                                           Connectivity planning for future climate and land-use change
 #&gt; 12                                                                                       The ST-Sim state-and-transition simulation model
-#&gt; 13 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class [*** REQUIRES SyncroSim v2.2.3 or higher ***]
-#&gt; 14                                                                           Integrates stocks and flows into the ST-Sim simulation model
+#&gt; 13                          Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model
+#&gt; 14 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class [*** REQUIRES SyncroSim v2.2.3 or higher ***]
+#&gt; 15                                                                           Integrates stocks and flows into the ST-Sim simulation model
 #&gt;    version
 #&gt; 1    1.1.0
 #&gt; 2    2.3.0
 #&gt; 3    1.0.1
 #&gt; 4    1.0.0
-#&gt; 5    1.0.1
+#&gt; 5    1.0.3
 #&gt; 6    1.0.0
 #&gt; 7    1.0.0
 #&gt; 8    1.1.0
 #&gt; 9    1.0.6
 #&gt; 10   1.2.0
-#&gt; 11  1.1.14
-#&gt; 12   3.3.3
-#&gt; 13   3.3.0
-#&gt; 14   3.3.2</div><div class='input'> 
+#&gt; 11  1.1.16
+#&gt; 12   3.3.5
+#&gt; 13  1.0.13
+#&gt; 14   3.3.0
+#&gt; 15   3.3.4</div><div class='input'> 
 <span class='co'># Check the package you're SsimLibrary is currently using</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>myLibrary</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    name                                      description version
-#&gt; 1 stsim The ST-Sim state-and-transition simulation model   3.3.3</div><div class='input'>
+#&gt; 1 stsim The ST-Sim state-and-transition simulation model   3.3.5</div><div class='input'>
 <span class='co'># Check the templates available for an installed package</span>
 <span class='fu'><a href='addPackage.html'>addPackage</a></span><span class='op'>(</span><span class='st'>"helloworldSpatial"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Package &lt;helloworldSpatial&gt; is already installed</span></div><div class='input'><span class='fu'>package</span><span class='op'>(</span>listTemplates <span class='op'>=</span> <span class='st'>"helloworldSpatial"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              name     displayName installed
-#&gt; 1 example-library example-library       Yes</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt;                                name     displayName installed
+#&gt; 1 helloworldSpatial_example-library example-library       Yes</div><div class='input'><span class='co'># }</span>
 
 </div></pre>
   </div>

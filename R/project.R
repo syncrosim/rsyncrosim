@@ -15,40 +15,40 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
   findPrj <- projects
 
   if (!is.null(id)) {
-    findPrj <- subset(findPrj, projectId == id)
+    findPrj <- subset(findPrj, ProjectID == id)
   }
   if (!is.null(name)) {
     pre <- findPrj
     cName <- name
-    findPrj <- subset(findPrj, name == cName)
+    findPrj <- subset(findPrj, Name == cName)
     if (!is.null(id) && (nrow(pre) > 0) && (nrow(findPrj) == 0)) {
-      stop(paste0("The library already contains a project id ", id, " with a different name ", pre$name))
+      stop(paste0("The library already contains a project id ", id, " with a different name ", pre$Name))
     }
   }
   if (is.null(id) & is.null(name) & (nrow(findPrj) == 1)) {
-    name <- findPrj$name
+    name <- findPrj$Name
   }
   if (is.null(id) & is.null(name) & (nrow(findPrj) > 0)) {
     name <- "Project"
     cName <- name
-    findPrj <- subset(findPrj, name == cName)
+    findPrj <- subset(findPrj, Name == cName)
   }
 
   if (nrow(findPrj) == 1) {
     if (!is.null(sourceProject)) {
-      warning("Project ", name, " (", findPrj$projectId, ") already exists, so sourceProject argument was ignored.")
+      warning("Project ", name, " (", findPrj$ProjectID, ") already exists, so sourceProject argument was ignored.")
     }
     # Go ahead and create the Projects object without issuing system commands to make sure it is ok
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
     .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
-    .Object@projectId <- as.numeric(findPrj$projectId)
+    .Object@projectId <- as.numeric(findPrj$ProjectID)
     return(.Object)
   }
 
   # Now go ahead to handle odder cases
   if (nrow(findPrj) > 0) {
-    stop(paste0("The library contains more than one project called ", name, ". Specify a project id: ", paste(findPrj$projectId, collapse = ",")))
+    stop(paste0("The library contains more than one project called ", name, ". Specify a project id: ", paste(findPrj$ProjectID, collapse = ",")))
   }
 
   # If given an id for a project that does not yet exist, complain
@@ -65,16 +65,16 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
     sourcePID <- NA
     slib <- .filepath(x)
     if (class(sourceProject) == "numeric") {
-      if (!is.element(sourceProject, projects$projectId)) {
+      if (!is.element(sourceProject, projects$ProjectID)) {
         stop(paste0("sourceProject id ", sourceProject, " not found in the library."))
       }
       sourcePID <- sourceProject
     }
     if (class(sourceProject) == "character") {
-      if (!is.element(sourceProject, projects$name)) {
+      if (!is.element(sourceProject, projects$Name)) {
         stop(paste0("sourceProject name ", sourceProject, " not found in the library."))
       }
-      sourcePID <- projects$projectId[projects$name == sourceProject]
+      sourcePID <- projects$ProjectID[projects$Name == sourceProject]
     }
     if (class(sourceProject) == "Project") {
       slib <- .filepath(sourceProject)
@@ -86,10 +86,10 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
     }
 
     if (name == "GetSourceCopyCopyCopy") {
-      sourceProjectName <- subset(projects, projectId == sourcePID)$name
+      sourceProjectName <- subset(projects, ProjectID == sourcePID)$Name
 
       copyName <- paste(sourceProjectName, "- Copy")
-      if (!is.element(copyName, projects$name)) {
+      if (!is.element(copyName, projects$Name)) {
         name <- copyName
       } else {
         done <- FALSE
@@ -97,7 +97,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
         while (!done) {
           count <- count + 1
           cName <- paste0(copyName, count)
-          if (!is.element(cName, projects$name)) {
+          if (!is.element(cName, projects$Name)) {
             name <- cName
             done <- TRUE
           }
@@ -196,7 +196,6 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
-
   if (is.null(ssimObject)) {
     e <- ssimEnvironment()
     ssimObject <- ssimLibrary(e$LibraryFilePath)
@@ -268,8 +267,8 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   if ((sum(is.na(projectSet$exists)) == 0) & summary) {
     projectSet <- subset(projectSet, !is.na(order))
     projectSet <- projectSet[order(projectSet$order), ]
-    projectSet[projectSet$readOnly == "FALSE", "readOnly"] <- "No"
-    projectSet[projectSet$readOnly == "TRUE", "readOnly"] <- "Yes"
+    projectSet[projectSet$IsReadOnly == "FALSE", "IsReadOnly"] <- "No"
+    projectSet[projectSet$IsReadOnly == "TRUE", "IsReadOnly"] <- "Yes"
     projectSet$exists <- NULL
     projectSet$order <- NULL
     return(projectSet)
@@ -293,7 +292,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
 
     if (projExists) {
       if (overwrite) {
-        command(list(delete = NULL, project = NULL, lib = .filepath(ssimObject), pid = cRow$projectId, force = NULL), .session(ssimObject))
+        command(list(delete = NULL, project = NULL, lib = .filepath(ssimObject), pid = cRow$ProjectID, force = NULL), .session(ssimObject))
         allProjects[i, "exists"] <- NA
         projectsToMake[i, "exists"] <- NA
       }
@@ -305,9 +304,9 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     projExists <- !is.na(cRow$exists)
 
     if (projExists) {
-      projectList[[as.character(projectsToMake$projectId[i])]] <- new("Project", ssimObject, id = cRow$projectId, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
+      projectList[[as.character(projectsToMake$ProjectID[i])]] <- new("Project", ssimObject, id = cRow$ProjectID, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
     } else {
-      obj <- new("Project", ssimObject, name = cRow$name, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
+      obj <- new("Project", ssimObject, name = cRow$Name, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
       projectList[[as.character(.projectId(obj))]] <- obj
     }
   }

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.6</span>
       </span>
     </div>
 
@@ -154,7 +154,7 @@
 <p>In a new R script, load the <code>rsyncrosim</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load R package for working with SyncroSim</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://syncrosim.github.io/rsyncrosim">rsyncrosim</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="connecting-r-to-syncrosim-using-session" class="section level3">
 <h3 class="hasAnchor">
@@ -172,7 +172,7 @@
 <p>You can check to see which version of SyncroSim your R script is connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.6"</code></pre>
+<pre><code>## [1] "2.3.10"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -207,7 +207,7 @@
 ## 2   2.3.0
 ## 3   1.0.1
 ## 4   1.0.0
-## 5   1.0.1
+## 5   1.0.3
 ## 6   1.0.0</code></pre>
 <p>Install <code>helloworldTime</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -436,18 +436,18 @@
 <code class="sourceCode R"><span class="co"># Get run details for the first result Scenario</span>
 <span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></code></pre></div>
 <pre><code>## Run Log                                                                                                                                                                                                                                                                                            
-## STARTING SIMULATION: 2021-11-03 : 2:36:45 PM
+## STARTING SIMULATION: 2022-02-02 : 2:49:47 PM
 ## 
 ## Parent Scenario is: [1] My first scenario
-## Result scenario is: [2] My first scenario ([1] @ 03-Nov-2021 2:36 PM)
+## Result scenario is: [2] My first scenario ([1] @ 02-Feb-2022 2:49 PM)
 ## 
 ## CONFIGURING: Primary
 ## 
 ## RUNNING: Primary
 ## 
-## SIMULATION COMPLETE: 2021-11-03 : 2:36:53 PM
+## SIMULATION COMPLETE: 2022-02-02 : 2:49:56 PM
 ## Total simulation time: 00:00:08</code></pre>
-<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2021-11-03 : 2:36:45 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 03-Nov-2021 2:36 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2021-11-03 : 2:36:53 PM\nTotal simulation time: 00:00:08      "</code></pre>
+<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2022-02-02 : 2:49:47 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 02-Feb-2022 2:49 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-02-02 : 2:49:56 PM\nTotal simulation time: 00:00:08      "</code></pre>
 </div>
 </div>
 <div id="view-results" class="section level2">
@@ -461,13 +461,13 @@
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check Scenarios that currently exist in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   scenarioId projectId                                          name isResult
+<pre><code>##   ScenarioID ProjectID                                          Name IsResult
 ## 1          1         1                             My first scenario       No
-## 2          2         1 My first scenario ([1] @ 03-Nov-2021 2:36 PM)      Yes
-##   parentID owner          lastModified readOnly mergeDependencies
-## 1       NA   N/A 2021-11-03 at 2:36 PM       No                No
-## 2        1   N/A 2021-11-03 at 2:36 PM       No                No
-##   ignoreDependencies autoGenTags
+## 2          2         1 My first scenario ([1] @ 02-Feb-2022 2:49 PM)      Yes
+##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies
+## 1       NA   N/A 2022-02-02 at 2:49 PM         No                No
+## 2        1   N/A 2022-02-02 at 2:49 PM         No                No
+##   IgnoreDependencies AutoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
 <p>The first Scenario is our original Scenario, and the second is the Results Scenario with a time and date stamp of when it was run. We can also see some other information about these Scenarios, such as whether or not the Scenario is a result or not (i.e. <code>isResult</code> column).</p>
@@ -523,10 +523,10 @@
 <p>You may want to test multiple alternative Scenarios that have slightly different inputs. To save time, you can copy a Scenario that you’ve already made, give it a different name, and modify the inputs. To copy a completed Scenario, use the <code><a href="../reference/scenario.html">scenario()</a></code> function with the <code>sourceScenario</code> argument set to the name of the Scenario you want to copy.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check which Scenarios you currently have in your Library</span>
-<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                            name
+<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
+<pre><code>##                                            Name
 ## 1                             My first scenario
-## 2 My first scenario ([1] @ 03-Nov-2021 2:36 PM)</code></pre>
+## 2 My first scenario ([1] @ 02-Feb-2022 2:49 PM)</code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a new Scenario as a copy of an existing Scenario</span>
 <span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,
@@ -534,10 +534,10 @@
                           sourceScenario <span class="op">=</span> <span class="va">myScenario</span><span class="op">)</span>
 
 <span class="co"># Make sure this new Scenario has been added to the Library</span>
-<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                            name
+<span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
+<pre><code>##                                            Name
 ## 1                             My first scenario
-## 2 My first scenario ([1] @ 03-Nov-2021 2:36 PM)
+## 2 My first scenario ([1] @ 02-Feb-2022 2:49 PM)
 ## 3                            My second scenario</code></pre>
 <p>To edit the new Scenario, we must first load the contents of the input Datasheet and assign it to a new R data frame using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the <code>empty</code> argument to <code>TRUE</code> so that instead of getting the values from the existing Scenario, we can start with an empty data frame again.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
@@ -624,8 +624,8 @@
 <pre><code>##                    property                                      value
 ## 1                     Name:                          helloworldLibrary
 ## 2                    Owner:                                        N/A
-## 3            Last Modified:                      2021-11-03 at 2:37 PM
-## 4                     Size:                        192 KB  (196,608 B)
+## 3            Last Modified:                      2022-02-02 at 2:50 PM
+## 4                     Size:                        196 KB  (200,704 B)
 ## 5                Read Only:                                         No
 ## 6             Package Name:                             helloworldTime
 ## 7      Package Description: Example demonstrating how to use timesteps
@@ -672,16 +672,17 @@
 <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, summary <span class="op">=</span> <span class="st">"CORE"</span><span class="op">)</span></code></pre></div>
 <pre><code>##      scope                      name              displayName
 ## 1  library               core_Backup                   Backup
-## 2  library           core_LNGPackage Last Known Good Packages
-## 3  library      core_Multiprocessing          Multiprocessing
-## 4  library              core_Options                  Options
-## 5  library core_ProcessorGroupOption  Processor Group Options
-## 6  library  core_ProcessorGroupValue   Processor Group Values
-## 7  library             core_PyConfig     Python Configuration
-## 8  library              core_RConfig          R Configuration
-## 9  library             core_Settings                 Settings
-## 10 library            core_SysFolder                  Folders
-## 11 library         corestime_Options          Spatial Options</code></pre>
+## 2  library          core_CondaConfig      Conda Configuration
+## 3  library           core_LNGPackage Last Known Good Packages
+## 4  library      core_Multiprocessing          Multiprocessing
+## 5  library              core_Options                  Options
+## 6  library core_ProcessorGroupOption  Processor Group Options
+## 7  library  core_ProcessorGroupValue   Processor Group Values
+## 8  library             core_PyConfig     Python Configuration
+## 9  library              core_RConfig          R Configuration
+## 10 library             core_Settings                 Settings
+## 11 library            core_SysFolder                  Folders
+## 12 library         corestime_Options          Spatial Options</code></pre>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get the current values for the Library's Backup Datasheet</span>
 <span class="va">myDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Backup"</span><span class="op">)</span>   
