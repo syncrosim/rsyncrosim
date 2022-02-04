@@ -118,7 +118,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
       if (!is.element(cDepRaw, allScns$Name)) {
         warning(cDepRaw, ": dependency scenario not found in library, wil be ignored.")
       }
-      cDep <- allScns$scenarioId[allScns$Name == cDepRaw]
+      cDep <- allScns$ScenarioID[allScns$Name == cDepRaw]
       if (length(cDep) == 0) {
         stop("Could not find dependency scenario ", cDepRaw)
       }

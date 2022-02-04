@@ -1,4 +1,4 @@
-# rsyncrosim 1.3.6
+# rsyncrosim 1.3.7
 
 ## Breaking changes
 
@@ -6,7 +6,7 @@
 
 ## Bug fixes:
 
-* Fixed project() where internal datasheet projectId column does not exist anymore
+* Fixed `dependency()` bug where code failed when `dependency` argument was set to a character
 
 ## New features:
 
