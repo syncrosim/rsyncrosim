@@ -24,8 +24,12 @@ NULL
 #' @param timestep integer, character string, or vector of integer/character string. 
 #'     Timestep(s) to include. If \code{NULL} (default) then all timesteps are 
 #'     included.  If no Timestep column is in the Datasheet, then ignored
-#' @param filterColumn character string. Filters a Datasheet by a value in a column 
-#'     (e.g. "TransitionGroupID=20"). Default is \code{NULL}
+#' @param filterColumn character string. The column to filter a Datasheet by. 
+#'     (e.g. "TransitionGroupID"). Note that to use the filterColumn argument, 
+#'     you must also specify a filterValue. Default is \code{NULL}
+#' @param filterValue character string or integer. The value of the filterColumn
+#'     to filter the Datasheet by. To use the filterValue argument, you must 
+#'     also specify a filterColumn. Default is \code{NULL}
 #' @param subset logical expression indicating Datasheet rows to return. 
 #'     e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for 
 #'     details (optional)
@@ -100,18 +104,45 @@ NULL
 #'                  column = "OutputRasterFile",
 #'                  forceElements = TRUE
 #'                  )
+#'                  
+#' # Filter for only rasters that fit specific criteria
+#' # Load the ST-Sim spatial example library
+#' addPackage("stsim")
+#' 
+#' # Set the file path and name of the new SsimLibrary
+#' myLibraryName <- file.path(tempdir(),"testlib_stsim_datasheet")
+#' 
+#' # Set the SyncroSim Session
+#' mySession <- session()
+#' 
+#' # Create a new SsimLibrary with the example template from ST-Sim
+#' myLibrary <- ssimLibrary(name = myLibraryName,
+#'                          session = mySession, 
+#'                          package = "stsim",
+#'                          template = "spatial-example")
+#'                          
+#' myScenario <- scenario(myLibrary, scenario = 16)
+#' 
+#' # Run Scenario to generate results
+#' resultScenario <- run(myScenario)
+#' 
+#' 
+#' resultRaster <- datasheetRaster(resultScenario,
+#'                  datasheet = "stsim_OutputSpatialState",
+#'                  filterColumn = "TransitionTypeID",
+#'                  filterValue = "Fire")
 #' }
 #' 
 #' @export
-setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, filterColumn = NULL, subset = NULL, forceElements = FALSE, pathOnly = FALSE) standardGeneric("datasheetRaster"))
+setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, filterColumn = NULL, filterValue = NULL, subset = NULL, forceElements = FALSE, pathOnly = FALSE) standardGeneric("datasheetRaster"))
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "character"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
+setMethod("datasheetRaster", signature(ssimObject = "character"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
+setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
   if (class(ssimObject[[1]]) != "Scenario") {
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
@@ -122,7 +153,7 @@ setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject
   started <- FALSE
   for (i in 1:length(ssimObject)) {
     cScn <- ssimObject[[i]]
-    cOut <- datasheetRaster(cScn, datasheet = datasheet, column = column, scenario = scenario, iteration = iteration, timestep = timestep, filterColumn = filterColumn, subset = subset, forceElements = forceElements, pathOnly = pathOnly)
+    cOut <- datasheetRaster(cScn, datasheet = datasheet, column = column, scenario = scenario, iteration = iteration, timestep = timestep, filterColumn = filterColumn, filterValue = filterValue, subset = subset, forceElements = forceElements, pathOnly = pathOnly)
     if (!((class(cOut) == "list") && (length(cOut) == 0))) {
       names(cOut) <- paste0("scn", .scenarioId(cScn), ".", names(cOut))
       if (!started) {
@@ -141,7 +172,7 @@ setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject
 })
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
+setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
   if (is.null(scenario)) {
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
   }
@@ -160,11 +191,11 @@ setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssim
   scnList <- .scenario(ssimObject, scenario = scenario)
   scenario <- NULL
   
-  return(datasheetRaster(scnList, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements))
+  return(datasheetRaster(scnList, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements))
 })
 
 #' @rdname datasheetRaster
-setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, subset, forceElements, pathOnly) {
+setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
   rat <- NULL
   if (is.null(subset)) {
     getFactors <- FALSE
@@ -197,10 +228,10 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   }
   
   # TO DO: make sure datasheet is spatial after opening
-  cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, lookupsAsFactors = getFactors)
+  cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, filterValue = filterValue, lookupsAsFactors = getFactors)
   
   if (nrow(cMeta) == 0) {
-    cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, lookupsAsFactors = getFactors)
+    cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, filterValue = filterValue, lookupsAsFactors = getFactors)
   }
   args <- list(list = NULL, columns = NULL, allprops = NULL, sheet = datasheet, csv = NULL, lib = .filepath(x))
   
@@ -289,6 +320,8 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
     for (i in seq(length.out = length(tsReplaceBits))) {
       cMeta$outName <- gsub(tsReplaceBits[i], "", cMeta$outName, fixed = TRUE)
     }
+    
+    # BELOW TAKES FOREVER - vectorize
     for (k in seq(length.out = nrow(cMeta))) {
       addString <- paste0(".it", cMeta$Iteration[k])
       if (!grepl(addString, cMeta$outName[k], fixed = TRUE)) {
