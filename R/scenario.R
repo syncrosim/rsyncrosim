@@ -75,7 +75,7 @@ setMethod(
         }
       }
       if (class(sourceScenario) == "character") {
-        sourceOptions <- subset(allScenarios, name == sourceScenario)
+        sourceOptions <- subset(allScenarios, Name == sourceScenario)
         if (nrow(sourceOptions) == 0) {
           stop(paste0("Source scenario name ", sourceScenario, " not found in SsimLibrary."))
         }

@@ -16,8 +16,10 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   filterColumn = NULL,
+  filterValue = NULL,
   subset = NULL,
-  forceElements = FALSE
+  forceElements = FALSE,
+  pathOnly = FALSE
 )
 
 \S4method{datasheetRaster}{character}(
@@ -28,8 +30,10 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   filterColumn = NULL,
+  filterValue = NULL,
   subset = NULL,
-  forceElements = FALSE
+  forceElements = FALSE,
+  pathOnly = FALSE
 )
 
 \S4method{datasheetRaster}{list}(
@@ -40,8 +44,10 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   filterColumn = NULL,
+  filterValue = NULL,
   subset = NULL,
-  forceElements = FALSE
+  forceElements = FALSE,
+  pathOnly = FALSE
 )
 
 \S4method{datasheetRaster}{SsimObject}(
@@ -52,8 +58,10 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   filterColumn = NULL,
+  filterValue = NULL,
   subset = NULL,
-  forceElements = FALSE
+  forceElements = FALSE,
+  pathOnly = FALSE
 )
 
 \S4method{datasheetRaster}{Scenario}(
@@ -64,8 +72,10 @@ datasheetRaster(
   iteration = NULL,
   timestep = NULL,
   filterColumn = NULL,
+  filterValue = NULL,
   subset = NULL,
-  forceElements = FALSE
+  forceElements = FALSE,
+  pathOnly = FALSE
 )
 }
 \arguments{
@@ -91,8 +101,13 @@ included. If no Iteration column is in the Datasheet, then ignored}
 Timestep(s) to include. If \code{NULL} (default) then all timesteps are 
 included.  If no Timestep column is in the Datasheet, then ignored}
 
-\item{filterColumn}{character string. Filters a Datasheet by a value in a column 
-(e.g. "TransitionGroupID=20"). Default is \code{NULL}}
+\item{filterColumn}{character string. The column to filter a Datasheet by. 
+(e.g. "TransitionGroupID"). Note that to use the filterColumn argument, 
+you must also specify a filterValue. Default is \code{NULL}}
+
+\item{filterValue}{character string or integer. The value of the filterColumn
+to filter the Datasheet by. To use the filterValue argument, you must 
+also specify a filterColumn. Default is \code{NULL}}
 
 \item{subset}{logical expression indicating Datasheet rows to return. 
 e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for 
@@ -101,9 +116,13 @@ details (optional)}
 \item{forceElements}{logical. If \code{TRUE} then returns a single raster as a RasterStack; 
 otherwise returns a single raster as a RasterLayer directly. Default is 
 \code{FALSE}}
+
+\item{pathOnly}{logical. If \code{TRUE} then returns a list of filepaths to the raster
+files on disk. Default is \code{FALSE}}
 }
 \value{
-A RasterLayer, RasterStack or RasterBrick object. See raster package documentation for details.
+A RasterLayer, RasterStack or RasterBrick object, or List. See raster package 
+documentation for details.
 }
 \description{
 This function retrieves spatial columns from one or more SyncroSim 
@@ -170,6 +189,35 @@ resultRaster <- datasheetRaster(resultScenario,
                  column = "OutputRasterFile",
                  forceElements = TRUE
                  )
+                 
+# Filter for only rasters that fit specific criteria
+# Load the ST-Sim spatial example library
+addPackage("stsim")
+
+# Set the file path and name of the new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib_stsim_datasheet")
+
+# Set the SyncroSim Session
+mySession <- session()
+
+# Create a new SsimLibrary with the example template from ST-Sim
+myLibrary <- ssimLibrary(name = myLibraryName,
+                         session = mySession, 
+                         package = "stsim",
+                         template = "spatial-example")
+                         
+myScenario <- scenario(myLibrary, scenario = 16)
+
+# Run Scenario to generate results
+resultScenario <- run(myScenario)
+
+
+resultRaster <- datasheetRaster(resultScenario,
+                 datasheet = "stsim_OutputSpatialState",
+                 timestep = 5,
+                 iteration = 5,
+                 filterColumn = "TransitionTypeID",
+                 filterValue = "Fire")
 }
 
 }

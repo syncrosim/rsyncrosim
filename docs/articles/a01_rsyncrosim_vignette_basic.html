@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
       </span>
     </div>
 
@@ -435,19 +435,19 @@
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get run details for the first result Scenario</span>
 <span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></code></pre></div>
-<pre><code>## Run Log                                                                                                                                                                                                                                                                                            
-## STARTING SIMULATION: 2022-02-02 : 2:49:47 PM
+<pre><code>## Run Log                                                                                                                                                                                                                                                                                               
+## STARTING SIMULATION: 2022-02-24 : 12:46:31 PM
 ## 
 ## Parent Scenario is: [1] My first scenario
-## Result scenario is: [2] My first scenario ([1] @ 02-Feb-2022 2:49 PM)
+## Result scenario is: [2] My first scenario ([1] @ 24-Feb-2022 12:46 PM)
 ## 
 ## CONFIGURING: Primary
 ## 
 ## RUNNING: Primary
 ## 
-## SIMULATION COMPLETE: 2022-02-02 : 2:49:56 PM
-## Total simulation time: 00:00:08</code></pre>
-<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2022-02-02 : 2:49:47 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 02-Feb-2022 2:49 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-02-02 : 2:49:56 PM\nTotal simulation time: 00:00:08      "</code></pre>
+## SIMULATION COMPLETE: 2022-02-24 : 12:46:41 PM
+## Total simulation time: 00:00:10</code></pre>
+<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                               \nSTARTING SIMULATION: 2022-02-24 : 12:46:31 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 24-Feb-2022 12:46 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-02-24 : 12:46:41 PM\nTotal simulation time: 00:00:10      "</code></pre>
 </div>
 </div>
 <div id="view-results" class="section level2">
@@ -461,12 +461,12 @@
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check Scenarios that currently exist in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   ScenarioID ProjectID                                          Name IsResult
-## 1          1         1                             My first scenario       No
-## 2          2         1 My first scenario ([1] @ 02-Feb-2022 2:49 PM)      Yes
-##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies
-## 1       NA   N/A 2022-02-02 at 2:49 PM         No                No
-## 2        1   N/A 2022-02-02 at 2:49 PM         No                No
+<pre><code>##   ScenarioID ProjectID                                           Name IsResult
+## 1          1         1                              My first scenario       No
+## 2          2         1 My first scenario ([1] @ 24-Feb-2022 12:46 PM)      Yes
+##   ParentID Owner       DateLastModified IsReadOnly MergeDependencies
+## 1       NA   N/A 2022-02-24 at 12:46 PM         No                No
+## 2        1   N/A 2022-02-24 at 12:46 PM         No                No
 ##   IgnoreDependencies AutoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
@@ -524,9 +524,9 @@
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check which Scenarios you currently have in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                            Name
-## 1                             My first scenario
-## 2 My first scenario ([1] @ 02-Feb-2022 2:49 PM)</code></pre>
+<pre><code>##                                             Name
+## 1                              My first scenario
+## 2 My first scenario ([1] @ 24-Feb-2022 12:46 PM)</code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a new Scenario as a copy of an existing Scenario</span>
 <span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,
@@ -535,10 +535,10 @@
 
 <span class="co"># Make sure this new Scenario has been added to the Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                            Name
-## 1                             My first scenario
-## 2 My first scenario ([1] @ 02-Feb-2022 2:49 PM)
-## 3                            My second scenario</code></pre>
+<pre><code>##                                             Name
+## 1                              My first scenario
+## 2 My first scenario ([1] @ 24-Feb-2022 12:46 PM)
+## 3                             My second scenario</code></pre>
 <p>To edit the new Scenario, we must first load the contents of the input Datasheet and assign it to a new R data frame using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the <code>empty</code> argument to <code>TRUE</code> so that instead of getting the values from the existing Scenario, we can start with an empty data frame again.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load empty input Datasheets as an R data frame</span>
@@ -624,7 +624,7 @@
 <pre><code>##                    property                                      value
 ## 1                     Name:                          helloworldLibrary
 ## 2                    Owner:                                        N/A
-## 3            Last Modified:                      2022-02-02 at 2:50 PM
+## 3            Last Modified:                     2022-02-24 at 12:47 PM
 ## 4                     Size:                        196 KB  (200,704 B)
 ## 5                Read Only:                                         No
 ## 6             Package Name:                             helloworldTime
