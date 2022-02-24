@@ -129,6 +129,8 @@ NULL
 #' 
 #' resultRaster <- datasheetRaster(resultScenario,
 #'                  datasheet = "stsim_OutputSpatialState",
+#'                  timestep = 5,
+#'                  iteration = 5,
 #'                  filterColumn = "TransitionTypeID",
 #'                  filterValue = "Fire")
 #' }
@@ -305,46 +307,6 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   
   # Now cMeta contains bandColumn, rasterColumn, and only rows to be exported
   cMeta$outName <- gsub(".tif", "", basename(cMeta$rasterColumn), fixed = TRUE)
-  
-  if (grepl("It0000-Ts0000-", cMeta$outName[1])) {
-    cMeta$outName[1] <- gsub("It0000-Ts0000-", "", cMeta$outName[1], fixed = TRUE)
-    cMeta$outName[1] <- paste0(cMeta$outName, ".it0.ts0")
-  }
-  
-  if (is.element("Iteration", names(cMeta)) && (length(setdiff(cMeta$Iteration, c(NA))) > 0)) {
-    tsReplaceBits <- cMeta$Iteration
-    tsReplaceBits[tsReplaceBits < 10] <- paste0("It000", tsReplaceBits[tsReplaceBits < 10], "-")
-    tsReplaceBits[(10 <= tsReplaceBits) & (tsReplaceBits < 100)] <- paste0("It00", tsReplaceBits[(10 <= tsReplaceBits) & (tsReplaceBits < 100)], "-")
-    tsReplaceBits[(100 <= tsReplaceBits) & (tsReplaceBits < 1000)] <- paste0("It0", tsReplaceBits[(100 <= tsReplaceBits) & (tsReplaceBits < 1000)], "-")
-    tsReplaceBits[(1000 <= tsReplaceBits) & (tsReplaceBits < 10000)] <- paste0("It", tsReplaceBits[(1000 <= tsReplaceBits) & (tsReplaceBits < 10000)], "-")
-    for (i in seq(length.out = length(tsReplaceBits))) {
-      cMeta$outName <- gsub(tsReplaceBits[i], "", cMeta$outName, fixed = TRUE)
-    }
-    
-    # BELOW TAKES FOREVER - vectorize
-    for (k in seq(length.out = nrow(cMeta))) {
-      addString <- paste0(".it", cMeta$Iteration[k])
-      if (!grepl(addString, cMeta$outName[k], fixed = TRUE)) {
-        cMeta$outName[k] <- paste0(cMeta$outName[k], addString)
-      }
-    }
-  }
-  if (is.element("Timestep", names(cMeta)) && (length(setdiff(cMeta$Timestep, c(NA))) > 0)) {
-    tsReplaceBits <- cMeta$Timestep
-    tsReplaceBits[tsReplaceBits < 10] <- paste0("Ts000", tsReplaceBits[tsReplaceBits < 10], "-")
-    tsReplaceBits[(10 <= tsReplaceBits) & (tsReplaceBits < 100)] <- paste0("Ts00", tsReplaceBits[(10 <= tsReplaceBits) & (tsReplaceBits < 100)], "-")
-    tsReplaceBits[(100 <= tsReplaceBits) & (tsReplaceBits < 1000)] <- paste0("Ts0", tsReplaceBits[(100 <= tsReplaceBits) & (tsReplaceBits < 1000)], "-")
-    tsReplaceBits[(1000 <= tsReplaceBits) & (tsReplaceBits < 10000)] <- paste0("Ts", tsReplaceBits[(1000 <= tsReplaceBits) & (tsReplaceBits < 10000)], "-")
-    for (i in seq(length.out = length(tsReplaceBits))) {
-      cMeta$outName <- gsub(tsReplaceBits[i], "", cMeta$outName, fixed = TRUE)
-    }
-    for (k in seq(length.out = nrow(cMeta))) {
-      addString <- paste0(".ts", cMeta$Timestep[k])
-      if (!grepl(addString, cMeta$outName[k], fixed = TRUE)) {
-        cMeta$outName[k] <- paste0(cMeta$outName[k], addString)
-      }
-    }
-  }
 
   if ((length(setdiff(NA, unique(cMeta$Band))) > 0) & length(intersect(names(cMeta), c("Timestep", "Iteration"))) == 0) {
     cMeta$outName <- paste0(cMeta$outName, ".b", cMeta$bandColumn)
