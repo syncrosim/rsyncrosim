@@ -95,7 +95,7 @@ addPackage("helloworldSpatial")
 myLibraryName <- file.path(tempdir(),"testlib")
 
 # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
-mySession <- session()
+mySession <- session(printCmd=T)
 myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession, 
                          package = "helloworldSpatial",

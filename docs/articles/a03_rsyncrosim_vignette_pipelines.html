@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -101,11 +101,12 @@
 
       
 
-      </header><script src="a03_rsyncrosim_vignette_pipelines_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="a03_rsyncrosim_vignette_pipelines_files/header-attrs-2.12/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>
-<code>rsyncrosim</code>: introduction to pipelines</h1>
+<code>rsyncrosim</code>: introduction to
+pipelines</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/syncrosim/rsyncrosim/blob/master/vignettes/a03_rsyncrosim_vignette_pipelines.Rmd"><code>vignettes/a03_rsyncrosim_vignette_pipelines.Rmd</code></a></small>
@@ -115,17 +116,48 @@
 
     
     
-<p>This vignette will cover how to implement model pipelines using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction to <code>rsyncrosim</code></a> vignette. To learn how to use iterations in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html" target="_blank"><code>rsyncrosim</code>: introduction to uncertainty</a> vignette.</p>
+<p>This vignette will cover how to implement model pipelines using the
+<code>rsyncrosim</code> package within the
+<a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software
+framework. For an overview of
+<a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and
+<a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>,
+as well as a basic usage tutorial for <code>rsyncrosim</code>, see the
+<a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction
+to <code>rsyncrosim</code></a> vignette. To learn how to use iterations
+in the <code>rsyncrosim</code> interface, see the
+<a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html" target="_blank"><code>rsyncrosim</code>:
+introduction to uncertainty</a> vignette.</p>
 <div id="syncrosim-package-helloworldpipeline" class="section level2">
 <h2 class="hasAnchor">
 <a href="#syncrosim-package-helloworldpipeline" class="anchor"></a>SyncroSim Package: <code>helloworldPipeline</code>
 </h2>
-<p>To demonstrate how to link models in a pipeline using the <code>rsyncrosim</code> interface, we will need the <a href="https://github.com/ApexRMS/helloworldPipeline" target="_blank">helloworldPipeline</a> SyncroSim package. <code>helloworldPipeline</code> was designed to be a simple package to introduce pipelines to SyncroSim modeling workflows. Models (i.e. Transformers) connected by pipelines allow the user to implement multiple Transformers in a modeling workflow and access intermediate outputs of a Transformer without having to create multiple Scenarios.</p>
-<p>The package takes from the user 3 inputs, <em>mMean</em>, <em>mSD</em>, and <em>b</em>. For each iteration, a value <em>m</em>, representing the slope, is sampled from a normal distribution with mean of <em>mMean</em> and standard deviation of <em>mSD</em>. The <em>b</em> value represents the intercept. In the first model in the pipeline, these input values are run through a linear model, <em>y=mt+b</em>, where <em>t</em> is <em>time</em>, and the <em>y</em> value is returned as output. The second model takes <em>y</em> as input and calculates the cumulative sum of <em>y</em> over time, returning a new variable <em>yCum</em> as output.</p>
+<p>To demonstrate how to link models in a pipeline using the
+<code>rsyncrosim</code> interface, we will need the
+<a href="https://github.com/ApexRMS/helloworldPipeline" target="_blank">helloworldPipeline</a>
+SyncroSim package. <code>helloworldPipeline</code> was designed to be a
+simple package to introduce pipelines to SyncroSim modeling workflows.
+Models (i.e. Transformers) connected by pipelines allow the user to
+implement multiple Transformers in a modeling workflow and access
+intermediate outputs of a Transformer without having to create multiple
+Scenarios.</p>
+<p>The package takes from the user 3 inputs, <em>mMean</em>,
+<em>mSD</em>, and <em>b</em>. For each iteration, a value <em>m</em>,
+representing the slope, is sampled from a normal distribution with mean
+of <em>mMean</em> and standard deviation of <em>mSD</em>. The <em>b</em>
+value represents the intercept. In the first model in the pipeline,
+these input values are run through a linear model, <em>y=mt+b</em>,
+where <em>t</em> is <em>time</em>, and the <em>y</em> value is returned
+as output. The second model takes <em>y</em> as input and calculates the
+cumulative sum of <em>y</em> over time, returning a new variable
+<em>yCum</em> as output.</p>
 <div class="figure">
 <img src="infographic-pipeline.png" width="600" alt=""><p class="caption">Infographic of helloworldPipeline package</p>
 </div>
-<p>For more details on the different features of the <code>helloworldPipeline</code> SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.</p>
+<p>For more details on the different features of the
+<code>helloworldPipeline</code> SyncroSim package, consult the SyncroSim
+<a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing
+a Package: Linking Models</a> tutorial.</p>
 </div>
 <div id="setup" class="section level2">
 <h2 class="hasAnchor">
@@ -133,12 +165,21 @@
 <div id="install-syncrosim" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-syncrosim" class="anchor"></a>Install SyncroSim</h3>
-<p>Before using <code>rsyncrosim</code> you will first need to <a href="https://syncrosim.com/download/" target="_blank">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.</p>
+<p>Before using <code>rsyncrosim</code> you will first need to
+<a href="https://syncrosim.com/download/" target="_blank">download and
+install</a> the SyncroSim software. Versions of SyncroSim exist for both
+Windows and Linux.</p>
 </div>
 <div id="installing-and-loading-r-packages" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installing-and-loading-r-packages" class="anchor"></a>Installing and loading R packages</h3>
-<p>You will need to install the <code>rsyncrosim</code> R package, either using <a href="https://cran.r-project.org/" target="_blank">CRAN</a> or from the <code>rsyncrosim</code> <a href="https://github.com/syncrosim/rsyncrosim/releases/" target="_blank">GitHub repository</a>. Versions of <code>rsyncrosim</code> are available for both Windows and Linux.</p>
+<p>You will need to install the <code>rsyncrosim</code> R package,
+either using
+<a href="https://cran.r-project.org/" target="_blank">CRAN</a> or from
+the <code>rsyncrosim</code>
+<a href="https://github.com/syncrosim/rsyncrosim/releases/" target="_blank">GitHub
+repository</a>. Versions of <code>rsyncrosim</code> are available for
+both Windows and Linux.</p>
 <p>In a new R script, load the <code>rsyncrosim</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load R package for working with SyncroSim</span>
@@ -148,7 +189,10 @@
 <h3 class="hasAnchor">
 <a href="#connecting-r-to-syncrosim-using-session" class="anchor"></a>Connecting R to SyncroSim using <code>session()</code>
 </h3>
-<p>Finish setting up the R environment for the <code>rsyncrosim</code> workflow by creating a SyncroSim Session object. Use the <code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of the SyncroSim software.</p>
+<p>Finish setting up the R environment for the <code>rsyncrosim</code>
+workflow by creating a SyncroSim Session object. Use the
+<code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of
+the SyncroSim software.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span>
 <span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span>
@@ -157,7 +201,8 @@
 ## filepath [character]: C:/Program Files/SyncroSim
 ## silent [logical]    : TRUE
 ## printCmd [logical]  : FALSE</code></pre>
-<p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
+<p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the
+latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "2.3.10"</code></pre>
@@ -166,12 +211,17 @@
 <h3 class="hasAnchor">
 <a href="#installing-syncrosim-packages-using-addpackage" class="anchor"></a>Installing SyncroSim packages using <code>addPackage()</code>
 </h3>
-<p>Install <code>helloworldPipeline</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
+<p>Install <code>helloworldPipeline</code> using the
+<code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This
+function takes a package name as input and then queries the SyncroSim
+package server for the specified package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install helloworldPipeline</span>
 <span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldPipeline"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Package &lt;helloworldPipeline&gt; installed</code></pre>
-<p><code>helloworldPipeline</code> should now be included in the package list returned by the <code><a href="../reference/package.html">package()</a></code> function in <code>rsyncrosim</code>:</p>
+<p><code>helloworldPipeline</code> should now be included in the package
+list returned by the <code><a href="../reference/package.html">package()</a></code> function in
+<code>rsyncrosim</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -182,13 +232,15 @@
 <div id="create-a-modeling-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-modeling-workflow" class="anchor"></a>Create a modeling workflow</h2>
-<p>When creating a new modeling workflow from scratch, we need to create objects of the following scopes:</p>
+<p>When creating a new modeling workflow from scratch, we need to create
+objects of the following scopes:</p>
 <ul>
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a></li>
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a></li>
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a></li>
 </ul>
-<p>For more information on these scopes, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html">Introduction to <code>rsyncrosim</code></a> vignette.</p>
+<p>For more information on these scopes, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html">Introduction
+to <code>rsyncrosim</code></a> vignette.</p>
 <div id="set-up-library-project-and-scenario" class="section level3">
 <h3 class="hasAnchor">
 <a href="#set-up-library-project-and-scenario" class="anchor"></a>Set up Library, Project, and Scenario</h3>
@@ -209,7 +261,8 @@
 <h3 class="hasAnchor">
 <a href="#view-model-inputs-using-datasheet" class="anchor"></a>View model inputs using <code>datasheet()</code>
 </h3>
-<p>View the Datasheets associated with your new Scenario using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function from <code>rsyncrosim</code>.</p>
+<p>View the Datasheets associated with your new Scenario using the
+<code><a href="../reference/datasheet.html">datasheet()</a></code> function from <code>rsyncrosim</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># View all Datasheets associated with a Library, Project, or Scenario</span>
 <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></code></pre></div>
@@ -218,15 +271,33 @@
 ## 2 scenario helloworldPipeline_IntermediateDatasheet IntermediateDatasheet
 ## 3 scenario       helloworldPipeline_OutputDatasheet       OutputDatasheet
 ## 4 scenario            helloworldPipeline_RunControl           Run Control</code></pre>
-<p>From the list of Datasheets above, we can see that there are four Datasheets specific to the <code>helloworldPipeline</code> package, including an Input Datasheet, an Intermediate Datasheet, and an Output Datasheet. These three Datasheets are connected by Transformers. The values from the Input Datasheet are used as the input for the first Transformer, which <em>transforms</em> the input data to output data through a series of model calculations. The output data from the first Transformer is contained within the Intermediate Datasheet. The values from the Intermediate Datasheet are then used as input for the second Transformer. The output from the second Transformer is stored in the Output Datasheet.</p>
+<p>From the list of Datasheets above, we can see that there are four
+Datasheets specific to the <code>helloworldPipeline</code> package,
+including an Input Datasheet, an Intermediate Datasheet, and an Output
+Datasheet. These three Datasheets are connected by Transformers. The
+values from the Input Datasheet are used as the input for the first
+Transformer, which <em>transforms</em> the input data to output data
+through a series of model calculations. The output data from the first
+Transformer is contained within the Intermediate Datasheet. The values
+from the Intermediate Datasheet are then used as input for the second
+Transformer. The output from the second Transformer is stored in the
+Output Datasheet.</p>
 </div>
 <div id="configure-model-inputs-using-datasheet-and-addrow" class="section level3">
 <h3 class="hasAnchor">
-<a href="#configure-model-inputs-using-datasheet-and-addrow" class="anchor"></a>Configure model inputs using <code>datasheet()</code> and <code>addRow()</code>
+<a href="#configure-model-inputs-using-datasheet-and-addrow" class="anchor"></a>Configure model inputs using <code>datasheet()</code> and
+<code>addRow()</code>
 </h3>
-<p>Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (<code>InputDatasheet</code>) and Run Control Datasheet (<code>RunControl</code>) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core <code>Pipeline</code> Datasheet to specify which Transformers are run in which order.</p>
+<p>Currently our input Scenario Datasheets are empty! We need to add
+some values to our input Datasheet (<code>InputDatasheet</code>) and Run
+Control Datasheet (<code>RunControl</code>) so we can run our model.
+Since this package also uses pipelines, we also need to add some
+information to the core <code>Pipeline</code> Datasheet to specify which
+Transformers are run in which order.</p>
 <p><strong>Input Datasheet</strong></p>
-<p>First, assign the contents of the input Datasheet to a new data frame variable using <code><a href="../reference/datasheet.html">datasheet()</a></code>, then check the columns that need input values.</p>
+<p>First, assign the contents of the input Datasheet to a new data frame
+variable using <code><a href="../reference/datasheet.html">datasheet()</a></code>, then check the columns that
+need input values.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load input Datasheet to a new R data frame</span>
 <span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>,
@@ -243,11 +314,14 @@
 <li>
 <code>mMean</code> : the mean of the slope normal distribution.</li>
 <li>
-<code>mSD</code> : the standard deviation of the slope normal distribution.</li>
+<code>mSD</code> : the standard deviation of the slope normal
+distribution.</li>
 <li>
 <code>b</code> : the intercept of the linear equation.</li>
 </ul>
-<p>Add these values to a new data frame, then use the <code><a href="../reference/addRow.html">addRow()</a></code> function from <code>rsyncrosim</code> to update the input data frame</p>
+<p>Add these values to a new data frame, then use the
+<code><a href="../reference/addRow.html">addRow()</a></code> function from <code>rsyncrosim</code> to update
+the input data frame</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create input data and add it to the input data frame</span>
 <span class="va">myInputRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>mMean <span class="op">=</span> <span class="fl">2</span>, mSD <span class="op">=</span> <span class="fl">4</span>, b <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
@@ -257,14 +331,18 @@
 <span class="va">myInputDataframe</span></code></pre></div>
 <pre><code>##   mMean mSD b
 ## 1     2   4 3</code></pre>
-<p>Finally, save the updated R data frame to a SyncroSim Datasheet using <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
+<p>Finally, save the updated R data frame to a SyncroSim Datasheet using
+<code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Save input R data frame to a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myInputDataframe</span>,
               name <span class="op">=</span> <span class="st">"helloworldPipeline_InputDatasheet"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;helloworldPipeline_InputDatasheet&gt; saved</code></pre>
 <p><strong>RunControl Datasheet</strong></p>
-<p>The <code>RunControl</code> Datasheet provides information about how many time steps and iterations to use in the model. Here, we set the number of iterations, as well as the minimum and maximum time steps for our model. Let’s take a look at the columns that need input values.</p>
+<p>The <code>RunControl</code> Datasheet provides information about how
+many time steps and iterations to use in the model. Here, we set the
+number of iterations, as well as the minimum and maximum time steps for
+our model. Let’s take a look at the columns that need input values.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load RunControl Datasheet to a new R data frame</span>
 <span class="va">runSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"helloworldPipeline_RunControl"</span><span class="op">)</span>
@@ -279,15 +357,20 @@
 <p>The RunControl Datasheet requires the following 4 columns:</p>
 <ul>
 <li>
-<code>MinimumIteration</code> : starting value of iterations (default=1).</li>
+<code>MinimumIteration</code> : starting value of iterations
+(default=1).</li>
 <li>
-<code>MaximumIteration</code> : total number of iterations to run the model for.</li>
+<code>MaximumIteration</code> : total number of iterations to run
+the model for.</li>
 <li>
-<code>MinimumTimestep</code> : the starting time point of the simulation.</li>
+<code>MinimumTimestep</code> : the starting time point of the
+simulation.</li>
 <li>
-<code>MaximumTimestep</code> : the end time point of the simulation.</li>
+<code>MaximumTimestep</code> : the end time point of the
+simulation.</li>
 </ul>
-<p>We’ll add this information to a new data frame and then add it to the Run Control data frame using <code><a href="../reference/addRow.html">addRow()</a></code>.</p>
+<p>We’ll add this information to a new data frame and then add it to the
+Run Control data frame using <code><a href="../reference/addRow.html">addRow()</a></code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create RunControl data and add it to the RunControl data frame</span>
 <span class="va">runSettingsRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>MinimumIteration <span class="op">=</span> <span class="fl">1</span>,
@@ -300,14 +383,26 @@
 <span class="va">runSettings</span></code></pre></div>
 <pre><code>##   MinimumIteration MaximumIteration MinimumTimestep MaximumTimestep
 ## 1                1                5               1              10</code></pre>
-<p>Finally, save the R data frame to a SyncroSim Datasheet using <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
+<p>Finally, save the R data frame to a SyncroSim Datasheet using
+<code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Save RunControl R data frame to a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">runSettings</span>,
               name <span class="op">=</span> <span class="st">"helloworldPipeline_RunControl"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;helloworldPipeline_RunControl&gt; saved</code></pre>
 <p><strong>Pipeline Datasheet</strong></p>
-<p>We must modify a third Datasheet to be able to use the output of one Transformer as the input of a second Transformer. To implement pipelines in our package, we need to specify the order in which to run the Transformers in our pipeline by editing the <code>Pipeline</code> Datasheet. The <code>Pipeline</code> Datasheet is part of the built-in SyncroSim core, so we access it using the “core_” prefix with the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. From viewing the structure of the <code>Pipeline</code> Datasheet we know that the <code>StageNameID</code> is a factor with two levels: “First Model” and “Second Model”. We will set the data for this Datasheet such that “First Model” is run first, then “Second Model”. This way, the output from “First Model” is used as the input for “Second Model”.</p>
+<p>We must modify a third Datasheet to be able to use the output of one
+Transformer as the input of a second Transformer. To implement pipelines
+in our package, we need to specify the order in which to run the
+Transformers in our pipeline by editing the <code>Pipeline</code>
+Datasheet. The <code>Pipeline</code> Datasheet is part of the built-in
+SyncroSim core, so we access it using the “core_” prefix with the
+<code><a href="../reference/datasheet.html">datasheet()</a></code> function. From viewing the structure of the
+<code>Pipeline</code> Datasheet we know that the
+<code>StageNameID</code> is a factor with two levels: “First Model” and
+“Second Model”. We will set the data for this Datasheet such that “First
+Model” is run first, then “Second Model”. This way, the output from
+“First Model” is used as the input for “Second Model”.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load Pipeline Datasheet to a new R data frame</span>
 <span class="va">myPipelineDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"core_Pipeline"</span><span class="op">)</span>
@@ -336,12 +431,20 @@
 <h3 class="hasAnchor">
 <a href="#setting-run-parameters-with-run" class="anchor"></a>Setting run parameters with <code>run()</code>
 </h3>
-<p>We will now run our Scenario using the <code><a href="../reference/run.html">run()</a></code> function in <code>rsyncrosim</code>. If we have a large modeling workflow and we want to parallelize the run using multiprocessing, we can set the <code>jobs</code> argument to be a value greater than one.</p>
+<p>We will now run our Scenario using the <code><a href="../reference/run.html">run()</a></code> function in
+<code>rsyncrosim</code>. If we have a large modeling workflow and we
+want to parallelize the run using multiprocessing, we can set the
+<code>jobs</code> argument to be a value greater than one.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run the first Scenario we created</span>
 <span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span>, jobs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Running scenario [1] My first scenario"</code></pre>
-<p>Once the run is complete, we can compare the original Scenario to the Results Scenario to see which Datasheets have been modified. Using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function with the <code>optional</code> argument set to <code>TRUE</code>, we see that data has been added to both the Intermediate and Output Datasheets after running the Scenario (see <code>data</code> column below).</p>
+<p>Once the run is complete, we can compare the original Scenario to the
+Results Scenario to see which Datasheets have been modified. Using the
+<code><a href="../reference/datasheet.html">datasheet()</a></code> function with the <code>optional</code>
+argument set to <code>TRUE</code>, we see that data has been added to
+both the Intermediate and Output Datasheets after running the Scenario
+(see <code>data</code> column below).</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Datasheets for original Scenario</span>
 <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -373,12 +476,16 @@
 <div id="view-results" class="section level2">
 <h2 class="hasAnchor">
 <a href="#view-results" class="anchor"></a>View results</h2>
-<p>The next step is to view the output Datasheets added to the Result Scenario when it was run.</p>
+<p>The next step is to view the output Datasheets added to the Result
+Scenario when it was run.</p>
 <div id="viewing-intermediate-results-with-datasheet" class="section level3">
 <h3 class="hasAnchor">
 <a href="#viewing-intermediate-results-with-datasheet" class="anchor"></a>Viewing intermediate results with <code>datasheet()</code>
 </h3>
-<p>First, we will view the intermediate output Datasheet from the Results Scenario. We can load the result tables using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. The Intermediate Datasheet corresponds to the results from the first model.</p>
+<p>First, we will view the intermediate output Datasheet from the
+Results Scenario. We can load the result tables using the
+<code><a href="../reference/datasheet.html">datasheet()</a></code> function. The Intermediate Datasheet
+corresponds to the results from the first model.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Results of first Scenario</span>
 <span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -386,20 +493,24 @@
 
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep        y
-## 1         1        1  -2.5806
-## 2         1        2  -8.1612
-## 3         1        3 -13.7418
-## 4         1        4 -19.3224
-## 5         1        5 -24.9031
-## 6         1        6 -30.4837</code></pre>
-<p>We can see that for every timestep in an iteration we have a new value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
+<pre><code>##   Iteration Timestep      y
+## 1         1        1 3.5697
+## 2         1        2 4.1394
+## 3         1        3 4.7091
+## 4         1        4 5.2788
+## 5         1        5 5.8485
+## 6         1        6 6.4182</code></pre>
+<p>We can see that for every timestep in an iteration we have a new
+value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
 <div id="viewing-final-results-with-datasheet" class="section level3">
 <h3 class="hasAnchor">
 <a href="#viewing-final-results-with-datasheet" class="anchor"></a>Viewing final results with <code>datasheet()</code>
 </h3>
-<p>Now, we will view the final output Datasheet from the Results Scenario. Again, we will use <code><a href="../reference/datasheet.html">datasheet()</a></code> to load the result table. The Output Datasheet corresponds to the results from the second model.</p>
+<p>Now, we will view the final output Datasheet from the Results
+Scenario. Again, we will use <code><a href="../reference/datasheet.html">datasheet()</a></code> to load the result
+table. The Output Datasheet corresponds to the results from the second
+model.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Results of first Scenario</span>
 <span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -409,7 +520,9 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] Iteration Timestep  yCum     
 ## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
-<p>We can see for each timestep in an iteration, we have a new value of <em>yCum</em>, representing the cumulative value of <em>y</em> over time.</p>
+<p>We can see for each timestep in an iteration, we have a new value of
+<em>yCum</em>, representing the cumulative value of <em>y</em> over
+time.</p>
 </div>
 </div>
   </div>
