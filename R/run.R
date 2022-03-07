@@ -42,7 +42,7 @@ NULL
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
-#' mySession <- session()
+#' mySession <- session(printCmd=T)
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession, 
 #'                          package = "helloworldSpatial",
@@ -116,14 +116,14 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
     }
 
     if ((class(breakpoints) != "list") | (length(breakpoints) == 0)) {
-      args <- list(run = NULL, lib = .filepath(x), sid = cScn, noextfiles = NULL, jobs = jobs)
+      args <- list(run = NULL, lib = .filepath(x), sid = cScn, copyextfiles = "no", jobs = jobs)
 
       if (!is.null(transformerName)) {
         args[["trx"]] <- transformerName
       }
       
-      if ((copyExternalInputs == TRUE) | (jobs == 1)) {
-        args[["noextfiles"]] <- NULL
+      if ((copyExternalInputs == TRUE) & (jobs > 1)) {
+        args[["copyextfiles"]] <- "yes"
       }
 
       tt <- command(args, .session(x))

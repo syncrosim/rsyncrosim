@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -210,76 +210,82 @@ for a specified package.</p>
 <span class='co'># List all installed packages</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     name
-#&gt; 1             helloworld
-#&gt; 2        helloworldConda
-#&gt; 3         helloworldOmni
-#&gt; 4     helloworldPipeline
-#&gt; 5      helloworldSpatial
-#&gt; 6         helloworldTime
-#&gt; 7  helloworldUncertainty
-#&gt; 8                netlogo
-#&gt; 9              stconnect
-#&gt; 10                 stsim
-#&gt; 11               stsimsf
+#&gt; 1                 burnP3
+#&gt; 2             helloworld
+#&gt; 3        helloworldConda
+#&gt; 4         helloworldOmni
+#&gt; 5     helloworldPipeline
+#&gt; 6      helloworldSpatial
+#&gt; 7         helloworldTime
+#&gt; 8  helloworldUncertainty
+#&gt; 9                netlogo
+#&gt; 10             stconnect
+#&gt; 11                 stsim
+#&gt; 12               stsimsf
 #&gt;                                                              description
-#&gt; 1                          Example demonstrating how to create a package
-#&gt; 2  Example demonstrating how to create a package with Conda environments
-#&gt; 3                          Example demonstrating how to create a package
-#&gt; 4                             Example demonstrating how to use pipelines
-#&gt; 5                          Example demonstrating how to use spatial data
-#&gt; 6                             Example demonstrating how to use timesteps
-#&gt; 7                            Example demonstrating how to use iterations
-#&gt; 8                      Runs the NetLogo agent-based modeling environment
-#&gt; 9           Connectivity planning for future climate and land-use change
-#&gt; 10                      The ST-Sim state-and-transition simulation model
-#&gt; 11          Integrates stocks and flows into the ST-Sim simulation model
+#&gt; 1                          Burn-P3 package for burn probability modeling
+#&gt; 2                          Example demonstrating how to create a package
+#&gt; 3  Example demonstrating how to create a package with Conda environments
+#&gt; 4                          Example demonstrating how to create a package
+#&gt; 5                             Example demonstrating how to use pipelines
+#&gt; 6                          Example demonstrating how to use spatial data
+#&gt; 7                             Example demonstrating how to use timesteps
+#&gt; 8                            Example demonstrating how to use iterations
+#&gt; 9                      Runs the NetLogo agent-based modeling environment
+#&gt; 10          Connectivity planning for future climate and land-use change
+#&gt; 11                      The ST-Sim state-and-transition simulation model
+#&gt; 12          Integrates stocks and flows into the ST-Sim simulation model
 #&gt;    version
-#&gt; 1    1.0.1
+#&gt; 1    0.0.0
 #&gt; 2    1.0.1
 #&gt; 3    1.0.1
-#&gt; 4    1.0.0
-#&gt; 5    1.0.3
-#&gt; 6    1.0.0
+#&gt; 4    1.0.1
+#&gt; 5    1.0.0
+#&gt; 6    1.0.3
 #&gt; 7    1.0.0
-#&gt; 8    1.2.0
-#&gt; 9   1.1.16
-#&gt; 10   3.3.5
-#&gt; 11   3.3.4</div><div class='input'>
+#&gt; 8    1.0.0
+#&gt; 9    1.2.0
+#&gt; 10  1.1.16
+#&gt; 11   3.3.5
+#&gt; 12   3.3.4</div><div class='input'>
 <span class='co'># List all the installed base packages</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     name
-#&gt; 1             helloworld
-#&gt; 2        helloworldConda
-#&gt; 3         helloworldOmni
-#&gt; 4     helloworldPipeline
-#&gt; 5      helloworldSpatial
-#&gt; 6         helloworldTime
-#&gt; 7  helloworldUncertainty
-#&gt; 8                netlogo
-#&gt; 9              stconnect
-#&gt; 10                 stsim
+#&gt; 1                 burnP3
+#&gt; 2             helloworld
+#&gt; 3        helloworldConda
+#&gt; 4         helloworldOmni
+#&gt; 5     helloworldPipeline
+#&gt; 6      helloworldSpatial
+#&gt; 7         helloworldTime
+#&gt; 8  helloworldUncertainty
+#&gt; 9                netlogo
+#&gt; 10             stconnect
+#&gt; 11                 stsim
 #&gt;                                                              description
-#&gt; 1                          Example demonstrating how to create a package
-#&gt; 2  Example demonstrating how to create a package with Conda environments
-#&gt; 3                          Example demonstrating how to create a package
-#&gt; 4                             Example demonstrating how to use pipelines
-#&gt; 5                          Example demonstrating how to use spatial data
-#&gt; 6                             Example demonstrating how to use timesteps
-#&gt; 7                            Example demonstrating how to use iterations
-#&gt; 8                      Runs the NetLogo agent-based modeling environment
-#&gt; 9           Connectivity planning for future climate and land-use change
-#&gt; 10                      The ST-Sim state-and-transition simulation model
+#&gt; 1                          Burn-P3 package for burn probability modeling
+#&gt; 2                          Example demonstrating how to create a package
+#&gt; 3  Example demonstrating how to create a package with Conda environments
+#&gt; 4                          Example demonstrating how to create a package
+#&gt; 5                             Example demonstrating how to use pipelines
+#&gt; 6                          Example demonstrating how to use spatial data
+#&gt; 7                             Example demonstrating how to use timesteps
+#&gt; 8                            Example demonstrating how to use iterations
+#&gt; 9                      Runs the NetLogo agent-based modeling environment
+#&gt; 10          Connectivity planning for future climate and land-use change
+#&gt; 11                      The ST-Sim state-and-transition simulation model
 #&gt;    version
-#&gt; 1    1.0.1
+#&gt; 1    0.0.0
 #&gt; 2    1.0.1
 #&gt; 3    1.0.1
-#&gt; 4    1.0.0
-#&gt; 5    1.0.3
-#&gt; 6    1.0.0
+#&gt; 4    1.0.1
+#&gt; 5    1.0.0
+#&gt; 6    1.0.3
 #&gt; 7    1.0.0
-#&gt; 8    1.2.0
-#&gt; 9   1.1.16
-#&gt; 10   3.3.5</div><div class='input'>
+#&gt; 8    1.0.0
+#&gt; 9    1.2.0
+#&gt; 10  1.1.16
+#&gt; 11   3.3.5</div><div class='input'>
 <span class='co'># List all available packages on the server (including currently installed)</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     name
