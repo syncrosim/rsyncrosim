@@ -1,11 +1,11 @@
-# rsyncrosim 1.3.9
+# rsyncrosim 1.3.10
 
 ## Breaking changes
 
 ## Bug fixes:
 
-* Updated `run()` `copyExternalInputs` argument to use the new SyncroSim
-console flag.
+* Fixed bug in `delete()` function where error was being thrown when trying to
+delete datasheets.
 
 ## New features:
 
