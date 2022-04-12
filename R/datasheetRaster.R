@@ -40,8 +40,7 @@ NULL
 #'     files on disk. Default is \code{FALSE}
 #' 
 #' @return 
-#' A RasterLayer, RasterStack or RasterBrick object, or List. See raster package 
-#' documentation for details.
+#' A SpatRast object or List. See terra package documentation for details.
 #' 
 #' @details 
 #' The names of the returned raster stack contain metadata.
