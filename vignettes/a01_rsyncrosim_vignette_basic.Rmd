@@ -420,7 +420,7 @@ You may want to test multiple alternative Scenarios that have slightly different
 
 ```{r create new Scenario from source, warning = FALSE}
 # Check which Scenarios you currently have in your Library
-scenario(myLibrary)['name']
+scenario(myLibrary)['Name']
 
 # Create a new Scenario as a copy of an existing Scenario
 myNewScenario <- scenario(ssimObject = myProject,
@@ -428,7 +428,7 @@ myNewScenario <- scenario(ssimObject = myProject,
                           sourceScenario = myScenario)
 
 # Make sure this new Scenario has been added to the Library
-scenario(myLibrary)['name']
+scenario(myLibrary)['Name']
 ```
 
 

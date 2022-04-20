@@ -16,6 +16,7 @@ datasheet(
   optional = FALSE,
   empty = FALSE,
   filterColumn = NULL,
+  filterValue = NULL,
   lookupsAsFactors = TRUE,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
@@ -32,6 +33,7 @@ datasheet(
   optional = FALSE,
   empty = FALSE,
   filterColumn = NULL,
+  filterValue = NULL,
   lookupsAsFactors = TRUE,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
@@ -48,6 +50,7 @@ datasheet(
   optional,
   empty,
   filterColumn,
+  filterValue,
   lookupsAsFactors,
   sqlStatement,
   includeKey,
@@ -63,6 +66,7 @@ datasheet(
   optional = FALSE,
   empty = FALSE,
   filterColumn = NULL,
+  filterValue = NULL,
   lookupsAsFactors = TRUE,
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
@@ -101,8 +105,13 @@ and \code{lookupsAsFactors=FALSE}}
 \item{empty}{logical. If \code{TRUE} returns empty data.frames for each 
 Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}}
 
-\item{filterColumn}{character string. Filters a Datasheet by a value in a column 
-(e.g. "TransitionGroupID=20"). Default is \code{NULL}}
+\item{filterColumn}{character string. The column to filter a Datasheet by. 
+(e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
+you must also specify the filterValue argument. Default is \code{NULL}}
+
+\item{filterValue}{character string or integer. The value to filter the 
+filterColumn by. To use the filterValue argument, you must also specify
+the filterColumn argument. Default is \code{NULL}}
 
 \item{lookupsAsFactors}{logical. If \code{TRUE} (default) dependencies 
 returned as factors with allowed values (levels). Set \code{FALSE} to speed 

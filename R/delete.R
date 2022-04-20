@@ -177,10 +177,10 @@ setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, p
     out <- list()
     for (i in seq(length.out = length(scenario))) {
       cScn <- scenario[i]
-      name <- allScenarios$name[allScenarios$scenarioId == cScn]
+      name <- allScenarios$Name[allScenarios$ScenarioID == cScn]
       
       if (!is.null(datasheet)) {
-        cProj <- subset(scenarioSet, scenarioId == cScn)$projectId
+        cProj <- subset(scenarioSet, ScenarioID == cScn)$ProjectID
         outBit <- deleteDatasheet(x, datasheet = datasheet, datasheets = datasheets, 
                                   cProj = cProj, cScn = cScn, cProjName = "", 
                                   cScnName = name, out = out, force = force)

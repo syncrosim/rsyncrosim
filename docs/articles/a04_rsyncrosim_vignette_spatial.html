@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -101,11 +101,12 @@
 
       
 
-      </header><script src="a04_rsyncrosim_vignette_spatial_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="a04_rsyncrosim_vignette_spatial_files/header-attrs-2.12/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>
-<code>rsyncrosim</code>: introduction to spatial data</h1>
+<code>rsyncrosim</code>: introduction to spatial
+data</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/syncrosim/rsyncrosim/blob/master/vignettes/a04_rsyncrosim_vignette_spatial.Rmd"><code>vignettes/a04_rsyncrosim_vignette_spatial.Rmd</code></a></small>
@@ -115,16 +116,43 @@
 
     
     
-<p>This vignette will cover incorporating spatial data into SyncroSim models using the <code>rsyncrosim</code> package within the <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software framework. For an overview of <a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and <a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>, as well as a basic usage tutorial for <code>rsyncrosim</code>, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction to <code>rsyncrosim</code></a> vignette. To learn how to use iterations in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html" target="_blank"><code>rsyncrosim</code>: introduction to uncertainty</a> vignette. To learn how to link models using pipelines in the <code>rsyncrosim</code> interface, see the <a href="https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html" target="_blank"><code>rsyncrosim</code>: introduction to pipelines</a> vignette.</p>
+<p>This vignette will cover incorporating spatial data into SyncroSim
+models using the <code>rsyncrosim</code> package within the
+<a href="https://syncrosim.com/" target="_blank">SyncroSim</a> software
+framework. For an overview of
+<a href="https://syncrosim.com/" target="_blank">SyncroSim</a> and
+<a href="https://cran.r-project.org/web/packages/rsyncrosim/index.html" target="_blank"><code>rsyncrosim</code></a>,
+as well as a basic usage tutorial for <code>rsyncrosim</code>, see the
+<a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html" target="_blank">Introduction
+to <code>rsyncrosim</code></a> vignette. To learn how to use iterations
+in the <code>rsyncrosim</code> interface, see the
+<a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html" target="_blank"><code>rsyncrosim</code>:
+introduction to uncertainty</a> vignette. To learn how to link models
+using pipelines in the <code>rsyncrosim</code> interface, see the
+<a href="https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html" target="_blank"><code>rsyncrosim</code>:
+introduction to pipelines</a> vignette.</p>
 <div id="syncrosim-package-helloworldspatial" class="section level2">
 <h2 class="hasAnchor">
 <a href="#syncrosim-package-helloworldspatial" class="anchor"></a>SyncroSim Package: helloworldSpatial</h2>
-<p>To demonstrate how to use spatial data in the <code>rsyncrosim</code> interface, we will be using the <a href="https://github.com/ApexRMS/helloworldSpatial" target="_blank">helloworldSpatial</a> SyncroSim package. <code>helloworldSpatial</code> was designed to be a simple package to show off some key functionalities of SyncroSim, including the ability to use both spatial and non-spatial data.</p>
-<p>The package takes 3 inputs, <em>mMean</em>, <em>mSD</em>, and a spatial raster file of intercept (<em>b</em>) values. For each iteration, a value <em>m</em>, representing the slope, is sampled from a normal distribution with mean of <em>mMean</em> and standard deviation of <em>mSD</em>. These values are run through 2 models to produce both spatial and non-spatial outputs.</p>
+<p>To demonstrate how to use spatial data in the <code>rsyncrosim</code>
+interface, we will be using the
+<a href="https://github.com/ApexRMS/helloworldSpatial" target="_blank">helloworldSpatial</a>
+SyncroSim package. <code>helloworldSpatial</code> was designed to be a
+simple package to show off some key functionalities of SyncroSim,
+including the ability to use both spatial and non-spatial data.</p>
+<p>The package takes 3 inputs, <em>mMean</em>, <em>mSD</em>, and a
+spatial raster file of intercept (<em>b</em>) values. For each
+iteration, a value <em>m</em>, representing the slope, is sampled from a
+normal distribution with mean of <em>mMean</em> and standard deviation
+of <em>mSD</em>. These values are run through 2 models to produce both
+spatial and non-spatial outputs.</p>
 <div class="figure">
 <img src="infographic-spatial.png" width="600" alt=""><p class="caption">Infographic of helloworldSpatial package</p>
 </div>
-<p>For more details on the different features of the <code>helloworldSpatial</code> SyncroSim package, consult the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_spatial.html" target="_blank">Enhancing a Package: Integrating Spatial Data</a> tutorial.</p>
+<p>For more details on the different features of the
+<code>helloworldSpatial</code> SyncroSim package, consult the SyncroSim
+<a href="https://docs.syncrosim.com/how_to_guides/package_create_spatial.html" target="_blank">Enhancing
+a Package: Integrating Spatial Data</a> tutorial.</p>
 </div>
 <div id="setup" class="section level2">
 <h2 class="hasAnchor">
@@ -132,13 +160,24 @@
 <div id="install-syncrosim" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-syncrosim" class="anchor"></a>Install SyncroSim</h3>
-<p>Before using <code>rsyncrosim</code> you will first need to <a href="https://syncrosim.com/download/" target="_blank">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.</p>
+<p>Before using <code>rsyncrosim</code> you will first need to
+<a href="https://syncrosim.com/download/" target="_blank">download and
+install</a> the SyncroSim software. Versions of SyncroSim exist for both
+Windows and Linux.</p>
 </div>
 <div id="installing-and-loading-r-packages" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installing-and-loading-r-packages" class="anchor"></a>Installing and loading R packages</h3>
-<p>You will need to install the <code>rsyncrosim</code> R package, either using <a href="https://cran.r-project.org/" target="_blank">CRAN</a> or from the <code>rsyncrosim</code> <a href="https://github.com/syncrosim/rsyncrosim/releases/" target="_blank">GitHub repository</a>. Versions of <code>rsyncrosim</code> are available for both Windows and Linux. You may need to install the <code>raster</code> and <code>rgdal</code> packages from CRAN as well.</p>
-<p>In a new R script, load the necessary packages. This includes the <code>rsyncrosim</code> and <code>raster</code> R packages.</p>
+<p>You will need to install the <code>rsyncrosim</code> R package,
+either using
+<a href="https://cran.r-project.org/" target="_blank">CRAN</a> or from
+the <code>rsyncrosim</code>
+<a href="https://github.com/syncrosim/rsyncrosim/releases/" target="_blank">GitHub
+repository</a>. Versions of <code>rsyncrosim</code> are available for
+both Windows and Linux. You may need to install the <code>raster</code>
+and <code>rgdal</code> packages from CRAN as well.</p>
+<p>In a new R script, load the necessary packages. This includes the
+<code>rsyncrosim</code> and <code>raster</code> R packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load R packages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span>
@@ -149,7 +188,10 @@
 <h3 class="hasAnchor">
 <a href="#connecting-r-to-syncrosim-using-session" class="anchor"></a>Connecting R to SyncroSim using <code>session()</code>
 </h3>
-<p>Finish setting up the R environment for the <code>rsyncrosim</code> workflow by creating a SyncroSim Session object. Use the <code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of the SyncroSim software.</p>
+<p>Finish setting up the R environment for the <code>rsyncrosim</code>
+workflow by creating a SyncroSim Session object. Use the
+<code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of
+the SyncroSim software.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span>
 <span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span>
@@ -158,38 +200,46 @@
 ## filepath [character]: C:/Program Files/SyncroSim
 ## silent [logical]    : TRUE
 ## printCmd [logical]  : FALSE</code></pre>
-<p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the latest version of SyncroSim.</p>
+<p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the
+latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.8"</code></pre>
+<pre><code>## [1] "2.3.10"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installing-syncrosim-packages-using-addpackage" class="anchor"></a>Installing SyncroSim packages using <code>addPackage()</code>
 </h3>
-<p>Install <code>helloworldSpatial</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
+<p>Install <code>helloworldSpatial</code> using the
+<code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This
+function takes a package name as input and then queries the SyncroSim
+package server for the specified package.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install helloworldSpatial</span>
 <span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Package &lt;helloworldSpatial&gt; installed</code></pre>
-<p><code>helloworldSpatial</code> should now be included in the package list returned by the <code><a href="../reference/package.html">package()</a></code> function in <code>rsyncrosim</code>:</p>
+<p><code>helloworldSpatial</code> should now be included in the package
+list returned by the <code><a href="../reference/package.html">package()</a></code> function in
+<code>rsyncrosim</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##                name                                   description version
-## 1 helloworldSpatial Example demonstrating how to use spatial data   1.0.2</code></pre>
+## 1 helloworldSpatial Example demonstrating how to use spatial data   1.0.3</code></pre>
 </div>
 </div>
 <div id="create-a-modeling-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-modeling-workflow" class="anchor"></a>Create a modeling workflow</h2>
-<p>When creating a new modeling workflow from scratch, we need to create objects of the following scopes:</p>
+<p>When creating a new modeling workflow from scratch, we need to create
+objects of the following scopes:</p>
 <ul>
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Library</a></li>
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Projects</a></li>
 <li><a href="https://docs.syncrosim.com/how_to_guides/library_overview.html" target="_blank">Scenarios</a></li>
 </ul>
-<p>For more information on these scopes, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html">Introduction to <code>rsyncrosim</code></a> vignette.</p>
+<p>For more information on these scopes, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html">Introduction
+to <code>rsyncrosim</code></a> vignette.</p>
 <div id="set-up-library-project-and-scenario" class="section level3">
 <h3 class="hasAnchor">
 <a href="#set-up-library-project-and-scenario" class="anchor"></a>Set up Library, Project, and Scenario</h3>
@@ -210,7 +260,8 @@
 <h3 class="hasAnchor">
 <a href="#view-model-inputs-using-datasheet" class="anchor"></a>View model inputs using <code>datasheet()</code>
 </h3>
-<p>View the Datasheets associated with your new Scenario using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function from <code>rsyncrosim</code>.</p>
+<p>View the Datasheets associated with your new Scenario using the
+<code><a href="../reference/datasheet.html">datasheet()</a></code> function from <code>rsyncrosim</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># View all Datasheets associated with a Library, Project, or Scenario</span>
 <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></code></pre></div>
@@ -219,15 +270,30 @@
 ## 2 scenario helloworldSpatial_IntermediateDatasheet IntermediateDatasheet
 ## 3 scenario       helloworldSpatial_OutputDatasheet       OutputDatasheet
 ## 4 scenario            helloworldSpatial_RunControl           Run Control</code></pre>
-<p>From the list of Datasheets above, we can see that there are four Datasheets specific to the <code>helloworldSpatial</code> package, including an Input Datasheet, an Intermediate Datasheet, an Output Datasheet, and a Run Control Datasheet.</p>
+<p>From the list of Datasheets above, we can see that there are four
+Datasheets specific to the <code>helloworldSpatial</code> package,
+including an Input Datasheet, an Intermediate Datasheet, an Output
+Datasheet, and a Run Control Datasheet.</p>
 </div>
 <div id="configure-model-inputs-using-datasheet-and-addrow" class="section level3">
 <h3 class="hasAnchor">
-<a href="#configure-model-inputs-using-datasheet-and-addrow" class="anchor"></a>Configure model inputs using <code>datasheet()</code> and <code>addRow()</code>
+<a href="#configure-model-inputs-using-datasheet-and-addrow" class="anchor"></a>Configure model inputs using <code>datasheet()</code> and
+<code>addRow()</code>
 </h3>
-<p>Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (<code>InputDatasheet</code>) and run control Datasheet (<code>RunControl</code>) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core <code>Pipeline</code> Datasheet to specify which models are run in which order. For more information on using pipelines, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>: introduction to pipelines</a> vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.</p>
+<p>Currently our input Scenario Datasheets are empty! We need to add
+some values to our input Datasheet (<code>InputDatasheet</code>) and run
+control Datasheet (<code>RunControl</code>) so we can run our model.
+Since this package also uses pipelines, we also need to add some
+information to the core <code>Pipeline</code> Datasheet to specify which
+models are run in which order. For more information on using pipelines,
+see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>:
+introduction to pipelines</a> vignette and the SyncroSim
+<a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing
+a Package: Linking Models</a> tutorial.</p>
 <p><strong>Input Datasheet</strong></p>
-<p>First, assign the contents of the input Datasheet to a new data frame variable using <code><a href="../reference/datasheet.html">datasheet()</a></code>, then check the columns that need input values.</p>
+<p>First, assign the contents of the input Datasheet to a new data frame
+variable using <code><a href="../reference/datasheet.html">datasheet()</a></code>, then check the columns that
+need input values.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load input Datasheet to a new R data frame</span>
 <span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>,
@@ -242,17 +308,27 @@
 <p>The input Datasheet requires three values:</p>
 <ul>
 <li>
-<code>mMean</code> : the mean of a normal distribution that will determine the slope of the linear equation.</li>
+<code>mMean</code> : the mean of a normal distribution that will
+determine the slope of the linear equation.</li>
 <li>
-<code>mSD</code> : the standard deviation of a normal distribution that will determine the slope of the linear equation.</li>
+<code>mSD</code> : the standard deviation of a normal distribution
+that will determine the slope of the linear equation.</li>
 <li>
-<code>InterceptRasterFile</code> : the file path to a <em>raster image</em>, in which each cell of the image will be an intercept in the linear equation.</li>
+<code>InterceptRasterFile</code> : the file path to a <em>raster
+image</em>, in which each cell of the image will be an intercept in the
+linear equation.</li>
 </ul>
-<p>In this example, the external file we are using for the <code>InterceptRasterFile</code> is a simple 5x5 raster TIF file generated using the <code>raster</code> package in R. The file used in this vignete can be found <a href="https://github.com/ApexRMS/helloworldSpatial/blob/main/images/input-raster.tif" target="_blank">here</a>.</p>
+<p>In this example, the external file we are using for the
+<code>InterceptRasterFile</code> is a simple 5x5 raster TIF file
+generated using the <code>raster</code> package in R. The file used in
+this vignete can be found
+<a href="https://github.com/ApexRMS/helloworldSpatial/blob/main/images/input-raster.tif" target="_blank">here</a>.</p>
 <div class="figure">
 <img src="input-raster.png" alt=""><p class="caption">InterceptRasterFile input image</p>
 </div>
-<p>Add these values to a new data frame, then use the <code><a href="../reference/addRow.html">addRow()</a></code> function from <code>rsyncrosim</code> to update the input data frame</p>
+<p>Add these values to a new data frame, then use the
+<code><a href="../reference/addRow.html">addRow()</a></code> function from <code>rsyncrosim</code> to update
+the input data frame</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create input data and add it to the input data frame</span>
 <span class="va">myInputRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>mMean <span class="op">=</span> <span class="fl">0</span>, mSD <span class="op">=</span> <span class="fl">4</span>,
@@ -263,23 +339,33 @@
 <span class="va">myInputDataframe</span></code></pre></div>
 <pre><code>##   mMean mSD      InterceptRasterFile
 ## 1     0   4 path/to/raster-image.tif</code></pre>
-<p>Finally, save the updated R data frame to a SyncroSim Datasheet using <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
+<p>Finally, save the updated R data frame to a SyncroSim Datasheet using
+<code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Save input R data frame as a SyncroSim Datasheet</span>
 <span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myInputDataframe</span>,
               name <span class="op">=</span> <span class="st">"helloworldSpatial_InputDatasheet"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;helloworldSpatial_InputDatasheet&gt; saved</code></pre>
 <p><strong>RunControl Datasheet</strong></p>
-<p>The <code>RunControl</code> Datasheet sets the number of iterations and the minimum and maximum time steps for our model. We’ll assign the contents of this Datasheet to a new data frame variable as well and then add then update the information in the data frame using <code><a href="../reference/addRow.html">addRow()</a></code>. We need to specify data for the following four columns:</p>
+<p>The <code>RunControl</code> Datasheet sets the number of iterations
+and the minimum and maximum time steps for our model. We’ll assign the
+contents of this Datasheet to a new data frame variable as well and then
+add then update the information in the data frame using
+<code><a href="../reference/addRow.html">addRow()</a></code>. We need to specify data for the following four
+columns:</p>
 <ul>
 <li>
-<code>MinimumIteration</code> : starting value of iterations (default=1).</li>
+<code>MinimumIteration</code> : starting value of iterations
+(default=1).</li>
 <li>
-<code>MaximumIteration</code> : total number of iterations to run the model for.</li>
+<code>MaximumIteration</code> : total number of iterations to run
+the model for.</li>
 <li>
-<code>MinimumTimestep</code> : the starting time point of the simulation.</li>
+<code>MinimumTimestep</code> : the starting time point of the
+simulation.</li>
 <li>
-<code>MaximumTimestep</code> : the end time point of the simulation.</li>
+<code>MaximumTimestep</code> : the end time point of the
+simulation.</li>
 </ul>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load RunControl Datasheet to an R data frame</span>
@@ -310,8 +396,22 @@
               name <span class="op">=</span> <span class="st">"helloworldSpatial_RunControl"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Datasheet &lt;helloworldSpatial_RunControl&gt; saved</code></pre>
 <p><strong>Pipeline Datasheet</strong></p>
-<p>The <code>helloworldSpatial</code> package also makes use of pipelines to link the output of one model to the input of a second model. To learn more about pipelines, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>: introduction to pipelines</a> vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.</p>
-<p>To implement pipelines in our package, we need to specify the order in which to run the Transformers (i.e. models) in our pipeline by editing the <code>Pipeline</code> Datasheet. The <code>Pipeline</code> Datasheet is part of the built-in SyncroSim core, so we access it using the “core_” prefix with the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. From viewing the structure of the <code>Pipeline</code> Datasheet we know that the <code>StageNameID</code> is a factor with two levels: “First Model” and “Second Model”. We will set the data for this Datasheet such that “First Model” is run first, then “Second Model”. This way, the output from “First Model” is used as the input for “Second Model”.</p>
+<p>The <code>helloworldSpatial</code> package also makes use of
+pipelines to link the output of one model to the input of a second
+model. To learn more about pipelines, see the <a href="https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>:
+introduction to pipelines</a> vignette and the SyncroSim
+<a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing
+a Package: Linking Models</a> tutorial.</p>
+<p>To implement pipelines in our package, we need to specify the order
+in which to run the Transformers (i.e. models) in our pipeline by
+editing the <code>Pipeline</code> Datasheet. The <code>Pipeline</code>
+Datasheet is part of the built-in SyncroSim core, so we access it using
+the “core_” prefix with the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. From
+viewing the structure of the <code>Pipeline</code> Datasheet we know
+that the <code>StageNameID</code> is a factor with two levels: “First
+Model” and “Second Model”. We will set the data for this Datasheet such
+that “First Model” is run first, then “Second Model”. This way, the
+output from “First Model” is used as the input for “Second Model”.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load Pipeline Datasheet to an R data frame</span>
 <span class="va">myPipelineDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"core_Pipeline"</span><span class="op">)</span>
@@ -347,23 +447,30 @@
 <h3 class="hasAnchor">
 <a href="#setting-run-parameters-with-run" class="anchor"></a>Setting run parameters with <code>run()</code>
 </h3>
-<p>We will now run our Scenario using the <code><a href="../reference/run.html">run()</a></code> function in <code>rsyncrosim</code>. If we have a large modeling workflow and we want to parallelize the run using multiprocessing, we can set the <code>jobs</code> argument to be a value greater than one.</p>
+<p>We will now run our Scenario using the <code><a href="../reference/run.html">run()</a></code> function in
+<code>rsyncrosim</code>. If we have a large modeling workflow and we
+want to parallelize the run using multiprocessing, we can set the
+<code>jobs</code> argument to be a value greater than one.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run the first Scenario we created</span>
 <span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span>, jobs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Running scenario [1] My spatial scenario"</code></pre>
-<p>After the Scenario has been run, a Results Scenario is created that contains results in the output Datasheets.</p>
+<p>After the Scenario has been run, a Results Scenario is created that
+contains results in the output Datasheets.</p>
 </div>
 </div>
 <div id="view-results" class="section level2">
 <h2 class="hasAnchor">
 <a href="#view-results" class="anchor"></a>View results</h2>
-<p>The next step is to view the output Datasheets added to the Result Scenario when it was run.</p>
+<p>The next step is to view the output Datasheets added to the Result
+Scenario when it was run.</p>
 <div id="viewing-non-spatial-results-with-datasheet" class="section level3">
 <h3 class="hasAnchor">
 <a href="#viewing-non-spatial-results-with-datasheet" class="anchor"></a>Viewing non-spatial results with <code>datasheet()</code>
 </h3>
-<p>First, we will view the non-spatial results within the Results Scenarios. For each step in the pipeline, We can load the result tables using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function.</p>
+<p>First, we will view the non-spatial results within the Results
+Scenarios. For each step in the pipeline, We can load the result tables
+using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load results of first Transformer in Pipeline</span>
 <span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -372,12 +479,12 @@
 <span class="co"># View results table of first Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep         y        OutputRasterFile
-## 1         1        1  -29.4803 rasterMap_iter1_ts1.tif
-## 2         1        2  -54.6267 rasterMap_iter1_ts2.tif
-## 3         1        3  -79.7730 rasterMap_iter1_ts3.tif
-## 4         1        4 -104.9194 rasterMap_iter1_ts4.tif
-## 5         1        5 -130.0657 rasterMap_iter1_ts5.tif
-## 6         1        6 -155.2121 rasterMap_iter1_ts6.tif</code></pre>
+## 1         1        1  -56.3151 rasterMap_iter1_ts1.tif
+## 2         1        2 -108.2963 rasterMap_iter1_ts2.tif
+## 3         1        3 -160.2774 rasterMap_iter1_ts3.tif
+## 4         1        4 -212.2585 rasterMap_iter1_ts4.tif
+## 5         1        5 -264.2397 rasterMap_iter1_ts5.tif
+## 6         1        6 -316.2208 rasterMap_iter1_ts6.tif</code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load results of second Transformer in Pipeline</span>
 <span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,
@@ -385,20 +492,31 @@
 
 <span class="co"># View results table of second Transformer in Pipeline</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></code></pre></div>
-<pre><code>##   Iteration Timestep      yCum
-## 1         1        1  -29.4803
-## 2         1        2  -84.1070
-## 3         1        3 -163.8800
-## 4         1        4 -268.7994
-## 5         1        5 -398.8651
-## 6         1        6 -554.0772</code></pre>
-<p>From viewing these Datasheets, we can see that the spatial output is contained within the <code>IntermediateDatasheet</code>, in the column called <code>OutputRasterFile</code>.</p>
+<pre><code>##   Iteration Timestep       yCum
+## 1         1        1   -56.3151
+## 2         1        2  -164.6114
+## 3         1        3  -324.8888
+## 4         1        4  -537.1473
+## 5         1        5  -801.3870
+## 6         1        6 -1117.6078</code></pre>
+<p>From viewing these Datasheets, we can see that the spatial output is
+contained within the <code>IntermediateDatasheet</code>, in the column
+called <code>OutputRasterFile</code>.</p>
 </div>
 <div id="viewing-spatial-results-with-datasheetraster" class="section level3">
 <h3 class="hasAnchor">
 <a href="#viewing-spatial-results-with-datasheetraster" class="anchor"></a>Viewing spatial results with <code>datasheetRaster()</code>
 </h3>
-<p>For spatial results, we want to load the results as raster images. To do this, we will use the <code><a href="../reference/datasheetRaster.html">datasheetRaster()</a></code> function from <code>rsyncrosim</code>. The first argument is the result Scenario object. Next, we specify the name of the Datasheet containing raster images using the <code>datasheet</code> argument, amd the column pertaining to the raster images using the <code>column</code> argument. The results contain many raster images, since we have a raster for each combination of iteration and time step. We can use the <code>iteration</code> and <code>timestep</code> arguments to specify a single raster image or a subset of raster images we want to view.</p>
+<p>For spatial results, we want to load the results as raster images. To
+do this, we will use the <code><a href="../reference/datasheetRaster.html">datasheetRaster()</a></code> function from
+<code>rsyncrosim</code>. The first argument is the result Scenario
+object. Next, we specify the name of the Datasheet containing raster
+images using the <code>datasheet</code> argument, amd the column
+pertaining to the raster images using the <code>column</code> argument.
+The results contain many raster images, since we have a raster for each
+combination of iteration and time step. We can use the
+<code>iteration</code> and <code>timestep</code> arguments to specify a
+single raster image or a subset of raster images we want to view.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load raster files for first result Scenario with time step and iteration</span>
 <span class="va">rasterMaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span>
@@ -417,8 +535,8 @@
 ## extent     : -1, 1, -1, 1  (xmin, xmax, ymin, ymax)
 ## crs        : +proj=longlat +datum=WGS84 +no_defs 
 ## source     : rasterMap_iter1_ts5.tif 
-## names      : rasterMap_iter1_ts5.it1.ts5 
-## values     : -7.655087, -2.91083  (min, max)</code></pre>
+## names      : rasterMap_iter1_ts5 
+## values     : -13.02205, -8.277788  (min, max)</code></pre>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>
@@ -426,9 +544,20 @@
 <div id="viewing-spatial-results-in-the-syncrosim-windows-user-interface" class="section level3">
 <h3 class="hasAnchor">
 <a href="#viewing-spatial-results-in-the-syncrosim-windows-user-interface" class="anchor"></a>Viewing spatial results in the SyncroSim Windows User Interface</h3>
-<p>To create maps using the Results Scenario we just generated, open the current Library in the User Interface and sync the updates from <code>rsyncrosim</code> using the “refresh” button in the upper toolbar. All the updates made in <code>rsyncrosim</code> should appear in the User Interface. We can now add the Results Scenario to the Results Viewer and create our maps. For more information on generating map in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_map_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_map_customize.html" target="_blank">customizing</a> maps</p>
+<p>To create maps using the Results Scenario we just generated, open the
+current Library in the User Interface and sync the updates from
+<code>rsyncrosim</code> using the “refresh” button in the upper toolbar.
+All the updates made in <code>rsyncrosim</code> should appear in the
+User Interface. We can now add the Results Scenario to the Results
+Viewer and create our maps. For more information on generating map in
+the User Interface, see the SyncroSim tutorials on
+<a href="http://docs.syncrosim.com/how_to_guides/results_map_create.html" target="_blank">creating</a>
+and
+<a href="http://docs.syncrosim.com/how_to_guides/results_map_customize.html" target="_blank">customizing</a>
+maps</p>
 <div class="figure">
-<img src="rsyncrosim-with-UI-spatial.png" width="600" alt=""><p class="caption">Using <code>rsyncrosim</code> with the SyncroSim Windows User Interface to map spatial data</p>
+<img src="rsyncrosim-with-UI-spatial.png" width="600" alt=""><p class="caption">Using <code>rsyncrosim</code> with the SyncroSim
+Windows User Interface to map spatial data</p>
 </div>
 </div>
 </div>

@@ -15,10 +15,10 @@ test_that("Tests of Session - assumes SyncroSim is installed", {
   expect_is(mySsim, "Session")
   expect_equal(file.exists(filepath(mySsim)), TRUE) # Lists the folder location of SyncroSim session
   expect_output(str(version(mySsim)), "chr", fixed = TRUE) # Lists the version of SyncroSim session
-  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
-  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
-  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of SyncroSim, listing all of its properties as columns
-  expect_equal(names(package(mySsim)), c("name", "displayName", "version")) # Dataframe of the models installed with this version of SyncroSim, listing all of its properties as columns
+  expect_equal(names(package(mySsim)), c("name", "description", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
+  expect_equal(names(package(mySsim)), c("name", "description", "version")) # Dataframe of the modules installed with this verions of SyncroSim.
+  expect_equal(names(package(mySsim)), c("name", "description", "version")) # Dataframe of the models installed with this version of SyncroSim, listing all of its properties as columns
+  expect_equal(names(package(mySsim)), c("name", "description", "version")) # Dataframe of the models installed with this version of SyncroSim, listing all of its properties as columns
 
   mySession <- session(silent = FALSE) # modify default session settings
   expect_equal(silent(mySession), FALSE)
@@ -46,7 +46,7 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   skip_on_cran()
   myLibrary <- ssimLibrary(name = "temp", session = mySsim) # create new library using default model
   expect_equal(file.exists(filepath(myLibrary)), TRUE)
-  expect_equal(as.character(basePackage(myLibrary)$name), "stsim")
+  expect_equal(as.character(package(myLibrary)$name), "stsim")
   expect_equal(delete(myLibrary, force = TRUE), TRUE)
   expect_equal(file.exists(filepath(myLibrary)), FALSE)
 
@@ -109,36 +109,44 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myOtherScn <- scenario(myOtherLibProj, scenario = "other")
 
   expect_is(myOtherScn, "Scenario")
-  expect_equal(scenario(myOtherLib)$scenarioId, 1)
+  expect_equal(scenario(myOtherLib)$ScenarioID, 1)
   ret <- delete(myOtherLib, scenario = "other", force = TRUE)
   expect_equal(nrow(scenario(myOtherLib)), 0)
   myOtherScn <- scenario(myOtherLib, scenario = "other2")
 
-  expect_equal(names(project(myOtherLib)), c("projectId", "name", "owner", "lastModified", "readOnly"))
-  expect_equal(names(scenario(myOtherLib)), c("scenarioId", "projectId", "name", "isResult", "parentID", "owner", "lastModified", "readOnly", "mergeDependencies", "ignoreDependencies", "autoGenTags"))
+  expect_equal(names(project(myOtherLib)), c("ProjectID", "Name", "Owner",
+                                             "DateLastModified", "IsReadOnly"))
+  expect_equal(names(scenario(myOtherLib)), c("ScenarioID", "ProjectID", "Name",
+                                              "IsResult", "ParentID", "Owner",
+                                              "DateLastModified", "IsReadOnly",
+                                              "MergeDependencies",
+                                              "IgnoreDependencies",
+                                              "AutoGenTags"))
 
   myProject <- project(myLib, project = "temp")
   expect_is(myProject, "Project")
   expect_equal(names(datasheet(myProject)), c("scope", "name", "displayName")) # Only scope, name and displayName returned
-  expect_equal(is.element("corestime_Maps", datasheet(myLib, project = "temp")$name), TRUE) # same thing, but more system calls. Generally using ids/objects is faster than using names.
+  expect_equal(is.element("corestime_Maps",
+                          datasheet(myLib, project = "temp",
+                                    summary="CORE")$name), TRUE) # same thing, but more system calls. Generally using ids/objects is faster than using names.
   expect_equal(names(datasheet(myProject, optional = TRUE)), c("scope", "package", "name", "displayName", "isSingle", "isOutput"))
 
   expect_error(scenario(myLib, scenario = 1), "Scenario ids (1) not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.", fixed = TRUE) # Fail: need a name to create a scenario
   myScn <- scenario(myLib, scenario = "one") # Ok because only one project in the library.
   expect_is(myScn, "Scenario")
   myProject <- project(myLib, project = "temp2")
-  expect_equal(project(myLib)$name, c("temp", "temp2"))
+  expect_equal(project(myLib)$Name, c("temp", "temp2"))
   myScn <- scenario(myLib, scenario = "one") # Ok because only one scenario of this name occurs in the library.
   myScn <- scenario(myProject, scenario = "one") # Creates a new scenario called "one" in the second project.
-  expect_equal(scenario(myLib)$name, c("one", "one"))
+  expect_equal(scenario(myLib)$Name, c("one", "one"))
 
   expect_error(scenario(myLib, scenario = "one"), "The ssimObject contains more than one scenario called one. Specify a scenario id: 1,2", fixed = TRUE) # Fails because now there are two scenarios called "one" in the library.
   myScn <- scenario(myProject, scenario = "one", overwrite = TRUE) # Overwrites existing scenario, assigns new id.
-  expect_equal(scenario(myLib)$scenarioId, c(1, 3))
+  expect_equal(scenario(myLib)$ScenarioID, c(1, 3))
   myScn <- scenario(myProject, scenario = "two", overwrite = TRUE, sourceScenario = 1) # Can copy scenarios between projects.
-  expect_equal(projectId(myScn), 11)
+  expect_equal(projectId(myScn), 14)
   myScn <- scenario(myProject, scenario = "other", overwrite = TRUE, sourceScenario = myOtherScn) # Can copy scenarios between libraries if sourceScenario is a scenario object.
-  expect_equal(scenarioId(myScn), 5)
+  expect_equal(scenarioId(myScn), 4)
 
   myOtherProject <- project(myOtherLib, project = "copy", sourceProject = myProject) # Can copy projects among libraries provided that sourceProject is a Project object.
 

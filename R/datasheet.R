@@ -61,8 +61,12 @@ NULL
 #'     and \code{lookupsAsFactors=FALSE}
 #' @param empty logical. If \code{TRUE} returns empty data.frames for each 
 #'     Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}
-#' @param filterColumn character string. Filters a Datasheet by a value in a column 
-#'     (e.g. "TransitionGroupID=20"). Default is \code{NULL}
+#' @param filterColumn character string. The column to filter a Datasheet by. 
+#'     (e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
+#'     you must also specify the filterValue argument. Default is \code{NULL}
+#' @param filterValue character string or integer. The value to filter the 
+#'     filterColumn by. To use the filterValue argument, you must also specify
+#'     the filterColumn argument. Default is \code{NULL}
 #' @param lookupsAsFactors logical. If \code{TRUE} (default) dependencies 
 #'     returned as factors with allowed values (levels). Set \code{FALSE} to speed 
 #'     calculations. Ignored if \code{summary=TRUE}
@@ -155,11 +159,11 @@ NULL
 #' 
 #' @export
 #' @import RSQLite
-setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, summary = NULL, optional = FALSE, empty = FALSE, filterColumn = NULL, lookupsAsFactors = TRUE, sqlStatement = list(select = "SELECT *", groupBy = ""), includeKey = FALSE, forceElements = FALSE, fastQuery = FALSE) standardGeneric("datasheet"))
+setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, summary = NULL, optional = FALSE, empty = FALSE, filterColumn = NULL, filterValue = NULL, lookupsAsFactors = TRUE, sqlStatement = list(select = "SELECT *", groupBy = ""), includeKey = FALSE, forceElements = FALSE, fastQuery = FALSE) standardGeneric("datasheet"))
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
+setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
   cScn <- ssimObject[[1]]
   x <- NULL
   if (class(cScn) == "Scenario") {
@@ -178,18 +182,18 @@ setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name
   }
   # Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, summary = summary, optional = optional, empty = empty, filterColumn = filterColumn, lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, includeKey = includeKey, forceElements = forceElements, fastQuery = fastQuery) # Off for v0.1
+  out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, summary = summary, optional = optional, empty = empty, filterColumn = filterColumn, filterValue = filterValue, lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, includeKey = includeKey, forceElements = forceElements, fastQuery = fastQuery) # Off for v0.1
   
   return(out)
 })
 
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "character"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, lookupsAsFactors, sqlStatement, includeKey, fastQuery) {
+setMethod("datasheet", signature(ssimObject = "character"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, fastQuery) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
+setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
   temp <- NULL
   ProjectID <- NULL
   ScenarioID <- NULL
@@ -208,7 +212,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     pid <- xProjScn$project
     sid <- xProjScn$scenario
     if (!is.null(sid) & is.null(pid)) {
-      pid <- subset(xProjScn$scenarioSet, is.element(scenarioId, sid))$projectId
+      pid <- subset(xProjScn$scenarioSet, is.element(ScenarioID, sid))$ProjectID
     }
   }
   # now have valid pid/sid vectors and x is library.
@@ -360,21 +364,27 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
       # Check here if filterColumn exists in current datasheet if not null
       # Also check here if second part of filterColumn is not an int, find corresponding ID int
       if (!is.null(filterColumn)) {
-        filterSplit = strsplit(filterColumn, "=")[[1]] # may have to change depending on expression
-        datasheetCol = filterSplit[1]
-        colID = filterSplit[2]
+        
+        if (is.null(filterValue)) {
+          stop("filterColumn specified without a filterValue.")
+        }
         
         # Check if column exists in Datasheet
         args <- list(list = NULL, columns = NULL, lib = .filepath(x), sheet = name)
         tt <- command(args, session = session(x))
         datasheetCols <- .dataframeFromSSim(tt, csv = FALSE)
         
-        if (!(datasheetCol %in% datasheetCols$name)) {
+        if (!(filterColumn %in% datasheetCols$name)) {
           filterColumn <- NULL
         }
-        else if (is.na(suppressWarnings(as.integer(colID)))) {
+        else if (is.na(suppressWarnings(as.integer(filterValue)))) {
           if (sheetNames$isOutput){
-            inputDatasheetName <- subset(datasheetCols, name == datasheetCol)$formula1
+            inputDatasheetName <- subset(datasheetCols, name == filterColumn)$formula1
+            
+            if (inputDatasheetName == "N/A") {
+              inputDatasheetName <- name
+            }
+            
           } else {
             inputDatasheetName <- name
           }
@@ -386,8 +396,15 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, session = session(x))
           inputDatasheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
-          newColID <- inputDatasheet[grepl(colID, inputDatasheet$Name),][[datasheetCol]]
-          filterColumn <- paste0(datasheetCol, "=", newColID)
+          newColID <- inputDatasheet[grepl(filterValue, inputDatasheet$Name, fixed=T),][[filterColumn]] ## when to use Name vs Filename???
+          
+          if (length(newColID) == 0) {
+            stop("filterValue not found in filterColumn.")
+          }
+          
+          filterColumn <- paste0(filterColumn, "=", newColID)
+        } else {
+          filterColumn <- paste0(filterColumn, "=", filterValue)
         }
       }
     }
@@ -681,7 +698,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             if (is.element("ProjectID", names(lookupSheet))) {
               if (identical(pid, NULL) & !identical(sid, NULL)) {
                 allScns <- scenario(x)
-                findPrjs <- allScns$projectId[is.element(allScns$scenarioId, sid)]
+                findPrjs <- allScns$ProjectID[is.element(allScns$ScenarioID, sid)]
               } else {
                 findPrjs <- pid
               }
@@ -780,24 +797,23 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
       }
     }
-    
     if (is.element("ScenarioID", names(sheet))) {
       if (length(sid) == 1) {
         sheet$ScenarioID <- NULL
       } else {
         if (nrow(sheet) > 0) {
           allScns <- scenario(x, summary = TRUE)
-          if (!is.element("parentID", names(allScns))) {
-            warning("Missing parentID info from scenario(summary=TRUE).")
-            allScns$parentID <- NA
+          if (!is.element("ParentID", names(allScns))) {
+            warning("Missing ParentID info from scenario(summary=TRUE).")
+            allScns$ParentID <- NA
           }
-          allScns <- subset(allScns, select = c(scenarioId, projectId, name, parentID))
-          allScns$parentID <- suppressWarnings(as.numeric(allScns$parentID))
-          parentNames <- subset(allScns, select = c(scenarioId, name))
-          names(parentNames) <- c("parentID", "ParentName")
+          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID))
+          allScns$ParentID <- suppressWarnings(as.numeric(allScns$ParentID))
+          parentNames <- subset(allScns, select = c(ScenarioID, Name))
+          names(parentNames) <- c("ParentID", "ParentName")
           allScns <- merge(allScns, parentNames, all.x = TRUE)
           
-          allScns <- subset(allScns, select = c(scenarioId, projectId, name, parentID, ParentName))
+          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID, ParentName))
           
           names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
           

@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
       </span>
     </div>
 
@@ -60,7 +60,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -111,7 +111,8 @@
   <div class="contents col-md-9">
 <div id="rsyncrosim-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#rsyncrosim-" class="anchor"></a>rsyncrosim <img src="reference/figures/logo.png" align="right" width="140/">
+<a href="#rsyncrosim-" class="anchor"></a>rsyncrosim
+<img src="reference/figures/logo.png" align="right" width="140/">
 </h1></div>
 <div id="the-r-interface-to-syncrosim" class="section level2">
 <h2 class="hasAnchor">
@@ -122,21 +123,52 @@
 <div id="about-syncrosim" class="section level2">
 <h2 class="hasAnchor">
 <a href="#about-syncrosim" class="anchor"></a>About SyncroSim</h2>
-<p><a href="https://syncrosim.com/" target="_blank">SyncroSim</a> is a software platform that helps you turn your <em>data</em> into <em>forecasts</em>. At the core of SyncroSim is an engine that automatically structures your existing data, regardless of its original format. <strong>SyncroSim</strong> transforms this structured data into forecasts by running it through a Pipeline of calculations (i.e. a suite of <em>models</em>). Finally, <strong>SyncroSim</strong> provides a rich interface to interact with your data and models, allowing you to explore and track the consequences of alternative “what-if” forecasting Scenarios. Within this software framework is the ability to use and create <a href="https://docs.syncrosim.com/how_to_guides/package_overview.html" target="_blank">SyncroSim packages</a>.</p>
-<p>For more details consult the <strong>SyncroSim</strong> <a href="https://docs.syncrosim.com/" target="_blank">online documentation</a>.</p>
+<p><a href="https://syncrosim.com/" target="_blank">SyncroSim</a> is a
+software platform that helps you turn your <em>data</em> into
+<em>forecasts</em>. At the core of SyncroSim is an engine that
+automatically structures your existing data, regardless of its original
+format. <strong>SyncroSim</strong> transforms this structured data into
+forecasts by running it through a Pipeline of calculations (i.e. a suite
+of <em>models</em>). Finally, <strong>SyncroSim</strong> provides a rich
+interface to interact with your data and models, allowing you to explore
+and track the consequences of alternative “what-if” forecasting
+Scenarios. Within this software framework is the ability to use and
+create
+<a href="https://docs.syncrosim.com/how_to_guides/package_overview.html" target="_blank">SyncroSim
+packages</a>.</p>
+<p>For more details consult the <strong>SyncroSim</strong>
+<a href="https://docs.syncrosim.com/" target="_blank">online
+documentation</a>.</p>
 </div>
 <div id="about-rsyncrosim" class="section level2">
 <h2 class="hasAnchor">
 <a href="#about-rsyncrosim" class="anchor"></a>About <code>rsyncrosim</code>
 </h2>
-<p>The simplest way to run <strong>SyncroSim</strong> from the command-line is to use the R programming language, in conjunction with the open-source <strong>rsyncrosim</strong> R package. This R package is designed to make it simple to script modeling workflows for <strong>SyncroSim</strong> in R, by providing functions that allow users to create models from scratch, populate those models with inputs, run the models for multiple scenarios, and access both spatial and tabular model output. The package is designed to work with any <strong>SyncroSim</strong> Package.</p>
-<p>A key feature of the <strong>rsyncrosim</strong> package is its ability to work seamlessly with the <strong>SyncroSim</strong> user interface. By integrating model scripting and visualization, users can interactively explore and validate their models in the user interface as they step through their R code, and at the same time generate a permanent, repeatable record of their entire modeling workflow – including both pre- and post-processing of model inputs and outputs – in an R script.</p>
+<p>The simplest way to run <strong>SyncroSim</strong> from the
+command-line is to use the R programming language, in conjunction with
+the open-source <strong>rsyncrosim</strong> R package. This R package is
+designed to make it simple to script modeling workflows for
+<strong>SyncroSim</strong> in R, by providing functions that allow users
+to create models from scratch, populate those models with inputs, run
+the models for multiple scenarios, and access both spatial and tabular
+model output. The package is designed to work with any
+<strong>SyncroSim</strong> Package.</p>
+<p>A key feature of the <strong>rsyncrosim</strong> package is its
+ability to work seamlessly with the <strong>SyncroSim</strong> user
+interface. By integrating model scripting and visualization, users can
+interactively explore and validate their models in the user interface as
+they step through their R code, and at the same time generate a
+permanent, repeatable record of their entire modeling workflow –
+including both pre- and post-processing of model inputs and outputs – in
+an R script.</p>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
 <ul>
-<li><p><a href="https://cran.r-project.org/package=rsyncrosim/">Download</a> from CRAN</p></li>
-<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.html">Download</a> from GitHub</p></li>
+<li><p><a href="https://cran.r-project.org/package=rsyncrosim/">Download</a> from
+CRAN</p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.html">Download</a>
+from GitHub</p></li>
 </ul>
 </div>
 <div id="getting-started" class="section level3">
@@ -146,11 +178,16 @@
 <li>
 <p>Run the vignettes:</p>
 <ul>
-<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html">Introduction to <code>rsyncrosim</code></a></p></li>
-<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html"><code>rsyncrosim</code>: introduction to uncertainty</a></p></li>
-<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>: introduction to pipelines</a></p></li>
-<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.html"><code>rsyncrosim</code>: introduction to spatial data</a></p></li>
-<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.html">Introduction to <code>ST-Sim</code> in <code>rsyncrosim</code></a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html">Introduction
+to <code>rsyncrosim</code></a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html"><code>rsyncrosim</code>:
+introduction to uncertainty</a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html"><code>rsyncrosim</code>:
+introduction to pipelines</a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.html"><code>rsyncrosim</code>:
+introduction to spatial data</a></p></li>
+<li><p><a href="https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.html">Introduction
+to <code>ST-Sim</code> in <code>rsyncrosim</code></a></p></li>
 </ul>
 </li>
 <li><p>View the package <a href="https://cran.r-project.org/package=rsyncrosim/rsyncrosim.pdf">documentation</a></p></li>
