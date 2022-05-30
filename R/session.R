@@ -9,23 +9,36 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), fixed = TRUE)
   .Object@silent <- silent
   .Object@printCmd <- printCmd
+  
+  ssimRequiredVersion <- "2.3.10"
+  ssimCurrentVersion <- command(list(version = NULL), .Object)
+  rsyncrosimVersion <- packageVersion("rsyncrosim") # not sure if this will work
 
-  vs <- command(list(version = NULL), .Object)
-
-  if (!grepl("Version is:", vs)) {
+  if (!grepl("Version is:", ssimCurrentVersion)) {
     stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 2.1.0 is required.")
   }
 
-  vs <- gsub("Version is: ", "", vs, fixed = TRUE)
-  vs <- as.numeric(strsplit(vs, ".", fixed = TRUE)[[1]])
-
-  if (vs[1] < 2) {
-    stop("rsyncrosim requires at least SyncroSim version 2.1.0.")
+  ssimCurrentVersion <- gsub("Version is: ", "", ssimCurrentVersion, fixed = TRUE)
+  ssimCurrentVersionBits <- as.numeric(strsplit(ssimCurrentVersion, ".", fixed = TRUE)[[1]])
+  ssimRequiredVersionBits <- as.numeric(strsplit(ssimRequiredVersion, ".", fixed = TRUE)[[1]])
+  
+  loadVersion <- TRUE
+  if (ssimCurrentVersionBits[1] < ssimRequiredVersionBits[1]){
+    loadVersion <- FALSE
+  }
+  if (ssimCurrentVersionBits[2] < ssimRequiredVersionBits[2]){
+    loadVersion <- FALSE
+  }
+  if (ssimCurrentVersionBits[3] < ssimRequiredVersionBits[3]){
+    loadVersion <- FALSE
   }
 
-  if (vs[2] < 1) {
-    stop("rsyncrosim requires at least SyncroSim version 2.1.0.")
+  if (!loadVersion) {
+    stop(paste0("SyncroSim v", ssimRequiredVersion,
+                " is required to run rsyncrosim v", rsyncrosimVersion,
+                " but you have SyncroSim v", ssimCurrentVersion, " installed."))
   }
+
   return(.Object)
 })
 
