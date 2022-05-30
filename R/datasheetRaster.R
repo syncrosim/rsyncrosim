@@ -40,7 +40,8 @@ NULL
 #'     files on disk. Default is \code{FALSE}
 #' 
 #' @return 
-#' A SpatRast object or List. See terra package documentation for details.
+#' A RasterLayer, RasterStack or RasterBrick object, or List. See raster package 
+#' documentation for details.
 #' 
 #' @details 
 #' The names of the returned raster stack contain metadata.
@@ -71,14 +72,14 @@ NULL
 #'                          overwrite=TRUE)
 #' 
 #' # Set up Project and Scenario
-#' myProject <- rsyncrosim::project(myLibrary, project = "Definitions")
+#' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' # Run Scenario to generate results
 #' resultScenario <- run(myScenario)
 #' 
 #' # Extract specific Datasheet rasters by iteration and timestep
-#' resultRaster <- datasheetRaster(ssimObject = resultScenario,
+#' resultRaster <- datasheetRaster(resultScenario,
 #'                   datasheet = "IntermediateDatasheet",
 #'                   column = "OutputRasterFile",
 #'                   iteration = 3,
@@ -89,7 +90,7 @@ NULL
 #' resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
 #' colnames(resultDatasheet)
 #' outputRasterPaths <- resultDatasheet$OutputRasterFile
-#' resultRaster <- datasheetRaster(ssimObject = resultScenario, 
+#' resultRaster <- datasheetRaster(resultScenario, 
 #'                   datasheet = "IntermediateDatasheet",
 #'                   column = "OutputRasterFile",
 #'                   subset = expression(grepl("ts20", 
@@ -98,7 +99,7 @@ NULL
 #' )
 #' 
 #' # Return the raster Datasheets as a raster stack
-#' resultRaster <- datasheetRaster(ssimObject = resultScenario, 
+#' resultRaster <- datasheetRaster(resultScenario, 
 #'                  datasheet = "IntermediateDatasheet",
 #'                  column = "OutputRasterFile",
 #'                  forceElements = TRUE
@@ -329,12 +330,12 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
       }
       cMeta$rasterColumn <- addPath
     }
-    cStack <- terra::rast(cMeta$rasterColumn[1])
+    cStack <- raster::brick(cMeta$rasterColumn[1])
 
     cMeta$layerName <- paste0(strsplit(nFiles, ".", fixed = TRUE)[[1]][1], ".", cMeta$Band)
 
     keepLayers <- intersect(names(cStack), cMeta$layerName)
-    cStack <- terra::subset(x = cStack, subset = keepLayers)
+    cStack <- raster::subset(cStack, keepLayers)
     missing <- setdiff(cMeta$layerName, names(cStack))
     if (length(missing) > 0) {
       warning("Some layers not found: ", paste(cMeta$outName[is.element(cMeta$layerName, missing)]))
@@ -364,18 +365,18 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
         cRow$rasterColumn <- addPath
       }
       if (is.na(cRow$bandColumn)) {
-        cRaster <- terra::rast(cRow$rasterColumn)
+        cRaster <- raster::raster(cRow$rasterColumn)
       } else {
-        cRaster <- terra::rast(cRow$rasterColumn, lyrs = cRow$bandColumn)
+        cRaster <- raster::raster(cRow$rasterColumn, band = cRow$bandColumn)
       }
       
       cRaster@title <- cRow$outName
       if (i == 1) {
-        cStack <- terra::rast(cRaster)
+        cStack <- raster::stack(cRaster)
         names(cStack) <- c(cRow$outName)
       } else {
         oldNames <- names(cStack)
-        cStack <- terra::add(x = cStack, value = cRaster)
+        cStack <- raster::addLayer(cStack, cRaster)
         names(cStack) <- c(oldNames, cRow$outName)
       }
     }
@@ -388,7 +389,7 @@ setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimOb
   
   # ensure layers are sorted by name
   sortNames <- sort(names(cStack))
-  cStack <- terra::subset(x = cStack, subset = sortNames)
+  cStack <- raster::subset(cStack, sortNames)
   
   if ((length(names(cStack)) == 1) & !forceElements) {
     cStack <- cStack[[1]]
