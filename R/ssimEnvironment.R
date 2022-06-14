@@ -147,13 +147,15 @@ runtimeTempFolder <- function(folderName) {
 #' for a SyncroSim simulation.
 #' 
 #' @param type character. Update to apply to progress bar. Options include
-#' "begin", "end", "step", and "report" (Default is "step")
+#' "begin", "end", "step", "report", and "message" (Default is "step")
 #' @param iteration integer. The current iteration. Only used if 
 #' \code{type = "report"}
 #' @param timestep integer. The current timestep. Only used if 
 #' \code{type = "report"}
 #' @param totalSteps integer. The total number of steps in the simulation. Only
 #' used if \code{type = "begin"}
+#' @param message character. An arbitrary messsage to be printed to the status
+#' bar. Only used if \code{type = "message"}.
 #' 
 #' @return 
 #' No returned value, used for side effects
@@ -168,6 +170,9 @@ runtimeTempFolder <- function(folderName) {
 #' 
 #' # Report progress for a simulation
 #' progressBar(type = "report", iteration = iter, timestep = ts)
+#' 
+#' # Report arbitrary progress message 
+#' progressBar(type = "message", message = msg)
 #' 
 #' # End the progress bar for a simulation
 #' progressBar(type = "end")
@@ -206,6 +211,15 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
     } else {
       stop("iteration and timestep arguments must be integers")
     }
+    
+  # Print arbitrary message to UI
+  } else if (type == "message") {
+    if (!missing(message)) {
+      cat(paste0("ssim-task-status=", as.character(message), "\r\n"))
+      flush.console()
+    } else {
+      stop("please provide a message")
+    }
   
   # Throw error if type not specified correctly  
   } else {
@@ -214,108 +228,31 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
   
 }
 
-#' Update the status bar, progress bar, or run log in the SyncroSim User Interface
+#' Function to write to the SyncroSim run log
 #' 
 #' This function is designed to facilitate the development of R-based Syncrosim 
-#' Packages, such as beginning, stepping, ending, and reporting the progress 
-#' for a SyncroSim simulation. Messages can also be writted directly to the
-#' status bar or the run log.
+#' Packages by allowing developers to send messages to the run log.
 #' 
-#' @param type character. Update to apply to progress bar. Options include
-#' "begin", "end", "step", "report", and "message" (Default is "step")
-#' @param iteration integer. The current iteration. Only used if 
-#' \code{type = "report"}
-#' @param timestep integer. The current timestep. Only used if 
-#' \code{type = "report"}
-#' @param totalSteps integer. The total number of steps in the simulation. Only
-#' used if \code{type = "begin"}
-#' @param message character. A message to be displayed in the status and / or
-#' written to the run log. Only used if \code{type = "message"}
-#' @param updateStatus boolean. Whether or not the message should be written to
-#' the status bar. Only used \code{type = "report"} or \code{type = "message"}. 
-#' (Default is "TRUE")
-#' @param updateRunLog boolean. Whether or not the message should be written to
-#' the run log. Only used \code{type = "report"} or \code{type = "message"}. 
-#' (Default is "FALSE")
+#' @param ... One or more objects which can be coerced to character
+#' which are pasted together using `sep`.
+#' @param sep character.  Used to separate terms. Not NA_character_
 #' 
 #' @return 
 #' No returned value, used for side effects
 #' 
 #' @examples 
 #' \dontrun{
-#' # Begin the progress bar for a simulation
-#' updateStatus(type = "begin", totalSteps = numIterations * numTimesteps)
+#' # Write a message to run log
+#' updateRunLog(msg)
 #' 
-#' # Increase the progress bar by one step for a simulation
-#' updateStatus(type = "step")
-#' 
-#' # Report progress for a simulation
-#' updateStatus(type = "report", iteration = iter, timestep = ts)
-#' 
-#' # Report an arbitrary message to status and run log
-#' updateStatus(type = "message", message = "An example status message",
-#'             updateStatus = T, updateRunLog = T)
-#' 
-#' # End the progress bar for a simulation
-#' updateStatus(type = "end")
-#' }
+#' # Construct and write a message to run log
+#' updateRunLog(msg, additionalMsg, sep = " ")
 #' 
 #' @export
-updateStatus <- function(type = "step", iteration = NULL, timestep = NULL, totalSteps = NULL, message = NULL, updateStatus = TRUE, updateRunLog = FALSE) {
+updateRunLog <- function(..., sep = "") {
+  if(length(list(...)) == 0)
+    stop("Please provide a message to write to the run log.")
   
-  # Check Program Directory
-  envValidateEnvironment()
-  
-  # Begin progress bar tracking
-  if (type == "begin") {
-    if (is.numeric(totalSteps)) {
-      cat(sprintf("ssim-task-start=%d\r\n", totalSteps))
-      flush.console()
-    } else {
-      stop("totalSteps argument must be an integer")
-    }
-    
-  # End progress bar tracking
-  } else if (type == "end") {
-    cat("ssim-task-end=True\r\n")
-    flush.console()
-    
-  # Step progress bar
-  } else if (type == "step") {
-    cat("ssim-task-step=1\r\n")
-    flush.console()
-  
-  # Report iteration and timestep in UI  
-  } else if (type == "report") {
-    if (is.numeric(iteration) & is.numeric(timestep)) {
-      if(updateStatus) {
-        cat(sprintf("ssim-task-status=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
-        flush.console()
-      }
-      
-      if(updateRunLog) {
-        cat(sprintf("ssim-task-log=Simulating -> Iteration is %d - Timestep is %d\r\n", iteration, timestep))
-        flush.console()
-      }
-    } else {
-      stop("iteration and timestep arguments must be integers")
-    }
-  
-  # Report message in UI
-  } else if (type == "message") {
-    if(updateStatus) {
-      cat(paste0("ssim-task-status=", message, "\r\n"))
-      flush.console()
-    }
-    
-    if(updateRunLog) {
-      cat(paste0("ssim-task-log=", message, "\r\n"))
-      flush.console()
-    }
-  
-  # Throw error if type not specified correctly  
-  } else {
-    stop("Invalid type argument")
-  }
-  
+  msg <- paste(..., sep = sep, collapse = "")
+  cat(paste0("ssim-task-log=", msg, "\r\n"))
 }
