@@ -247,7 +247,8 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
 #' 
 #' # Construct and write a message to run log
 #' updateRunLog(msg, additionalMsg, sep = " ")
-#' 
+#' }
+#'
 #' @export
 updateRunLog <- function(..., sep = "") {
   if(length(list(...)) == 0)
