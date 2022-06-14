@@ -179,7 +179,7 @@ runtimeTempFolder <- function(folderName) {
 #' }
 #' 
 #' @export
-progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalSteps = NULL) {
+progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalSteps = NULL, message) {
   
   # Check Program Directory
   envValidateEnvironment()
@@ -255,4 +255,5 @@ updateRunLog <- function(..., sep = "") {
   
   msg <- paste(..., sep = sep, collapse = "")
   cat(paste0("ssim-task-log=", msg, "\r\n"))
+  flush.console()
 }
