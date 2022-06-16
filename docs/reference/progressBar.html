@@ -82,7 +82,7 @@ for a SyncroSim simulation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
       </span>
     </div>
 
@@ -163,7 +163,8 @@ for a SyncroSim simulation.</p>
   type <span class='op'>=</span> <span class='st'>"step"</span>,
   iteration <span class='op'>=</span> <span class='cn'>NULL</span>,
   timestep <span class='op'>=</span> <span class='cn'>NULL</span>,
-  totalSteps <span class='op'>=</span> <span class='cn'>NULL</span>
+  totalSteps <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>message</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -172,7 +173,7 @@ for a SyncroSim simulation.</p>
     <tr>
       <th>type</th>
       <td><p>character. Update to apply to progress bar. Options include
-"begin", "end", "step", and "report" (Default is "step")</p></td>
+"begin", "end", "step", "report", and "message" (Default is "step")</p></td>
     </tr>
     <tr>
       <th>iteration</th>
@@ -188,6 +189,11 @@ for a SyncroSim simulation.</p>
       <th>totalSteps</th>
       <td><p>integer. The total number of steps in the simulation. Only
 used if <code>type = "begin"</code></p></td>
+    </tr>
+    <tr>
+      <th>message</th>
+      <td><p>character. An arbitrary messsage to be printed to the status
+bar. Only used if <code>type = "message"</code>.</p></td>
     </tr>
     </table>
 
@@ -205,6 +211,9 @@ used if <code>type = "begin"</code></p></td>
 
 <span class='co'># Report progress for a simulation</span>
 <span class='fu'>progressBar</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"report"</span>, iteration <span class='op'>=</span> <span class='va'>iter</span>, timestep <span class='op'>=</span> <span class='va'>ts</span><span class='op'>)</span>
+
+<span class='co'># Report arbitrary progress message </span>
+<span class='fu'>progressBar</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"message"</span>, message <span class='op'>=</span> <span class='va'>msg</span><span class='op'>)</span>
 
 <span class='co'># End the progress bar for a simulation</span>
 <span class='fu'>progressBar</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"end"</span><span class='op'>)</span>

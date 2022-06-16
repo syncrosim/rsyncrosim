@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
       </span>
     </div>
 
@@ -227,7 +227,7 @@ used (Windows only).</p>
 connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.10"</code></pre>
+<pre><code>## [1] "2.3.15"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -253,23 +253,23 @@ the <code>installed = FALSE</code> argument in the
 <pre><code>##                 name
 ## 1          demosales
 ## 2              dgsim
-## 3         helloworld
-## 4 helloworldPipeline
-## 5  helloworldSpatial
-## 6     helloworldTime
+## 3                epi
+## 4 epiModelVocVaccine
+## 5         helloworld
+## 6 helloworldPipeline
 ##                                                               description
 ## 1 Example SyncroSim Base Package of a very simple sales forecasting model
 ## 2                          Simulates demographics of wildlife populations
-## 3                           Example demonstrating how to create a package
-## 4                                                 Example using pipelines
-## 5                                              Example using spatial data
-## 6                                                 Example using timesteps
+## 3                                 Model of epidemic infections and deaths
+## 4                      Integrates VOCs and vaccination into the Epi model
+## 5                           Example demonstrating how to create a package
+## 6                                                 Example using pipelines
 ##   version
 ## 1   1.1.0
 ## 2   2.3.0
-## 3   1.0.1
-## 4   1.0.0
-## 5   1.0.3
+## 3   1.1.3
+## 4   1.0.2
+## 5   1.0.1
 ## 6   1.0.0</code></pre>
 <p>Install <code>helloworldTime</code> using the <code>rynscrosim</code>
 function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name
@@ -610,19 +610,19 @@ the only argument is the result Scenario variable.</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get run details for the first result Scenario</span>
 <span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></code></pre></div>
-<pre><code>## Run Log                                                                                                                                                                                                                                                                                               
-## STARTING SIMULATION: 2022-03-07 : 12:44:37 PM
+<pre><code>## Run Log                                                                                                                                                                                                                                                                                            
+## STARTING SIMULATION: 2022-06-16 : 3:19:04 PM
 ## 
 ## Parent Scenario is: [1] My first scenario
-## Result scenario is: [2] My first scenario ([1] @ 07-Mar-2022 12:44 PM)
+## Result scenario is: [2] My first scenario ([1] @ 16-Jun-2022 3:19 PM)
 ## 
 ## CONFIGURING: Primary
 ## 
 ## RUNNING: Primary
 ## 
-## SIMULATION COMPLETE: 2022-03-07 : 12:44:46 PM
+## SIMULATION COMPLETE: 2022-06-16 : 3:19:14 PM
 ## Total simulation time: 00:00:09</code></pre>
-<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                               \nSTARTING SIMULATION: 2022-03-07 : 12:44:37 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 07-Mar-2022 12:44 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-03-07 : 12:44:46 PM\nTotal simulation time: 00:00:09      "</code></pre>
+<pre><code>## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2022-06-16 : 3:19:04 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 16-Jun-2022 3:19 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-06-16 : 3:19:14 PM\nTotal simulation time: 00:00:09      "</code></pre>
 </div>
 </div>
 <div id="view-results" class="section level2">
@@ -644,12 +644,12 @@ model inputs.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check Scenarios that currently exist in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
-<pre><code>##   ScenarioID ProjectID                                           Name IsResult
-## 1          1         1                              My first scenario       No
-## 2          2         1 My first scenario ([1] @ 07-Mar-2022 12:44 PM)      Yes
-##   ParentID Owner       DateLastModified IsReadOnly MergeDependencies
-## 1       NA   N/A 2022-03-07 at 12:44 PM         No                No
-## 2        1   N/A 2022-03-07 at 12:44 PM         No                No
+<pre><code>##   ScenarioID ProjectID                                          Name IsResult
+## 1          1         1                             My first scenario       No
+## 2          2         1 My first scenario ([1] @ 16-Jun-2022 3:19 PM)      Yes
+##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies
+## 1       NA   N/A 2022-06-16 at 3:19 PM         No                No
+## 2        1   N/A 2022-06-16 at 3:19 PM         No                No
 ##   IgnoreDependencies AutoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
@@ -723,9 +723,9 @@ you want to copy.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check which Scenarios you currently have in your Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                             Name
-## 1                              My first scenario
-## 2 My first scenario ([1] @ 07-Mar-2022 12:44 PM)</code></pre>
+<pre><code>##                                            Name
+## 1                             My first scenario
+## 2 My first scenario ([1] @ 16-Jun-2022 3:19 PM)</code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a new Scenario as a copy of an existing Scenario</span>
 <span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,
@@ -734,10 +734,10 @@ you want to copy.</p>
 
 <span class="co"># Make sure this new Scenario has been added to the Library</span>
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></code></pre></div>
-<pre><code>##                                             Name
-## 1                              My first scenario
-## 2 My first scenario ([1] @ 07-Mar-2022 12:44 PM)
-## 3                             My second scenario</code></pre>
+<pre><code>##                                            Name
+## 1                             My first scenario
+## 2 My first scenario ([1] @ 16-Jun-2022 3:19 PM)
+## 3                            My second scenario</code></pre>
 <p>To edit the new Scenario, we must first load the contents of the
 input Datasheet and assign it to a new R data frame using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the <code>empty</code>
@@ -840,7 +840,7 @@ generate the Results Scenario using the <code>rsyncrosim</code> function
 <pre><code>##                    property                                      value
 ## 1                     Name:                          helloworldLibrary
 ## 2                    Owner:                                        N/A
-## 3            Last Modified:                     2022-03-07 at 12:45 PM
+## 3            Last Modified:                      2022-06-16 at 3:19 PM
 ## 4                     Size:                        196 KB  (200,704 B)
 ## 5                Read Only:                                         No
 ## 6             Package Name:                             helloworldTime

@@ -1,12 +1,12 @@
-# rsyncrosim 1.3.10
+# rsyncrosim 1.3.11
 
 ## Breaking changes
 
 ## Bug fixes:
 
-* Fixed bug in `delete()` function where error was being thrown when trying to
-delete datasheets.
-
 ## New features:
+
+* Added the `updateRunLog()` function that allows a custom message to be output to the Scenario run log.
+* Added a new argument `message` to the `progressBar()` function that allows a custom message to be printed to the progress bar at runtime.
 
 ## Minor improvements and fixes

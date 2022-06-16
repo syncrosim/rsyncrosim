@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
       </span>
     </div>
 
@@ -209,137 +209,170 @@ for a specified package.</p>
 
 <span class='co'># List all installed packages</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                     name
-#&gt; 1                 burnP3
-#&gt; 2             helloworld
-#&gt; 3        helloworldConda
-#&gt; 4         helloworldOmni
-#&gt; 5     helloworldPipeline
-#&gt; 6      helloworldSpatial
-#&gt; 7         helloworldTime
-#&gt; 8  helloworldUncertainty
-#&gt; 9                netlogo
-#&gt; 10             stconnect
-#&gt; 11                 stsim
-#&gt; 12               stsimsf
-#&gt;                                                              description
-#&gt; 1                          Burn-P3 package for burn probability modeling
-#&gt; 2                          Example demonstrating how to create a package
-#&gt; 3  Example demonstrating how to create a package with Conda environments
-#&gt; 4                          Example demonstrating how to create a package
-#&gt; 5                             Example demonstrating how to use pipelines
-#&gt; 6                          Example demonstrating how to use spatial data
-#&gt; 7                             Example demonstrating how to use timesteps
-#&gt; 8                            Example demonstrating how to use iterations
-#&gt; 9                      Runs the NetLogo agent-based modeling environment
-#&gt; 10          Connectivity planning for future climate and land-use change
-#&gt; 11                      The ST-Sim state-and-transition simulation model
-#&gt; 12          Integrates stocks and flows into the ST-Sim simulation model
+</div><div class='output co'>#&gt;                        name
+#&gt; 1                    burnP3
+#&gt; 2           burnp3basemodel
+#&gt; 3                       epi
+#&gt; 4        epiModelVocVaccine
+#&gt; 5                helloworld
+#&gt; 6           helloworldConda
+#&gt; 7            helloworldOmni
+#&gt; 8        helloworldPipeline
+#&gt; 9         helloworldSpatial
+#&gt; 10   helloworldSpatialConda
+#&gt; 11 helloworldSpatialReports
+#&gt; 12           helloworldTime
+#&gt; 13    helloworldUncertainty
+#&gt; 14                  netlogo
+#&gt; 15                stconnect
+#&gt; 16                    stsim
+#&gt; 17              stsimecodep
+#&gt; 18          stsimresolution
+#&gt;                                                                                 description
+#&gt; 1                                             Burn-P3 package for burn probability modeling
+#&gt; 2                                                                         BurnP3 base model
+#&gt; 3                                                   Model of epidemic infections and deaths
+#&gt; 4                                          Integrates VOCs and vaccination in the Epi model
+#&gt; 5                                             Example demonstrating how to create a package
+#&gt; 6                     Example demonstrating how to create a package with Conda environments
+#&gt; 7                                             Example demonstrating how to create a package
+#&gt; 8                                                Example demonstrating how to use pipelines
+#&gt; 9                                             Example demonstrating how to use spatial data
+#&gt; 10                                                 Example demonstrating conda environments
+#&gt; 11                                            Example demonstrating how to use spatial data
+#&gt; 12                                               Example demonstrating how to use timesteps
+#&gt; 13                                              Example demonstrating how to use iterations
+#&gt; 14                                        Runs the NetLogo agent-based modeling environment
+#&gt; 15                             Connectivity planning for future climate and land-use change
+#&gt; 16                                         The ST-Sim state-and-transition simulation model
+#&gt; 17 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
+#&gt; 18        An ST-Sim add on that enables multiple raster resolutions for spatial simulations
 #&gt;    version
 #&gt; 1    0.0.0
-#&gt; 2    1.0.1
-#&gt; 3    1.0.1
-#&gt; 4    1.0.1
-#&gt; 5    1.0.0
-#&gt; 6    1.0.3
-#&gt; 7    1.0.0
+#&gt; 2    0.0.0
+#&gt; 3    1.1.3
+#&gt; 4    1.0.2
+#&gt; 5    1.0.1
+#&gt; 6    1.0.1
+#&gt; 7    1.0.1
 #&gt; 8    1.0.0
-#&gt; 9    1.2.0
-#&gt; 10  1.1.16
-#&gt; 11   3.3.5
-#&gt; 12   3.3.4</div><div class='input'>
+#&gt; 9    1.0.3
+#&gt; 10   1.0.0
+#&gt; 11   1.0.3
+#&gt; 12   1.0.0
+#&gt; 13   1.0.0
+#&gt; 14   1.2.0
+#&gt; 15  1.1.16
+#&gt; 16   3.3.6
+#&gt; 17   3.3.0
+#&gt; 18   1.0.0</div><div class='input'>
 <span class='co'># List all the installed base packages</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                     name
-#&gt; 1                 burnP3
-#&gt; 2             helloworld
-#&gt; 3        helloworldConda
-#&gt; 4         helloworldOmni
-#&gt; 5     helloworldPipeline
-#&gt; 6      helloworldSpatial
-#&gt; 7         helloworldTime
-#&gt; 8  helloworldUncertainty
-#&gt; 9                netlogo
-#&gt; 10             stconnect
-#&gt; 11                 stsim
+</div><div class='output co'>#&gt;                        name
+#&gt; 1                    burnP3
+#&gt; 2                       epi
+#&gt; 3                helloworld
+#&gt; 4           helloworldConda
+#&gt; 5            helloworldOmni
+#&gt; 6        helloworldPipeline
+#&gt; 7         helloworldSpatial
+#&gt; 8    helloworldSpatialConda
+#&gt; 9  helloworldSpatialReports
+#&gt; 10           helloworldTime
+#&gt; 11    helloworldUncertainty
+#&gt; 12                  netlogo
+#&gt; 13                stconnect
+#&gt; 14                    stsim
 #&gt;                                                              description
 #&gt; 1                          Burn-P3 package for burn probability modeling
-#&gt; 2                          Example demonstrating how to create a package
-#&gt; 3  Example demonstrating how to create a package with Conda environments
-#&gt; 4                          Example demonstrating how to create a package
-#&gt; 5                             Example demonstrating how to use pipelines
-#&gt; 6                          Example demonstrating how to use spatial data
-#&gt; 7                             Example demonstrating how to use timesteps
-#&gt; 8                            Example demonstrating how to use iterations
-#&gt; 9                      Runs the NetLogo agent-based modeling environment
-#&gt; 10          Connectivity planning for future climate and land-use change
-#&gt; 11                      The ST-Sim state-and-transition simulation model
+#&gt; 2                                Model of epidemic infections and deaths
+#&gt; 3                          Example demonstrating how to create a package
+#&gt; 4  Example demonstrating how to create a package with Conda environments
+#&gt; 5                          Example demonstrating how to create a package
+#&gt; 6                             Example demonstrating how to use pipelines
+#&gt; 7                          Example demonstrating how to use spatial data
+#&gt; 8                               Example demonstrating conda environments
+#&gt; 9                          Example demonstrating how to use spatial data
+#&gt; 10                            Example demonstrating how to use timesteps
+#&gt; 11                           Example demonstrating how to use iterations
+#&gt; 12                     Runs the NetLogo agent-based modeling environment
+#&gt; 13          Connectivity planning for future climate and land-use change
+#&gt; 14                      The ST-Sim state-and-transition simulation model
 #&gt;    version
 #&gt; 1    0.0.0
-#&gt; 2    1.0.1
+#&gt; 2    1.1.3
 #&gt; 3    1.0.1
 #&gt; 4    1.0.1
-#&gt; 5    1.0.0
-#&gt; 6    1.0.3
-#&gt; 7    1.0.0
+#&gt; 5    1.0.1
+#&gt; 6    1.0.0
+#&gt; 7    1.0.3
 #&gt; 8    1.0.0
-#&gt; 9    1.2.0
-#&gt; 10  1.1.16
-#&gt; 11   3.3.5</div><div class='input'>
+#&gt; 9    1.0.3
+#&gt; 10   1.0.0
+#&gt; 11   1.0.0
+#&gt; 12   1.2.0
+#&gt; 13  1.1.16
+#&gt; 14   3.3.6</div><div class='input'>
 <span class='co'># List all available packages on the server (including currently installed)</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     name
 #&gt; 1              demosales
 #&gt; 2                  dgsim
-#&gt; 3             helloworld
-#&gt; 4     helloworldPipeline
-#&gt; 5      helloworldSpatial
-#&gt; 6         helloworldTime
-#&gt; 7  helloworldUncertainty
-#&gt; 8      landfirevegmodels
-#&gt; 9                  lucas
-#&gt; 10               netlogo
-#&gt; 11             stconnect
-#&gt; 12                 stsim
-#&gt; 13          stsimcbmcfs3
-#&gt; 14           stsimecodep
-#&gt; 15               stsimsf
+#&gt; 3                    epi
+#&gt; 4     epiModelVocVaccine
+#&gt; 5             helloworld
+#&gt; 6     helloworldPipeline
+#&gt; 7      helloworldSpatial
+#&gt; 8         helloworldTime
+#&gt; 9  helloworldUncertainty
+#&gt; 10     landfirevegmodels
+#&gt; 11                 lucas
+#&gt; 12               netlogo
+#&gt; 13             stconnect
+#&gt; 14                 stsim
+#&gt; 15          stsimcbmcfs3
+#&gt; 16           stsimecodep
+#&gt; 17               stsimsf
 #&gt;                                                                                                                               description
 #&gt; 1                                                                 Example SyncroSim Base Package of a very simple sales forecasting model
 #&gt; 2                                                                                          Simulates demographics of wildlife populations
-#&gt; 3                                                                                           Example demonstrating how to create a package
-#&gt; 4                                                                                                                 Example using pipelines
-#&gt; 5                                                                                                              Example using spatial data
-#&gt; 6                                                                                                                 Example using timesteps
-#&gt; 7                                                                                       Example using iterations to represent uncertainty
-#&gt; 8                                                                                                              LANDFIRE vegetation models
-#&gt; 9                                                                                          Land Use and Carbon Scenario Simulator (LUCAS)
-#&gt; 10                                                                                      Runs the NetLogo agent-based modeling environment
-#&gt; 11                                                                           Connectivity planning for future climate and land-use change
-#&gt; 12                                                                                       The ST-Sim state-and-transition simulation model
-#&gt; 13                          Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model
-#&gt; 14 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class [*** REQUIRES SyncroSim v2.2.3 or higher ***]
-#&gt; 15                                                                           Integrates stocks and flows into the ST-Sim simulation model
+#&gt; 3                                                                                                 Model of epidemic infections and deaths
+#&gt; 4                                                                                      Integrates VOCs and vaccination into the Epi model
+#&gt; 5                                                                                           Example demonstrating how to create a package
+#&gt; 6                                                                                                                 Example using pipelines
+#&gt; 7                                                                                                              Example using spatial data
+#&gt; 8                                                                                                                 Example using timesteps
+#&gt; 9                                                                                       Example using iterations to represent uncertainty
+#&gt; 10                                                                                                             LANDFIRE vegetation models
+#&gt; 11                                                                                         Land Use and Carbon Scenario Simulator (LUCAS)
+#&gt; 12                                                                                      Runs the NetLogo agent-based modeling environment
+#&gt; 13                                                                           Connectivity planning for future climate and land-use change
+#&gt; 14                                                                                       The ST-Sim state-and-transition simulation model
+#&gt; 15                          Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model
+#&gt; 16 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class [*** REQUIRES SyncroSim v2.2.3 or higher ***]
+#&gt; 17                                                                           Integrates stocks and flows into the ST-Sim simulation model
 #&gt;    version
 #&gt; 1    1.1.0
 #&gt; 2    2.3.0
-#&gt; 3    1.0.1
-#&gt; 4    1.0.0
-#&gt; 5    1.0.3
+#&gt; 3    1.1.3
+#&gt; 4    1.0.2
+#&gt; 5    1.0.1
 #&gt; 6    1.0.0
-#&gt; 7    1.0.0
-#&gt; 8    1.1.0
-#&gt; 9    1.0.6
-#&gt; 10   1.2.0
-#&gt; 11  1.1.16
-#&gt; 12   3.3.5
-#&gt; 13  1.0.13
-#&gt; 14   3.3.0
-#&gt; 15   3.3.4</div><div class='input'> 
+#&gt; 7    1.0.3
+#&gt; 8    1.0.0
+#&gt; 9    1.0.0
+#&gt; 10   1.1.0
+#&gt; 11   1.0.6
+#&gt; 12   1.2.0
+#&gt; 13  1.1.16
+#&gt; 14   3.3.8
+#&gt; 15  1.0.14
+#&gt; 16   3.3.0
+#&gt; 17   3.3.7</div><div class='input'> 
 <span class='co'># Check the package you're SsimLibrary is currently using</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>myLibrary</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    name                                      description version
-#&gt; 1 stsim The ST-Sim state-and-transition simulation model   3.3.5</div><div class='input'>
+#&gt; 1 stsim The ST-Sim state-and-transition simulation model   3.3.6</div><div class='input'>
 <span class='co'># Check the templates available for an installed package</span>
 <span class='fu'><a href='addPackage.html'>addPackage</a></span><span class='op'>(</span><span class='st'>"helloworldSpatial"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Package &lt;helloworldSpatial&gt; is already installed</span></div><div class='input'><span class='fu'>package</span><span class='op'>(</span>listTemplates <span class='op'>=</span> <span class='st'>"helloworldSpatial"</span><span class='op'>)</span>

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
       </span>
     </div>
 
@@ -228,86 +228,113 @@ to use the new software.</p>
 </div><div class='output co'>#&gt; [1] "C:/Program Files/SyncroSim"</div><div class='input'>
 <span class='co'># Lists the version of SyncroSim Session</span>
 <span class='fu'><a href='version.html'>version</a></span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2.3.10"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2.3.15"</div><div class='input'>
 <span class='co'># Data frame of the packages installed with this version of SyncroSim</span>
 <span class='fu'><a href='package.html'>package</a></span><span class='op'>(</span><span class='va'>mySession</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt;                     name
-#&gt; 1                 burnP3
-#&gt; 2             helloworld
-#&gt; 3        helloworldConda
-#&gt; 4         helloworldOmni
-#&gt; 5     helloworldPipeline
-#&gt; 6      helloworldSpatial
-#&gt; 7         helloworldTime
-#&gt; 8  helloworldUncertainty
-#&gt; 9                netlogo
-#&gt; 10             stconnect
-#&gt; 11                 stsim
-#&gt; 12               stsimsf
-#&gt;                                                              description
-#&gt; 1                          Burn-P3 package for burn probability modeling
-#&gt; 2                          Example demonstrating how to create a package
-#&gt; 3  Example demonstrating how to create a package with Conda environments
-#&gt; 4                          Example demonstrating how to create a package
-#&gt; 5                             Example demonstrating how to use pipelines
-#&gt; 6                          Example demonstrating how to use spatial data
-#&gt; 7                             Example demonstrating how to use timesteps
-#&gt; 8                            Example demonstrating how to use iterations
-#&gt; 9                      Runs the NetLogo agent-based modeling environment
-#&gt; 10          Connectivity planning for future climate and land-use change
-#&gt; 11                      The ST-Sim state-and-transition simulation model
-#&gt; 12          Integrates stocks and flows into the ST-Sim simulation model
+</div><div class='output co'>#&gt;                        name
+#&gt; 1                    burnP3
+#&gt; 2           burnp3basemodel
+#&gt; 3                       epi
+#&gt; 4        epiModelVocVaccine
+#&gt; 5                helloworld
+#&gt; 6           helloworldConda
+#&gt; 7            helloworldOmni
+#&gt; 8        helloworldPipeline
+#&gt; 9         helloworldSpatial
+#&gt; 10   helloworldSpatialConda
+#&gt; 11 helloworldSpatialReports
+#&gt; 12           helloworldTime
+#&gt; 13    helloworldUncertainty
+#&gt; 14                  netlogo
+#&gt; 15                stconnect
+#&gt; 16                    stsim
+#&gt; 17              stsimecodep
+#&gt; 18          stsimresolution
+#&gt;                                                                                 description
+#&gt; 1                                             Burn-P3 package for burn probability modeling
+#&gt; 2                                                                         BurnP3 base model
+#&gt; 3                                                   Model of epidemic infections and deaths
+#&gt; 4                                          Integrates VOCs and vaccination in the Epi model
+#&gt; 5                                             Example demonstrating how to create a package
+#&gt; 6                     Example demonstrating how to create a package with Conda environments
+#&gt; 7                                             Example demonstrating how to create a package
+#&gt; 8                                                Example demonstrating how to use pipelines
+#&gt; 9                                             Example demonstrating how to use spatial data
+#&gt; 10                                                 Example demonstrating conda environments
+#&gt; 11                                            Example demonstrating how to use spatial data
+#&gt; 12                                               Example demonstrating how to use timesteps
+#&gt; 13                                              Example demonstrating how to use iterations
+#&gt; 14                                        Runs the NetLogo agent-based modeling environment
+#&gt; 15                             Connectivity planning for future climate and land-use change
+#&gt; 16                                         The ST-Sim state-and-transition simulation model
+#&gt; 17 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
+#&gt; 18        An ST-Sim add on that enables multiple raster resolutions for spatial simulations
 #&gt;    version
 #&gt; 1    0.0.0
-#&gt; 2    1.0.1
-#&gt; 3    1.0.1
-#&gt; 4    1.0.1
-#&gt; 5    1.0.0
-#&gt; 6    1.0.3
-#&gt; 7    1.0.0
+#&gt; 2    0.0.0
+#&gt; 3    1.1.3
+#&gt; 4    1.0.2
+#&gt; 5    1.0.1
+#&gt; 6    1.0.1
+#&gt; 7    1.0.1
 #&gt; 8    1.0.0
-#&gt; 9    1.2.0
-#&gt; 10  1.1.16
-#&gt; 11   3.3.5
-#&gt; 12   3.3.4</div><div class='input'>
+#&gt; 9    1.0.3
+#&gt; 10   1.0.0
+#&gt; 11   1.0.3
+#&gt; 12   1.0.0
+#&gt; 13   1.0.0
+#&gt; 14   1.2.0
+#&gt; 15  1.1.16
+#&gt; 16   3.3.6
+#&gt; 17   3.3.0
+#&gt; 18   1.0.0</div><div class='input'>
 <span class='co'># Data frame of the base packages installed with this version of SyncroSim</span>
 <span class='fu'><a href='package.html'>package</a></span><span class='op'>(</span><span class='va'>mySession</span>, installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt;                     name
-#&gt; 1                 burnP3
-#&gt; 2             helloworld
-#&gt; 3        helloworldConda
-#&gt; 4         helloworldOmni
-#&gt; 5     helloworldPipeline
-#&gt; 6      helloworldSpatial
-#&gt; 7         helloworldTime
-#&gt; 8  helloworldUncertainty
-#&gt; 9                netlogo
-#&gt; 10             stconnect
-#&gt; 11                 stsim
+</div><div class='output co'>#&gt;                        name
+#&gt; 1                    burnP3
+#&gt; 2                       epi
+#&gt; 3                helloworld
+#&gt; 4           helloworldConda
+#&gt; 5            helloworldOmni
+#&gt; 6        helloworldPipeline
+#&gt; 7         helloworldSpatial
+#&gt; 8    helloworldSpatialConda
+#&gt; 9  helloworldSpatialReports
+#&gt; 10           helloworldTime
+#&gt; 11    helloworldUncertainty
+#&gt; 12                  netlogo
+#&gt; 13                stconnect
+#&gt; 14                    stsim
 #&gt;                                                              description
 #&gt; 1                          Burn-P3 package for burn probability modeling
-#&gt; 2                          Example demonstrating how to create a package
-#&gt; 3  Example demonstrating how to create a package with Conda environments
-#&gt; 4                          Example demonstrating how to create a package
-#&gt; 5                             Example demonstrating how to use pipelines
-#&gt; 6                          Example demonstrating how to use spatial data
-#&gt; 7                             Example demonstrating how to use timesteps
-#&gt; 8                            Example demonstrating how to use iterations
-#&gt; 9                      Runs the NetLogo agent-based modeling environment
-#&gt; 10          Connectivity planning for future climate and land-use change
-#&gt; 11                      The ST-Sim state-and-transition simulation model
+#&gt; 2                                Model of epidemic infections and deaths
+#&gt; 3                          Example demonstrating how to create a package
+#&gt; 4  Example demonstrating how to create a package with Conda environments
+#&gt; 5                          Example demonstrating how to create a package
+#&gt; 6                             Example demonstrating how to use pipelines
+#&gt; 7                          Example demonstrating how to use spatial data
+#&gt; 8                               Example demonstrating conda environments
+#&gt; 9                          Example demonstrating how to use spatial data
+#&gt; 10                            Example demonstrating how to use timesteps
+#&gt; 11                           Example demonstrating how to use iterations
+#&gt; 12                     Runs the NetLogo agent-based modeling environment
+#&gt; 13          Connectivity planning for future climate and land-use change
+#&gt; 14                      The ST-Sim state-and-transition simulation model
 #&gt;    version
 #&gt; 1    0.0.0
-#&gt; 2    1.0.1
+#&gt; 2    1.1.3
 #&gt; 3    1.0.1
 #&gt; 4    1.0.1
-#&gt; 5    1.0.0
-#&gt; 6    1.0.3
-#&gt; 7    1.0.0
+#&gt; 5    1.0.1
+#&gt; 6    1.0.0
+#&gt; 7    1.0.3
 #&gt; 8    1.0.0
-#&gt; 9    1.2.0
-#&gt; 10  1.1.16
-#&gt; 11   3.3.5</div><div class='input'>
+#&gt; 9    1.0.3
+#&gt; 10   1.0.0
+#&gt; 11   1.0.0
+#&gt; 12   1.2.0
+#&gt; 13  1.1.16
+#&gt; 14   3.3.6</div><div class='input'>
 <span class='co'># Set a new SyncroSim Session for the SyncroSim Project</span>
 <span class='fu'>session</span><span class='op'>(</span><span class='va'>myProject</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>session</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='filepath.html'>filepath</a></span><span class='op'>(</span><span class='fu'>session</span><span class='op'>(</span><span class='va'>myProject</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># }</span>

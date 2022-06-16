@@ -8,12 +8,13 @@ progressBar(
   type = "step",
   iteration = NULL,
   timestep = NULL,
-  totalSteps = NULL
+  totalSteps = NULL,
+  message
 )
 }
 \arguments{
 \item{type}{character. Update to apply to progress bar. Options include
-"begin", "end", "step", and "report" (Default is "step")}
+"begin", "end", "step", "report", and "message" (Default is "step")}
 
 \item{iteration}{integer. The current iteration. Only used if 
 \code{type = "report"}}
@@ -23,6 +24,9 @@ progressBar(
 
 \item{totalSteps}{integer. The total number of steps in the simulation. Only
 used if \code{type = "begin"}}
+
+\item{message}{character. An arbitrary messsage to be printed to the status
+bar. Only used if \code{type = "message"}.}
 }
 \value{
 No returned value, used for side effects
@@ -42,6 +46,9 @@ progressBar(type = "step")
 
 # Report progress for a simulation
 progressBar(type = "report", iteration = iter, timestep = ts)
+
+# Report arbitrary progress message 
+progressBar(type = "message", message = msg)
 
 # End the progress bar for a simulation
 progressBar(type = "end")
