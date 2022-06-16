@@ -147,13 +147,15 @@ runtimeTempFolder <- function(folderName) {
 #' for a SyncroSim simulation.
 #' 
 #' @param type character. Update to apply to progress bar. Options include
-#' "begin", "end", "step", and "report" (Default is "step")
+#' "begin", "end", "step", "report", and "message" (Default is "step")
 #' @param iteration integer. The current iteration. Only used if 
 #' \code{type = "report"}
 #' @param timestep integer. The current timestep. Only used if 
 #' \code{type = "report"}
 #' @param totalSteps integer. The total number of steps in the simulation. Only
 #' used if \code{type = "begin"}
+#' @param message character. An arbitrary messsage to be printed to the status
+#' bar. Only used if \code{type = "message"}.
 #' 
 #' @return 
 #' No returned value, used for side effects
@@ -169,12 +171,15 @@ runtimeTempFolder <- function(folderName) {
 #' # Report progress for a simulation
 #' progressBar(type = "report", iteration = iter, timestep = ts)
 #' 
+#' # Report arbitrary progress message 
+#' progressBar(type = "message", message = msg)
+#' 
 #' # End the progress bar for a simulation
 #' progressBar(type = "end")
 #' }
 #' 
 #' @export
-progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalSteps = NULL) {
+progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalSteps = NULL, message) {
   
   # Check Program Directory
   envValidateEnvironment()
@@ -206,10 +211,50 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
     } else {
       stop("iteration and timestep arguments must be integers")
     }
+    
+  # Print arbitrary message to UI
+  } else if (type == "message") {
+    if (!missing(message)) {
+      cat(paste0("ssim-task-status=", as.character(message), "\r\n"))
+      flush.console()
+    } else {
+      stop("please provide a message")
+    }
   
   # Throw error if type not specified correctly  
   } else {
     stop("Invalid type argument")
   }
   
+}
+
+#' Function to write to the SyncroSim run log
+#' 
+#' This function is designed to facilitate the development of R-based Syncrosim 
+#' Packages by allowing developers to send messages to the run log.
+#' 
+#' @param ... One or more objects which can be coerced to character
+#' which are pasted together using `sep`.
+#' @param sep character.  Used to separate terms. Not NA_character_
+#' 
+#' @return 
+#' No returned value, used for side effects
+#' 
+#' @examples 
+#' \dontrun{
+#' # Write a message to run log
+#' updateRunLog(msg)
+#' 
+#' # Construct and write a message to run log
+#' updateRunLog(msg, additionalMsg, sep = " ")
+#' }
+#'
+#' @export
+updateRunLog <- function(..., sep = "") {
+  if(length(list(...)) == 0)
+    stop("Please provide a message to write to the run log.")
+  
+  msg <- paste(..., sep = sep, collapse = "")
+  cat(paste0("ssim-task-log=", msg, "\r\n"))
+  flush.console()
 }
