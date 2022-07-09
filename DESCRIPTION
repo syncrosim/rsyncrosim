@@ -90,6 +90,7 @@ Collate:
     'ssimEnvironment.R'
     'ssimUpdate.R'
     'updatePackage.R'
+    'useConda.R'
     'version.R'
 RoxygenNote: 7.1.1
 URL: <https://syncrosim.github.io/rsyncrosim/>
