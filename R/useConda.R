@@ -8,21 +8,18 @@ NULL
 #' Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.
 #'
 #' @param ssimLibrary \code{\link{SsimLibrary}} object
-#' @param value logical, string, or list of strings for whether to use Conda 
+#' @param value logical, character, or list of characters for whether to use Conda 
 #' environments for SyncroSim packages used by the Library. If set to 
 #' \code{TRUE}, then Conda environments will be used for all SyncroSim packages.
 #' 
 #' @return 
-#' A logical: the Conda configuration of the SsimLibrary.
+#' A character or list of characters: the SyncroSim packages that currently are
+#' using Conda environments for the given \code{\link{SsimLibrary}}
 #' 
 #' @examples 
 #' \donttest{
-#' # Specify file path and name of new SsimLibrary
-#' myLibraryName <- file.path(tempdir(), "testlib")
-#' 
-#' # Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
+#' # Set up a SyncroSim Session, SsimLibrary
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' 
 #' # Retrieve Conda configuration status of the SsimLibrary
 #' useConda(myLibrary)

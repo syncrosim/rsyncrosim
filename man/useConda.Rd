@@ -22,26 +22,23 @@ useConda(ssimObject) <- value
 \S4method{useConda}{SsimLibrary}(ssimObject) <- value
 }
 \arguments{
-\item{value}{logical, string, or list of strings for whether to use Conda 
+\item{value}{logical, character, or list of characters for whether to use Conda 
 environments for SyncroSim packages used by the Library. If set to 
 \code{TRUE}, then Conda environments will be used for all SyncroSim packages.}
 
 \item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 }
 \value{
-A logical: the Conda configuration of the SsimLibrary.
+A character or list of characters: the SyncroSim packages that currently are
+using Conda environments for the given \code{\link{SsimLibrary}}
 }
 \description{
 Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.
 }
 \examples{
 \donttest{
-# Specify file path and name of new SsimLibrary
-myLibraryName <- file.path(tempdir(), "testlib")
-
-# Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
+# Set up a SyncroSim Session, SsimLibrary
 mySession <- session()
-myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 
 # Retrieve Conda configuration status of the SsimLibrary
 useConda(myLibrary)
