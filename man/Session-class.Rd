@@ -21,7 +21,7 @@ printed. Helpful for debugging. Default is \code{TRUE}}
 \item{\code{printCmd}}{If \code{TRUE}, arguments passed to the SyncroSim console are also 
 printed. Helpful for debugging. Default is \code{FALSE}}
 
-\item{\code{condaFilepath}}{The path to the Conda installation. Default is \code{NULL}}
+\item{\code{condaFilepath}}{The path to the Conda installation. Default is \code{"default"}}
 }}
 
 \seealso{

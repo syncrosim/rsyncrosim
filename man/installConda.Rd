@@ -2,23 +2,20 @@
 % Please edit documentation in R/installConda.R
 \name{installConda}
 \alias{installConda}
-\alias{installConda,ANY,character-method}
-\alias{installConda,ANY,missingOrNULL-method}
-\alias{installConda,ANY,Session-method}
+\alias{installConda,character-method}
+\alias{installConda,missingOrNULL-method}
+\alias{installConda,Session-method}
 \title{Installs Miniconda}
 \usage{
-installConda(folderPath, session = NULL)
+installConda(session = NULL)
 
-\S4method{installConda}{ANY,character}(folderPath, session = NULL)
+\S4method{installConda}{character}(session = NULL)
 
-\S4method{installConda}{ANY,missingOrNULL}(folderPath, session = NULL)
+\S4method{installConda}{missingOrNULL}(session = NULL)
 
-\S4method{installConda}{ANY,Session}(folderPath, session = NULL)
+\S4method{installConda}{Session}(session = NULL)
 }
 \arguments{
-\item{folderPath}{character string.  The file path to the Conda installation folder.
-If \code{NULL}, then the default installation folder is used}
-
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
 }
@@ -27,8 +24,8 @@ Invisibly returns \code{TRUE} upon success (i.e.successful
 install) and \code{FALSE} upon failure.
 }
 \description{
-This function installs Miniconda to either the default installation path
-within the SyncroSim installation folder or a custom path.
+This function installs Miniconda to the default installation path
+within the SyncroSim installation folder.
 }
 \examples{
 \dontrun{
@@ -36,7 +33,7 @@ within the SyncroSim installation folder or a custom path.
 mySession <- session()
 
 # Install Conda for the given SyncroSim session
-installConda(folderPath = "C:/miniconda3", mySession)
+installConda(mySession)
 }
 
 }

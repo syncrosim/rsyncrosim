@@ -5,7 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE) {
+  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) {
     enabled <- NULL
     if (is.null(session)) {
       e <- ssimEnvironment()
@@ -224,6 +224,22 @@ setMethod(
         }
       }
     }
+    
+    browser()
+    if (useConda == FALSE){
+      tt <- command(list(setprop = NULL, lib = path, useConda = FALSE), session)
+    } else {
+      if (useConda == TRUE){
+        currentPackages <- unique(datasheets$package)
+      } else {
+        if (useConda %in% unique(datasheets$package)){
+          currentPackages <- useConda
+        } else {
+          stop("Argument for useConda is not a SyncroSim Package in this Library")
+        }
+      }
+      createCondaEnv(path, currentPackages, session)
+    }
 
     .Object@session <- session
     .Object@filepath <- path
@@ -232,17 +248,17 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) standardGeneric(".ssimLibrary"))
 
-setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, template, forceUpdate, overwrite = FALSE) {
+setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
   return(new("SsimLibrary", name, package, session, addon, forceUpdate))
 })
 
-setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package, session, addon, template, forceUpdate, overwrite) {
+setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
   if (class(name) == "SsimLibrary") {
     out <- name
   } else {
-    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite)
+    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
   }
   return(out)
 })
@@ -269,6 +285,10 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param forceUpdate logical. If \code{FALSE} (default) user will be prompted to approve 
 #'     any required updates. If \code{TRUE}, required updates will be applied silently
 #' @param overwrite logical. If \code{TRUE} an existing SsimLibrary will be overwritten
+#' @param useConda character or character vector. One or more packages that can 
+#'  take advantage of Conda environments. All packages specified in this 
+#'  argument will have their Conda environments created and used at runtime.
+#'  Default is none
 #' 
 #' @return 
 #' Returns a \code{\link{SsimLibrary}} object.
@@ -323,17 +343,17 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' }
 #' 
 #' @export
-setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE) standardGeneric("ssimLibrary"))
+setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) standardGeneric("ssimLibrary"))
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, template, forceUpdate, overwrite) {
+setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, template, forceUpdate, overwrite, useConda) {
   if (class(name) == "SsimLibrary") {
     out <- name
     if (is.null(summary)) {
       summary <- TRUE
     }
   } else {
-    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite)
+    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
     if (is.null(summary)) {
       summary <- FALSE
     }
@@ -345,7 +365,7 @@ setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary,
 })
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name = NULL, summary = NULL, package, session, addon, template, forceUpdate, overwrite) {
+setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name = NULL, summary = NULL, package, session, addon, template, forceUpdate, overwrite, useConda) {
   if (is.null(session)) {
     session <- .session()
   }
@@ -353,7 +373,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
     return(SyncroSimNotFound())
   }
 
-  newLib <- new("SsimLibrary", name, package, session, addon, template, forceUpdate, overwrite)
+  newLib <- new("SsimLibrary", name, package, session, addon, template, forceUpdate, overwrite, useConda)
   if (!is.null(summary) && summary) {
     return(info(newLib))
   }

@@ -9,11 +9,11 @@
 \alias{session<-,SsimObject-method}
 \title{Create or return SyncroSim Session}
 \usage{
-session(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL)
+session(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default")
 
-\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL)
+\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default")
 
-\S4method{session}{SsimObject}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL)
+\S4method{session}{SsimObject}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default")
 
 session(ssimObject) <- value
 
@@ -34,7 +34,7 @@ debugging. Default is \code{FALSE}}
 
 \item{condaFilepath}{string. Gets or sets the path to the
 Conda installation folder. Can be used to direct SyncroSim to a custom
-Conda installation. If \code{default"} (default), then default Conda 
+Conda installation. If \code{"default"} (default), then default Conda 
 installation folder is used}
 
 \item{ssimObject}{\code{\link{Project}} or \code{\link{Scenario}} object}

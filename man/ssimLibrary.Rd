@@ -14,7 +14,8 @@ ssimLibrary(
   addon = NULL,
   template = NULL,
   forceUpdate = FALSE,
-  overwrite = FALSE
+  overwrite = FALSE,
+  useConda = FALSE
 )
 
 \S4method{ssimLibrary}{SsimObject}(
@@ -25,7 +26,8 @@ ssimLibrary(
   addon = NULL,
   template = NULL,
   forceUpdate = FALSE,
-  overwrite = FALSE
+  overwrite = FALSE,
+  useConda = FALSE
 )
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(
@@ -36,7 +38,8 @@ ssimLibrary(
   addon = NULL,
   template = NULL,
   forceUpdate = FALSE,
-  overwrite = FALSE
+  overwrite = FALSE,
+  useConda = FALSE
 )
 }
 \arguments{
@@ -61,6 +64,11 @@ will be used}
 any required updates. If \code{TRUE}, required updates will be applied silently}
 
 \item{overwrite}{logical. If \code{TRUE} an existing SsimLibrary will be overwritten}
+
+\item{useConda}{character or character vector. One or more packages that can 
+take advantage of Conda environments. All packages specified in this 
+argument will have their Conda environments created and used at runtime.
+Default is none}
 }
 \value{
 Returns a \code{\link{SsimLibrary}} object.

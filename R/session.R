@@ -43,7 +43,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #'     debugging. Default is \code{FALSE}
 #' @param condaFilepath string. Gets or sets the path to the
 #'     Conda installation folder. Can be used to direct SyncroSim to a custom
-#'     Conda installation. If \code{default"} (default), then default Conda 
+#'     Conda installation. If \code{"default"} (default), then default Conda 
 #'     installation folder is used
 #' @param ssimObject \code{\link{Project}} or \code{\link{Scenario}} object
 #' @param value \code{\link{Session}} object
@@ -88,7 +88,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' }
 #' 
 #' @export
-setGeneric("session", function(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL) standardGeneric("session"))
+setGeneric("session", function(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default") standardGeneric("session"))
 
 #' @rdname session
 setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, printCmd, condaFilepath) {

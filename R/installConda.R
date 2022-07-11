@@ -5,11 +5,9 @@ NULL
 
 #' Installs Miniconda
 #'
-#' This function installs Miniconda to either the default installation path
-#' within the SyncroSim installation folder or a custom path.
+#' This function installs Miniconda to the default installation path
+#' within the SyncroSim installation folder.
 #'
-#' @param folderPath character string.  The file path to the Conda installation folder.
-#' If \code{NULL}, then the default installation folder is used 
 #' @param session \code{\link{Session}} object. If \code{NULL} (default),
 #' \code{session()} will be used
 #' 
@@ -23,44 +21,28 @@ NULL
 #' mySession <- session()
 #' 
 #' # Install Conda for the given SyncroSim session
-#' installConda(folderPath = "C:/miniconda3", mySession)
+#' installConda(mySession)
 #' }
 #' 
 #' @export
-setGeneric("installConda", function(folderPath, session = NULL) standardGeneric("installConda"))
+setGeneric("installConda", function(session = NULL) standardGeneric("installConda"))
 
 #' @rdname installConda
-setMethod("installConda", signature(session = "character"), function(folderPath, session) {
+setMethod("installConda", signature(session = "character"), function(session) {
   return(SyncroSimNotFound(session))
 })
 
 #' @rdname installConda
-setMethod("installConda", signature(session = "missingOrNULL"), function(folderPath, session) {
+setMethod("installConda", signature(session = "missingOrNULL"), function(session) {
   session <- .session()
-  return(installConda(folderPath, session))
+  return(installConda(session))
 })
 
 #' @rdname installConda
-setMethod("installConda", signature(session = "Session"), function(folderPath, session) {
+setMethod("installConda", signature(session = "Session"), function(session) {
   success <- FALSE
-  
-  if (!is.null(folderPath)) {
-    
-    condaFilepath(session) <- folderPath
-    tt <- command(args = list(conda = NULL, path = folderPath))
-    args <- list(conda = NULL, install = NULL, path = folderPath)
-    
-  } else {
-    
-    presetCondaPath <- condaFilepath(session)
-    if (presentCondaPath != "default") {
-      tt <- command(args = list(conda = NULL, path = presetCondaPath))
-      args <- list(conda = NULL, install = NULL, path = presetCondaPath)
-    } else {
-      args <- list(conda = NULL, install = NULL)
-    }
-    
-  }
+
+  args <- list(conda = NULL, install = NULL)
   
   installRunning <- TRUE
   time <- 0
@@ -88,7 +70,7 @@ setMethod("installConda", signature(session = "Session"), function(folderPath, s
     tt <- paste0("Miniconda successfully installed")
   } else if (tt[1] == "Conda already installed at that location"){
     success <- FALSE
-    tt <- "Conda already installed at that location"
+    tt <- "Conda already installed"
   }
   
   message(tt)

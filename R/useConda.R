@@ -70,7 +70,7 @@ setReplaceMethod(
     
     if (value == FALSE) {
       
-      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useConda = value), .session(ssimObject))
+      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useconda = "no"), .session(ssimObject))
       if (!identical(tt, "saved")) {
         stop(tt)
       }
@@ -80,34 +80,13 @@ setReplaceMethod(
     
     if (value == TRUE){
       
-      # Check if Conda is installed
-      tt <- command(list(conda = NULL, config = NULL))
-      if (identical(tt, "No Conda configuration yet")){
-        tt <- command(list(setprop = NULL,
-                   lib = .filepath(ssimObject),
-                   useConda = FALSE), .session(ssimObject))
-        
-        stop("Conda must be installed to use Conda environments.")
-        }
-      
       currentPackages <- package(ssimObject)$name
 
     } else if (typeof(value) == "character") {
       currentPackages <- value
     }
     
-    # Check if environment needs to be created, create if doesn't exist yet
-    for (pkg in currentPackages) {
-      tt <- command(list(conda = NULL, createenv = NULL, pkg = pkg))
-    }
-    
-    tt <- command(list(setprop = NULL,
-                       lib = .filepath(ssimObject),
-                       useConda = value), .session(ssimObject))
-
-    if (!identical(tt, "saved")) {
-      stop(tt)
-    }
+    createCondaEnv(.filepath(ssimObject), currentPackages, session)
     
     return(ssimObject)
   }

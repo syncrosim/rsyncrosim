@@ -64,7 +64,13 @@ setReplaceMethod(
   f = "condaFilepath",
   signature = "Session",
   definition = function(session, value) {
-    session@condaFilepath <- value
+    tt <- command(args = list(conda = NULL, path = value))
+    if (tt == "Conda path successfully set.") {
+      session@condaFilepath <- value
+    } 
+    
+    message(tt)
+    
     return(session)
   }
 )
