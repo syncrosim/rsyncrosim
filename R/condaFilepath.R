@@ -17,7 +17,7 @@ NULL
 #' A character: the currently set filepath of the Conda installation folder.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set up a SyncroSim Session
 #' mySession <- session()
 #' 
@@ -64,12 +64,20 @@ setReplaceMethod(
   f = "condaFilepath",
   signature = "Session",
   definition = function(session, value) {
-    tt <- command(args = list(conda = NULL, path = value))
-    if (tt == "Conda path successfully set.") {
-      session@condaFilepath <- value
-    } 
     
-    message(tt)
+    if (value == 'default') {
+      tt <- command(args = list(conda = NULL, clear = NULL), session = session)
+      if (tt[1] == "Conda path successfully removed.") {
+        session@condaFilepath <- value
+      }
+    } else {
+      tt <- command(args = list(conda = NULL, path = value), session = session)
+      if (tt[1] == "Conda path successfully set.") {
+        session@condaFilepath <- value
+      } 
+    }
+    
+    message(tt[1])
     
     return(session)
   }

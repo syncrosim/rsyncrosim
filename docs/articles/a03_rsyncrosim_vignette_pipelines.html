@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.12</span>
       </span>
     </div>
 
@@ -197,15 +197,16 @@ the SyncroSim software.</p>
 <code class="sourceCode R"><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span>
 <span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span>
 <span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></code></pre></div>
-<pre><code>## class               : Session
-## filepath [character]: C:/Program Files/SyncroSim
-## silent [logical]    : TRUE
-## printCmd [logical]  : FALSE</code></pre>
+<pre><code>## class                    : Session
+## filepath [character]     : C:/Program Files/SyncroSim
+## silent [logical]         : TRUE
+## printCmd [logical]       : FALSE
+## condaFilepath [character]: default</code></pre>
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.15"</code></pre>
+<pre><code>## [1] "2.3.22"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -494,12 +495,12 @@ corresponds to the results from the first model.</p>
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep       y
-## 1         1        1  1.8547
-## 2         1        2  0.7095
-## 3         1        3 -0.4358
-## 4         1        4 -1.5810
-## 5         1        5 -2.7263
-## 6         1        6 -3.8715</code></pre>
+## 1         1        1  4.6163
+## 2         1        2  6.2327
+## 3         1        3  7.8490
+## 4         1        4  9.4654
+## 5         1        5 11.0817
+## 6         1        6 12.6981</code></pre>
 <p>We can see that for every timestep in an iteration we have a new
 value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>

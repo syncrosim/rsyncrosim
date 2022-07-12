@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.12</span>
       </span>
     </div>
 
@@ -228,6 +228,7 @@ for a specified package.</p>
 #&gt; 16                    stsim
 #&gt; 17              stsimecodep
 #&gt; 18          stsimresolution
+#&gt; 19                  stsimsf
 #&gt;                                                                                 description
 #&gt; 1                                             Burn-P3 package for burn probability modeling
 #&gt; 2                                                                         BurnP3 base model
@@ -247,6 +248,7 @@ for a specified package.</p>
 #&gt; 16                                         The ST-Sim state-and-transition simulation model
 #&gt; 17 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class
 #&gt; 18        An ST-Sim add on that enables multiple raster resolutions for spatial simulations
+#&gt; 19                             Integrates stocks and flows into the ST-Sim simulation model
 #&gt;    version
 #&gt; 1    0.0.0
 #&gt; 2    0.0.0
@@ -256,16 +258,17 @@ for a specified package.</p>
 #&gt; 6    1.0.1
 #&gt; 7    1.0.1
 #&gt; 8    1.0.0
-#&gt; 9    1.0.3
+#&gt; 9    1.0.4
 #&gt; 10   1.0.0
 #&gt; 11   1.0.3
 #&gt; 12   1.0.0
 #&gt; 13   1.0.0
 #&gt; 14   1.2.0
 #&gt; 15  1.1.16
-#&gt; 16   3.3.6
-#&gt; 17   3.3.0
-#&gt; 18   1.0.0</div><div class='input'>
+#&gt; 16   3.3.8
+#&gt; 17   3.3.1
+#&gt; 18   1.0.0
+#&gt; 19   3.3.7</div><div class='input'>
 <span class='co'># List all the installed base packages</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='st'>"BASE"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                        name
@@ -305,14 +308,14 @@ for a specified package.</p>
 #&gt; 4    1.0.1
 #&gt; 5    1.0.1
 #&gt; 6    1.0.0
-#&gt; 7    1.0.3
+#&gt; 7    1.0.4
 #&gt; 8    1.0.0
 #&gt; 9    1.0.3
 #&gt; 10   1.0.0
 #&gt; 11   1.0.0
 #&gt; 12   1.2.0
 #&gt; 13  1.1.16
-#&gt; 14   3.3.6</div><div class='input'>
+#&gt; 14   3.3.8</div><div class='input'>
 <span class='co'># List all available packages on the server (including currently installed)</span>
 <span class='fu'>package</span><span class='op'>(</span>installed <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     name
@@ -358,21 +361,21 @@ for a specified package.</p>
 #&gt; 4    1.0.2
 #&gt; 5    1.0.1
 #&gt; 6    1.0.0
-#&gt; 7    1.0.3
+#&gt; 7    1.0.4
 #&gt; 8    1.0.0
 #&gt; 9    1.0.0
-#&gt; 10   1.1.0
+#&gt; 10   1.1.1
 #&gt; 11   1.0.6
 #&gt; 12   1.2.0
 #&gt; 13  1.1.16
 #&gt; 14   3.3.8
 #&gt; 15  1.0.14
-#&gt; 16   3.3.0
+#&gt; 16   3.3.1
 #&gt; 17   3.3.7</div><div class='input'> 
 <span class='co'># Check the package you're SsimLibrary is currently using</span>
 <span class='fu'>package</span><span class='op'>(</span><span class='va'>myLibrary</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    name                                      description version
-#&gt; 1 stsim The ST-Sim state-and-transition simulation model   3.3.6</div><div class='input'>
+#&gt; 1 stsim The ST-Sim state-and-transition simulation model   3.3.8</div><div class='input'>
 <span class='co'># Check the templates available for an installed package</span>
 <span class='fu'><a href='addPackage.html'>addPackage</a></span><span class='op'>(</span><span class='st'>"helloworldSpatial"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Package &lt;helloworldSpatial&gt; is already installed</span></div><div class='input'><span class='fu'>package</span><span class='op'>(</span>listTemplates <span class='op'>=</span> <span class='st'>"helloworldSpatial"</span><span class='op'>)</span>

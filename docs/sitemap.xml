@@ -37,6 +37,9 @@
     <loc>https://syncrosim.github.io/rsyncrosim/reference/command.html</loc>
   </url>
   <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/reference/condaFilepath.html</loc>
+  </url>
+  <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/datasheet.html</loc>
   </url>
   <url>
@@ -98,6 +101,9 @@
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/info.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/reference/installConda.html</loc>
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/mergeDependencies.html</loc>
@@ -203,6 +209,9 @@
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/updateRunLog.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/reference/useConda.html</loc>
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/version.html</loc>

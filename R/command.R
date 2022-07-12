@@ -60,10 +60,10 @@ NULL
 #' command(list(installed = NULL), program = "SyncroSim.PackageManager.exe")
 #' }
 #' @export
-command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE) {
+command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE, progName = NULL) {
 
   # if a SyncroSim session is not provided, make one
-  if (is.null(session)) {
+  if (is.null(session) && is.null(progName)) {
     session <- .session()
   }
   if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
@@ -116,14 +116,19 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wai
     }
     sysArgs <- args
   }
-  if (printCmd(session)) {
-    outCmd <- gsub("\"", "", paste(sysArgs, collapse = " "), fixed = TRUE)
-    print(outCmd)
+  
+  if (!is.null(session)){
+    if (printCmd(session)) {
+      outCmd <- gsub("\"", "", paste(sysArgs, collapse = " "), fixed = TRUE)
+      print(outCmd)
+    }
+    progName <- paste0('\"', .filepath(session), "/", program, '\"')
+  } else {
+    progName <- paste0('\"', progName, "/", program, '\"')
   }
 
   tempCmd <- NULL
-  progName <- paste0('\"', .filepath(session), "/", program, '\"')
-
+  
   if (.Platform$OS.type == "windows") {
     tempCmd <- paste(c(progName, sysArgs), collapse = " ")
   } else {

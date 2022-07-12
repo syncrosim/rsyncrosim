@@ -1,4 +1,4 @@
-# rsyncrosim 1.3.11
+# rsyncrosim 1.3.12
 
 ## Breaking changes
 
@@ -6,7 +6,7 @@
 
 ## New features:
 
-* Added the `updateRunLog()` function that allows a custom message to be output to the Scenario run log.
-* Added a new argument `message` to the `progressBar()` function that allows a custom message to be printed to the progress bar at runtime.
+* Added the ability to use Conda environments for SyncroSim runs using the new 
+`installConda()`, `useConda()`, and `condaFilepath()` functions.
 
 ## Minor improvements and fixes

@@ -81,7 +81,7 @@ used internally by other functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.12</span>
       </span>
     </div>
 
@@ -157,7 +157,13 @@ used internally by other functions." />
 used internally by other functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>command</span><span class='op'>(</span><span class='va'>args</span>, session <span class='op'>=</span> <span class='cn'>NULL</span>, program <span class='op'>=</span> <span class='st'>"SyncroSim.Console.exe"</span>, wait <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>command</span><span class='op'>(</span>
+  <span class='va'>args</span>,
+  session <span class='op'>=</span> <span class='cn'>NULL</span>,
+  program <span class='op'>=</span> <span class='st'>"SyncroSim.Console.exe"</span>,
+  wait <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progName <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,7 +220,7 @@ before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</cod
 <span class='co'># Use a default session to create a new SsimLibrary in the current working directory</span>
 <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>command</span><span class='op'>(</span><span class='va'>args</span>, session <span class='op'>=</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span>printCmd <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "--version"
-#&gt; [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\Rtmp4GSya9/testlib.ssim --package=stsim"</div><div class='input'><span class='va'>output</span>
+#&gt; [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpoLB8hr/testlib.ssim --package=stsim"</div><div class='input'><span class='va'>output</span>
 </div><div class='output co'>#&gt; character(0)
 #&gt; attr(,"status")
 #&gt; [1] 65535</div><div class='input'>
@@ -267,16 +273,17 @@ before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</cod
 #&gt;  [6] "helloworldConda               Example demonstrating how to create a package with Conda environments                         1.0.1       "
 #&gt;  [7] "helloworldOmni                Example demonstrating how to create a package                                                 1.0.1       "
 #&gt;  [8] "helloworldPipeline            Example demonstrating how to use pipelines                                                    1.0.0       "
-#&gt;  [9] "helloworldSpatial             Example demonstrating how to use spatial data                                                 1.0.3       "
+#&gt;  [9] "helloworldSpatial             Example demonstrating how to use spatial data                                                 1.0.4       "
 #&gt; [10] "helloworldSpatialConda        Example demonstrating conda environments                                                      1.0.0       "
 #&gt; [11] "helloworldSpatialReports      Example demonstrating how to use spatial data                                                 1.0.3       "
 #&gt; [12] "helloworldTime                Example demonstrating how to use timesteps                                                    1.0.0       "
 #&gt; [13] "helloworldUncertainty         Example demonstrating how to use iterations                                                   1.0.0       "
 #&gt; [14] "netlogo                       Runs the NetLogo agent-based modeling environment                                             1.2.0       "
 #&gt; [15] "stconnect                     Connectivity planning for future climate and land-use change                                  1.1.16      "
-#&gt; [16] "stsim                         The ST-Sim state-and-transition simulation model                                              3.3.6       "
-#&gt; [17] "stsimecodep                   Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class      3.3.0       "
-#&gt; [18] "stsimresolution               An ST-Sim add on that enables multiple raster resolutions for spatial simulations             1.0.0       "</div><div class='input'><span class='co'># }</span>
+#&gt; [16] "stsim                         The ST-Sim state-and-transition simulation model                                              3.3.8       "
+#&gt; [17] "stsimecodep                   Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class      3.3.1       "
+#&gt; [18] "stsimresolution               An ST-Sim add on that enables multiple raster resolutions for spatial simulations             1.0.0       "
+#&gt; [19] "stsimsf                       Integrates stocks and flows into the ST-Sim simulation model                                  3.3.7       "</div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -36,7 +36,7 @@ using Conda environments for the given \code{\link{SsimLibrary}}
 Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set up a SyncroSim Session, SsimLibrary
 mySession <- session()
 
@@ -50,7 +50,7 @@ useConda(myLibrary) <- TRUE
 useConda(myLibrary) <- "helloworld"
 
 # Only use Conda with multiple specified SyncroSim packages
-useConda(myLibrary) <- ["helloworld", "stsim"]
+useConda(myLibrary) <- c("helloworld", "stsim")
 }
 
 }

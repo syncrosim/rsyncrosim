@@ -36,7 +36,7 @@ Gets or sets the path to the Conda installation folder. Can be used to direct
 SyncroSim to a custom Conda installation.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set up a SyncroSim Session
 mySession <- session()
 

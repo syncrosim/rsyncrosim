@@ -2,18 +2,9 @@
 % Please edit documentation in R/installConda.R
 \name{installConda}
 \alias{installConda}
-\alias{installConda,character-method}
-\alias{installConda,missingOrNULL-method}
-\alias{installConda,Session-method}
 \title{Installs Miniconda}
 \usage{
-installConda(session = NULL)
-
-\S4method{installConda}{character}(session = NULL)
-
-\S4method{installConda}{missingOrNULL}(session = NULL)
-
-\S4method{installConda}{Session}(session = NULL)
+installConda()
 }
 \arguments{
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
@@ -29,11 +20,8 @@ within the SyncroSim installation folder.
 }
 \examples{
 \dontrun{
-# Create a new SyncroSim Session
-mySession <- session()
-
-# Install Conda for the given SyncroSim session
-installConda(mySession)
+# Install Conda for the default SyncroSim session
+installConda()
 }
 
 }

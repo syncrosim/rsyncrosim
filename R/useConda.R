@@ -16,8 +16,8 @@ NULL
 #' A character or list of characters: the SyncroSim packages that currently are
 #' using Conda environments for the given \code{\link{SsimLibrary}}
 #' 
-#' @examples 
-#' \donttest{
+#' @examples
+#' \dontrun{
 #' # Set up a SyncroSim Session, SsimLibrary
 #' mySession <- session()
 #' 
@@ -31,7 +31,7 @@ NULL
 #' useConda(myLibrary) <- "helloworld"
 #' 
 #' # Only use Conda with multiple specified SyncroSim packages
-#' useConda(myLibrary) <- ["helloworld", "stsim"]
+#' useConda(myLibrary) <- c("helloworld", "stsim")
 #' }
 #' 
 #' @export
@@ -46,7 +46,7 @@ setMethod("useConda", signature(ssimObject = "character"), function(ssimObject) 
 setMethod("useConda", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
   cInfo <- info(ssimObject)
   property <- NULL
-  return(subset(cInfo, property == "UseConda:")$value)
+  return(subset(cInfo, property == "Use Conda:")$value)
 })
 
 #' @rdname useConda
@@ -80,13 +80,15 @@ setReplaceMethod(
     
     if (value == TRUE){
       
+      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useconda = "yes"), .session(ssimObject))
+      
       currentPackages <- package(ssimObject)$name
 
     } else if (typeof(value) == "character") {
       currentPackages <- value
     }
     
-    createCondaEnv(.filepath(ssimObject), currentPackages, session)
+    createCondaEnv(.filepath(ssimObject), currentPackages, .session(ssimObject))
     
     return(ssimObject)
   }

@@ -225,10 +225,10 @@ setMethod(
       }
     }
     
-    browser()
     if (useConda == FALSE){
-      tt <- command(list(setprop = NULL, lib = path, useConda = FALSE), session)
+      tt <- command(list(setprop = NULL, lib = path, useconda = "no"), session)
     } else {
+      tt <- command(list(setprop = NULL, lib = path, useconda = "yes"), session)
       if (useConda == TRUE){
         currentPackages <- unique(datasheets$package)
       } else {

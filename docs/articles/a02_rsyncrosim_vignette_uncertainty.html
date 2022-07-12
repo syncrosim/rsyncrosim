@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.12</span>
       </span>
     </div>
 
@@ -191,15 +191,16 @@ the SyncroSim software.</p>
 <code class="sourceCode R"><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span>
 <span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span>
 <span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></code></pre></div>
-<pre><code>## class               : Session
-## filepath [character]: C:/Program Files/SyncroSim
-## silent [logical]    : TRUE
-## printCmd [logical]  : FALSE</code></pre>
+<pre><code>## class                    : Session
+## filepath [character]     : C:/Program Files/SyncroSim
+## silent [logical]         : TRUE
+## printCmd [logical]       : FALSE
+## condaFilepath [character]: default</code></pre>
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "2.3.15"</code></pre>
+<pre><code>## [1] "2.3.22"</code></pre>
 </div>
 <div id="installing-syncrosim-packages-using-addpackage" class="section level3">
 <h3 class="hasAnchor">
@@ -408,10 +409,10 @@ can view which Scenarios are Results Scenarios using the
 <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   ScenarioID ProjectID                                          Name IsResult
 ## 1          1         1                             My first scenario       No
-## 2          2         1 My first scenario ([1] @ 16-Jun-2022 3:20 PM)      Yes
+## 2          2         1 My first scenario ([1] @ 11-Jul-2022 4:29 PM)      Yes
 ##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies
-## 1       NA   N/A 2022-06-16 at 3:20 PM         No                No
-## 2        1   N/A 2022-06-16 at 3:20 PM         No                No
+## 1       NA   N/A 2022-07-11 at 4:29 PM         No                No
+## 2        1   N/A 2022-07-11 at 4:29 PM         No                No
 ##   IgnoreDependencies AutoGenTags
 ## 1                 NA          NA
 ## 2                 NA          NA</code></pre>
@@ -436,12 +437,12 @@ containing the results is called “OutputDatasheet”.</p>
 <span class="co"># View results table</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Iteration Timestep       y
-## 1         1        1  8.3695
-## 2         1        2 13.7389
-## 3         1        3 19.1084
-## 4         1        4 24.4779
-## 5         1        5 29.8474
-## 6         1        6 35.2168</code></pre>
+## 1         1        1  4.1971
+## 2         1        2  5.3942
+## 3         1        3  6.5913
+## 4         1        4  7.7884
+## 5         1        5  8.9854
+## 6         1        6 10.1825</code></pre>
 </div>
 <div id="plotting-uncertainty-in-the-syncrosim-windows-user-interface" class="section level3">
 <h3 class="hasAnchor">
