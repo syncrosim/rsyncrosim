@@ -255,6 +255,10 @@ updateRunLog <- function(..., sep = "") {
     stop("Please provide a message to write to the run log.")
   
   msg <- paste(..., sep = sep, collapse = "")
-  cat(paste0("ssim-task-log=", msg, "\r\n"))
-  flush.console()
+  msg <- paste0("ssim-task-log=", strsplit(msg, "\n")[[1]], "\r\n")
+  
+  for(m in msg) {
+    cat(m)
+    flush.console()
+  }
 }
