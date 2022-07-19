@@ -11,7 +11,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- condaFilepath
 
-  ssimRequiredVersion <- "2.3.22"
+  ssimRequiredVersion <- "2.3.23"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
