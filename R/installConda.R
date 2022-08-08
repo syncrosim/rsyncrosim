@@ -6,7 +6,9 @@ NULL
 #' Installs Miniconda
 #'
 #' This function installs Miniconda to the default installation path
-#' within the SyncroSim installation folder.
+#' within the SyncroSim installation folder. If you already have Conda 
+#' installed in the non-default location, you can point SyncroSim towards
+#' that installation using the \code{\link{condaFilepath}} function.
 #'
 #' @param session \code{\link{Session}} object. If \code{NULL} (default),
 #' \code{session()} will be used

@@ -5,19 +5,19 @@
 \alias{session,missingOrNULLOrChar-method}
 \alias{session,SsimObject-method}
 \alias{session<-}
-\alias{session<-,character-method}
+\alias{session<-,NULLOrChar-method}
 \alias{session<-,SsimObject-method}
 \title{Create or return SyncroSim Session}
 \usage{
-session(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default")
+session(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL)
 
-\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default")
+\S4method{session}{missingOrNULLOrChar}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL)
 
-\S4method{session}{SsimObject}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default")
+\S4method{session}{SsimObject}(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL)
 
 session(ssimObject) <- value
 
-\S4method{session}{character}(ssimObject) <- value
+\S4method{session}{NULLOrChar}(ssimObject) <- value
 
 \S4method{session}{SsimObject}(ssimObject) <- value
 }

@@ -65,10 +65,10 @@ setReplaceMethod(
   signature = "Session",
   definition = function(session, value) {
     
-    if (value == 'default') {
+    if (is.null(value)) {
       tt <- command(args = list(conda = NULL, clear = NULL), session = session)
       if (tt[1] == "Conda path successfully removed.") {
-        session@condaFilepath <- value
+        session@condaFilepath <- NULL
       }
     } else {
       tt <- command(args = list(conda = NULL, path = value), session = session)

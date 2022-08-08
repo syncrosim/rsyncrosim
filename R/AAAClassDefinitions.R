@@ -3,6 +3,7 @@
 
 setClassUnion("missingOrNULL", c("missing", "NULL"))
 setClassUnion("missingOrNULLOrChar", c("missing", "NULL", "character"))
+setClassUnion("NULLOrChar", c("NULL", "character"))
 
 # NOTE: Constructors for each class are defined in the R file bearing the name of the
 # class (lower case). e.g. session.R, ssimLibrary.R, etc.
@@ -23,7 +24,7 @@ setClassUnion("missingOrNULLOrChar", c("missing", "NULL", "character"))
 #' @name Session-class
 #' @rdname Session-class
 #' @export Session
-Session <- setClass("Session", representation(filepath = "character", silent = "logical", printCmd = "logical", condaFilepath = "character"))
+Session <- setClass("Session", representation(filepath = "character", silent = "logical", printCmd = "logical", condaFilepath = "NULLOrChar"))
 
 # SyncroSim Object class (nor exported)
 # SsimLibrary, Project and Scenario all inherit from this abstract class.

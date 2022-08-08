@@ -5,7 +5,7 @@
 \alias{useConda,character-method}
 \alias{useConda,SsimLibrary-method}
 \alias{useConda<-}
-\alias{useConda<-,character-method}
+\alias{useConda<-,logical-method}
 \alias{useConda<-,SsimLibrary-method}
 \title{Conda configuration of a SsimLibrary}
 \usage{
@@ -17,20 +17,21 @@ useConda(ssimObject)
 
 useConda(ssimObject) <- value
 
-\S4method{useConda}{character}(ssimObject) <- value
+\S4method{useConda}{logical}(ssimObject) <- value
 
 \S4method{useConda}{SsimLibrary}(ssimObject) <- value
 }
 \arguments{
-\item{value}{logical, character, or list of characters for whether to use Conda 
-environments for SyncroSim packages used by the Library. If set to 
-\code{TRUE}, then Conda environments will be used for all SyncroSim packages.}
+\item{value}{logical for whether to use Conda 
+environments for the given SyncroSim Library. If set to 
+\code{TRUE}, then Conda environments will be used. If set to \code{FALSE},
+then Conda environments will not be used during runtime.}
 
 \item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 }
 \value{
-A character or list of characters: the SyncroSim packages that currently are
-using Conda environments for the given \code{\link{SsimLibrary}}
+Logical: whether Conda environments will be used during runtime for the given
+ \code{\link{SsimLibrary}}
 }
 \description{
 Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.

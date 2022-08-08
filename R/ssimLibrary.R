@@ -231,12 +231,6 @@ setMethod(
       tt <- command(list(setprop = NULL, lib = path, useconda = "yes"), session)
       if (useConda == TRUE){
         currentPackages <- unique(datasheets$package)
-      } else {
-        if (useConda %in% unique(datasheets$package)){
-          currentPackages <- useConda
-        } else {
-          stop("Argument for useConda is not a SyncroSim Package in this Library")
-        }
       }
       createCondaEnv(path, currentPackages, session)
     }
@@ -285,10 +279,11 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param forceUpdate logical. If \code{FALSE} (default) user will be prompted to approve 
 #'     any required updates. If \code{TRUE}, required updates will be applied silently
 #' @param overwrite logical. If \code{TRUE} an existing SsimLibrary will be overwritten
-#' @param useConda character or character vector. One or more packages that can 
-#'  take advantage of Conda environments. All packages specified in this 
-#'  argument will have their Conda environments created and used at runtime.
-#'  Default is none
+#' @param useConda logical. If set to TRUE, then all packages associated with the 
+#'  Library will have their Conda environments created and Conda environments will
+#'  be used during runtime.If set to FALSE, then no packages will have their 
+#'  Conda environments created and Conda environments will not be used during runtime.
+#'  Default is FALSE.
 #' 
 #' @return 
 #' Returns a \code{\link{SsimLibrary}} object.
@@ -340,6 +335,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'                          package = "helloworldSpatial",
 #'                          template = "example-library",
 #'                          overwrite = TRUE)
+#'                          
 #' }
 #' 
 #' @export

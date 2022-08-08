@@ -5,13 +5,13 @@ NULL
 
 # @name Session
 # @rdname Session-class
-setMethod(f = "initialize", signature = "Session", definition = function(.Object, path, silent = FALSE, printCmd = FALSE, condaFilepath = "default") {
+setMethod(f = "initialize", signature = "Session", definition = function(.Object, path, silent = FALSE, printCmd = FALSE, condaFilepath = NULL) {
   .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), fixed = TRUE)
   .Object@silent <- silent
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- condaFilepath
 
-  ssimRequiredVersion <- "2.3.22"
+  ssimRequiredVersion <- "2.3.24"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
@@ -100,7 +100,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' }
 #' 
 #' @export
-setGeneric("session", function(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default") standardGeneric("session"))
+setGeneric("session", function(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL) standardGeneric("session"))
 
 #' @rdname session
 setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, printCmd, condaFilepath) {
@@ -160,7 +160,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
   } else {
     progName <- path
   }
-  if (condaFilepath == 'default'){
+  if (is.null(condaFilepath)) {
     tt <- command(args = list(conda = NULL, clear = NULL), progName = progName)
   } else {
     tt <- command(args = list(conda = NULL, path = condaFilepath), progName = progName)
@@ -183,7 +183,7 @@ setGeneric("session<-", function(ssimObject, value) standardGeneric("session<-")
 #' @rdname session
 setReplaceMethod(
   f = "session",
-  signature = "character",
+  signature = "NULLOrChar",
   definition = function(ssimObject, value) {
     return(ssimObject)
   }

@@ -65,10 +65,11 @@ any required updates. If \code{TRUE}, required updates will be applied silently}
 
 \item{overwrite}{logical. If \code{TRUE} an existing SsimLibrary will be overwritten}
 
-\item{useConda}{character or character vector. One or more packages that can 
-take advantage of Conda environments. All packages specified in this 
-argument will have their Conda environments created and used at runtime.
-Default is none}
+\item{useConda}{logical. If set to TRUE, then all packages associated with the 
+Library will have their Conda environments created and Conda environments will
+be used during runtime.If set to FALSE, then no packages will have their 
+Conda environments created and Conda environments will not be used during runtime.
+Default is FALSE.}
 }
 \value{
 Returns a \code{\link{SsimLibrary}} object.
@@ -126,6 +127,7 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          package = "helloworldSpatial",
                          template = "example-library",
                          overwrite = TRUE)
+                         
 }
 
 }

@@ -171,25 +171,43 @@ getProjectSet <- function(ssimObject) {
 # Create package Conda environments
 createCondaEnv <- function(libPath, currentPackages, session) {
   
+  message("Creating Conda environments. Please wait...")
+  
   # Check if Conda is installed
-  tt <- command(list(conda = NULL, config = NULL), session)
-  if (identical(tt, "No Conda configuration yet")){
-    stop("Conda must be installed to use Conda environments.")
-  }
+  # tt <- command(list(conda = NULL, config = NULL), session)
+  # if (identical(tt, "No Conda configuration yet.")){
+  #   tt <- command(list(setprop = NULL,
+  #                      lib = libPath,
+  #                      useconda = "no"), session)
+  #   message("Conda must be installed to use Conda environments.")
+  #   return(TRUE)
+  # }
   
   # Check if environment needs to be created, create if doesn't exist yet
   for (package in currentPackages) {
     tt <- command(list(conda = NULL, createenv = NULL, pkg = package), session)
-    message(tt)
+    if (length(tt) > 1){
+      if (!grepl("Creating Conda environments", tt[1], fixed = TRUE)){
+        stop(tt[1])
+      }
+    } else {
+      if (grepl("No Conda installation found", tt, fixed = TRUE)) {
+        errorMessage = "Conda must be installed to use Conda environments. See ?installConda for details."
+        tt <- command(list(setprop = NULL,
+                           lib = libPath,
+                           useconda = "no"), session)
+      } else {
+        errorMessage = tt
+      }
+
+      message(errorMessage)
+      return(TRUE)
+    }
   }
   
   tt <- command(list(setprop = NULL,
                      lib = libPath,
                      useconda = "yes"), session)
-  
-  if (!identical(tt, "saved")) {
-    stop(tt)
-  }
   
   return(TRUE)
 }
