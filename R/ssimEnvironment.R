@@ -235,7 +235,9 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
 #' 
 #' @param ... One or more objects which can be coerced to character
 #' which are pasted together using `sep`.
-#' @param sep character.  Used to separate terms. Not NA_character_
+#' @param sep character. Used to separate terms. Not NA_character_
+#' @param type character. Type of message to add to run log. One of "status",
+#' "info", or "warning".
 #' 
 #' @return 
 #' No returned value, used for side effects
@@ -250,13 +252,21 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
 #' }
 #'
 #' @export
-updateRunLog <- function(..., sep = "") {
+updateRunLog <- function(..., sep = "", type = "status") {
   if(length(list(...)) == 0)
     stop("Please provide a message to write to the run log.")
+  
+  if(!type %in% c("status", "info", "warning"))
+    stop("Please select a valid run log message type.")
   
   msg <- paste(..., sep = sep, collapse = "")
   msg <- paste0("ssim-task-log=", strsplit(msg, "\n")[[1]], "\r\n")
   
+  if(type == "info")
+    msg[1] <- sub("ssim-task-log", "ssim-task-info", msg[1])
+  if(type == "warning")
+    msg[1] <- sub("ssim-task-log", "ssim-task-warning", msg[1])
+   
   for(m in msg) {
     cat(m)
     flush.console()
