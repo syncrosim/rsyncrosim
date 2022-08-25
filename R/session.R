@@ -23,15 +23,23 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   ssimCurrentVersionBits <- as.numeric(strsplit(ssimCurrentVersion, ".", fixed = TRUE)[[1]])
   ssimRequiredVersionBits <- as.numeric(strsplit(ssimRequiredVersion, ".", fixed = TRUE)[[1]])
   
-  loadVersion <- TRUE
-  if (ssimCurrentVersionBits[1] < ssimRequiredVersionBits[1]){
-    loadVersion <- FALSE
-  }
-  if (ssimCurrentVersionBits[2] < ssimRequiredVersionBits[2]){
-    loadVersion <- FALSE
-  }
-  if (ssimCurrentVersionBits[3] < ssimRequiredVersionBits[3]){
-    loadVersion <- FALSE
+  loadVersion <- FALSE
+  if (ssimCurrentVersionBits[1] >= ssimRequiredVersionBits[1]){
+    if (ssimCurrentVersionBits[1] > ssimRequiredVersion[1]) {
+      loadVersion <- TRUE
+    } else {
+      if (ssimCurrentVersionBits[2] >= ssimRequiredVersionBits[2]){
+        if (ssimCurrentVersionBits[2] > ssimRequiredVersionBits[2]) {
+          loadVersion <- TRUE
+        } else {
+          if (ssimCurrentVersionBits[3] >= ssimRequiredVersionBits[3]){
+            if (ssimCurrentVersionBits[3] > ssimRequiredVersionBits[3]){
+              loadVersion <- TRUE
+            } 
+          }
+        }
+      } 
+    }
   }
   
   if (!loadVersion) {

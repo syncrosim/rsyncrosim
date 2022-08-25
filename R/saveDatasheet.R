@@ -366,7 +366,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       out[[cName]] <- "Saved"
     }
     
-    if (out[[cName]] == "saved"){
+    if (out[[cName]][1] == "saved"){
       message(paste0("Datasheet <",cName, "> saved"))
       out[[cName]] <- TRUE
     } else {
