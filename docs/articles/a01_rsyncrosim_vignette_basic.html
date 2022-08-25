@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
       </span>
     </div>
 
@@ -197,7 +197,6 @@ both Windows and Linux.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load R package for working with SyncroSim</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: package 'rsyncrosim' was built under R version 4.1.3</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="connecting-r-to-syncrosim-using-session">Connecting R to SyncroSim using <code>session()</code><a class="anchor" aria-label="anchor" href="#connecting-r-to-syncrosim-using-session"></a>
@@ -210,20 +209,20 @@ SyncroSim software. A new Session is created using the
 to the folder on your computer where SyncroSim has been installed. If
 the first argument is left blank, then the default install folder is
 used (Windows only).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span></span>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
-<pre><code><span><span class="co">## class                    : Session</span></span>
-<span><span class="co">## filepath [character]     : C:/Program Files/SyncroSim</span></span>
-<span><span class="co">## silent [logical]         : TRUE</span></span>
-<span><span class="co">## printCmd [logical]       : FALSE</span></span>
-<span><span class="co">## condaFilepath [character]: default</span></span></code></pre>
+<pre><code><span><span class="co">## class               : Session</span></span>
+<span><span class="co">## filepath [character]: C:/Program Files/SyncroSim</span></span>
+<span><span class="co">## silent [logical]    : TRUE</span></span>
+<span><span class="co">## printCmd [logical]  : FALSE</span></span>
+<span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
 <p>You can check to see which version of SyncroSim your R script is
 connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.3.24"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.4.0"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -233,7 +232,7 @@ connected to by running the <code><a href="../reference/version.html">version()<
 package is already installed. Use the <code><a href="../reference/package.html">package()</a></code> function
 from <code>rsyncrosim</code> to first get a list of all currently
 installed packages in SyncroSim.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] name        description version    </span></span>
@@ -242,7 +241,7 @@ installed packages in SyncroSim.</p>
 packages are available from the SyncroSim package server, you can use
 the <code>installed = FALSE</code> argument in the
 <code><a href="../reference/package.html">package()</a></code> function.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">availablePackages</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span>installed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">availablePackages</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                 name</span></span>
@@ -270,7 +269,7 @@ the <code>installed = FALSE</code> argument in the
 function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name
 as input and then queries the SyncroSim package server for the specified
 package.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldTime</span></span>
 <span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldTime"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Package &lt;helloworldTime&gt; installed</span></span></code></pre>
@@ -280,12 +279,12 @@ use the <code><a href="../reference/addPackage.html">addPackage()</a></code> fun
 <code>filepath</code> argument set to <code>TRUE</code>. Instead of
 using the package name as the argument, the file path to the
 <code>.ssimpkg</code> is used.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldTime using file path to ssimpkg file</span></span>
 <span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"path/to/helloworldTime.ssimpkg"</span><span class="op">)</span></span></code></pre></div>
 <p>Now <code>helloworldTime</code> should be included in the package
 list:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             name                                description version</span></span>
@@ -323,7 +322,7 @@ to the SyncroSim Package with which it is associated. We use the
 <code><a href="../reference/ssimLibrary.html">ssimLibrary()</a></code> function to create a new SsimLibrary object
 in R that is connected (through your Session) to a SyncroSim Library
 file.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Library</span></span>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"helloworldLibrary.ssim"</span>,</span>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
@@ -339,7 +338,7 @@ file.</p>
 existing Library. For instance, now that we have created a Library
 called “helloworldLibrary.ssim”, we would simply specify that we want to
 open this Library using the <code>name</code> argument.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Open existing Library</span></span>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"helloworldLibrary.ssim"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that if you want to create a new Library file with an existing
@@ -360,7 +359,7 @@ unique <code>projectId</code>= 1). The <code><a href="../reference/project.html"
 is used to both create and retrieve Projects. Note that the
 <code>ssimObject</code> here can be the name of a Library or
 Scenario.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Open existing Project</span></span>
 <span><span class="va">myProject</span> <span class="op">=</span> <span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span>  <span class="co"># Using name for Project</span></span>
 <span><span class="va">myProject</span> <span class="op">=</span> <span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>              <span class="co"># Using projectId for Project</span></span>
@@ -391,7 +390,7 @@ becomes the input of the next.</p>
 both create and retrieve Scenarios. Note that the
 <code>ssimObject</code> here can be the name of a Library or a
 Project.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Scenario (associated with the default Project)</span></span>
 <span><span class="va">myScenario</span> <span class="op">=</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My first scenario"</span><span class="op">)</span></span>
 <span></span>
@@ -425,7 +424,7 @@ Scenarios within a Project. Datasheets with a Scenario scope represent
 data that must be specified for each generated Scenario. We can view
 Datasheets of varying scopes using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function
 from <code>rsyncrosim</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View all Datasheets associated with a Library, Project, or Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      scope                           name     displayName</span></span>
@@ -435,7 +434,7 @@ from <code>rsyncrosim</code>.</p>
 <p>If we want to see more information about each Datasheet, such as the
 scope of the Datasheet or if it only accepts a single row of data, we
 can set the <code>optional</code> argument to <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      scope        package                           name     displayName</span></span>
 <span><span class="co">## 1 scenario helloworldTime  helloworldTime_InputDatasheet  InputDatasheet</span></span>
@@ -456,7 +455,7 @@ to view. The general syntax of the name is: “&lt;name of
 package&gt;_&lt;name of Datasheet&gt;“. From the list of Datasheets
 above, we can see that there are 3 Datasheets specific to the
 <code>helloworldTime</code> package.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View the input Datasheet for the Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"helloworldTime_InputDatasheet"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] m b</span></span>
@@ -475,14 +474,14 @@ differ.</p>
 some values to our input Datasheet (<code>InputDatasheet</code>) so we
 can run our model. First, assign the input Datasheet to a new data frame
 variable.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Assign contents of the input Datasheet to an R data frame</span></span>
 <span><span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>,</span>
 <span>                              name <span class="op">=</span> <span class="st">"helloworldTime_InputDatasheet"</span><span class="op">)</span></span></code></pre></div>
 <p>Now, check the columns that need input values and the type of values
 these columns require (e.g. string, numeric, logical) using the
 <code><a href="https://rdrr.io/r/utils/str.html" class="external-link">str()</a></code> base R function.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check the columns of the input data frame</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">myInputDataframe</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    0 obs. of  2 variables:</span></span>
@@ -506,7 +505,7 @@ frame as the second value.</p>
 <p>Note that in the previous section we discovered that the input
 Datasheets only accept a single row of values, so we can only have one
 value each for our slope (<em>m</em>) and intercept (<em>b</em>).</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create input data and add it to the input data frame</span></span>
 <span><span class="va">myInputRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">3</span>, b <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">myInputDataframe</span>, <span class="va">myInputRow</span><span class="op">)</span></span>
@@ -525,7 +524,7 @@ this data frame to a SyncroSim Datasheet using the
 <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code> function. We can save our Datasheet at the
 Library, Project, or Scenario level, but in this case we will save it at
 the Scenario level.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save input R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myInputDataframe</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"helloworldTime_InputDatasheet"</span><span class="op">)</span></span></code></pre></div>
@@ -549,7 +548,7 @@ simulation.</li>
 <code>MaximumTimestep</code> : the end time point of the
 simulation.</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Assign contents of the run control Datasheet to an R data frame</span></span>
 <span><span class="va">runSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"helloworldTime_RunControl"</span><span class="op">)</span></span>
 <span></span>
@@ -558,7 +557,7 @@ simulation.</li>
 <pre><code><span><span class="co">## 'data.frame':    0 obs. of  2 variables:</span></span>
 <span><span class="co">##  $ MinimumTimestep: num </span></span>
 <span><span class="co">##  $ MaximumTimestep: num</span></span></code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create run control data and add it to the run control data frame</span></span>
 <span><span class="va">runSettingsRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MinimumTimestep <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                             MaximumTimestep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
@@ -568,7 +567,7 @@ simulation.</li>
 <span><span class="va">runSettings</span></span></code></pre></div>
 <pre><code><span><span class="co">##   MinimumTimestep MaximumTimestep</span></span>
 <span><span class="co">## 1               1              10</span></span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save run control R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">runSettings</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"helloworldTime_RunControl"</span><span class="op">)</span></span></code></pre></div>
@@ -584,7 +583,7 @@ simulation.</li>
 <p>We will now run our Scenarios using the <code><a href="../reference/run.html">run()</a></code> function
 in <code>rsyncrosim</code>, starting with the first Scenario we created
 (“My first scenario”).</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run the first Scenario we created</span></span>
 <span><span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Running scenario [1] My first scenario"</span></span></code></pre>
@@ -594,22 +593,22 @@ in <code>rsyncrosim</code>, starting with the first Scenario we created
 </h3>
 <p>For more information use the <code><a href="../reference/runLog.html">runLog()</a></code> function, in which
 the only argument is the result Scenario variable.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get run details for the first result Scenario</span></span>
 <span><span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Run Log                                                                                                                                                                                                                                                                                            </span></span>
-<span><span class="co">## STARTING SIMULATION: 2022-08-08 : 4:46:05 PM</span></span>
+<span><span class="co">## STARTING SIMULATION: 2022-08-25 : 8:57:52 AM</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Parent Scenario is: [1] My first scenario</span></span>
-<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 08-Aug-2022 4:46 PM)</span></span>
+<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 25-Aug-2022 8:57 AM)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## CONFIGURING: Primary</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## RUNNING: Primary</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## SIMULATION COMPLETE: 2022-08-08 : 4:46:17 PM</span></span>
+<span><span class="co">## SIMULATION COMPLETE: 2022-08-25 : 8:58:04 AM</span></span>
 <span><span class="co">## Total simulation time: 00:00:11</span></span></code></pre>
-<pre><code><span><span class="co">## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2022-08-08 : 4:46:05 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 08-Aug-2022 4:46 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-08-08 : 4:46:17 PM\nTotal simulation time: 00:00:11      "</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2022-08-25 : 8:57:52 AM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 25-Aug-2022 8:57 AM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-08-25 : 8:58:04 AM\nTotal simulation time: 00:00:11      "</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -628,15 +627,15 @@ contains both the output of the run and a snapshot record of all the
 model inputs.</p>
 <p>Check out the current Scenarios in your Library using the
 <code><a href="../reference/scenario.html">scenario()</a></code> function.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check Scenarios that currently exist in your Library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioID ProjectID                                          Name IsResult</span></span>
 <span><span class="co">## 1          1         1                             My first scenario       No</span></span>
-<span><span class="co">## 2          2         1 My first scenario ([1] @ 08-Aug-2022 4:46 PM)      Yes</span></span>
+<span><span class="co">## 2          2         1 My first scenario ([1] @ 25-Aug-2022 8:57 AM)      Yes</span></span>
 <span><span class="co">##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies</span></span>
-<span><span class="co">## 1       NA   N/A 2022-08-08 at 4:46 PM         No                No</span></span>
-<span><span class="co">## 2        1   N/A 2022-08-08 at 4:46 PM         No                No</span></span>
+<span><span class="co">## 1       NA   N/A 2022-08-25 at 8:57 AM         No                No</span></span>
+<span><span class="co">## 2        1   N/A 2022-08-25 at 8:58 AM         No                No</span></span>
 <span><span class="co">##   IgnoreDependencies AutoGenTags</span></span>
 <span><span class="co">## 1                 NA          NA</span></span>
 <span><span class="co">## 2                 NA          NA</span></span></code></pre>
@@ -648,7 +647,7 @@ column).</p>
 <p>We can also look at how the Datasheets differ between the Results
 Scenario and the original Scenario using the <code><a href="../reference/datasheet.html">datasheet()</a></code>
 function.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Take a look at original Scenario Datasheets</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      scope        package                           name     displayName</span></span>
@@ -659,7 +658,7 @@ function.</p>
 <span><span class="co">## 1     TRUE    FALSE  TRUE        1</span></span>
 <span><span class="co">## 2    FALSE    FALSE FALSE        1</span></span>
 <span><span class="co">## 3     TRUE    FALSE  TRUE        1</span></span></code></pre>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Take a look at Results Scenario Datasheets</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      scope        package                           name     displayName</span></span>
@@ -681,7 +680,7 @@ Scenario, but does in the Results Scenario.</p>
 Scenario when it was run. We can load the result tables using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function, and setting the <code>name</code>
 parameter to the Datasheet with new data added.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Results of first Scenario</span></span>
 <span><span class="va">myOutputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                            name <span class="op">=</span> <span class="st">"helloworldTime_OutputDatasheet"</span><span class="op">)</span></span>
@@ -706,13 +705,13 @@ you’ve already made, give it a different name, and modify the inputs. To
 copy a completed Scenario, use the <code><a href="../reference/scenario.html">scenario()</a></code> function with
 the <code>sourceScenario</code> argument set to the name of the Scenario
 you want to copy.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check which Scenarios you currently have in your Library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                            Name</span></span>
 <span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 08-Aug-2022 4:46 PM)</span></span></code></pre>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<span><span class="co">## 2 My first scenario ([1] @ 25-Aug-2022 8:57 AM)</span></span></code></pre>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Scenario as a copy of an existing Scenario</span></span>
 <span><span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,</span>
 <span>                          scenario <span class="op">=</span> <span class="st">"My second scenario"</span>,</span>
@@ -722,14 +721,14 @@ you want to copy.</p>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                            Name</span></span>
 <span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 08-Aug-2022 4:46 PM)</span></span>
+<span><span class="co">## 2 My first scenario ([1] @ 25-Aug-2022 8:57 AM)</span></span>
 <span><span class="co">## 3                            My second scenario</span></span></code></pre>
 <p>To edit the new Scenario, we must first load the contents of the
 input Datasheet and assign it to a new R data frame using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the <code>empty</code>
 argument to <code>TRUE</code> so that instead of getting the values from
 the existing Scenario, we can start with an empty data frame again.</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load empty input Datasheets as an R data frame</span></span>
 <span><span class="va">myNewInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myNewScenario</span>,</span>
 <span>                                 name <span class="op">=</span> <span class="st">"helloworldTime_InputDatasheet"</span>,</span>
@@ -742,7 +741,7 @@ the existing Scenario, we can start with an empty data frame again.</p>
 <span><span class="co">##  $ b: num</span></span></code></pre>
 <p>Now, all we need to do is add our data frame of values the same way
 we did before, using the <code><a href="../reference/addRow.html">addRow()</a></code> function.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create input data and add it to the input data frame</span></span>
 <span><span class="va">newInputRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">4</span>, b <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">myNewInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">myNewInputDataframe</span>, <span class="va">newInputRow</span><span class="op">)</span></span>
@@ -753,7 +752,7 @@ we did before, using the <code><a href="../reference/addRow.html">addRow()</a></
 <span><span class="co">## 1 4 10</span></span></code></pre>
 <p>Finally, we will save the updated data frame to a SyncroSim Datasheet
 using <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myNewScenario</span>, data <span class="op">=</span> <span class="va">myNewInputDataframe</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"helloworldTime_InputDatasheet"</span><span class="op">)</span></span></code></pre></div>
@@ -767,7 +766,7 @@ first Scenario.</p>
 our Project at once by telling <code><a href="../reference/run.html">run()</a></code> which Project to use
 and including a vector of Scenarios in the <code>scenario</code>
 argument.</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run all Scenarios</span></span>
 <span><span class="va">myResultScenarioAll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myProject</span>,</span>
 <span>                           scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"My first scenario"</span>,</span>
@@ -782,7 +781,7 @@ argument.</p>
 actually a list of result Scenario objects. To view the results, we can
 still use the <code><a href="../reference/datasheet.html">datasheet()</a></code> function, we just need to index
 for the result Scenario object we are interested in.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenarioAll</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, name <span class="op">=</span> <span class="st">"OutputDatasheet"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Timestep  y</span></span>
 <span><span class="co">## 1         1 14</span></span>
@@ -804,10 +803,10 @@ for the result Scenario object we are interested in.</p>
 you can always find the parent Scenario that was run in order to
 generate the Results Scenario using the <code>rsyncrosim</code> function
 <code><a href="../reference/parentId.html">parentId()</a></code>.</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/parentId.html">parentId</a></span><span class="op">(</span><span class="va">myResultScenarioAll</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1</span></span></code></pre>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/parentId.html">parentId</a></span><span class="op">(</span><span class="va">myResultScenarioAll</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 3</span></span></code></pre>
 </div>
@@ -819,12 +818,12 @@ generate the Results Scenario using the <code>rsyncrosim</code> function
 <h3 id="getting-library-information-using-info">Getting Library information using <code>info()</code><a class="anchor" aria-label="anchor" href="#getting-library-information-using-info"></a>
 </h3>
 <p>Retrieve Library information:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/info.html">info</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                    property                                      value</span></span>
 <span><span class="co">## 1                     Name:                          helloworldLibrary</span></span>
 <span><span class="co">## 2                    Owner:                                        N/A</span></span>
-<span><span class="co">## 3            Last Modified:                      2022-08-08 at 4:47 PM</span></span>
+<span><span class="co">## 3            Last Modified:                      2022-08-25 at 8:58 AM</span></span>
 <span><span class="co">## 4                     Size:                        196 KB  (200,704 B)</span></span>
 <span><span class="co">## 5                Read Only:                                         No</span></span>
 <span><span class="co">## 6             Package Name:                             helloworldTime</span></span>
@@ -880,7 +879,7 @@ outputs. Since this Datasheet is part of the built-in SyncroSim core,
 the name of the Datasheet has the prefix “core”. We can get a list of
 all the core Datasheets with a Library scope using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function.</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find all core Library-scoped Datasheets</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, summary <span class="op">=</span> <span class="st">"CORE"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      scope                      name              displayName</span></span>
@@ -896,7 +895,7 @@ all the core Datasheets with a Library scope using the
 <span><span class="co">## 10 library             core_Settings                 Settings</span></span>
 <span><span class="co">## 11 library            core_SysFolder                  Folders</span></span>
 <span><span class="co">## 12 library         corestime_Options          Spatial Options</span></span></code></pre>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get the current values for the Library's Backup Datasheet</span></span>
 <span><span class="va">myDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Backup"</span><span class="op">)</span>   </span>
 <span></span>
@@ -904,19 +903,19 @@ all the core Datasheets with a Library scope using the
 <span><span class="va">myDataframe</span></span></code></pre></div>
 <pre><code><span><span class="co">##   IncludeInput IncludeOutput BeforeUpdate</span></span>
 <span><span class="co">## 1         TRUE            NA         TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Add output to the Library's Backup Datasheet and save</span></span>
 <span><span class="va">myDataframe</span><span class="op">$</span><span class="va">IncludeOutput</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> </span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, data <span class="op">=</span> <span class="va">myDataframe</span>, name <span class="op">=</span> <span class="st">"core_Backup"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;core_Backup&gt; saved</span></span></code></pre>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check to make sure IncludeOutput is now TRUE</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, <span class="st">"core_Backup"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   IncludeInput IncludeOutput BeforeUpdate</span></span>
 <span><span class="co">## 1         TRUE          TRUE         TRUE</span></span></code></pre>
 <p>Now, you can use the <code><a href="../reference/backup.html">backup()</a></code> function from
 <code>rsyncrosim</code> to backup a Library, Project, or Scenario.</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/backup.html">backup</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Backup complete.</span></span></code></pre>
 </div>

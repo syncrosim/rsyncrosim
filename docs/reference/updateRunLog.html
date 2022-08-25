@@ -18,7 +18,7 @@ Packages by allowing developers to send messages to the run log."><meta property
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@ Packages by allowing developers to send messages to the run log.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">updateRunLog</span><span class="op">(</span><span class="va">...</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">updateRunLog</span><span class="op">(</span><span class="va">...</span>, sep <span class="op">=</span> <span class="st">""</span>, type <span class="op">=</span> <span class="st">"status"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -91,7 +91,12 @@ which are pasted together using `sep`.</p></dd>
 
 
 <dt>sep</dt>
-<dd><p>character.  Used to separate terms. Not NA_character_</p></dd>
+<dd><p>character. Used to separate terms. Not NA_character_</p></dd>
+
+
+<dt>type</dt>
+<dd><p>character. Type of message to add to run log. One of "status",
+"info", or "warning".</p></dd>
 
 </dl></div>
     <div id="value">
