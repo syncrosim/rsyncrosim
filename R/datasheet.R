@@ -730,7 +730,8 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
                 
                 names(lookupMerge) <- c(cRow$name, "lookupName")
                 sheet <- merge(sheet, lookupMerge, all.x = TRUE)
-                sheet[[cRow$name]] <- sheet$lookupName
+                if(!all(is.na(sheet$lookupName)))
+                  sheet[[cRow$name]] <- sheet$lookupName
                 sheet$lookupName <- NULL
               }
             }
@@ -750,7 +751,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           }
         }
       }
-      
       if (lookupsAsFactors && !useConsole && directQuery) {
         DBI::dbDisconnect(con)
       }
@@ -761,16 +761,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         unlink(gsub(name, rmSheets[i], tempFile, fixed = TRUE))
       }
       
-      # TO DO: deal with NA values in sheet
-      # put columns in correct order
-      sheet$colOne <- sheet[, 1]
-      sheet$cOrder <- seq(1, nrow(sheet))
-      if (empty) {
-        sheet <- subset(sheet, is.null(colOne))
-      } else {
-        sheet <- subset(sheet, !is.na(colOne))
-        sheet <- sheet[order(sheet$cOrder), ]
-      }
+      # Remove rows that are all NA
+      sheet <- sheet[rowSums(is.na(sheet)) != ncol(sheet), ]
+      
       sheet <- subset(sheet, select = outNames)
     } else {
       if (!is.null(rmCols)) {
