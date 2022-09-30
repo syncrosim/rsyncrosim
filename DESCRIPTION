@@ -17,6 +17,8 @@ Authors@R: c(
            role = "aut"), 
     person("Tabitha", "Kennedy", 
            role = "aut"),
+    person("Shreeram", "Senthivasan",
+           role = "aut"),
     person("ApexRMS", role="cph"))
 Description: 'SyncroSim' is a generalized framework for managing scenario-based 
     datasets (<https://syncrosim.com/>). 'rsyncrosim' provides an interface to 
