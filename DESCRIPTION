@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.4.0
+Version: 1.4.1
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -96,6 +96,6 @@ Collate:
     'updatePackage.R'
     'useConda.R'
     'version.R'
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/

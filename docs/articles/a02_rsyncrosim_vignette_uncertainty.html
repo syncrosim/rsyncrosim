@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.1</span>
       </span>
     </div>
 
@@ -194,7 +194,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.0"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.4.4"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -399,10 +399,10 @@ can view which Scenarios are Results Scenarios using the
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioID ProjectID                                          Name IsResult</span></span>
 <span><span class="co">## 1          1         1                             My first scenario       No</span></span>
-<span><span class="co">## 2          2         1 My first scenario ([1] @ 25-Aug-2022 8:59 AM)      Yes</span></span>
+<span><span class="co">## 2          2         1 My first scenario ([1] @ 30-Sep-2022 5:28 PM)      Yes</span></span>
 <span><span class="co">##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies</span></span>
-<span><span class="co">## 1       NA   N/A 2022-08-25 at 8:59 AM         No                No</span></span>
-<span><span class="co">## 2        1   N/A 2022-08-25 at 8:59 AM         No                No</span></span>
+<span><span class="co">## 1       NA   N/A 2022-09-30 at 5:28 PM         No                No</span></span>
+<span><span class="co">## 2        1   N/A 2022-09-30 at 5:28 PM         No                No</span></span>
 <span><span class="co">##   IgnoreDependencies AutoGenTags</span></span>
 <span><span class="co">## 1                 NA          NA</span></span>
 <span><span class="co">## 2                 NA          NA</span></span></code></pre>
@@ -426,12 +426,12 @@ containing the results is called “OutputDatasheet”.</p>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   Iteration Timestep      y</span></span>
-<span><span class="co">## 1         1        1 3.7255</span></span>
-<span><span class="co">## 2         1        2 4.4511</span></span>
-<span><span class="co">## 3         1        3 5.1766</span></span>
-<span><span class="co">## 4         1        4 5.9022</span></span>
-<span><span class="co">## 5         1        5 6.6277</span></span>
-<span><span class="co">## 6         1        6 7.3532</span></span></code></pre>
+<span><span class="co">## 1         1        1 4.1405</span></span>
+<span><span class="co">## 2         1        2 5.2810</span></span>
+<span><span class="co">## 3         1        3 6.4215</span></span>
+<span><span class="co">## 4         1        4 7.5619</span></span>
+<span><span class="co">## 5         1        5 8.7024</span></span>
+<span><span class="co">## 6         1        6 9.8429</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="plotting-uncertainty-in-the-syncrosim-windows-user-interface">Plotting uncertainty in the SyncroSim Windows User Interface<a class="anchor" aria-label="anchor" href="#plotting-uncertainty-in-the-syncrosim-windows-user-interface"></a>
@@ -471,12 +471,12 @@ Windows User Interface to plot uncertainty</p>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy.</p>
+<p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

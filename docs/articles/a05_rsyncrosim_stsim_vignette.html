@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.1</span>
       </span>
     </div>
 
@@ -197,7 +197,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.0"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.4.4"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -456,7 +456,7 @@ Project.</p>
 Datasheets.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subset the full Datasheet list to show only Scenario-scoped Datasheets</span></span>
-<span><span class="va">scenario_datasheet_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span><span class="va">scenario_datasheet_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>                                  <span class="va">scope</span> <span class="op">==</span> <span class="st">"scenario"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scenario_datasheet_list</span><span class="op">)</span></span></code></pre></div>
@@ -740,9 +740,9 @@ retrieve the unique <code>scenarioId</code> for each child <em>Result
 Scenario</em>.</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve Scenario IDs</span></span>
-<span><span class="va">resultIDNoHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
+<span><span class="va">resultIDNoHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
 <span>                            <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span></span>
-<span><span class="va">resultIDHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
+<span><span class="va">resultIDHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
 <span>                          <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenarioHarvest</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span></span></code></pre></div>
 <p>We can now retrieve tabular output regarding the projected State
 Class over time (for both scenarios combined) from the
@@ -790,12 +790,12 @@ only).</p>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy.</p>
+<p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

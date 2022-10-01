@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.1</span>
       </span>
     </div>
 
@@ -222,7 +222,7 @@ used (Windows only).</p>
 connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.0"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.4.4"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -597,18 +597,18 @@ the only argument is the result Scenario variable.</p>
 <code class="sourceCode R"><span><span class="co"># Get run details for the first result Scenario</span></span>
 <span><span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Run Log                                                                                                                                                                                                                                                                                            </span></span>
-<span><span class="co">## STARTING SIMULATION: 2022-08-25 : 8:57:52 AM</span></span>
+<span><span class="co">## STARTING SIMULATION: 2022-09-30 : 5:27:13 PM</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Parent Scenario is: [1] My first scenario</span></span>
-<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 25-Aug-2022 8:57 AM)</span></span>
+<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 30-Sep-2022 5:27 PM)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## CONFIGURING: Primary</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## RUNNING: Primary</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## SIMULATION COMPLETE: 2022-08-25 : 8:58:04 AM</span></span>
-<span><span class="co">## Total simulation time: 00:00:11</span></span></code></pre>
-<pre><code><span><span class="co">## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2022-08-25 : 8:57:52 AM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 25-Aug-2022 8:57 AM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-08-25 : 8:58:04 AM\nTotal simulation time: 00:00:11      "</span></span></code></pre>
+<span><span class="co">## SIMULATION COMPLETE: 2022-09-30 : 5:27:23 PM</span></span>
+<span><span class="co">## Total simulation time: 00:00:10</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2022-09-30 : 5:27:13 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 30-Sep-2022 5:27 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2022-09-30 : 5:27:23 PM\nTotal simulation time: 00:00:10      "</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -632,10 +632,10 @@ model inputs.</p>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioID ProjectID                                          Name IsResult</span></span>
 <span><span class="co">## 1          1         1                             My first scenario       No</span></span>
-<span><span class="co">## 2          2         1 My first scenario ([1] @ 25-Aug-2022 8:57 AM)      Yes</span></span>
+<span><span class="co">## 2          2         1 My first scenario ([1] @ 30-Sep-2022 5:27 PM)      Yes</span></span>
 <span><span class="co">##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies</span></span>
-<span><span class="co">## 1       NA   N/A 2022-08-25 at 8:57 AM         No                No</span></span>
-<span><span class="co">## 2        1   N/A 2022-08-25 at 8:58 AM         No                No</span></span>
+<span><span class="co">## 1       NA   N/A 2022-09-30 at 5:27 PM         No                No</span></span>
+<span><span class="co">## 2        1   N/A 2022-09-30 at 5:27 PM         No                No</span></span>
 <span><span class="co">##   IgnoreDependencies AutoGenTags</span></span>
 <span><span class="co">## 1                 NA          NA</span></span>
 <span><span class="co">## 2                 NA          NA</span></span></code></pre>
@@ -710,7 +710,7 @@ you want to copy.</p>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                            Name</span></span>
 <span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 25-Aug-2022 8:57 AM)</span></span></code></pre>
+<span><span class="co">## 2 My first scenario ([1] @ 30-Sep-2022 5:27 PM)</span></span></code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Scenario as a copy of an existing Scenario</span></span>
 <span><span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,</span>
@@ -721,7 +721,7 @@ you want to copy.</p>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                            Name</span></span>
 <span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 25-Aug-2022 8:57 AM)</span></span>
+<span><span class="co">## 2 My first scenario ([1] @ 30-Sep-2022 5:27 PM)</span></span>
 <span><span class="co">## 3                            My second scenario</span></span></code></pre>
 <p>To edit the new Scenario, we must first load the contents of the
 input Datasheet and assign it to a new R data frame using the
@@ -823,7 +823,7 @@ generate the Results Scenario using the <code>rsyncrosim</code> function
 <pre><code><span><span class="co">##                    property                                      value</span></span>
 <span><span class="co">## 1                     Name:                          helloworldLibrary</span></span>
 <span><span class="co">## 2                    Owner:                                        N/A</span></span>
-<span><span class="co">## 3            Last Modified:                      2022-08-25 at 8:58 AM</span></span>
+<span><span class="co">## 3            Last Modified:                      2022-09-30 at 5:28 PM</span></span>
 <span><span class="co">## 4                     Size:                        196 KB  (200,704 B)</span></span>
 <span><span class="co">## 5                Read Only:                                         No</span></span>
 <span><span class="co">## 6             Package Name:                             helloworldTime</span></span>
@@ -951,12 +951,12 @@ Windows User Interface</p>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy.</p>
+<p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
