@@ -36,12 +36,12 @@ setMethod("condaFilepath", signature(session = "Session"), function(session) ses
 
 #' @rdname condaFilepath
 setMethod("condaFilepath", signature(session = "missingOrNULLOrChar"), function(session) {
-  if (class(session) == "character") {
+  if (is(session, "character")) {
     session <- .session(session)
   } else {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
+  if (is(session, "character") && is(session, SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
   return(condaFilepath(session))

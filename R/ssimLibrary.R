@@ -249,7 +249,7 @@ setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name
 })
 
 setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
-  if (class(name) == "SsimLibrary") {
+  if (is(name, "SsimLibrary")) {
     out <- name
   } else {
     out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
@@ -343,7 +343,7 @@ setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, 
 
 #' @rdname ssimLibrary
 setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, template, forceUpdate, overwrite, useConda) {
-  if (class(name) == "SsimLibrary") {
+  if (is(name, "SsimLibrary")) {
     out <- name
     if (is.null(summary)) {
       summary <- TRUE
@@ -365,7 +365,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
   if (is.null(session)) {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
+  if ((is(session, "character")) && (is(session, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
 

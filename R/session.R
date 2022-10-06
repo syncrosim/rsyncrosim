@@ -204,7 +204,7 @@ setReplaceMethod(
   f = "session",
   signature = "SsimObject",
   definition = function(ssimObject, value) {
-    if (class(value) != "Session") {
+    if (!is(value, "Session")) {
       stop("Must assign a Session object.")
     }
     if (.filepath(value) != .filepath(.session(ssimObject))) {

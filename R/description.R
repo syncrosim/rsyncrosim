@@ -47,13 +47,13 @@ setMethod("description", signature(ssimObject = "character"), function(ssimObjec
 #' @rdname description
 setMethod("description", signature(ssimObject = "SsimObject"), function(ssimObject) {
   # ssimObject=myLibrary
-  if (class(ssimObject) == "SsimLibrary") {
+  if (is(ssimObject, "SsimLibrary")) {
     desc <- command(list(list = NULL, description = NULL, lib = .filepath(ssimObject)), session = .session(ssimObject))
   }
-  if (class(ssimObject) == "Project") {
+  if (is(ssimObject, "Project")) {
     desc <- command(list(list = NULL, description = NULL, lib = .filepath(ssimObject), pid = .projectId(ssimObject)), session = .session(ssimObject))
   }
-  if (class(ssimObject) == "Scenario") {
+  if (is(ssimObject, "Scenario")) {
     desc <- command(list(list = NULL, description = NULL, lib = .filepath(ssimObject), sid = .scenarioId(ssimObject)), session = .session(ssimObject))
   }
 
@@ -90,10 +90,10 @@ setReplaceMethod(
     }
     value <- gsub("\n", "\\n", value, fixed = TRUE)
     args <- list(setprop = NULL, lib = .filepath(ssimObject), description = value)
-    if (class(ssimObject) == "Project") {
+    if (is(ssimObject, "Project")) {
       args$pid <- .projectId(ssimObject)
     }
-    if (class(ssimObject) == "Scenario") {
+    if (is(ssimObject, "Scenario")) {
       args$sid <- .scenarioId(ssimObject)
     }
     tt <- command(args, .session(ssimObject))

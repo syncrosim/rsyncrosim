@@ -145,7 +145,7 @@ setMethod("datasheetRaster", signature(ssimObject = "character"), function(ssimO
 
 #' @rdname datasheetRaster
 setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
-  if (class(ssimObject[[1]]) != "Scenario") {
+  if (!is(ssimObject[[1]], "Scenario")) {
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
   if (!is.null(scenario)) {
@@ -156,7 +156,7 @@ setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject
   for (i in 1:length(ssimObject)) {
     cScn <- ssimObject[[i]]
     cOut <- datasheetRaster(cScn, datasheet = datasheet, column = column, scenario = scenario, iteration = iteration, timestep = timestep, filterColumn = filterColumn, filterValue = filterValue, subset = subset, forceElements = forceElements, pathOnly = pathOnly)
-    if (!((class(cOut) == "list") && (length(cOut) == 0))) {
+    if (!(is(cOut, "list") && (length(cOut) == 0))) {
       names(cOut) <- paste0("scn", .scenarioId(cScn), ".", names(cOut))
       if (!started) {
         out <- cOut

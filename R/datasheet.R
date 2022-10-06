@@ -166,12 +166,12 @@ setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenar
 setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
   cScn <- ssimObject[[1]]
   x <- NULL
-  if (class(cScn) == "Scenario") {
+  if (is(cScn, "Scenario")) {
     x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", scenario = scenario, project = project)
     scenario <- x$objs
     project <- NULL
   }
-  if (class(cScn) == "Project") {
+  if (is(cScn, "Project")) {
     x <- getIdsFromListOfObjects(ssimObject, expecting = "Project", scenario = scenario, project = project)
     project <- x$objs
     scenario <- NULL
@@ -204,7 +204,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
   IDColumns <- c("ScenarioID", "ProjectID")
   
-  if (class(xProjScn) == "SsimLibrary") {
+  if (is(xProjScn, "SsimLibrary")) {
     x <- xProjScn
     pid <- NULL
     sid <- NULL

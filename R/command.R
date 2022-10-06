@@ -72,11 +72,11 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wai
     return(SyncroSimNotFound())
   }
 
-  if ((class(args) == "list") & is.null(names(args))) {
+  if (is(args,"list") & is.null(names(args))) {
     args <- as.character(args)
   }
 
-  if (class(args) == "list") {
+  if (is(args, "list")) {
     # catch invalid library paths - note this only works for args with names
     if (is.element("lib", names(args))) {
       if (!file.exists(args$lib)) {

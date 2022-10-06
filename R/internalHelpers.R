@@ -374,7 +374,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
   }
   
-  if (class(ssimObject) == "character") {
+  if (is(ssimObject, "character")) {
     ssimObject <- .ssimLibrary(ssimObject)
   }
   
@@ -389,7 +389,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     scenario <- NULL
   }
   
-  if (is.null(goal) & (!is.null(project) | (class(ssimObject) == "Project")) & is.null(scenario)) {
+  if (is.null(goal) & (!is.null(project) | (is(ssimObject, "Project")) & is.null(scenario))) {
     goal <- "project"
     if (is.null(returnIds)) {
       if (length(project) > 1) {
@@ -400,7 +400,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     }
   }
   
-  if (is.null(goal) & (!is.null(scenario) | (class(ssimObject) == "Scenario"))) {
+  if (is.null(goal) & (!is.null(scenario) | (is(ssimObject, "Scenario")))) {
     goal <- "scenario"
     if (is.null(returnIds)) {
       if (length(scenario) > 1) {
@@ -425,7 +425,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   # If the goal is a project, return one or more, or complain
   if (!is.null(goal) && (goal == "project")) {
     # if ssimObject is a scenario, return the parent project
-    if ((class(ssimObject) == "Scenario")) {
+    if ((is(ssimObject, "Scenario"))) {
       if (convertObject | !returnIds) {
         ssimObject <- new("Project", ssimObject, id = .projectId(ssimObject))
       }
@@ -524,7 +524,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       }
     }
     
-    if (class(ssimObject) == "Project") {
+    if (is(ssimObject, "Project")) {
       project <- .projectId(ssimObject)
     }
     

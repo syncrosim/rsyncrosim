@@ -81,10 +81,10 @@ setReplaceMethod(
   signature = "SsimObject",
   definition = function(ssimObject, value) {
     args <- list(setprop = NULL, lib = .filepath(ssimObject), owner = value)
-    if (class(ssimObject) == "Project") {
+    if (is(ssimObject, "Project")) {
       args$pid <- .projectId(ssimObject)
     }
-    if (class(ssimObject) == "Scenario") {
+    if (is(ssimObject, "Scenario")) {
       args$sid <- .scenarioId(ssimObject)
     }
     tt <- command(args, .session(ssimObject))

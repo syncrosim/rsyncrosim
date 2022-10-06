@@ -71,7 +71,7 @@ setReplaceMethod(
   f = "mergeDependencies",
   signature = "Scenario",
   definition = function(ssimObject, value) {
-    if (class(value) != "logical") {
+    if (!is(value, "logical")) {
       stop("mergeDependencies must be TRUE or FALSE.")
     }
     if (value == TRUE) {
