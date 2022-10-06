@@ -22,12 +22,12 @@ useConda(ssimObject) <- value
 \S4method{useConda}{SsimLibrary}(ssimObject) <- value
 }
 \arguments{
+\item{ssimObject}{\code{\link{SsimLibrary}} object}
+
 \item{value}{logical for whether to use Conda 
 environments for the given SyncroSim Library. If set to 
 \code{TRUE}, then Conda environments will be used. If set to \code{FALSE},
 then Conda environments will not be used during runtime.}
-
-\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 }
 \value{
 Logical: whether Conda environments will be used during runtime for the given

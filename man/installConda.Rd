@@ -2,9 +2,18 @@
 % Please edit documentation in R/installConda.R
 \name{installConda}
 \alias{installConda}
+\alias{installConda,character-method}
+\alias{installConda,missingOrNULL-method}
+\alias{installConda,Session-method}
 \title{Installs Miniconda}
 \usage{
-installConda()
+installConda(session)
+
+\S4method{installConda}{character}(session)
+
+\S4method{installConda}{missingOrNULL}(session)
+
+\S4method{installConda}{Session}(session)
 }
 \arguments{
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),

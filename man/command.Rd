@@ -26,6 +26,9 @@ Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe",
 
 \item{wait}{logical. If \code{TRUE}(default) R will wait for the command to finish 
 before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}}
+
+\item{progName}{character. Internal argument for setting path to SyncroSim 
+installation folder.}
 }
 \value{
 Character string: output from the SyncroSim program.
