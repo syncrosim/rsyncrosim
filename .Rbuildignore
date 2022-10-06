@@ -12,6 +12,7 @@
 testLibs
 ^\.github$
 cran-comments.md
+using-conda-with-rsyncrosim.Rmd
 Dockerfile
 ^.*\.pdf$
 ^_pkgdown\.yml$

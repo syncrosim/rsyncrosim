@@ -365,6 +365,8 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 .getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = TRUE) {
   # If x is scenario, ignore project and scenario arguments
   Freq <- NULL
+  ProjectID <- NULL
+  ScenarioID <- NULL
   if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
   }
