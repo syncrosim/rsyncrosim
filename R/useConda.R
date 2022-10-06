@@ -7,7 +7,7 @@ NULL
 #'
 #' Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.
 #'
-#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param ssimObject \code{\link{SsimLibrary}} object
 #' @param value logical for whether to use Conda 
 #' environments for the given SyncroSim Library. If set to 
 #' \code{TRUE}, then Conda environments will be used. If set to \code{FALSE},

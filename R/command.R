@@ -26,6 +26,8 @@ NULL
 #'     "SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"
 #' @param wait logical. If \code{TRUE}(default) R will wait for the command to finish 
 #'     before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}
+#' @param progName character. Internal argument for setting path to SyncroSim 
+#'     installation folder.
 #' 
 #' @return 
 #' Character string: output from the SyncroSim program.

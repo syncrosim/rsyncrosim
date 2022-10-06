@@ -24,26 +24,41 @@ NULL
 #' }
 #' 
 #' @export
-installConda <- function() {
+setGeneric("installConda", function(session) standardGeneric("installConda"))
+
+#' @rdname installConda
+setMethod("installConda", signature(session = "character"), function(session) {
+  return(SyncroSimNotFound(session))
+})
+
+#' @rdname installConda
+setMethod("installConda", signature(session = "missingOrNULL"), function(session) {
+  session <- .session()
+  return(installConda(session))
+})
+
+#' @rdname installConda
+setMethod("installConda", signature(session = "Session"), function(session) {
   
   success <- FALSE
   message("Setting Conda filepath to the default installation.")
   args <- list(conda = NULL, install = NULL)
 
   message("Running Conda Installer.  Please wait...")
-  session <- .session()
+  if (is.null(session)){
+    session <- .session()
+  }
   tt <- command(args, session)
 
-  
-  if (tt[3] == "Saved") {
-    success <- TRUE
-    tt <- paste0("Miniconda successfully installed")
-  } else if (tt[1] == "Conda already installed at that location"){
+  if (tt[1] == "Conda already installed at that location"){
     success <- FALSE
     tt <- "Conda already installed"
-  }
+  } else if (tt[3] == "Saved") {
+    success <- TRUE
+    tt <- paste0("Miniconda successfully installed")
+  } 
   
   message(tt)
   
   return(invisible(success))
-}
+})
