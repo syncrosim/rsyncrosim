@@ -5,6 +5,9 @@ NULL
 
 setMethod(f = "initialize", signature = "Project", definition = function(.Object, ssimLibrary, name = NULL, id = NULL, projects = NULL, sourceProject = NULL) {
 
+  ProjectID <- NULL
+  Name <- NULL
+  
   # This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
   x <- ssimLibrary
 

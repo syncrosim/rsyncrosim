@@ -17,5 +17,5 @@
 #' @name rsyncrosim
 #' @import methods
 #' @importFrom gtools smartbind
-#' @importFrom utils capture.output flush.console head read.csv write.csv
+#' @importFrom utils capture.output flush.console head read.csv write.csv packageVersion
 NULL

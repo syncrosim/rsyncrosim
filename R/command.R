@@ -68,7 +68,7 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wai
   if (is.null(session) && is.null(progName)) {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
+  if (is(session, "character") && (is(session, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
 

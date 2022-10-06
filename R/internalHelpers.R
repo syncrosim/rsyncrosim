@@ -144,6 +144,7 @@ getIdsFromListOfObjects <- function(ssimObject, expecting = NULL, scenario = NUL
 # get scnSet
 getScnSet <- function(ssimObject) {
   # get current scenario info
+  ScenarioID <- NULL
   tt <- command(list(list = NULL, scenarios = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   scnSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
   if (nrow(scnSet) == 0) {
@@ -157,6 +158,7 @@ getScnSet <- function(ssimObject) {
 
 # get projectSet
 getProjectSet <- function(ssimObject) {
+  ProjectID <- NULL
   tt <- command(list(list = NULL, projects = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   projectSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
   if (nrow(projectSet) == 0) {
@@ -367,6 +369,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   Freq <- NULL
   ProjectID <- NULL
   ScenarioID <- NULL
+  
   if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
   }

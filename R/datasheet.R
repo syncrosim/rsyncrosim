@@ -198,8 +198,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   ProjectID <- NULL
   ScenarioID <- NULL
   colOne <- NULL
-  parentID <- NULL
+  ParentID <- NULL
   ParentName <- NULL
+  Name <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
   IDColumns <- c("ScenarioID", "ProjectID")
   
