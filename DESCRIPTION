@@ -42,8 +42,7 @@ Suggests:
     ggplot2,
     Rcpp,
     rgdal,
-    rmarkdown,
-    covr
+    rmarkdown
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
