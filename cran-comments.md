@@ -2,7 +2,7 @@
 * Windows Server 2019 (CI (GitHub actions): release 4.1.1 and devel)
 * Ubuntu 20.04 (CI (GitHub actions), release 4.1.1 and devel)
 
-## New release 1.3.1
+## New release 1.4.2
 
 ## Breaking changes
 
@@ -43,7 +43,7 @@ installed to run. Therefore, all tests in the submitted package should not run
 
 ## R CMD check results
 
--- R CMD check results ----------------------------------- rsyncrosim 1.3.2 ----
+-- R CMD check results ----------------------------------- rsyncrosim 1.4.2 ----
 Duration: 1m 20.8s
 
 0 errors v | 0 warnings v | 0 notes v

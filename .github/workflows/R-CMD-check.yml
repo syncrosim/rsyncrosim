@@ -62,7 +62,7 @@ jobs:
           
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "rcmdcheck", "curl"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
         
@@ -70,13 +70,13 @@ jobs:
         env: 
           NOT_CRAN: true
         continue-on-error: true
-        run: rcmdcheck::rcmdcheck(build_args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), error_on = "error")
+        run: rcmdcheck::rcmdcheck(build_args = c("--no-manual", "--no-build-vignettes"), args = c("--no-manual", "--ignore-vignettes"), error_on = "error")
         shell: Rscript {0}
         
       - name: Check as CRAN
         env: 
           NOT_CRAN: false
-        run: rcmdcheck::rcmdcheck(build_args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes","--as-cran"), error_on = "error")
+        run: rcmdcheck::rcmdcheck(build_args = c("--no-manual", "--no-build-vignettes"), args = c("--no-manual", "--ignore-vignettes", "--as-cran"), error_on = "error")
         shell: Rscript {0}
         
       - name: Upload check results

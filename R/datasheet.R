@@ -111,8 +111,6 @@ NULL
 #' # Get all Datasheet info for the Scenario
 #' myDatasheets <- datasheet(myScenario)
 #' 
-#' # Can get same info using Project and Scenario arguments
-#' myDatasheets <- datasheet(myLibrary, project = 1, scenario = 1)
 #' 
 #' # Return a list of data.frames (1 for each Datasheet)
 #' myDatasheetList <- datasheet(myScenario, summary = FALSE)

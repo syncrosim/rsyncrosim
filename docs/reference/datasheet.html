@@ -18,7 +18,7 @@ console, or by directly querying the SsimLibrary database."><meta property="og:i
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
       </span>
     </div>
 
@@ -302,6 +302,7 @@ added if a Scenario has dependencies. If <code>optional=FALSE</code>, columns in
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Can get same info using Project and Scenario arguments</span></span></span>
 <span class="r-in"><span><span class="va">myDatasheets</span> <span class="op">&lt;-</span> <span class="fu">datasheet</span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="fl">1</span>, scenario <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in datasheet(myLibrary, project = 1, scenario = 1):</span> No datasheets available</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Return a list of data.frames (1 for each Datasheet)</span></span></span>
 <span class="r-in"><span><span class="va">myDatasheetList</span> <span class="op">&lt;-</span> <span class="fu">datasheet</span><span class="op">(</span><span class="va">myScenario</span>, summary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>

@@ -18,7 +18,7 @@ used internally by other functions."><meta property="og:image" content="https://
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
       </span>
     </div>
 
@@ -112,6 +112,11 @@ Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe",
 <dd><p>logical. If <code>TRUE</code>(default) R will wait for the command to finish 
 before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</code></p></dd>
 
+
+<dt>progName</dt>
+<dd><p>character. Internal argument for setting path to SyncroSim 
+installation folder.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -144,7 +149,7 @@ before proceeding. Note that silent(session) is ignored if <code>wait=FALSE</cod
 <span class="r-in"><span><span class="co"># Use a default session to create a new SsimLibrary in the current working directory</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">command</span><span class="op">(</span><span class="va">args</span>, session <span class="op">=</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span>printCmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "--version"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpQbEVlV/testlib.ssim --package=stsim"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "--create --library --name=C:\\Users\\birch\\AppData\\Local\\Temp\\RtmpGYR4vn/testlib.ssim --package=stsim"</span>
 <span class="r-in"><span><span class="va">output</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"status")</span>
