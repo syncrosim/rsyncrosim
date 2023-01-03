@@ -1,11 +1,11 @@
 ---
 title: "Introduction to `rsyncrosim`"
-output: rmarkdown::html_vignette
-#output: pdf_document
+#output: rmarkdown::html_vignette
+output: pdf_document
 vignette: >
   %\VignetteIndexEntry{Introduction to `rsyncrosim`}
   %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
+  \usepackage[utf8]{inputenc}
 params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
