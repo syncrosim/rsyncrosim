@@ -683,6 +683,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
         if (cRow$valType == "DataSheet") {
           if (lookupsAsFactors) {
+            # Find display member to create factors from
+            tt <- command(args = list(lib = .filepath(x), list = NULL, datasheets = NULL), session = .session(x))
+            tt <- .dataframeFromSSim(tt, csv = FALSE)
+            displayMem <- tt[tt$name == cRow$formula1,]$displayMember
+            
             # console export can't handle multiple projects/scenarios - so query database directly if necessary.
             if (directQuery) {
               lookupSheet <- DBI::dbReadTable(con, name = cRow$formula1)
@@ -690,6 +695,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
               lookupPath <- gsub(name, cRow$formula1, tempFile, fixed = TRUE)
               if (!file.exists(lookupPath)) {
                 lookupSheet <- data.frame(Name = NULL)
+                names(lookupSheet)[names(lookupSheet) == "Name"] <- displayMem
               } else {
                 lookupSheet <- read.csv(lookupPath, as.is = TRUE)
               }
@@ -715,17 +721,17 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
             if (nrow(lookupSheet) > 0) {
               lookupSheet <- lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]), ]
-              lookupLevels <- lookupSheet$Name
+              lookupLevels <- lookupSheet[[displayMem]]
             } else {
               lookupLevels <- c()
             }
             if (is.numeric(sheet[[cRow$name]])) {
               if (nrow(lookupSheet) > 0) {
-                if (length(intersect("Name", names(lookupSheet))) == 0) {
+                if (length(intersect(displayName, names(lookupSheet))) == 0) { #TODO: fix this
                   stop("Something is wrong. Expecting Name in lookup table.")
                 }
                 
-                lookupMerge <- subset(lookupSheet, select = c(names(lookupSheet)[1], "Name"))
+                lookupMerge <- subset(lookupSheet, select = c(names(lookupSheet)[1], displayName))
                 
                 names(lookupMerge) <- c(cRow$name, "lookupName")
                 sheet <- merge(sheet, lookupMerge, all.x = TRUE)
