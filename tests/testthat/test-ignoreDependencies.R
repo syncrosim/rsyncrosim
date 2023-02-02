@@ -1,6 +1,6 @@
 
 test_that("can ignoreDependencies all SsimObjects", {
-  myLibraryName <- file.path(tempdir(), "testlib")
+  myLibraryName <- file.path(tempdir(), "test")
   mySession <- session()
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
   myProject <- project(myLibrary, project = "Definitions")
@@ -13,7 +13,7 @@ test_that("can ignoreDependencies all SsimObjects", {
 })
 
 test_that("errors work", {
-  myLibraryName <- file.path(tempdir(), "testlib")
+  myLibraryName <- file.path(tempdir(), "test")
   mySession <- session()
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
   myProject <- project(myLibrary, project = "Definitions")

@@ -1,17 +1,17 @@
-myLibraryName <- file.path(tempdir(), "testlib")
-mySession <- session()
-myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
-myProject <- project(myLibrary, project = "Definitions")
-myScenario <- scenario(myProject, scenario = "My Scenario")
-
 
 test_that("can name all SsimObjects", {
+  myLibraryName <- file.path(tempdir(), "lib")
+  mySession <- session()
+  myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
+  myProject <- project(myLibrary, project = "Definitions")
+  myScenario <- scenario(myProject, scenario = "My Scenario")
+
   expect_equal(name(myScenario), "My Scenario")
   expect_type(name(myScenario), "character")
   expect_error(expect_error(name(myScenario) <- "scenario"))
   expect_equal(name(myScenario), "scenario")
 
-  expect_equal(name(myLibrary), "testlib")
+  expect_equal(name(myLibrary), "lib")
   expect_type(name(myLibrary), "character")
   expect_error(expect_error(name(myLibrary) <- "Library"))
   expect_equal(name(myLibrary), "Library")
@@ -23,6 +23,12 @@ test_that("can name all SsimObjects", {
 })
 
 test_that("errors work", {
+  myLibraryName <- file.path(tempdir(), "lib")
+  mySession <- session()
+  myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
+  myProject <- project(myLibrary, project = "Definitions")
+  myScenario <- scenario(myProject, scenario = "My Scenario")
+
   vector <- c(1,2,3)
   list <- list(1,2,3)
   character <- "character"

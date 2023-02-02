@@ -1,11 +1,11 @@
-myLibraryName <- file.path(tempdir(), "testlib")
-mySession <- session()
-myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
-myProject <- project(myLibrary, project = "Definitions")
-myScenario <- scenario(myProject, scenario = "My Scenario")
-
 
 test_that("can mergeDependencies all SsimObjects", {
+  myLibraryName <- file.path(tempdir(), "lib")
+  mySession <- session()
+  myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
+  myProject <- project(myLibrary, project = "Definitions")
+  myScenario <- scenario(myProject, scenario = "My Scenario")
+
   expect_error(expect_error(mergeDependencies(myScenario)))
   expect_type(mergeDependencies(myScenario) <- TRUE, "logical")
   expect_error(expect_error(mergeDependencies(myScenario) <- TRUE))
@@ -13,6 +13,12 @@ test_that("can mergeDependencies all SsimObjects", {
 })
 
 test_that("errors work", {
+  myLibraryName <- file.path(tempdir(), "lib")
+  mySession <- session()
+  myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
+  myProject <- project(myLibrary, project = "Definitions")
+  myScenario <- scenario(myProject, scenario = "My Scenario")
+
   vector <- c(1,2,3)
   list <- list(1,2,3)
   character <- "character"
