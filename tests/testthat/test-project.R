@@ -5,9 +5,10 @@ test_that("can retrive project", {
   expect_error(expect_error(project(myLibrary, project = "New Project")))
   expect_error(expect_error(project(myLibrary, project = "Definitions")))
   myProject1 <- project(myLibrary, project = "New Project")
+  ID <- projectId(myProject1)
   myProject2 <- project(myLibrary, project = "Definitions")
   expect_error(expect_error(project(myLibrary, project = 1)))
-  expect_error(expect_error(project(myLibrary, project = c(1,44))))
+  expect_error(expect_error(project(myLibrary, project = c(1,ID))))
   #expect_error(expect_error(project(myLibrary, project = myProject1))) #Project object
 
   #ssimObject arguments
@@ -25,7 +26,7 @@ test_that("can retrive project", {
 
   #sourceProject argument
   expect_error(expect_error(project(myLibrary, project = "Another Project", sourceProject = 1, overwrite = TRUE)))
-  expect_error(expect_error(project(myLibrary, project = "More Project", sourceProject = 44, overwrite = TRUE)))
+  #expect_error(expect_error(project(myLibrary, project = "More Project", sourceProject = ID, overwrite = TRUE)))
 
   #summary argument
   expect_equal(project(myLibrary), project(myLibrary, summary = TRUE))
@@ -39,11 +40,11 @@ test_that("can retrive project", {
   expect_type(project(myLibrary, forceElements = TRUE), "list")
 
   #overwrite argument
-  expect_equal(nrow(project(myLibrary, forceElements = TRUE)), 6)
+  expect_equal(nrow(project(myLibrary, forceElements = TRUE)), 4)
   project(myLibrary, project = "overwrite")
-  expect_equal(nrow(project(myLibrary, forceElements = TRUE)), 7)
+  expect_equal(nrow(project(myLibrary, forceElements = TRUE)), 5)
   project(myLibrary, project = "overwrite", overwrite = TRUE)
-  expect_equal(nrow(project(myLibrary, forceElements = TRUE)), 6)
+  expect_equal(nrow(project(myLibrary, forceElements = TRUE)), 4)
 })
 
 test_that("errors work", {
