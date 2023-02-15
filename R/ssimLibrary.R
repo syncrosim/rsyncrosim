@@ -285,7 +285,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'  Library will have their Conda environments created and Conda environments will
 #'  be used during runtime.If set to FALSE, then no packages will have their 
 #'  Conda environments created and Conda environments will not be used during runtime.
-#'  Default is FALSE.
+#'  Default is NULL
 #' 
 #' @return 
 #' Returns a \code{\link{SsimLibrary}} object.

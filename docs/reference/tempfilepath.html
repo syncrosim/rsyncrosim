@@ -19,7 +19,7 @@ on disk."><meta property="og:image" content="https://syncrosim.github.io/rsyncro
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.3</span>
       </span>
     </div>
 
@@ -117,9 +117,11 @@ on disk.</p>
 <span class="r-in"><span><span class="co"># Set up a SyncroSim Session and SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span> </span></span>
 <span class="r-in"><span><span class="co"># Get the temporary file path</span></span></span>
 <span class="r-in"><span><span class="va">myFilePath</span> <span class="op">&lt;-</span> <span class="fu">tempfilepath</span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'ssimObject' in selecting a method for function 'tempfilepath': object 'myLibrary' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

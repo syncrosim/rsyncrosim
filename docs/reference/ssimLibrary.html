@@ -20,7 +20,7 @@ SsimLibrary object otherwise."><meta property="og:image" content="https://syncro
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.3</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@ SsimLibrary object otherwise.</p>
 <span>  template <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  forceUpdate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  useConda <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  useConda <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for SsimObject</span></span>
@@ -106,7 +106,7 @@ SsimLibrary object otherwise.</p>
 <span>  template <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  forceUpdate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  useConda <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  useConda <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for missingOrNULLOrChar</span></span>
@@ -119,7 +119,7 @@ SsimLibrary object otherwise.</p>
 <span>  template <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  forceUpdate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  useConda <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  useConda <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -168,7 +168,7 @@ any required updates. If <code>TRUE</code>, required updates will be applied sil
 Library will have their Conda environments created and Conda environments will
 be used during runtime.If set to FALSE, then no packages will have their 
 Conda environments created and Conda environments will not be used during runtime.
-Default is FALSE.</p></dd>
+Default is NULL</p></dd>
 
 </dl></div>
     <div id="value">
@@ -203,25 +203,24 @@ Default is FALSE.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create or open a SsimLibrary using the default Session</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu">ssimLibrary</span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mylib"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create SsimLibrary using a specific Session</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu">ssimLibrary</span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mylib"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                         session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve SsimLibrary properties</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class               : Session</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> filepath [character]: C:/Program Files/SyncroSim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> silent [logical]    : TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> printCmd [logical]  : FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> condaFilepath [NULL]: </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'session': object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Load a SsimLibrary with addon package</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu">ssimLibrary</span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mylib"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span>, package <span class="op">=</span> <span class="st">"stsim"</span>,</span></span>
 <span class="r-in"><span>                         addon <span class="op">=</span> <span class="st">"stsimsf"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create SsimLibrary from template</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>

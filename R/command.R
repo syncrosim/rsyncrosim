@@ -33,7 +33,7 @@ NULL
 #' Character string: output from the SyncroSim program.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Install "stsim" if not already installed
 #' addPackage("stsim")
 #' 

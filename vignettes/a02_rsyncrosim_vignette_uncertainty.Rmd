@@ -1,7 +1,7 @@
 ---
 title: '`rsyncrosim`: introduction to uncertainty'
-#output: rmarkdown::html_vignette
-output: pdf_document
+output: rmarkdown::html_vignette
+#output: pdf_document
 vignette: >
   %\VignetteIndexEntry{`rsyncrosim`: introduction to uncertainty}
   %\VignetteEngine{knitr::rmarkdown}

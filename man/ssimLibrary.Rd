@@ -15,7 +15,7 @@ ssimLibrary(
   template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE,
-  useConda = FALSE
+  useConda = NULL
 )
 
 \S4method{ssimLibrary}{SsimObject}(
@@ -27,7 +27,7 @@ ssimLibrary(
   template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE,
-  useConda = FALSE
+  useConda = NULL
 )
 
 \S4method{ssimLibrary}{missingOrNULLOrChar}(
@@ -39,7 +39,7 @@ ssimLibrary(
   template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE,
-  useConda = FALSE
+  useConda = NULL
 )
 }
 \arguments{
@@ -69,7 +69,7 @@ any required updates. If \code{TRUE}, required updates will be applied silently}
 Library will have their Conda environments created and Conda environments will
 be used during runtime.If set to FALSE, then no packages will have their 
 Conda environments created and Conda environments will not be used during runtime.
-Default is FALSE.}
+Default is NULL}
 }
 \value{
 Returns a \code{\link{SsimLibrary}} object.

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.3</span>
       </span>
     </div>
 
@@ -131,92 +131,173 @@ for a specified package.</p>
 <span class="r-in"><span><span class="co"># Set the SyncroSim Session and SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># List all installed packages</span></span></span>
 <span class="r-in"><span><span class="fu">package</span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                        name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    burnP3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      Name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           burnp3basemodel</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                burnP3Plus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4       burnP3PlusCell2Fire</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5      burnP3PlusPrometheus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                 demosales</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7                  designer</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                       epi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9        epiModelVocVaccine</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10               helloworld</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11          helloworldConda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12           helloworldOmni</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13       helloworldPipeline</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14        helloworldSpatial</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   helloworldSpatialConda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 helloworldSpatialReports</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17           helloworldTime</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18    helloworldUncertainty</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                  netlogo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                stconnect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                    stsim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22             stsimcbmcfs3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                  stsimsf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                    wisdm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                     dgsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                       epi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10       epiModelVocVaccine</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11               helloworld</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12          helloworldConda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13           helloworldOmni</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14       helloworldPipeline</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15        helloworldSpatial</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   helloworldSpatialConda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 helloworldSpatialReports</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18           helloworldTime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19    helloworldUncertainty</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20        landfirevegmodels</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                  netlogo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                omniscape</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                stconnect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                    stsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25          stsimBurnP3Plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26             stsimcbmcfs3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27          stsimFsjHabitat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                stsimpvfc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                  stsimsf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                    wisdm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                   Burn-P3 package for burn probability modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                                     Description</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                               BurnP3 base model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                  Burn-P3+ package for burn probability modeling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                          Cell2Fire fire growth model add-on package for Burn-P3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                    Prometheus fire growth model add-on package for Burn-P3 Plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                          Cell2Fire fire growth model add-on package for BurnP3+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                         Prometheus fire growth model add-on package for BurnP3+</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                               Demo Sales SyncroSim Base Package</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                      SyncroSim Package Designer</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                         Model of epidemic infections and deaths</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                Integrates VOCs and vaccination in the Epi model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                  Example demonstrating how to create a package</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                                          Example demonstrating how to create a package with Conda environments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                                  Example demonstrating how to create a package</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                     Example demonstrating how to use pipelines</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                  Example demonstrating how to use spatial data</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                                       Example demonstrating conda environments</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                  Example demonstrating how to use spatial data</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                     Example demonstrating how to use timesteps</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                    Example demonstrating how to use iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                              Runs the NetLogo agent-based modeling environment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                   Connectivity planning for future climate and land-use change</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                               The ST-Sim state-and-transition simulation model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                   Integrates stocks and flows into the ST-Sim simulation model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                         Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                  Simulates demographics of wildlife populations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                         Model of epidemic infections and deaths</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                               Integrates VOCs and vaccination in the Epi model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                                                                  Example demonstrating how to create a package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                          Example demonstrating how to create a package with Conda environments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                  Example demonstrating how to create a package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                     Example demonstrating how to use pipelines</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                                  Example demonstrating how to use spatial data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                       Example demonstrating conda environments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                  Example demonstrating how to use spatial data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                     Example demonstrating how to use timesteps</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                    Example demonstrating how to use iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                                     LANDFIRE vegetation models</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                              Runs the NetLogo agent-based modeling environment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                  Omni-directional habitat connectivity based on circuit theory</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                   Connectivity planning for future climate and land-use change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                                                          stsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                       Incorporates BurnP3+ fire simulations into ST-Sim models</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                                Florida scrub jay habitat model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                         Integrates Potential Vegetation Fuels Change (PVFC) for LANDFIRE into the ST-Sim model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                                   Integrates stocks and flows into the ST-Sim simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                                         Workbench for Integrated Species Distribution Modeling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    0.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Version</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    0.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    0.1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    0.1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    0.1.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    1.1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    1.0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    1.1.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    1.0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    0.4.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    0.4.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    0.4.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    1.1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   1.0.14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    2.3.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    1.1.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   1.0.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11   1.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12   1.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   1.0.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   1.0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13   1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   1.0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   1.0.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19   1.2.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  1.1.16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21   3.3.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22  1.0.14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  3.3.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20   1.1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21   1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22   1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  1.1.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24     N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25   1.0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26  1.0.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28   1.0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29  3.3.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30   1.0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                          NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                  Location</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                    C:\\Users\\birch\\SyncroSim\\Packages\\burnp3basemodel</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                         C:\\Users\\birch\\SyncroSim\\Packages\\burnP3Plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                C:\\Users\\birch\\SyncroSim\\Packages\\burnP3PlusCell2Fire</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5               C:\\Users\\birch\\SyncroSim\\Packages\\burnP3PlusPrometheus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                          C:\\Users\\birch\\SyncroSim\\Packages\\demosales</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                           C:\\Users\\birch\\SyncroSim\\Packages\\designer</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                              C:\\Users\\birch\\SyncroSim\\Packages\\dgsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                C:\\Users\\birch\\SyncroSim\\Packages\\epi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                C:\\Users\\birch\\SyncroSim\\Packages\\epiModelVocVaccine</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        C:\\Users\\birch\\SyncroSim\\Packages\\helloworld</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                   C:\\Users\\birch\\SyncroSim\\Packages\\helloworldConda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                    C:\\Users\\birch\\SyncroSim\\Packages\\helloworldOmni</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                C:\\Users\\birch\\SyncroSim\\Packages\\helloworldPipeline</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                 C:\\Users\\birch\\SyncroSim\\Packages\\helloworldSpatial</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16            C:\\Users\\birch\\SyncroSim\\Packages\\helloworldSpatialConda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17          C:\\Users\\birch\\SyncroSim\\Packages\\helloworldSpatialReports</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                    C:\\Users\\birch\\SyncroSim\\Packages\\helloworldTime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19             C:\\Users\\birch\\SyncroSim\\Packages\\helloworldUncertainty</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                 C:\\Users\\birch\\SyncroSim\\Packages\\landfirevegmodels</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                           C:\\Users\\birch\\SyncroSim\\Packages\\netlogo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                         C:\\Users\\birch\\SyncroSim\\Packages\\omniscape</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                         C:\\Users\\birch\\SyncroSim\\Packages\\stconnect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                             C:\\Users\\birch\\SyncroSim\\Packages\\stsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                   C:\\Users\\birch\\SyncroSim\\Packages\\stsimBurnP3Plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                      C:\\Users\\birch\\SyncroSim\\Packages\\stsimcbmcfs3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 C:\\temp\\stsimFsj-bug\\ssimdebug\\.ssimdebug\\Packages\\stsimFsjHabitat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                         C:\\Users\\birch\\SyncroSim\\Packages\\stsimpvfc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                           C:\\Users\\birch\\SyncroSim\\Packages\\stsimsf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                             C:\\Users\\birch\\SyncroSim\\Packages\\wisdm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                 NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                           Status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 FAILED: Package data not found.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                              OK</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># List all the installed base packages</span></span></span>
 <span class="r-in"><span><span class="fu">package</span><span class="op">(</span>installed <span class="op">=</span> <span class="st">"BASE"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                        name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    burnP3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                burnP3Plus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 demosales</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                  designer</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                burnP3Plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 demosales</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                  designer</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                     dgsim</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                       epi</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                helloworld</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7           helloworldConda</span>
@@ -228,14 +309,13 @@ for a specified package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13           helloworldTime</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14    helloworldUncertainty</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15                  netlogo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                stconnect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                    stsim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                    wisdm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                omniscape</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                    wisdm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                              description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                          Burn-P3 package for burn probability modeling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                         Burn-P3+ package for burn probability modeling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                      Demo Sales SyncroSim Base Package</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                             SyncroSim Package Designer</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Burn-P3+ package for burn probability modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                      Demo Sales SyncroSim Base Package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                             SyncroSim Package Designer</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                         Simulates demographics of wildlife populations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                Model of epidemic infections and deaths</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                          Example demonstrating how to create a package</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7  Example demonstrating how to create a package with Conda environments</span>
@@ -247,90 +327,108 @@ for a specified package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13                            Example demonstrating how to use timesteps</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14                           Example demonstrating how to use iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15                     Runs the NetLogo agent-based modeling environment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16          Connectivity planning for future climate and land-use change</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                      The ST-Sim state-and-transition simulation model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16         Omni-directional habitat connectivity based on circuit theory</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                Workbench for Integrated Species Distribution Modeling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    0.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    0.1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    1.1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    1.0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    0.4.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    1.1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   1.0.14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2.3.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5    1.1.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6    1.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    1.0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8    1.0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9    1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   1.0.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   1.0.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11   1.0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12   1.0.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13   1.0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   1.2.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  1.1.16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17   3.3.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   1.0.5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># List all available packages on the server (including currently installed)</span></span></span>
 <span class="r-in"><span><span class="fu">package</span><span class="op">(</span>installed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              demosales</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                  dgsim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    epi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     epiModelVocVaccine</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             helloworld</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     helloworldPipeline</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      helloworldSpatial</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8         helloworldTime</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  helloworldUncertainty</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10     landfirevegmodels</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                 lucas</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12               netlogo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13             stconnect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                 stsim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15          stsimcbmcfs3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16           stsimecodep</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17               stsimsf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                   Name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             burnP3Plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    burnP3PlusCell2Fire</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   burnP3PlusPrometheus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              demosales</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                  dgsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                    epi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     epiModelVocVaccine</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9             helloworld</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10       helloworldConda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11    helloworldPipeline</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12     helloworldSpatial</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13        helloworldTime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 helloworldUncertainty</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15     landfirevegmodels</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                 lucas</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17               netlogo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18             omniscape</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19             stconnect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                 stsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21       stsimBurnP3Plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22          stsimcbmcfs3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23           stsimecodep</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24               stsimsf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                               description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                 Example SyncroSim Base Package of a very simple sales forecasting model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                          Simulates demographics of wildlife populations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                                                 Model of epidemic infections and deaths</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                      Integrates VOCs and vaccination into the Epi model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                           Example demonstrating how to create a package</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                                                                 Example using pipelines</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                                              Example using spatial data</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                                                                 Example using timesteps</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                                       Example using iterations to represent uncertainty</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                                                             LANDFIRE vegetation models</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                                                                                         Land Use and Carbon Scenario Simulator (LUCAS)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                                                      Runs the NetLogo agent-based modeling environment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                           Connectivity planning for future climate and land-use change</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                                       The ST-Sim state-and-transition simulation model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                          Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class [*** REQUIRES SyncroSim v2.2.3 or higher ***]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                           Integrates stocks and flows into the ST-Sim simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                                                             Description</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                          Burn-P3+ package for burn probability modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                                  Cell2Fire fire growth model add-on package for BurnP3+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                 Prometheus fire growth model add-on package for BurnP3+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                 Example SyncroSim Base Package of a very simple sales forecasting model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                                          Simulates demographics of wildlife populations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                                 Model of epidemic infections and deaths</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                                      Integrates VOCs and vaccination into the Epi model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                                           Example demonstrating how to create a package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                                                       Example using conda environments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                                                                                                                Example using pipelines</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                                                                             Example using spatial data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                                                                Example using timesteps</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                                      Example using iterations to represent uncertainty</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                                                                             LANDFIRE vegetation models</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                                         Land Use and Carbon Scenario Simulator (LUCAS)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                                      Runs the NetLogo agent-based modeling environment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                          Omni-directional habitat connectivity based on circuit theory</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                           Connectivity planning for future climate and land-use change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                                       The ST-Sim state-and-transition simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                       Example library simulating ST-Sim fire events with the BurnP3+ SyncroSim package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                          Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Calculates ecological departure in ST-Sim using the LANDFIRE Fire Regime Condition Class [*** REQUIRES SyncroSim v2.2.3 or higher ***]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                           Integrates stocks and flows into the ST-Sim simulation model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1.1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2.3.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    1.1.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    1.0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    1.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    1.0.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   1.1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11   1.0.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12   1.2.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  1.1.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   3.3.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  1.0.14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   3.3.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17   3.3.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Version</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    0.4.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    0.4.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    0.4.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    1.1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2.3.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    1.1.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    1.0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12   1.0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   1.1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   1.0.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18   1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  1.1.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3.3.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21   1.0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22  1.0.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23   3.3.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3.3.11</span>
 <span class="r-in"><span> </span></span>
 <span class="r-in"><span><span class="co"># Check the package you're SsimLibrary is currently using</span></span></span>
 <span class="r-in"><span><span class="fu">package</span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    name                                      description version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 stsim The ST-Sim state-and-transition simulation model   3.3.9</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'ssimObject' in selecting a method for function 'package': object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check the templates available for an installed package</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
