@@ -154,9 +154,7 @@ to use the new software.</p>
 <span class="r-in"><span><span class="co"># Set up a SyncroSim Session, SsimLibrary, and Project</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu">session</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Lists the folder location of SyncroSim Session</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="filepath.html">filepath</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></span>
@@ -223,7 +221,7 @@ to use the new software.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                              Runs the NetLogo agent-based modeling environment</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                  Omni-directional habitat connectivity based on circuit theory</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                   Connectivity planning for future climate and land-use change</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                                                          stsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                               The ST-Sim state-and-transition simulation model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                       Incorporates BurnP3+ fire simulations into ST-Sim models</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                                Florida scrub jay habitat model</span>
@@ -254,7 +252,7 @@ to use the new software.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 21   1.2.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22   1.0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23  1.1.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24     N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  3.3.11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25   1.0.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26  1.0.17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27   1.0.0</span>
@@ -292,37 +290,37 @@ to use the new software.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 28                         C:\\Users\\birch\\SyncroSim\\Packages\\stsimpvfc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 29                           C:\\Users\\birch\\SyncroSim\\Packages\\stsimsf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30                             C:\\Users\\birch\\SyncroSim\\Packages\\wisdm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                 NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                           Status</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 FAILED: Package data not found.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29                              OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30                              OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9      OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30     OK</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Data frame of the base packages installed with this version of SyncroSim</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="package.html">package</a></span><span class="op">(</span><span class="va">mySession</span>, installed <span class="op">=</span> <span class="st">"BASE"</span><span class="op">)</span> </span></span>
@@ -341,9 +339,12 @@ to use the new software.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12 helloworldSpatialReports</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13           helloworldTime</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14    helloworldUncertainty</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                  netlogo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                omniscape</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                    wisdm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15        landfirevegmodels</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                  netlogo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                omniscape</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                stconnect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                    stsim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                    wisdm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                              description</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Burn-P3+ package for burn probability modeling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                      Demo Sales SyncroSim Base Package</span>
@@ -359,9 +360,12 @@ to use the new software.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                         Example demonstrating how to use spatial data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13                            Example demonstrating how to use timesteps</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14                           Example demonstrating how to use iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                     Runs the NetLogo agent-based modeling environment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16         Omni-directional habitat connectivity based on circuit theory</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                            LANDFIRE vegetation models</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                     Runs the NetLogo agent-based modeling environment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17         Omni-directional habitat connectivity based on circuit theory</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18          Connectivity planning for future climate and land-use change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                      The ST-Sim state-and-transition simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                Workbench for Integrated Species Distribution Modeling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    version</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    0.4.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    1.1.1</span>
@@ -377,13 +381,15 @@ to use the new software.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12   1.0.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13   1.0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   1.2.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   1.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17   1.0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   1.1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   1.2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  1.1.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  3.3.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20   1.0.5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set a new SyncroSim Session for the SyncroSim Project</span></span></span>
 <span class="r-in"><span><span class="fu">session</span><span class="op">(</span><span class="va">myProject</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">session</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="filepath.html">filepath</a></span><span class="op">(</span><span class="fu">session</span><span class="op">(</span><span class="va">myProject</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'session': error in evaluating the argument 'ssimObject' in selecting a method for function 'filepath': error in evaluating the argument 'x' in selecting a method for function 'session': object 'myProject' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

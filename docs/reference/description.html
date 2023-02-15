@@ -124,17 +124,13 @@ Scenario."><meta property="og:image" content="https://syncrosim.github.io/rsyncr
 <span class="r-in"><span><span class="co"># Set up a SyncroSim Session, SsimLibrary, and Project</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve the description of the SyncroSim Project</span></span></span>
 <span class="r-in"><span><span class="va">mydescription</span> <span class="op">&lt;-</span> <span class="fu">description</span><span class="op">(</span><span class="va">myProject</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'ssimObject' in selecting a method for function 'description': object 'myProject' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set the description of the SyncroSim Project</span></span></span>
 <span class="r-in"><span><span class="fu">description</span><span class="op">(</span><span class="va">myProject</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"my description"</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in description(myProject) &lt;- "my description":</span> object 'myProject' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

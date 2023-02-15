@@ -150,40 +150,31 @@ summary is <code>TRUE</code>, returns a data.frame of Project names and descript
 <span class="r-in"><span><span class="co"># Set the SyncroSim Session, SsimLibrary, and Project</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span> </span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> stsim not a base package. Use package(installed = "BASE") to see options.</span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"My project name"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span><span class="va">myproject2</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"My new project name"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get a named list of existing Projects</span></span></span>
 <span class="r-in"><span><span class="co"># Each element in the list is named by a character version of the Project ID</span></span></span>
 <span class="r-in"><span><span class="va">myProjects</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">myLibrary</span>, summary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">myProjects</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'myProjects' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "14" "1" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get an existing Project.</span></span></span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="va">myProjects</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'myProjects' not found</span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"My new project name"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get/set the Project properties</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="name.html">name</a></span><span class="op">(</span><span class="va">myProject</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'ssimObject' in selecting a method for function 'name': object 'myProject' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "My new project name"</span>
 <span class="r-in"><span><span class="fu"><a href="name.html">name</a></span><span class="op">(</span><span class="va">myProject</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"New project name"</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in name(myProject) &lt;- "New project name":</span> object 'myProject' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a new Project from a copy of an existing Project</span></span></span>
 <span class="r-in"><span><span class="va">myNewProject</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"My copied project"</span>,</span></span>
 <span class="r-in"><span>                        sourceProject <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Overwrite an existing Project</span></span></span>
 <span class="r-in"><span><span class="va">myNewProject</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"My copied project"</span>,</span></span>
 <span class="r-in"><span>                        overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(ssimObject, "character"):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
