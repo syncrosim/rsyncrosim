@@ -5,7 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) {
+  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
     enabled <- NULL
     if (is.null(session)) {
       e <- ssimEnvironment()
@@ -225,14 +225,16 @@ setMethod(
       }
     }
     
-    if (useConda == FALSE){
-      tt <- command(list(setprop = NULL, lib = path, useconda = "no"), session)
-    } else {
-      tt <- command(list(setprop = NULL, lib = path, useconda = "yes"), session)
-      if (useConda == TRUE){
-        currentPackages <- unique(datasheets$package)
-      }
-      createCondaEnv(path, currentPackages, session)
+    if (!is.null(useConda)){
+      if (useConda == FALSE){
+        tt <- command(list(setprop = NULL, lib = path, useconda = "no"), session)
+      } else {
+        tt <- command(list(setprop = NULL, lib = path, useconda = "yes"), session)
+        if (useConda == TRUE){
+          currentPackages <- unique(datasheets$package)
+        }
+        createCondaEnv(path, currentPackages, session)
+      } 
     }
 
     .Object@session <- session
@@ -242,7 +244,7 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
 
 setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
   return(new("SsimLibrary", name, package, session, addon, forceUpdate))
@@ -339,7 +341,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' }
 #' 
 #' @export
-setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) standardGeneric("ssimLibrary"))
+setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric("ssimLibrary"))
 
 #' @rdname ssimLibrary
 setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, template, forceUpdate, overwrite, useConda) {
