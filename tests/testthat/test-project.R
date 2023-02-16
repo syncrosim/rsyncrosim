@@ -2,6 +2,7 @@ test_that("can retrive project", {
   myLibrary <- ssimLibrary(name = "C:/gitprojects/rsyncrosim/tests/tempstsim.ssim")
 
   #project argument
+  expect_error(project("myLibrary"), NA)
   expect_error(expect_error(project(myLibrary, project = "New Project")))
   expect_error(expect_error(project(myLibrary, project = "Definitions")))
   myProject1 <- project(myLibrary, project = "New Project")
@@ -60,7 +61,6 @@ test_that("errors work", {
   character <- "character"
   df <- data.frame(list(x = 1, y = 2, z  = 3))
 
-  expect_error(project("myLibrary"))
   expect_error(project(vector))
   expect_error(project(list))
   expect_error(project(character))

@@ -17,6 +17,7 @@ test_that("can retrive scenario", {
   expect_error(expect_error(scenario(myLibrary, scenario = 1)))
   expect_error(expect_error(scenario(myLibrary, scenario = c(1,2))))
   expect_error(expect_error(scenario(myLibrary, scenario = c("My Scenario","New Scenario"))))
+  expect_error(scenario("myLibrary"), NA)
 
   #ssimObject arguments
   expect_error(expect_error(scenario(myLibrary)))
@@ -75,7 +76,6 @@ test_that("errors work", {
   character <- "character"
   df <- data.frame(list(x = 1, y = 2, z  = 3))
 
-  expect_error(scenario("myLibrary"))
   expect_error(scenario(vector))
   expect_error(scenario(list))
   expect_error(scenario(character))
