@@ -38,7 +38,7 @@ Imports:
     lifecycle
 Suggests:
     knitr,
-    testthat,
+    testthat (>= 3.0.0),
     ggplot2,
     Rcpp,
     rgdal,
@@ -98,3 +98,4 @@ Collate:
 RoxygenNote: 7.2.1
 URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
+Config/testthat/edition: 3
