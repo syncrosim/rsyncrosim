@@ -15,6 +15,8 @@ setMethod(
         session <- .session()
       }
     }
+    
+    browser()
 
     if (is.character(session)) {
       session <- .session(session)
@@ -106,7 +108,7 @@ setMethod(
           tt <- command(args, session)
           addonTempsDataframe <- read.csv(text = tt)
           addonTemplate <- paste0(addon, "_", template)
-          addonTemplateExists <- addonTemplate %in% addonTempsDataframe
+          addonTemplateExists <- addonTemplate %in% addonTempsDataframe$Name
         } else {
           addonTemplateExists <- FALSE
         }
