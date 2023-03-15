@@ -16,8 +16,6 @@ setMethod(
       }
     }
     
-    browser()
-
     if (is.character(session)) {
       session <- .session(session)
     }
