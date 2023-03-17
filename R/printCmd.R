@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -33,12 +33,12 @@ setMethod("printCmd", signature(session = "Session"), function(session) session@
 
 #' @rdname printCmd
 setMethod("printCmd", signature(session = "missingOrNULLOrChar"), function(session) {
-  if (class(session) == "character") {
+  if (is(session, "character")) {
     session <- .session(session)
   } else {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
+  if ((is(session, "character")) && (is(session, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
   return(printCmd(session))

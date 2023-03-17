@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -6,6 +6,11 @@ NULL
 setMethod(
   f = "initialize", signature = "Scenario",
   definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, id = NULL, sourceScenario = NULL, scenarios = NULL) {
+    
+    ProjectID <- NULL
+    ScenarioID <- NULL
+    Name <- NULL
+    
     # assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out.
     .Object@breakpoints <- list()
     .Object@parentId <- 0
@@ -69,12 +74,12 @@ setMethod(
     } else {
       sid <- sourceScenario
       slib <- .filepath(x)
-      if (class(sourceScenario) == "numeric") {
+      if (is(sourceScenario, "numeric")) {
         if (!is.element(sourceScenario, allScenarios$ScenarioID)) {
           stop("Source scenario id ", sourceScenario, " not found in SsimLibrary.")
         }
       }
-      if (class(sourceScenario) == "character") {
+      if (is(sourceScenario, "character")) {
         sourceOptions <- subset(allScenarios, Name == sourceScenario)
         if (nrow(sourceOptions) == 0) {
           stop(paste0("Source scenario name ", sourceScenario, " not found in SsimLibrary."))
@@ -85,7 +90,7 @@ setMethod(
         sid <- sourceOptions$ScenarioID
       }
 
-      if (class(sourceScenario) == "Scenario") {
+      if (is(sourceScenario, "Scenario")) {
         sid <- .scenarioId(sourceScenario)
         slib <- .filepath(sourceScenario)
         sourceScnName <- name(sourceScenario)
@@ -248,13 +253,13 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
 
   xProjScn <- .getFromXProjScn(ssimObject, project = NULL, scenario = scenario, convertObject = convertObject, returnIds = returnIds, goal = "scenario", complainIfMissing = FALSE)
 
-  if (class(xProjScn) == "Scenario") {
+  if (is(xProjScn, "Scenario")) {
     if (!overwrite) {
       return(xProjScn)
     }
   }
 
-  if (class(xProjScn) != "list") {
+  if (!is(xProjScn, "list")) {
     stop("something is wrong")
   }
   ssimObject <- xProjScn$ssimObject
@@ -302,7 +307,7 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
   makeSum <- sum(!is.na(scnSet$order) & is.na(scnSet$exists))
   libScns <- subset(allScenarios, !is.na(exists))
   if (makeSum > 0) {
-    if (!is.null(sourceScenario) && (class(sourceScenario) != "Scenario")) {
+    if (!is.null(sourceScenario) && (is(sourceScenario, "Scenario"))) {
       libScns <- getScnSet(ssimObject) # get all scenarios for library, not just those from ssimObject
       # check validity in new("Scenario",...)
     }

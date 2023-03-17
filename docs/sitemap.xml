@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/404.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_beta.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_install_beta.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_stsim_vignette.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_basic.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_pipelines.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_spatial.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/articles/rsyncrosim_vignette_uncertainty.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/authors.html</loc>
+  </url>
+  <url>
     <loc>https://syncrosim.github.io/rsyncrosim/index.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/news/index.html</loc>
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/addBreakpoint.html</loc>
@@ -98,6 +152,9 @@
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/ignoreDependencies.html</loc>
+  </url>
+  <url>
+    <loc>https://syncrosim.github.io/rsyncrosim/reference/index.html</loc>
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/info.html</loc>
@@ -215,23 +272,5 @@
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/version.html</loc>
-  </url>
-  <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html</loc>
-  </url>
-  <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html</loc>
-  </url>
-  <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html</loc>
-  </url>
-  <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.html</loc>
-  </url>
-  <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.html</loc>
-  </url>
-  <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.html</loc>
   </url>
 </urlset>

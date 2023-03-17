@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.3</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
 <span></span>
 <span><span class="fu">useConda</span><span class="op">(</span><span class="va">ssimObject</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
 <span></span>
-<span><span class="co"># S4 method for character</span></span>
+<span><span class="co"># S4 method for logical</span></span>
 <span><span class="fu">useConda</span><span class="op">(</span><span class="va">ssimObject</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
 <span></span>
 <span><span class="co"># S4 method for SsimLibrary</span></span>
@@ -97,22 +97,24 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>value</dt>
-<dd><p>logical, character, or list of characters for whether to use Conda 
-environments for SyncroSim packages used by the Library. If set to 
-<code>TRUE</code>, then Conda environments will be used for all SyncroSim packages.</p></dd>
-
-
-<dt>ssimLibrary</dt>
+    <dl><dt>ssimObject</dt>
 <dd><p><code><a href="SsimLibrary-class.html">SsimLibrary</a></code> object</p></dd>
+
+
+<dt>value</dt>
+<dd><p>logical for whether to use Conda 
+environments for the given SyncroSim Library. If set to 
+<code>TRUE</code>, then Conda environments will be used. If set to <code>FALSE</code>,
+then Conda environments will not be used during runtime.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>A character or list of characters: the SyncroSim packages that currently are
-using Conda environments for the given <code><a href="SsimLibrary-class.html">SsimLibrary</a></code></p>
+<p>Logical: whether Conda environments will be used during runtime for the given</p>
+<p></p>
+<p><code><a href="SsimLibrary-class.html">SsimLibrary</a></code></p>
 
 
     </div>
@@ -146,11 +148,11 @@ using Conda environments for the given <code><a href="SsimLibrary-class.html">Ss
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy.</p>
+  <p></p><p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -1,10 +1,13 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
 setMethod(f = "initialize", signature = "Project", definition = function(.Object, ssimLibrary, name = NULL, id = NULL, projects = NULL, sourceProject = NULL) {
 
+  ProjectID <- NULL
+  Name <- NULL
+  
   # This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
   x <- ssimLibrary
 
@@ -64,19 +67,19 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
     # complain if source project does not exist.
     sourcePID <- NA
     slib <- .filepath(x)
-    if (class(sourceProject) == "numeric") {
+    if (is(sourceProject, "numeric")) {
       if (!is.element(sourceProject, projects$ProjectID)) {
         stop(paste0("sourceProject id ", sourceProject, " not found in the library."))
       }
       sourcePID <- sourceProject
     }
-    if (class(sourceProject) == "character") {
+    if (is(sourceProject, "character")) {
       if (!is.element(sourceProject, projects$Name)) {
         stop(paste0("sourceProject name ", sourceProject, " not found in the library."))
       }
       sourcePID <- projects$ProjectID[projects$Name == sourceProject]
     }
-    if (class(sourceProject) == "Project") {
+    if (is(sourceProject, "Project")) {
       slib <- .filepath(sourceProject)
       sourcePID <- .projectId(sourceProject)
     }
@@ -193,7 +196,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' @name project
 #' @export
 project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, summary = NULL, forceElements = FALSE, overwrite = FALSE) {
-  if ((class(ssimObject) == "character") && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
+  if ((is(ssimObject, "character")) && (is(ssimObject, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
   if (is.null(ssimObject)) {
@@ -234,13 +237,13 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
 
   xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = NULL, convertObject = convertObject, returnIds = returnIds, goal = "project", complainIfMissing = FALSE)
 
-  if (class(xProjScn) == "Project") {
+  if (is(xProjScn, "Project")) {
     if (!overwrite) {
       return(xProjScn)
     }
   }
 
-  if (class(xProjScn) != "list") {
+  if (!is(xProjScn, "list")) {
     stop("something is wrong")
   }
   ssimObject <- xProjScn$ssimObject

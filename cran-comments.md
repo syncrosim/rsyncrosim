@@ -2,32 +2,37 @@
 * Windows Server 2019 (CI (GitHub actions): release 4.1.1 and devel)
 * Ubuntu 20.04 (CI (GitHub actions), release 4.1.1 and devel)
 
-## New release 1.3.1
+## New release 1.4.2
 
 ## Breaking changes
 
-* Updated rsyncrosim to be compatible with the new SyncroSim software update (version 2.3).
-* Deprecated functions `addPackageFile`, `basePackage`, `deletePackage`, `envInputFolder`, `envOutputFolder`, `envTempFolder`, `envReportProgress`, `envStepSimulation`, `envBeginSimulation`, and `envEndSimulation`.
-* Replaced functionality of deprecated functions by adding arguments to functions `addPackage`, `package`, and adding new functions `removepackage`,  `progressBar`, `runtimeInputFolder`, `runtimeOutputFolder`, and `runtimeTempFolder`.
+* Added version check to ensure the version of `rsyncrosim` being used is compatible with the version of `SyncroSim` installed - current version of `rsyncrosim` is compatible with `SyncroSim` version 2.4.4
 
 ## Bug fixes:
 
-* Fixed cryptic warning message in `saveDatasheet` function.
-* Fixed rbind error in `datasheet(..., fastQuery = T)` with multiple scenarios call when different column number of difference scenarios. Now using the more robust `gtools::smartbind` instead.
-* Fixed bug where rsyncrosim drops any column with NAs when `datasheet(..., fastQuery=T)`. Now only columns for which all rows are NA are dropped.
+* Bug fixed where if the Scenario named contained square brackets, a warning was thrown
+* Fixed bug in `project()` function
+* `dependency()` bug fixed - function used to fail when dependency argument was set to a character
+* Fixed bug in `scenario()` function when `sourceScenario` argument is set to a Scenario name
+* Fixed bug in `delete()` function when trying to delete datasheets
+* Fixed bug in `datasheet()` where column values could not be numeric
+* Fixed cryptic warning in saveDatasheet()
+* Fixed bug in `addRow()` function where column values were being auto-filled if they were a factor with one level
+* Removed warnings in `addRow()` function when a tibble is supplied as the value
 
 ## New features:
 
-* New [rsyncrosim website](https://syncrosim.github.io/rsyncrosim/).
-* 4 new vignettes/articles that follow the [Enhancing a Package](https://docs.syncrosim.com/how_to_guides/package_enhance_overview.html) tutorial on the [SyncroSim](https://docs.syncrosim.com/index.html) website.
-* All vignettes/articles now show outputs.
-* Improved documentation of each function with in-depth usage examples.
-* Added a `template` argument to the `ssimLibrary` function to allow importing of pre-designed SyncroSim Library templates.
-* Modified `summary` argument in the `datasheet` function so when set to `TRUE` will only show Library-specific datasheets. To show all Datasheets, a new input "CORE" must be used.
+* External files are no longer copied by default during multiprocessing runs (can set this using the "copyExternalInputs" argument in the `run()` function)
+* Created filtering arguments in the `datasheet()` and `datasheetRaster()` functions, such that you can now specify a column to filter by (`filterColumn`) and the value to filter the column by (`filterValue`)
+* Can now use addon package templates when loading an `ssimLibrary`
+* New message argument in the `progressBar()` function that allows the user to add custom messages to the progress bar at runtime
+* New `updateRunLog()` function that allows the user to output custom messages to the SyncroSim run log, including the ability to create multi-line run log messages and set the run status
+* Added the ability to use Conda environments in `rsyncrosim` using the functions `installConda()`, `useConda()`, and `condaFilepath()`
 
 ## Minor improvements and fixes
 
-* Updated copyright headers on all functions
+* Created documentation on the new filtering arguments in `datasheetRaster()`
+* Improved testing code
 
 ## Upstream dependencies
 
@@ -38,7 +43,7 @@ installed to run. Therefore, all tests in the submitted package should not run
 
 ## R CMD check results
 
--- R CMD check results ----------------------------------- rsyncrosim 1.3.2 ----
+-- R CMD check results ----------------------------------- rsyncrosim 1.4.2 ----
 Duration: 1m 20.8s
 
 0 errors v | 0 warnings v | 0 notes v

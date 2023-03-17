@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -111,8 +111,6 @@ NULL
 #' # Get all Datasheet info for the Scenario
 #' myDatasheets <- datasheet(myScenario)
 #' 
-#' # Can get same info using Project and Scenario arguments
-#' myDatasheets <- datasheet(myLibrary, project = 1, scenario = 1)
 #' 
 #' # Return a list of data.frames (1 for each Datasheet)
 #' myDatasheetList <- datasheet(myScenario, summary = FALSE)
@@ -166,12 +164,12 @@ setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenar
 setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
   cScn <- ssimObject[[1]]
   x <- NULL
-  if (class(cScn) == "Scenario") {
+  if (is(cScn, "Scenario")) {
     x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", scenario = scenario, project = project)
     scenario <- x$objs
     project <- NULL
   }
-  if (class(cScn) == "Project") {
+  if (is(cScn, "Project")) {
     x <- getIdsFromListOfObjects(ssimObject, expecting = "Project", scenario = scenario, project = project)
     project <- x$objs
     scenario <- NULL
@@ -198,12 +196,13 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   ProjectID <- NULL
   ScenarioID <- NULL
   colOne <- NULL
-  parentID <- NULL
+  ParentID <- NULL
   ParentName <- NULL
+  Name <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
   IDColumns <- c("ScenarioID", "ProjectID")
   
-  if (class(xProjScn) == "SsimLibrary") {
+  if (is(xProjScn, "SsimLibrary")) {
     x <- xProjScn
     pid <- NULL
     sid <- NULL
@@ -684,6 +683,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         }
         if (cRow$valType == "DataSheet") {
           if (lookupsAsFactors) {
+            # Find display member to create factors from
+            tt <- command(args = list(lib = .filepath(x), list = NULL, datasheets = NULL), session = .session(x))
+            tt <- .dataframeFromSSim(tt, csv = FALSE)
+            displayMem <- tt[tt$name == cRow$formula1,]$displayMember
+            
             # console export can't handle multiple projects/scenarios - so query database directly if necessary.
             if (directQuery) {
               lookupSheet <- DBI::dbReadTable(con, name = cRow$formula1)
@@ -691,6 +695,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
               lookupPath <- gsub(name, cRow$formula1, tempFile, fixed = TRUE)
               if (!file.exists(lookupPath)) {
                 lookupSheet <- data.frame(Name = NULL)
+                names(lookupSheet)[names(lookupSheet) == "Name"] <- displayMem
               } else {
                 lookupSheet <- read.csv(lookupPath, as.is = TRUE)
               }
@@ -716,21 +721,22 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
             if (nrow(lookupSheet) > 0) {
               lookupSheet <- lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]), ]
-              lookupLevels <- lookupSheet$Name
+              lookupLevels <- lookupSheet[[displayMem]]
             } else {
               lookupLevels <- c()
             }
             if (is.numeric(sheet[[cRow$name]])) {
               if (nrow(lookupSheet) > 0) {
-                if (length(intersect("Name", names(lookupSheet))) == 0) {
+                if (length(intersect(displayName, names(lookupSheet))) == 0) { #TODO: fix this
                   stop("Something is wrong. Expecting Name in lookup table.")
                 }
                 
-                lookupMerge <- subset(lookupSheet, select = c(names(lookupSheet)[1], "Name"))
+                lookupMerge <- subset(lookupSheet, select = c(names(lookupSheet)[1], displayName))
                 
                 names(lookupMerge) <- c(cRow$name, "lookupName")
                 sheet <- merge(sheet, lookupMerge, all.x = TRUE)
-                sheet[[cRow$name]] <- sheet$lookupName
+                if(!all(is.na(sheet$lookupName)))
+                  sheet[[cRow$name]] <- sheet$lookupName
                 sheet$lookupName <- NULL
               }
             }
@@ -750,7 +756,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           }
         }
       }
-      
       if (lookupsAsFactors && !useConsole && directQuery) {
         DBI::dbDisconnect(con)
       }
@@ -761,16 +766,9 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         unlink(gsub(name, rmSheets[i], tempFile, fixed = TRUE))
       }
       
-      # TO DO: deal with NA values in sheet
-      # put columns in correct order
-      sheet$colOne <- sheet[, 1]
-      sheet$cOrder <- seq(1, nrow(sheet))
-      if (empty) {
-        sheet <- subset(sheet, is.null(colOne))
-      } else {
-        sheet <- subset(sheet, !is.na(colOne))
-        sheet <- sheet[order(sheet$cOrder), ]
-      }
+      # Remove rows that are all NA
+      sheet <- sheet[rowSums(is.na(sheet)) != ncol(sheet), ]
+      
       sheet <- subset(sheet, select = outNames)
     } else {
       if (!is.null(rmCols)) {

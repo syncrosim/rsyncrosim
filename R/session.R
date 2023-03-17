@@ -1,17 +1,19 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
+# @importFrom utils packageVersion
 # @name Session
 # @rdname Session-class
-setMethod(f = "initialize", signature = "Session", definition = function(.Object, path, silent = FALSE, printCmd = FALSE, condaFilepath = "default") {
+setMethod(f = "initialize", signature = "Session", definition = function(.Object, path, silent = FALSE, printCmd = FALSE, condaFilepath = NULL) {
+  
   .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), fixed = TRUE)
   .Object@silent <- silent
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- condaFilepath
 
-  ssimRequiredVersion <- "2.3.23"
+  ssimRequiredVersion <- "2.3.24"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
@@ -23,15 +25,23 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   ssimCurrentVersionBits <- as.numeric(strsplit(ssimCurrentVersion, ".", fixed = TRUE)[[1]])
   ssimRequiredVersionBits <- as.numeric(strsplit(ssimRequiredVersion, ".", fixed = TRUE)[[1]])
   
-  loadVersion <- TRUE
-  if (ssimCurrentVersionBits[1] < ssimRequiredVersionBits[1]){
-    loadVersion <- FALSE
-  }
-  if (ssimCurrentVersionBits[2] < ssimRequiredVersionBits[2]){
-    loadVersion <- FALSE
-  }
-  if (ssimCurrentVersionBits[3] < ssimRequiredVersionBits[3]){
-    loadVersion <- FALSE
+  loadVersion <- FALSE
+  if (ssimCurrentVersionBits[1] >= ssimRequiredVersionBits[1]){
+    if (ssimCurrentVersionBits[1] > ssimRequiredVersion[1]) {
+      loadVersion <- TRUE
+    } else {
+      if (ssimCurrentVersionBits[2] >= ssimRequiredVersionBits[2]){
+        if (ssimCurrentVersionBits[2] > ssimRequiredVersionBits[2]) {
+          loadVersion <- TRUE
+        } else {
+          if (ssimCurrentVersionBits[3] >= ssimRequiredVersionBits[3]){
+            if (ssimCurrentVersionBits[3] > ssimRequiredVersionBits[3]){
+              loadVersion <- TRUE
+            } 
+          }
+        }
+      } 
+    }
   }
   
   if (!loadVersion) {
@@ -100,7 +110,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' }
 #' 
 #' @export
-setGeneric("session", function(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = "default") standardGeneric("session"))
+setGeneric("session", function(x = NULL, silent = TRUE, printCmd = FALSE, condaFilepath = NULL) standardGeneric("session"))
 
 #' @rdname session
 setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, printCmd, condaFilepath) {
@@ -160,7 +170,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
   } else {
     progName <- path
   }
-  if (condaFilepath == 'default'){
+  if (is.null(condaFilepath)) {
     tt <- command(args = list(conda = NULL, clear = NULL), progName = progName)
   } else {
     tt <- command(args = list(conda = NULL, path = condaFilepath), progName = progName)
@@ -183,7 +193,7 @@ setGeneric("session<-", function(ssimObject, value) standardGeneric("session<-")
 #' @rdname session
 setReplaceMethod(
   f = "session",
-  signature = "character",
+  signature = "NULLOrChar",
   definition = function(ssimObject, value) {
     return(ssimObject)
   }
@@ -194,7 +204,7 @@ setReplaceMethod(
   f = "session",
   signature = "SsimObject",
   definition = function(ssimObject, value) {
-    if (class(value) != "Session") {
+    if (!is(value, "Session")) {
       stop("Must assign a Session object.")
     }
     if (.filepath(value) != .filepath(.session(ssimObject))) {

@@ -1,6 +1,7 @@
 ---
 title: "`rsyncrosim`: introduction to spatial data"
 output: rmarkdown::html_vignette
+# output: pdf_document # uncomment when releasing to CRAN
 vignette: >
   %\VignetteIndexEntry{`rsyncrosim`: introduction to spatial data}
   %\VignetteEngine{knitr::rmarkdown}

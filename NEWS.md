@@ -1,12 +1,13 @@
-# rsyncrosim 1.3.12
+# rsyncrosim 1.4.4
 
 ## Breaking changes
 
 ## Bug fixes:
 
+* Fixed template loading of addon packages
+
 ## New features:
 
-* Added the ability to use Conda environments for SyncroSim runs using the new 
-`installConda()`, `useConda()`, and `condaFilepath()` functions.
+* Completed test suite
 
 ## Minor improvements and fixes

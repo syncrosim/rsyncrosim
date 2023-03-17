@@ -2,9 +2,18 @@
 % Please edit documentation in R/installConda.R
 \name{installConda}
 \alias{installConda}
+\alias{installConda,character-method}
+\alias{installConda,missingOrNULL-method}
+\alias{installConda,Session-method}
 \title{Installs Miniconda}
 \usage{
-installConda()
+installConda(session)
+
+\S4method{installConda}{character}(session)
+
+\S4method{installConda}{missingOrNULL}(session)
+
+\S4method{installConda}{Session}(session)
 }
 \arguments{
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
@@ -16,7 +25,9 @@ install) and \code{FALSE} upon failure.
 }
 \description{
 This function installs Miniconda to the default installation path
-within the SyncroSim installation folder.
+within the SyncroSim installation folder. If you already have Conda 
+installed in the non-default location, you can point SyncroSim towards
+that installation using the \code{\link{condaFilepath}} function.
 }
 \examples{
 \dontrun{

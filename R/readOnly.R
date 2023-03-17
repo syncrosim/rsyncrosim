@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -100,7 +100,7 @@ setReplaceMethod(
   f = "readOnly",
   signature = "SsimObject",
   definition = function(ssimObject, value) {
-    if (class(value) != "logical") {
+    if (!is(value, "logical")) {
       stop("readOnly must be TRUE or FALSE.")
     }
     if (value == TRUE) {
@@ -109,10 +109,10 @@ setReplaceMethod(
       readOnly <- "no"
     }
     args <- list(setprop = NULL, lib = .filepath(ssimObject), readonly = readOnly)
-    if (class(ssimObject) == "Project") {
+    if (is(ssimObject, "Project")) {
       args$pid <- .projectId(ssimObject)
     }
-    if (class(ssimObject) == "Scenario") {
+    if (is(ssimObject, "Scenario")) {
       args$sid <- .scenarioId(ssimObject)
     }
     tt <- command(args, .session(ssimObject))

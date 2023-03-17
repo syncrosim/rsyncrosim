@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 
 old_dir <- getwd()
@@ -9,12 +9,12 @@ mySession <- session()
 
 test_that("Test simple non-spatial STSim example - assumes that SyncroSim is installed.", {
   skip_on_cran()
-
+  
   # Create the project definition
   libPath <- paste0(getwd(), "/ST-Sim-Command-Line.ssim")
   myLibrary <- ssimLibrary(session = mySession, name = libPath, overwrite = TRUE)
   myProject <- project(myLibrary, project = "ST-Sim Demonstration")
-
+  
   #***********************************
   # Cover types and state classes
   sheetName <- "Stratum"
@@ -25,22 +25,22 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   expect_equal(names(datasheet(myProject, name = sheetName, empty = TRUE, optional = FALSE)), "Name") # returns only truly optional columns
   expect_equal(datasheet(myProject, name = sheetName, empty = FALSE, optional = FALSE)$Description, "Another description") # returns optional columns and columns with data
   expect_equal(names(datasheet(myProject, name = sheetName, empty = FALSE, optional = TRUE)), c("Name", "ID", "Color", "Legend", "Description")) # returns all columns
-
+  
   sheetName <- "StateClass"
   expect_warning(
     datasheet(myProject, name = sheetName, empty = FALSE),
     "StateLabelXID depends on stsim_StateLabelX. You should load stsim_StateLabelX before setting stsim_StateClass.",
     "StateLabelYID depends on stsim_StateLabelY. You should load stsim_StateLabelY before setting stsim_StateClass."
   )
-
+  
   sheetName <- "StateLabelY"
   mySheet <- data.frame(Name = "All")
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
-
+  
   sheetName <- "StateLabelX"
   mySheet <- data.frame(Name = c("Coniferous", "Deciduous", "Mixed"))
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
-
+  
   sheetName <- "StateClass"
   mySheet <- datasheet(myProject, name = sheetName, empty = TRUE)
   expect_equal(levels(mySheet$StateLabelXID), c("Coniferous", "Deciduous", "Mixed"))
@@ -49,36 +49,36 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   mySheet$Name <- paste0(mySheet$StateLabelXID, ":", mySheet$StateLabelYID)
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
   # expect_equal(is.element("StateClassID",names(datasheet(myProject,sheetName,includeKey=T))),T) #include primary key for datasheet
-
+  
   #***********************************
   # Transitions
   sheetName <- "TransitionGroup"
   mySheet <- data.frame(Name = c("Fire", "Harvest", "Succession"))
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
   ret <- saveDatasheet(myProject, mySheet, name = "TransitionType")
-
+  
   sheetName <- "TransitionTypeGroup"
   mySheet <- data.frame(TransitionTypeID = c("Fire", "Harvest", "Succession"))
   mySheet$TransitionGroupID <- mySheet$TransitionTypeID
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
-
+  
   #****************
   # Age type
   sheetName <- "AgeType"
   mySheet <- data.frame(Frequency = 1, MaximumAge = 100)
   ret <- saveDatasheet(myProject, mySheet, name = sheetName)
-
+  
   #*************************************
   # Build Scenario That Contains Shared Parameters
   #*************************************
   myScenario <- scenario(myProject, scenario = "Dependency Scenario")
-
+  
   #**************
   # Run control
   sheetName <- "RunControl"
   mySheet <- data.frame(MinimumIteration = 1, MaximumIteration = 2, MinimumTimestep = 0, MaximumTimestep = 10)
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
-
+  
   #**************************
   # Deterministic transitions
   sheetName <- "DeterministicTransition"
@@ -90,7 +90,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   expect_equal(mySheet$AgeMin, c(21, NA, 11))
   expect_equal(levels(mySheet$StateClassIDSource), c("Coniferous:All", "Deciduous:All", "Mixed:All"))
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
-
+  
   #*************************
   # Probabilistic transitions
   sheetName <- "Transition"
@@ -104,13 +104,13 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   mySheet$StratumIDSource <- "Entire Forest"
   mySheet$StratumIDDest <- "Entire Forest"
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
-
+  
   #********************
   # Initial conditions
   sheetName <- "InitialConditionsNonSpatial"
   mySheet <- data.frame(TotalAmount = 100, NumCells = 100)
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
-
+  
   sheetName <- "InitialConditionsNonSpatialDistribution"
   mySheet <- data.frame(
     StateClassID = c("Coniferous:All", "Deciduous:All", "Mixed:All"),
@@ -120,47 +120,47 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   )
   mySheet$StratumID <- "Entire Forest"
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
-
+  
   #*************************************
   # Add No Harvest Scenario
   #*************************************
   myScenario <- scenario(myProject, scenario = "No Harvest")
-
+  
   ret <- dependency(myScenario, dependency = "Dependency Scenario") # set dependency
   expect_equal(dependency(myScenario)$name, "Dependency Scenario") # now there is a dependency
   ret <- dependency(myScenario, dependency = "Dependency Scenario", remove = TRUE, force = TRUE)
   expect_equal(nrow(dependency(myScenario)), 0) # dependency has been removed
   ret <- dependency(myScenario, dependency = "Dependency Scenario") # set dependency
-
+  
   #******************
   # Transition targets
   sheetName <- "TransitionTarget"
   mySheet <- data.frame(TransitionGroupID = "Harvest", Amount = 0)
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
-
+  
   #*************************************
   # Add Harvest Scenario
   #*************************************
   myScenario <- scenario(myProject, scenario = "Harvest", sourceScenario = "No Harvest")
-
+  
   #******************
   # Transition targets
   sheetName <- "TransitionTarget"
   mySheet <- data.frame(TransitionGroupID = "Harvest", Amount = 20)
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
-
+  
   #********************************
   # Run scenarios
   #******************************
   myResults <- run(myProject, scenario = c("Harvest", "No Harvest"), jobs = 4)
   expect_is(myResults[[1]], "Scenario")
-
+  
   otherResults <- run(myScenario, jobs = 4, summary = TRUE)
   expect_is(otherResults, "data.frame")
-
+  
   expect_output(runLog(myResults[[1]]), "STARTING SIMULATION") # displays and returns a multiline string
   expect_equal(parentId(myResults[[1]]), 3)
-
+  
   #********************************
   # See results
   #******************************

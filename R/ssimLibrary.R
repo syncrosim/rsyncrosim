@@ -1,11 +1,11 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) {
+  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
     enabled <- NULL
     if (is.null(session)) {
       e <- ssimEnvironment()
@@ -15,7 +15,7 @@ setMethod(
         session <- .session()
       }
     }
-
+    
     if (is.character(session)) {
       session <- .session(session)
     }
@@ -106,7 +106,7 @@ setMethod(
           tt <- command(args, session)
           addonTempsDataframe <- read.csv(text = tt)
           addonTemplate <- paste0(addon, "_", template)
-          addonTemplateExists <- addonTemplate %in% addonTempsDataframe
+          addonTemplateExists <- addonTemplate %in% addonTempsDataframe$Name
         } else {
           addonTemplateExists <- FALSE
         }
@@ -225,20 +225,16 @@ setMethod(
       }
     }
     
-    if (useConda == FALSE){
-      tt <- command(list(setprop = NULL, lib = path, useconda = "no"), session)
-    } else {
-      tt <- command(list(setprop = NULL, lib = path, useconda = "yes"), session)
-      if (useConda == TRUE){
-        currentPackages <- unique(datasheets$package)
+    if (!is.null(useConda)){
+      if (useConda == FALSE){
+        tt <- command(list(setprop = NULL, lib = path, useconda = "no"), session)
       } else {
-        if (useConda %in% unique(datasheets$package)){
-          currentPackages <- useConda
-        } else {
-          stop("Argument for useConda is not a SyncroSim Package in this Library")
+        tt <- command(list(setprop = NULL, lib = path, useconda = "yes"), session)
+        if (useConda == TRUE){
+          currentPackages <- unique(datasheets$package)
         }
-      }
-      createCondaEnv(path, currentPackages, session)
+        createCondaEnv(path, currentPackages, session)
+      } 
     }
 
     .Object@session <- session
@@ -248,14 +244,14 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
 
 setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
   return(new("SsimLibrary", name, package, session, addon, forceUpdate))
 })
 
 setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
-  if (class(name) == "SsimLibrary") {
+  if (is(name, "SsimLibrary")) {
     out <- name
   } else {
     out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
@@ -285,10 +281,11 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @param forceUpdate logical. If \code{FALSE} (default) user will be prompted to approve 
 #'     any required updates. If \code{TRUE}, required updates will be applied silently
 #' @param overwrite logical. If \code{TRUE} an existing SsimLibrary will be overwritten
-#' @param useConda character or character vector. One or more packages that can 
-#'  take advantage of Conda environments. All packages specified in this 
-#'  argument will have their Conda environments created and used at runtime.
-#'  Default is none
+#' @param useConda logical. If set to TRUE, then all packages associated with the 
+#'  Library will have their Conda environments created and Conda environments will
+#'  be used during runtime.If set to FALSE, then no packages will have their 
+#'  Conda environments created and Conda environments will not be used during runtime.
+#'  Default is NULL
 #' 
 #' @return 
 #' Returns a \code{\link{SsimLibrary}} object.
@@ -340,14 +337,15 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'                          package = "helloworldSpatial",
 #'                          template = "example-library",
 #'                          overwrite = TRUE)
+#'                          
 #' }
 #' 
 #' @export
-setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = FALSE) standardGeneric("ssimLibrary"))
+setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric("ssimLibrary"))
 
 #' @rdname ssimLibrary
 setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, template, forceUpdate, overwrite, useConda) {
-  if (class(name) == "SsimLibrary") {
+  if (is(name, "SsimLibrary")) {
     out <- name
     if (is.null(summary)) {
       summary <- TRUE
@@ -369,7 +367,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
   if (is.null(session)) {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
+  if ((is(session, "character")) && (is(session, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
 

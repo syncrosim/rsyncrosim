@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -7,14 +7,15 @@ NULL
 #'
 #' Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.
 #'
-#' @param ssimLibrary \code{\link{SsimLibrary}} object
-#' @param value logical, character, or list of characters for whether to use Conda 
-#' environments for SyncroSim packages used by the Library. If set to 
-#' \code{TRUE}, then Conda environments will be used for all SyncroSim packages.
+#' @param ssimObject \code{\link{SsimLibrary}} object
+#' @param value logical for whether to use Conda 
+#' environments for the given SyncroSim Library. If set to 
+#' \code{TRUE}, then Conda environments will be used. If set to \code{FALSE},
+#' then Conda environments will not be used during runtime.
 #' 
 #' @return 
-#' A character or list of characters: the SyncroSim packages that currently are
-#' using Conda environments for the given \code{\link{SsimLibrary}}
+#' Logical: whether Conda environments will be used during runtime for the given
+#'  \code{\link{SsimLibrary}}
 #' 
 #' @examples
 #' \dontrun{
@@ -46,7 +47,12 @@ setMethod("useConda", signature(ssimObject = "character"), function(ssimObject) 
 setMethod("useConda", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
   cInfo <- info(ssimObject)
   property <- NULL
-  return(subset(cInfo, property == "Use Conda:")$value)
+  useCondaValue <- subset(cInfo, property == "Use Conda:")$value
+  if (useCondaValue == "yes") {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
 })
 
 #' @rdname useConda
@@ -56,7 +62,7 @@ setGeneric("useConda<-", function(ssimObject, value) standardGeneric("useConda<-
 #' @rdname useConda
 setReplaceMethod(
   f = "useConda",
-  signature = "character",
+  signature = "logical",
   definition = function(ssimObject, value) {
     return(ssimObject)
   }
@@ -83,9 +89,6 @@ setReplaceMethod(
       tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useconda = "yes"), .session(ssimObject))
       
       currentPackages <- package(ssimObject)$name
-
-    } else if (typeof(value) == "character") {
-      currentPackages <- value
     }
     
     createCondaEnv(.filepath(ssimObject), currentPackages, .session(ssimObject))

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 
 #' rsyncrosim: The R interface to SyncroSim: https://syncrosim.com/
@@ -17,5 +17,5 @@
 #' @name rsyncrosim
 #' @import methods
 #' @importFrom gtools smartbind
-#' @importFrom utils capture.output flush.console head read.csv write.csv
+#' @importFrom utils capture.output flush.console head read.csv write.csv packageVersion
 NULL

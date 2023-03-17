@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -107,7 +107,7 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
 
     print(paste0("Running scenario [", cScn, "] ", name))
 
-    if (class(ssimObject) == "Scenario") {
+    if (is(ssimObject, "Scenario")) {
       breakpoints <- ssimObject@breakpoints
       xsim <- ssimObject
       xsim@breakpoints <- breakpoints
@@ -115,7 +115,7 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
       breakpoints <- NULL
     }
 
-    if ((class(breakpoints) != "list") | (length(breakpoints) == 0)) {
+    if ((!is(breakpoints, "list")) | (length(breakpoints) == 0)) {
       args <- list(run = NULL, lib = .filepath(x), sid = cScn, copyextfiles = "no", jobs = jobs)
 
       if (!is.null(transformerName)) {
@@ -181,13 +181,13 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
     }
   }
 
-  if (summary && (class(out) == "list")) {
+  if (summary && (is(out, "list"))) {
     # summary info for ids
     scnSelect <- unlist(out)
     out <- .scenario(x, scenario = scnSelect, summary = TRUE)
   }
 
-  if (!forceElements && (class(out) == "list") && (length(out) == 1)) {
+  if (!forceElements && (is(out, "list")) && (length(out) == 1)) {
     out <- out[[1]]
   }
   return(out)

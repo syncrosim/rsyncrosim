@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.3.14
+Version: 1.4.4
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -16,6 +16,8 @@ Authors@R: c(
     person("Leonardo", "Frid", 
            role = "aut"), 
     person("Tabitha", "Kennedy", 
+           role = "aut"),
+    person("Shreeram", "Senthivasan",
            role = "aut"),
     person("ApexRMS", role="cph"))
 Description: 'SyncroSim' is a generalized framework for managing scenario-based 
@@ -36,12 +38,11 @@ Imports:
     lifecycle
 Suggests:
     knitr,
-    testthat,
+    testthat (>= 3.0.0),
     ggplot2,
     Rcpp,
     rgdal,
-    rmarkdown,
-    covr
+    rmarkdown
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
@@ -94,6 +95,7 @@ Collate:
     'updatePackage.R'
     'useConda.R'
     'version.R'
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
+Config/testthat/edition: 3

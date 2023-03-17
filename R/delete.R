@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -66,6 +66,8 @@ setMethod("delete", signature(ssimObject = "character"), function(ssimObject, pr
 
 #' @rdname delete
 setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, project, scenario, datasheet, force) {
+  ScenarioID <- NULL
+  
   xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
   
   # expect to have a vector of valid project or scenario ids - checking already done

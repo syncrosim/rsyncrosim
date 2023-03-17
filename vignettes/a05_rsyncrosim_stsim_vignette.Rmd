@@ -1,6 +1,7 @@
 ---
 title: "`rsyncrosim`: introduction to `ST-Sim`"
 output: rmarkdown::html_vignette
+# output: pdf_document
 vignette: >
  %\VignetteIndexEntry{`rsyncrosim`: introduction to `ST-Sim`}
  %\VignetteEngine{knitr::rmarkdown}

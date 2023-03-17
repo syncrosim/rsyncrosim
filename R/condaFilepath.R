@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -36,12 +36,12 @@ setMethod("condaFilepath", signature(session = "Session"), function(session) ses
 
 #' @rdname condaFilepath
 setMethod("condaFilepath", signature(session = "missingOrNULLOrChar"), function(session) {
-  if (class(session) == "character") {
+  if (is(session, "character")) {
     session <- .session(session)
   } else {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
+  if (is(session, "character") && is(session, SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
   return(condaFilepath(session))
@@ -65,10 +65,10 @@ setReplaceMethod(
   signature = "Session",
   definition = function(session, value) {
     
-    if (value == 'default') {
+    if (is.null(value)) {
       tt <- command(args = list(conda = NULL, clear = NULL), session = session)
       if (tt[1] == "Conda path successfully removed.") {
-        session@condaFilepath <- value
+        session@condaFilepath <- NULL
       }
     } else {
       tt <- command(args = list(conda = NULL, path = value), session = session)

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -129,7 +129,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
   isFile <- NULL
   x <- ssimObject
   if (is.null(append)) {
-    if (class(x) == "Scenario") {
+    if (is(x, "Scenario")) {
       append <- FALSE
     } else {
       append <- TRUE
@@ -148,7 +148,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
   }
 
   # Note - cannot handle a list of named vectors, only a list of dataframes.
-  if ((class(data) != "list") | (class(data[[1]]) != "data.frame")) {
+  if ((!is(data, "list")) | (!is(data[[1]], "data.frame"))) {
     if (is.null(name)) {
       stop("Need a datasheet name.")
     }
@@ -191,7 +191,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     cDat <- data[[cName]]
 
     # handle cases when cDat is not a data.frame
-    if (class(cDat) != "data.frame") {
+    if (!is(cDat, "data.frame")) {
       cIn <- cDat
       if (length(cIn) == 0) {
         stop("No data found for ", cName)
@@ -275,7 +275,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       for (j in seq(length.out = length(itemNames))) {
         cFName <- itemNames[j]
         cItem <- fileData[[cFName]]
-        if (!class(cItem) == "RasterLayer") {
+        if (!is(cItem, "RasterLayer")) {
           stop("rsyncrosim currently only supports Raster layers as elements of fileData.")
         }
         # check for cName in datasheet
@@ -366,7 +366,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       out[[cName]] <- "Saved"
     }
     
-    if (out[[cName]] == "saved"){
+    if (out[[cName]][1] == "saved"){
       message(paste0("Datasheet <",cName, "> saved"))
       out[[cName]] <- TRUE
     } else {

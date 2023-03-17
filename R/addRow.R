@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -44,12 +44,12 @@ setMethod("addRow",
   signature = "data.frame",
   definition = function(targetDataframe, value) {
     inNames <- names(value)
-    if (class(value) == "character") {
+    if (class(value)[1] == "character") {
       value <- as.data.frame(t(value), stringsAsFactors = FALSE)
     }
 
     # if value is list
-    if (class(value) == "list") {
+    if (class(value)[1] == "list") {
       value <- as.data.frame(value, stringsAsFactors = FALSE)
 
       if (nrow(value) != 1) {
@@ -87,15 +87,15 @@ setMethod("addRow",
     out <- merge(targetDataframe, value, all = TRUE)
 
     # Now fill in missing factor values if possible
-    for (i in seq(length.out = ncol(out))) {
-      cName <- names(out)[i]
-      if (is.factor(targetDataframe[[cName]])) {
-        if (length(levels(targetDataframe[[cName]])) == 1) {
-          out[[cName]] <- levels(targetDataframe[[cName]])[1]
-        }
-        out[[cName]] <- factor(out[[cName]], levels = levels(targetDataframe[[cName]]))
-      }
-    }
+    # for (i in seq(length.out = ncol(out))) {
+    #   cName <- names(out)[i]
+    #   if (is.factor(targetDataframe[[cName]])) {
+    #     if (length(levels(targetDataframe[[cName]])) == 1) {
+    #       out[[cName]] <- levels(targetDataframe[[cName]])[1]
+    #     }
+    #     out[[cName]] <- factor(out[[cName]], levels = levels(targetDataframe[[cName]]))
+    #   }
+    # }
 
     out <- subset(out, select = names(targetDataframe))
     return(out)

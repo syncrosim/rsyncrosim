@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -81,10 +81,10 @@ setReplaceMethod(
   signature = "SsimObject",
   definition = function(ssimObject, value) {
     args <- list(setprop = NULL, lib = .filepath(ssimObject), owner = value)
-    if (class(ssimObject) == "Project") {
+    if (is(ssimObject, "Project")) {
       args$pid <- .projectId(ssimObject)
     }
-    if (class(ssimObject) == "Scenario") {
+    if (is(ssimObject, "Scenario")) {
       args$sid <- .scenarioId(ssimObject)
     }
     tt <- command(args, .session(ssimObject))

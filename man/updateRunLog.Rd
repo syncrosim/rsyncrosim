@@ -4,13 +4,16 @@
 \alias{updateRunLog}
 \title{Function to write to the SyncroSim run log}
 \usage{
-updateRunLog(..., sep = "")
+updateRunLog(..., sep = "", type = "status")
 }
 \arguments{
 \item{...}{One or more objects which can be coerced to character
 which are pasted together using `sep`.}
 
-\item{sep}{character.  Used to separate terms. Not NA_character_}
+\item{sep}{character. Used to separate terms. Not NA_character_}
+
+\item{type}{character. Type of message to add to run log. One of "status",
+"info", or "warning".}
 }
 \value{
 No returned value, used for side effects

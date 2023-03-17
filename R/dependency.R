@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -102,7 +102,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
   success <- FALSE
   outResults <- list()
   
-  if (class(dependency) == "Scenario") {
+  if (is(dependency, "Scenario")) {
     dependency <- scenarioId(dependency)
   }
   
@@ -110,11 +110,11 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
     cDepRaw <- dependency[[j]]
     cDep <- NULL
     
-    if (class(cDepRaw) == "Scenario") {
+    if (is(cDepRaw, "Scenario")) {
       cDep <- .scenarioId(cDepRaw)
     } 
     
-    else if (class(cDepRaw) == "character") {
+    else if (is(cDepRaw, "character")) {
       if (!is.element(cDepRaw, allScns$Name)) {
         warning(cDepRaw, ": dependency scenario not found in library, wil be ignored.")
       }
@@ -127,7 +127,7 @@ setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dep
       }
     } 
     
-    else if (class(cDepRaw) == "numeric") {
+    else if (is(cDepRaw, "numeric")) {
       if (!is.element(cDepRaw, allScns$ScenarioID)) {
         warning(cDepRaw, ": dependency scenario not found in library, will be ignored.")
       }

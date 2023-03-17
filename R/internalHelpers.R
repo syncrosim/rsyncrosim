@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -144,6 +144,7 @@ getIdsFromListOfObjects <- function(ssimObject, expecting = NULL, scenario = NUL
 # get scnSet
 getScnSet <- function(ssimObject) {
   # get current scenario info
+  ScenarioID <- NULL
   tt <- command(list(list = NULL, scenarios = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   scnSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
   if (nrow(scnSet) == 0) {
@@ -157,6 +158,7 @@ getScnSet <- function(ssimObject) {
 
 # get projectSet
 getProjectSet <- function(ssimObject) {
+  ProjectID <- NULL
   tt <- command(list(list = NULL, projects = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   projectSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
   if (nrow(projectSet) == 0) {
@@ -171,25 +173,43 @@ getProjectSet <- function(ssimObject) {
 # Create package Conda environments
 createCondaEnv <- function(libPath, currentPackages, session) {
   
+  message("Creating Conda environments. Please wait...")
+  
   # Check if Conda is installed
-  tt <- command(list(conda = NULL, config = NULL), session)
-  if (identical(tt, "No Conda configuration yet")){
-    stop("Conda must be installed to use Conda environments.")
-  }
+  # tt <- command(list(conda = NULL, config = NULL), session)
+  # if (identical(tt, "No Conda configuration yet.")){
+  #   tt <- command(list(setprop = NULL,
+  #                      lib = libPath,
+  #                      useconda = "no"), session)
+  #   message("Conda must be installed to use Conda environments.")
+  #   return(TRUE)
+  # }
   
   # Check if environment needs to be created, create if doesn't exist yet
   for (package in currentPackages) {
     tt <- command(list(conda = NULL, createenv = NULL, pkg = package), session)
-    message(tt)
+    if (length(tt) > 1){
+      if (!grepl("Creating Conda environments", tt[1], fixed = TRUE)){
+        stop(tt[1])
+      }
+    } else {
+      if (grepl("No Conda installation found", tt, fixed = TRUE)) {
+        errorMessage = "Conda must be installed to use Conda environments. See ?installConda for details."
+        tt <- command(list(setprop = NULL,
+                           lib = libPath,
+                           useconda = "no"), session)
+      } else {
+        errorMessage = tt
+      }
+
+      message(errorMessage)
+      return(TRUE)
+    }
   }
   
   tt <- command(list(setprop = NULL,
                      lib = libPath,
                      useconda = "yes"), session)
-  
-  if (!identical(tt, "saved")) {
-    stop(tt)
-  }
   
   return(TRUE)
 }
@@ -347,11 +367,14 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 .getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = TRUE) {
   # If x is scenario, ignore project and scenario arguments
   Freq <- NULL
+  ProjectID <- NULL
+  ScenarioID <- NULL
+  
   if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
   }
   
-  if (class(ssimObject) == "character") {
+  if (is(ssimObject, "character")) {
     ssimObject <- .ssimLibrary(ssimObject)
   }
   
@@ -366,7 +389,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     scenario <- NULL
   }
   
-  if (is.null(goal) & (!is.null(project) | (class(ssimObject) == "Project")) & is.null(scenario)) {
+  if (is.null(goal) & (!is.null(project) | (is(ssimObject, "Project")) & is.null(scenario))) {
     goal <- "project"
     if (is.null(returnIds)) {
       if (length(project) > 1) {
@@ -377,7 +400,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     }
   }
   
-  if (is.null(goal) & (!is.null(scenario) | (class(ssimObject) == "Scenario"))) {
+  if (is.null(goal) & (!is.null(scenario) | (is(ssimObject, "Scenario")))) {
     goal <- "scenario"
     if (is.null(returnIds)) {
       if (length(scenario) > 1) {
@@ -402,7 +425,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   # If the goal is a project, return one or more, or complain
   if (!is.null(goal) && (goal == "project")) {
     # if ssimObject is a scenario, return the parent project
-    if ((class(ssimObject) == "Scenario")) {
+    if ((is(ssimObject, "Scenario"))) {
       if (convertObject | !returnIds) {
         ssimObject <- new("Project", ssimObject, id = .projectId(ssimObject))
       }
@@ -501,7 +524,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       }
     }
     
-    if (class(ssimObject) == "Project") {
+    if (is(ssimObject, "Project")) {
       project <- .projectId(ssimObject)
     }
     

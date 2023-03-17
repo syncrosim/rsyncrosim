@@ -12,6 +12,7 @@
 testLibs
 ^\.github$
 cran-comments.md
+using-conda-with-rsyncrosim.Rmd
 Dockerfile
 ^.*\.pdf$
 ^_pkgdown\.yml$
@@ -22,8 +23,10 @@ Dockerfile
 ^docs$
 ^inst$
 ^demo$
-# ^vignettes$ # Remove this line when creating website
+^vignettes$ # Remove this line when creating website
 rsyncrosim.Rcheck
 rsyncrosim_1.3.1.tar.gz
 debugging.R
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
+^rsyncrosim\.Rproj$

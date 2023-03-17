@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -36,12 +36,12 @@ setMethod("silent", signature(session = "Session"), function(session) session@si
 
 #' @rdname silent
 setMethod("silent", signature(session = "missingOrNULLOrChar"), function(session) {
-  if (class(session) == "character") {
+  if (is(session, "character")) {
     session <- .session(session)
   } else {
     session <- .session()
   }
-  if ((class(session) == "character") && (session == SyncroSimNotFound(warn = FALSE))) {
+  if ((is(session, "character")) && (is(session, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
   return(silent(session))

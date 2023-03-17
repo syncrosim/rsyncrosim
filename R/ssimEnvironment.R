@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 
 #' SyncroSim Environment
@@ -235,7 +235,9 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
 #' 
 #' @param ... One or more objects which can be coerced to character
 #' which are pasted together using `sep`.
-#' @param sep character.  Used to separate terms. Not NA_character_
+#' @param sep character. Used to separate terms. Not NA_character_
+#' @param type character. Type of message to add to run log. One of "status",
+#' "info", or "warning".
 #' 
 #' @return 
 #' No returned value, used for side effects
@@ -250,7 +252,7 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
 #' }
 #'
 #' @export
-updateRunLog <- function(..., sep = "") {
+updateRunLog <- function(..., sep = "", type = "status") {
   if(length(list(...)) == 0)
     stop("Please provide a message to write to the run log.")
   

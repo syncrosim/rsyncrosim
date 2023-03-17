@@ -35,7 +35,7 @@ as a result they cannot be used to create new SsimLibraries.
 For example, \emph{stsimsf} is an addon for \emph{stsim} which provides optional 
 additional functionality for the base ST-Sim model.
 More information on addons can be found in the 
-\href{http://docs.syncrosim.com/how_to_guides/package_addon.html}{syncrosim documentation}.
+\href{https://docs.syncrosim.com/how_to_guides/package_addon.html}{syncrosim documentation}.
 }
 \examples{
 \donttest{
