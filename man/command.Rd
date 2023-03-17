@@ -46,7 +46,7 @@ Example args, and the resulting character string passed to the SyncroSim console
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # Install "stsim" if not already installed
 addPackage("stsim")
 
