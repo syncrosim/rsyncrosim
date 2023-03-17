@@ -256,18 +256,21 @@ updateRunLog <- function(..., sep = "", type = "status") {
   if(length(list(...)) == 0)
     stop("Please provide a message to write to the run log.")
   
-  if(!type %in% c("status", "info", "warning"))
-    stop("Please select a valid run log message type.")
+  # Concatenate objects to form the message
+  fullMessage <- paste(..., sep = sep, collapse = "")
   
-  msg <- paste(..., sep = sep, collapse = "")
-  msg <- paste0("ssim-task-log=", strsplit(msg, "\n")[[1]], "\r\n")
+  # Split the message at line breaks
+  splitMessage <- strsplit(fullMessage, "\n")[[1]]
   
-  if(type == "info")
-    msg[1] <- sub("ssim-task-log", "ssim-task-info", msg[1])
-  if(type == "warning")
-    msg[1] <- sub("ssim-task-log", "ssim-task-warning", msg[1])
-   
-  for(m in msg) {
+  # Standardize surrounding empty lines
+  if(splitMessage[1] == "") splitMessage <- splitMessage[-1]
+  if(splitMessage[length(splitMessage)] != "") splitMessage <- c(splitMessage, "")
+  
+  # Annotate messages
+  annotatedMessage <- paste0("ssim-task-log=", splitMessage, "\r\n")
+  
+  # Send to SyncroSim
+  for(m in annotatedMessage) {
     cat(m)
     flush.console()
   }
