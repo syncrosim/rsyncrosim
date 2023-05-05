@@ -51,8 +51,8 @@ NULL
 #' @param scenario numeric or numeric vector. One or more 
 #'     \code{\link{Scenario}} ids
 #' @param summary logical or character. If \code{TRUE} (default) returns a data.frame of sheet names 
-#'     and other info. If \code{FALSE} returns data.frame or list of data.frames. If \code{"CORE"} returns 
-#'     data.frame of sheet names and other info including built-in core SyncroSim Datasheets
+#'     and other info including built-in core SyncroSim Datasheets. If \code{FALSE} returns 
+#'     data.frame or list of data.frames.
 #' @param optional logical. If \code{summary=TRUE} and \code{optional=TRUE} returns 
 #'     only \code{scope}, \code{name} and \code{displayName}. If \code{summary=FALSE} and \code{optional=TRUE} returns 
 #'     all of the Datasheet's columns, including the optional columns. If 
@@ -83,7 +83,7 @@ NULL
 #'     \code{\link{sqlStatement}} flags. Default is \code{FALSE}
 #' 
 #' @return 
-#' If \code{summary=TRUE} or \code{summary="CORE"} returns a data.frame of Datasheet names 
+#' If \code{summary=TRUE} returns a data.frame of Datasheet names 
 #' and other information, otherwise returns a data.frame or list of these.
 #' 
 #'
@@ -138,9 +138,6 @@ NULL
 #'                               
 #' # Optimize query
 #' myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
-#' 
-#' # Get all the SsimLibrary core Datasheet info
-#' myDatasheets <- datasheet(myLibrary, summary = "CORE")
 #' 
 #' # Get specific SsimLibrary core Datasheet
 #' myDatasheet <- datasheet(myLibrary, name = "core_Backup")
@@ -242,9 +239,13 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     }
   }
   
+  if (summary == "CORE"){
+    summary <- TRUE
+  }
+  
   # if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if (summary == TRUE) {
-    sumInfo <- .datasheets(x, project[[1]], scenario[[1]])
+    sumInfo <- .datasheets(x, project[[1]], scenario[[1]], core = TRUE)
     if (nrow(sumInfo) == 0) {
       stop("No datasheets available")
     }
@@ -264,17 +265,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     sumInfo <- subset(sumInfo, is.element(name, allNames))
   }
   
-  # If summary is set to "CORE" use the --includesys command line flag to get core datasheets
-  if (summary == "CORE") {
-    sumInfo <- .datasheets(x, project[[1]], scenario[[1]], core = TRUE)
-    sumInfo$order <- seq(1, nrow(sumInfo))
-    if (is.null(name)) {
-      name <- sumInfo$name
-      allNames <- name
-    }
-    sumInfo <- subset(sumInfo, is.element(name, allNames))
-  }
-  
   # now assume we have one or more names
   if (is.null(name) & summary == FALSE) {
     sumInfo <- .datasheets(x, project[[1]], scenario[[1]])
@@ -283,7 +273,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
     stop("Something is wrong in datasheet().")
   }
   
-  if ((summary == TRUE | summary == "CORE") & !optional) {
+  if ((summary == TRUE) & !optional) {
     sumInfo <- subset(sumInfo, select = c("scope", "name", "displayName", "order"))
     sumInfo[order(sumInfo$order), ]
     sumInfo$order <- NULL
@@ -291,7 +281,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
   }
   
   # Add data info - only for scenario scope datasheets if sid is defined
-  if (summary == TRUE | summary == "CORE") {
+  if (summary == TRUE) {
     # if no scenario scope sheets, return sumInfo without checking for data
     scnSheetSum <- sum(sumInfo$scope == "scenario")
     
