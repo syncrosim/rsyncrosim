@@ -170,21 +170,6 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
   } else {
     progName <- path
   }
-  
-  # e <- ssimEnvironment()
-  # if (e$IsChildProcess == "false"){
-  #   if (is.null(condaFilepath)) {
-  #     stop("Conda env is being cleared")
-  #     tt <- command(args = list(conda = NULL, clear = NULL), progName = progName)
-  #   } else {
-  #     tt <- command(args = list(conda = NULL, path = condaFilepath), progName = progName)
-  #     if (startsWith(tt[1], "The folder does not contain a valid Conda executable")) {
-  #       message(tt[1])
-  #       condaFilepath <- "default"
-  #     }
-  #   }    
-  # }
-
 
   return(new("Session", path, silent, printCmd, condaFilepath))
 })
