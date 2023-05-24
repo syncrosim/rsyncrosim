@@ -674,7 +674,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
         if (cRow$valType == "DataSheet") {
           if (lookupsAsFactors) {
             # Find display member to create factors from
-            tt <- command(args = list(lib = .filepath(x), list = NULL, datasheets = NULL), session = .session(x))
+            tt <- command(args = list(lib = .filepath(x), list = NULL, datasheets = NULL, includesys = NULL), session = .session(x))
             tt <- .dataframeFromSSim(tt, csv = FALSE)
             displayMem <- tt[tt$name == cRow$formula1,]$displayMember
             
