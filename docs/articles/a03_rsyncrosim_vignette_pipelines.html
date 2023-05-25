@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.5</span>
       </span>
     </div>
 
@@ -200,7 +200,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.22"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.4.27"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -261,11 +261,41 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View all Datasheets associated with a Library, Project, or Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      scope                                     name           displayName</span></span>
-<span><span class="co">## 1 scenario        helloworldPipeline_InputDatasheet        InputDatasheet</span></span>
-<span><span class="co">## 2 scenario helloworldPipeline_IntermediateDatasheet IntermediateDatasheet</span></span>
-<span><span class="co">## 3 scenario       helloworldPipeline_OutputDatasheet       OutputDatasheet</span></span>
-<span><span class="co">## 4 scenario            helloworldPipeline_RunControl           Run Control</span></span></code></pre>
+<pre><code><span><span class="co">##       scope                                     name                displayName</span></span>
+<span><span class="co">## 1   library                              core_Backup                     Backup</span></span>
+<span><span class="co">## 2   library                         core_CondaConfig        Conda Configuration</span></span>
+<span><span class="co">## 3   library                            core_JlConfig        Julia Configuration</span></span>
+<span><span class="co">## 4   library                          core_LNGPackage   Last Known Good Packages</span></span>
+<span><span class="co">## 5   library                     core_Multiprocessing            Multiprocessing</span></span>
+<span><span class="co">## 6   library                             core_Options                    Options</span></span>
+<span><span class="co">## 7   library                core_ProcessorGroupOption    Processor Group Options</span></span>
+<span><span class="co">## 8   library                 core_ProcessorGroupValue     Processor Group Values</span></span>
+<span><span class="co">## 9   library                            core_PyConfig       Python Configuration</span></span>
+<span><span class="co">## 10  library                             core_RConfig            R Configuration</span></span>
+<span><span class="co">## 11  library                            core_Settings                   Settings</span></span>
+<span><span class="co">## 12  library                           core_SysFolder                    Folders</span></span>
+<span><span class="co">## 13  library                        corestime_Options            Spatial Options</span></span>
+<span><span class="co">## 14  project                          core_AutoGenTag       Auto Generation Tags</span></span>
+<span><span class="co">## 15  project                  core_RunSchedulerOption      Run Scheduler Options</span></span>
+<span><span class="co">## 16  project                core_RunSchedulerScenario    Run Scheduler Scenarios</span></span>
+<span><span class="co">## 17  project                           core_StageName               Stage Groups</span></span>
+<span><span class="co">## 18  project                          core_StageValue            Stages by Group</span></span>
+<span><span class="co">## 19  project                         core_Transformer                     Stages</span></span>
+<span><span class="co">## 20  project                         corestime_Charts                     Charts</span></span>
+<span><span class="co">## 21  project               corestime_DistributionType              Distributions</span></span>
+<span><span class="co">## 22  project           corestime_ExternalVariableType         External Variables</span></span>
+<span><span class="co">## 23  project                       corestime_MapFacet               Map Faceting</span></span>
+<span><span class="co">## 24  project                           corestime_Maps                       Maps</span></span>
+<span><span class="co">## 25 scenario                     core_AutoGenTagValue Auto Generation Tag Values</span></span>
+<span><span class="co">## 26 scenario                            core_Pipeline                   Pipeline</span></span>
+<span><span class="co">## 27 scenario              corestime_DistributionValue              Distributions</span></span>
+<span><span class="co">## 28 scenario                       corestime_External                   External</span></span>
+<span><span class="co">## 29 scenario          corestime_ExternalVariableValue         External Variables</span></span>
+<span><span class="co">## 30 scenario                corestime_Multiprocessing    Spatial Multiprocessing</span></span>
+<span><span class="co">## 31 scenario        helloworldPipeline_InputDatasheet             InputDatasheet</span></span>
+<span><span class="co">## 32 scenario helloworldPipeline_IntermediateDatasheet      IntermediateDatasheet</span></span>
+<span><span class="co">## 33 scenario       helloworldPipeline_OutputDatasheet            OutputDatasheet</span></span>
+<span><span class="co">## 34 scenario            helloworldPipeline_RunControl                Run Control</span></span></code></pre>
 <p>From the list of Datasheets above, we can see that there are four
 Datasheets specific to the <code>helloworldPipeline</code> package,
 including an Input Datasheet, an Intermediate Datasheet, and an Output
@@ -441,29 +471,219 @@ both the Intermediate and Output Datasheets after running the Scenario
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Datasheets for original Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      scope            package                                     name</span></span>
-<span><span class="co">## 1 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
-<span><span class="co">## 2 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
-<span><span class="co">## 3 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
-<span><span class="co">## 4 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
-<span><span class="co">##             displayName isSingle isOutput displayMember  data scenario</span></span>
-<span><span class="co">## 1        InputDatasheet     TRUE    FALSE           N/A  TRUE        1</span></span>
-<span><span class="co">## 2 IntermediateDatasheet    FALSE    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 3       OutputDatasheet    FALSE    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 4           Run Control     TRUE    FALSE           N/A  TRUE        1</span></span></code></pre>
+<pre><code><span><span class="co">##       scope            package                                     name</span></span>
+<span><span class="co">## 3   library               core                              core_Backup</span></span>
+<span><span class="co">## 4   library               core                         core_CondaConfig</span></span>
+<span><span class="co">## 5   library               core                            core_JlConfig</span></span>
+<span><span class="co">## 6   library               core                          core_LNGPackage</span></span>
+<span><span class="co">## 7   library               core                     core_Multiprocessing</span></span>
+<span><span class="co">## 8   library               core                             core_Options</span></span>
+<span><span class="co">## 10  library               core                core_ProcessorGroupOption</span></span>
+<span><span class="co">## 11  library               core                 core_ProcessorGroupValue</span></span>
+<span><span class="co">## 12  library               core                            core_PyConfig</span></span>
+<span><span class="co">## 13  library               core                             core_RConfig</span></span>
+<span><span class="co">## 16  library               core                            core_Settings</span></span>
+<span><span class="co">## 19  library               core                           core_SysFolder</span></span>
+<span><span class="co">## 30  library          corestime                        corestime_Options</span></span>
+<span><span class="co">## 1   project               core                          core_AutoGenTag</span></span>
+<span><span class="co">## 14  project               core                  core_RunSchedulerOption</span></span>
+<span><span class="co">## 15  project               core                core_RunSchedulerScenario</span></span>
+<span><span class="co">## 17  project               core                           core_StageName</span></span>
+<span><span class="co">## 18  project               core                          core_StageValue</span></span>
+<span><span class="co">## 20  project               core                         core_Transformer</span></span>
+<span><span class="co">## 21  project          corestime                         corestime_Charts</span></span>
+<span><span class="co">## 22  project          corestime               corestime_DistributionType</span></span>
+<span><span class="co">## 25  project          corestime           corestime_ExternalVariableType</span></span>
+<span><span class="co">## 27  project          corestime                       corestime_MapFacet</span></span>
+<span><span class="co">## 28  project          corestime                           corestime_Maps</span></span>
+<span><span class="co">## 2  scenario               core                     core_AutoGenTagValue</span></span>
+<span><span class="co">## 9  scenario               core                            core_Pipeline</span></span>
+<span><span class="co">## 23 scenario          corestime              corestime_DistributionValue</span></span>
+<span><span class="co">## 24 scenario          corestime                       corestime_External</span></span>
+<span><span class="co">## 26 scenario          corestime          corestime_ExternalVariableValue</span></span>
+<span><span class="co">## 29 scenario          corestime                corestime_Multiprocessing</span></span>
+<span><span class="co">## 31 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
+<span><span class="co">## 32 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
+<span><span class="co">## 33 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
+<span><span class="co">## 34 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
+<span><span class="co">##                   displayName isSingle isOutput          displayMember  data</span></span>
+<span><span class="co">## 3                      Backup     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 4         Conda Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 5         Julia Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 6    Last Known Good Packages    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 7             Multiprocessing     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 8                     Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 10    Processor Group Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 11     Processor Group Values    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 12       Python Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 13            R Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 16                   Settings    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 19                    Folders     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 30            Spatial Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 1        Auto Generation Tags    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 14      Run Scheduler Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 15    Run Scheduler Scenarios    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 17               Stage Groups    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 18            Stages by Group    FALSE    FALSE           StageValueID    NA</span></span>
+<span><span class="co">## 20                     Stages    FALSE    FALSE TransformerDisplayName    NA</span></span>
+<span><span class="co">## 21                     Charts    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 22              Distributions    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 25         External Variables    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 27               Map Faceting    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 28                       Maps    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 2  Auto Generation Tag Values    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 9                    Pipeline    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 23              Distributions    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 24                   External     TRUE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 26         External Variables    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 29    Spatial Multiprocessing     TRUE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 31             InputDatasheet     TRUE    FALSE                    N/A  TRUE</span></span>
+<span><span class="co">## 32      IntermediateDatasheet    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 33            OutputDatasheet    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 34                Run Control     TRUE    FALSE                    N/A  TRUE</span></span>
+<span><span class="co">##    scenario</span></span>
+<span><span class="co">## 3        NA</span></span>
+<span><span class="co">## 4        NA</span></span>
+<span><span class="co">## 5        NA</span></span>
+<span><span class="co">## 6        NA</span></span>
+<span><span class="co">## 7        NA</span></span>
+<span><span class="co">## 8        NA</span></span>
+<span><span class="co">## 10       NA</span></span>
+<span><span class="co">## 11       NA</span></span>
+<span><span class="co">## 12       NA</span></span>
+<span><span class="co">## 13       NA</span></span>
+<span><span class="co">## 16       NA</span></span>
+<span><span class="co">## 19       NA</span></span>
+<span><span class="co">## 30       NA</span></span>
+<span><span class="co">## 1        NA</span></span>
+<span><span class="co">## 14       NA</span></span>
+<span><span class="co">## 15       NA</span></span>
+<span><span class="co">## 17       NA</span></span>
+<span><span class="co">## 18       NA</span></span>
+<span><span class="co">## 20       NA</span></span>
+<span><span class="co">## 21       NA</span></span>
+<span><span class="co">## 22       NA</span></span>
+<span><span class="co">## 25       NA</span></span>
+<span><span class="co">## 27       NA</span></span>
+<span><span class="co">## 28       NA</span></span>
+<span><span class="co">## 2         1</span></span>
+<span><span class="co">## 9         1</span></span>
+<span><span class="co">## 23        1</span></span>
+<span><span class="co">## 24        1</span></span>
+<span><span class="co">## 26        1</span></span>
+<span><span class="co">## 29        1</span></span>
+<span><span class="co">## 31        1</span></span>
+<span><span class="co">## 32        1</span></span>
+<span><span class="co">## 33        1</span></span>
+<span><span class="co">## 34        1</span></span></code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Datasheets for Results Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      scope            package                                     name</span></span>
-<span><span class="co">## 1 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
-<span><span class="co">## 2 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
-<span><span class="co">## 3 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
-<span><span class="co">## 4 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
-<span><span class="co">##             displayName isSingle isOutput displayMember  data scenario</span></span>
-<span><span class="co">## 1        InputDatasheet     TRUE    FALSE           N/A  TRUE        1</span></span>
-<span><span class="co">## 2 IntermediateDatasheet    FALSE    FALSE           N/A  TRUE        1</span></span>
-<span><span class="co">## 3       OutputDatasheet    FALSE    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 4           Run Control     TRUE    FALSE           N/A  TRUE        1</span></span></code></pre>
+<pre><code><span><span class="co">##       scope            package                                     name</span></span>
+<span><span class="co">## 3   library               core                              core_Backup</span></span>
+<span><span class="co">## 4   library               core                         core_CondaConfig</span></span>
+<span><span class="co">## 5   library               core                            core_JlConfig</span></span>
+<span><span class="co">## 6   library               core                          core_LNGPackage</span></span>
+<span><span class="co">## 7   library               core                     core_Multiprocessing</span></span>
+<span><span class="co">## 8   library               core                             core_Options</span></span>
+<span><span class="co">## 10  library               core                core_ProcessorGroupOption</span></span>
+<span><span class="co">## 11  library               core                 core_ProcessorGroupValue</span></span>
+<span><span class="co">## 12  library               core                            core_PyConfig</span></span>
+<span><span class="co">## 13  library               core                             core_RConfig</span></span>
+<span><span class="co">## 16  library               core                            core_Settings</span></span>
+<span><span class="co">## 19  library               core                           core_SysFolder</span></span>
+<span><span class="co">## 30  library          corestime                        corestime_Options</span></span>
+<span><span class="co">## 1   project               core                          core_AutoGenTag</span></span>
+<span><span class="co">## 14  project               core                  core_RunSchedulerOption</span></span>
+<span><span class="co">## 15  project               core                core_RunSchedulerScenario</span></span>
+<span><span class="co">## 17  project               core                           core_StageName</span></span>
+<span><span class="co">## 18  project               core                          core_StageValue</span></span>
+<span><span class="co">## 20  project               core                         core_Transformer</span></span>
+<span><span class="co">## 21  project          corestime                         corestime_Charts</span></span>
+<span><span class="co">## 22  project          corestime               corestime_DistributionType</span></span>
+<span><span class="co">## 25  project          corestime           corestime_ExternalVariableType</span></span>
+<span><span class="co">## 27  project          corestime                       corestime_MapFacet</span></span>
+<span><span class="co">## 28  project          corestime                           corestime_Maps</span></span>
+<span><span class="co">## 2  scenario               core                     core_AutoGenTagValue</span></span>
+<span><span class="co">## 9  scenario               core                            core_Pipeline</span></span>
+<span><span class="co">## 23 scenario          corestime              corestime_DistributionValue</span></span>
+<span><span class="co">## 24 scenario          corestime                       corestime_External</span></span>
+<span><span class="co">## 26 scenario          corestime          corestime_ExternalVariableValue</span></span>
+<span><span class="co">## 29 scenario          corestime                corestime_Multiprocessing</span></span>
+<span><span class="co">## 31 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
+<span><span class="co">## 32 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
+<span><span class="co">## 33 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
+<span><span class="co">## 34 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
+<span><span class="co">##                   displayName isSingle isOutput          displayMember  data</span></span>
+<span><span class="co">## 3                      Backup     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 4         Conda Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 5         Julia Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 6    Last Known Good Packages    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 7             Multiprocessing     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 8                     Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 10    Processor Group Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 11     Processor Group Values    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 12       Python Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 13            R Configuration     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 16                   Settings    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 19                    Folders     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 30            Spatial Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 1        Auto Generation Tags    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 14      Run Scheduler Options     TRUE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 15    Run Scheduler Scenarios    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 17               Stage Groups    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 18            Stages by Group    FALSE    FALSE           StageValueID    NA</span></span>
+<span><span class="co">## 20                     Stages    FALSE    FALSE TransformerDisplayName    NA</span></span>
+<span><span class="co">## 21                     Charts    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 22              Distributions    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 25         External Variables    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 27               Map Faceting    FALSE    FALSE                    N/A    NA</span></span>
+<span><span class="co">## 28                       Maps    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 2  Auto Generation Tag Values    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 9                    Pipeline    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 23              Distributions    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 24                   External     TRUE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 26         External Variables    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 29    Spatial Multiprocessing     TRUE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 31             InputDatasheet     TRUE    FALSE                    N/A  TRUE</span></span>
+<span><span class="co">## 32      IntermediateDatasheet    FALSE    FALSE                    N/A  TRUE</span></span>
+<span><span class="co">## 33            OutputDatasheet    FALSE    FALSE                    N/A FALSE</span></span>
+<span><span class="co">## 34                Run Control     TRUE    FALSE                    N/A  TRUE</span></span>
+<span><span class="co">##    scenario</span></span>
+<span><span class="co">## 3        NA</span></span>
+<span><span class="co">## 4        NA</span></span>
+<span><span class="co">## 5        NA</span></span>
+<span><span class="co">## 6        NA</span></span>
+<span><span class="co">## 7        NA</span></span>
+<span><span class="co">## 8        NA</span></span>
+<span><span class="co">## 10       NA</span></span>
+<span><span class="co">## 11       NA</span></span>
+<span><span class="co">## 12       NA</span></span>
+<span><span class="co">## 13       NA</span></span>
+<span><span class="co">## 16       NA</span></span>
+<span><span class="co">## 19       NA</span></span>
+<span><span class="co">## 30       NA</span></span>
+<span><span class="co">## 1        NA</span></span>
+<span><span class="co">## 14       NA</span></span>
+<span><span class="co">## 15       NA</span></span>
+<span><span class="co">## 17       NA</span></span>
+<span><span class="co">## 18       NA</span></span>
+<span><span class="co">## 20       NA</span></span>
+<span><span class="co">## 21       NA</span></span>
+<span><span class="co">## 22       NA</span></span>
+<span><span class="co">## 25       NA</span></span>
+<span><span class="co">## 27       NA</span></span>
+<span><span class="co">## 28       NA</span></span>
+<span><span class="co">## 2         1</span></span>
+<span><span class="co">## 9         1</span></span>
+<span><span class="co">## 23        1</span></span>
+<span><span class="co">## 24        1</span></span>
+<span><span class="co">## 26        1</span></span>
+<span><span class="co">## 29        1</span></span>
+<span><span class="co">## 31        1</span></span>
+<span><span class="co">## 32        1</span></span>
+<span><span class="co">## 33        1</span></span>
+<span><span class="co">## 34        1</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -485,13 +705,13 @@ corresponds to the results from the first model.</p>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep       y</span></span>
-<span><span class="co">## 1         1        1 10.6000</span></span>
-<span><span class="co">## 2         1        2 18.2000</span></span>
-<span><span class="co">## 3         1        3 25.8001</span></span>
-<span><span class="co">## 4         1        4 33.4001</span></span>
-<span><span class="co">## 5         1        5 41.0001</span></span>
-<span><span class="co">## 6         1        6 48.6001</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep      y</span></span>
+<span><span class="co">## 1         1        1 3.8368</span></span>
+<span><span class="co">## 2         1        2 4.6735</span></span>
+<span><span class="co">## 3         1        3 5.5103</span></span>
+<span><span class="co">## 4         1        4 6.3470</span></span>
+<span><span class="co">## 5         1        5 7.1838</span></span>
+<span><span class="co">## 6         1        6 8.0205</span></span></code></pre>
 <p>We can see that for every timestep in an iteration we have a new
 value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
@@ -535,7 +755,7 @@ time.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

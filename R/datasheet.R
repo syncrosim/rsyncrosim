@@ -717,11 +717,11 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             }
             if (is.numeric(sheet[[cRow$name]])) {
               if (nrow(lookupSheet) > 0) {
-                if (length(intersect(displayName, names(lookupSheet))) == 0) { #TODO: fix this
+                if (length(intersect(displayMem, names(lookupSheet))) == 0) {
                   stop("Something is wrong. Expecting Name in lookup table.")
                 }
                 
-                lookupMerge <- subset(lookupSheet, select = c(names(lookupSheet)[1], displayName))
+                lookupMerge <- subset(lookupSheet, select = c(names(lookupSheet)[1], displayMem))
                 
                 names(lookupMerge) <- c(cRow$name, "lookupName")
                 sheet <- merge(sheet, lookupMerge, all.x = TRUE)

@@ -92,8 +92,8 @@ consuming and not generally recommended}
 \code{\link{Scenario}} ids}
 
 \item{summary}{logical or character. If \code{TRUE} (default) returns a data.frame of sheet names 
-and other info. If \code{FALSE} returns data.frame or list of data.frames. If \code{"CORE"} returns 
-data.frame of sheet names and other info including built-in core SyncroSim Datasheets}
+and other info including built-in core SyncroSim Datasheets. If \code{FALSE} returns 
+data.frame or list of data.frames.}
 
 \item{optional}{logical. If \code{summary=TRUE} and \code{optional=TRUE} returns 
 only \code{scope}, \code{name} and \code{displayName}. If \code{summary=FALSE} and \code{optional=TRUE} returns 
@@ -133,7 +133,7 @@ performance.  Ignored if combined with summary, empty, or
 \code{\link{sqlStatement}} flags. Default is \code{FALSE}}
 }
 \value{
-If \code{summary=TRUE} or \code{summary="CORE"} returns a data.frame of Datasheet names 
+If \code{summary=TRUE} returns a data.frame of Datasheet names 
 and other information, otherwise returns a data.frame or list of these.
 }
 \description{
@@ -221,9 +221,6 @@ myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE,
                               
 # Optimize query
 myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
-
-# Get all the SsimLibrary core Datasheet info
-myDatasheets <- datasheet(myLibrary, summary = "CORE")
 
 # Get specific SsimLibrary core Datasheet
 myDatasheet <- datasheet(myLibrary, name = "core_Backup")
