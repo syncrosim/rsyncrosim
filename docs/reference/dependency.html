@@ -166,13 +166,12 @@ from lowest to highest precedence.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove dependency</span></span></span>
 <span class="r-in"><span><span class="fu">dependency</span><span class="op">(</span><span class="va">myNewScenario</span>, dependency <span class="op">=</span> <span class="va">myScenario</span>, remove <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Do you really want to remove dependency My Scenario [1] from my New Scenario [2]? (y/n): </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Deletion of dependency My Scenario [1] skipped</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dependency: &lt;My Scenario [1]&gt;, deleted from scenario: &lt;my New Scenario [2]&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Force removal of dependency</span></span></span>
 <span class="r-in"><span><span class="fu">dependency</span><span class="op">(</span><span class="va">myNewScenario</span>, dependency <span class="op">=</span> <span class="va">myScenario</span>, remove <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>           force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Dependency: &lt;My Scenario [1]&gt;, deleted from scenario: &lt;my New Scenario [2]&gt;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>My Scenario [1] is not a dependency of my New Scenario [2]</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
