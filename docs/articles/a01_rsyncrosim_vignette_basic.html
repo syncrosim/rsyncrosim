@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.6</span>
       </span>
     </div>
 
@@ -164,8 +164,8 @@ workflows.</p>
 representing a slope and an intercept value. It then runs these input
 values through a linear model, <em>y=mt+b</em>, where <em>t</em> is
 <em>time</em>, and returns the <em>y</em> value as output.</p>
-<div class="figure">
-<img src="infographic-basic.png" width="600" alt=""><p class="caption">Infographic of helloworldTime package</p>
+<div class="float">
+<img src="infographic-basic.png" width="600" alt="Infographic of helloworldTime package"><div class="figcaption">Infographic of helloworldTime package</div>
 </div>
 <p>For more details on the different features of the
 <code>helloworldTime</code> SyncroSim package, consult the SyncroSim
@@ -222,7 +222,7 @@ used (Windows only).</p>
 connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.27"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.4.30"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -453,7 +453,7 @@ from <code>rsyncrosim</code>.</p>
 <span><span class="co">## 21  project      corestime_DistributionType              Distributions</span></span>
 <span><span class="co">## 22  project  corestime_ExternalVariableType         External Variables</span></span>
 <span><span class="co">## 23  project              corestime_MapFacet               Map Faceting</span></span>
-<span><span class="co">## 24  project                  corestime_Maps                       Maps</span></span>
+<span><span class="co">## 24  project                  corestime_Maps                      Plots</span></span>
 <span><span class="co">## 25 scenario            core_AutoGenTagValue Auto Generation Tag Values</span></span>
 <span><span class="co">## 26 scenario                   core_Pipeline                   Pipeline</span></span>
 <span><span class="co">## 27 scenario     corestime_DistributionValue              Distributions</span></span>
@@ -526,7 +526,7 @@ can set the <code>optional</code> argument to <code>FALSE</code>.</p>
 <span><span class="co">## 22              Distributions    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 25         External Variables    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 27               Map Faceting    FALSE    FALSE                    N/A    NA</span></span>
-<span><span class="co">## 28                       Maps    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 28                      Plots    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 2  Auto Generation Tag Values    FALSE    FALSE                    N/A FALSE</span></span>
 <span><span class="co">## 9                    Pipeline    FALSE    FALSE                    N/A FALSE</span></span>
 <span><span class="co">## 23              Distributions    FALSE    FALSE                    N/A FALSE</span></span>
@@ -723,18 +723,18 @@ the only argument is the result Scenario variable.</p>
 <code class="sourceCode R"><span><span class="co"># Get run details for the first result Scenario</span></span>
 <span><span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Run Log                                                                                                                                                                                                                                                                                            </span></span>
-<span><span class="co">## STARTING SIMULATION: 2023-05-24 : 5:36:20 PM</span></span>
+<span><span class="co">## STARTING SIMULATION: 2023-06-20 : 1:36:59 PM</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Parent Scenario is: [1] My first scenario</span></span>
-<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 24-May-2023 5:36 PM)</span></span>
+<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 20-Jun-2023 1:36 PM)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## CONFIGURING: Primary</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## RUNNING: Primary</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## SIMULATION COMPLETE: 2023-05-24 : 5:36:29 PM</span></span>
-<span><span class="co">## Total simulation time: 00:00:09</span></span></code></pre>
-<pre><code><span><span class="co">## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2023-05-24 : 5:36:20 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 24-May-2023 5:36 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2023-05-24 : 5:36:29 PM\nTotal simulation time: 00:00:09      "</span></span></code></pre>
+<span><span class="co">## SIMULATION COMPLETE: 2023-06-20 : 1:37:09 PM</span></span>
+<span><span class="co">## Total simulation time: 00:00:10</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "Run Log                                                                                                                                                                                                                                                                                            \nSTARTING SIMULATION: 2023-06-20 : 1:36:59 PM\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 20-Jun-2023 1:36 PM)\n\nCONFIGURING: Primary\n\nRUNNING: Primary\n\nSIMULATION COMPLETE: 2023-06-20 : 1:37:09 PM\nTotal simulation time: 00:00:10      "</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -758,10 +758,10 @@ model inputs.</p>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioID ProjectID                                          Name IsResult</span></span>
 <span><span class="co">## 1          1         1                             My first scenario       No</span></span>
-<span><span class="co">## 2          2         1 My first scenario ([1] @ 24-May-2023 5:36 PM)      Yes</span></span>
+<span><span class="co">## 2          2         1 My first scenario ([1] @ 20-Jun-2023 1:36 PM)      Yes</span></span>
 <span><span class="co">##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies</span></span>
-<span><span class="co">## 1       NA   N/A 2023-05-24 at 5:36 PM         No                No</span></span>
-<span><span class="co">## 2        1   N/A 2023-05-24 at 5:36 PM         No                No</span></span>
+<span><span class="co">## 1       NA   N/A 2023-06-20 at 1:36 PM         No                No</span></span>
+<span><span class="co">## 2        1   N/A 2023-06-20 at 1:37 PM         No                No</span></span>
 <span><span class="co">##   IgnoreDependencies AutoGenTags</span></span>
 <span><span class="co">## 1                 NA          NA</span></span>
 <span><span class="co">## 2                 NA          NA</span></span></code></pre>
@@ -834,7 +834,7 @@ function.</p>
 <span><span class="co">## 22              Distributions    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 25         External Variables    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 27               Map Faceting    FALSE    FALSE                    N/A    NA</span></span>
-<span><span class="co">## 28                       Maps    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 28                      Plots    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 2  Auto Generation Tag Values    FALSE    FALSE                    N/A FALSE</span></span>
 <span><span class="co">## 9                    Pipeline    FALSE    FALSE                    N/A FALSE</span></span>
 <span><span class="co">## 23              Distributions    FALSE    FALSE                    N/A FALSE</span></span>
@@ -939,7 +939,7 @@ function.</p>
 <span><span class="co">## 22              Distributions    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 25         External Variables    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 27               Map Faceting    FALSE    FALSE                    N/A    NA</span></span>
-<span><span class="co">## 28                       Maps    FALSE    FALSE                   Name    NA</span></span>
+<span><span class="co">## 28                      Plots    FALSE    FALSE                   Name    NA</span></span>
 <span><span class="co">## 2  Auto Generation Tag Values    FALSE    FALSE                    N/A FALSE</span></span>
 <span><span class="co">## 9                    Pipeline    FALSE    FALSE                    N/A FALSE</span></span>
 <span><span class="co">## 23              Distributions    FALSE    FALSE                    N/A FALSE</span></span>
@@ -1024,7 +1024,7 @@ you want to copy.</p>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                            Name</span></span>
 <span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 24-May-2023 5:36 PM)</span></span></code></pre>
+<span><span class="co">## 2 My first scenario ([1] @ 20-Jun-2023 1:36 PM)</span></span></code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Scenario as a copy of an existing Scenario</span></span>
 <span><span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,</span>
@@ -1035,7 +1035,7 @@ you want to copy.</p>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                            Name</span></span>
 <span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 24-May-2023 5:36 PM)</span></span>
+<span><span class="co">## 2 My first scenario ([1] @ 20-Jun-2023 1:36 PM)</span></span>
 <span><span class="co">## 3                            My second scenario</span></span></code></pre>
 <p>To edit the new Scenario, we must first load the contents of the
 input Datasheet and assign it to a new R data frame using the
@@ -1153,7 +1153,7 @@ generate the Results Scenario using the <code>rsyncrosim</code> function
 <span><span class="co">##                                                                    value</span></span>
 <span><span class="co">## 1                                                      helloworldLibrary</span></span>
 <span><span class="co">## 2                                                                    N/A</span></span>
-<span><span class="co">## 3                                                  2023-05-24 at 5:37 PM</span></span>
+<span><span class="co">## 3                                                  2023-06-20 at 1:37 PM</span></span>
 <span><span class="co">## 4                                                    204 KB  (208,896 B)</span></span>
 <span><span class="co">## 5                                                                     No</span></span>
 <span><span class="co">## 6                                                         helloworldTime</span></span>
@@ -1264,9 +1264,9 @@ Interface as you go. To sync the Library in the User Interface with the
 latest changes from the <code>rsyncrosim</code> code, click the refresh
 icon (circled in red below) in the upper tool bar of the User
 Interface.</p>
-<div class="figure">
-<img src="rsyncrosim-with-UI.PNG" width="600" alt=""><p class="caption">Using <code>rsyncrosim</code> with the SyncroSim
-Windows User Interface</p>
+<div class="float">
+<img src="rsyncrosim-with-UI.PNG" width="600" alt="Using rsyncrosim with the SyncroSim Windows User Interface"><div class="figcaption">Using <code>rsyncrosim</code> with the SyncroSim
+Windows User Interface</div>
 </div>
 </div>
   </div>

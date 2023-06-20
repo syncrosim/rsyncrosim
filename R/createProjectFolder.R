@@ -23,7 +23,7 @@ NULL
 #' # Set up a SyncroSim Session and SsimLibrary
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
-#' myProject <- project(ssimLibrary, project = "Definitions")
+#' myProject <- project(myLibrary, project = "Definitions")
 #' 
 #' # Create a new folder at the Project level
 #' createProjectFolder(myProject, "NewFolder")
