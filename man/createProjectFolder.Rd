@@ -33,7 +33,7 @@ myLibraryName <- file.path(tempdir(), "testlib")
 # Set up a SyncroSim Session and SsimLibrary
 mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
-myProject <- project(ssimLibrary)
+myProject <- project(ssimLibrary, name = "Definitions")
 
 # Create a new folder at the Project level
 createProjectFolder(myProject, "NewFolder")

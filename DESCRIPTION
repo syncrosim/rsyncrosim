@@ -48,6 +48,7 @@ Collate:
     'AAAClassDefinitions.R'
     'addPackage.R'
     'addRow.R'
+    'addScenarioToFolder.R'
     'addon.R'
     'autogentags.R'
     'backup.R'

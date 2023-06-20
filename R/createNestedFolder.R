@@ -24,7 +24,7 @@ NULL
 #' # Set up a SyncroSim Session and SsimLibrary
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
-#' myProject <- project(ssimLibrary)
+#' myProject <- project(ssimLibrary, project = "Definitions")
 #' 
 #' # Create a new folder at the Project level and extract the folder Id
 #' parentFolderIdString <- createProjectFolder(myProject, "NewFolder")
@@ -46,7 +46,6 @@ setMethod("createNestedFolder", signature(ssimObject = "character"), function(ss
 setMethod("createNestedFolder", signature(ssimObject = "Project"), function(ssimObject, parentFolderId, folderName) {
   args <- list(lib = .filepath(ssimObject), create = NULL, folder = NULL, 
                name = folderName, tfid = parentFolderId)
-  browser()
   tt <- command(args = args, session = .session(ssimObject))
   # folderId <- as.integer(strsplit(tt, ": ")[[1]][2])
   return(tt)
