@@ -54,6 +54,7 @@ Collate:
     'breakpoint.R'
     'command.R'
     'condaFilepath.R'
+    'createNestedFolder.R'
     'createProjectFolder.R'
     'datasheet.R'
     'datasheetRaster.R'

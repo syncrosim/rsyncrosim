@@ -18,7 +18,7 @@ createProjectFolder(ssimObject, folderName)
 \item{folderName}{character string representing folder name}
 }
 \value{
-An Integer: the folder ID value
+A Character String: the folder ID value
 }
 \description{
 Create a new folder for a SyncroSim \code{\link{Project}}. 
