@@ -34,7 +34,6 @@ NULL
 #' createNestedFolder(myProject, parentFolderId, "NewNestedFolder")
 #' }
 #' 
-#' @export
 setGeneric("createNestedFolder", function(ssimObject, parentFolderId, folderName) standardGeneric("createNestedFolder"))
 
 #' @rdname createNestedFolder

@@ -125,11 +125,13 @@ used to organize Scenarios in the SyncroSim User Interface.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a new folder at the Project level and extract the folder Id</span></span></span>
 <span class="r-in"><span><span class="va">parentFolderIdString</span> <span class="op">&lt;-</span> <span class="fu"><a href="createProjectFolder.html">createProjectFolder</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="st">"NewFolder"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in createProjectFolder(myProject, "NewFolder"):</span> could not find function "createProjectFolder"</span>
 <span class="r-in"><span><span class="va">parentFolderId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">parentFolderIdString</span>, <span class="st">": "</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in strsplit(parentFolderIdString, ": "):</span> object 'parentFolderIdString' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create nested folder within project folder</span></span></span>
 <span class="r-in"><span><span class="fu">createNestedFolder</span><span class="op">(</span><span class="va">myProject</span>, <span class="va">parentFolderId</span>, <span class="st">"NewNestedFolder"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Folder ID is: 20"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in createNestedFolder(myProject, parentFolderId, "NewNestedFolder"):</span> could not find function "createNestedFolder"</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

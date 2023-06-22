@@ -28,7 +28,6 @@ NULL
 #' retrieveFolderData(myLibrary)
 #' }
 #' 
-#' @export
 setGeneric("retrieveFolderData", function(ssimLibrary) standardGeneric("retrieveFolderData"))
 
 #' @rdname retrieveFolderData

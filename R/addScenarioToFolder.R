@@ -34,7 +34,6 @@ NULL
 #' addScenarioToFolder(myScenario, folderId)
 #' }
 #' 
-#' @export
 setGeneric("addScenarioToFolder", function(ssimObject, folderId) standardGeneric("addScenarioToFolder"))
 
 #' @rdname addScenarioToFolder

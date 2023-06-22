@@ -29,7 +29,6 @@ NULL
 #' createProjectFolder(myProject, "NewFolder")
 #' }
 #' 
-#' @export
 setGeneric("createProjectFolder", function(ssimObject, folderName) standardGeneric("createProjectFolder"))
 
 #' @rdname createProjectFolder
