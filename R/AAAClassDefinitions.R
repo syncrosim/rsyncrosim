@@ -75,7 +75,7 @@ SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", representation()
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains = "SsimObject", representation(projectId = "numeric", scenarioId = "numeric", parentId = "numeric", breakpoints = "list"))
+Scenario <- setClass("Scenario", contains = "SsimObject", representation(projectId = "numeric", scenarioId = "numeric", parentId = "numeric", folderId = "numeric", breakpoints = "list"))
 
 #' SyncroSim Project class
 #'

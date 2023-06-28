@@ -60,6 +60,11 @@ setReplaceMethod(
   f = "folderId",
   signature = "Scenario",
   definition = function(ssimObject, value) {
+    # If value == 0, same as NULL
+    if (value == 0){
+      return(ssimObject)
+    }
+    
     args <- list(lib = .filepath(ssimObject), move = NULL, scenario = NULL, 
                  sid = ssimObject@scenarioId, tfid = value, tpid = ssimObject@projectId)
     tt <- command(args = args, session = .session(ssimObject))

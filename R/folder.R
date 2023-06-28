@@ -6,17 +6,15 @@ NULL
 setMethod(
   f = "initialize", signature = "Folder",
   definition = function(.Object, ssimObject, folder, parentFolder = NULL, create = TRUE) {
-    
+    browser()
     Name <- NULL
     FolderID <- NULL
     
     x <- ssimObject
     
     # Set some defaults
-    ProjectID <- x@ProjectID
+    ProjectID <- x@projectId
     ParentID <- 0
-    ReadOnly <- FALSE
-    Published <- FALSE
     
     # Depending on whether x is a ssimLibrary or Project, grab corresponding folder data
     folders <- getFolderData(x)
@@ -53,11 +51,10 @@ setMethod(
     # If one folder retrieved, then open folder
     if (nrow(folders) == 1) {
       .Object@folderId <- folders$FolderID
-      #TODO: find parent ID somehow - use --list --library --tree
-      .Object@parentId <- getParentFolderId(.filepath(x), folders$FolderID)
+      .Object@parentId <- getParentFolderId(x, folders$FolderID)
       .Object@session <- .session(x)
       .Object@filepath <- .filepath(x)
-      .Object@projectId <- x@projectId
+      .Object@projectId <- ProjectID
       return(.Object)
     }
     
@@ -65,7 +62,7 @@ setMethod(
     if (!is.null(parentFolder)) {
       
       # Grab parent folder ID and validate inputs
-      if (signature(parentFolder) == "Folder") {
+      if (is(parentFolder, "Folder")) {
         ParentID <- parentFolder@folderId 
         
       } else if (is.character(parentFolder)) {
@@ -103,22 +100,21 @@ setMethod(
     } else {
       
       # If parentFolder not provided, then create a new folder at the root
-      if (signature(x) != "Project"){
+      if (!is(x, "Project")){
         stop("Can only create a new folder at the project root if the ssimObject provided is a SyncroSim Project.")
       }
       
       args <- list(lib = .filepath(x), create = NULL, folder = NULL, 
-                   name = folderName, tpid = x@projectId)
+                   name = Name, tpid = ProjectID)
       tt <- command(args = args, session = .session(x))
       FolderID <- as.integer(strsplit(tt, ": ")[[1]][2])
     }
     
     .Object@folderId <- FolderID
-    #TODO: find parent ID somehow
-    .Object@parentId <- getParentFolderId(.filepath(x), folders$FolderID)
+    .Object@parentId <- getParentFolderId(x, FolderID)
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
-    .Object@projectId <- x@projectId
+    .Object@projectId <- ProjectID
     return(.Object)
   }
 )

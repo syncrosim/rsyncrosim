@@ -312,12 +312,12 @@ printAndCapture <- function(x) {
 getFolderData <- function(x) {
   
   # Validate input
-  if (!(is(x, "ssimLibrary")) & !(is(x, "Project")) & !(is(x, "Folder"))){
+  if (!(is(x, "SsimLibrary")) & !(is(x, "Project")) & !(is(x, "Folder"))){
     stop("Expecting ssimLibrary, Project, or Folder object.")
   }
   
   args <- list(lib = .filepath(x), list = NULL, folders = NULL)
-  tt <- command(args = args, session = .session(ssimLibrary))
+  tt <- command(args = args, session = .session(x))
   out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
   
   # Clean up dataframe names and columns
@@ -326,7 +326,7 @@ getFolderData <- function(x) {
   colnames(out)[colnames(out) == "ID"] ="FolderID"
   out <- subset(out, select = -c(X))
   
-  if (is(x, "ssimLibrary") | is(x, "Project")){
+  if (is(x, "SsimLibrary") | is(x, "Project")){
     return(out)
   } else if (is(x, "Folder")){
     out <- subset(out, FolderID == x@folderId)
@@ -354,7 +354,7 @@ getParentFolderId <- function(x, folderId) {
   if (parentRow$item == "Folder"){
     return(as.numeric(parentRow$id))
   } else {
-    return(NULL)
+    return(0)
   }
 }
 

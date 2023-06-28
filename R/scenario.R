@@ -16,6 +16,9 @@ setMethod(
     .Object@parentId <- 0
     
     #TODO: make sure that this actually moves the scenario into the corresponding folder (i.e., does this trigger the folderId() function???)
+    if (is.null(folderId)){
+      folderId <- 0
+    }
     .Object@folderId <- folderId
     x <- ssimLibrary
 
