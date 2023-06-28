@@ -3,6 +3,7 @@
 export("autogentags<-")
 export("condaFilepath<-")
 export("description<-")
+export("folderId<-")
 export("ignoreDependencies<-")
 export("mergeDependencies<-")
 export("name<-")

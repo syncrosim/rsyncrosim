@@ -5,6 +5,8 @@
 \alias{folderId,character-method}
 \alias{folderId,Folder-method}
 \alias{folderId,Scenario-method}
+\alias{folderId<-}
+\alias{folderId<-,Scenario-method}
 \title{Retrieves folderId of SyncroSim Folder or Scenario}
 \usage{
 folderId(ssimObject)
@@ -14,9 +16,16 @@ folderId(ssimObject)
 \S4method{folderId}{Folder}(ssimObject)
 
 \S4method{folderId}{Scenario}(ssimObject)
+
+folderId(ssimObject) <- value
+
+\S4method{folderId}{Scenario}(ssimObject) <- value
 }
 \arguments{
 \item{ssimObject}{\code{\link{Folder}} or \code{\link{Scenario}} object}
+
+\item{value}{integer of the folder ID to move the \code{\link{Scenario}} to. 
+Only applicable if the ssimObject provided is a \code{\link{Scenario}}.}
 }
 \value{
 An integer: folder id.
@@ -42,6 +51,9 @@ myFolder <- folder(myProject, "New Folder")
 # Get Folder ID for SyncroSim Folder and Scenario
 folderId(myFolder)
 folderId(myScenario)
+
+Move the Scenario into the newly created folder
+folderId(myScenario) <- folderId(myFolder)
 }
 
 }
