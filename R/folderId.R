@@ -29,7 +29,7 @@ NULL
 #' 
 #' # Get Folder ID for SyncroSim Folder and Scenario
 #' folderId(myFolder)
-#' projectId(myScenario)
+#' folderId(myScenario)
 #' }
 #' 
 #' @export
@@ -43,6 +43,6 @@ setMethod("folderId", signature(ssimObject = "Folder"), function(ssimObject) {
   return(ssimObject@folderId)
 })
 #' @rdname folderId
-setMethod("projectId", signature(ssimObject = "Scenario"), function(ssimObject) {
+setMethod("folderId", signature(ssimObject = "Scenario"), function(ssimObject) {
   return(ssimObject@folderId)
 })

@@ -67,6 +67,8 @@ Collate:
     'disableAddon.R'
     'enableAddon.R'
     'filepath.R'
+    'folder.R'
+    'folderId.R'
     'ignoreDependencies.R'
     'info.R'
     'installConda.R'

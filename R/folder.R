@@ -17,8 +17,6 @@ setMethod(
     x <- ssimObject
     
     # Depending on whether x is a ssimLibrary or Project, grab corresponding folder data
-    # TODO: make getFolderData function, should also validate that ssimObject is not a scenario
-    # TODO: getFolderData should also take Folder object and retrieve a summary of info for that folder (to use in name, etc. functions)
     folders <- getFolderData(x)
     allFolders <- folders
     
