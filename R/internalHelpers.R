@@ -220,6 +220,12 @@ camel <- function(x) {
   x
 }
 
+# make first character of string upper case
+pascal <- function(x) {
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
 # https://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
 printAndCapture <- function(x) {
   paste(capture.output(print(x)), collapse = "\n")
@@ -314,8 +320,12 @@ getFolderData <- function(x) {
   tt <- command(args = args, session = .session(ssimLibrary))
   out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
   
-  # TODO: Make output dataframe nicer - column names to pascal case, change "IsLite" to "Published"
-
+  # Clean up dataframe names and columns
+  names(out) <- sapply(names(out), pascal)
+  colnames(out)[colnames(out) == "IsLite"] ="Published"
+  colnames(out)[colnames(out) == "ID"] ="FolderID"
+  out <- subset(out, select = -c(X))
+  
   if (is(x, "ssimLibrary") | is(x, "Project")){
     return(out)
   } else if (is(x, "Folder")){
