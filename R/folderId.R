@@ -11,6 +11,8 @@ NULL
 #' desired folder in the SyncroSim User Interface.
 #'
 #' @param ssimObject \code{\link{Folder}} or \code{\link{Scenario}} object
+#' @param value integer of the folder ID to move the \code{\link{Scenario}} to. 
+#' Only applicable if the ssimObject provided is a \code{\link{Scenario}}.
 #' 
 #' @return 
 #' An integer: folder id.
@@ -30,6 +32,9 @@ NULL
 #' # Get Folder ID for SyncroSim Folder and Scenario
 #' folderId(myFolder)
 #' folderId(myScenario)
+#' 
+#' Move the Scenario into the newly created folder
+#' folderId(myScenario) <- folderId(myFolder)
 #' }
 #' 
 #' @export
@@ -46,3 +51,21 @@ setMethod("folderId", signature(ssimObject = "Folder"), function(ssimObject) {
 setMethod("folderId", signature(ssimObject = "Scenario"), function(ssimObject) {
   return(ssimObject@folderId)
 })
+#' @rdname folderId
+#' @export
+setGeneric("folderId<-", function(ssimObject, value) standardGeneric("folderId<-"))
+
+#' @rdname folderId
+setReplaceMethod(
+  f = "folderId",
+  signature = "Scenario",
+  definition = function(ssimObject, value) {
+    args <- list(lib = .filepath(ssimObject), move = NULL, scenario = NULL, 
+                 sid = ssimObject@scenarioId, tfid = value, tpid = ssimObject@projectId)
+    tt <- command(args = args, session = .session(ssimObject))
+    if (!identical(tt, "saved")) {
+      stop(tt)
+    }
+    return(ssimObject)
+  }
+)
