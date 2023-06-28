@@ -334,6 +334,72 @@ getFolderData <- function(x) {
   }
 }
 
+# Gets the parent Folder ID given the SsimLibrary and the child Folder ID.
+#
+# @param x SyncroSim Library, Project, Scenario, or Folder object.
+# @param folderId integer value of the child Folder ID.
+# @return integer corresponding to the parent folder ID.
+getParentFolderId <- function(x, folderId) {
+  df <- getLibraryStructure(x)
+  folderRowInd <- which((df$item == "Folder") & (df$id == folderId))
+  folderRow <- df[folderRowInd, ]
+  folderLevel <- as.numeric(folderRow$level)
+  parentLevel <- folderLevel
+  
+  while (parentLevel >= folderLevel){
+    parentRow <- df[folderRowInd-1, ]
+    parentLevel <- as.numeric(parentRow$level)
+  }
+  
+  if (parentRow$item == "Folder"){
+    return(as.numeric(parentRow$id))
+  } else {
+    return(NULL)
+  }
+}
+
+# Gets the library structure as a dataframe. Shows which Scenarios belong 
+# to which projects, which folders belong to which projects or folders, etc.
+#
+# @param x SyncroSim Library, Project, Scenario, or Folder object.
+# @return dataframe of levels, items, and IDs.
+getLibraryStructure <- function(x) {
+  
+  args <- list(list = NULL, library = NULL, lib = .filepath(x), tree = NULL)
+  tt <- command(args = args, session = .session(x))
+  tt <- gsub("|", " ", tt, fixed=TRUE)
+  matches <- regmatches(tt, regexpr("^\\s+", tt))
+  levels <- sapply(matches, nchar) / 3
+  
+  libStructureDF <- data.frame(level = numeric(), item = character(), 
+                               id = numeric(), stringsAsFactors = F)
+  
+  i <- 0
+  for (entry in tt){
+    
+    if (i == 0){
+      level <- 0
+      item <- "Library"
+      id <- 0
+    } else {
+      level <- as.numeric(levels[i])
+      item <- regmatches(entry, 
+                         regexec("+- \\s*(.*?)\\s* \\[", 
+                                 entry))[[1]][2]
+      id <- regmatches(entry, 
+                       regexec(paste0("+- ", item, " \\[\\s*(.*?)\\s*\\]"), 
+                               entry))[[1]][2]
+      id <- as.numeric(id)
+    }
+    
+    libStructureDF[i+1, ] <- c(level, item, id)
+    
+    i = i + 1
+  }
+  
+  return(libStructureDF)
+}
+
 # Gets datasheet summary info from an SsimLibrary, Project or Scenario.
 #
 # @details
