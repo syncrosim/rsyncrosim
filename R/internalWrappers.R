@@ -12,6 +12,7 @@ NULL
 #' @include sqlStatement.R
 #' @include projectId.R
 #' @include scenarioId.R
+#' @include folderId.R
 #' @include filepath.R
 #' @include addon.R
 #' @include datasheet.R
@@ -22,6 +23,8 @@ NULL
 .projectId <- projectId
 # @export
 .scenarioId <- scenarioId
+# @export
+.folderId <- folderId
 # @export
 .filepath <- filepath
 # @export

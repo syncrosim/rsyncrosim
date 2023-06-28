@@ -298,6 +298,32 @@ printAndCapture <- function(x) {
   return(out)
 }
 
+# Gets folder info from an SsimLibrary, Project, or Folder.
+#
+# @param x An SsimLibrary, Project or Folder object. Or a path to a SyncroSim library on disk.
+# @return A dataframe of folder info, including folder IDs, names, owner, date last modified, 
+# read only status, and published status.
+getFolderData <- function(x) {
+  
+  # Validate input
+  if (!(is(x, "ssimLibrary")) & !(is(x, "Project")) & !(is(x, "Folder"))){
+    stop("Expecting ssimLibrary, Project, or Folder object.")
+  }
+  
+  args <- list(lib = .filepath(x), list = NULL, folders = NULL)
+  tt <- command(args = args, session = .session(ssimLibrary))
+  out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
+  
+  # TODO: Make output dataframe nicer - column names to pascal case, change "IsLite" to "Published"
+
+  if (is(x, "ssimLibrary") | is(x, "Project")){
+    return(out)
+  } else if (is(x, "Folder")){
+    out <- subset(out, FolderID == x@folderId)
+    return(out)
+  }
+}
+
 # Gets datasheet summary info from an SsimLibrary, Project or Scenario.
 #
 # @details

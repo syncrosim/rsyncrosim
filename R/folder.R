@@ -4,128 +4,132 @@
 NULL
 
 setMethod(
-  f = "initialize", signature = "Scenario",
-  definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, id = NULL, sourceScenario = NULL, scenarios = NULL, folderId = NULL) {
+  f = "initialize", signature = "Folder",
+  definition = function(.Object, ssimObject, folder = NULL, parentFolder = NULL) {
     
-    ProjectID <- NULL
-    ScenarioID <- NULL
     Name <- NULL
+    FolderID <- NULL
+    ParentID <- NULL
+    ProjectID <- NULL
+    ReadOnly <- NULL
+    Published <- NULL
     
-    # assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out.
-    .Object@breakpoints <- list()
-    .Object@parentId <- 0
-    .Object@folderId <- folderId
-    x <- ssimLibrary
-
-    # For fast processing - quickly return without system calls if scenario exists
-    if (is.null(scenarios)) {
-      scenarios <- getScnSet(x)
-    }
-    allScenarios <- scenarios
-    if (!is.null(name)) {
-      cName <- name
-      scenarios <- subset(scenarios, Name == cName)
-    }
-    if (!is.null(id)) {
-      scenarios <- subset(scenarios, ScenarioID == id)
-    }
-    if (!is.null(project)) {
-      scenarios <- subset(scenarios, ProjectID == project)
-    }
-
-    findScn <- subset(scenarios, !is.na(ScenarioID))
-    if (nrow(findScn) > 1) {
-      stop("Something is wrong.")
-    }
-
-    # If found only one, open it.
-    if (nrow(findScn) == 1) {
-      if (!is.null(sourceScenario)) {
-        stop("Scenario ", name, " already exists. Delete the scenario before replacing it.")
+    x <- ssimObject
+    
+    # Depending on whether x is a ssimLibrary or Project, grab corresponding folder data
+    # TODO: make getFolderData function, should also validate that ssimObject is not a scenario
+    # TODO: getFolderData should also take Folder object and retrieve a summary of info for that folder (to use in name, etc. functions)
+    folders <- getFolderData(x)
+    allFolders <- folders
+    
+    if (!is.null(folder)){
+      
+      # Get folder name and validate
+      if (is.character(folder)){
+        folders <- subset(folders, Name == folder)
+        
+        # If more than 1 folder retrieved, then name is not unique
+        if (nrow(folders) > 1) {
+          stop("folder provided is not unique.")
+        }
+        
+        Name <- folders$Name
+        
+      } else if (is.integer(folder)){
+        
+        folders <- subset(folders, FolderID == folder)
+        
+        # If no folders retrieved, then ID does not yet exist
+        if (nrow(folders) == 0){
+          stop(paste0("The library does not contain folder id ", 
+                      folder,
+                      ". Please provide a name for the new folder - the id will be assigned automatically by SyncroSim."))
+        }
+        
+        Name <- folders$Name
+        
+      } else{
+        stop("folder argument must be a character or integer.")
       }
-      if (findScn$IsResult == "Yes") {
-        scnNameList <- strsplit(findScn$Name, "[", fixed=TRUE)[[1]]
-        parentBit <- scnNameList[length(scnNameList)]
-        parent <- strsplit(parentBit, "]", fixed = TRUE)[[1]][1]
-        .Object@parentId <- as.numeric(parent)
-      }
-
-      # Go ahead and create the Scenario object without issuing system commands to make sure it is ok
+    } else {
+      
+      # Return folder data if no folder argument is specified
+      return(allFolders)
+    }
+    
+    # If one folder retrieved, then open folder
+    if (nrow(folders) == 1) {
+      # TODO: Inlude Name, ReadOnly, and Published in slots??? Check what other classes do
+      .Object@name <- folders$Name
+      .Object@folderId <- folders$FolderID
+      #TODO: find parent ID somehow
+      .Object@parentId <- as.numeric(parent)
       .Object@session <- .session(x)
       .Object@filepath <- .filepath(x)
-      .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
-      .Object@scenarioId <- as.numeric(findScn$ScenarioID)
-      .Object@projectId <- as.numeric(findScn$ProjectID)
+      .Object@projectId <- x@projectId
       return(.Object)
     }
-
-    # If given an id for a scenario that does not yet exist, complain
-    if (is.null(name)) {
-      stop(paste0("The library does not contain scenario id ", id, ". Please provide a name for the new scenario - the id will be assigned automatically by SyncroSim."))
-    }
-
-    # Now go ahead to handle odder cases
-    # Assume pid is valid, and name is defined, not duplicated, etc
-    # x can be either a project or a library - but need a project in order to create a new scenario
-    pid <- project
-
-    # Create a new scenario
-    if (is.null(sourceScenario)) {
-      tt <- command(list(create = NULL, scenario = NULL, lib = .filepath(x), name = name, pid = pid), .session(x))
-    } else {
-      sid <- sourceScenario
-      slib <- .filepath(x)
-      if (is(sourceScenario, "numeric")) {
-        if (!is.element(sourceScenario, allScenarios$ScenarioID)) {
-          stop("Source scenario id ", sourceScenario, " not found in SsimLibrary.")
+    
+    # If parentFolder provided, then create parameters for nested folder
+    if (!is.null(parentFolder)) {
+      
+      # Grab parent folder ID and validate inputs
+      if (signature(parentFolder) == "Folder") {
+        ParentID <- parentFolder@folderId 
+        
+      } else if (is.character(parentFolder)) {
+        parentFolderData <- subset(allFolders, Name == parentFolder)
+        
+        if (nrow(parentFolderData) == 0) {
+          stop(paste0("The library does not contain a folder with the name ", 
+                      parentFolder,
+                      ". Please provide a valid parent folder name."))
         }
-      }
-      if (is(sourceScenario, "character")) {
-        sourceOptions <- subset(allScenarios, Name == sourceScenario)
-        if (nrow(sourceOptions) == 0) {
-          stop(paste0("Source scenario name ", sourceScenario, " not found in SsimLibrary."))
+        
+        ParentID <- parentFolderData$FolderID
+        
+      } else if (is.integer(parentFolder)) {
+        parentFolderData <- subset(allFolders, FolderID == parentFolder)
+        
+        if (nrow(parentFolderData) == 0) {
+          stop(paste0("The library does not contain a folder with the ID ", 
+                      parentFolder,
+                      ". Please provide a valid parent folder ID"))
         }
-        if (nrow(sourceOptions) > 1) {
-          stop(paste0("There is more than one scenario called ", sourceScenario, " in the SsimLibrary. Please provide a sourceScenario id: ", paste(sourceOptions$scenarioId, collapse = ",")))
-        }
-        sid <- sourceOptions$ScenarioID
-      }
-
-      if (is(sourceScenario, "Scenario")) {
-        sid <- .scenarioId(sourceScenario)
-        slib <- .filepath(sourceScenario)
-        sourceScnName <- name(sourceScenario)
+        
+        ParentID <- parentFolderData$FolderID
+        
       } else {
-        sourceScnName <- subset(allScenarios, ScenarioID == sid)$Name
+        stop("The parentFolder argument must be a character, integer, or SyncroSim folder object.")
       }
-
-      if (name == "GetSourceCopyCopyCopy") {
-        copyName <- paste(sourceScnName, "- Copy")
-        if (!is.element(copyName, allScenarios$Name)) {
-          name <- copyName
-        } else {
-          done <- FALSE
-          count <- 0
-          while (!done) {
-            count <- count + 1
-            cName <- paste0(copyName, count)
-            if (!is.element(cName, allScenarios$Name)) {
-              name <- cName
-              done <- TRUE
-            }
-          }
-        }
+      
+      # Create nested folder
+      args <- list(lib = .filepath(x), create = NULL, folder = NULL, 
+                   name = Name, tfid = ParentID)
+      tt <- command(args = args, session = .session(x))
+      FolderID <- as.integer(strsplit(tt, ": ")[[1]][2])
+      
+    } else {
+      
+      # If parentFolder not provided, then create a new folder at the root
+      if (signature(x) != "Project"){
+        stop("Can only create a new folder at the project root if the ssimObject provided is a SyncroSim Project.")
       }
-
-      tt <- command(list(copy = NULL, scenario = NULL, slib = slib, tlib = .filepath(x), name = name, sid = sid, pid = pid), .session(x))
+      
+      args <- list(lib = .filepath(x), create = NULL, folder = NULL, 
+                   name = folderName, tpid = x@projectId)
+      tt <- command(args = args, session = .session(x))
+      FolderID <- as.integer(strsplit(tt, ": ")[[1]][2])
     }
-    id <- as.numeric(strsplit(tt, ": ")[[1]][2])
-
+    
+    # TODO: Include Name, ReadOnly, and Published in slots??? Check what other classes do
+    .Object@name <- Name
+    .Object@folderId <- FolderID
+    #TODO: find parent ID somehow
+    .Object@parentId <- as.numeric(parent)
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
-    .Object@datasheetNames <- .datasheets(x, refresh = TRUE, scope = "all")
-    .Object@scenarioId <- as.numeric(id)
-    .Object@projectId <- as.numeric(pid)
+    .Object@projectId <- x@projectId
     return(.Object)
   }
 )
@@ -215,7 +219,7 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
-
+  
   if (is.null(ssimObject)) {
     e <- ssimEnvironment()
     ssimObject <- ssimLibrary(e$LibraryFilePath)
@@ -251,15 +255,15 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
     convertObject <- FALSE
     returnIds <- TRUE
   }
-
+  
   xProjScn <- .getFromXProjScn(ssimObject, project = NULL, scenario = scenario, convertObject = convertObject, returnIds = returnIds, goal = "scenario", complainIfMissing = FALSE)
-
+  
   if (is(xProjScn, "Scenario")) {
     if (!overwrite) {
       return(xProjScn)
     }
   }
-
+  
   if (!is(xProjScn, "list")) {
     stop("something is wrong")
   }
@@ -275,11 +279,11 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
     }
     scnSet <- allScenarios
   }
-
+  
   if (results) {
     scnSet <- subset(scnSet, !is.element(IsResult, c(NA, FALSE, "No")))
   }
-
+  
   if (nrow(scnSet) == 0) {
     if (summary) {
       scnSet$exists <- NULL
@@ -299,11 +303,11 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
     scnSet$order <- NULL
     return(scnSet)
   }
-
+  
   # Now assume scenario is defined
   # distinguish existing scenarios from those that need to be made
   areIds <- is.numeric(scenario)
-
+  
   # if scenarios need to be made, pass all scenarios in library
   makeSum <- sum(!is.na(scnSet$order) & is.na(scnSet$exists))
   libScns <- subset(allScenarios, !is.na(exists))
@@ -317,7 +321,7 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
       warning("sourceScenario was ignored because scenario already exists.")
     }
   }
-
+  
   # make scnenarios/scenario objects
   scnsToMake <- subset(scnSet, !is.na(order))
   if (overwrite) {
@@ -357,14 +361,14 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
       scnList[[as.character(.scenarioId(obj))]] <- obj
     }
   }
-
+  
   if (!summary) {
     if ((length(scnList) == 1) & !forceElements) {
       scnList <- scnList[[1]]
     }
     return(scnList)
   }
-
+  
   scnSetOut <- getScnSet(ssimObject)
   scnSetOut$exists <- NULL
   idList <- data.frame(ScenarioID = as.numeric(names(scnList)), order = seq(1:length(scnList)))
@@ -372,7 +376,7 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
   if (sum(is.na(scnSetOut$Name)) > 0) {
     stop("Something is wrong with scenario()")
   }
-
+  
   scnSetOut <- scnSetOut[order(scnSetOut$order), ]
   scnSetOut$order <- NULL
   return(scnSetOut)
