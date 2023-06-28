@@ -178,40 +178,9 @@ folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL, create
     return(SyncroSimNotFound())
   }
   
-  if (is.null(ssimObject)) {
-    e <- ssimEnvironment()
-    ssimObject <- ssimLibrary(e$LibraryFilePath)
-    scenario <- as.integer(e$ScenarioId)
-  }
-  IsResult <- NULL
   # if ssimObject is a scenario return the scenario
-  if (is.element(class(ssimObject), c("Scenario")) & is.null(scenario)) {
-    if (is.null(summary)) {
-      summary <- FALSE
-    }
-    if (!summary) {
-      convertObject <- TRUE
-      returnIds <- FALSE
-    } else {
-      convertObject <- FALSE
-      returnIds <- TRUE
-    }
-  } else {
-    # set summary default
-    if (is.null(summary)) {
-      if (is.null(scenario)) {
-        if (is.null(sourceScenario)) {
-          summary <- TRUE
-        } else {
-          summary <- FALSE
-          scenario <- "GetSourceCopyCopyCopy"
-        }
-      } else {
-        summary <- FALSE
-      }
-    }
-    convertObject <- FALSE
-    returnIds <- TRUE
+  if (is.element(class(ssimObject), c("Scenario"))) {
+    stop("Cannot create a folder at the Scenario-level.")
   }
   
   xProjScn <- .getFromXProjScn(ssimObject, project = NULL, scenario = scenario, convertObject = convertObject, returnIds = returnIds, goal = "scenario", complainIfMissing = FALSE)
