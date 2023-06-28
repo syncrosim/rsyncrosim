@@ -132,88 +132,48 @@ setMethod(
   }
 )
 
-#' Create or open Scenario(s)
+#' Create or open a Folder
 #'
-#' Create or open one or more \code{\link{Scenario}}s from a 
-#' \code{\link{SsimLibrary}}.
+#' Create or open a \code{\link{Folder}} from a SyncroSim
+#' \code{\link{Project}}.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Project}} object,
-#'   or character (i.e. a filepath)
-#' @param scenario character, integer, or vector of these. Names or ids of one or 
-#'     more Scenarios. Note integer ids are slightly faster, but can only be 
-#'     used to open existing Scenarios
-#' @param sourceScenario character or integer. If not \code{NULL} (Default), new 
-#' Scenarios will be copies of the sourceScenario
-#' @param summary logical. If \code{TRUE} then loads and returns the Scenario(s) in a 
-#'     named vector/dataframe with the scenarioId, name, description, owner, 
-#'     dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL}, 
-#'     \code{FALSE} otherwise
-#' @param results logical. If \code{TRUE} only return result Scenarios. Default is 
-#' \code{FALSE}
-#' @param forceElements logical. If \code{TRUE} then returns a single Scenario as a named 
-#'     list; if \code{FALSE} (default), returns a single Scenario as a 
-#'     \code{\link{Scenario}} object. Applies only when \code{summary=FALSE}
-#' @param overwrite logical. If \code{TRUE} an existing Scenario will be overwritten.
-#' Default is \code{FALSE}
+#' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Project}} object.
+#' @param folder character or integer. If character, then will either open an
+#' existing folder and \code{create=FALSE}, or will create a new folder with the 
+#' given name if the folder does not exist yet or \code{create=TRUE} (Default). 
+#' If integer, will open the existing folder with the given folder ID (if the
+#' ID exists).
+#' @param parentFolder character, integer, or SyncroSim Folder object. If not 
+#' \code{NULL} (Default), the new folder will be created inside of the
+#' specified parent folder
+#' @param create logical. Whether to create a new folder if the folder name given
+#' already exists in the SyncroSim library. Default is TRUE
 #' 
 #' @return 
-#' A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario 
-#' objects, or a data frame of Scenario names and descriptions. If \code{summary = FALSE}, 
-#' returns one or more \code{\link{Scenario}} objects representing SyncroSim Scenarios.
-#' If \code{summary = TRUE}, returns Scenario summary info.
-#' 
-#' @details
-#'
-#' For each element of Scenario:
-#' \itemize{
-#'   \item {If element/Project/SsimObject uniquely identifies an existing 
-#'          Scenario: }{Returns the existing Scenario}.
-#'   \item {If element/Project/SsimObject uniquely identifies more than one existing 
-#'          Scenario: }{Error}.
-#'   \item {If element/Project/SsimObject do not identify an existing Scenario or 
-#'          Project: }{Error}.
-#'   \item {If element/Project/SsimObject do not identify an existing Scenario and 
-#'          element is numeric: }{Error - a name is required for new Scenarios. 
-#'          SyncroSim will automatically assign an id when a Scenario is created.}
-#'   \item {If element/Project/SsimObject do not identify an existing Scenario and 
-#'          do identify a Project, and element is a character string: }{Creates a 
-#'          new Scenario named element in the Project. SyncroSim automatically 
-#'          assigns an id. If sourceScenario is not \code{NULL} the new Scenario will be 
-#'          a copy of sourceScenario.}
-#' }
+#' A \code{Folder} object representing a SyncroSim folder.
 #' 
 #' @examples
 #' \donttest{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 
-#' # Set the SyncroSim Session, SsimLibrary, and Project
+#' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
 #' myProject <- project(myLibrary, project = "My Project")
-#' 
-#' # Create a new Scenario
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
+#' # Create a new folder
+#' myFolder <- folder(myProject, folder = "New Folder")
 #' 
-#' # Create a new Scenario from an existing Scenario
-#' myScenarioCopy <- scenario(myProject, scenario = "My Scenario Copy",
-#'                            sourceScenario = myScenario)
-#'                           
-#' # Find all the Scenarios in a SsimLibrary
-#' scenario(myLibrary)
-#' 
-#' # Only return the results Scenarios for a SsimLibrary
-#' scenario(myLibrary, results = TRUE)
-#' 
-#' # Overwrite an existing Scenario
-#' myNewScenario <- scenario(myProject, scenario = "My New Scenario", 
-#'                          overwrite = TRUE)
+#' # Create a nested folder within "New Folder"
+#' myNestedFolder <- folder(myProject, folder = "New Nested Folder", 
+#'                          parentFolder = myFolder)
 #' }
 #' 
-#' @name scenario
+#' @name folder
 #' @export
-scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, summary = NULL, results = FALSE, forceElements = FALSE, overwrite = FALSE) {
+folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL, create = TRUE) {
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
