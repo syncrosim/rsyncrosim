@@ -338,24 +338,22 @@ getFolderData <- function(x) {
 #
 # @param x SyncroSim Library, Project, Scenario, or Folder object.
 # @param folderId integer value of the child Folder ID.
-# @return integer corresponding to the parent folder ID.
+# @return integer corresponding to the parent folder ID or project ID.
 getParentFolderId <- function(x, folderId) {
   df <- getLibraryStructure(x)
   folderRowInd <- which((df$item == "Folder") & (df$id == folderId))
+  parentRowInd <- folderRowInd - 1
   folderRow <- df[folderRowInd, ]
   folderLevel <- as.numeric(folderRow$level)
   parentLevel <- folderLevel
   
   while (parentLevel >= folderLevel){
-    parentRow <- df[folderRowInd-1, ]
+    parentRow <- df[parentRowInd, ]
     parentLevel <- as.numeric(parentRow$level)
+    parentRowInd <- parentRowInd - 1
   }
   
-  if (parentRow$item == "Folder"){
-    return(as.numeric(parentRow$id))
-  } else {
-    return(0)
-  }
+  return(as.numeric(parentRow$id))
 }
 
 # Gets the library structure as a dataframe. Shows which Scenarios belong 

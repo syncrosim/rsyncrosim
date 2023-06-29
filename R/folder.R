@@ -5,7 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "Folder",
-  definition = function(.Object, ssimObject, folder, parentFolder = NULL, create = TRUE) {
+  definition = function(.Object, ssimObject, folder, parentFolder = NULL, create = FALSE) {
     browser()
     Name <- NULL
     FolderID <- NULL
@@ -31,7 +31,7 @@ setMethod(
       
       Name <- folder
 
-    } else if (is.integer(folder)){
+    } else if (is.numeric(folder)){
       
       folders <- subset(folders, FolderID == folder)
       
@@ -49,7 +49,7 @@ setMethod(
     }
 
     # If one folder retrieved, then open folder
-    if (nrow(folders) == 1) {
+    if ((nrow(folders) == 1) & (create == FALSE)) {
       .Object@folderId <- folders$FolderID
       .Object@parentId <- getParentFolderId(x, folders$FolderID)
       .Object@session <- .session(x)
@@ -76,7 +76,7 @@ setMethod(
         
         ParentID <- parentFolderData$FolderID
         
-      } else if (is.integer(parentFolder)) {
+      } else if (is.numeric(parentFolder)) {
         parentFolderData <- subset(allFolders, FolderID == parentFolder)
         
         if (nrow(parentFolderData) == 0) {
@@ -134,7 +134,10 @@ setMethod(
 #' \code{NULL} (Default), the new folder will be created inside of the
 #' specified parent folder
 #' @param create logical. Whether to create a new folder if the folder name given
-#' already exists in the SyncroSim library. Default is TRUE
+#' already exists in the SyncroSim library. If \code{FALSE} (Default), then will 
+#' return the existing folder with the given name. If \code{TRUE}, then will
+#' return a new folder with the same name as an existing folder (but different
+#' folder ID)
 #' 
 #' @return 
 #' A \code{Folder} object representing a SyncroSim folder.
@@ -160,7 +163,7 @@ setMethod(
 #' 
 #' @name folder
 #' @export
-folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL, create = TRUE) {
+folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL, create = FALSE) {
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
