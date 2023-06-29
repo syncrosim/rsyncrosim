@@ -59,7 +59,7 @@ setMethod(
     outName <- paste0(cName, " [", class(cSlot), "]")
 
     outString <- ""
-    if (is.element(class(cSlot), c("numeric", "character", "logical"))) {
+    if (is.element(class(cSlot), c("numeric", "character", "logical", "integer"))) {
       outString <- paste0(outString, paste(cSlot, collapse = ","))
     }
 
