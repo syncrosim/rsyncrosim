@@ -339,15 +339,15 @@ getFolderData <- function(x) {
 # @param x SyncroSim Library, Project, Scenario, or Folder object.
 # @param folderId integer value of the child Folder ID.
 # @return integer corresponding to the parent folder ID or project ID.
-getParentFolderId <- function(x, folderId) {
+getParentFolderId <- function(x, id) {
   df <- getLibraryStructure(x)
-  folderRowInd <- which((df$item == "Folder") & (df$id == folderId))
-  parentRowInd <- folderRowInd - 1
-  folderRow <- df[folderRowInd, ]
-  folderLevel <- as.numeric(folderRow$level)
-  parentLevel <- folderLevel
+  childRowInd <- which(df$id == id)
+  parentRowInd <- childRowInd - 1
+  childRow <- df[childRowInd, ]
+  childLevel <- as.numeric(childRow$level)
+  parentLevel <- childLevel
   
-  while (parentLevel >= folderLevel){
+  while (parentLevel >= childLevel){
     parentRow <- df[parentRowInd, ]
     parentLevel <- as.numeric(parentRow$level)
     parentRowInd <- parentRowInd - 1

@@ -6,7 +6,6 @@ NULL
 setMethod(
   f = "initialize", signature = "Folder",
   definition = function(.Object, ssimObject, folder, parentFolder = NULL, create = FALSE) {
-    browser()
     Name <- NULL
     FolderID <- NULL
     
@@ -37,9 +36,13 @@ setMethod(
       
       # If no folders retrieved, then ID does not yet exist
       if (nrow(folders) == 0){
-        stop(paste0("The library does not contain folder id ", 
+        stop(paste0("The library does not contain folder ID ", 
                     folder,
-                    ". Please provide a name for the new folder - the id will be assigned automatically by SyncroSim."))
+                    ". Please provide a name for the new folder - the ID will be assigned automatically by SyncroSim."))
+      }
+      
+      if (create == TRUE) {
+        stop("Cannot create a new folder from a folder ID. Please provide a name for the new folder and the ID will be assigned automatically.")
       }
       
       Name <- folders$Name

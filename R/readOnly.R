@@ -3,13 +3,14 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Read-only status of a SsimLibrary, Project or Scenario
+#' Read-only status of a SsimLibrary, Project, Scenario or Folder
 #'
 #' Retrieves or sets whether or not a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}} or \code{\link{Scenario}} is read-only.
+#' \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}} is
+#' read-only.
 #'
-#' @param ssimObject \code{\link{Scenario}}, 
-#' \code{\link{Project}}, or \code{\link{SsimLibrary}} object
+#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
+#' \code{\link{SsimLibrary}}, or \code{\link{Folder}} object
 #' @param value logical. If \code{TRUE} the SsimObject will be read-only. Default is 
 #' \code{FALSE}
 #' 
@@ -83,6 +84,17 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
 })
 
 #' @rdname readOnly
+setMethod("readOnly", signature(ssimObject = "Folder"), function(ssimObject) {
+  info <- getFolderData(ssimObject)
+  readOnlyStatus <- info$ReadOnly #TODO: make this match others?
+  if (readOnlyStatus == "No") {
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
+})
+
+#' @rdname readOnly
 #' @export
 setGeneric("readOnly<-", function(ssimObject, value) standardGeneric("readOnly<-"))
 
@@ -115,6 +127,29 @@ setReplaceMethod(
     if (is(ssimObject, "Scenario")) {
       args$sid <- .scenarioId(ssimObject)
     }
+    tt <- command(args, .session(ssimObject))
+    if (!identical(tt, "saved")) {
+      stop(tt)
+    }
+    return(ssimObject)
+  }
+)
+
+#' @rdname readOnly
+setReplaceMethod(
+  f = "readOnly",
+  signature = "Folder",
+  definition = function(ssimObject, value) {
+    if (!is(value, "logical")) {
+      stop("readOnly must be TRUE or FALSE.")
+    }
+    if (value == TRUE) {
+      readOnly <- "yes"
+    } else {
+      readOnly <- "no"
+    }
+    args <- list(setprop = NULL, lib = .filepath(ssimObject), 
+                 readonly = readOnly, fid = .folderId(ssimObject))
     tt <- command(args, .session(ssimObject))
     if (!identical(tt, "saved")) {
       stop(tt)

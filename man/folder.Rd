@@ -4,13 +4,13 @@
 \alias{folder}
 \title{Create or open a Folder}
 \usage{
-folder(ssimObject = NULL, folder = NULL, parentFolder = NULL, create = TRUE)
+folder(ssimObject = NULL, folder = NULL, parentFolder = NULL, create = FALSE)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}} or \code{\link{Project}} object.}
 
 \item{folder}{character or integer. If character, then will either open an
-existing folder and \code{create=FALSE}, or will create a new folder with the 
+existing folder if \code{create=FALSE}, or will create a new folder with the 
 given name if the folder does not exist yet or \code{create=TRUE} (Default). 
 If integer, will open the existing folder with the given folder ID (if the
 ID exists).}
@@ -20,7 +20,10 @@ ID exists).}
 specified parent folder}
 
 \item{create}{logical. Whether to create a new folder if the folder name given
-already exists in the SyncroSim library. Default is TRUE}
+already exists in the SyncroSim library. If \code{FALSE} (Default), then will 
+return the existing folder with the given name. If \code{TRUE}, then will
+return a new folder with the same name as an existing folder (but different
+folder ID)}
 }
 \value{
 A \code{Folder} object representing a SyncroSim folder.

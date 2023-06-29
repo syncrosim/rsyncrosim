@@ -5,11 +5,11 @@ NULL
 
 #' Description of SsimLibrary, Project or Scenario
 #'
-#' Get or set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-#' \code{\link{Scenario}}.
+#' Get or set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}}, 
+#' \code{\link{Scenario}} or \code{\link{Folder}}.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-#' \code{\link{Scenario}} object
+#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, 
+#' \code{\link{Scenario}}, or \code{\link{Folder}} object
 #' @param value character string specifying the new description
 #' 
 #' @return
@@ -68,6 +68,24 @@ setMethod("description", signature(ssimObject = "SsimObject"), function(ssimObje
 })
 
 #' @rdname description
+setMethod("description", signature(ssimObject = "Folder"), function(ssimObject) {
+  
+  desc <- command(list(list = NULL, description = NULL, 
+                       lib = .filepath(ssimObject), 
+                       fid = .folderId(ssimObject)), 
+                  session = .session(ssimObject))
+
+  while (max(grepl("  ", desc, fixed = TRUE))) {
+    desc <- gsub("  ", " ", desc, fixed = TRUE)
+  }
+  desc <- gsub(". ", ".", desc, fixed = TRUE)
+  
+  desc <- desc[2:length(desc)]
+  
+  return(desc)
+})
+
+#' @rdname description
 setReplaceMethod(
   f = "description",
   signature = "character",
@@ -96,6 +114,29 @@ setReplaceMethod(
     if (is(ssimObject, "Scenario")) {
       args$sid <- .scenarioId(ssimObject)
     }
+    tt <- command(args, .session(ssimObject))
+    if (!identical(tt, "saved")) {
+      stop(tt)
+    }
+    return(ssimObject)
+  }
+)
+
+#' @rdname description
+setReplaceMethod(
+  f = "description",
+  signature = "Folder",
+  definition = function(ssimObject, value) {
+    inValue <- value
+    if (length(inValue) > 1) {
+      value <- ""
+      for (i in 1:length(inValue)) {
+        value <- paste0(value, inValue[[i]], sep = "\n")
+      }
+    }
+    value <- gsub("\n", "\\n", value, fixed = TRUE)
+    args <- list(setprop = NULL, lib = .filepath(ssimObject), 
+                 description = value, fid = .folderId(ssimObject))
     tt <- command(args, .session(ssimObject))
     if (!identical(tt, "saved")) {
       stop(tt)

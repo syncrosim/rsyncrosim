@@ -49,7 +49,9 @@ setMethod("folderId", signature(ssimObject = "Folder"), function(ssimObject) {
 })
 #' @rdname folderId
 setMethod("folderId", signature(ssimObject = "Scenario"), function(ssimObject) {
-  return(ssimObject@folderId)
+  browser()
+  parentFolderId <- getParentFolderId(ssimObject, ssimObject@scenarioId)
+  return(parentFolderId)
 })
 #' @rdname folderId
 #' @export

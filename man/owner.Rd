@@ -7,9 +7,11 @@
 \alias{owner,SsimLibrary-method}
 \alias{owner,Project-method}
 \alias{owner,Scenario-method}
+\alias{owner,Folder-method}
 \alias{owner<-,character-method}
 \alias{owner<-,SsimObject-method}
-\title{Owner of a SsimLibrary, Project or Scenario}
+\alias{owner<-,Folder-method}
+\title{Owner of a SsimLibrary, Project, Scenario, or Folder}
 \usage{
 owner(ssimObject)
 
@@ -23,13 +25,17 @@ owner(ssimObject) <- value
 
 \S4method{owner}{Scenario}(ssimObject)
 
+\S4method{owner}{Folder}(ssimObject)
+
 \S4method{owner}{character}(ssimObject) <- value
 
 \S4method{owner}{SsimObject}(ssimObject) <- value
+
+\S4method{owner}{Folder}(ssimObject) <- value
 }
 \arguments{
 \item{ssimObject}{\code{\link{Session}}, \code{\link{Project}}, 
-or \code{\link{SsimLibrary}} object}
+\code{\link{SsimLibrary}}, or \code{\link{Folder}} object}
 
 \item{value}{character string of the new owner}
 }
@@ -38,7 +44,7 @@ A character string: the owner of the SsimObject.
 }
 \description{
 Retrieves or sets the owner of a \code{\link{SsimLibrary}},
-\code{\link{Project}} or \code{\link{Scenario}}.
+\code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
 }
 \examples{
 \dontrun{

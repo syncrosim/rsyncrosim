@@ -4,6 +4,7 @@
 \alias{session}
 \alias{session,missingOrNULLOrChar-method}
 \alias{session,SsimObject-method}
+\alias{session,Folder-method}
 \alias{session<-}
 \alias{session<-,NULLOrChar-method}
 \alias{session<-,SsimObject-method}
@@ -14,6 +15,8 @@ session(x = NULL, silent = TRUE, printCmd = FALSE)
 \S4method{session}{missingOrNULLOrChar}(x = NULL, silent = TRUE, printCmd = FALSE)
 
 \S4method{session}{SsimObject}(x = NULL, silent = TRUE, printCmd = FALSE)
+
+\S4method{session}{Folder}(x = NULL, silent = TRUE, printCmd = FALSE)
 
 session(ssimObject) <- value
 
