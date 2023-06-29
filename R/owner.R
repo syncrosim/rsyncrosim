@@ -69,7 +69,7 @@ setMethod("owner", signature(ssimObject = "Scenario"), function(ssimObject) {
 #' @rdname owner
 setMethod("owner", signature(ssimObject = "Folder"), function(ssimObject) {
   info <- getFolderData(ssimObject)
-  return(info$owner)
+  return(info$Owner)
 })
 
 #' @rdname owner

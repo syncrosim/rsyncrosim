@@ -49,8 +49,11 @@ setMethod("folderId", signature(ssimObject = "Folder"), function(ssimObject) {
 })
 #' @rdname folderId
 setMethod("folderId", signature(ssimObject = "Scenario"), function(ssimObject) {
-  browser()
   parentFolderId <- getParentFolderId(ssimObject, ssimObject@scenarioId)
+  folderInfo <- getFolderData(ssimObject)
+  if (!parentFolderId %in% folderInfo$FolderID){
+    parentFolderId <- NA
+  }
   return(parentFolderId)
 })
 #' @rdname folderId
@@ -62,6 +65,11 @@ setReplaceMethod(
   f = "folderId",
   signature = "Scenario",
   definition = function(ssimObject, value) {
+    
+    if (!is.numeric(value)){
+      stop("Can only assign a numeric value as the Scenario folder ID")
+    }
+    
     # If value == 0, same as NULL
     if (value == 0){
       return(ssimObject)

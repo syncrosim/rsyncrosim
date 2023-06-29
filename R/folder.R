@@ -179,6 +179,35 @@ folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL, create
   # Return folder data if no folder argument is specified
   if (is.null(folder)){
     folders <- getFolderData(ssimObject)
+    
+    if (is(ssimObject, "Project")){
+      # Filter for folders in the project
+      pid <- .projectId(ssimObject)
+      df <- getLibraryStructure(ssimObject)
+      projInd <- which(df$id == pid)
+      projRow <- df[projInd, ]
+      childInd <- projInd + 1
+      childRow <- df[childInd, ]
+      childLevel <- as.numeric(childRow$level)
+      ids <- c()
+      
+      while (childLevel > as.numeric(projRow$level)){
+        if (childRow$item == "Folder"){
+          ids <- c(ids, childRow$id)
+        }
+        childInd <- childInd + 1
+        childRow <- df[childInd, ]
+        
+        if (is.na(childRow$id)){
+          childLevel <- 0
+        } else{
+          childLevel <- as.numeric(childRow$level)
+        }
+      }
+      
+      folders <- folders[which(folders$FolderID %in% ids), ]
+    }
+    
     return(folders)
   }
   

@@ -304,17 +304,12 @@ printAndCapture <- function(x) {
   return(out)
 }
 
-# Gets folder info from an SsimLibrary, Project, or Folder.
+# Gets folder info from an SsimLibrary, Project, Scenario, or Folder.
 #
-# @param x An SsimLibrary, Project or Folder object. Or a path to a SyncroSim library on disk.
+# @param x An SsimLibrary, Project, Scenario, or Folder object. Or a path to a SyncroSim library on disk.
 # @return A dataframe of folder info, including folder IDs, names, owner, date last modified, 
 # read only status, and published status.
 getFolderData <- function(x) {
-  
-  # Validate input
-  if (!(is(x, "SsimLibrary")) & !(is(x, "Project")) & !(is(x, "Folder"))){
-    stop("Expecting ssimLibrary, Project, or Folder object.")
-  }
   
   args <- list(lib = .filepath(x), list = NULL, folders = NULL)
   tt <- command(args = args, session = .session(x))
@@ -326,12 +321,11 @@ getFolderData <- function(x) {
   colnames(out)[colnames(out) == "ID"] ="FolderID"
   out <- subset(out, select = -c(X))
   
-  if (is(x, "SsimLibrary") | is(x, "Project")){
-    return(out)
-  } else if (is(x, "Folder")){
+  if (is(x, "Folder")){
     out <- subset(out, FolderID == x@folderId)
-    return(out)
   }
+  
+  return(out)
 }
 
 # Gets the parent Folder ID given the SsimLibrary and the child Folder ID.
