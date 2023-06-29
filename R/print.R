@@ -33,6 +33,20 @@ setMethod(
   }
 )
 
+setMethod(
+  "print", "Folder",
+  function(x, ...) {
+    show(x)
+  }
+)
+
+setMethod(
+  "show", "Folder",
+  function(object) {
+    .printSsim(object)
+  }
+)
+
 .printSsim <- function(x, ...) {
   outStrings <- list()
 

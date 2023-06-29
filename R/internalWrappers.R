@@ -9,6 +9,7 @@ NULL
 #' @include ssimLibrary.R
 #' @include project.R
 #' @include scenario.R
+#' @include folder.R
 #' @include sqlStatement.R
 #' @include projectId.R
 #' @include scenarioId.R
@@ -33,6 +34,8 @@ NULL
 .session <- session
 # @export
 .project <- project
+# @export 
+.folder <- folder
 # @export
 .scenario <- scenario
 # @export
