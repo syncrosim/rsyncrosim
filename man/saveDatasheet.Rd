@@ -59,8 +59,8 @@ with \code{data} argument's list}
 
 \item{fileData}{named list or raster stack. Names are file names (without paths), 
 corresponding to entries in \code{data} The elements are objects containing the 
-data associated with each name. Currently only supports Raster objects 
-as elements}
+data associated with each name. Currently supports terra objects as elements, 
+(support for Raster objects is deprecated)}
 
 \item{append}{logical. If \code{TRUE}, the incoming data will be appended to the 
 Datasheet if possible.  Default is \code{TRUE} for Project/SsimLibrary-scope Datasheets, 
@@ -155,7 +155,7 @@ saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
 # Create a raster stack - add as many raster files as you want here
 map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
                         column = "InterceptRasterFile")
-inRasters <- raster::stack(map1)
+inRasters <- terra::rast(map1)
 
 # Change the name of the rasters in the input Datasheets to match the stack
 inSheet <- datasheet(myScenario, name="InputDatasheet")

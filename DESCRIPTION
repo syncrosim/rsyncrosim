@@ -56,6 +56,7 @@ Collate:
     'condaFilepath.R'
     'datasheet.R'
     'datasheetRaster.R'
+    'datasheetSpatRaster.R'
     'dateModified.R'
     'delete.R'
     'dependency.R'

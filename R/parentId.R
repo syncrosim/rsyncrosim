@@ -12,9 +12,8 @@ NULL
 #' 
 #' @return 
 #' An integer id of the parent Scenario if input is a Scenario, or an integer 
-#' id of the parent Folder or Project (if folder exists at the root) if input 
-#' is a Folder. If the input Scenario does not have a parent, the function 
-#' returns \code{NA}
+#' id of the parent Folder if input is a Folder. If the input Scenario or Folder 
+#' does not have a parent, the function returns \code{NA}
 #' 
 #' @examples 
 #' \donttest{
