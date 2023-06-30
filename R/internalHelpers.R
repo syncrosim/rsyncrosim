@@ -350,6 +350,24 @@ getParentFolderId <- function(x, id) {
   return(as.numeric(parentRow$id))
 }
 
+# Moves a scenario into the specified folder
+#
+# @param x SyncroSim Library, Project, Scenario, or Folder object.
+# @param pid integer value of the Project ID.
+# @param sid integer value of the Scenario ID
+# @param fid integer value of the Folder ID
+addScenarioToFolder <- function(x, pid, sid, fid) {
+  if (fid != 0){
+    args <- list(lib = .filepath(x), move = NULL, scenario = NULL, 
+                 sid = sid, tfid = fid, tpid = pid)
+    tt <- command(args = args, session = .session(x))
+    if (!identical(tt, "saved")) {
+      stop(tt)
+    }
+  }
+}
+
+
 # Gets the library structure as a dataframe. Shows which Scenarios belong 
 # to which projects, which folders belong to which projects or folders, etc.
 #

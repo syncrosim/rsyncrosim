@@ -18,8 +18,8 @@ NULL
 #'     with \code{data} argument's list
 #' @param fileData named list or raster stack. Names are file names (without paths), 
 #'     corresponding to entries in \code{data} The elements are objects containing the 
-#'     data associated with each name. Currently only supports Raster objects 
-#'     as elements
+#'     data associated with each name. Currently supports terra objects as elements, 
+#'     (support for Raster objects is deprecated)
 #' @param append logical. If \code{TRUE}, the incoming data will be appended to the 
 #'     Datasheet if possible.  Default is \code{TRUE} for Project/SsimLibrary-scope Datasheets, 
 #'     and \code{FALSE} for Scenario-scope Datasheets. See 'details' for more information 
@@ -31,9 +31,9 @@ NULL
 #'     other definitions and results, so if \code{force=FALSE} (default) user will be 
 #'     prompted for approval 
 #' @param breakpoint logical. Set to \code{TRUE} when modifying Datasheets in a 
-#' breakpoint function. Default is \code{FALSE}
+#'     breakpoint function. Default is \code{FALSE}
 #' @param import logical. Set to \code{TRUE} to import the data after saving. 
-#' Default is \code{FALSE}
+#'     Default is \code{FALSE}
 #' @param path character.  output path (optional)
 #' 
 #' @details
@@ -104,7 +104,7 @@ NULL
 #' # Create a raster stack - add as many raster files as you want here
 #' map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
 #'                         column = "InterceptRasterFile")
-#' inRasters <- raster::stack(map1)
+#' inRasters <- terra::rast(map1)
 #' 
 #' # Change the name of the rasters in the input Datasheets to match the stack
 #' inSheet <- datasheet(myScenario, name="InputDatasheet")
@@ -275,8 +275,11 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       for (j in seq(length.out = length(itemNames))) {
         cFName <- itemNames[j]
         cItem <- fileData[[cFName]]
-        if (!is(cItem, "RasterLayer")) {
-          stop("rsyncrosim currently only supports Raster layers as elements of fileData.")
+        if (!is(cItem, "RasterLayer") & !is(cItem, "SpatRaster")){
+          stop("rsyncrosim currently only supports terra SpatRasters and Raster layers as elements of fileData.")
+        }
+        if (is(cItem, "RasterLayer")) {
+          warning("Raster Layer support in rsyncrosim is now deprecated and will be removed in a future version.")
         }
         # check for cName in datasheet
 
@@ -303,7 +306,12 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
           cOutName <- paste0(cOutName, ".tif")
         }
 
-        raster::writeRaster(cItem, cOutName, format = "GTiff", overwrite = TRUE)
+        if (is(cItem, "SpatRaster")){
+          terra::writeRaster(cItem, cOutName, overwrite = TRUE)
+        }
+        if (is(cItem, "RasterLayer")) {
+          raster::writeRaster(cItem, cOutName, format = "GTiff", overwrite = TRUE)
+        }
       }
     }
     for (j in seq(length.out = ncol(cDat))) {
