@@ -15,12 +15,12 @@ setMethod(
     .Object@breakpoints <- list()
     .Object@parentId <- 0
     
+    x <- ssimLibrary
+    
     #TODO: make sure that this actually moves the scenario into the corresponding folder (i.e., does this trigger the folderId() function???)
     if (is.null(folderId)){
       folderId <- 0
     }
-    .Object@folderId <- folderId
-    x <- ssimLibrary
 
     # For fast processing - quickly return without system calls if scenario exists
     if (is.null(scenarios)) {
@@ -54,13 +54,18 @@ setMethod(
         parent <- strsplit(parentBit, "]", fixed = TRUE)[[1]][1]
         .Object@parentId <- as.numeric(parent)
       }
+      
+      pid <- as.numeric(findScn$ProjectID)
+      sid <- as.numeric(findScn$ScenarioID)
+      addScenarioToFolder(x, pid, sid, folderId)
 
       # Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session <- .session(x)
       .Object@filepath <- .filepath(x)
       .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
-      .Object@scenarioId <- as.numeric(findScn$ScenarioID)
-      .Object@projectId <- as.numeric(findScn$ProjectID)
+      .Object@scenarioId <- sid
+      .Object@projectId <- pid
+      .Object@folderId <- folderId
       return(.Object)
     }
 
@@ -125,12 +130,16 @@ setMethod(
       tt <- command(list(copy = NULL, scenario = NULL, slib = slib, tlib = .filepath(x), name = name, sid = sid, pid = pid), .session(x))
     }
     id <- as.numeric(strsplit(tt, ": ")[[1]][2])
+    
+    # Move Scenario into folder (if specified)
+    addScenarioToFolder(x, as.numeric(pid), as.numeric(id), folderId)
 
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
     .Object@datasheetNames <- .datasheets(x, refresh = TRUE, scope = "all")
     .Object@scenarioId <- as.numeric(id)
     .Object@projectId <- as.numeric(pid)
+    .Object@folderId <- folderId
     return(.Object)
   }
 )
