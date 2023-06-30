@@ -55,29 +55,29 @@ run(
 \code{\link{Scenario}} object, or a list of Scenarios, or character (i.e.
 path to a SsimLibrary on disk)}
 
-\item{scenario}{character, integer, or vector of these. Scenario names or ids. 
-If \code{NULL} (default), then runs all Scenarios associated with the SsimObject. Note 
+\item{scenario}{character, integer, or vector of these. Scenario names or ids.
+If \code{NULL} (default), then runs all Scenarios associated with the SsimObject. Note
 that integer ids are slightly faster}
 
-\item{summary}{logical. If \code{FALSE} (default) result Scenario objects are returned. 
+\item{summary}{logical. If \code{FALSE} (default) result Scenario objects are returned.
 If \code{TRUE} (faster) result Scenario ids are returned}
 
-\item{jobs}{integer. The number of jobs to run. Passed to SyncroSim where 
+\item{jobs}{integer. The number of jobs to run. Passed to SyncroSim where
 multithreading is handled}
 
 \item{copyExternalInputs}{logical. If \code{FALSE} (default) then a copy of external
-input files (e.g. GeoTIFF files) is not created for each job. Otherwise, a 
+input files (e.g. GeoTIFF files) is not created for each job. Otherwise, a
 copy of external inputs is created for each job. Applies only when \code{jobs}>1}
 
 \item{transformerName}{character.  The name of the transformer to run (optional)}
 
-\item{forceElements}{logical. If \code{TRUE} then returns a single result Scenario 
-as a named list; if \code{FALSE} (default) returns a single result Scenario as 
+\item{forceElements}{logical. If \code{TRUE} then returns a single result Scenario
+as a named list; if \code{FALSE} (default) returns a single result Scenario as
 a Scenario object. Applies only when \code{summary=FALSE}}
 }
 \value{
-If \code{summary = FALSE}, returns a result Scenario object or a named list 
-of result Scenarios. The name is the parent Scenario for each result. If 
+If \code{summary = FALSE}, returns a result Scenario object or a named list
+of result Scenarios. The name is the parent Scenario for each result. If
 \code{summary = TRUE}, returns summary info for result Scenarios.
 }
 \description{

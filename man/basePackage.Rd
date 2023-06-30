@@ -10,7 +10,7 @@ basePackage(ssimObject = NULL)
 \item{ssimObject}{\code{\link{Session}} or \code{\link{SsimLibrary}} object}
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Please use \code{\link{package}} instead.
 }
 \keyword{internal}

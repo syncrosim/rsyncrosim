@@ -12,25 +12,25 @@ sqlStatement(
 )
 }
 \arguments{
-\item{groupBy}{character string or vector of these. Vector of variables 
+\item{groupBy}{character string or vector of these. Vector of variables
 (column names) to \code{GROUP BY} (optional)}
 
-\item{aggregate}{character string of vector of these. Vector of variables 
+\item{aggregate}{character string of vector of these. Vector of variables
 (column names) to aggregate using \code{aggregateFunction} (optional)}
 
-\item{aggregateFunction}{character string. An SQL aggregate function 
+\item{aggregateFunction}{character string. An SQL aggregate function
 (e.g. \code{SUM}, \code{COUNT}). Default is \code{SUM}}
 
-\item{where}{named list. A list of subset variables. Names are column names, 
+\item{where}{named list. A list of subset variables. Names are column names,
 and elements are the values to be selected from each column (optional)}
 }
 \value{
-Returns a list of \code{SELECT}, \code{GROUP BY} and \code{WHERE} SQL statements used by the 
+Returns a list of \code{SELECT}, \code{GROUP BY} and \code{WHERE} SQL statements used by the
 \code{\link{datasheet}} function to construct an SQLite database query.
 }
 \description{
 Creates \code{SELECT}, \code{GROUP BY} and \code{WHERE} SQL statements.
-The resulting list of SQL statements will be converted to an SQLite database 
+The resulting list of SQL statements will be converted to an SQLite database
 query by the \code{\link{datasheet}} function.
 }
 \details{

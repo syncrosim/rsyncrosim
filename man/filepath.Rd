@@ -19,15 +19,15 @@ filepath(ssimObject)
 \S4method{filepath}{Folder}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}}, 
+\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}},
 \code{\link{SsimLibrary}}, or \code{\link{Folder}} object}
 }
 \value{
 A character string: the path to a SyncroSim object on disk.
 }
 \description{
-Retrieves the path to a SyncroSim \code{\link{Session}}, 
-\code{\link{SsimLibrary}}, \code{\link{Project}}, \code{\link{Scenario}}, 
+Retrieves the path to a SyncroSim \code{\link{Session}},
+\code{\link{SsimLibrary}}, \code{\link{Project}}, \code{\link{Scenario}},
 of \code{\link{Folder}} on disk.
 }
 \examples{

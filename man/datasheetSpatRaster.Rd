@@ -79,42 +79,42 @@ datasheetSpatRaster(
 )
 }
 \arguments{
-\item{ssimObject}{SsimLibrary/Project/Scenario object or list of Scenario objects. If 
+\item{ssimObject}{SsimLibrary/Project/Scenario object or list of Scenario objects. If
 SsimLibrary/Project, then \code{scenario} argument is required}
 
-\item{datasheet}{character string. The name of the Datasheet containing the 
+\item{datasheet}{character string. The name of the Datasheet containing the
 raster data}
 
-\item{column}{character string. The name of the column in the datasheet containing 
-the file names for raster data. If \code{NULL} (default) then use the first 
+\item{column}{character string. The name of the column in the datasheet containing
+the file names for raster data. If \code{NULL} (default) then use the first
 column that contains raster file names}
 
-\item{scenario}{character string, integer, or vector of these. The Scenarios to 
-include. Required if SsimObject is an SsimLibrary/Project, ignored if 
+\item{scenario}{character string, integer, or vector of these. The Scenarios to
+include. Required if SsimObject is an SsimLibrary/Project, ignored if
 SsimObject is a list of Scenarios (optional)}
 
-\item{iteration}{integer, character string, or vector of integer/character strings. 
-Iteration(s) to include. If \code{NULL} (default) then all iterations are 
+\item{iteration}{integer, character string, or vector of integer/character strings.
+Iteration(s) to include. If \code{NULL} (default) then all iterations are
 included. If no Iteration column is in the Datasheet, then ignored}
 
-\item{timestep}{integer, character string, or vector of integer/character string. 
-Timestep(s) to include. If \code{NULL} (default) then all timesteps are 
+\item{timestep}{integer, character string, or vector of integer/character string.
+Timestep(s) to include. If \code{NULL} (default) then all timesteps are
 included.  If no Timestep column is in the Datasheet, then ignored}
 
-\item{filterColumn}{character string. The column to filter a Datasheet by. 
-(e.g. "TransitionGroupID"). Note that to use the filterColumn argument, 
+\item{filterColumn}{character string. The column to filter a Datasheet by.
+(e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
 you must also specify a filterValue. Default is \code{NULL}}
 
 \item{filterValue}{character string or integer. The value of the filterColumn
-to filter the Datasheet by. To use the filterValue argument, you must 
+to filter the Datasheet by. To use the filterValue argument, you must
 also specify a filterColumn. Default is \code{NULL}}
 
-\item{subset}{logical expression indicating Datasheet rows to return. 
-e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for 
+\item{subset}{logical expression indicating Datasheet rows to return.
+e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for
 details (optional)}
 
-\item{forceElements}{logical. If \code{TRUE} then returns a single raster as a RasterStack; 
-otherwise returns a single raster as a RasterLayer directly. Default is 
+\item{forceElements}{logical. If \code{TRUE} then returns a single raster as a RasterStack;
+otherwise returns a single raster as a RasterLayer directly. Default is
 \code{FALSE}}
 
 \item{pathOnly}{logical. If \code{TRUE} then returns a list of filepaths to the raster
@@ -124,16 +124,16 @@ files on disk. Default is \code{FALSE}}
 A SpatRaster object, or List. See terra package documentation for details.
 }
 \description{
-This function retrieves spatial columns from one or more SyncroSim 
+This function retrieves spatial columns from one or more SyncroSim
 \code{\link{Scenario}} Datasheets.
 }
 \details{
 The names of the returned SpatRaster contain metadata.
-For Datasheets without Filename this is: 
+For Datasheets without Filename this is:
 
 \code{paste0(<datasheet name>,".Scn",<scenario id>,".",<tif name>)}.
 
-For Datasheets containing Filename this is: 
+For Datasheets containing Filename this is:
 
 \code{paste0(<datasheet name>,".Scn",<scenario id>,".It",<iteration>,".Ts",<timestep>)}.
 }

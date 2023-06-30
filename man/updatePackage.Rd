@@ -16,13 +16,13 @@ updatePackage(name = NULL, session = NULL, listonly = FALSE)
 \S4method{updatePackage}{ANY,Session}(name = NULL, session = NULL, listonly = FALSE)
 }
 \arguments{
-\item{name}{character string.  The name of the package to update. 
+\item{name}{character string.  The name of the package to update.
 If \code{NULL} (default), all packages will be updated}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default), 
+\item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} is used}
 
-\item{listonly}{logical. If \code{TRUE}, available updates are listed only. 
+\item{listonly}{logical. If \code{TRUE}, available updates are listed only.
 Default is \code{FALSE}}
 }
 \value{

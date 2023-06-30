@@ -20,12 +20,12 @@ installConda(session)
 \code{session()} will be used}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful 
+Invisibly returns \code{TRUE} upon success (i.e.successful
 install) and \code{FALSE} upon failure.
 }
 \description{
 This function installs Miniconda to the default installation path
-within the SyncroSim installation folder. If you already have Conda 
+within the SyncroSim installation folder. If you already have Conda
 installed in the non-default location, you can point SyncroSim towards
 that installation using the \code{\link{condaFilepath}} function.
 }

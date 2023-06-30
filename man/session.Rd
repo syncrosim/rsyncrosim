@@ -28,11 +28,11 @@ session(ssimObject) <- value
 \item{x}{character or SsimObject. Path to SyncroSim installation. If \code{NULL}
 (default), then default path is used}
 
-\item{silent}{logical. Applies only if x is a path or \code{NULL} If \code{TRUE}, warnings 
+\item{silent}{logical. Applies only if x is a path or \code{NULL} If \code{TRUE}, warnings
 from the console are ignored. Otherwise they are printed. Default is \code{FALSE}}
 
-\item{printCmd}{logical. Applies only if x is a path or \code{NULL} If \code{TRUE}, 
-arguments passed to the SyncroSim console are also printed. Helpful for 
+\item{printCmd}{logical. Applies only if x is a path or \code{NULL} If \code{TRUE},
+arguments passed to the SyncroSim console are also printed. Helpful for
 debugging. Default is \code{FALSE}}
 
 \item{ssimObject}{\code{\link{Project}} or \code{\link{Scenario}} object}
@@ -46,11 +46,11 @@ A SyncroSim \code{\link{Session}} object.
 Methods to create or return a SyncroSim \code{\link{Session}}.
 }
 \details{
-In order to avoid problems with SyncroSim version compatibility and SsimLibrary 
-updating, the new Session must have the same filepath as the Session of the 
-SsimObject 
+In order to avoid problems with SyncroSim version compatibility and SsimLibrary
+updating, the new Session must have the same filepath as the Session of the
+SsimObject
 e.g. \code{filepath(value)==filepath(session(ssimObject))}.
-Therefore, the only time when you will need to set a new SyncroSim Session is if you 
+Therefore, the only time when you will need to set a new SyncroSim Session is if you
 have updated the SyncroSim software and want to update an existing SsimObject
 to use the new software.
 }

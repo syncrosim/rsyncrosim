@@ -10,7 +10,7 @@ envBeginSimulation(totalSteps)
 \item{totalSteps}{integer.  The total number of steps in the simulation}
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Please use \code{\link{progressBar}} instead.
 }
 \keyword{internal}

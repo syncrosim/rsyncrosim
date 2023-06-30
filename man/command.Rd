@@ -13,21 +13,21 @@ command(
 )
 }
 \arguments{
-\item{args}{character string, named list, named vector, unnamed list, or unnamed 
-vector. Arguments for the SyncroSim console. See 'details' for more 
+\item{args}{character string, named list, named vector, unnamed list, or unnamed
+vector. Arguments for the SyncroSim console. See 'details' for more
 information about this argument}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL}(default), the default
 session will be used}
 
-\item{program}{character. The name of the target SyncroSim executable. 
-Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe", 
+\item{program}{character. The name of the target SyncroSim executable.
+Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe",
 "SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"}
 
-\item{wait}{logical. If \code{TRUE}(default) R will wait for the command to finish 
+\item{wait}{logical. If \code{TRUE}(default) R will wait for the command to finish
 before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}}
 
-\item{progName}{character. Internal argument for setting path to SyncroSim 
+\item{progName}{character. Internal argument for setting path to SyncroSim
 installation folder.}
 }
 \value{
@@ -40,9 +40,9 @@ used internally by other functions.
 \details{
 Example args, and the resulting character string passed to the SyncroSim console:
 \itemize{
-   \item Character string e.g. "--create --help": "--create --help"
-   \item Named list or named vector e.g. list(name1=NULL,name2=value2): "--name1 --name2=value2"
-   \item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
+\item Character string e.g. "--create --help": "--create --help"
+\item Named list or named vector e.g. list(name1=NULL,name2=value2): "--name1 --name2=value2"
+\item Unnamed list or unnamed vector e.g. c("create","help"): "--create --help"
 }
 }
 \examples{

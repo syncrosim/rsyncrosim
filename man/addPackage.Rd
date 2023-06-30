@@ -16,22 +16,22 @@ addPackage(name, session = NULL)
 \S4method{addPackage}{ANY,Session}(name, session = NULL)
 }
 \arguments{
-\item{name}{character string.  The name or file path of the package to 
+\item{name}{character string.  The name or file path of the package to
 install}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful 
+Invisibly returns \code{TRUE} upon success (i.e.successful
 install) and \code{FALSE} upon failure.
 }
 \description{
 This function installs a package to the SyncroSim \code{\link{Session}}.
-If only the package name is provided as input, the function queries the 
-SyncroSim package server for the specified package. If a file path is 
-provided as input, the function adds a package to SyncroSim from a local 
-package file (ends in ".ssimpkg"). The list of SyncroSim packages can be 
+If only the package name is provided as input, the function queries the
+SyncroSim package server for the specified package. If a file path is
+provided as input, the function adds a package to SyncroSim from a local
+package file (ends in ".ssimpkg"). The list of SyncroSim packages can be
 found \href{https://syncrosim.com/packages/}{here}.
 }
 \examples{

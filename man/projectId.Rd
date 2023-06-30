@@ -19,7 +19,7 @@ projectId(ssimObject)
 \S4method{projectId}{Folder}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}}, or 
+\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}}, or
 \code{\link{Folder}} object}
 }
 \value{

@@ -24,15 +24,15 @@ folderId(ssimObject) <- value
 \arguments{
 \item{ssimObject}{\code{\link{Folder}} or \code{\link{Scenario}} object}
 
-\item{value}{integer of the folder ID to move the \code{\link{Scenario}} to. 
+\item{value}{integer of the folder ID to move the \code{\link{Scenario}} to.
 Only applicable if the ssimObject provided is a \code{\link{Scenario}}.}
 }
 \value{
 An integer: folder id.
 }
 \description{
-Retrieves the Folder Id of a SyncroSim \code{\link{Folder}} or 
-\code{\link{Scenario}}. Can also use to set the Folder Id for a 
+Retrieves the Folder Id of a SyncroSim \code{\link{Folder}} or
+\code{\link{Scenario}}. Can also use to set the Folder Id for a
 \code{\link{Scenario}} - this will move the \code{\link{Scenario}} into the
 desired folder in the SyncroSim User Interface.
 }

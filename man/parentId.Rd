@@ -19,8 +19,8 @@ parentId(child)
 \item{child}{\code{\link{Scenario}} or \code{\link{Folder}} object}
 }
 \value{
-An integer id of the parent Scenario if input is a Scenario, or an integer 
-id of the parent Folder if input is a Folder. If the input Scenario or Folder 
+An integer id of the parent Scenario if input is a Scenario, or an integer
+id of the parent Folder if input is a Folder. If the input Scenario or Folder
 does not have a parent, the function returns \code{NA}
 }
 \description{

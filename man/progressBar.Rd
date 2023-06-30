@@ -16,10 +16,10 @@ progressBar(
 \item{type}{character. Update to apply to progress bar. Options include
 "begin", "end", "step", "report", and "message" (Default is "step")}
 
-\item{iteration}{integer. The current iteration. Only used if 
+\item{iteration}{integer. The current iteration. Only used if
 \code{type = "report"}}
 
-\item{timestep}{integer. The current timestep. Only used if 
+\item{timestep}{integer. The current timestep. Only used if
 \code{type = "report"}}
 
 \item{totalSteps}{integer. The total number of steps in the simulation. Only
@@ -32,8 +32,8 @@ bar. Only used if \code{type = "message"}.}
 No returned value, used for side effects
 }
 \description{
-This function is designed to facilitate the development of R-based Syncrosim 
-Packages, such as beginning, stepping, ending, and reporting the progress 
+This function is designed to facilitate the development of R-based Syncrosim
+Packages, such as beginning, stepping, ending, and reporting the progress
 for a SyncroSim simulation.
 }
 \examples{

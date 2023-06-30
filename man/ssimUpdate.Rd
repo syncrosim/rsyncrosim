@@ -13,16 +13,16 @@ ssimUpdate(ssimObject)
 \S4method{ssimUpdate}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}}, 
-or \code{\link{SsimLibrary}} object. If \code{NULL} (default), 
+\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}},
+or \code{\link{SsimLibrary}} object. If \code{NULL} (default),
 \code{session()} will be used}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful 
+Invisibly returns \code{TRUE} upon success (i.e.successful
 update) and \code{FALSE} upon failure.
 }
 \description{
-Apply updates to a \code{\link{SsimLibrary}}, or a \code{\link{Project}} or 
+Apply updates to a \code{\link{SsimLibrary}}, or a \code{\link{Project}} or
 \code{\link{Scenario}} associated with a SsimLibrary.
 }
 \examples{
