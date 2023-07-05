@@ -8,7 +8,7 @@ updateRunLog(..., sep = "", type = "status")
 }
 \arguments{
 \item{...}{One or more objects which can be coerced to character
-which are pasted together using `sep`.}
+which are pasted together using \code{sep}.}
 
 \item{sep}{character. Used to separate terms. Not NA_character_}
 
@@ -19,7 +19,7 @@ which are pasted together using `sep`.}
 No returned value, used for side effects
 }
 \description{
-This function is designed to facilitate the development of R-based Syncrosim 
+This function is designed to facilitate the development of R-based Syncrosim
 Packages by allowing developers to send messages to the run log.
 }
 \examples{

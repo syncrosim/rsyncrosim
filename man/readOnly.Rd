@@ -6,10 +6,12 @@
 \alias{readOnly,SsimLibrary-method}
 \alias{readOnly,Project-method}
 \alias{readOnly,Scenario-method}
+\alias{readOnly,Folder-method}
 \alias{readOnly<-}
 \alias{readOnly<-,character-method}
 \alias{readOnly<-,SsimObject-method}
-\title{Read-only status of a SsimLibrary, Project or Scenario}
+\alias{readOnly<-,Folder-method}
+\title{Read-only status of a SsimLibrary, Project, Scenario or Folder}
 \usage{
 readOnly(ssimObject)
 
@@ -21,17 +23,21 @@ readOnly(ssimObject)
 
 \S4method{readOnly}{Scenario}(ssimObject)
 
+\S4method{readOnly}{Folder}(ssimObject)
+
 readOnly(ssimObject) <- value
 
 \S4method{readOnly}{character}(ssimObject) <- value
 
 \S4method{readOnly}{SsimObject}(ssimObject) <- value
+
+\S4method{readOnly}{Folder}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, 
-\code{\link{Project}}, or \code{\link{SsimLibrary}} object}
+\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
+\code{\link{SsimLibrary}}, or \code{\link{Folder}} object}
 
-\item{value}{logical. If \code{TRUE} the SsimObject will be read-only. Default is 
+\item{value}{logical. If \code{TRUE} the SsimObject will be read-only. Default is
 \code{FALSE}}
 }
 \value{
@@ -39,24 +45,27 @@ A logical: \code{TRUE} if the SsimObject is read-only and \code{FALSE}
 otherwise.
 }
 \description{
-Retrieves or sets whether or not a \code{\link{SsimLibrary}}, 
-\code{\link{Project}} or \code{\link{Scenario}} is read-only.
+Retrieves or sets whether or not a \code{\link{SsimLibrary}},
+\code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}} is
+read-only.
 }
 \examples{
 \donttest{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 
-# Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
+# Set up a SyncroSim Session, SsimLibrary, Project, Scenario, and Folder
 mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
+myFolder <- folder(myProject, "My Folder")
 
 # Retrieve the read-only status of a SsimObject
 readOnly(myLibrary)
 readOnly(myProject)
 readOnly(myScenario)
+readOnly(myFolder)
 
 # Set the read-only status of a SsimObject
 readOnly(myScenario) <- TRUE

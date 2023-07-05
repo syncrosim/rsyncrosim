@@ -13,14 +13,14 @@ dependency(scenario, dependency = NULL, remove = FALSE, force = FALSE)
 \S4method{dependency}{Scenario}(scenario, dependency = NULL, remove = FALSE, force = FALSE)
 }
 \arguments{
-\item{scenario}{\code{\link{Scenario}} object, character string, integer, or 
-vector of these. The Scenario object, name, or ID to which a dependency is to 
-be added (or has already been added if \code{remove=TRUE}). Note that integer ids 
+\item{scenario}{\code{\link{Scenario}} object, character string, integer, or
+vector of these. The Scenario object, name, or ID to which a dependency is to
+be added (or has already been added if \code{remove=TRUE}). Note that integer ids
 are slightly faster}
 
-\item{dependency}{\code{\link{Scenario}} object, character string, integer, or 
-list/vector of these. The Scenario(s) that are the source of the dependency, 
-in order from lowest to highest precedence. If \code{NULL} (default) other arguments are 
+\item{dependency}{\code{\link{Scenario}} object, character string, integer, or
+list/vector of these. The Scenario(s) that are the source of the dependency,
+in order from lowest to highest precedence. If \code{NULL} (default) other arguments are
 ignored and the list of existing dependencies is returned}
 
 \item{remove}{logical. If \code{FALSE} (default) dependencies are added. If \code{TRUE},
@@ -29,28 +29,28 @@ dependencies are removed}
 \item{force}{logical. If \code{FALSE} (default) prompt before removing dependencies}
 }
 \value{
-If dependency is \code{NULL}, a data frame of existing dependencies, or list of these 
-if multiple inputs are provided. If dependency is not \code{NULL}, the function 
-invisibly returns a list bearing the names of the dependencies inputted and 
-carrying a logical \code{TRUE} upon success (i.e.successful addition or deletion) 
+If dependency is \code{NULL}, a data frame of existing dependencies, or list of these
+if multiple inputs are provided. If dependency is not \code{NULL}, the function
+invisibly returns a list bearing the names of the dependencies inputted and
+carrying a logical \code{TRUE} upon success (i.e.successful addition or deletion)
 and \code{FALSE} upon failure
 }
 \description{
 List dependencies, set dependencies, or remove dependencies from a SyncroSim
 \code{\link{Scenario}}. Setting dependencies is a way of linking together
-Scenario Datafeeds, such that a change in the Scenario that is the source 
+Scenario Datafeeds, such that a change in the Scenario that is the source
 dependency will update the dependent Scenario as well.
 }
 \details{
-If \code{dependency==NULL}, other arguments are ignored, and set of existing dependencies 
+If \code{dependency==NULL}, other arguments are ignored, and set of existing dependencies
 is returned in order of precedence (from highest to lowest precedence).
-Otherwise, returns list of saved or error messages for each dependency of each 
+Otherwise, returns list of saved or error messages for each dependency of each
 scenario.
 
-Note that the order of dependencies can be important - dependencies added most 
-recently take precedence over existing dependencies. So, dependencies included 
-in the dependency argument take precedence over any other existing dependencies. 
-If the dependency argument includes more than one element, elements are ordered 
+Note that the order of dependencies can be important - dependencies added most
+recently take precedence over existing dependencies. So, dependencies included
+in the dependency argument take precedence over any other existing dependencies.
+If the dependency argument includes more than one element, elements are ordered
 from lowest to highest precedence.
 }
 \examples{

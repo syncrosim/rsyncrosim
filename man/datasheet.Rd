@@ -76,64 +76,64 @@ datasheet(
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-or \code{\link{Scenario}} object or list of objects. 
-Note that all objects in a list must be of the same type, and belong to 
+or \code{\link{Scenario}} object or list of objects.
+Note that all objects in a list must be of the same type, and belong to
 the same SsimLibrary}
 
-\item{name}{character or character vector. Sheet name(s). If \code{NULL} (default), 
-all datasheets in the ssimObject will be returned. Note that setting 
-\code{summary=FALSE} and \code{name=NULL} pulls all Datasheets, which is time 
+\item{name}{character or character vector. Sheet name(s). If \code{NULL} (default),
+all datasheets in the ssimObject will be returned. Note that setting
+\code{summary=FALSE} and \code{name=NULL} pulls all Datasheets, which is time
 consuming and not generally recommended}
 
-\item{project}{numeric or numeric vector. One or more 
+\item{project}{numeric or numeric vector. One or more
 \code{\link{Project}} ids}
 
-\item{scenario}{numeric or numeric vector. One or more 
+\item{scenario}{numeric or numeric vector. One or more
 \code{\link{Scenario}} ids}
 
-\item{summary}{logical or character. If \code{TRUE} (default) returns a data.frame of sheet names 
-and other info including built-in core SyncroSim Datasheets. If \code{FALSE} returns 
+\item{summary}{logical or character. If \code{TRUE} (default) returns a data.frame of sheet names
+and other info including built-in core SyncroSim Datasheets. If \code{FALSE} returns
 data.frame or list of data.frames.}
 
-\item{optional}{logical. If \code{summary=TRUE} and \code{optional=TRUE} returns 
-only \code{scope}, \code{name} and \code{displayName}. If \code{summary=FALSE} and \code{optional=TRUE} returns 
-all of the Datasheet's columns, including the optional columns. If 
-\code{summary=TRUE}, \code{optional=FALSE} (default), returns only those columns that are mandatory 
+\item{optional}{logical. If \code{summary=TRUE} and \code{optional=TRUE} returns
+only \code{scope}, \code{name} and \code{displayName}. If \code{summary=FALSE} and \code{optional=TRUE} returns
+all of the Datasheet's columns, including the optional columns. If
+\code{summary=TRUE}, \code{optional=FALSE} (default), returns only those columns that are mandatory
 and contain data (if \code{empty=FALSE}). Ignored if \code{summary=FALSE}, \code{empty=FALSE}
 and \code{lookupsAsFactors=FALSE}}
 
-\item{empty}{logical. If \code{TRUE} returns empty data.frames for each 
+\item{empty}{logical. If \code{TRUE} returns empty data.frames for each
 Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}}
 
-\item{filterColumn}{character string. The column to filter a Datasheet by. 
+\item{filterColumn}{character string. The column to filter a Datasheet by.
 (e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
 you must also specify the filterValue argument. Default is \code{NULL}}
 
-\item{filterValue}{character string or integer. The value to filter the 
+\item{filterValue}{character string or integer. The value to filter the
 filterColumn by. To use the filterValue argument, you must also specify
 the filterColumn argument. Default is \code{NULL}}
 
-\item{lookupsAsFactors}{logical. If \code{TRUE} (default) dependencies 
-returned as factors with allowed values (levels). Set \code{FALSE} to speed 
+\item{lookupsAsFactors}{logical. If \code{TRUE} (default) dependencies
+returned as factors with allowed values (levels). Set \code{FALSE} to speed
 calculations. Ignored if \code{summary=TRUE}}
 
-\item{sqlStatement}{list returned by \code{\link{sqlStatement}}. \code{SELECT} and 
-\code{GROUP BY} SQL statements passed to SQLite database. Ignored if 
+\item{sqlStatement}{list returned by \code{\link{sqlStatement}}. \code{SELECT} and
+\code{GROUP BY} SQL statements passed to SQLite database. Ignored if
 \code{summary=TRUE} (optional)}
 
-\item{includeKey}{logical. If \code{TRUE} include primary key in table. Default is 
+\item{includeKey}{logical. If \code{TRUE} include primary key in table. Default is
 \code{FALSE}}
 
-\item{forceElements}{logical. If \code{FALSE} (default) and name has a single element 
-returns a data.frame; otherwise returns a list of data.frames. Ignored if 
+\item{forceElements}{logical. If \code{FALSE} (default) and name has a single element
+returns a data.frame; otherwise returns a list of data.frames. Ignored if
 \code{summary=TRUE}}
 
-\item{fastQuery}{logical.  If \code{TRUE}, the request is optimized for 
-performance.  Ignored if combined with summary, empty, or 
+\item{fastQuery}{logical.  If \code{TRUE}, the request is optimized for
+performance.  Ignored if combined with summary, empty, or
 \code{\link{sqlStatement}} flags. Default is \code{FALSE}}
 }
 \value{
-If \code{summary=TRUE} returns a data.frame of Datasheet names 
+If \code{summary=TRUE} returns a data.frame of Datasheet names
 and other information, otherwise returns a data.frame or list of these.
 }
 \description{
@@ -141,33 +141,33 @@ This function retrieves a SyncroSim Datasheet, either by calling the SyncroSim
 console, or by directly querying the \code{\link{SsimLibrary}} database.
 }
 \details{
-If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the 
-Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{package}, 
-\code{name}, \code{displayName}, \code{isSingle}, \code{isOutput}, \code{data}. data only displayed for 
-a SyncroSim \code{\link{Scenario}}. \code{dataInherited} and \code{dataSource} columns 
-added if a Scenario has dependencies. If \code{optional=FALSE}, columns include: 
+If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the
+Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{package},
+\code{name}, \code{displayName}, \code{isSingle}, \code{isOutput}, \code{data}. data only displayed for
+a SyncroSim \code{\link{Scenario}}. \code{dataInherited} and \code{dataSource} columns
+added if a Scenario has dependencies. If \code{optional=FALSE}, columns include:
 \code{scope}, \code{name}, \code{displayName}. All other arguments are ignored.
 
 Otherwise, for each element in name a Datasheet is returned as follows:
 \itemize{
-  \item {If \code{lookupsAsFactors=TRUE} (default): }{Each column is given the correct 
-         data type, and dependencies returned as factors with allowed values (levels). 
-         A warning is issued if the lookup has not yet been set.}
-  \item {If \code{empty=TRUE}: }{Each column is given the correct data type. Fast (1 less 
-         console command)}.
-  \item {If \code{empty=FALSE} and \code{lookupsAsFactors=FALSE}: }{Column types are not checked, 
-         and the optional argument is ignored. Fast (1 less console command).}
-  \item {If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}} 
-         objects (output from \code{\link{run}}, \code{\link{Scenario}} or 
-         \code{\link{Project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
-  \item {If Scenario/Project is a vector: }{Adds ScenarioID/ProjectID column 
-         as necessary.}
-  \item {If requested Datasheet has Scenario scope and contains info from more 
-         than one Scenario: }{ScenarioID/ScenarioName/ScenarioParent columns 
-         identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario)}.
-  \item {If requested Datasheet has Project scope and contains info from more 
-         than one Project: }{ProjectID/ProjectName columns identify the Project 
-         by \code{name} and \code{id}}
+\item {If \code{lookupsAsFactors=TRUE} (default): }{Each column is given the correct
+data type, and dependencies returned as factors with allowed values (levels).
+A warning is issued if the lookup has not yet been set.}
+\item {If \code{empty=TRUE}: }{Each column is given the correct data type. Fast (1 less
+console command)}.
+\item {If \code{empty=FALSE} and \code{lookupsAsFactors=FALSE}: }{Column types are not checked,
+and the optional argument is ignored. Fast (1 less console command).}
+\item {If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}}
+objects (output from \code{\link{run}}, \code{\link{Scenario}} or
+\code{\link{Project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
+\item {If Scenario/Project is a vector: }{Adds ScenarioID/ProjectID column
+as necessary.}
+\item {If requested Datasheet has Scenario scope and contains info from more
+than one Scenario: }{ScenarioID/ScenarioName/ScenarioParent columns
+identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario)}.
+\item {If requested Datasheet has Project scope and contains info from more
+than one Project: }{ProjectID/ProjectName columns identify the Project
+by \code{name} and \code{id}}
 }
 }
 \examples{

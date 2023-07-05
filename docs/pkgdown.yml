@@ -8,7 +8,7 @@ articles:
   a04_rsyncrosim_vignette_spatial: a04_rsyncrosim_vignette_spatial.html
   a05_rsyncrosim_stsim_vignette: a05_rsyncrosim_stsim_vignette.html
   a06_rsyncrosim_install_github: a06_rsyncrosim_install_github.html
-last_built: 2023-06-20T17:33Z
+last_built: 2023-07-05T02:00Z
 urls:
   reference: https://syncrosim.github.io/rsyncrosim/reference
   article: https://syncrosim.github.io/rsyncrosim/articles

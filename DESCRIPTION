@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.4.6
+Version: 1.4.7
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),
@@ -48,17 +48,15 @@ Collate:
     'AAAClassDefinitions.R'
     'addPackage.R'
     'addRow.R'
-    'addScenarioToFolder.R'
     'addon.R'
     'autogentags.R'
     'backup.R'
     'breakpoint.R'
     'command.R'
     'condaFilepath.R'
-    'createNestedFolder.R'
-    'createProjectFolder.R'
     'datasheet.R'
     'datasheetRaster.R'
+    'datasheetSpatRaster.R'
     'dateModified.R'
     'delete.R'
     'dependency.R'
@@ -67,6 +65,8 @@ Collate:
     'disableAddon.R'
     'enableAddon.R'
     'filepath.R'
+    'folder.R'
+    'folderId.R'
     'ignoreDependencies.R'
     'info.R'
     'installConda.R'
@@ -86,9 +86,9 @@ Collate:
     'parentId.R'
     'print.R'
     'printCmd.R'
+    'published.R'
     'readOnly.R'
     'removePackage.R'
-    'retrieveFolderData.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'
@@ -103,3 +103,4 @@ RoxygenNote: 7.2.3
 URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)

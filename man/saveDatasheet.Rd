@@ -46,72 +46,72 @@ saveDatasheet(
 )
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or 
+\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or
 \code{\link{Scenario}} object}
 
-\item{data}{data.frame, named vector, or list of these. One or more 
+\item{data}{data.frame, named vector, or list of these. One or more
 Datasheets to load}
 
-\item{name}{character or vector of these. The name(s) of the Datasheet(s) to 
-be saved. If a vector of names is provided, then a list must be provided 
-for the \code{data} argument. Names provided here will override those provided 
+\item{name}{character or vector of these. The name(s) of the Datasheet(s) to
+be saved. If a vector of names is provided, then a list must be provided
+for the \code{data} argument. Names provided here will override those provided
 with \code{data} argument's list}
 
-\item{fileData}{named list or raster stack. Names are file names (without paths), 
-corresponding to entries in \code{data} The elements are objects containing the 
-data associated with each name. Currently only supports Raster objects 
-as elements}
+\item{fileData}{named list or SpatRaster object. Names are file names (without paths),
+corresponding to entries in \code{data} The elements are objects containing the
+data associated with each name. Currently supports terra SpatRaster objects as elements,
+(support for Raster objects is deprecated)}
 
-\item{append}{logical. If \code{TRUE}, the incoming data will be appended to the 
-Datasheet if possible.  Default is \code{TRUE} for Project/SsimLibrary-scope Datasheets, 
-and \code{FALSE} for Scenario-scope Datasheets. See 'details' for more information 
+\item{append}{logical. If \code{TRUE}, the incoming data will be appended to the
+Datasheet if possible.  Default is \code{TRUE} for Project/SsimLibrary-scope Datasheets,
+and \code{FALSE} for Scenario-scope Datasheets. See 'details' for more information
 about this argument}
 
-\item{forceElements}{logical. If \code{FALSE} (default) a single return message will 
+\item{forceElements}{logical. If \code{FALSE} (default) a single return message will
 be returned as a character string. Otherwise it will be returned in a list}
 
-\item{force}{logical. If Datasheet scope is Project/SsimLibrary, and \code{append=FALSE}, 
-Datasheet will be deleted before loading the new data. This can also delete 
-other definitions and results, so if \code{force=FALSE} (default) user will be 
+\item{force}{logical. If Datasheet scope is Project/SsimLibrary, and \code{append=FALSE},
+Datasheet will be deleted before loading the new data. This can also delete
+other definitions and results, so if \code{force=FALSE} (default) user will be
 prompted for approval}
 
-\item{breakpoint}{logical. Set to \code{TRUE} when modifying Datasheets in a 
+\item{breakpoint}{logical. Set to \code{TRUE} when modifying Datasheets in a
 breakpoint function. Default is \code{FALSE}}
 
-\item{import}{logical. Set to \code{TRUE} to import the data after saving. 
+\item{import}{logical. Set to \code{TRUE} to import the data after saving.
 Default is \code{FALSE}}
 
 \item{path}{character.  output path (optional)}
 }
 \value{
-Invisibly returns a vector or list of logical values for each 
+Invisibly returns a vector or list of logical values for each
 input: \code{TRUE} upon success (i.e.successful save) and \code{FALSE} upon failure.
 }
 \description{
-Saves Datasheets to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or 
+Saves Datasheets to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or
 \code{\link{Scenario}}.
 }
 \details{
 SsimObject/Project/Scenario should identify a single SsimObject.
 
-If \code{fileData != NULL}, each element of \code{names(fileData)} should correspond uniquely 
-to at most one entry in data. If a name is not found in data the element will 
-be ignored with a warning. If \code{names(fileData)} are full filepaths, rsyncrosim 
-will write each object to the corresponding path for subsequent loading by SyncroSim. 
+If \code{fileData != NULL}, each element of \code{names(fileData)} should correspond uniquely
+to at most one entry in data. If a name is not found in data the element will
+be ignored with a warning. If \code{names(fileData)} are full filepaths, rsyncrosim
+will write each object to the corresponding path for subsequent loading by SyncroSim.
 Note this is generally more time-consuming because the files must be written twice.
-If \code{names(fileData)} are not filepaths (faster, recommended), rsyncrosim will 
+If \code{names(fileData)} are not filepaths (faster, recommended), rsyncrosim will
 write each element directly to the appropriate SyncroSim input/output folders.
-rsyncrosim will write each element of fileData directly to the appropriate 
-SyncroSim input/output folders. If \code{fileData != NULL}, data should be a data.frame, 
+rsyncrosim will write each element of fileData directly to the appropriate
+SyncroSim input/output folders. If \code{fileData != NULL}, data should be a data.frame,
 vector, or list of length 1, not a list of length >1.
 
 About the 'append' argument:
 
 \itemize{
-  \item A Datasheet is a VALIDATION SOURCE if its data can be used to validate 
-  column values in a different Datasheet.
-  \item The \code{append} argument will be ignored if the Datasheet is a validation 
-  source and has a Project scope.  In this case the data will be MERGED.
+\item A Datasheet is a VALIDATION SOURCE if its data can be used to validate
+column values in a different Datasheet.
+\item The \code{append} argument will be ignored if the Datasheet is a validation
+source and has a Project scope.  In this case the data will be MERGED.
 }
 }
 \examples{
@@ -155,7 +155,7 @@ saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
 # Create a raster stack - add as many raster files as you want here
 map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
                         column = "InterceptRasterFile")
-inRasters <- raster::stack(map1)
+inRasters <- terra::rast(map1)
 
 # Change the name of the rasters in the input Datasheets to match the stack
 inSheet <- datasheet(myScenario, name="InputDatasheet")

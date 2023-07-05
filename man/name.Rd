@@ -6,12 +6,14 @@
 \alias{name,SsimLibrary-method}
 \alias{name,Scenario-method}
 \alias{name,Project-method}
+\alias{name,Folder-method}
 \alias{name<-}
 \alias{name<-,character-method}
 \alias{name<-,SsimLibrary-method}
 \alias{name<-,Project-method}
 \alias{name<-,Scenario-method}
-\title{Name of a SsimLibrary, Project or Scenario}
+\alias{name<-,Folder-method}
+\title{Name of a SsimLibrary, Project, Scenario, or Folder}
 \usage{
 name(ssimObject)
 
@@ -23,6 +25,8 @@ name(ssimObject)
 
 \S4method{name}{Project}(ssimObject)
 
+\S4method{name}{Folder}(ssimObject)
+
 name(ssimObject) <- value
 
 \S4method{name}{character}(ssimObject) <- value
@@ -32,10 +36,12 @@ name(ssimObject) <- value
 \S4method{name}{Project}(ssimObject) <- value
 
 \S4method{name}{Scenario}(ssimObject) <- value
+
+\S4method{name}{Folder}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}}, 
-or \code{\link{SsimLibrary}} object}
+\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
+\code{\link{SsimLibrary}}, or\code{\link{Folder}} object}
 
 \item{value}{character string of the new name}
 }
@@ -43,8 +49,8 @@ or \code{\link{SsimLibrary}} object}
 A character string: the name of the SsimObject.
 }
 \description{
-Retrieves or sets the name of a \code{\link{SsimLibrary}}, 
-\code{\link{Project}} or \code{\link{Scenario}}.
+Retrieves or sets the name of a \code{\link{SsimLibrary}},
+\code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
 }
 \examples{
 \donttest{
@@ -56,11 +62,13 @@ mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
+myFolder <- folder(myProject, folder = "New Folder")
 
 # Retrieve names of the SsimObjects
 name(myLibrary)
 name(myProject)
 name(myScenario)
+name(myFolder)
 
 # Set the name of the SyncroSim Scenario
 name(myScenario) <- "My Scenario Name"

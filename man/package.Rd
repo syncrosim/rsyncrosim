@@ -19,21 +19,21 @@ package(ssimObject = NULL, installed = TRUE, listTemplates = NULL)
 \S4method{package}{SsimLibrary}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}} or 
+\item{ssimObject}{\code{\link{Session}} or
 \code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
 will be used}
 
-\item{installed}{logical or character. \code{TRUE} (default) to list installed packages, 
-\code{FALSE} to list available packages, and "BASE" to list installed base 
+\item{installed}{logical or character. \code{TRUE} (default) to list installed packages,
+\code{FALSE} to list available packages, and "BASE" to list installed base
 packages}
 
-\item{listTemplates}{character. Name of a SyncroSim package. If not \code{NULL} 
+\item{listTemplates}{character. Name of a SyncroSim package. If not \code{NULL}
 (default), then lists all templates available for that package. The package
-must be installed in the current Session. Ignored if ssimObject is a 
+must be installed in the current Session. Ignored if ssimObject is a
 \code{\link{SsimLibrary}} object}
 }
 \value{
-Returns a \code{data.frame} of packages installed or templates available 
+Returns a \code{data.frame} of packages installed or templates available
 for a specified package.
 }
 \description{

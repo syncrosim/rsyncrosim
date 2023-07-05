@@ -69,11 +69,13 @@ SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", representation()
 #' @slot scenarioId integer. The Scenario id
 #' @slot parentId integer. For a result Scenario, this is the id of the parent 
 #' Scenario. 0 indicates this is not a result Scenario
+#' @slot folderId integer. The folder in which the Scenario exists. If the Scenario
+#' exists at the root of the project, then this value is NULL.
 #' @slot breakpoints list of Breakpoint objects (optional)
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains = "SsimObject", representation(projectId = "numeric", scenarioId = "numeric", parentId = "numeric", breakpoints = "list"))
+Scenario <- setClass("Scenario", contains = "SsimObject", representation(projectId = "numeric", scenarioId = "numeric", parentId = "numeric", folderId = "numeric", breakpoints = "list"))
 
 #' SyncroSim Project class
 #'
@@ -93,3 +95,24 @@ Scenario <- setClass("Scenario", contains = "SsimObject", representation(project
 #' @rdname Project-class
 #' @export Project
 Project <- setClass("Project", contains = "SsimObject", representation(projectId = "numeric"))
+
+#' SyncroSim Folder class
+#'
+#' \code{Folder} object representing a SyncroSim Folder. A Folder is used to 
+#' organize SyncroSim Scenarios within a \code{\link{Project}}, and can be 
+#' nested within other Folders at the project-level. These are used mostly in 
+#' the SyncroSim User Interface.
+#'
+#' @seealso See \code{\link{folder}} for options when creating or loading a 
+#' SyncroSim Folder
+#' @slot session \code{\link{Session}} object. The Session associated with the 
+#' Folder's SsimLibrary
+#' @slot filepath character string. The path to the Folder's SsimLibrary on disk
+#' @slot folderId integer. The Folder id
+#' @slot parentId integer. The parent Folder id (if the folder is nested)
+#' @slot projectId integer. The Project id
+#' @name Folder-class
+#' @rdname Folder-class
+#' @export Folder
+Folder <- setClass("Folder", representation(session = "Session", filepath = "character", folderId = "numeric", parentId = "numeric", projectId = "numeric"))
+

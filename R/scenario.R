@@ -5,7 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "Scenario",
-  definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, id = NULL, sourceScenario = NULL, scenarios = NULL) {
+  definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, id = NULL, sourceScenario = NULL, scenarios = NULL, folder = NULL) {
     
     ProjectID <- NULL
     ScenarioID <- NULL
@@ -14,7 +14,12 @@ setMethod(
     # assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out.
     .Object@breakpoints <- list()
     .Object@parentId <- 0
+    
     x <- ssimLibrary
+    
+    if (is.null(folder)){
+      folder <- 0
+    }
 
     # For fast processing - quickly return without system calls if scenario exists
     if (is.null(scenarios)) {
@@ -48,13 +53,18 @@ setMethod(
         parent <- strsplit(parentBit, "]", fixed = TRUE)[[1]][1]
         .Object@parentId <- as.numeric(parent)
       }
+      
+      pid <- as.numeric(findScn$ProjectID)
+      sid <- as.numeric(findScn$ScenarioID)
+      folderId <- addScenarioToFolder(x, pid, sid, folder)
 
       # Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session <- .session(x)
       .Object@filepath <- .filepath(x)
       .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
-      .Object@scenarioId <- as.numeric(findScn$ScenarioID)
-      .Object@projectId <- as.numeric(findScn$ProjectID)
+      .Object@scenarioId <- sid
+      .Object@projectId <- pid
+      .Object@folderId <- folderId
       return(.Object)
     }
 
@@ -119,12 +129,16 @@ setMethod(
       tt <- command(list(copy = NULL, scenario = NULL, slib = slib, tlib = .filepath(x), name = name, sid = sid, pid = pid), .session(x))
     }
     id <- as.numeric(strsplit(tt, ": ")[[1]][2])
+    
+    # Move Scenario into folder (if specified)
+    folderId <- addScenarioToFolder(x, as.numeric(pid), as.numeric(id), folder)
 
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
     .Object@datasheetNames <- .datasheets(x, refresh = TRUE, scope = "all")
     .Object@scenarioId <- as.numeric(id)
     .Object@projectId <- as.numeric(pid)
+    .Object@folderId <- folderId
     return(.Object)
   }
 )
@@ -141,6 +155,9 @@ setMethod(
 #'     used to open existing Scenarios
 #' @param sourceScenario character or integer. If not \code{NULL} (Default), new 
 #' Scenarios will be copies of the sourceScenario
+#' @param folder \code{\link{Folder}} object, character, or integer. The Folder object,
+#'     name (must be unique), or Folder ID. If not \code{NULL} (Default), new 
+#'     Scenarios will be moved into the specified folder
 #' @param summary logical. If \code{TRUE} then loads and returns the Scenario(s) in a 
 #'     named vector/dataframe with the scenarioId, name, description, owner, 
 #'     dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL}, 
@@ -210,7 +227,7 @@ setMethod(
 #' 
 #' @name scenario
 #' @export
-scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, summary = NULL, results = FALSE, forceElements = FALSE, overwrite = FALSE) {
+scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, folder = NULL, summary = NULL, results = FALSE, forceElements = FALSE, overwrite = FALSE) {
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
@@ -352,7 +369,7 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
     if (!is.na(cRow$exists)) {
       scnList[[as.character(scnsToMake$ScenarioID[i])]] <- new("Scenario", ssimObject, project = cRow$ProjectID, id = cRow$ScenarioID, scenarios = cRow)
     } else {
-      obj <- new("Scenario", ssimObject, project = cRow$ProjectID, name = cRow$Name, sourceScenario = sourceScenario, scenarios = libScns)
+      obj <- new("Scenario", ssimObject, project = cRow$ProjectID, name = cRow$Name, sourceScenario = sourceScenario, scenarios = libScns, folder = folder)
       scnList[[as.character(.scenarioId(obj))]] <- obj
     }
   }

@@ -220,6 +220,12 @@ camel <- function(x) {
   x
 }
 
+# make first character of string upper case
+pascal <- function(x) {
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
 # https://stackoverflow.com/questions/26083625/how-do-you-include-data-frame-output-inside-warnings-and-errors
 printAndCapture <- function(x) {
   paste(capture.output(print(x)), collapse = "\n")
@@ -296,6 +302,134 @@ printAndCapture <- function(x) {
     }
   }
   return(out)
+}
+
+# Gets folder info from an SsimLibrary, Project, Scenario, or Folder.
+#
+# @param x An SsimLibrary, Project, Scenario, or Folder object. Or a path to a SyncroSim library on disk.
+# @return A dataframe of folder info, including folder IDs, names, owner, date last modified, 
+# read only status, and published status.
+getFolderData <- function(x) {
+  
+  args <- list(lib = .filepath(x), list = NULL, folders = NULL)
+  tt <- command(args = args, session = .session(x))
+  out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
+  
+  # Clean up dataframe names and columns
+  names(out) <- sapply(names(out), pascal)
+  colnames(out)[colnames(out) == "IsLite"] ="Published"
+  colnames(out)[colnames(out) == "ID"] ="FolderID"
+  out <- subset(out, select = -c(X))
+  
+  if (is(x, "Folder")){
+    out <- subset(out, FolderID == x@folderId)
+  }
+  
+  return(out)
+}
+
+# Gets the parent Folder ID given the SsimLibrary and the child Folder ID.
+#
+# @param x SyncroSim Library, Project, Scenario, or Folder object.
+# @param folderId integer value of the child Folder ID.
+# @return integer corresponding to the parent folder ID or project ID.
+getParentFolderId <- function(x, id) {
+  df <- getLibraryStructure(x)
+  childRowInd <- which((df$id == id) & (df$item != "Project"))
+  parentRowInd <- childRowInd - 1
+  childRow <- df[childRowInd, ]
+  childLevel <- as.numeric(childRow$level)
+  parentLevel <- childLevel
+  
+  while (parentLevel >= childLevel){
+    parentRow <- df[parentRowInd, ]
+    parentLevel <- as.numeric(parentRow$level)
+    parentRowInd <- parentRowInd - 1
+  }
+  
+  if (parentRow$item == "Folder"){
+    return(as.numeric(parentRow$id))
+  } else {
+    return(0)
+  }
+}
+
+# Moves a scenario into the specified folder
+#
+# @param x SyncroSim Library, Project, Scenario, or Folder object.
+# @param pid integer value of the Project ID.
+# @param sid integer value of the Scenario ID
+# @param folder folder object, character, or integer value of the Folder ID
+addScenarioToFolder <- function(x, pid, sid, folder) {
+  
+  # Convert folder to fid and validate folder name
+  if (is.numeric(folder)){
+    fid <- folder
+  } else if (is(folder, "Folder")){
+    fid <- folder@folderId
+  } else if (is.character(folder)) {
+    folderData <- getFolderData(x)
+    fid <- subset(folderData, Name == folder)$FolderID
+    if (length(fid) == 0){
+      stop(paste0("Folder name ", folder, " does not exist."))
+    } else if (length(fid) > 1){
+      stop(paste0("Folder name ", folder, " is not unique. Please provide the Folder ID."))
+    }
+  }
+  
+  if (fid != 0){
+    args <- list(lib = .filepath(x), move = NULL, scenario = NULL, 
+                 sid = sid, tfid = fid, tpid = pid)
+    tt <- command(args = args, session = .session(x))
+    if (!identical(tt, "saved")) {
+      stop(tt)
+    }
+  }
+  
+  return(fid)
+}
+
+
+# Gets the library structure as a dataframe. Shows which Scenarios belong 
+# to which projects, which folders belong to which projects or folders, etc.
+#
+# @param x SyncroSim Library, Project, Scenario, or Folder object.
+# @return dataframe of levels, items, and IDs.
+getLibraryStructure <- function(x) {
+  
+  args <- list(list = NULL, library = NULL, lib = .filepath(x), tree = NULL)
+  tt <- command(args = args, session = .session(x))
+  tt <- gsub("|", " ", tt, fixed=TRUE)
+  matches <- regmatches(tt, regexpr("^\\s+", tt))
+  levels <- sapply(matches, nchar) / 3
+  
+  libStructureDF <- data.frame(level = numeric(), item = character(), 
+                               id = numeric(), stringsAsFactors = F)
+  
+  i <- 0
+  for (entry in tt){
+    
+    if (i == 0){
+      level <- 0
+      item <- "Library"
+      id <- 0
+    } else {
+      level <- as.numeric(levels[i])
+      item <- regmatches(entry, 
+                         regexec("+- \\s*(.*?)\\s* \\[", 
+                                 entry))[[1]][2]
+      id <- regmatches(entry, 
+                       regexec(paste0("+- ", item, " \\[\\s*(.*?)\\s*\\]"), 
+                               entry))[[1]][2]
+      id <- as.numeric(id)
+    }
+    
+    libStructureDF[i+1, ] <- c(level, item, id)
+    
+    i = i + 1
+  }
+  
+  return(libStructureDF)
 }
 
 # Gets datasheet summary info from an SsimLibrary, Project or Scenario.

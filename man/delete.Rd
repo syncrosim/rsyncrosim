@@ -34,19 +34,19 @@ delete(
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
 or \code{\link{Scenario}} object, or character (i.e. path to a SsimLibrary)}
 
-\item{project}{character string, numeric, or vector of these. One or more 
-\code{\link{Project}} names or ids. Note that project argument is ignored 
+\item{project}{character string, numeric, or vector of these. One or more
+\code{\link{Project}} names or ids. Note that project argument is ignored
 if SsimObject is a list. Note that integer ids are slightly faster (optional)}
 
-\item{scenario}{character string, numeric, or vector of these. One or more 
-\code{\link{Scenario}} names or ids. Note that Scenario argument is 
-ignored if SsimObject is a list. Note that integer ids are slightly faster 
+\item{scenario}{character string, numeric, or vector of these. One or more
+\code{\link{Scenario}} names or ids. Note that Scenario argument is
+ignored if SsimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
-\item{datasheet}{character string or vector of these. One or more Datasheet 
+\item{datasheet}{character string or vector of these. One or more Datasheet
 names (optional)}
 
-\item{force}{logical. If \code{FALSE} (default), user will be prompted to approve 
+\item{force}{logical. If \code{FALSE} (default), user will be prompted to approve
 removal of each item}
 }
 \value{

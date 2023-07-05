@@ -12,7 +12,7 @@ envInputFolder(scenario, datasheetName)
 \item{datasheetName}{character. The input Datasheet name}
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Please use \code{\link{runtimeInputFolder}} instead.
 }
 \keyword{internal}

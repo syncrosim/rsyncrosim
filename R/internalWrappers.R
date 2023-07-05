@@ -9,9 +9,11 @@ NULL
 #' @include ssimLibrary.R
 #' @include project.R
 #' @include scenario.R
+#' @include folder.R
 #' @include sqlStatement.R
 #' @include projectId.R
 #' @include scenarioId.R
+#' @include folderId.R
 #' @include filepath.R
 #' @include addon.R
 #' @include datasheet.R
@@ -23,6 +25,8 @@ NULL
 # @export
 .scenarioId <- scenarioId
 # @export
+.folderId <- folderId
+# @export
 .filepath <- filepath
 # @export
 .tempfilepath <- tempfilepath
@@ -30,6 +34,8 @@ NULL
 .session <- session
 # @export
 .project <- project
+# @export 
+.folder <- folder
 # @export
 .scenario <- scenario
 # @export
