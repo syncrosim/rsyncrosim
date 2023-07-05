@@ -335,7 +335,7 @@ getFolderData <- function(x) {
 # @return integer corresponding to the parent folder ID or project ID.
 getParentFolderId <- function(x, id) {
   df <- getLibraryStructure(x)
-  childRowInd <- which(df$id == id)
+  childRowInd <- which((df$id == id) & (df$item != "Project"))
   parentRowInd <- childRowInd - 1
   childRow <- df[childRowInd, ]
   childLevel <- as.numeric(childRow$level)
@@ -347,7 +347,11 @@ getParentFolderId <- function(x, id) {
     parentRowInd <- parentRowInd - 1
   }
   
-  return(as.numeric(parentRow$id))
+  if (parentRow$item == "Folder"){
+    return(as.numeric(parentRow$id))
+  } else {
+    return(0)
+  }
 }
 
 # Moves a scenario into the specified folder
@@ -355,8 +359,24 @@ getParentFolderId <- function(x, id) {
 # @param x SyncroSim Library, Project, Scenario, or Folder object.
 # @param pid integer value of the Project ID.
 # @param sid integer value of the Scenario ID
-# @param fid integer value of the Folder ID
-addScenarioToFolder <- function(x, pid, sid, fid) {
+# @param folder folder object, character, or integer value of the Folder ID
+addScenarioToFolder <- function(x, pid, sid, folder) {
+  
+  # Convert folder to fid and validate folder name
+  if (is.numeric(folder)){
+    fid <- folder
+  } else if (is(folder, "Folder")){
+    fid <- folder@folderId
+  } else if (is.character(folder)) {
+    folderData <- getFolderData(x)
+    fid <- subset(folderData, Name == folder)$FolderID
+    if (length(fid) == 0){
+      stop(paste0("Folder name ", folder, " does not exist."))
+    } else if (length(fid) > 1){
+      stop(paste0("Folder name ", folder, " is not unique. Please provide the Folder ID."))
+    }
+  }
+  
   if (fid != 0){
     args <- list(lib = .filepath(x), move = NULL, scenario = NULL, 
                  sid = sid, tfid = fid, tpid = pid)
@@ -365,6 +385,8 @@ addScenarioToFolder <- function(x, pid, sid, fid) {
       stop(tt)
     }
   }
+  
+  return(fid)
 }
 
 

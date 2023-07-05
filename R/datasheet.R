@@ -154,11 +154,21 @@ NULL
 #' 
 #' @export
 #' @import RSQLite
-setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, summary = NULL, optional = FALSE, empty = FALSE, filterColumn = NULL, filterValue = NULL, lookupsAsFactors = TRUE, sqlStatement = list(select = "SELECT *", groupBy = ""), includeKey = FALSE, forceElements = FALSE, fastQuery = FALSE) standardGeneric("datasheet"))
+setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, 
+                                 summary = NULL, optional = FALSE, empty = FALSE, 
+                                 filterColumn = NULL, filterValue = NULL, 
+                                 lookupsAsFactors = TRUE, 
+                                 sqlStatement = list(select = "SELECT *", groupBy = ""), 
+                                 includeKey = FALSE, forceElements = FALSE, 
+                                 fastQuery = FALSE) standardGeneric("datasheet"))
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
+setMethod("datasheet", 
+          signature(ssimObject = "list"), 
+          function(ssimObject, name, project, scenario, summary, optional, empty, 
+                   filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
+                   includeKey, forceElements, fastQuery) {
   cScn <- ssimObject[[1]]
   x <- NULL
   if (is(cScn, "Scenario")) {
@@ -183,12 +193,20 @@ setMethod("datasheet", signature(ssimObject = "list"), function(ssimObject, name
 })
 
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "character"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, fastQuery) {
+setMethod("datasheet", 
+          signature(ssimObject = "character"), 
+          function(ssimObject, name, project, scenario, summary, optional, empty, 
+                   filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
+                   includeKey, fastQuery) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname datasheet
-setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject, name, project, scenario, summary, optional, empty, filterColumn, filterValue, lookupsAsFactors, sqlStatement, includeKey, forceElements, fastQuery) {
+setMethod("datasheet", 
+          signature(ssimObject = "SsimObject"), 
+          function(ssimObject, name, project, scenario, summary, optional, empty, 
+                   filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
+                   includeKey, forceElements, fastQuery) {
   temp <- NULL
   ProjectID <- NULL
   ScenarioID <- NULL
@@ -447,6 +465,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL)
             args <- assignPidSid(args, sheetNames, pid[1], sid[1]) # TODO make sure vector
+            
             tt <- command(args, .session(x))
             
             if (!identical(tt, "saved")) {
@@ -459,6 +478,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
             
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
             args <- assignPidSid(args, sheetNames, pid[id], sid[id])
+            
             tt <- command(args, .session(x))
             
             # If error, catch it
@@ -501,7 +521,6 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           # If fastQuery is false, do this
           # THis happens IF fast query is FALSE and if not complex
           # It writes out the csv to temp file
-          
           if (!optional & (sheetNames$scope != "library")) {
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL, colswithdata = NULL) # filepath=NULL
           } else {
@@ -616,6 +635,7 @@ setMethod("datasheet", signature(ssimObject = "SsimObject"), function(ssimObject
           tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
           args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheetsonly = NULL, force = NULL, includepk = NULL)
           args <- assignPidSid(args, sheetNames, pid, sid)
+          
           tt <- command(args, .session(x))
           if (!identical(tt, "saved")) {
             stop(tt, "You might be asking for a datasheet at the project level but that datasheet has a scenario scope")

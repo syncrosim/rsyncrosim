@@ -57,7 +57,7 @@ setMethod("parentId", signature(child = "Scenario"), function(child) {
 
 #' @rdname parentId
 setMethod("parentId", signature(child = "Folder"), function(child) {
-  if (child@parentId == child@projectId){
+  if (child@parentId == 0){
     return(NA)
   }
   return(child@parentId)

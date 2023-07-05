@@ -16,9 +16,9 @@ NULL
 #'     be saved. If a vector of names is provided, then a list must be provided 
 #'     for the \code{data} argument. Names provided here will override those provided 
 #'     with \code{data} argument's list
-#' @param fileData named list or raster stack. Names are file names (without paths), 
+#' @param fileData named list or SpatRaster object. Names are file names (without paths), 
 #'     corresponding to entries in \code{data} The elements are objects containing the 
-#'     data associated with each name. Currently supports terra objects as elements, 
+#'     data associated with each name. Currently supports terra SpatRaster objects as elements, 
 #'     (support for Raster objects is deprecated)
 #' @param append logical. If \code{TRUE}, the incoming data will be appended to the 
 #'     Datasheet if possible.  Default is \code{TRUE} for Project/SsimLibrary-scope Datasheets, 

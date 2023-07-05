@@ -36,12 +36,12 @@ Before using `rsyncrosim` you will first need to <a href="https://syncrosim.com/
 
 You will need to install the `rsyncrosim` R package, either using <a href="https://cran.r-project.org/" target="_blank">CRAN</a> or from the `rsyncrosim` <a href="https://github.com/syncrosim/rsyncrosim/releases/" target="_blank">GitHub repository</a>. Versions of `rsyncrosim` are available for both Windows and Linux. You may need to install the `raster` and `rgdal` packages from CRAN as well.
 
-In a new R script, load the necessary packages. This includes the `rsyncrosim` and `raster` R packages.
+In a new R script, load the necessary packages. This includes the `rsyncrosim` and `terra` R packages.
 
 ```{r load packages}
 # Load R packages
 library(rsyncrosim)  # package for working with SyncroSim
-library(raster)      # package for working with raster data
+library(terra)       # package for working with spatial data
 ```
 
 ### Connecting R to SyncroSim using `session()`
@@ -157,7 +157,7 @@ The input Datasheet requires three values:
 * `mSD` : the standard deviation of a normal distribution that will determine the slope of the linear equation.
 * `InterceptRasterFile` : the file path to a *raster image*, in which each cell of the image will be an intercept in the linear equation.
 
-In this example, the external file we are using for the `InterceptRasterFile` is a simple 5x5 raster TIF file generated using the `raster` package in R. The file used in this vignete can be found <a href="https://github.com/ApexRMS/helloworldSpatial/blob/main/images/input-raster.tif" target="_blank">here</a>.
+In this example, the external file we are using for the `InterceptRasterFile` is a simple 5x5 raster TIF file generated using the `raster` package in R. The file used in this vignette can be found <a href="https://github.com/ApexRMS/helloworldSpatial/blob/main/images/input-raster.tif" target="_blank">here</a>.
 
 ![InterceptRasterFile input image](./input-raster.png)
 
@@ -302,13 +302,13 @@ head(resultsSummary2)
 From viewing these Datasheets, we can see that the spatial output is contained within the `IntermediateDatasheet`, in the column called `OutputRasterFile`.
 
 
-### Viewing spatial results with `datasheetRaster()`
+### Viewing spatial results with `datasheetSpatRaster()`
 
-For spatial results, we want to load the results as raster images. To do this, we will use the `datasheetRaster()` function from `rsyncrosim`. The first argument is the result Scenario object. Next, we specify the name of the Datasheet containing raster images using the `datasheet` argument, amd the column pertaining to the raster images using the `column` argument. The results contain many raster images, since we have a raster for each combination of iteration and time step. We can use the `iteration` and `timestep` arguments to specify a single raster image or a subset of raster images we want to view. 
+For spatial results, we want to load the results as raster images. To do this, we will use the `datasheetSpatRaster()` function from `rsyncrosim`. The first argument is the result Scenario object. Next, we specify the name of the Datasheet containing raster images using the `datasheet` argument, and the column pertaining to the raster images using the `column` argument. The results contain many raster images, since we have a raster for each combination of iteration and time step. We can use the `iteration` and `timestep` arguments to specify a single raster image or a subset of raster images we want to view. 
 
 ```{r view results raster, warning = FALSE}
 # Load raster files for first result Scenario with time step and iteration
-rasterMaps <- datasheetRaster(
+rasterMaps <- datasheetSpatRaster(
   myResultScenario,
   datasheet = "helloworldSpatial_IntermediateDatasheet",
   column = "OutputRasterFile",

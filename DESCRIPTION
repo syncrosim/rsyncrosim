@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.4.6
+Version: 1.4.7
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = c("aut", "cre")),

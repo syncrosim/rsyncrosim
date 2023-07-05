@@ -18,7 +18,7 @@ SsimLibrary."><meta property="og:image" content="https://syncrosim.github.io/rsy
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.7</span>
       </span>
     </div>
 
@@ -93,36 +93,36 @@ SsimLibrary.</p>
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ssimObject</dt>
-<dd><p><code><a href="Scenario-class.html">Scenario</a></code> or 
+<dd><p><code><a href="Scenario-class.html">Scenario</a></code> or
 <code><a href="SsimLibrary-class.html">SsimLibrary</a></code> object, or a character string (i.e. a filepath)</p></dd>
 
 
 <dt>project</dt>
-<dd><p><code><a href="Project-class.html">Project</a></code> object, character, integer, or vector 
-of these. Names or ids of one or more Projects. Note that integer ids are 
+<dd><p><code><a href="Project-class.html">Project</a></code> object, character, integer, or vector
+of these. Names or ids of one or more Projects. Note that integer ids are
 slightly faster (optional)</p></dd>
 
 
 <dt>sourceProject</dt>
-<dd><p><code><a href="Project-class.html">Project</a></code> object, character, or integer. If 
+<dd><p><code><a href="Project-class.html">Project</a></code> object, character, or integer. If
 not <code>NULL</code> (default), new Projects will be copies of the sourceProject</p></dd>
 
 
 <dt>summary</dt>
-<dd><p>logical. If <code>TRUE</code> then return the Project(s) in a data.frame with 
-the projectId, name, description, owner, dateModified, readOnly. Default 
-is <code>TRUE</code> if <code>project=NULL</code> and SsimObject is not Scenario/Project, <code>FALSE</code> 
+<dd><p>logical. If <code>TRUE</code> then return the Project(s) in a data.frame with
+the projectId, name, description, owner, dateModified, readOnly. Default
+is <code>TRUE</code> if <code>project=NULL</code> and SsimObject is not Scenario/Project, <code>FALSE</code>
 otherwise</p></dd>
 
 
 <dt>forceElements</dt>
-<dd><p>logical. If <code>TRUE</code> then returns a single Project as a named 
-list; otherwise returns a single project as a <code><a href="Project-class.html">Project</a></code> object. 
+<dd><p>logical. If <code>TRUE</code> then returns a single Project as a named
+list; otherwise returns a single project as a <code><a href="Project-class.html">Project</a></code> object.
 Applies only when <code>summary=FALSE</code> Default is <code>FALSE</code></p></dd>
 
 
 <dt>overwrite</dt>
-<dd><p>logical. If <code>TRUE</code> an existing Project will be overwritten. 
+<dd><p>logical. If <code>TRUE</code> an existing Project will be overwritten.
 Default is <code>FALSE</code></p></dd>
 
 </dl></div>
@@ -130,15 +130,15 @@ Default is <code>FALSE</code></p></dd>
     <h2>Value</h2>
     
 
-<p>Returns a <code><a href="Project-class.html">Project</a></code> object representing a SyncroSim Project. If 
+<p>Returns a <code><a href="Project-class.html">Project</a></code> object representing a SyncroSim Project. If
 summary is <code>TRUE</code>, returns a data.frame of Project names and descriptions.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>For each element of project:</p><ul><li><p>If element identifies an existing Project: Returns the existing Project.</p></li>
 <li><p>If element identifies more than one Project: Error.</p></li>
-<li><p>If element does not identify an existing Project: Creates a new Project 
-  named element. Note that SyncroSim automatically assigns an id to a new Project.</p></li>
+<li><p>If element does not identify an existing Project: Creates a new Project
+named element. Note that SyncroSim automatically assigns an id to a new Project.</p></li>
 </ul></div>
 
     <div id="ref-examples">

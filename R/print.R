@@ -60,7 +60,7 @@ setMethod(
 
     outString <- ""
     if (is.element(class(cSlot), c("numeric", "character", "logical", "integer"))) {
-      outString <- paste0(outString, paste(cSlot, collapse = ","))
+        outString <- paste0(outString, paste(cSlot, collapse = ","))
     }
 
     if (is.element(class(cSlot), "Session")) {

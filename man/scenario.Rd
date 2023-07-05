@@ -8,7 +8,7 @@ scenario(
   ssimObject = NULL,
   scenario = NULL,
   sourceScenario = NULL,
-  folderId = NULL,
+  folder = NULL,
   summary = NULL,
   results = FALSE,
   forceElements = FALSE,
@@ -26,7 +26,8 @@ used to open existing Scenarios}
 \item{sourceScenario}{character or integer. If not \code{NULL} (Default), new
 Scenarios will be copies of the sourceScenario}
 
-\item{folderId}{integer. If not \code{NULL} (Default), new
+\item{folder}{\code{\link{Folder}} object, character, or integer. The Folder object,
+name (must be unique), or Folder ID. If not \code{NULL} (Default), new
 Scenarios will be moved into the specified folder}
 
 \item{summary}{logical. If \code{TRUE} then loads and returns the Scenario(s) in a
