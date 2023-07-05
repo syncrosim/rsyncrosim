@@ -7,7 +7,6 @@
 
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT/)
-[![R-CMD-check](https://github.com/syncrosim/rsyncrosim/workflows/R-CMD-check/badge.svg)](https://github.com/syncrosim/rsyncrosim/actions/)
 [![Downloads](https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://CRAN.R-project.org/package=rsyncrosim/)
 <!-- [![Codecov test coverage](https://codecov.io/gh/syncrosim/rsyncrosim/branch/dev/graph/badge.svg)](https://codecov.io/gh/syncrosim/rsyncrosim?branch=dev) -->
 
