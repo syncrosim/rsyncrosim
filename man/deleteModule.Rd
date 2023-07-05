@@ -7,7 +7,7 @@
 deleteModule(name, session = NULL, force = FALSE)
 }
 \arguments{
-\item{name}{character string or vector of these. A module or vector of modules 
+\item{name}{character string or vector of these. A module or vector of modules
 to remove. See modules() for options}
 
 \item{session}{\code{\link{Session}} object}
@@ -16,7 +16,7 @@ to remove. See modules() for options}
 before deletion}
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Please use \code{\link{removePackage}} instead.
 }
 \keyword{internal}

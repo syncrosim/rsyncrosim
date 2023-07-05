@@ -40,7 +40,7 @@ name(ssimObject) <- value
 \S4method{name}{Folder}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}}, 
+\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
 \code{\link{SsimLibrary}}, or\code{\link{Folder}} object}
 
 \item{value}{character string of the new name}
@@ -49,7 +49,7 @@ name(ssimObject) <- value
 A character string: the name of the SsimObject.
 }
 \description{
-Retrieves or sets the name of a \code{\link{SsimLibrary}}, 
+Retrieves or sets the name of a \code{\link{SsimLibrary}},
 \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
 }
 \examples{

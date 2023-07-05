@@ -34,7 +34,7 @@ owner(ssimObject) <- value
 \S4method{owner}{Folder}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}}, 
+\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}},
 \code{\link{SsimLibrary}}, or \code{\link{Folder}} object}
 
 \item{value}{character string of the new owner}

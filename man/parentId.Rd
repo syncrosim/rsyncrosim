@@ -19,10 +19,9 @@ parentId(child)
 \item{child}{\code{\link{Scenario}} or \code{\link{Folder}} object}
 }
 \value{
-An integer id of the parent Scenario if input is a Scenario, or an integer 
-id of the parent Folder or Project (if folder exists at the root) if input 
-is a Folder. If the input Scenario does not have a parent, the function 
-returns \code{NA}
+An integer id of the parent Scenario if input is a Scenario, or an integer
+id of the parent Folder if input is a Folder. If the input Scenario or Folder
+does not have a parent, the function returns \code{NA}
 }
 \description{
 Retrieves the id of the parent of a SyncroSim results Scenario or a SyncroSim

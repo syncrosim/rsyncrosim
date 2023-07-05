@@ -18,14 +18,14 @@ removePackage(name, session = NULL, force = FALSE)
 \arguments{
 \item{name}{character. The name of the package to remove}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default), 
+\item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
 
-\item{force}{logical. If \code{TRUE}, remove without requiring confirmation from 
+\item{force}{logical. If \code{TRUE}, remove without requiring confirmation from
 the user. Default is \code{FALSE}}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful 
+Invisibly returns \code{TRUE} upon success (i.e.successful
 removal) and \code{FALSE} upon failure.
 }
 \description{

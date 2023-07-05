@@ -12,11 +12,11 @@ deleteBreakpoint(x, transformerName = NULL, breakpointType = NULL)
 \arguments{
 \item{x}{\code{\link{Scenario}} object}
 
-\item{transformerName}{character. A Stochastic Time Transformer 
+\item{transformerName}{character. A Stochastic Time Transformer
 e.g. "stsim_Runtime" (optional)}
 
 \item{breakpointType}{character. Options include "bi" (before iteration),
-"ai" (after iteration), "bt" (before timestep), or "at" (after timestep) 
+"ai" (after iteration), "bt" (before timestep), or "at" (after timestep)
 (optional)}
 }
 \value{

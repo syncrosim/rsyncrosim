@@ -10,8 +10,8 @@ module(session = NULL)
 \item{session}{\code{\link{Session}} object}
 }
 \description{
-`r lifecycle::badge("deprecated")`
-modules are now distributed in Packages; 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+modules are now distributed in Packages;
 Please use \code{\link{package}} instead.
 }
 \keyword{internal}

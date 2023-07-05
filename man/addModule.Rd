@@ -7,13 +7,13 @@
 addModule(filename, session = NULL)
 }
 \arguments{
-\item{filename}{character string or vector of these. The path to an .ssimpkg 
+\item{filename}{character string or vector of these. The path to an .ssimpkg
 file on disk, or a vector of filepaths.}
 
 \item{session}{\code{\link{Session}} object}
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Please use \code{\link{addPackage}} instead.
 }
 \keyword{internal}

@@ -33,8 +33,9 @@ NULL
 #' folderId(myFolder)
 #' folderId(myScenario)
 #' 
-#' Move the Scenario into the newly created folder
+#' # Move the Scenario into the newly created folder
 #' folderId(myScenario) <- folderId(myFolder)
+#' folderId(myScenario)
 #' }
 #' 
 #' @export

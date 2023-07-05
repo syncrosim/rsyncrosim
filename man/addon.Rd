@@ -19,22 +19,22 @@ addon(ssimObject)
 \S4method{addon}{SsimObject}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}} or 
-\code{\link{Session}} object. If \code{NULL} (default), \code{session()} 
+\item{ssimObject}{\code{\link{SsimLibrary}} or
+\code{\link{Session}} object. If \code{NULL} (default), \code{session()}
 will be used}
 }
 \value{
-A data.frame listing the addon(s) in use by the SsimLibrary or Session to 
+A data.frame listing the addon(s) in use by the SsimLibrary or Session to
 which the object belongs.
 }
 \description{
-Lists the addon SyncroSim package(s) associated with a 
+Lists the addon SyncroSim package(s) associated with a
 \code{\link{SsimLibrary}} or \code{\link{Session}}.
-These packages can only be used to extend existing SyncroSim base packages; 
+These packages can only be used to extend existing SyncroSim base packages;
 as a result they cannot be used to create new SsimLibraries.
-For example, \emph{stsimsf} is an addon for \emph{stsim} which provides optional 
+For example, \emph{stsimsf} is an addon for \emph{stsim} which provides optional
 additional functionality for the base ST-Sim model.
-More information on addons can be found in the 
+More information on addons can be found in the
 \href{https://docs.syncrosim.com/how_to_guides/package_addon.html}{syncrosim documentation}.
 }
 \examples{

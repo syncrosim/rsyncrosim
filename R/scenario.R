@@ -5,7 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "Scenario",
-  definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, id = NULL, sourceScenario = NULL, scenarios = NULL, folderId = NULL) {
+  definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, id = NULL, sourceScenario = NULL, scenarios = NULL, folder = NULL) {
     
     ProjectID <- NULL
     ScenarioID <- NULL
@@ -17,9 +17,8 @@ setMethod(
     
     x <- ssimLibrary
     
-    #TODO: make sure that this actually moves the scenario into the corresponding folder (i.e., does this trigger the folderId() function???)
-    if (is.null(folderId)){
-      folderId <- 0
+    if (is.null(folder)){
+      folder <- 0
     }
 
     # For fast processing - quickly return without system calls if scenario exists
@@ -57,7 +56,7 @@ setMethod(
       
       pid <- as.numeric(findScn$ProjectID)
       sid <- as.numeric(findScn$ScenarioID)
-      addScenarioToFolder(x, pid, sid, folderId)
+      folderId <- addScenarioToFolder(x, pid, sid, folder)
 
       # Go ahead and create the Scenario object without issuing system commands to make sure it is ok
       .Object@session <- .session(x)
@@ -132,7 +131,7 @@ setMethod(
     id <- as.numeric(strsplit(tt, ": ")[[1]][2])
     
     # Move Scenario into folder (if specified)
-    addScenarioToFolder(x, as.numeric(pid), as.numeric(id), folderId)
+    folderId <- addScenarioToFolder(x, as.numeric(pid), as.numeric(id), folder)
 
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
@@ -156,8 +155,9 @@ setMethod(
 #'     used to open existing Scenarios
 #' @param sourceScenario character or integer. If not \code{NULL} (Default), new 
 #' Scenarios will be copies of the sourceScenario
-#' @param folderId integer. If not \code{NULL} (Default), new 
-#' Scenarios will be moved into the specified folder
+#' @param folder \code{\link{Folder}} object, character, or integer. The Folder object,
+#'     name (must be unique), or Folder ID. If not \code{NULL} (Default), new 
+#'     Scenarios will be moved into the specified folder
 #' @param summary logical. If \code{TRUE} then loads and returns the Scenario(s) in a 
 #'     named vector/dataframe with the scenarioId, name, description, owner, 
 #'     dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL}, 
@@ -227,7 +227,7 @@ setMethod(
 #' 
 #' @name scenario
 #' @export
-scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, folderId = NULL, summary = NULL, results = FALSE, forceElements = FALSE, overwrite = FALSE) {
+scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, folder = NULL, summary = NULL, results = FALSE, forceElements = FALSE, overwrite = FALSE) {
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
@@ -369,7 +369,7 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
     if (!is.na(cRow$exists)) {
       scnList[[as.character(scnsToMake$ScenarioID[i])]] <- new("Scenario", ssimObject, project = cRow$ProjectID, id = cRow$ScenarioID, scenarios = cRow)
     } else {
-      obj <- new("Scenario", ssimObject, project = cRow$ProjectID, name = cRow$Name, sourceScenario = sourceScenario, scenarios = libScns, folderId = folderId)
+      obj <- new("Scenario", ssimObject, project = cRow$ProjectID, name = cRow$Name, sourceScenario = sourceScenario, scenarios = libScns, folder = folder)
       scnList[[as.character(.scenarioId(obj))]] <- obj
     }
   }

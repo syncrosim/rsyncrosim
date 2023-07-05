@@ -6,14 +6,14 @@
 \alias{Scenario}
 \title{SyncroSim Scenario class}
 \description{
-\code{Scenario} object representing a SyncroSim Scenario. A Scenario is the 
-lowest level of organization in the SyncroSim workflow, and is often used 
+\code{Scenario} object representing a SyncroSim Scenario. A Scenario is the
+lowest level of organization in the SyncroSim workflow, and is often used
 to isolate information on a single Datasheet.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{\code{\link{Session}} object. The Session associated with the 
+\item{\code{session}}{\code{\link{Session}} object. The Session associated with the
 Scenario}
 
 \item{\code{filepath}}{character string. The path to the Scenario's SsimLibrary on disk}
@@ -25,7 +25,7 @@ Scenario's SsimLibrary}
 
 \item{\code{scenarioId}}{integer. The Scenario id}
 
-\item{\code{parentId}}{integer. For a result Scenario, this is the id of the parent 
+\item{\code{parentId}}{integer. For a result Scenario, this is the id of the parent
 Scenario. 0 indicates this is not a result Scenario}
 
 \item{\code{folderId}}{integer. The folder in which the Scenario exists. If the Scenario
@@ -35,6 +35,6 @@ exists at the root of the project, then this value is NULL.}
 }}
 
 \seealso{
-See \code{\link{scenario}} for options when creating or loading a 
-    SyncroSim Scenario.
+See \code{\link{scenario}} for options when creating or loading a
+SyncroSim Scenario.
 }

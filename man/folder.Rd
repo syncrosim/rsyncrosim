@@ -10,17 +10,17 @@ folder(ssimObject = NULL, folder = NULL, parentFolder = NULL, create = FALSE)
 \item{ssimObject}{\code{\link{SsimLibrary}} or \code{\link{Project}} object.}
 
 \item{folder}{character or integer. If character, then will either open an
-existing folder if \code{create=FALSE}, or will create a new folder with the 
-given name if the folder does not exist yet or \code{create=TRUE} (Default). 
+existing folder if \code{create=FALSE}, or will create a new folder with the
+given name if the folder does not exist yet or \code{create=TRUE} (Default).
 If integer, will open the existing folder with the given folder ID (if the
 ID exists).}
 
-\item{parentFolder}{character, integer, or SyncroSim Folder object. If not 
+\item{parentFolder}{character, integer, or SyncroSim Folder object. If not
 \code{NULL} (Default), the new folder will be created inside of the
 specified parent folder}
 
 \item{create}{logical. Whether to create a new folder if the folder name given
-already exists in the SyncroSim library. If \code{FALSE} (Default), then will 
+already exists in the SyncroSim library. If \code{FALSE} (Default), then will
 return the existing folder with the given name. If \code{TRUE}, then will
 return a new folder with the same name as an existing folder (but different
 folder ID)}

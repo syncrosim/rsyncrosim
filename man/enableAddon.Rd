@@ -18,7 +18,7 @@ enableAddon(ssimLibrary, name)
 \item{name}{character string or vector of addon name(s)}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful activation 
+Invisibly returns \code{TRUE} upon success (i.e.successful activation
 of the addon) or \code{FALSE} upon failure.
 }
 \description{

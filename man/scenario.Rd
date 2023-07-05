@@ -8,7 +8,7 @@ scenario(
   ssimObject = NULL,
   scenario = NULL,
   sourceScenario = NULL,
-  folderId = NULL,
+  folder = NULL,
   summary = NULL,
   results = FALSE,
   forceElements = FALSE,
@@ -19,58 +19,59 @@ scenario(
 \item{ssimObject}{\code{\link{SsimLibrary}} or \code{\link{Project}} object,
 or character (i.e. a filepath)}
 
-\item{scenario}{character, integer, or vector of these. Names or ids of one or 
-more Scenarios. Note integer ids are slightly faster, but can only be 
+\item{scenario}{character, integer, or vector of these. Names or ids of one or
+more Scenarios. Note integer ids are slightly faster, but can only be
 used to open existing Scenarios}
 
-\item{sourceScenario}{character or integer. If not \code{NULL} (Default), new 
+\item{sourceScenario}{character or integer. If not \code{NULL} (Default), new
 Scenarios will be copies of the sourceScenario}
 
-\item{folderId}{integer. If not \code{NULL} (Default), new 
+\item{folder}{\code{\link{Folder}} object, character, or integer. The Folder object,
+name (must be unique), or Folder ID. If not \code{NULL} (Default), new
 Scenarios will be moved into the specified folder}
 
-\item{summary}{logical. If \code{TRUE} then loads and returns the Scenario(s) in a 
-named vector/dataframe with the scenarioId, name, description, owner, 
-dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL}, 
+\item{summary}{logical. If \code{TRUE} then loads and returns the Scenario(s) in a
+named vector/dataframe with the scenarioId, name, description, owner,
+dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL},
 \code{FALSE} otherwise}
 
-\item{results}{logical. If \code{TRUE} only return result Scenarios. Default is 
+\item{results}{logical. If \code{TRUE} only return result Scenarios. Default is
 \code{FALSE}}
 
-\item{forceElements}{logical. If \code{TRUE} then returns a single Scenario as a named 
-list; if \code{FALSE} (default), returns a single Scenario as a 
+\item{forceElements}{logical. If \code{TRUE} then returns a single Scenario as a named
+list; if \code{FALSE} (default), returns a single Scenario as a
 \code{\link{Scenario}} object. Applies only when \code{summary=FALSE}}
 
 \item{overwrite}{logical. If \code{TRUE} an existing Scenario will be overwritten.
 Default is \code{FALSE}}
 }
 \value{
-A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario 
-objects, or a data frame of Scenario names and descriptions. If \code{summary = FALSE}, 
+A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario
+objects, or a data frame of Scenario names and descriptions. If \code{summary = FALSE},
 returns one or more \code{\link{Scenario}} objects representing SyncroSim Scenarios.
 If \code{summary = TRUE}, returns Scenario summary info.
 }
 \description{
-Create or open one or more \code{\link{Scenario}}s from a 
+Create or open one or more \code{\link{Scenario}}s from a
 \code{\link{SsimLibrary}}.
 }
 \details{
 For each element of Scenario:
 \itemize{
-  \item {If element/Project/SsimObject uniquely identifies an existing 
-         Scenario: }{Returns the existing Scenario}.
-  \item {If element/Project/SsimObject uniquely identifies more than one existing 
-         Scenario: }{Error}.
-  \item {If element/Project/SsimObject do not identify an existing Scenario or 
-         Project: }{Error}.
-  \item {If element/Project/SsimObject do not identify an existing Scenario and 
-         element is numeric: }{Error - a name is required for new Scenarios. 
-         SyncroSim will automatically assign an id when a Scenario is created.}
-  \item {If element/Project/SsimObject do not identify an existing Scenario and 
-         do identify a Project, and element is a character string: }{Creates a 
-         new Scenario named element in the Project. SyncroSim automatically 
-         assigns an id. If sourceScenario is not \code{NULL} the new Scenario will be 
-         a copy of sourceScenario.}
+\item {If element/Project/SsimObject uniquely identifies an existing
+Scenario: }{Returns the existing Scenario}.
+\item {If element/Project/SsimObject uniquely identifies more than one existing
+Scenario: }{Error}.
+\item {If element/Project/SsimObject do not identify an existing Scenario or
+Project: }{Error}.
+\item {If element/Project/SsimObject do not identify an existing Scenario and
+element is numeric: }{Error - a name is required for new Scenarios.
+SyncroSim will automatically assign an id when a Scenario is created.}
+\item {If element/Project/SsimObject do not identify an existing Scenario and
+do identify a Project, and element is a character string: }{Creates a
+new Scenario named element in the Project. SyncroSim automatically
+assigns an id. If sourceScenario is not \code{NULL} the new Scenario will be
+a copy of sourceScenario.}
 }
 }
 \examples{

@@ -4,6 +4,10 @@
 NULL
 
 #' Retrieve spatial data from a SyncroSim Datasheet
+#' 
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Please use \code{\link{datasheetSpatRaster}} instead.
 #'
 #' This function retrieves spatial columns from one or more SyncroSim 
 #' \code{\link{Scenario}} Datasheets.
@@ -140,11 +144,13 @@ setGeneric("datasheetRaster", function(ssimObject, datasheet, column = NULL, sce
 
 #' @rdname datasheetRaster
 setMethod("datasheetRaster", signature(ssimObject = "character"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+  lifecycle::deprecate_warn("1.4.6", "datasheetRaster()", "datasheetSpatRaster()")
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname datasheetRaster
 setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+  lifecycle::deprecate_warn("1.4.6", "datasheetRaster()", "datasheetSpatRaster()")
   if (!is(ssimObject[[1]], "Scenario")) {
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
@@ -175,6 +181,7 @@ setMethod("datasheetRaster", signature(ssimObject = "list"), function(ssimObject
 
 #' @rdname datasheetRaster
 setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+  lifecycle::deprecate_warn("1.4.6", "datasheetRaster()", "datasheetSpatRaster()")
   if (is.null(scenario)) {
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
   }
@@ -198,6 +205,7 @@ setMethod("datasheetRaster", signature(ssimObject = "SsimObject"), function(ssim
 
 #' @rdname datasheetRaster
 setMethod("datasheetRaster", signature(ssimObject = "Scenario"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+  lifecycle::deprecate_warn("1.4.6", "datasheetRaster()", "datasheetSpatRaster()")
   rat <- NULL
   if (is.null(subset)) {
     getFactors <- FALSE

@@ -18,7 +18,7 @@ to a Session where the printCmd settings are retrieved from. If \code{NULL} (def
 \code{session()} will be used}
 }
 \value{
-A logical : \code{TRUE} if the session is configured to print commands and 
+A logical : \code{TRUE} if the session is configured to print commands and
 \code{FALSE} if it is not.
 }
 \description{

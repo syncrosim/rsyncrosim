@@ -24,17 +24,17 @@ published(folder) <- value
 \arguments{
 \item{folder}{\code{\link{Folder}} object}
 
-\item{value}{logical. If \code{TRUE} the Folder will be tagged for 
-publication and all other Folders will have publication status set to 
+\item{value}{logical. If \code{TRUE} the Folder will be tagged for
+publication and all other Folders will have publication status set to
 \code{FALSE}. Default is \code{FALSE}}
 }
 \value{
-A logical: \code{TRUE} if the Folder is tagged for publication and 
+A logical: \code{TRUE} if the Folder is tagged for publication and
 \code{FALSE} otherwise.
 }
 \description{
 Retrieves or sets the publication status of a SyncroSim \code{\link{Folder}}.
-Note that only one folder can be tagged for publication at a time, so if 
+Note that only one folder can be tagged for publication at a time, so if
 the publication status of a Folder is set to \code{TRUE}, then all other
 Folders will have publication status set to \code{FALSE}.
 }

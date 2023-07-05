@@ -18,7 +18,7 @@ console, or by directly querying the SsimLibrary database."><meta property="og:i
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.7</span>
       </span>
     </div>
 
@@ -155,86 +155,86 @@ console, or by directly querying the <code><a href="SsimLibrary-class.html">Ssim
     <h2>Arguments</h2>
     <dl><dt>ssimObject</dt>
 <dd><p><code><a href="SsimLibrary-class.html">SsimLibrary</a></code>, <code><a href="Project-class.html">Project</a></code>,
-or <code><a href="Scenario-class.html">Scenario</a></code> object or list of objects. 
-Note that all objects in a list must be of the same type, and belong to 
+or <code><a href="Scenario-class.html">Scenario</a></code> object or list of objects.
+Note that all objects in a list must be of the same type, and belong to
 the same SsimLibrary</p></dd>
 
 
 <dt>name</dt>
-<dd><p>character or character vector. Sheet name(s). If <code>NULL</code> (default), 
-all datasheets in the ssimObject will be returned. Note that setting 
-<code>summary=FALSE</code> and <code>name=NULL</code> pulls all Datasheets, which is time 
+<dd><p>character or character vector. Sheet name(s). If <code>NULL</code> (default),
+all datasheets in the ssimObject will be returned. Note that setting
+<code>summary=FALSE</code> and <code>name=NULL</code> pulls all Datasheets, which is time
 consuming and not generally recommended</p></dd>
 
 
 <dt>project</dt>
-<dd><p>numeric or numeric vector. One or more 
+<dd><p>numeric or numeric vector. One or more
 <code><a href="Project-class.html">Project</a></code> ids</p></dd>
 
 
 <dt>scenario</dt>
-<dd><p>numeric or numeric vector. One or more 
+<dd><p>numeric or numeric vector. One or more
 <code><a href="Scenario-class.html">Scenario</a></code> ids</p></dd>
 
 
 <dt>summary</dt>
-<dd><p>logical or character. If <code>TRUE</code> (default) returns a data.frame of sheet names 
-and other info including built-in core SyncroSim Datasheets. If <code>FALSE</code> returns 
+<dd><p>logical or character. If <code>TRUE</code> (default) returns a data.frame of sheet names
+and other info including built-in core SyncroSim Datasheets. If <code>FALSE</code> returns
 data.frame or list of data.frames.</p></dd>
 
 
 <dt>optional</dt>
-<dd><p>logical. If <code>summary=TRUE</code> and <code>optional=TRUE</code> returns 
-only <code>scope</code>, <code>name</code> and <code>displayName</code>. If <code>summary=FALSE</code> and <code>optional=TRUE</code> returns 
-all of the Datasheet's columns, including the optional columns. If 
-<code>summary=TRUE</code>, <code>optional=FALSE</code> (default), returns only those columns that are mandatory 
+<dd><p>logical. If <code>summary=TRUE</code> and <code>optional=TRUE</code> returns
+only <code>scope</code>, <code>name</code> and <code>displayName</code>. If <code>summary=FALSE</code> and <code>optional=TRUE</code> returns
+all of the Datasheet's columns, including the optional columns. If
+<code>summary=TRUE</code>, <code>optional=FALSE</code> (default), returns only those columns that are mandatory
 and contain data (if <code>empty=FALSE</code>). Ignored if <code>summary=FALSE</code>, <code>empty=FALSE</code>
 and <code>lookupsAsFactors=FALSE</code></p></dd>
 
 
 <dt>empty</dt>
-<dd><p>logical. If <code>TRUE</code> returns empty data.frames for each 
+<dd><p>logical. If <code>TRUE</code> returns empty data.frames for each
 Datasheet. Ignored if <code>summary=TRUE</code> Default is <code>FALSE</code></p></dd>
 
 
 <dt>filterColumn</dt>
-<dd><p>character string. The column to filter a Datasheet by. 
+<dd><p>character string. The column to filter a Datasheet by.
 (e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
 you must also specify the filterValue argument. Default is <code>NULL</code></p></dd>
 
 
 <dt>filterValue</dt>
-<dd><p>character string or integer. The value to filter the 
+<dd><p>character string or integer. The value to filter the
 filterColumn by. To use the filterValue argument, you must also specify
 the filterColumn argument. Default is <code>NULL</code></p></dd>
 
 
 <dt>lookupsAsFactors</dt>
-<dd><p>logical. If <code>TRUE</code> (default) dependencies 
-returned as factors with allowed values (levels). Set <code>FALSE</code> to speed 
+<dd><p>logical. If <code>TRUE</code> (default) dependencies
+returned as factors with allowed values (levels). Set <code>FALSE</code> to speed
 calculations. Ignored if <code>summary=TRUE</code></p></dd>
 
 
 <dt>sqlStatement</dt>
-<dd><p>list returned by <code><a href="sqlStatement.html">sqlStatement</a></code>. <code>SELECT</code> and 
-<code>GROUP BY</code> SQL statements passed to SQLite database. Ignored if 
+<dd><p>list returned by <code><a href="sqlStatement.html">sqlStatement</a></code>. <code>SELECT</code> and
+<code>GROUP BY</code> SQL statements passed to SQLite database. Ignored if
 <code>summary=TRUE</code> (optional)</p></dd>
 
 
 <dt>includeKey</dt>
-<dd><p>logical. If <code>TRUE</code> include primary key in table. Default is 
+<dd><p>logical. If <code>TRUE</code> include primary key in table. Default is
 <code>FALSE</code></p></dd>
 
 
 <dt>forceElements</dt>
-<dd><p>logical. If <code>FALSE</code> (default) and name has a single element 
-returns a data.frame; otherwise returns a list of data.frames. Ignored if 
+<dd><p>logical. If <code>FALSE</code> (default) and name has a single element
+returns a data.frame; otherwise returns a list of data.frames. Ignored if
 <code>summary=TRUE</code></p></dd>
 
 
 <dt>fastQuery</dt>
-<dd><p>logical.  If <code>TRUE</code>, the request is optimized for 
-performance.  Ignored if combined with summary, empty, or 
+<dd><p>logical.  If <code>TRUE</code>, the request is optimized for
+performance.  Ignored if combined with summary, empty, or
 <code><a href="sqlStatement.html">sqlStatement</a></code> flags. Default is <code>FALSE</code></p></dd>
 
 </dl></div>
@@ -242,35 +242,35 @@ performance.  Ignored if combined with summary, empty, or
     <h2>Value</h2>
     
 
-<p>If <code>summary=TRUE</code> returns a data.frame of Datasheet names 
+<p>If <code>summary=TRUE</code> returns a data.frame of Datasheet names
 and other information, otherwise returns a data.frame or list of these.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>If <code>summary=TRUE</code> or <code>summary=NULL</code> and <code>name=NULL</code> a data.frame describing the 
-Datasheets is returned. If <code>optional=TRUE</code>, columns include: <code>scope</code>, <code>package</code>, 
-<code>name</code>, <code>displayName</code>, <code>isSingle</code>, <code>isOutput</code>, <code>data</code>. data only displayed for 
-a SyncroSim <code><a href="Scenario-class.html">Scenario</a></code>. <code>dataInherited</code> and <code>dataSource</code> columns 
-added if a Scenario has dependencies. If <code>optional=FALSE</code>, columns include: 
+    <p>If <code>summary=TRUE</code> or <code>summary=NULL</code> and <code>name=NULL</code> a data.frame describing the
+Datasheets is returned. If <code>optional=TRUE</code>, columns include: <code>scope</code>, <code>package</code>,
+<code>name</code>, <code>displayName</code>, <code>isSingle</code>, <code>isOutput</code>, <code>data</code>. data only displayed for
+a SyncroSim <code><a href="Scenario-class.html">Scenario</a></code>. <code>dataInherited</code> and <code>dataSource</code> columns
+added if a Scenario has dependencies. If <code>optional=FALSE</code>, columns include:
 <code>scope</code>, <code>name</code>, <code>displayName</code>. All other arguments are ignored.</p>
-<p>Otherwise, for each element in name a Datasheet is returned as follows:</p><ul><li><p>If <code>lookupsAsFactors=TRUE</code> (default): Each column is given the correct 
-         data type, and dependencies returned as factors with allowed values (levels). 
-         A warning is issued if the lookup has not yet been set.</p></li>
-<li><p>If <code>empty=TRUE</code>: Each column is given the correct data type. Fast (1 less 
-         console command).</p></li>
-<li><p>If <code>empty=FALSE</code> and <code>lookupsAsFactors=FALSE</code>: Column types are not checked, 
-         and the optional argument is ignored. Fast (1 less console command).</p></li>
-<li><p>If SsimObject is a list of <code><a href="Scenario-class.html">Scenario</a></code> or <code><a href="Project-class.html">Project</a></code> 
-         objects (output from <code><a href="run.html">run</a></code>, <code><a href="Scenario-class.html">Scenario</a></code> or 
-         <code><a href="Project-class.html">Project</a></code>): Adds ScenarioID/ProjectID column if appropriate.</p></li>
-<li><p>If Scenario/Project is a vector: Adds ScenarioID/ProjectID column 
-         as necessary.</p></li>
-<li><p>If requested Datasheet has Scenario scope and contains info from more 
-         than one Scenario: ScenarioID/ScenarioName/ScenarioParent columns 
-         identify the Scenario by <code>name</code>, <code>id</code>, and <code>parent</code> (if a result Scenario).</p></li>
-<li><p>If requested Datasheet has Project scope and contains info from more 
-         than one Project: ProjectID/ProjectName columns identify the Project 
-         by <code>name</code> and <code>id</code></p></li>
+<p>Otherwise, for each element in name a Datasheet is returned as follows:</p><ul><li><p>If <code>lookupsAsFactors=TRUE</code> (default): Each column is given the correct
+data type, and dependencies returned as factors with allowed values (levels).
+A warning is issued if the lookup has not yet been set.</p></li>
+<li><p>If <code>empty=TRUE</code>: Each column is given the correct data type. Fast (1 less
+console command).</p></li>
+<li><p>If <code>empty=FALSE</code> and <code>lookupsAsFactors=FALSE</code>: Column types are not checked,
+and the optional argument is ignored. Fast (1 less console command).</p></li>
+<li><p>If SsimObject is a list of <code><a href="Scenario-class.html">Scenario</a></code> or <code><a href="Project-class.html">Project</a></code>
+objects (output from <code><a href="run.html">run</a></code>, <code><a href="Scenario-class.html">Scenario</a></code> or
+<code><a href="Project-class.html">Project</a></code>): Adds ScenarioID/ProjectID column if appropriate.</p></li>
+<li><p>If Scenario/Project is a vector: Adds ScenarioID/ProjectID column
+as necessary.</p></li>
+<li><p>If requested Datasheet has Scenario scope and contains info from more
+than one Scenario: ScenarioID/ScenarioName/ScenarioParent columns
+identify the Scenario by <code>name</code>, <code>id</code>, and <code>parent</code> (if a result Scenario).</p></li>
+<li><p>If requested Datasheet has Project scope and contains info from more
+than one Project: ProjectID/ProjectName columns identify the Project
+by <code>name</code> and <code>id</code></p></li>
 </ul></div>
 
     <div id="ref-examples">
@@ -291,9 +291,7 @@ added if a Scenario has dependencies. If <code>optional=FALSE</code>, columns in
 <span class="r-in"><span>                         session <span class="op">=</span> <span class="va">mySession</span>, </span></span>
 <span class="r-in"><span>                         package <span class="op">=</span> <span class="st">"helloworldSpatial"</span>,</span></span>
 <span class="r-in"><span>                         template <span class="op">=</span> <span class="st">"example-library"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scenarios available in this template:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The library has unapplied updates.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Do you want to update library with path 'C:\Users\birch\AppData\Local\Temp\RtmpAvjsn4/testlib_datasheet.ssim' ?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Scenarios available in this template:    My Scenario</span>
 <span class="r-in"><span>                         </span></span>
 <span class="r-in"><span><span class="co"># Set the Project and Scenario</span></span></span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
