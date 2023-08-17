@@ -84,7 +84,6 @@ setReplaceMethod(
       islite <- "no"
     }
     
-    #TODO: check if setting to TRUE automatically sets other folders to FALSE
     tt <- command(list(setprop = NULL, lib = .filepath(folder), fid = .folderId(folder), islite = islite), .session(folder))
     if (!identical(tt, "saved")) {
       stop(tt)
