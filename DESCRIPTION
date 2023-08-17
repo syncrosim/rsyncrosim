@@ -33,7 +33,7 @@ Imports:
     methods,
     DBI,
     RSQLite,
-    raster,
+    terra,
     gtools,
     lifecycle
 Suggests:
@@ -41,7 +41,6 @@ Suggests:
     testthat (>= 3.0.0),
     ggplot2,
     Rcpp,
-    rgdal,
     rmarkdown
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
