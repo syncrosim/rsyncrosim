@@ -171,7 +171,7 @@ by \code{name} and \code{id}}
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # Install helloworldSpatial package from package server
 addPackage("helloworldSpatial")
 

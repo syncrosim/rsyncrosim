@@ -2,7 +2,7 @@
 * Windows Server 2019 (CI (GitHub actions): release 4.1.1 and devel)
 * Ubuntu 20.04 (CI (GitHub actions), release 4.1.1 and devel)
 
-## New release 1.4.2
+## New release 1.4.9
 
 ## Breaking changes
 

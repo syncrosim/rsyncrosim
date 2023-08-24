@@ -158,6 +158,7 @@ myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession,
                          package = "helloworldSpatial",
                          template = "example-library",
+                         forceUpdate = TRUE,
                          overwrite=TRUE)
 
 # Set up Project and Scenario
@@ -208,7 +209,8 @@ mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession, 
                          package = "stsim",
-                         template = "spatial-example")
+                         template = "spatial-example",
+                         forceUpdate = TRUE)
                          
 myScenario <- scenario(myLibrary, scenario = 16)
 

@@ -311,6 +311,9 @@ printAndCapture <- function(x) {
 # read only status, and published status.
 getFolderData <- function(x) {
   
+  FolderID = NULL
+  X = NULL
+  
   args <- list(lib = .filepath(x), list = NULL, folders = NULL)
   tt <- command(args = args, session = .session(x))
   out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
@@ -361,6 +364,8 @@ getParentFolderId <- function(x, id) {
 # @param sid integer value of the Scenario ID
 # @param folder folder object, character, or integer value of the Folder ID
 addScenarioToFolder <- function(x, pid, sid, folder) {
+  
+  Name = NULL
   
   # Convert folder to fid and validate folder name
   if (is.numeric(folder)){

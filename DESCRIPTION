@@ -41,7 +41,10 @@ Suggests:
     testthat (>= 3.0.0),
     ggplot2,
     Rcpp,
-    rmarkdown
+    rmarkdown,
+    raster,
+    covr,
+    devtools
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
@@ -103,3 +106,4 @@ URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr

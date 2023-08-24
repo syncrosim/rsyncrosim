@@ -27,4 +27,4 @@ rsyncrosim.Rcheck
 debugging.R
 binaries/
 # Don't build R-CMD-check (broken)
-**/R-CMD-check.yml
+# **/R-CMD-check.yml
