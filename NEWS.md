@@ -1,10 +1,10 @@
-# rsyncrosim 1.4.8
+# rsyncrosim 1.4.9
 
 ## Breaking changes:
 
 ## Bug fixes:
 
-* Fixed package dependency imports
+* Updated package documentation overview to fix broken index hyperlink.
 
 ## New features:
 

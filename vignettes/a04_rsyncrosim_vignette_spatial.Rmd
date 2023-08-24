@@ -117,7 +117,7 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          overwrite = TRUE)
 
 # Open the default Project
-myProject = project(ssimObject = myLibrary, project = "Definitions")
+myProject = rsyncrosim::project(ssimObject = myLibrary, project = "Definitions")
 
 # Create a new Scenario (associated with the default Project)
 myScenario = scenario(ssimObject = myProject, scenario = "My spatial scenario")

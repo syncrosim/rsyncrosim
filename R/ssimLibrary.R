@@ -336,7 +336,8 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'                          session = mySession,
 #'                          package = "helloworldSpatial",
 #'                          template = "example-library",
-#'                          overwrite = TRUE)
+#'                          overwrite = TRUE,
+#'                          forceUpdate = TRUE)
 #'                          
 #' }
 #' 

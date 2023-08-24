@@ -20,7 +20,7 @@ desired folder in the SyncroSim User Interface."><meta property="og:image" conte
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.9</span>
       </span>
     </div>
 
@@ -127,7 +127,9 @@ Only applicable if the ssimObject provided is a <code><a href="Scenario-class.ht
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set the SyncroSim Session, SsimLibrary, Project, and Scenario</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, </span></span>
+<span class="r-in"><span>                         session <span class="op">=</span> <span class="va">mySession</span>, </span></span>
+<span class="r-in"><span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="scenario.html">scenario</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My Scenario"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myFolder</span> <span class="op">&lt;-</span> <span class="fu"><a href="folder.html">folder</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="st">"New Folder"</span><span class="op">)</span></span></span>
@@ -136,7 +138,7 @@ Only applicable if the ssimObject provided is a <code><a href="Scenario-class.ht
 <span class="r-in"><span><span class="fu">folderId</span><span class="op">(</span><span class="va">myFolder</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14</span>
 <span class="r-in"><span><span class="fu">folderId</span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Move the Scenario into the newly created folder</span></span></span>
 <span class="r-in"><span><span class="fu">folderId</span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">folderId</span><span class="op">(</span><span class="va">myFolder</span><span class="op">)</span></span></span>

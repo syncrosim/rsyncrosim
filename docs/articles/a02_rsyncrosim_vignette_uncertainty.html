@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.9</span>
       </span>
     </div>
 
@@ -195,7 +195,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.18"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.4.36"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -214,7 +214,9 @@ package list when we call the <code><a href="../reference/package.html">package(
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                    name                                 description version</span></span>
-<span><span class="co">## 1 helloworldUncertainty Example demonstrating how to use iterations   1.0.0</span></span></code></pre>
+<span><span class="co">## 1 helloworldUncertainty Example demonstrating how to use iterations   1.0.0</span></span>
+<span><span class="co">##                                                             NA NA</span></span>
+<span><span class="co">## 1 C:\\Users\\birch\\SyncroSim\\Packages\\helloworldUncertainty OK</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -276,16 +278,17 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span><span class="co">## 20  project                      corestime_Charts                     Charts</span></span>
 <span><span class="co">## 21  project            corestime_DistributionType              Distributions</span></span>
 <span><span class="co">## 22  project        corestime_ExternalVariableType         External Variables</span></span>
-<span><span class="co">## 23  project                        corestime_Maps                       Maps</span></span>
-<span><span class="co">## 24 scenario                  core_AutoGenTagValue Auto Generation Tag Values</span></span>
-<span><span class="co">## 25 scenario                         core_Pipeline                   Pipeline</span></span>
-<span><span class="co">## 26 scenario           corestime_DistributionValue              Distributions</span></span>
-<span><span class="co">## 27 scenario                    corestime_External                   External</span></span>
-<span><span class="co">## 28 scenario       corestime_ExternalVariableValue         External Variables</span></span>
-<span><span class="co">## 29 scenario             corestime_Multiprocessing    Spatial Multiprocessing</span></span>
-<span><span class="co">## 30 scenario  helloworldUncertainty_InputDatasheet             InputDatasheet</span></span>
-<span><span class="co">## 31 scenario helloworldUncertainty_OutputDatasheet            OutputDatasheet</span></span>
-<span><span class="co">## 32 scenario      helloworldUncertainty_RunControl                Run Control</span></span></code></pre>
+<span><span class="co">## 23  project                    corestime_MapFacet               Map Faceting</span></span>
+<span><span class="co">## 24  project                        corestime_Maps                       Maps</span></span>
+<span><span class="co">## 25 scenario                  core_AutoGenTagValue Auto Generation Tag Values</span></span>
+<span><span class="co">## 26 scenario                         core_Pipeline                   Pipeline</span></span>
+<span><span class="co">## 27 scenario           corestime_DistributionValue              Distributions</span></span>
+<span><span class="co">## 28 scenario                    corestime_External                   External</span></span>
+<span><span class="co">## 29 scenario       corestime_ExternalVariableValue         External Variables</span></span>
+<span><span class="co">## 30 scenario             corestime_Multiprocessing    Spatial Multiprocessing</span></span>
+<span><span class="co">## 31 scenario  helloworldUncertainty_InputDatasheet             InputDatasheet</span></span>
+<span><span class="co">## 32 scenario helloworldUncertainty_OutputDatasheet            OutputDatasheet</span></span>
+<span><span class="co">## 33 scenario      helloworldUncertainty_RunControl                Run Control</span></span></code></pre>
 <p>From the list of Datasheets above, we can see that there are three
 Datasheets specific to the <code>helloworldUncertainty</code> package.
 Let’s view the contents of the input Datasheet as an R data frame.</p>
@@ -429,10 +432,10 @@ can view which Scenarios are Results Scenarios using the
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioID ProjectID                                          Name IsResult</span></span>
 <span><span class="co">## 1          1         1                             My first scenario       No</span></span>
-<span><span class="co">## 2          2         1 My first scenario ([1] @ 04-Jul-2023 7:07 PM)      Yes</span></span>
+<span><span class="co">## 2          2         1 My first scenario ([1] @ 24-Aug-2023 9:17 AM)      Yes</span></span>
 <span><span class="co">##   ParentID Owner      DateLastModified IsReadOnly MergeDependencies</span></span>
-<span><span class="co">## 1       NA   N/A 2023-07-04 at 7:07 PM         No                No</span></span>
-<span><span class="co">## 2        1   N/A 2023-07-04 at 7:07 PM         No                No</span></span>
+<span><span class="co">## 1       NA   N/A 2023-08-24 at 9:17 AM         No                No</span></span>
+<span><span class="co">## 2        1   N/A 2023-08-24 at 9:17 AM         No                No</span></span>
 <span><span class="co">##   IgnoreDependencies AutoGenTags</span></span>
 <span><span class="co">## 1                 NA          NA</span></span>
 <span><span class="co">## 2                 NA          NA</span></span></code></pre>
@@ -455,13 +458,13 @@ containing the results is called “OutputDatasheet”.</p>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep      y</span></span>
-<span><span class="co">## 1         1        1 3.7341</span></span>
-<span><span class="co">## 2         1        2 4.4683</span></span>
-<span><span class="co">## 3         1        3 5.2024</span></span>
-<span><span class="co">## 4         1        4 5.9365</span></span>
-<span><span class="co">## 5         1        5 6.6706</span></span>
-<span><span class="co">## 6         1        6 7.4048</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep       y</span></span>
+<span><span class="co">## 1         1        1  4.5733</span></span>
+<span><span class="co">## 2         1        2  6.1466</span></span>
+<span><span class="co">## 3         1        3  7.7199</span></span>
+<span><span class="co">## 4         1        4  9.2932</span></span>
+<span><span class="co">## 5         1        5 10.8665</span></span>
+<span><span class="co">## 6         1        6 12.4398</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="plotting-uncertainty-in-the-syncrosim-windows-user-interface">Plotting uncertainty in the SyncroSim Windows User Interface<a class="anchor" aria-label="anchor" href="#plotting-uncertainty-in-the-syncrosim-windows-user-interface"></a>

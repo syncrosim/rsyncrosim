@@ -126,7 +126,8 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          session = mySession,
                          package = "helloworldSpatial",
                          template = "example-library",
-                         overwrite = TRUE)
+                         overwrite = TRUE,
+                         forceUpdate = TRUE)
                          
 }
 

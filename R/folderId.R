@@ -24,7 +24,9 @@ NULL
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
+#' myLibrary <- ssimLibrary(name = myLibraryName, 
+#'                          session = mySession, 
+#'                          overwrite = TRUE) 
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' myFolder <- folder(myProject, "New Folder")

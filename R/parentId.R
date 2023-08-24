@@ -28,7 +28,8 @@ NULL
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession,
 #'                          package = "helloworldSpatial",
-#'                          template = "example-library")
+#'                          template = "example-library",
+#'                          forceUpdate = TRUE)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
