@@ -3,6 +3,7 @@
 \docType{package}
 \name{rsyncrosim}
 \alias{rsyncrosim}
+\alias{rsyncrosim-package}
 \title{rsyncrosim: The R interface to SyncroSim: https://syncrosim.com/}
 \description{
 rsyncrosim provides an interface to SyncroSim, a generalized framework for
