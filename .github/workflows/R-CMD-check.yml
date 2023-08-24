@@ -31,10 +31,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@dev
         with:
           r-version: ${{ matrix.config.r }}
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@dev
       
       - uses: r-lib/actions/setup-tinytex@v1
         if: runner.os != 'Windows'
@@ -85,7 +85,7 @@ jobs:
         
       - name: Upload check results
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@dev
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
