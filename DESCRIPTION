@@ -43,8 +43,7 @@ Suggests:
     Rcpp,
     rmarkdown,
     raster,
-    covr,
-    devtools
+    covr
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
