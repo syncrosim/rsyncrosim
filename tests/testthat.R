@@ -8,8 +8,5 @@
 
 library(testthat)
 library(rsyncrosim)
-library(devtools)
-library(covr)
 
 test_check("rsyncrosim")
-setwd("C:/gitprojects/rsyncrosim")

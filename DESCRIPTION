@@ -42,8 +42,7 @@ Suggests:
     ggplot2,
     Rcpp,
     rmarkdown,
-    raster,
-    covr
+    raster
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
