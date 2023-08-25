@@ -1,38 +1,37 @@
 ## Test environments
-* Windows Server 2019 (CI (GitHub actions): release 4.1.1 and devel)
-* Ubuntu 20.04 (CI (GitHub actions), release 4.1.1 and devel)
+* Windows Server 2019 (CI (GitHub actions): release 4.3.2 and devel)
+* Ubuntu 20.04 (CI (GitHub actions), release 4.3.2 and devel)
 
 ## New release 1.4.9
 
 ## Breaking changes
 
-* Added version check to ensure the version of `rsyncrosim` being used is compatible with the version of `SyncroSim` installed - current version of `rsyncrosim` is compatible with `SyncroSim` version 2.4.4
+* Removed the `condaFilepath` argument in the `session()` function as this was causing issues during multiprocessing; To set the conda path now, use the `condaFilepath()` replacement method on the `session` object.
+* Deprecated `datasheetRaster()` so will now throw a warning if used (but will still work)
+* Deprecated `raster` objects as inputs to `saveDatasheet()` so will now throw a warning if used (but will still work)
 
 ## Bug fixes:
 
-* Bug fixed where if the Scenario named contained square brackets, a warning was thrown
-* Fixed bug in `project()` function
-* `dependency()` bug fixed - function used to fail when dependency argument was set to a character
-* Fixed bug in `scenario()` function when `sourceScenario` argument is set to a Scenario name
-* Fixed bug in `delete()` function when trying to delete datasheets
-* Fixed bug in `datasheet()` where column values could not be numeric
-* Fixed cryptic warning in saveDatasheet()
-* Fixed bug in `addRow()` function where column values were being auto-filled if they were a factor with one level
-* Removed warnings in `addRow()` function when a tibble is supplied as the value
+* Fixed bug in `ssimLibrary()` where `useConda` argument is set to `FALSE` as default. This wrongly updates the SyncroSim library properties when running a Library in a conda environment from the UI.
+* Fixed issue where rsyncrosim "factors" erase column data if creating factor lookups fails.
+* Fixed bug when loading template libraries from addon packages.
+* Fixed bug that came up sometimes in `datasheet()` function when `optional` set to `TRUE` - this only came up sometimes because it had to do with the syncrosim validation type under the hood; if the validation was based on a core datasheet, then the function would fail.
+* Fixed bug when trying to retrieve datasheets for multiple scenarios at a time.
+
 
 ## New features:
 
-* External files are no longer copied by default during multiprocessing runs (can set this using the "copyExternalInputs" argument in the `run()` function)
-* Created filtering arguments in the `datasheet()` and `datasheetRaster()` functions, such that you can now specify a column to filter by (`filterColumn`) and the value to filter the column by (`filterValue`)
-* Can now use addon package templates when loading an `ssimLibrary`
-* New message argument in the `progressBar()` function that allows the user to add custom messages to the progress bar at runtime
-* New `updateRunLog()` function that allows the user to output custom messages to the SyncroSim run log, including the ability to create multi-line run log messages and set the run status
-* Added the ability to use Conda environments in `rsyncrosim` using the functions `installConda()`, `useConda()`, and `condaFilepath()`
+* Added the new `Folder` class that allows users to retrieve folder data for a SyncroSim Library or Project, create new folders at the Project root or nested within other folders, and move Scenarios into folders.
+* Added the new `published()` function that allows a user to tag a folder for publication.
+* Added the new `folderId()` function that allows a user to assign a folder ID to a Scenario (moves the scenario into the specified folder), or retrieve the folder ID for a Scenario or Folder object.
+* Removed dependency on `rgdal` and `raster` functions (as these are now deprecated) and added `terra` dependency.
+* Updated `saveDatasheet()` to use `terra` `spatRasters` under the hood (`raster` objects still work as well, but will throw a warning)
+* Added new `datasheetSpatRaster()` function that works similarly to `datasheetRaster()`, but returns `SpatRasters` instead of `raster` objects and uses `terra` functions under the hood.
+
 
 ## Minor improvements and fixes
 
-* Created documentation on the new filtering arguments in `datasheetRaster()`
-* Improved testing code
+* Updated copyright
 
 ## Upstream dependencies
 
@@ -43,7 +42,8 @@ installed to run. Therefore, all tests in the submitted package should not run
 
 ## R CMD check results
 
--- R CMD check results ----------------------------------- rsyncrosim 1.4.2 ----
-Duration: 1m 20.8s
+── R CMD check results ─────────────────────────────────── rsyncrosim 1.4.9 ────
+Duration: 1m 30.8s
 
-0 errors v | 0 warnings v | 0 notes v
+Warning messages:
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
