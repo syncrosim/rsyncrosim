@@ -30,3 +30,4 @@ debugging.R
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
 ^rsyncrosim\.Rproj$
+tests_in_progress
