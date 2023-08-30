@@ -91,7 +91,7 @@ directory with the filename SsimLibrary.ssim.}
 in working directory. If no file suffix provided in string then add
 .ssim. Attempts to open a SsimLibrary of that name. If SsimLibrary does not
 exist creates a SsimLibrary of type package in the current working directory.}
-\item {If given a name and a package: }{Create/open a SsimLibrary called \if{html}{\out{<name>}}.ssim.
+\item {If given a name and a package: }{Create/open a SsimLibrary called \link{name}.ssim.
 Returns an error if the SsimLibrary already exists but is a different type
 of package.}
 }
