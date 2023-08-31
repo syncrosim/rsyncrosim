@@ -4,15 +4,15 @@ Title: The R Interface to 'SyncroSim'
 Version: 1.4.9
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
-           role = c("aut", "cre")),
+           role = "aut"),
     person("Josie", "Hughes", email = "josie.hughes@canada.ca",
            role = "aut"),
     person("Valentin", "Lucet",
            role = "aut"),           
     person("Alex", "Embrey", 
            role = "aut"),
-    person("Katie", "Birchard",
-           role = "aut"),
+    person("Katie", "Birchard", email="katie.birchard@apexrms.com",
+           role = c("aut", "cre")),
     person("Leonardo", "Frid", 
            role = "aut"), 
     person("Tabitha", "Kennedy", 
