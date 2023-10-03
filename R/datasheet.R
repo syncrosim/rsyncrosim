@@ -404,7 +404,6 @@ setMethod("datasheet",
           args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, session = session(x))
           inputDatasheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
-          # newColID <- inputDatasheet[grepl(filterValue, inputDatasheet$Name, fixed=T),][[filterColumn]]
           newColID <- inputDatasheet[inputDatasheet$Name == filterValue,][[filterColumn]] ## when to use Name vs Filename???
           
           if (length(newColID) == 0) {
