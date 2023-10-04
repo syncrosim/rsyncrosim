@@ -1,0 +1,42 @@
+---
+title: "Installing GitHub release"
+output: rmarkdown::html_vignette
+# output: pdf_document
+vignette: >
+  %\VignetteIndexEntry{Installing GitHub release}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
+---
+
+Follow these instructions to install the latest `rsyncrosim` release from GitHub.
+
+1. Open RStudio (or any R IDE)
+
+2. Make sure that you do not have another version of the `rsyncrosim` library loaded in your R session. You can detach a loaded library using the following code:
+
+```{r step 2, eval=FALSE}
+detach("package:rsyncrosim", unload=TRUE)
+```
+
+3. Use the `install.packages()` function to install `rsyncrosim` from a website URL. Use the following code to install version 1.4.5 from the `rsyncrosim` GitHub repository:
+
+```{r step 3, eval=FALSE}
+install.packages("https://github.com/syncrosim/rsyncrosim/releases/download/1.4.5/rsyncrosim_1.4.5.tar.gz", repo=NULL)
+```
+
+4. You many need to restart your R environment to get rid of any environmental conflicts. You can do this from RStudio using the following code:
+
+```{r step 4, eval=FALSE}
+.rs.restartR()
+```
+
+5. Load the `rsyncrosim` library.
+
+```{r step 5, eval=FALSE}
+library(rsyncrosim)
+```
+
+
+
