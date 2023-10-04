@@ -16,7 +16,7 @@ NULL
 #' A character string: the path to a SyncroSim object on disk.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 
@@ -58,7 +58,7 @@ setMethod("filepath", signature(ssimObject = "Folder"), function(ssimObject) ssi
 #' A character string: the temporary file path to a SyncroSim object on disk.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

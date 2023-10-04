@@ -17,7 +17,7 @@ NULL
 #' update) and \code{FALSE} upon failure.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

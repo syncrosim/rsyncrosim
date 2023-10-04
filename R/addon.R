@@ -23,7 +23,7 @@ NULL
 #' which the object belongs.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Install the base package "stsim"
 #' addPackage("stsim")
 #' 

@@ -19,7 +19,7 @@ NULL
 #' and \code{FALSE} upon failure.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set SyncroSim Session
 #' mySession <- session()
 #' 

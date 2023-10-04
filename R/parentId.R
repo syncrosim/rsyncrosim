@@ -16,7 +16,7 @@ NULL
 #' does not have a parent, the function returns \code{NA}
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Install helloworldSpatial SyncroSim package
 #' addPackage("helloworldSpatial")
 #' 
