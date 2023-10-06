@@ -39,7 +39,7 @@ the publication status of a Folder is set to \code{TRUE}, then all other
 Folders will have publication status set to \code{FALSE}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

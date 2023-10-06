@@ -38,7 +38,7 @@ More information on addons can be found in the
 \href{https://docs.syncrosim.com/how_to_guides/package_addon.html}{syncrosim documentation}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Install the base package "stsim"
 addPackage("stsim")
 

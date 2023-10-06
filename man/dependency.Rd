@@ -54,7 +54,7 @@ If the dependency argument includes more than one element, elements are ordered
 from lowest to highest precedence.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

@@ -97,7 +97,7 @@ of package.}
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # Make sure packages are installed
 addPackage("stsim")
 addPackage("stsimsf")

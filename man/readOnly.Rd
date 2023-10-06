@@ -50,7 +50,7 @@ Retrieves or sets whether or not a \code{\link{SsimLibrary}},
 read-only.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

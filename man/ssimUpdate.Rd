@@ -26,7 +26,7 @@ Apply updates to a \code{\link{SsimLibrary}}, or a \code{\link{Project}} or
 \code{\link{Scenario}} associated with a SsimLibrary.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

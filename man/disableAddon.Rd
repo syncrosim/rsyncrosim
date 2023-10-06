@@ -25,7 +25,7 @@ of the addon) or \code{FALSE} upon failure.
 Disable \code{\link{addon}} package(s) of a \code{\link{SsimLibrary}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Install "stsim" SyncroSim package
 addPackage("stsim")
 
