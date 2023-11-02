@@ -1,4 +1,4 @@
-# rsyncrosim 1.4.10
+# rsyncrosim 1.4.11
 
 ## Breaking changes
 
@@ -6,11 +6,9 @@
 
 ## Bug fixes:
 
-
+* Fixed bug introduced in 1.4.10 where the `saveDatasheet()` function tried to save the extra columns (`ScenarioID`, `ProjectID`, `ScenarioName`, `ParentID`, and `ParentName`), and failed when these columns did not exist in the database.
 
 ## New features:
-
-* Updated the `datasheet()` function so that the same dataframe columns are returned when calling `datasheet()` for a single scenario or for multiple scenarios. Before, calling `datasheet()` fo a single scenario would leave out the `ScenarioID`, `ProjectID`, `ScenarioName`, `ParentID`, and `ParentName` columns.
 
 
 ## Minor improvements and fixes
