@@ -126,7 +126,7 @@ setMethod("saveDatasheet", signature(ssimObject = "character"), function(ssimObj
 
 #' @rdname saveDatasheet
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimObject, data, name, fileData, append, forceElements, force, breakpoint, import, path) {
-  
+
   isFile <- NULL
   x <- ssimObject
   if (is.null(append)) {
@@ -207,6 +207,10 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
         stop() #handle this case
       }
     }
+    
+    # Remove invalid column names\
+    cDat <- subset(cDat, select=-c(
+      ScenarioID,ProjectID,ScenarioName,ParentID,ParentName))
 
     # convert factors to strings
     for (kk in seq(length.out = ncol(cDat))) {
