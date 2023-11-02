@@ -208,9 +208,12 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       }
     }
     
-    # Remove invalid column names\
-    cDat <- subset(cDat, select=-c(
-      ScenarioID,ProjectID,ScenarioName,ParentID,ParentName))
+    # Remove invalid column names
+    extraColNames <- c("ScenarioID","ProjectID","ScenarioName","ParentID","ParentName")
+    if (all(extraColNames %in% colnames(cDat))){
+      cDat <- subset(cDat, select=-c(
+        ScenarioID,ProjectID,ScenarioName,ParentID,ParentName)) 
+    }
 
     # convert factors to strings
     for (kk in seq(length.out = ncol(cDat))) {
