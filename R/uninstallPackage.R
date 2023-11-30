@@ -3,13 +3,13 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Removes package from SyncroSim installation
+#' Removes a package from SyncroSim installation
 #' 
-#' @param name character. The name of the package to remove
+#' @param name character. The name of the package to uninstall
 #' @param session \code{\link{Session}} object. If \code{NULL} (default), 
 #' \code{session()} will be used
-#' @param force logical. If \code{TRUE}, remove without requiring confirmation from 
-#'     the user. Default is \code{FALSE}
+#' @param force logical. If \code{TRUE}, uninstall without requiring 
+#'     confirmation from the user. Default is \code{FALSE}
 #' 
 #' @return 
 #' Invisibly returns \code{TRUE} upon success (i.e.successful 
@@ -20,26 +20,26 @@ NULL
 #' # Set SyncroSim Session
 #' mySession <- session()
 #' 
-#' # Remove package from SyncroSim Session
-#' removePackage("stsim", mySession, force = FALSE)
+#' # Uninstalls package from SyncroSim Session
+#' uninstallPackage("stsim", mySession, force = FALSE)
 #' }
 #' 
 #' @export
-setGeneric("removePackage", function(name, session = NULL, force = FALSE) standardGeneric("removePackage"))
+setGeneric("uninstallPackage", function(name, session = NULL, force = FALSE) standardGeneric("uninstallPackage"))
 
-#' @rdname removePackage
-setMethod("removePackage", signature(session = "character"), function(name, session, force) {
+#' @rdname uninstallPackage
+setMethod("uninstallPackage", signature(session = "character"), function(name, session, force) {
   return(SyncroSimNotFound(session))
 })
 
-#' @rdname removePackage
-setMethod("removePackage", signature(session = "missingOrNULL"), function(name, session, force) {
+#' @rdname uninstallPackage
+setMethod("uninstallPackage", signature(session = "missingOrNULL"), function(name, session, force) {
   session <- .session(session)
-  return(removePackage(name, session, force))
+  return(uninstallPackage(name, session, force))
 })
 
-#' @rdname removePackage
-setMethod("removePackage", signature(session = "Session"), function(name, session, force) {
+#' @rdname uninstallPackage
+setMethod("uninstallPackage", signature(session = "Session"), function(name, session, force) {
   installed <- package(session)
   success <- FALSE
   

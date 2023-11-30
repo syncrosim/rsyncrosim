@@ -110,7 +110,7 @@ Install `helloworldTime` using the `rynscrosim` function `installPackage()`. Thi
 ```{r remove package from server run, warning=FALSE, include=FALSE}
 installedPackages <- package()
 if (is.element(
-  "helloworldTime", installedPackages$name)) removePackage(
+  "helloworldTime", installedPackages$name)) uninstallPackage(
     "helloworldTime", force = TRUE)
 ```
 
@@ -141,7 +141,7 @@ time_pkg
 ```
 
 
-*Note:* you can also update installed packages using the `updatePackage()` function or delete installed packages using the `removePackage()` function in `rsyncrosim`.
+*Note:* you can also update installed packages using the `updatePackage()` function or delete installed packages using the `uninstallPackage()` function in `rsyncrosim`.
 
 
 ## Create a modeling workflow

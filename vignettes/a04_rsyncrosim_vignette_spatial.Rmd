@@ -74,7 +74,7 @@ Install `helloworldSpatial` using the `rynscrosim` function `installPackage()`. 
 ```{r remove package from server run, warning=FALSE, include=FALSE}
 installedPackages <- package()
 if (is.element(
-  "helloworldSpatial", installedPackages$name)) removePackage(
+  "helloworldSpatial", installedPackages$name)) uninstallPackage(
     "helloworldSpatial", force = TRUE)
 ```
 

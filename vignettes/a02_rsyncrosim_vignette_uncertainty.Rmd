@@ -72,7 +72,7 @@ Install `helloworldUncertainty` using the `rynscrosim` function `installPackage(
 ```{r remove package from server run, warning=FALSE, include=FALSE}
 installedPackages <- package()
 if (is.element(
-  "helloworldUncertainty", installedPackages$name)) removePackage(
+  "helloworldUncertainty", installedPackages$name)) uninstallPackage(
     "helloworldUncertainty", force = TRUE)
 ```
 

@@ -65,7 +65,7 @@ Install `stsim` using the `rsyncrosim` function `installPackage()`. This functio
 ```{r remove package from server, warning=FALSE, include=FALSE}
 installedPackages <- package()
 if (is.element(
-  "stsim", installedPackages$name)) removePackage(
+  "stsim", installedPackages$name)) uninstallPackage(
     "stsim", force = TRUE)
 ```
 
