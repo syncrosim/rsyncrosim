@@ -35,7 +35,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Install "stsim" if not already installed
-#' addPackage("stsim")
+#' installPackage("stsim")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib.ssim")

@@ -27,7 +27,7 @@ Enable \code{\link{addon}} package(s) of a \code{\link{SsimLibrary}}.
 \examples{
 \donttest{
 # Install "stsim" SyncroSim package
-addPackage("stsim")
+installPackage("stsim")
 
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")

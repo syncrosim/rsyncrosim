@@ -1,7 +1,7 @@
 #' Add module
 #'
 #' `r lifecycle::badge("deprecated")`
-#' Please use \code{\link{addPackage}} instead.
+#' Please use \code{\link{installPackage}} instead.
 #'
 #' @param filename character string or vector of these. The path to an .ssimpkg 
 #' file on disk, or a vector of filepaths.
@@ -11,14 +11,14 @@
 #' 
 #' @export
 addModule <- function(filename, session = NULL) {
-  lifecycle::deprecate_warn("1.2.11", "addModule()", "addPackage()")
-  addPackage(filename, session)
+  lifecycle::deprecate_warn("1.2.11", "addModule()", "installPackage()")
+  installPackage(filename, session)
 }
 
 #' Adds a package to SyncroSim
 #'
 #' `r lifecycle::badge("deprecated")`
-#' Please use \code{\link{addPackage}} instead.
+#' Please use \code{\link{installPackage}} instead.
 #'
 #' @param filename character string.  The path to a SyncroSim package file
 #' @param session \code{\link{Session}} object
@@ -26,9 +26,9 @@ addModule <- function(filename, session = NULL) {
 #' @keywords internal
 #' 
 #' @export
-addPackageFile <- function(filename, session = NULL) {
-  lifecycle::deprecate_warn("1.2.11", "addPackageFile()", "addPackage()")
-  addPackage(filename, session)
+installPackageFile <- function(filename, session = NULL) {
+  lifecycle::deprecate_warn("1.2.11", "installPackageFile()", "installPackage()")
+  installPackage(filename, session)
 }
 
 #' Installed base packages

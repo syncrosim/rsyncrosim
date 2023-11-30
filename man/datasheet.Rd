@@ -173,7 +173,7 @@ by \code{name} and \code{id}}
 \examples{
 \dontrun{
 # Install helloworldSpatial package from package server
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib_datasheet")

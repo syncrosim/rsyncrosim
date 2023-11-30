@@ -8,7 +8,7 @@ NULL
 #' This function installs a package to the SyncroSim \code{\link{Session}}.
 #' If only the package name is provided as input, the function queries the 
 #' SyncroSim package server for the specified package. If a file path is 
-#' provided as input, the function adds a package to SyncroSim from a local 
+#' provided as input, the function installs a package to SyncroSim from a local 
 #' package file (ends in ".ssimpkg"). The list of SyncroSim packages can be 
 #' found \href{https://syncrosim.com/packages/}{here}.
 #'
@@ -26,29 +26,29 @@ NULL
 #' # Create a new SyncroSim Session
 #' mySession <- session()
 #' 
-#' # Add package from the package server
-#' addPackage("stsim", session = mySession)
+#' # Install package from the package server
+#' installPackage("stsim", session = mySession)
 #' 
-#' # Add package using a local file path
-#' addPackage("c:/path/to/stsim.ssimpkg")
+#' # Install package using a local file path
+#' installPackage("c:/path/to/stsim.ssimpkg")
 #' }
 #' 
 #' @export
-setGeneric("addPackage", function(name, session = NULL) standardGeneric("addPackage"))
+setGeneric("installPackage", function(name, session = NULL) standardGeneric("installPackage"))
 
-#' @rdname addPackage
-setMethod("addPackage", signature(session = "character"), function(name, session) {
+#' @rdname installPackage
+setMethod("installPackage", signature(session = "character"), function(name, session) {
   return(SyncroSimNotFound(session))
 })
 
-#' @rdname addPackage
-setMethod("addPackage", signature(session = "missingOrNULL"), function(name, session) {
+#' @rdname installPackage
+setMethod("installPackage", signature(session = "missingOrNULL"), function(name, session) {
   session <- .session()
-  return(addPackage(name, session))
+  return(installPackage(name, session))
 })
 
-#' @rdname addPackage
-setMethod("addPackage", signature(session = "Session"), function(name, session) {
+#' @rdname installPackage
+setMethod("installPackage", signature(session = "Session"), function(name, session) {
   success <- FALSE
   
   if (is.null(name)) {

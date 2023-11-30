@@ -196,9 +196,9 @@ of package.</name></p></li>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Make sure packages are installed</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;stsim&gt; is already installed</span>
-<span class="r-in"><span><span class="fu"><a href="addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"stsimsf"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"stsimsf"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;stsimsf&gt; is already installed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create or open a SsimLibrary using the default Session</span></span></span>
@@ -224,7 +224,7 @@ of package.</name></p></li>
 <span class="r-in"><span>                         addon <span class="op">=</span> <span class="st">"stsimsf"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create SsimLibrary from template</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;helloworldSpatial&gt; is already installed</span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu">ssimLibrary</span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mylib"</span><span class="op">)</span>, </span></span>

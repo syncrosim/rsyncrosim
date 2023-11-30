@@ -67,10 +67,10 @@
     <loc>https://syncrosim.github.io/rsyncrosim/reference/addon.html</loc>
   </url>
   <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/reference/addPackage.html</loc>
+    <loc>https://syncrosim.github.io/rsyncrosim/reference/installPackage.html</loc>
   </url>
   <url>
-    <loc>https://syncrosim.github.io/rsyncrosim/reference/addPackageFile.html</loc>
+    <loc>https://syncrosim.github.io/rsyncrosim/reference/installPackageFile.html</loc>
   </url>
   <url>
     <loc>https://syncrosim.github.io/rsyncrosim/reference/addRow.html</loc>

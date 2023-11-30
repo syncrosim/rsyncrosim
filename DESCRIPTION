@@ -46,7 +46,7 @@ Suggests:
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
-    'addPackage.R'
+    'installPackage.R'
     'addRow.R'
     'addon.R'
     'autogentags.R'

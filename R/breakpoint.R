@@ -224,7 +224,7 @@ getBPNameLongForm <- function(breakpointType) {
 #' }
 #' 
 #' # Install helloworldSpatial package
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set SsimLibrary name
 #' myLibraryName <- file.path(tempdir(),"testlib")
@@ -290,7 +290,7 @@ setMethod("addBreakpoint", signature(x = "Scenario"), function(x, transformerNam
 #' }
 #' 
 #' # Install helloworldSpatial package
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set SsimLibrary name
 #' myLibraryName <- file.path(tempdir(),"testlib")
@@ -369,7 +369,7 @@ setMethod("deleteBreakpoint", signature(x = "Scenario"), function(x, transformer
 #' }
 #' 
 #' # Install helloworldSpatial package
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set SsimLibrary name
 #' myLibraryName <- file.path(tempdir(),"testlib")

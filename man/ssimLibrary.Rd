@@ -99,8 +99,8 @@ of package.}
 \examples{
 \donttest{
 # Make sure packages are installed
-addPackage("stsim")
-addPackage("stsimsf")
+installPackage("stsim")
+installPackage("stsimsf")
 
 # Create or open a SsimLibrary using the default Session
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
@@ -120,7 +120,7 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          addon = "stsimsf")
 
 # Create SsimLibrary from template
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,

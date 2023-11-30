@@ -42,7 +42,7 @@ NULL
 #' 
 #' # The SQL statement can then be used in the datasheet function
 #' # Install helloworldSpatial package
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib_sqlStatement")

@@ -24,7 +24,7 @@ Retrieves the run log of a result Scenario.
 \examples{
 \dontrun{
 # Install helloworldSpatial package
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")

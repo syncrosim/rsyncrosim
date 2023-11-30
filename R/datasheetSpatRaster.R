@@ -55,7 +55,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Install the helloworldSpatial package from the server
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib_datasheetSpatRaster")
@@ -107,7 +107,7 @@ NULL
 #'                  
 #' # Filter for only rasters that fit specific criteria
 #' # Load the ST-Sim spatial example library
-#' addPackage("stsim")
+#' installPackage("stsim")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib_stsim_datasheet")

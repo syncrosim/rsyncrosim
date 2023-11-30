@@ -35,7 +35,7 @@ setMethod(
     packageOptions <- package(session, installed = "BASE")
 
     if (nrow(packageOptions) == 0) {
-      stop("No base packages are installed.  Use addPackage() to install a package.")
+      stop("No base packages are installed.  Use installPackage() to install a package.")
     }
 
     if (identical(basename(name), name)) {
@@ -154,7 +154,7 @@ setMethod(
     tt <- command(args, session)
 
     if (grepl("Could not find package", tt[[1]])) {
-      stop(paste(tt[[1]], "Use addPackage() to install this package."))
+      stop(paste(tt[[1]], "Use installPackage() to install this package."))
     }
 
     if (grepl("The library has unapplied updates", tt[[1]])) {
@@ -309,8 +309,8 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @examples
 #' \donttest{
 #' # Make sure packages are installed
-#' addPackage("stsim")
-#' addPackage("stsimsf")
+#' installPackage("stsim")
+#' installPackage("stsimsf")
 #' 
 #' # Create or open a SsimLibrary using the default Session
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
@@ -330,7 +330,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'                          addon = "stsimsf")
 #' 
 #' # Create SsimLibrary from template
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
 #'                          session = mySession,

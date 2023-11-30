@@ -61,7 +61,7 @@ package(installed = FALSE)
 package(myLibrary)
 
 # Check the templates available for an installed package
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 package(listTemplates = "helloworldSpatial")
 }
 

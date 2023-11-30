@@ -7,8 +7,8 @@ dir.create(temp_dir)
 setwd(temp_dir)
 
 mySsim <- session()
-addPackage(session = mySsim, name = "stsimsf")
-addPackage(session = mySsim, name = "helloworld")
+installPackage(session = mySsim, name = "stsimsf")
+installPackage(session = mySsim, name = "helloworld")
 
 test_that("Tests of Session - assumes SyncroSim is installed", {
   skip_on_cran()

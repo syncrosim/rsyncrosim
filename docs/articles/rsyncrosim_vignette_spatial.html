@@ -145,14 +145,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>      <span class="co"># package for working with raster data</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
 </div>
-<div id="installing-syncrosim-packages-using-addpackage" class="section level3">
+<div id="installing-syncrosim-packages-using-installPackage" class="section level3">
 <h3 class="hasAnchor">
-<a href="#installing-syncrosim-packages-using-addpackage" class="anchor"></a>Installing SyncroSim packages using <code>addPackage()</code>
+<a href="#installing-syncrosim-packages-using-installPackage" class="anchor"></a>Installing SyncroSim packages using <code>installPackage()</code>
 </h3>
-<p>Install <code>helloworldSpatial</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
+<p>Install <code>helloworldSpatial</code> using the <code>rynscrosim</code> function <code><a href="../reference/installPackage.html">installPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install helloworldSpatial</span>
-<span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Package &lt;helloworldSpatial&gt; installed</code></pre>
 <p><code>helloworldSpatial</code> should now be included in the package list returned by the <code><a href="../reference/package.html">package()</a></code> function in <code>rsyncrosim</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">

@@ -65,9 +65,9 @@ Use the `version()` function to ensure you are using the latest version of Syncr
 version(mySession)
 ```
 
-### Installing SyncroSim packages using `addPackage()`
+### Installing SyncroSim packages using `installPackage()`
 
-Install `helloworldPipeline` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Install `helloworldPipeline` using the `rynscrosim` function `installPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r remove package from server run, warning=FALSE, include=FALSE}
 installedPackages <- package()
@@ -78,7 +78,7 @@ if (is.element(
 
 ```{r add package from server, warning = FALSE}
 # Install helloworldPipeline
-addPackage("helloworldPipeline")
+installPackage("helloworldPipeline")
 ```
 
 `helloworldPipeline` should now be included in the package list returned by the `package()` function in `rsyncrosim`:

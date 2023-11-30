@@ -25,7 +25,7 @@ NULL
 #' @examples
 #' \donttest{
 #' # Install the base package "stsim"
-#' addPackage("stsim")
+#' installPackage("stsim")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")

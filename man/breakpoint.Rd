@@ -26,7 +26,7 @@ callbackFunction <- function(x, iteration, timestep) {
 }
 
 # Install helloworldSpatial package
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 
 # Set SsimLibrary name
 myLibraryName <- file.path(tempdir(),"testlib")
