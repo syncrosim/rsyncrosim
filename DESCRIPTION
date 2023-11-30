@@ -46,7 +46,6 @@ Suggests:
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
-    'installPackage.R'
     'addRow.R'
     'addon.R'
     'autogentags.R'
@@ -60,7 +59,6 @@ Collate:
     'dateModified.R'
     'delete.R'
     'dependency.R'
-    'deprecated.R'
     'description.R'
     'disableAddon.R'
     'enableAddon.R'
@@ -70,6 +68,7 @@ Collate:
     'ignoreDependencies.R'
     'info.R'
     'installConda.R'
+    'installPackage.R'
     'internalHelpers.R'
     'name.R'
     'scenarioId.R'

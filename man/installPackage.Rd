@@ -30,7 +30,7 @@ install) and \code{FALSE} upon failure.
 This function installs a package to the SyncroSim \code{\link{Session}}.
 If only the package name is provided as input, the function queries the
 SyncroSim package server for the specified package. If a file path is
-provided as input, the function adds a package to SyncroSim from a local
+provided as input, the function installs a package to SyncroSim from a local
 package file (ends in ".ssimpkg"). The list of SyncroSim packages can be
 found \href{https://syncrosim.com/packages/}{here}.
 }
@@ -39,10 +39,10 @@ found \href{https://syncrosim.com/packages/}{here}.
 # Create a new SyncroSim Session
 mySession <- session()
 
-# Add package from the package server
+# Install package from the package server
 installPackage("stsim", session = mySession)
 
-# Add package using a local file path
+# Install package using a local file path
 installPackage("c:/path/to/stsim.ssimpkg")
 }
 
