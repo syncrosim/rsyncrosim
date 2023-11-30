@@ -46,6 +46,7 @@ Suggests:
 SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
+    'addPackage.R'
     'addRow.R'
     'autogentags.R'
     'backup.R'
@@ -59,8 +60,6 @@ Collate:
     'delete.R'
     'dependency.R'
     'description.R'
-    'disableAddon.R'
-    'enableAddon.R'
     'filepath.R'
     'folder.R'
     'folderId.R'
@@ -86,6 +85,7 @@ Collate:
     'printCmd.R'
     'published.R'
     'readOnly.R'
+    'removePackage.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'

@@ -54,25 +54,8 @@ test_that("Tests of Library - assumes SyncroSim is installed", {
   expect_equal(file.exists(filepath(myLibrary)), TRUE)
   expect_equal(name(myLibrary), "SSimLibrary")
   
-  # With addons
-  expect_equal(nrow(subset(addon(myLibrary), enabled)), 0)
-  allAdds <- addon(myLibrary)
-  expect_equal(names(allAdds), c("name", "description", "enabled", "currentVersion", "minimumVersion"))
-  expect_equal(names(addon(mySsim)), c("name", "description", "version", "extends"))
+  # Test delete
   expect_equal(delete(myLibrary, force = TRUE), TRUE)
-  
-  allAdds <- subset(allAdds, name != "stsim-cbm") # Requires stsim-stockflow to be added first
-  
-  if (nrow(allAdds) > 0) {
-    cAdd <- allAdds$name[1]
-    # TODO Fails to detect stsimsf is installed => potential bug with console
-    myLibrary <- ssimLibrary(name = "NewLibrary", addon = c(cAdd), session = mySsim)
-    expect_equal(subset(addon(myLibrary), enabled)$name, cAdd)
-    expect_equal(disableAddon(myLibrary, cAdd)[[cAdd]], TRUE)
-    expect_equal(nrow(subset(addon(myLibrary), enabled)), 0)
-    expect_equal(enableAddon(myLibrary, cAdd)[[cAdd]], TRUE)
-    expect_equal(subset(addon(myLibrary), enabled)$name, cAdd)
-  }
   
   # Get/set the various properties of the library
   expect_is("session<-"(myLibrary, mySsim), "SsimLibrary")
