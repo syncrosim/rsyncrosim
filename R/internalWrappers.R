@@ -15,7 +15,6 @@ NULL
 #' @include scenarioId.R
 #' @include folderId.R
 #' @include filepath.R
-#' @include addon.R
 #' @include datasheet.R
 #' @include internalHelpers.R
 #' @include name.R
@@ -38,8 +37,6 @@ NULL
 .folder <- folder
 # @export
 .scenario <- scenario
-# @export
-.addon <- addon
 # @export
 .datasheet <- datasheet
 # @export

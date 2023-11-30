@@ -47,7 +47,6 @@ SystemRequirements: SyncroSim (>=2.3.10)
 Collate: 
     'AAAClassDefinitions.R'
     'addRow.R'
-    'addon.R'
     'autogentags.R'
     'backup.R'
     'breakpoint.R'
