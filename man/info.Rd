@@ -18,8 +18,8 @@ object.
 }
 \description{
 Retrieves some basic metadata about a SsimLibrary: Name, Owner, Last Modified,
-Size, Read Only, Package Name, Package Description, Current Package Version,
-Minimum Package Version, External input files, External output files,
+Size, Read Only, Package Names, Package Description, Current Package Versions,
+Minimum Package Versions, External input files, External output files,
 Temporary files, Backup files.
 }
 \examples{

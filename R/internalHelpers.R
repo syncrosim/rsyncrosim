@@ -46,12 +46,12 @@ backupEnabled <- function(path) {
 deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL, cProjName = NULL, cScnName = NULL, out = list(), force) {
   out <- list()
   lib = ssimLibrary(.filepath(x), summary=T)
-  pkg = lib$value[lib$property == "Package Name:"]
   
   for (j in seq(length.out = length(datasheet))) {
     cName <- datasheet[j]
     
     if (!grepl("_", cName, fixed = TRUE)) {
+      pkg = lib$value[lib$property == "Package Names:"][1]
       cName <- paste0(pkg, "_", cName)
     }
     
@@ -174,16 +174,6 @@ getProjectSet <- function(ssimObject) {
 createCondaEnv <- function(libPath, currentPackages, session) {
   
   message("Creating Conda environments. Please wait...")
-  
-  # Check if Conda is installed
-  # tt <- command(list(conda = NULL, config = NULL), session)
-  # if (identical(tt, "No Conda configuration yet.")){
-  #   tt <- command(list(setprop = NULL,
-  #                      lib = libPath,
-  #                      useconda = "no"), session)
-  #   message("Conda must be installed to use Conda environments.")
-  #   return(TRUE)
-  # }
   
   # Check if environment needs to be created, create if doesn't exist yet
   for (package in currentPackages) {

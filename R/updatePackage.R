@@ -71,7 +71,7 @@ setMethod("updatePackage", signature(session = "Session"), function(name, sessio
       return(invisible(success))
     }
   } else {
-    installed <- package(session)
+    installed <- packages(session)
     
     if (!is.element(name, installed$name)) {
       message(paste(name, ": The package is not installed."))

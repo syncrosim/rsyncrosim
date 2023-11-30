@@ -5,14 +5,15 @@ NULL
 
 #' Installed or available packages
 #'
-#' Retrieves the packages installed or available for this version of SyncroSim.
+#' Retrieves the packages installed or available in the current session if 
+#' called on a \code{\link{Session}} object, or the packages added to a 
+#' SyncroSim Library if called on a \code{\link{SsimLibrary}} object.
 #'
 #' @param ssimObject \code{\link{Session}} or 
 #' \code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
 #' will be used
-#' @param installed logical or character. \code{TRUE} (default) to list installed packages, 
-#' \code{FALSE} to list available packages, and "BASE" to list installed base 
-#' packages
+#' @param installed logical or character. \code{TRUE} (default) to list 
+#' installed packages or \code{FALSE} to list available packages on the server
 #' @param listTemplates character. Name of a SyncroSim package. If not \code{NULL} 
 #' (default), then lists all templates available for that package. The package
 #' must be installed in the current Session. Ignored if ssimObject is a 
@@ -32,47 +33,43 @@ NULL
 #' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' 
 #' # List all installed packages
-#' package(mySession)
+#' packages(mySession)
 #' 
 #' # List all the installed base packages
-#' package(installed = "BASE")
+#' packages(installed = "BASE")
 #' 
 #' # List all available packages on the server (including currently installed)
-#' package(installed = FALSE)
+#' packages(installed = FALSE)
 #'  
-#' # Check the package you're SsimLibrary is currently using
-#' package(myLibrary)
+#' # Check the package(s) in your SsimLibrary
+#' packages(myLibrary)
 #' 
 #' # Check the templates available for an installed package
 #' installPackage("helloworldSpatial")
-#' package(listTemplates = "helloworldSpatial")
+#' packages(listTemplates = "helloworldSpatial")
 #' }
 #' 
 #' @export
-setGeneric("package", function(ssimObject = NULL, installed = TRUE, listTemplates = NULL) standardGeneric("package"))
+setGeneric("packages", function(ssimObject = NULL, installed = TRUE, listTemplates = NULL) standardGeneric("packages"))
 
-#' @rdname package
-setMethod("package", signature(ssimObject = "character"), function(ssimObject, installed = TRUE, listTemplates) {
+#' @rdname packages
+setMethod("packages", signature(ssimObject = "character"), function(ssimObject, installed = TRUE, listTemplates) {
   return(SyncroSimNotFound(ssimObject, installed))
 })
 
-#' @rdname package
-setMethod("package", signature(ssimObject = "missingOrNULL"), function(ssimObject, installed = TRUE, listTemplates) {
+#' @rdname packages
+setMethod("packages", signature(ssimObject = "missingOrNULL"), function(ssimObject, installed = TRUE, listTemplates) {
   ssimObject <- .session()
-  return(package(ssimObject, installed, listTemplates))
+  return(packages(ssimObject, installed, listTemplates))
 })
 
-#' @rdname package
-setMethod("package", signature(ssimObject = "Session"), function(ssimObject, installed = TRUE, listTemplates) {
+#' @rdname packages
+setMethod("packages", signature(ssimObject = "Session"), function(ssimObject, installed = TRUE, listTemplates) {
   if (is.null(listTemplates)) {
     arg <- "installed"
   
     if (installed == FALSE) {
       arg <- "available"
-    }
-    
-    if (installed == "BASE") {
-      arg <- "basepkgs"
     }
     
     if (is.logical(installed)) {
@@ -119,11 +116,11 @@ setMethod("package", signature(ssimObject = "Session"), function(ssimObject, ins
   }
 })
 
-#' @rdname package
-setMethod("package", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
+#' @rdname packages
+setMethod("packages", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
   oInf <- info(ssimObject)
   property <- NULL
-  out <- data.frame(name = subset(oInf, property == "Package Name:")$value)
+  out <- data.frame(name = subset(oInf, property == "Package Names:")$value)
   out$description <- subset(oInf, property == "Package Description:")$value
   out$version <- subset(oInf, property == "Current Package Version:")$value
   return(out)

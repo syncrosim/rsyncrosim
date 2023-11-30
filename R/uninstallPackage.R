@@ -40,7 +40,7 @@ setMethod("uninstallPackage", signature(session = "missingOrNULL"), function(nam
 
 #' @rdname uninstallPackage
 setMethod("uninstallPackage", signature(session = "Session"), function(name, session, force) {
-  installed <- package(session)
+  installed <- packages(session)
   success <- FALSE
   
   if (!is.element(name, installed$name)) {

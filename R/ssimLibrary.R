@@ -32,10 +32,10 @@ setMethod(
       stop("A library name is required.")
     }
 
-    packageOptions <- package(session, installed = "BASE")
+    packageOptions <- packages(session, installed = TRUE)
 
     if (nrow(packageOptions) == 0) {
-      stop("No base packages are installed.  Use installPackage() to install a package.")
+      stop("No packages are installed.  Use installPackage() to install a package.")
     }
 
     if (identical(basename(name), name)) {
@@ -62,7 +62,7 @@ setMethod(
       }
 
       if (!is.element(package, packageOptions$name)) {
-        stop(paste(package, "not a base package. Use package(installed = \"BASE\") to see options."))
+        stop(paste(package, "not currently installed. Use package(installed = TRUE) to see options."))
       }
       
       pathBits <- strsplit(path, "/")[[1]]
@@ -99,7 +99,7 @@ setMethod(
         baseTemplateExists <- baseTemplate %in% baseTempsDataframe$Name
         
         if (!baseTemplateExists & !is.null(addon)) {
-          allPackageOptions <- package(session)
+          allPackageOptions <- packages(session)
           args <- list(list = NULL, templates = NULL,
                        package = allPackageOptions$name[allPackageOptions$name == addon],
                        csv = NULL)
@@ -203,10 +203,10 @@ setMethod(
       }
 
       if (!exists("packageOptions")) {
-        packageOptions <- package(session, installed = "BASE")
+        packageOptions <- packages(session, installed = TRUE)
       }
       expectedPackage <- packageOptions$name[packageOptions$name == package]
-      if (!grepl(expectedPackage, tt$value[tt$property == "Package Name:"])) {
+      if (!grepl(expectedPackage, tt$value[tt$property == "Package Names:"])) { #TODO: this is probably broken now
         stop(paste0("A library of that name and a different package type ", tt$value[tt$property == "Name:"], " already exists."))
       }
     }

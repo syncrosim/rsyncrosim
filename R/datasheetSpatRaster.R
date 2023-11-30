@@ -215,7 +215,7 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
   
   if (!grepl("_", datasheet, fixed = )) {
     l = ssimLibrary(.filepath(ssimObject), summary=T)
-    p = l$value[l$property == "Package Name:"]
+    p = l$value[l$property == "Package Names:"][1] #TODO: test
     datasheet <- paste0(p, "_", datasheet)
   }
   

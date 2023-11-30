@@ -66,8 +66,8 @@ setMethod("installPackage", signature(session = "Session"), function(name, sessi
       }
     }
   } else {
-    packages <- package(session)
-    if (is.element(name, packages$name)) {
+    pkgs <- packages(session)
+    if (is.element(name, pkgs$name)) {
       tt <- (paste0("Package <", name, "> is already installed"))
     } else {
       tt <- command(args = list(install = name), session, program = "SyncroSim.PackageManager.exe")

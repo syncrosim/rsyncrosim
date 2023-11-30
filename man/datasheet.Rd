@@ -142,7 +142,7 @@ console, or by directly querying the \code{\link{SsimLibrary}} database.
 }
 \details{
 If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the
-Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{package},
+Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{packages},
 \code{name}, \code{displayName}, \code{isSingle}, \code{isOutput}, \code{data}. data only displayed for
 a SyncroSim \code{\link{Scenario}}. \code{dataInherited} and \code{dataSource} columns
 added if a Scenario has dependencies. If \code{optional=FALSE}, columns include:

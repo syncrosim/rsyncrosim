@@ -79,7 +79,7 @@ Collate:
     'internalWrappers.R'
     'mergeDependencies.R'
     'owner.R'
-    'package.R'
+    'packages.R'
     'parentId.R'
     'print.R'
     'printCmd.R'
