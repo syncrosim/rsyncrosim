@@ -118,10 +118,12 @@ setMethod("packages", signature(ssimObject = "Session"), function(ssimObject, in
 
 #' @rdname packages
 setMethod("packages", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
-  oInf <- info(ssimObject)
-  property <- NULL
-  out <- data.frame(name = subset(oInf, property == "Package Names:")$value)
-  out$description <- subset(oInf, property == "Package Description:")$value
-  out$version <- subset(oInf, property == "Current Package Version:")$value
+  
+  browser()
+  # Retrieve list of packages in library
+  args <- list(list = NULL, pkgvers = NULL, lib = filepath(ssimObject))
+  tt <- command(args, program = "SyncroSim.Console.exe")
+  out <- .dataframeFromSSim(tt, csv = F)
+  
   return(out)
 })

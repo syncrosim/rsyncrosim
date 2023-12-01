@@ -6,6 +6,7 @@ NULL
 setMethod(
   f = "initialize", signature = "SsimLibrary",
   definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
+    
     enabled <- NULL
     if (is.null(session)) {
       e <- ssimEnvironment()
@@ -34,6 +35,7 @@ setMethod(
 
     packageOptions <- packages(session, installed = TRUE)
 
+    # TODO: remove - no longer need to have packages to create a library
     if (nrow(packageOptions) == 0) {
       stop("No packages are installed.  Use installPackage() to install a package.")
     }
@@ -56,31 +58,33 @@ setMethod(
 
     # If library does not exist, create it
     if (!file.exists(path)) {
-      
-      if (is.null(package)){
-        package <- "stsim"        
-      }
 
-      if (!is.element(package, packageOptions$name)) {
+      if (!is.null(package) && !is.element(package, packageOptions$name)) {
         stop(paste(package, "not currently installed. Use package(installed = TRUE) to see options."))
       }
       
       pathBits <- strsplit(path, "/")[[1]]
       dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = FALSE)
 
+      #TODO: remove this - what is this even doing???
       if (!exists("packageOptions")) {
         packageOptions <- package(session, installed = "BASE")
       }
       
       # If no template specified, create an empty library
       if (is.null(template)) {
-        args <- list(create = NULL, library = NULL, name = path, package = packageOptions$name[packageOptions$name == package])
+        args <- list(create = NULL, library = NULL, name = path)
+        if (!is.null(package)){
+          args <- append(args, package = package)
+        }
         cStatus <- command(args, session)
         if (cStatus[1] != "saved") {
           stop("Problem creating library: ", cStatus[1])
         }
       }
       
+      #TODO: fix this - no longer base and addon packages, just go through all 
+      # available packages that are not "core"
       # If template specified, create library from template
       if (is.character(template)) {
         
@@ -153,6 +157,7 @@ setMethod(
     args <- c("list", "datasheets", "csv", paste0("lib=", path))
     tt <- command(args, session)
 
+    # TODO: remove this 
     if (grepl("Could not find package", tt[[1]])) {
       stop(paste(tt[[1]], "Use installPackage() to install this package."))
     }
