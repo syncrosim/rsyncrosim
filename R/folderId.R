@@ -52,7 +52,8 @@ setMethod("folderId", signature(ssimObject = "Folder"), function(ssimObject) {
 })
 #' @rdname folderId
 setMethod("folderId", signature(ssimObject = "Scenario"), function(ssimObject) {
-  parentFolderId <- getParentFolderId(ssimObject, ssimObject@scenarioId)
+  parentFolderId <- getParentFolderId(ssimObject, ssimObject@scenarioId, 
+                                      item="Scenario")
   folderInfo <- getFolderData(ssimObject)
   if (!parentFolderId %in% folderInfo$FolderID){
     parentFolderId <- NA
