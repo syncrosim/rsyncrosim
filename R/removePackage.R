@@ -49,13 +49,14 @@ setMethod("removePackage", signature(ssimLibrary = "character"), function(ssimLi
 
 #' @rdname removePackage
 setMethod("removePackage", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, name) {
-  cAdds <- subset(addon(ssimLibrary))
+  libraryPkgs <- subset(packages(ssimLibrary))
   retList <- list()
 
   for (i in seq(length.out = length(name))) {
     cVal <- name[i]
-    if (!is.element(cVal, cAdds$name)) {
-      print(paste0("Warning - ", cVal, " is not among the available packages: ", paste(cAdds$name, collapse = ",")))
+    if (!is.element(cVal, libraryPkgs$name)) {
+      print(paste0("Warning - ", cVal, " is not among the available packages: ", 
+                   paste(libraryPkgs$name, collapse = ",")))
       retList[[cVal]] <- FALSE
       next
     }

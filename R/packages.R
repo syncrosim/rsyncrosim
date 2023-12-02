@@ -123,7 +123,7 @@ setMethod("packages", signature(ssimObject = "SsimLibrary"), function(ssimObject
   #TODO: change to --packages when update to next version of SyncroSim v3 
   args <- list(list = NULL, pkgvers = NULL, lib = filepath(ssimObject), csv = NULL)
   tt <- command(args, program = "SyncroSim.Console.exe", 
-                progName=filepath(session(ssimObject)))
+                progName=filepath(.session(ssimObject)))
   out <- .dataframeFromSSim(tt, csv = T)
   
   return(out)

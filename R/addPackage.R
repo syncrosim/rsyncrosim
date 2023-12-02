@@ -49,17 +49,26 @@ setMethod("addPackage", signature(ssimLibrary = "character"), function(ssimLibra
 
 #' @rdname addPackage
 setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, name) {
-  cAdds <- packages(ssimLibrary)
+  sessionPkgs <- packages(.session(ssimLibrary))
+  libraryPkgs <- packages(ssimLibrary)
   retList <- list()
   for (i in seq(length.out = length(name))) {
     cVal <- name[i]
-    if (!is.element(cVal, cAdds$name)) {
-      print(paste0("Warning - ", cVal, " is not among the available packages: ", paste(cAdds$name, collapse = ",")))
+    if (is.element(cVal, libraryPkgs$name)){
+      print(paste0(cVal, " has already been added to the ssimLibrary"))
+      retList[[cVal]] <- FALSE
+      next
+    }
+    
+    if (!is.element(cVal, sessionPkgs$name)) {
+      print(paste0("Warning - ", cVal, " is not among the available packages: ", 
+                   paste(sessionPkgs$name, collapse = ",")))
       retList[[cVal]] <- FALSE
       next
     }
 
-    tt <- command(list(add = NULL, package = NULL, lib = .filepath(ssimLibrary), pkg = cVal), .session(ssimLibrary))
+    tt <- command(list(add = NULL, package = NULL, lib = .filepath(ssimLibrary), 
+                       pkg = cVal), .session(ssimLibrary))
     if (tt == "saved"){
       message(paste0("Package <", cVal, "> added"))
       retList[[cVal]] <- TRUE
