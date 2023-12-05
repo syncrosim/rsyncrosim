@@ -154,7 +154,7 @@ saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
               
 # Save a raster stack using fileData
 # Create a raster stack - add as many raster files as you want here
-map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
+map1 <- datasheetSpatRaster(myScenario, datasheet = "InputDatasheet",
                         column = "InterceptRasterFile")
 inRasters <- terra::rast(map1)
 
