@@ -69,7 +69,7 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"), function(ssimLib
 
     tt <- command(list(add = NULL, package = NULL, lib = .filepath(ssimLibrary), 
                        pkg = cVal), .session(ssimLibrary))
-    if (tt == "saved"){
+    if (tt[1] == "saved"){
       message(paste0("Package <", cVal, "> added"))
       retList[[cVal]] <- TRUE
     } else {

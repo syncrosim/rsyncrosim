@@ -50,6 +50,7 @@ setMethod("installPackage", signature(session = "missingOrNULL"), function(name,
 #' @rdname installPackage
 setMethod("installPackage", signature(session = "Session"), function(name, session) {
   success <- FALSE
+  progName <- "SyncroSim.PackageManager.exe"
   
   if (is.null(name)) {
     stop("A package name or file path is required")
@@ -58,20 +59,29 @@ setMethod("installPackage", signature(session = "Session"), function(name, sessi
   if (grepl(".ssimpkg", name)) {
     if (!file.exists(name)) {
       tt <- paste0("Cannot find file: ", name)
-    } else{
-      tt <- command(args = list(finstall = name), session, program = "SyncroSim.PackageManager.exe")
+    } else {
+      tt <- command(args = list(finstall = name), session, program = progName)
       if (tt == "saved"){
         success <- TRUE
         tt <- paste0("Package installed from file <", name, ">")
       }
+    }
+  } else if (dir.exists(name)){
+    if (!file.exists(file.path(name, "package.xml"))){
+      tt <- paste0("Package folder is not valid")
+    }
+    tt <- command(args = list(xinstall = name), session, program = progName)
+    if (tt[1] == "saved"){
+      success <- TRUE
+      tt <- paste0("Package installed from folder <", name, ">")
     }
   } else {
     pkgs <- packages(session)
     if (is.element(name, pkgs$name)) {
       tt <- (paste0("Package <", name, "> is already installed"))
     } else {
-      tt <- command(args = list(install = name), session, program = "SyncroSim.PackageManager.exe")
-      if (tt == "saved"){
+      tt <- command(args = list(install = name), session, program = progName)
+      if (tt[1] == "saved"){
         tt <- paste0("Package <", name, "> installed")
         success <- TRUE
       }

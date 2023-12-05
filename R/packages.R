@@ -76,12 +76,13 @@ setMethod("packages", signature(ssimObject = "Session"), function(ssimObject, in
       tt <- command(c(arg), ssimObject, program = "SyncroSim.PackageManager.exe")
       
       if (tt[1] == "saved") {
-        out <- data.frame(name = NA, displayName = NA, version = NA)
-        out <- subset(out, !is.na(name))
+        # out <- data.frame(name = NA, displayName = NA, version = NA)
+        out <- subset(out, !is.na(Name))
       } else if (grepl("The remote name could not be resolved", tt[1])) {
         out <- "Could not connect to the package server."
       } else {
-        out <- .dataframeFromSSim(tt, colNames = c("name", "description", "version"), csv = FALSE)
+        # out <- .dataframeFromSSim(tt, colNames = c("name", "description", "version"), csv = FALSE)
+        out <- .dataframeFromSSim(tt, csv = FALSE)
       }
       return(out)
     } else {
@@ -95,20 +96,22 @@ setMethod("packages", signature(ssimObject = "Session"), function(ssimObject, in
       # Make sure package is installed
       pkgList <- command(c("installed"), ssimObject,
                          program = "SyncroSim.PackageManager.exe")
-      pkgDf <- .dataframeFromSSim(pkgList,
-                                  colNames = c("name", "description", "version"),
-                                  csv = FALSE)
-      if (listTemplates %in% pkgDf$name == FALSE) {
+      # pkgDf <- .dataframeFromSSim(pkgList,
+      #                             colNames = c("name", "description", "version"),
+      #                             csv = FALSE)
+      pkgDf <- .dataframeFromSSim(pkgList, csv = FALSE)
+      if (listTemplates %in% pkgDf$Name == FALSE) {
         stop("SyncroSim package not installed")
       }
       
       # Retrieve list of templates
       args <- list(list = NULL, templates = NULL, noheaders = NULL,
                    package = listTemplates)
-      tt <- command(args, program = "SyncroSim.Console.exe")
-      out <- .dataframeFromSSim(tt,
-                                colNames =c("name", "displayName", "installed"),
-                                csv = F)
+      tt <- command(args, ssimObject, program = "SyncroSim.Console.exe")
+      # out <- .dataframeFromSSim(tt,
+      #                           colNames =c("name", "displayName", "installed"),
+      #                           csv = F)
+      out <- .dataframeFromSSim(tt, csv = F)
       return(out)
     } else {
       stop("listTemplates must be a character name of a SyncroSim Package")
@@ -120,10 +123,8 @@ setMethod("packages", signature(ssimObject = "Session"), function(ssimObject, in
 setMethod("packages", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
   
   # Retrieve list of packages in library
-  #TODO: change to --packages when update to next version of SyncroSim v3 
-  args <- list(list = NULL, pkgvers = NULL, lib = filepath(ssimObject), csv = NULL)
-  tt <- command(args, program = "SyncroSim.Console.exe", 
-                progName=filepath(.session(ssimObject)))
+  args <- list(list = NULL, packages = NULL, lib = filepath(ssimObject), csv = NULL)
+  tt <- command(args, .session(ssimObject), program = "SyncroSim.Console.exe")
   out <- .dataframeFromSSim(tt, csv = T)
   
   return(out)

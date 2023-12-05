@@ -55,7 +55,7 @@ setMethod("uninstallPackage", signature(session = "Session"), function(name, ses
   
   if (answer == "y") {
     tt <- command(args = list(uninstall = name), session, program = "SyncroSim.PackageManager.exe")
-    if (tt == "saved"){
+    if (tt[1] == "saved"){
       tt <- paste0("Package <", name,"> removed")
       success <- TRUE
     } 
