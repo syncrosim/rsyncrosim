@@ -7,8 +7,8 @@ setMethod(
   f = "initialize", signature = "SsimLibrary",
   definition = function(.Object, name = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
     
-    browser()
     enabled <- NULL
+    
     if (is.null(session)) {
       e <- ssimEnvironment()
       if (!is.na(e$ProgramDirectory)) {
@@ -96,7 +96,7 @@ setMethod(
           # Load template
           args <- list(create = NULL, library = NULL, name = path,
                        pkg = templatePkg,
-                       template = template)
+                       template = pkgTemplate)
           cStatus <- command(args, session)
           
           if (grepl(cStatus[1], "Creating Library from Template")) {
@@ -108,7 +108,7 @@ setMethod(
           tt <- command(args, session)
           tempScenarios <- read.csv(text = tt)
           message(paste(c("Scenarios available in this template:",
-                          tempScenarios$Name), collapse = "    "))
+                          tempScenarios$Name), collapse = "\n"))
         } else {
           stop(paste(template, "does not exist among packages selected:", packages))
         } 
@@ -311,11 +311,15 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
   
   # Add specified packages to the library
   packageOptions <- .packages(session, installed = TRUE)
+  addedPackages <- .packages(newLib)
   
   if (!is.null(packages)) {
     for (pkg in packages){
       if (!is.null(pkg) && !is.element(pkg, packageOptions$name)) {
         stop(paste(pkg, "not currently installed. Use packages(session, installed = TRUE) to see options."))
+      }
+      if (pkg %in% addedPackages$name){
+        next
       }
       addPackage(newLib, pkg)
     }
