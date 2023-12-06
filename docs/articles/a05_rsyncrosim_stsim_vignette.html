@@ -696,7 +696,7 @@ but with a harvest level of 20 acres/year.</p>
 <code class="sourceCode R"><span><span class="co"># View the transition targets for the Harvest and No Harvest scenarios</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Harvest"</span>, <span class="st">"No Harvest"</span><span class="op">)</span>, </span>
 <span>          name <span class="op">=</span> <span class="st">"stsim_TransitionTarget"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   ScenarioID ProjectID ScenarioName ParentID ParentName TransitionGroupID</span></span>
+<pre><code><span><span class="co">##   ScenarioId ProjectId ScenarioName ParentId ParentName TransitionGroupID</span></span>
 <span><span class="co">## 1          2         1   No Harvest       NA       &lt;NA&gt;           Harvest</span></span>
 <span><span class="co">## 2          3         1      Harvest       NA       &lt;NA&gt;           Harvest</span></span>
 <span><span class="co">##   Amount</span></span>
@@ -736,9 +736,9 @@ Scenario</em>.</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve Scenario IDs</span></span>
 <span><span class="va">resultIDNoHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
-<span>                            <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span></span>
+<span>                            <span class="va">ParentId</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioId</span></span>
 <span><span class="va">resultIDHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
-<span>                          <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenarioHarvest</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span></span></code></pre></div>
+<span>                          <span class="va">ParentId</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenarioHarvest</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioId</span></span></code></pre></div>
 <p>We can now retrieve tabular output regarding the projected State
 Class over time (for both scenarios combined) from the
 <code>stsim_OutputStratumState</code> Datasheet.</p>

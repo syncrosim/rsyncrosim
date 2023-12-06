@@ -507,9 +507,9 @@ The next step is to view the output Datasheets added to the Result Scenario when
 ```{r}
 # Retrieve Scenario IDs
 resultIDNoHarvest <- subset(myResultScenario, 
-                            ParentID == scenarioId(myScenario))$ScenarioID
+                            ParentId == scenarioId(myScenario))$ScenarioId
 resultIDHarvest <- subset(myResultScenario, 
-                          ParentID == scenarioId(myScenarioHarvest))$ScenarioID
+                          ParentId == scenarioId(myScenarioHarvest))$ScenarioId
 ```
 
 We can now retrieve tabular output regarding the projected State Class over time (for both scenarios combined) from the `stsim_OutputStratumState` Datasheet.

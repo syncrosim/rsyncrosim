@@ -185,7 +185,7 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "SsimObject"), function(
     missingScns <- setdiff(scenario, scnSet$Name)
   }
   if (is.numeric(scenario)) {
-    missingScns <- setdiff(scenario, scnSet$ScenarioID)
+    missingScns <- setdiff(scenario, scnSet$ScenarioId)
   }
   if (length(missingScns) > 0) {
     stop("Scenarios not found in ssimObject: ", paste(missingScns, collapse = ","))
@@ -213,10 +213,8 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
     warning("scenario argument is ignored when ssimObject is a scenario.")
   }
   
-  if (!grepl("_", datasheet, fixed = )) {
-    l = ssimLibrary(.filepath(ssimObject), summary=T)
-    p = l$value[l$property == "Package Names:"][1] #TODO: test
-    datasheet <- paste0(p, "_", datasheet)
+  if (!grepl("_", datasheet, fixed = T)) {
+    stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
   }
   
   if (grepl("STSim_", datasheet, fixed = TRUE)) {

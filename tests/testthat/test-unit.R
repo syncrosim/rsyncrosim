@@ -92,15 +92,15 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   myOtherScn <- scenario(myOtherLibProj, scenario = "other")
   
   expect_is(myOtherScn, "Scenario")
-  expect_equal(scenario(myOtherLib)$ScenarioID, 1)
+  expect_equal(scenario(myOtherLib)$ScenarioId, 1)
   ret <- delete(myOtherLib, scenario = "other", force = TRUE)
   expect_equal(nrow(scenario(myOtherLib)), 0)
   myOtherScn <- scenario(myOtherLib, scenario = "other2")
   
-  expect_equal(names(project(myOtherLib)), c("ProjectID", "Name", "Owner",
+  expect_equal(names(project(myOtherLib)), c("ProjectId", "Name", "Owner",
                                              "DateLastModified", "IsReadOnly"))
-  expect_equal(names(scenario(myOtherLib)), c("ScenarioID", "ProjectID", "Name",
-                                              "IsResult", "ParentID", "Owner",
+  expect_equal(names(scenario(myOtherLib)), c("ScenarioId", "ProjectId", "Name",
+                                              "IsResult", "ParentId", "Owner",
                                               "DateLastModified", "IsReadOnly",
                                               "MergeDependencies",
                                               "IgnoreDependencies",
@@ -125,7 +125,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   
   expect_error(scenario(myLib, scenario = "one"), "The ssimObject contains more than one scenario called one. Specify a scenario id: 1,2", fixed = TRUE) # Fails because now there are two scenarios called "one" in the library.
   myScn <- scenario(myProject, scenario = "one", overwrite = TRUE) # Overwrites existing scenario, assigns new id.
-  expect_equal(scenario(myLib)$ScenarioID, c(1, 3))
+  expect_equal(scenario(myLib)$ScenarioId, c(1, 3))
   myScn <- scenario(myProject, scenario = "two", overwrite = TRUE, sourceScenario = 1) # Can copy scenarios between projects.
   expect_equal(projectId(myScn), 14)
   myScn <- scenario(myProject, scenario = "other", overwrite = TRUE, sourceScenario = myOtherScn) # Can copy scenarios between libraries if sourceScenario is a scenario object.
@@ -154,7 +154,7 @@ test_that("Tests of projects and scenarios - assumes SyncroSim is installed", {
   allScns <- scenario(myProject, summary = FALSE)
   expect_equal(names(allScns), c("4", "5", "6"))
   
-  expect_equal(is.element("ScenarioID", names(datasheet(myLib, c("RunControl", "OutputOptions"), scenario = as.numeric(names(allScns)))[[1]])), TRUE) # returns a list - each sheet contains scenario info if appropriate
+  expect_equal(is.element("ScenarioId", names(datasheet(myLib, c("RunControl", "OutputOptions"), scenario = as.numeric(names(allScns)))[[1]])), TRUE) # returns a list - each sheet contains scenario info if appropriate
   
   expect_equal(length(datasheet(allScns, c("RunControl", "OutputOptions"))), 2) # returns a list - each sheet contains scenario info if appropriate
   

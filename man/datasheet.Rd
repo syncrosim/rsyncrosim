@@ -159,14 +159,14 @@ console command)}.
 and the optional argument is ignored. Fast (1 less console command).}
 \item {If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}}
 objects (output from \code{\link{run}}, \code{\link{Scenario}} or
-\code{\link{Project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
-\item {If Scenario/Project is a vector: }{Adds ScenarioID/ProjectID column
+\code{\link{Project}}): }{Adds ScenarioId/ProjectId column if appropriate.}
+\item {If Scenario/Project is a vector: }{Adds ScenarioId/ProjectId column
 as necessary.}
 \item {If requested Datasheet has Scenario scope and contains info from more
-than one Scenario: }{ScenarioID/ScenarioName/ScenarioParent columns
+than one Scenario: }{ScenarioId/ScenarioName/ScenarioParent columns
 identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario)}.
 \item {If requested Datasheet has Project scope and contains info from more
-than one Project: }{ProjectID/ProjectName columns identify the Project
+than one Project: }{ProjectId/ProjectName columns identify the Project
 by \code{name} and \code{id}}
 }
 }
@@ -228,7 +228,7 @@ myDatasheet <- datasheet(myLibrary, name = "core_Backup")
 
 # Use an SQL statement to query a Datasheet
 mySQL <- sqlStatement(
-  groupBy = c("ScenarioID"),
+  groupBy = c("ScenarioId"),
   aggregate = c("MinimumTimestep"),
   where = list(MinimumTimestep = c(1))
 )

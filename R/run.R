@@ -99,7 +99,7 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
   for (i in seq(length.out = length(scenario))) {
     tt <- NULL
     cScn <- scenario[i]
-    name <- scenarioSet$Name[scenarioSet$ScenarioID == cScn][1]
+    name <- scenarioSet$Name[scenarioSet$ScenarioId == cScn][1]
     resultId <- NA
 
     print(paste0("Running scenario [", cScn, "] ", name))
