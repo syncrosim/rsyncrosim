@@ -5,8 +5,9 @@ NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, packages = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
+  definition = function(.Object, name = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
     
+    browser()
     enabled <- NULL
     if (is.null(session)) {
       e <- ssimEnvironment()
@@ -94,7 +95,7 @@ setMethod(
         if (templateExists) {
           # Load template
           args <- list(create = NULL, library = NULL, name = path,
-                       package = templatePkg,
+                       pkg = templatePkg,
                        template = template)
           cStatus <- command(args, session)
           
@@ -184,17 +185,17 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, packages = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", function(name = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
 
-setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, packages, session, addon, template, forceUpdate, overwrite, useConda) {
-  return(new("SsimLibrary", name, packages, session, addon, forceUpdate))
+setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, packages, session, template, forceUpdate, overwrite, useConda) {
+  return(new("SsimLibrary", name, packages, session, forceUpdate))
 })
 
-setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, packages, session, addon, template, forceUpdate, overwrite, useConda) {
+setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, packages, session, template, forceUpdate, overwrite, useConda) {
   if (is(name, "SsimLibrary")) {
     out <- name
   } else {
-    out <- .ssimLibrary(name = .filepath(name), packages, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
+    out <- .ssimLibrary(name = .filepath(name), packages, session = .session(name), template, forceUpdate, overwrite, useConda)
   }
   return(out)
 })
@@ -215,8 +216,6 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'  add to the Library if creating a new Library (optional)
 #' @param session \code{\link{Session}} object. If \code{NULL} (default), session()
 #'  will be used
-#' @param addon character or character vector. One or more addon packages. See 
-#' \code{\link{addon}} for options (optional)
 #' @param template character. Creates the SsimLibrary with the specified template
 #' (optional)
 #' @param forceUpdate logical. If \code{FALSE} (default) user will be prompted to approve 
@@ -265,17 +264,12 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' # Retrieve SsimLibrary properties
 #' session(myLibrary)
 #' 
-#' # Load a SsimLibrary with addon package
-#' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
-#'                          overwrite = TRUE, package = "stsim",
-#'                          addon = "stsimsf")
-#' 
 #' # Create SsimLibrary from template
 #' installPackage("helloworldSpatial")
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
 #'                          session = mySession,
-#'                          package = "helloworldSpatial",
+#'                          packages = "helloworldSpatial",
 #'                          template = "example-library",
 #'                          overwrite = TRUE,
 #'                          forceUpdate = TRUE)
@@ -283,17 +277,17 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' }
 #' 
 #' @export
-setGeneric("ssimLibrary", function(name = NULL, summary = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric("ssimLibrary"))
+setGeneric("ssimLibrary", function(name = NULL, summary = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric("ssimLibrary"))
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, package, session, addon, template, forceUpdate, overwrite, useConda) {
+setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, packages, session, template, forceUpdate, overwrite, useConda) {
   if (is(name, "SsimLibrary")) {
     out <- name
     if (is.null(summary)) {
       summary <- TRUE
     }
   } else {
-    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
+    out <- .ssimLibrary(name = .filepath(name), packages, session = .session(name), template, forceUpdate, overwrite, useConda)
     if (is.null(summary)) {
       summary <- FALSE
     }
@@ -305,7 +299,7 @@ setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary,
 })
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name = NULL, summary = NULL, package, session, addon, template, forceUpdate, overwrite, useConda) {
+setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name = NULL, summary = NULL, packages, session, template, forceUpdate, overwrite, useConda) {
   if (is.null(session)) {
     session <- .session()
   }
@@ -313,7 +307,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
     return(SyncroSimNotFound())
   }
 
-  newLib <- new("SsimLibrary", name, package, session, addon, template, forceUpdate, overwrite, useConda)
+  newLib <- new("SsimLibrary", name, packages, session, template, forceUpdate, overwrite, useConda)
   
   # Add specified packages to the library
   packageOptions <- .packages(session, installed = TRUE)

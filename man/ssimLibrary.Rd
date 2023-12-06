@@ -9,9 +9,8 @@
 ssimLibrary(
   name = NULL,
   summary = NULL,
-  package = NULL,
+  packages = NULL,
   session = NULL,
-  addon = NULL,
   template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE,
@@ -21,9 +20,8 @@ ssimLibrary(
 \S4method{ssimLibrary}{SsimObject}(
   name = NULL,
   summary = NULL,
-  package = NULL,
+  packages = NULL,
   session = NULL,
-  addon = NULL,
   template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE,
@@ -33,9 +31,8 @@ ssimLibrary(
 \S4method{ssimLibrary}{missingOrNULLOrChar}(
   name = NULL,
   summary = NULL,
-  package = NULL,
+  packages = NULL,
   session = NULL,
-  addon = NULL,
   template = NULL,
   forceUpdate = FALSE,
   overwrite = FALSE,
@@ -49,13 +46,11 @@ or SsimObject)}
 
 \item{summary}{logical. Default is \code{TRUE}}
 
-\item{package}{character. The package type. Default is "stsim"}
+\item{packages}{character or character vector. The SyncroSim Package(s) to
+add to the Library if creating a new Library (optional)}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
 will be used}
-
-\item{addon}{character or character vector. One or more addon packages. See
-\code{\link{addon}} for options (optional)}
 
 \item{template}{character. Creates the SsimLibrary with the specified template
 (optional)}
@@ -114,17 +109,12 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
 # Retrieve SsimLibrary properties
 session(myLibrary)
 
-# Load a SsimLibrary with addon package
-myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
-                         overwrite = TRUE, package = "stsim",
-                         addon = "stsimsf")
-
 # Create SsimLibrary from template
 installPackage("helloworldSpatial")
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,
-                         package = "helloworldSpatial",
+                         packages = "helloworldSpatial",
                          template = "example-library",
                          overwrite = TRUE,
                          forceUpdate = TRUE)
