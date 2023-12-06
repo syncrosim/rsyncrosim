@@ -158,9 +158,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     }
 
     if (!grepl("_", name, fixed = )) {
-      l = ssimLibrary(.filepath(ssimObject), summary=T)
-      p = l$value[l$property == "Package Name:"][1] #TODO: test
-      name <- paste0(p, "_", name)
+      stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
     }
 
     if (grepl("STSim_", name, fixed = TRUE)) {

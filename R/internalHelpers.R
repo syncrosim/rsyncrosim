@@ -51,8 +51,7 @@ deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL,
     cName <- datasheet[j]
     
     if (!grepl("_", cName, fixed = TRUE)) {
-      pkg = lib$value[lib$property == "Package Names:"][1]
-      cName <- paste0(pkg, "_", cName)
+      stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
     }
     
     cSheet <- subset(datasheets, name == cName)
