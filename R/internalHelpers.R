@@ -470,6 +470,11 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     datasheets <- .dataframeFromSSim(tt, convertToLogical = c("isOutput", "isSingle"))
     datasheets$scope <- sapply(datasheets$scope, camel)
   }
+  
+  if (nrow(datasheets) == 0){
+    return(datasheets)
+  }
+  
   datasheets$order <- seq(1, nrow(datasheets))
   if (!is.null(scope) && (scope == "all")) {
     datasheets$order <- NULL
@@ -718,6 +723,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           stop("Can't create new scenarios because there is more than one project in the ssimObject. Please specify the Project ssimObject to which new scenarios should belong.")
         }
         if (nrow(allProjects) == 0) {
+          browser()
           obj <- project(ssimObject, project = "project1")
           project <- .projectId(obj)
         } else {
