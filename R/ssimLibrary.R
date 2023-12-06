@@ -5,7 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
+  definition = function(.Object, name = NULL, packages = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
     
     enabled <- NULL
     if (is.null(session)) {
@@ -22,7 +22,6 @@ setMethod(
     }
 
     inName <- name
-    inPkg <- package
 
     if (is.null(name)) {
       e <- ssimEnvironment()
@@ -33,12 +32,7 @@ setMethod(
       stop("A library name is required.")
     }
 
-    packageOptions <- packages(session, installed = TRUE)
-
-    # TODO: remove - no longer need to have packages to create a library
-    if (nrow(packageOptions) == 0) {
-      stop("No packages are installed.  Use installPackage() to install a package.")
-    }
+    packageOptions <- .packages(session, installed = TRUE)
 
     if (identical(basename(name), name)) {
       path <- file.path(getwd(), name)
@@ -58,33 +52,19 @@ setMethod(
 
     # If library does not exist, create it
     if (!file.exists(path)) {
-
-      if (!is.null(package) && !is.element(package, packageOptions$name)) {
-        stop(paste(package, "not currently installed. Use package(installed = TRUE) to see options."))
-      }
       
       pathBits <- strsplit(path, "/")[[1]]
       dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = FALSE)
-
-      #TODO: remove this - what is this even doing???
-      if (!exists("packageOptions")) {
-        packageOptions <- package(session, installed = "BASE")
-      }
       
       # If no template specified, create an empty library
       if (is.null(template)) {
         args <- list(create = NULL, library = NULL, name = path)
-        if (!is.null(package)){
-          args <- append(args, package = package)
-        }
         cStatus <- command(args, session)
         if (cStatus[1] != "saved") {
           stop("Problem creating library: ", cStatus[1])
         }
       }
       
-      #TODO: fix this - no longer base and addon packages, just go through all 
-      # available packages that are not "core"
       # If template specified, create library from template
       if (is.character(template)) {
         
@@ -93,75 +73,61 @@ setMethod(
           template <- gsub(".ssim", "", template)
         }
         
-        # Check if template exists first in base package
-        args <- list(list = NULL, templates = NULL,
-                     package = packageOptions$name[packageOptions$name == package],
-                     csv = NULL)
-        tt <- command(args, session)
-        baseTempsDataframe <- read.csv(text = tt)
-        baseTemplate <- paste0(package, "_", template)
-        baseTemplateExists <- baseTemplate %in% baseTempsDataframe$Name
-        
-        if (!baseTemplateExists & !is.null(addon)) {
-          allPackageOptions <- packages(session)
+        # Check if template exists in the list of supplied packages
+        for (pkg in packages){
           args <- list(list = NULL, templates = NULL,
-                       package = allPackageOptions$name[allPackageOptions$name == addon],
+                       pkg = packageOptions$name[packageOptions$name == pkg],
                        csv = NULL)
           tt <- command(args, session)
-          addonTempsDataframe <- read.csv(text = tt)
-          addonTemplate <- paste0(addon, "_", template)
-          addonTemplateExists <- addonTemplate %in% addonTempsDataframe$Name
-        } else {
-          addonTemplateExists <- FALSE
-        }
-        
-        if (baseTemplateExists) {
-          template = baseTemplate
-          tempPackage = package
-        } else if (addonTemplateExists) {
-          template = addonTemplate
-          tempPackage = addon
-        } else if (!is.null(addon)){
-          stop(paste(template, "does not exist for package",
-                     packageOptions$name[packageOptions$name == package],
-                     "or addon", allPackageOptions$name[allPackageOptions$name == addon]))
-        } else {
-          stop(paste(template, "does not exist for package",
-                     packageOptions$name[packageOptions$name == package]))
-        }
+          tempsDataframe <- read.csv(text = tt)
+          pkgTemplate <- paste0(pkg, "_", template)
           
-        # Load template
-        args <- list(create = NULL, library = NULL, name = path,
-                     package = tempPackage,
-                     template = template)
-        cStatus <- command(args, session)
-        
-        if (grepl(cStatus[1], "Creating Library from Template")) {
-          stop("Problem creating library: ", cStatus[1])
+          if (pkgTemplate %in% tempsDataframe$Name){
+            templateExists <- TRUE
+            templatePkg <- pkg
+            break
+          } else {
+            templateExists <- FALSE
+          }
         }
         
-        # Print out available scenarios for the template
-        args <- list(list = NULL, scenarios = NULL, lib = path, csv = NULL)
-        tt <- command(args, session)
-        tempScenarios <- read.csv(text = tt)
-        message(paste(c("Scenarios available in this template:",
-                      tempScenarios$Name), collapse = "    "))
+        if (templateExists) {
+          # Load template
+          args <- list(create = NULL, library = NULL, name = path,
+                       package = templatePkg,
+                       template = template)
+          cStatus <- command(args, session)
+          
+          if (grepl(cStatus[1], "Creating Library from Template")) {
+            stop("Problem creating library: ", cStatus[1])
+          }
+          
+          # Print out available scenarios for the template
+          args <- list(list = NULL, scenarios = NULL, lib = path, csv = NULL)
+          tt <- command(args, session)
+          tempScenarios <- read.csv(text = tt)
+          message(paste(c("Scenarios available in this template:",
+                          tempScenarios$Name), collapse = "    "))
+        } else {
+          stop(paste(template, "does not exist among packages selected:", packages))
+        } 
       } 
       
       if (!is.null(template) & !is.character(template)) {
         stop(paste(template, "is not a valid template name"))
       }
     }
-
-    # ensure the base package specified matches the base package on disk
+    
+    # TODO: what exactly is below doing...
+    # ensure the package specified matches the package on disk
     args <- c("list", "datasheets", "csv", paste0("lib=", path))
     tt <- command(args, session)
-
-    # TODO: remove this 
+    
     if (grepl("Could not find package", tt[[1]])) {
-      stop(paste(tt[[1]], "Use installPackage() to install this package."))
+      stop(paste(tt[[1]], "Use addPackage() to install this package."))
     }
 
+    # Apply DB updates to out-of-date libraries
     if (grepl("The library has unapplied updates", tt[[1]])) {
       if (is.null(inName) | forceUpdate) {
         answer <- "y"
@@ -198,37 +164,6 @@ setMethod(
 
     datasheets <- .dataframeFromSSim(tt, convertToLogical = c("isOutput", "isSingle"))
     datasheets$scope <- sapply(datasheets$scope, camel)
-
-    if (!is.null(inPkg)) {
-      args <- list(list = NULL, library = NULL, csv = NULL, lib = path)
-      tt <- command(args, session)
-      tt <- .dataframeFromSSim(tt)
-      if (ncol(tt) < 2) {
-        stop(command(args, session))
-      }
-
-      if (!exists("packageOptions")) {
-        packageOptions <- packages(session, installed = TRUE)
-      }
-      expectedPackage <- packageOptions$name[packageOptions$name == package]
-      if (!grepl(expectedPackage, tt$value[tt$property == "Package Names:"])) { #TODO: this is probably broken now
-        stop(paste0("A library of that name and a different package type ", tt$value[tt$property == "Name:"], " already exists."))
-      }
-    }
-
-    if (!is.null(addon)) {
-      tt <- command(list(list = NULL, addons = NULL, csv = NULL, lib = path), session)
-      tt <- .dataframeFromSSim(tt)
-      cAdds <- subset(tt, enabled == "Yes")
-      addon <- setdiff(addon, cAdds$name)
-
-      for (i in seq(length.out = length(addon))) {
-        tt <- command(list(create = NULL, addon = NULL, lib = path, name = addon[i]), session)
-        if (tt[[1]] != "saved") {
-          stop("Problem with addon ", addon[i], ": ", tt[[1]])
-        }
-      }
-    }
     
     if (!is.null(useConda)){
       if (useConda == FALSE){
@@ -249,17 +184,17 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, package = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", function(name = NULL, packages = NULL, session = NULL, addon = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
 
-setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
-  return(new("SsimLibrary", name, package, session, addon, forceUpdate))
+setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, packages, session, addon, template, forceUpdate, overwrite, useConda) {
+  return(new("SsimLibrary", name, packages, session, addon, forceUpdate))
 })
 
-setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package, session, addon, template, forceUpdate, overwrite, useConda) {
+setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, packages, session, addon, template, forceUpdate, overwrite, useConda) {
   if (is(name, "SsimLibrary")) {
     out <- name
   } else {
-    out <- .ssimLibrary(name = .filepath(name), package, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
+    out <- .ssimLibrary(name = .filepath(name), packages, session = .session(name), addon, template, forceUpdate, overwrite, useConda)
   }
   return(out)
 })
@@ -276,7 +211,8 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' \code{\link{Scenario}} object, or character string (i.e. path to a SsimLibrary 
 #'     or SsimObject)
 #' @param summary logical. Default is \code{TRUE}
-#' @param package character. The package type. Default is "stsim"
+#' @param packages character or character vector. The SyncroSim Package(s) to
+#'  add to the Library if creating a new Library (optional)
 #' @param session \code{\link{Session}} object. If \code{NULL} (default), session()
 #'  will be used
 #' @param addon character or character vector. One or more addon packages. See 
@@ -378,6 +314,19 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
   }
 
   newLib <- new("SsimLibrary", name, package, session, addon, template, forceUpdate, overwrite, useConda)
+  
+  # Add specified packages to the library
+  packageOptions <- .packages(session, installed = TRUE)
+  
+  if (!is.null(packages)) {
+    for (pkg in packages){
+      if (!is.null(pkg) && !is.element(pkg, packageOptions$name)) {
+        stop(paste(pkg, "not currently installed. Use packages(session, installed = TRUE) to see options."))
+      }
+      addPackage(newLib, pkg)
+    }
+  }
+  
   if (!is.null(summary) && summary) {
     return(info(newLib))
   }

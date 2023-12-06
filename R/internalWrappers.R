@@ -18,6 +18,7 @@ NULL
 #' @include datasheet.R
 #' @include internalHelpers.R
 #' @include name.R
+#' @include packages.R
 NULL
 # @export
 .projectId <- projectId
@@ -47,3 +48,5 @@ NULL
 .subset <- subset
 # @export
 .sqlStatement <- sqlStatement
+# @export
+.packages <- packages
