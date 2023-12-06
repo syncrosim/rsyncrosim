@@ -5,7 +5,6 @@ NULL
 
 setMethod(f = "initialize", signature = "Project", definition = function(.Object, ssimLibrary, name = NULL, id = NULL, projects = NULL, sourceProject = NULL) {
 
-  browser()
   ProjectID <- NULL
   Name <- NULL
   
@@ -310,7 +309,6 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     if (projExists) {
       projectList[[as.character(projectsToMake$ProjectID[i])]] <- new("Project", ssimObject, id = cRow$ProjectID, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
     } else {
-      browser()
       obj <- new("Project", ssimObject, name = cRow$Name, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
       projectList[[as.character(.projectId(obj))]] <- obj
     }

@@ -147,6 +147,9 @@ getScnSet <- function(ssimObject) {
   ScenarioID <- NULL
   tt <- command(list(list = NULL, scenarios = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   scnSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
+  names(scnSet)[names(scnSet) == "Id"] <- "ScenarioID"
+  names(scnSet)[names(scnSet) == "ProjectId"] <- "ProjectID"
+  names(scnSet)[names(scnSet) == "ParentId"] <- "ParentID"
   if (nrow(scnSet) == 0) {
     scnSet <- merge(scnSet, data.frame(ScenarioID = NA, exists = NA), all = TRUE)
     scnSet <- subset(scnSet, !is.na(ScenarioID))
@@ -164,7 +167,7 @@ getProjectSet <- function(ssimObject) {
   if (nrow(projectSet) == 0) {
     projectSet[1, "ProjectID"] <- NA
   }
-  # names(projectSet)[names(projectSet) == "iD"] <- "projectId"
+  names(projectSet)[names(projectSet) == "Id"] <- "ProjectID"
   projectSet$exists <- TRUE
   projectSet <- subset(projectSet, !is.na(ProjectID))
   return(projectSet)
@@ -723,7 +726,6 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           stop("Can't create new scenarios because there is more than one project in the ssimObject. Please specify the Project ssimObject to which new scenarios should belong.")
         }
         if (nrow(allProjects) == 0) {
-          browser()
           obj <- project(ssimObject, project = "project1")
           project <- .projectId(obj)
         } else {
