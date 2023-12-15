@@ -2,6 +2,7 @@
 
 export("autogentags<-")
 export("condaFilepath<-")
+export("dependency<-")
 export("description<-")
 export("folderId<-")
 export("ignoreDependencies<-")
