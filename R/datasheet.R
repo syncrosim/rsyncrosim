@@ -809,36 +809,42 @@ setMethod("datasheet",
         sheet$ProjectID <- NULL
       } else {
         if (nrow(sheet) > 0) {
-          #if (is.null(allProjects)) {
           allProjects <- .project(x)
-          #}
           names(allProjects) <- c("ProjectID", "ProjectName")
           sheet <- merge(allProjects, sheet, all.y = TRUE)
         }
       }
     }
     if (is.element("ScenarioID", names(sheet))) {
-      if (length(sid) == 1 && !returnScenarioInfo){
+      if (length(sid) > 1){
+        returnScenarioInfo <- TRUE
+      }
+      if (length(sid) == 1){
         sheet$ScenarioID <- NULL
-      } else {
-        if (nrow(sheet) > 0) {
-          allScns <- scenario(x, summary = TRUE)
-          if (!is.element("ParentID", names(allScns))) {
-            warning("Missing ParentID info from scenario(summary=TRUE).")
-            allScns$ParentID <- NA
-          }
-          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID))
-          allScns$ParentID <- suppressWarnings(as.numeric(allScns$ParentID))
-          parentNames <- subset(allScns, select = c(ScenarioID, Name))
-          names(parentNames) <- c("ParentID", "ParentName")
-          allScns <- merge(allScns, parentNames, all.x = TRUE)
-          
-          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID, ParentName))
-          
-          names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
-          
-          sheet <- merge(allScns, sheet, all.y = TRUE)
+      }
+      if (nrow(sheet) > 0 && returnScenarioInfo) {
+        if (is(x, "SsimLibrary")){
+          lib <- x
+        } else {
+          lib <- .ssimLibrary(x)
         }
+        allScns <- scenario(lib, summary = TRUE)
+        if (!is.element("ParentID", names(allScns))) {
+          warning("Missing ParentID info from scenario(summary=TRUE).")
+          allScns$ParentID <- NA
+        }
+        allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID))
+        allScns$ParentID <- suppressWarnings(as.numeric(allScns$ParentID))
+        parentNames <- subset(allScns, select = c(ScenarioID, Name))
+        names(parentNames) <- c("ParentID", "ParentName")
+        allScns <- merge(allScns, parentNames, all.x = T)
+        
+        allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID, ParentName))
+        
+        names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
+        allScns <- allScns[allScns$ScenarioID %in% sid,]
+        
+        sheet <- merge(allScns, sheet, all.y = TRUE)
       }
     }
     
