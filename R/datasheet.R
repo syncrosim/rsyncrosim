@@ -81,6 +81,9 @@ NULL
 #' @param fastQuery logical.  If \code{TRUE}, the request is optimized for 
 #'     performance.  Ignored if combined with summary, empty, or 
 #'     \code{\link{sqlStatement}} flags. Default is \code{FALSE}
+#' @param returnScenarioInfo logical. If \code{TRUE}, returns the Scenario ID,
+#'     Scenario Name, Parent ID, and Parent Name columns with the Datasheet.
+#'     Default is \code{FALSE}
 #' 
 #' @return 
 #' If \code{summary=TRUE} returns a data.frame of Datasheet names 
@@ -161,7 +164,7 @@ setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenar
                                  lookupsAsFactors = TRUE, 
                                  sqlStatement = list(select = "SELECT *", groupBy = ""), 
                                  includeKey = FALSE, forceElements = FALSE, 
-                                 fastQuery = FALSE) standardGeneric("datasheet"))
+                                 fastQuery = FALSE, returnScenarioInfo = FALSE) standardGeneric("datasheet"))
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
@@ -169,7 +172,7 @@ setMethod("datasheet",
           signature(ssimObject = "list"), 
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
-                   includeKey, forceElements, fastQuery) {
+                   includeKey, forceElements, fastQuery, returnScenarioInfo) {
   cScn <- ssimObject[[1]]
   x <- NULL
   if (is(cScn, "Scenario")) {
@@ -188,7 +191,12 @@ setMethod("datasheet",
   }
   # Now have scenario/project ids of same type in same library, and ssimObject is library
   
-  out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, summary = summary, optional = optional, empty = empty, filterColumn = filterColumn, filterValue = filterValue, lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, includeKey = includeKey, forceElements = forceElements, fastQuery = fastQuery) # Off for v0.1
+  out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, 
+                    summary = summary, optional = optional, empty = empty, 
+                    filterColumn = filterColumn, filterValue = filterValue, 
+                    lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, 
+                    includeKey = includeKey, forceElements = forceElements, 
+                    fastQuery = fastQuery, returnScenarioInfo = returnScenarioInfo)
   
   return(out)
 })
@@ -198,7 +206,7 @@ setMethod("datasheet",
           signature(ssimObject = "character"), 
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
-                   includeKey, fastQuery) {
+                   includeKey, fastQuery, returnScenarioInfo) {
   return(SyncroSimNotFound(ssimObject))
 })
 
@@ -207,7 +215,7 @@ setMethod("datasheet",
           signature(ssimObject = "SsimObject"), 
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
-                   includeKey, forceElements, fastQuery) {
+                   includeKey, forceElements, fastQuery, returnScenarioInfo) {
   temp <- NULL
   ProjectID <- NULL
   ScenarioID <- NULL
@@ -503,7 +511,7 @@ setMethod("datasheet",
               if (nrow(sheet) > 0 & (length(pid)>1 | length(sid)>1)){
                 sheet$ScenarioID <- sid[id]
                 sheet$ProjectID <- pid[id]
-              } else if (length(sid) == 1){
+              } else if (length(sid) == 1 && returnScenarioInfo){
                 sheet$ScenarioID <- sid
                 sheet$ProjectID <- pid
               }
@@ -810,24 +818,28 @@ setMethod("datasheet",
       }
     }
     if (is.element("ScenarioID", names(sheet))) {
-      if (nrow(sheet) > 0) {
-        allScns <- scenario(x, summary = TRUE)
-        if (!is.element("ParentID", names(allScns))) {
-          warning("Missing ParentID info from scenario(summary=TRUE).")
-          allScns$ParentID <- NA
+      if (length(sid) == 1 && !returnScenarioInfo){
+        sheet$ScenarioID <- NULL
+      } else {
+        if (nrow(sheet) > 0) {
+          allScns <- scenario(x, summary = TRUE)
+          if (!is.element("ParentID", names(allScns))) {
+            warning("Missing ParentID info from scenario(summary=TRUE).")
+            allScns$ParentID <- NA
+          }
+          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID))
+          allScns$ParentID <- suppressWarnings(as.numeric(allScns$ParentID))
+          parentNames <- subset(allScns, select = c(ScenarioID, Name))
+          names(parentNames) <- c("ParentID", "ParentName")
+          allScns <- merge(allScns, parentNames, all.x = TRUE)
+          
+          allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID, ParentName))
+          
+          names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
+          
+          sheet <- merge(allScns, sheet, all.y = TRUE)
         }
-        allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID))
-        allScns$ParentID <- suppressWarnings(as.numeric(allScns$ParentID))
-        parentNames <- subset(allScns, select = c(ScenarioID, Name))
-        names(parentNames) <- c("ParentID", "ParentName")
-        allScns <- merge(allScns, parentNames, all.x = TRUE)
-        
-        allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID, ParentName))
-        
-        names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
-        
-        sheet <- merge(allScns, sheet, all.y = TRUE)
-        }
+      }
     }
     
     outSheetList[[cName]] <- sheet
