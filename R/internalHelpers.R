@@ -320,7 +320,6 @@ getFolderData <- function(x) {
   
   # Clean up dataframe names and columns
   names(out) <- sapply(names(out), pascal)
-  colnames(out)[colnames(out) == "IsLite"] ="Published"
   colnames(out)[colnames(out) == "ID"] ="FolderID"
   out <- subset(out, select = -c(X))
   

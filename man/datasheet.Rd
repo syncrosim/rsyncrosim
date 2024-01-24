@@ -21,7 +21,9 @@ datasheet(
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
   forceElements = FALSE,
-  fastQuery = FALSE
+  fastQuery = FALSE,
+  returnScenarioInfo = FALSE,
+  returnInvisible = FALSE
 )
 
 \S4method{datasheet}{list}(
@@ -38,7 +40,9 @@ datasheet(
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
   forceElements = FALSE,
-  fastQuery = FALSE
+  fastQuery = FALSE,
+  returnScenarioInfo = FALSE,
+  returnInvisible = FALSE
 )
 
 \S4method{datasheet}{character}(
@@ -54,7 +58,9 @@ datasheet(
   lookupsAsFactors,
   sqlStatement,
   includeKey,
-  fastQuery
+  fastQuery,
+  returnScenarioInfo,
+  returnInvisible
 )
 
 \S4method{datasheet}{SsimObject}(
@@ -71,7 +77,9 @@ datasheet(
   sqlStatement = list(select = "SELECT *", groupBy = ""),
   includeKey = FALSE,
   forceElements = FALSE,
-  fastQuery = FALSE
+  fastQuery = FALSE,
+  returnScenarioInfo = FALSE,
+  returnInvisible = FALSE
 )
 }
 \arguments{
@@ -131,6 +139,14 @@ returns a data.frame; otherwise returns a list of data.frames. Ignored if
 \item{fastQuery}{logical.  If \code{TRUE}, the request is optimized for
 performance.  Ignored if combined with summary, empty, or
 \code{\link{sqlStatement}} flags. Default is \code{FALSE}}
+
+\item{returnScenarioInfo}{logical. If \code{TRUE}, returns the Scenario ID,
+Scenario Name, Parent ID, and Parent Name columns with the Datasheet.
+Default is \code{FALSE}}
+
+\item{returnInvisible}{logical. If \code{TRUE}, returns columns that are
+invisible in the User Interface (i.e., are only used and populated
+internally by SyncroSim or the SyncroSim Package). Default is \code{FALSE}}
 }
 \value{
 If \code{summary=TRUE} returns a data.frame of Datasheet names
