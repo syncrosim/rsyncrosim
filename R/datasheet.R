@@ -84,6 +84,9 @@ NULL
 #' @param returnScenarioInfo logical. If \code{TRUE}, returns the Scenario ID,
 #'     Scenario Name, Parent ID, and Parent Name columns with the Datasheet.
 #'     Default is \code{FALSE}
+#' @param returnInvisible logical. If \code{TRUE}, returns columns that are 
+#'     invisible in the User Interface (i.e., are only used and populated
+#'     internally by SyncroSim or the SyncroSim Package). Default is \code{FALSE}
 #' 
 #' @return 
 #' If \code{summary=TRUE} returns a data.frame of Datasheet names 
@@ -164,7 +167,8 @@ setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenar
                                  lookupsAsFactors = TRUE, 
                                  sqlStatement = list(select = "SELECT *", groupBy = ""), 
                                  includeKey = FALSE, forceElements = FALSE, 
-                                 fastQuery = FALSE, returnScenarioInfo = FALSE) standardGeneric("datasheet"))
+                                 fastQuery = FALSE, returnScenarioInfo = FALSE,
+                                 returnInvisible = FALSE) standardGeneric("datasheet"))
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
@@ -172,7 +176,8 @@ setMethod("datasheet",
           signature(ssimObject = "list"), 
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
-                   includeKey, forceElements, fastQuery, returnScenarioInfo) {
+                   includeKey, forceElements, fastQuery, returnScenarioInfo,
+                   returnInvisible) {
   cScn <- ssimObject[[1]]
   x <- NULL
   if (is(cScn, "Scenario")) {
@@ -196,7 +201,8 @@ setMethod("datasheet",
                     filterColumn = filterColumn, filterValue = filterValue, 
                     lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, 
                     includeKey = includeKey, forceElements = forceElements, 
-                    fastQuery = fastQuery, returnScenarioInfo = returnScenarioInfo)
+                    fastQuery = fastQuery, returnScenarioInfo = returnScenarioInfo,
+                    returnInvisible = returnInvisible)
   
   return(out)
 })
@@ -206,7 +212,7 @@ setMethod("datasheet",
           signature(ssimObject = "character"), 
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
-                   includeKey, fastQuery, returnScenarioInfo) {
+                   includeKey, fastQuery, returnScenarioInfo, returnInvisible) {
   return(SyncroSimNotFound(ssimObject))
 })
 
@@ -215,7 +221,8 @@ setMethod("datasheet",
           signature(ssimObject = "SsimObject"), 
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
-                   includeKey, forceElements, fastQuery, returnScenarioInfo) {
+                   includeKey, forceElements, fastQuery, returnScenarioInfo,
+                   returnInvisible) {
   temp <- NULL
   ProjectID <- NULL
   ScenarioID <- NULL
@@ -533,10 +540,14 @@ setMethod("datasheet",
           # If fastQuery is false, do this
           # THis happens IF fast query is FALSE and if not complex
           # It writes out the csv to temp file
-          if (!optional & (sheetNames$scope != "library")) {
-            args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL, colswithdata = NULL) # filepath=NULL
+          if (!optional && (sheetNames$scope != "library")) {
+            args <- list(export = NULL, lib = .filepath(x), sheet = name, 
+                         file = tempFile, valsheets = NULL, extfilepaths = NULL, 
+                         includepk = NULL, force = NULL, colswithdata = NULL)
           } else {
-            args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, valsheets = NULL, extfilepaths = NULL, includepk = NULL, force = NULL) # filepath=NULL
+            args <- list(export = NULL, lib = .filepath(x), sheet = name, 
+                         file = tempFile, valsheets = NULL, extfilepaths = NULL, 
+                         includepk = NULL, force = NULL)
           }
           args <- assignPidSid(args, sheetNames, pid, sid)
           
@@ -615,7 +626,7 @@ setMethod("datasheet",
     }
     
     # TODO review this, this bit assign the correct data types 
-    if (empty | lookupsAsFactors) {
+    if (empty | lookupsAsFactors | !returnInvisible) {
       tt <- command(c("list", "columns", "csv", paste0("lib=", .filepath(x)), paste0("sheet=", name)), .session(x))
       sheetInfo <- .dataframeFromSSim(tt)
       sheetInfo$id <- seq(length.out = nrow(sheetInfo))
@@ -627,6 +638,11 @@ setMethod("datasheet",
         }
         sheetInfo <- subset(sheetInfo, is.element(optional, c("No", "Present")))
       }
+      
+      if (!returnInvisible) {
+        sheetInfo <- subset(sheetInfo, is.element(visible, c("Yes")))
+      }
+      
       sheetInfo <- sheetInfo[order(sheetInfo$id), ]
       
       if (nrow(sheet) == 0) {
