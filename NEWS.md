@@ -3,10 +3,9 @@
 ## Breaking changes
 
 
-
 ## Bug fixes:
 
-* Fixed bug introduced in 1.4.12 in `saveDatasheet()` function failing to save project and library scoped datasheets, and when the `fileData` argument was used.
+* Fixed bug in `folder()` function - issue retrieving existing folder when dependencies added to the library structure
 
 ## New features:
 

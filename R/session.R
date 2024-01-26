@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2024 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -13,7 +13,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- NULL
 
-  ssimRequiredVersion <- "2.3.24"
+  ssimRequiredVersion <- "2.4.44"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
