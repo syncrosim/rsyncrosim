@@ -15,7 +15,7 @@ NULL
 #' @examples 
 #' \dontrun{
 #' # Install helloworldSpatial package
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")

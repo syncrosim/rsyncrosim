@@ -81,7 +81,7 @@ You can check to see which version of SyncroSim your R script is connected to by
 version(mySession)
 ```
 
-### Installing SyncroSim packages using `addPackage()`
+### Installing SyncroSim packages using `installPackage()`
 
 Finally, check if the <a href="https://github.com/ApexRMS/helloworldTime" target="_blank">helloworldTime</a> package is already installed. Use the `package()` function from `rsyncrosim` to first get a list of all currently installed packages in SyncroSim.
 
@@ -105,26 +105,26 @@ availablePackages <- package(installed = FALSE)
 head(availablePackages)
 ```
 
-Install `helloworldTime` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Install `helloworldTime` using the `rynscrosim` function `installPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r remove package from server run, warning=FALSE, include=FALSE}
 installedPackages <- package()
 if (is.element(
-  "helloworldTime", installedPackages$name)) removePackage(
+  "helloworldTime", installedPackages$name)) uninstallPackage(
     "helloworldTime", force = TRUE)
 ```
 
 ```{r add package from server, warning = FALSE}
 # Install helloworldTime
-addPackage("helloworldTime")
+installPackage("helloworldTime")
 ```
 
 
-To install the package from a `.ssimpkg` file on your local computer rather than installing directly from the server, you can use the `addPackage()` function with the `filepath` argument set to `TRUE`. Instead of using the package name as the argument, the file path to the `.ssimpkg` is used.
+To install the package from a `.ssimpkg` file on your local computer rather than installing directly from the server, you can use the `installPackage()` function with the `filepath` argument set to `TRUE`. Instead of using the package name as the argument, the file path to the `.ssimpkg` is used.
 
 ```{r add package from path not run, warning = FALSE, eval = FALSE}
 # Install helloworldTime using file path to ssimpkg file
-addPackage("path/to/helloworldTime.ssimpkg")
+installPackage("path/to/helloworldTime.ssimpkg")
 ```
 
 Now `helloworldTime` should be included in the package list:
@@ -141,7 +141,7 @@ time_pkg
 ```
 
 
-*Note:* you can also update installed packages using the `updatePackage()` function or delete installed packages using the `removePackage()` function in `rsyncrosim`.
+*Note:* you can also update installed packages using the `updatePackage()` function or delete installed packages using the `uninstallPackage()` function in `rsyncrosim`.
 
 
 ## Create a modeling workflow

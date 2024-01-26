@@ -55,7 +55,7 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Install the helloworldSpatial package from the server
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib_datasheetSpatRaster")
@@ -107,7 +107,7 @@ NULL
 #'                  
 #' # Filter for only rasters that fit specific criteria
 #' # Load the ST-Sim spatial example library
-#' addPackage("stsim")
+#' installPackage("stsim")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib_stsim_datasheet")
@@ -185,7 +185,7 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "SsimObject"), function(
     missingScns <- setdiff(scenario, scnSet$Name)
   }
   if (is.numeric(scenario)) {
-    missingScns <- setdiff(scenario, scnSet$ScenarioID)
+    missingScns <- setdiff(scenario, scnSet$ScenarioId)
   }
   if (length(missingScns) > 0) {
     stop("Scenarios not found in ssimObject: ", paste(missingScns, collapse = ","))
@@ -213,10 +213,8 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
     warning("scenario argument is ignored when ssimObject is a scenario.")
   }
   
-  if (!grepl("_", datasheet, fixed = )) {
-    l = ssimLibrary(.filepath(ssimObject), summary=T)
-    p = l$value[l$property == "Package Name:"]
-    datasheet <- paste0(p, "_", datasheet)
+  if (!grepl("_", datasheet, fixed = T)) {
+    stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
   }
   
   if (grepl("STSim_", datasheet, fixed = TRUE)) {

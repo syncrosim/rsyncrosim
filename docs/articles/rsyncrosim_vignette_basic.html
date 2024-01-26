@@ -156,9 +156,9 @@
 <code class="sourceCode R"><span class="co"># Load R package for working with SyncroSim</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://syncrosim.github.io/rsyncrosim">rsyncrosim</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="installing-syncrosim-packages-using-addpackage" class="section level3">
+<div id="installing-syncrosim-packages-using-installPackage" class="section level3">
 <h3 class="hasAnchor">
-<a href="#installing-syncrosim-packages-using-addpackage" class="anchor"></a>Installing SyncroSim packages using <code>addPackage()</code>
+<a href="#installing-syncrosim-packages-using-installPackage" class="anchor"></a>Installing SyncroSim packages using <code>installPackage()</code>
 </h3>
 <p>Check if the <a href="https://github.com/ApexRMS/helloworldTime" target="_blank">helloworldTime</a> package is already installed. Use the <code><a href="../reference/package.html">package()</a></code> function from <code>rsyncrosim</code> to first get a list of all currently installed packages in SyncroSim.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -191,22 +191,22 @@
 ## 4   1.0.0
 ## 5   1.0.0
 ## 6   1.0.0</code></pre>
-<p>Install <code>helloworldTime</code> using the <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
+<p>Install <code>helloworldTime</code> using the <code>rynscrosim</code> function <code><a href="../reference/installPackage.html">installPackage()</a></code>. This function takes a package name as input and then queries the SyncroSim package server for the specified package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install helloworldTime</span>
-<span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldTime"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldTime"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Package &lt;helloworldTime&gt; installed</code></pre>
-<p>To install the package from a <code>.ssimpkg</code> file on your local computer rather than installing directly from the server, you can use the <code><a href="../reference/addPackage.html">addPackage()</a></code> function with the <code>filepath</code> argument set to <code>TRUE</code>. Instead of using the package name as the argument, the file path to the <code>.ssimpkg</code> is used.</p>
+<p>To install the package from a <code>.ssimpkg</code> file on your local computer rather than installing directly from the server, you can use the <code><a href="../reference/installPackage.html">installPackage()</a></code> function with the <code>filepath</code> argument set to <code>TRUE</code>. Instead of using the package name as the argument, the file path to the <code>.ssimpkg</code> is used.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install helloworldTime using file path to ssimpkg file</span>
-<span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"path/to/helloworldTime.ssimpkg"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"path/to/helloworldTime.ssimpkg"</span><span class="op">)</span></code></pre></div>
 <p>Now <code>helloworldTime</code> should be included in the package list:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get list of installed packages</span>
 <span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##             name                                description version
 ## 1 helloworldTime Example demonstrating how to use timesteps   1.0.0</code></pre>
-<p><em>Note:</em> you can also update installed packages using the <code><a href="../reference/updatePackage.html">updatePackage()</a></code> function or delete installed packages using the <code><a href="../reference/removePackage.html">removePackage()</a></code> function in <code>rsyncrosim</code>.</p>
+<p><em>Note:</em> you can also update installed packages using the <code><a href="../reference/updatePackage.html">updatePackage()</a></code> function or delete installed packages using the <code><a href="../reference/uninstallPackage.html">uninstallPackage()</a></code> function in <code>rsyncrosim</code>.</p>
 </div>
 <div id="connecting-r-to-syncrosim-using-session" class="section level3">
 <h3 class="hasAnchor">

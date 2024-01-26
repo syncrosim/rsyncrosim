@@ -65,20 +65,20 @@ Use the `version()` function to ensure you are using the latest version of Syncr
 version(mySession)
 ```
 
-### Installing SyncroSim packages using `addPackage()`
+### Installing SyncroSim packages using `installPackage()`
 
-Install `helloworldUncertainty` using the `rynscrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Install `helloworldUncertainty` using the `rynscrosim` function `installPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r remove package from server run, warning=FALSE, include=FALSE}
 installedPackages <- package()
 if (is.element(
-  "helloworldUncertainty", installedPackages$name)) removePackage(
+  "helloworldUncertainty", installedPackages$name)) uninstallPackage(
     "helloworldUncertainty", force = TRUE)
 ```
 
 ```{r add package from server, warning = FALSE}
 # Install helloworldUncertainty
-addPackage("helloworldUncertainty")
+installPackage("helloworldUncertainty")
 ```
 
 `helloworldUncertainty` should now be included in the package list when we call the `package()` function:

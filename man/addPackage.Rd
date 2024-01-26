@@ -2,48 +2,51 @@
 % Please edit documentation in R/addPackage.R
 \name{addPackage}
 \alias{addPackage}
-\alias{addPackage,ANY,character-method}
-\alias{addPackage,ANY,missingOrNULL-method}
-\alias{addPackage,ANY,Session-method}
-\title{Adds package to SyncroSim Installation}
+\alias{addPackage,character-method}
+\alias{addPackage,SsimLibrary-method}
+\title{Add SyncroSim package(s)}
 \usage{
-addPackage(name, session = NULL)
+addPackage(ssimLibrary, name)
 
-\S4method{addPackage}{ANY,character}(name, session = NULL)
+\S4method{addPackage}{character}(ssimLibrary, name)
 
-\S4method{addPackage}{ANY,missingOrNULL}(name, session = NULL)
-
-\S4method{addPackage}{ANY,Session}(name, session = NULL)
+\S4method{addPackage}{SsimLibrary}(ssimLibrary, name)
 }
 \arguments{
-\item{name}{character string.  The name or file path of the package to
-install}
+\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default),
-\code{session()} will be used}
+\item{name}{character string or vector of package name(s)}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful
-install) and \code{FALSE} upon failure.
+Invisibly returns \code{TRUE} upon success (i.e.successful addition
+of the package) or \code{FALSE} upon failure.
 }
 \description{
-This function installs a package to the SyncroSim \code{\link{Session}}.
-If only the package name is provided as input, the function queries the
-SyncroSim package server for the specified package. If a file path is
-provided as input, the function adds a package to SyncroSim from a local
-package file (ends in ".ssimpkg"). The list of SyncroSim packages can be
-found \href{https://syncrosim.com/packages/}{here}.
+Adds package(s) to a \code{\link{SsimLibrary}}.
 }
 \examples{
-\dontrun{
-# Create a new SyncroSim Session
+\donttest{
+# Install "stsim" SyncroSim package
+installPackage("stsim")
+
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, and Project
 mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, 
+                         package = "stsim")
 
-# Add package from the package server
-addPackage("stsim", session = mySession)
+# Add package
+addPackage(myLibrary, c("stsimsf"))
+packages(myLibrary)
 
-# Add package using a local file path
-addPackage("c:/path/to/stsim.ssimpkg")
+# Remove package
+removePackage(myLibrary, c("stsimsf"))
+packages(myLibrary)
 }
 
+}
+\seealso{
+\code{\link{packages}}
 }

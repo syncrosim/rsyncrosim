@@ -15,10 +15,10 @@ NULL
 #' @include scenarioId.R
 #' @include folderId.R
 #' @include filepath.R
-#' @include addon.R
 #' @include datasheet.R
 #' @include internalHelpers.R
 #' @include name.R
+#' @include packages.R
 NULL
 # @export
 .projectId <- projectId
@@ -39,8 +39,6 @@ NULL
 # @export
 .scenario <- scenario
 # @export
-.addon <- addon
-# @export
 .datasheet <- datasheet
 # @export
 .name <- name
@@ -50,3 +48,5 @@ NULL
 .subset <- subset
 # @export
 .sqlStatement <- sqlStatement
+# @export
+.packages <- packages

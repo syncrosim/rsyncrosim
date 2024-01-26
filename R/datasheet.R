@@ -10,8 +10,8 @@ NULL
 #'
 #' @details
 #' If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the 
-#' Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{package}, 
-#' \code{name}, \code{displayName}, \code{isSingle}, \code{isOutput}, \code{data}. data only displayed for 
+#' Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{packages}, 
+#' \code{name}, \code{displayName}, \code{isSingle}, \code{data}. data only displayed for 
 #' a SyncroSim \code{\link{Scenario}}. \code{dataInherited} and \code{dataSource} columns 
 #' added if a Scenario has dependencies. If \code{optional=FALSE}, columns include: 
 #' \code{scope}, \code{name}, \code{displayName}. All other arguments are ignored.
@@ -27,14 +27,14 @@ NULL
 #'          and the optional argument is ignored. Fast (1 less console command).}
 #'   \item {If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}} 
 #'          objects (output from \code{\link{run}}, \code{\link{Scenario}} or 
-#'          \code{\link{Project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
-#'   \item {If Scenario/Project is a vector: }{Adds ScenarioID/ProjectID column 
+#'          \code{\link{Project}}): }{Adds ScenarioId/ProjectId column if appropriate.}
+#'   \item {If Scenario/Project is a vector: }{Adds ScenarioId/ProjectId column 
 #'          as necessary.}
 #'   \item {If requested Datasheet has Scenario scope and contains info from more 
-#'          than one Scenario: }{ScenarioID/ScenarioName/ScenarioParent columns 
+#'          than one Scenario: }{ScenarioId/ScenarioName/ScenarioParent columns 
 #'          identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario)}.
 #'   \item {If requested Datasheet has Project scope and contains info from more 
-#'          than one Project: }{ProjectID/ProjectName columns identify the Project 
+#'          than one Project: }{ProjectId/ProjectName columns identify the Project 
 #'          by \code{name} and \code{id}}
 #' }
 #'
@@ -96,7 +96,7 @@ NULL
 #' @examples 
 #' \dontrun{
 #' # Install helloworldSpatial package from package server
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib_datasheet")
@@ -151,7 +151,7 @@ NULL
 #' 
 #' # Use an SQL statement to query a Datasheet
 #' mySQL <- sqlStatement(
-#'   groupBy = c("ScenarioID"),
+#'   groupBy = c("ScenarioId"),
 #'   aggregate = c("MinimumTimestep"),
 #'   where = list(MinimumTimestep = c(1))
 #' )
@@ -224,14 +224,14 @@ setMethod("datasheet",
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible) {
   temp <- NULL
-  ProjectID <- NULL
-  ScenarioID <- NULL
+  ProjectId <- NULL
+  ScenarioId <- NULL
   colOne <- NULL
-  ParentID <- NULL
+  ParentId <- NULL
   ParentName <- NULL
   Name <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
-  IDColumns <- c("ScenarioID", "ProjectID")
+  IDColumns <- c("ScenarioId", "ProjectId")
   
   if (is(xProjScn, "SsimLibrary")) {
     x <- xProjScn
@@ -242,7 +242,7 @@ setMethod("datasheet",
     pid <- xProjScn$project
     sid <- xProjScn$scenario
     if (!is.null(sid) & is.null(pid)) {
-      pid <- subset(xProjScn$scenarioSet, is.element(ScenarioID, sid))$ProjectID
+      pid <- subset(xProjScn$scenarioSet, is.element(ScenarioId, sid))$ProjectId
     }
   }
   # now have valid pid/sid vectors and x is library.
@@ -250,15 +250,9 @@ setMethod("datasheet",
     for (i in seq_along(name)) {
       n <- name[i]
       if (!grepl("_", n, fixed = TRUE)) {
-        l = ssimLibrary(.filepath(ssimObject), summary=T)
-        p = l$value[l$property == "Package Name:"]
-        n <- paste0(p, "_", n)
+        stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
       }
-      
-      if (grepl("STSim_", n, fixed = TRUE)) {
-        warning("An STSim_ prefix for a datasheet name is no longer required.")
-        n <- paste0("stsim_", gsub("STSim_", "", n, fixed = TRUE))
-      }
+    
       name[i] <- n
     }
   }
@@ -271,10 +265,6 @@ setMethod("datasheet",
     } else {
       summary <- FALSE
     }
-  }
-  
-  if (summary == "CORE"){
-    summary <- TRUE
   }
   
   # if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
@@ -371,6 +361,7 @@ setMethod("datasheet",
   for (kk in seq(length.out = length(allNames))) {
     
     if (summary == FALSE) {
+      
       name <- allNames[kk] # TODO see if name and cName are fullt subsituable
       cName <- name
       datasheetNames <- .datasheets(x, scope = "all")
@@ -400,6 +391,7 @@ setMethod("datasheet",
         if (!(filterColumn %in% datasheetCols$name)) {
           filterColumn <- NULL
         }
+        #TODO: remove isOutput here and test
         else if (is.na(suppressWarnings(as.integer(filterValue)))) {
           if (sheetNames$isOutput){
             inputDatasheetName <- subset(datasheetCols, name == filterColumn)$formula1
@@ -433,31 +425,24 @@ setMethod("datasheet",
     }
     
     rmCols <- c()
-
-    if (!sheetNames$isOutput) {
-      if (!includeKey) {
-        args <- list(list = NULL, columns = NULL, allprops = NULL, csv = NULL, lib = .filepath(x), sheet = name)
-        tt <- command(args, session = session(x))
-        cPropsAll <- .dataframeFromSSim(tt)
-        filtered <- cPropsAll[grep("isPrimary^Yes", cPropsAll$properties, fixed = TRUE), ]
-        if (nrow(filtered) > 0) {
-          rmCols <- filtered[1]
-        }
+    
+    if (!includeKey) {
+      args <- list(list = NULL, columns = NULL, allprops = NULL, csv = NULL, lib = .filepath(x), sheet = name)
+      tt <- command(args, session = session(x))
+      cPropsAll <- .dataframeFromSSim(tt)
+      filtered <- cPropsAll[grep("isPrimary^Yes", cPropsAll$properties, fixed = TRUE), ]
+      if (nrow(filtered) > 0) {
+        rmCols <- filtered[1]
       }
     }
     
-    # Use console means using the console either to write out a querry to file OR
+    # Use console means using the console either to write out a query to file OR
     # write the datasheet directly
-    useConsole <- FALSE
+    useConsole <- TRUE
     tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
     
     if (!empty) {
       # If non empty set, carry on with the retrieving of data
-      
-      # Only query database if output or multiple scenarios/project or complex sql
-      # UseConsole TRUE only if is NOT AN output, 
-      # Basically an output will make keep console FALSE
-      useConsole <- (!sheetNames$isOutput)
       
       # Use console if filterColumn argument is used
       if (!is.null(filterColumn)){
@@ -587,9 +572,9 @@ setMethod("datasheet",
             # following https://faculty.washington.edu/kenrice/sisg-adv/sisg-09.pdf
             # and https://www.sqlitetutorial.net/sqlite-in/
             if (sqlStatement$where == "") {
-              sqlStatement$where <- paste0("WHERE ScenarioID IN (", paste(sid, collapse = ","), ")")
+              sqlStatement$where <- paste0("WHERE ScenarioId IN (", paste(sid, collapse = ","), ")")
             } else {
-              sqlStatement$where <- paste0(sqlStatement$where, " AND (ScenarioID IN (", paste(sid, collapse = ","), "))")
+              sqlStatement$where <- paste0(sqlStatement$where, " AND (ScenarioId IN (", paste(sid, collapse = ","), "))")
             }
           }
         }
@@ -599,9 +584,9 @@ setMethod("datasheet",
             stop("Specify a project.")
           } else {
             if (sqlStatement$where == "") {
-              sqlStatement$where <- paste0("WHERE ProjectID IN (", paste(pid, collapse = ","), ")")
+              sqlStatement$where <- paste0("WHERE ProjectId IN (", paste(pid, collapse = ","), ")")
             } else {
-              sqlStatement$where <- paste0(sqlStatement$where, " AND (ProjectID IN (", paste(pid, collapse = ","), "))")
+              sqlStatement$where <- paste0(sqlStatement$where, " AND (ProjectId IN (", paste(pid, collapse = ","), "))")
             }
           }
         }
@@ -676,7 +661,9 @@ setMethod("datasheet",
         cRow <- sheetInfo[i, ]
         
         if (!is.element(cRow$name, colnames(sheet))) {
-          if (sqlStatement$select == "SELECT *") {
+          if (cRow$name == "ScenarioId"){
+            sheet[[cRow$name]] <- sid
+          } else if (sqlStatement$select == "SELECT *") {
             sheet[[cRow$name]] <- NA
           } else {
             next
@@ -738,18 +725,18 @@ setMethod("datasheet",
                 lookupSheet <- read.csv(lookupPath, as.is = TRUE)
               }
             }
-            if (is.element("ProjectID", names(lookupSheet))) {
+            if (is.element("ProjectId", names(lookupSheet))) {
               if (identical(pid, NULL) & !identical(sid, NULL)) {
                 allScns <- scenario(x)
-                findPrjs <- allScns$ProjectID[is.element(allScns$ScenarioID, sid)]
+                findPrjs <- allScns$ProjectId[is.element(allScns$ScenarioId, sid)]
               } else {
                 findPrjs <- pid
               }
-              lookupSheet <- subset(lookupSheet, is.element(ProjectID, pid))
+              lookupSheet <- subset(lookupSheet, is.element(ProjectId, pid))
             }
-            if (is.element("ScenarioID", names(lookupSheet))) {
+            if (is.element("ScenarioId", names(lookupSheet))) {
               if (!is.null(sid)) {
-                lookupSheet <- subset(lookupSheet, is.element(ScenarioID, sid))
+                lookupSheet <- subset(lookupSheet, is.element(ScenarioId, sid))
               }
             }
             if ((nrow(lookupSheet) == 0) & (cRow$optional == "No")) {
@@ -820,9 +807,9 @@ setMethod("datasheet",
       }
     }
     
-    if (is.element("ProjectID", names(sheet))) {
+    if (is.element("ProjectId", names(sheet))) {
       if (length(pid) == 1) {
-        sheet$ProjectID <- NULL
+        sheet$ProjectId <- NULL
       } else {
         if (nrow(sheet) > 0) {
           allProjects <- .project(x)
@@ -855,11 +842,12 @@ setMethod("datasheet",
         names(parentNames) <- c("ParentID", "ParentName")
         allScns <- merge(allScns, parentNames, all.x = T)
         
-        allScns <- subset(allScns, select = c(ScenarioID, ProjectID, Name, ParentID, ParentName))
+        allScns <- subset(allScns, select = c(ScenarioId, ProjectId, Name, ParentId, ParentName))
         
         names(allScns) <- c("ScenarioID", "ProjectID", "ScenarioName", "ParentID", "ParentName")
         allScns <- allScns[allScns$ScenarioID %in% sid,]
         
+        sheet <- subset(sheet , select=c(-ScenarioId))
         sheet <- merge(allScns, sheet, all.y = TRUE)
       }
     }

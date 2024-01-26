@@ -2,42 +2,51 @@
 % Please edit documentation in R/removePackage.R
 \name{removePackage}
 \alias{removePackage}
-\alias{removePackage,ANY,character-method}
-\alias{removePackage,ANY,missingOrNULL-method}
-\alias{removePackage,ANY,Session-method}
-\title{Removes package from SyncroSim installation}
+\alias{removePackage,character-method}
+\alias{removePackage,SsimLibrary-method}
+\title{Removes SyncroSim package(s)}
 \usage{
-removePackage(name, session = NULL, force = FALSE)
+removePackage(ssimLibrary, name)
 
-\S4method{removePackage}{ANY,character}(name, session = NULL, force = FALSE)
+\S4method{removePackage}{character}(ssimLibrary, name)
 
-\S4method{removePackage}{ANY,missingOrNULL}(name, session = NULL, force = FALSE)
-
-\S4method{removePackage}{ANY,Session}(name, session = NULL, force = FALSE)
+\S4method{removePackage}{SsimLibrary}(ssimLibrary, name)
 }
 \arguments{
-\item{name}{character. The name of the package to remove}
+\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default),
-\code{session()} will be used}
-
-\item{force}{logical. If \code{TRUE}, remove without requiring confirmation from
-the user. Default is \code{FALSE}}
+\item{name}{character string or vector of package name(s)}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful
-removal) and \code{FALSE} upon failure.
+This function invisibly returns \code{TRUE} upon success (i.e.successful
+removal of the package) or \code{FALSE} upon failure.
 }
 \description{
-Removes package from SyncroSim installation
+Removes package(s) from a \code{\link{SsimLibrary}}.
 }
 \examples{
 \donttest{
-# Set SyncroSim Session
-mySession <- session()
+# Install "stsim" SyncroSim package
+installPackage("stsim")
 
-# Remove package from SyncroSim Session
-removePackage("stsim", mySession, force = FALSE)
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session, SsimLibrary, and Project
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, 
+                         package = "stsim")
+
+# Add package
+addPackage(myLibrary, c("stsimsf"))
+packages(myLibrary)
+
+# Remove package
+removePackage(myLibrary, c("stsimsf"))
+packages(myLibrary)
 }
 
+}
+\seealso{
+\code{\link{packages}}
 }

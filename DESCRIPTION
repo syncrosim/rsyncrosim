@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.4.14
+Version: 2.0.0
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = "aut"),
@@ -48,29 +48,25 @@ Collate:
     'AAAClassDefinitions.R'
     'addPackage.R'
     'addRow.R'
-    'addon.R'
     'autogentags.R'
     'backup.R'
-    'breakpoint.R'
     'command.R'
     'condaFilepath.R'
     'datasheet.R'
-    'datasheetRaster.R'
     'datasheetSpatRaster.R'
     'dateModified.R'
     'delete.R'
     'dependency.R'
-    'deprecated.R'
     'description.R'
-    'disableAddon.R'
-    'enableAddon.R'
     'filepath.R'
     'folder.R'
     'folderId.R'
     'ignoreDependencies.R'
     'info.R'
     'installConda.R'
+    'installPackage.R'
     'internalHelpers.R'
+    'packages.R'
     'name.R'
     'scenarioId.R'
     'projectId.R'
@@ -82,7 +78,6 @@ Collate:
     'internalWrappers.R'
     'mergeDependencies.R'
     'owner.R'
-    'package.R'
     'parentId.R'
     'print.R'
     'printCmd.R'
@@ -95,6 +90,7 @@ Collate:
     'silent.R'
     'ssimEnvironment.R'
     'ssimUpdate.R'
+    'uninstallPackage.R'
     'updatePackage.R'
     'useConda.R'
     'version.R'

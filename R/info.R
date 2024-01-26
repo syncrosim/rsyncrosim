@@ -1,9 +1,8 @@
 #' Retrieves information about a library
 #' 
 #' Retrieves some basic metadata about a SsimLibrary: Name, Owner, Last Modified, 
-#' Size, Read Only, Package Name, Package Description, Current Package Version,
-#' Minimum Package Version, External input files, External output files, 
-#' Temporary files, Backup files.
+#' Size, Read Only, Data files, Publish files, Temporary files, Backup files, 
+#' and Use conda.
 #' 
 #' @param ssimLibrary \code{\link{SsimLibrary}} object
 #' 

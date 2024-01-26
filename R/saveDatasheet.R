@@ -66,7 +66,7 @@ NULL
 #' @examples 
 #' \donttest{
 #' # Install helloworldSpatial package
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib_saveDatasheet")
@@ -103,7 +103,7 @@ NULL
 #'               
 #' # Save a raster stack using fileData
 #' # Create a raster stack - add as many raster files as you want here
-#' map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
+#' map1 <- datasheetSpatRaster(myScenario, datasheet = "InputDatasheet",
 #'                         column = "InterceptRasterFile")
 #' inRasters <- terra::rast(map1)
 #' 
@@ -158,9 +158,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     }
 
     if (!grepl("_", name, fixed = )) {
-      l = ssimLibrary(.filepath(ssimObject), summary=T)
-      p = l$value[l$property == "Package Name:"]
-      name <- paste0(p, "_", name)
+      stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
     }
 
     if (grepl("STSim_", name, fixed = TRUE)) {

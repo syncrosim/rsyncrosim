@@ -1,0 +1,93 @@
+# Copyright (c) 2023 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
+NULL
+
+#' Adds package to SyncroSim Installation
+#'
+#' This function installs a package to the SyncroSim \code{\link{Session}}.
+#' If only the package name is provided as input, the function queries the 
+#' SyncroSim package server for the specified package. If a file path is 
+#' provided as input, the function installs a package to SyncroSim from a local 
+#' package file (ends in ".ssimpkg"). The list of SyncroSim packages can be 
+#' found \href{https://syncrosim.com/packages/}{here}.
+#'
+#' @param name character string.  The name or file path of the package to 
+#' install
+#' @param session \code{\link{Session}} object. If \code{NULL} (default),
+#' \code{session()} will be used
+#' 
+#' @return 
+#' Invisibly returns \code{TRUE} upon success (i.e.successful 
+#' install) and \code{FALSE} upon failure.
+#' 
+#' @examples
+#' \dontrun{
+#' # Create a new SyncroSim Session
+#' mySession <- session()
+#' 
+#' # Install package from the package server
+#' installPackage("stsim", session = mySession)
+#' 
+#' # Install package using a local file path
+#' installPackage("c:/path/to/stsim.ssimpkg")
+#' }
+#' 
+#' @export
+setGeneric("installPackage", function(name, session = NULL) standardGeneric("installPackage"))
+
+#' @rdname installPackage
+setMethod("installPackage", signature(session = "character"), function(name, session) {
+  return(SyncroSimNotFound(session))
+})
+
+#' @rdname installPackage
+setMethod("installPackage", signature(session = "missingOrNULL"), function(name, session) {
+  session <- .session()
+  return(installPackage(name, session))
+})
+
+#' @rdname installPackage
+setMethod("installPackage", signature(session = "Session"), function(name, session) {
+  success <- FALSE
+  progName <- "SyncroSim.PackageManager.exe"
+  
+  if (is.null(name)) {
+    stop("A package name or file path is required")
+  }
+  
+  if (grepl(".ssimpkg", name)) {
+    if (!file.exists(name)) {
+      tt <- paste0("Cannot find file: ", name)
+    } else {
+      tt <- command(args = list(finstall = name), session, program = progName)
+      if (tt == "saved"){
+        success <- TRUE
+        tt <- paste0("Package installed from file <", name, ">")
+      }
+    }
+  } else if (dir.exists(name)){
+    if (!file.exists(file.path(name, "package.xml"))){
+      tt <- paste0("Package folder is not valid")
+    }
+    tt <- command(args = list(xinstall = name), session, program = progName)
+    if (tt[1] == "saved"){
+      success <- TRUE
+      tt <- paste0("Package installed from folder <", name, ">")
+    }
+  } else {
+    pkgs <- packages(session)
+    if (is.element(name, pkgs$name)) {
+      tt <- (paste0("Package <", name, "> is already installed"))
+    } else {
+      tt <- command(args = list(install = name), session, program = progName)
+      if (tt[1] == "saved"){
+        tt <- paste0("Package <", name, "> installed")
+        success <- TRUE
+      }
+    }
+  }
+
+  message(tt)
+  return(invisible(success))
+})

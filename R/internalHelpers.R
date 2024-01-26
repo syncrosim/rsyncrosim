@@ -46,13 +46,12 @@ backupEnabled <- function(path) {
 deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL, cProjName = NULL, cScnName = NULL, out = list(), force) {
   out <- list()
   lib = ssimLibrary(.filepath(x), summary=T)
-  pkg = lib$value[lib$property == "Package Name:"]
   
   for (j in seq(length.out = length(datasheet))) {
     cName <- datasheet[j]
     
     if (!grepl("_", cName, fixed = TRUE)) {
-      cName <- paste0(pkg, "_", cName)
+      stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
     }
     
     cSheet <- subset(datasheets, name == cName)
@@ -144,12 +143,15 @@ getIdsFromListOfObjects <- function(ssimObject, expecting = NULL, scenario = NUL
 # get scnSet
 getScnSet <- function(ssimObject) {
   # get current scenario info
-  ScenarioID <- NULL
+  ScenarioId <- NULL
   tt <- command(list(list = NULL, scenarios = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   scnSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
+  names(scnSet)[names(scnSet) == "Id"] <- "ScenarioId"
+  names(scnSet)[names(scnSet) == "ProjectId"] <- "ProjectId"
+  names(scnSet)[names(scnSet) == "ParentId"] <- "ParentId"
   if (nrow(scnSet) == 0) {
-    scnSet <- merge(scnSet, data.frame(ScenarioID = NA, exists = NA), all = TRUE)
-    scnSet <- subset(scnSet, !is.na(ScenarioID))
+    scnSet <- merge(scnSet, data.frame(ScenarioId = NA, exists = NA), all = TRUE)
+    scnSet <- subset(scnSet, !is.na(ScenarioId))
   } else {
     scnSet$exists <- TRUE
   }
@@ -158,15 +160,15 @@ getScnSet <- function(ssimObject) {
 
 # get projectSet
 getProjectSet <- function(ssimObject) {
-  ProjectID <- NULL
+  ProjectId <- NULL
   tt <- command(list(list = NULL, projects = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   projectSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
   if (nrow(projectSet) == 0) {
-    projectSet[1, "ProjectID"] <- NA
+    projectSet[1, "ProjectId"] <- NA
   }
-  # names(projectSet)[names(projectSet) == "iD"] <- "projectId"
+  names(projectSet)[names(projectSet) == "Id"] <- "ProjectId"
   projectSet$exists <- TRUE
-  projectSet <- subset(projectSet, !is.na(ProjectID))
+  projectSet <- subset(projectSet, !is.na(ProjectId))
   return(projectSet)
 }
 
@@ -174,16 +176,6 @@ getProjectSet <- function(ssimObject) {
 createCondaEnv <- function(libPath, currentPackages, session) {
   
   message("Creating Conda environments. Please wait...")
-  
-  # Check if Conda is installed
-  # tt <- command(list(conda = NULL, config = NULL), session)
-  # if (identical(tt, "No Conda configuration yet.")){
-  #   tt <- command(list(setprop = NULL,
-  #                      lib = libPath,
-  #                      useconda = "no"), session)
-  #   message("Conda must be installed to use Conda environments.")
-  #   return(TRUE)
-  # }
   
   # Check if environment needs to be created, create if doesn't exist yet
   for (package in currentPackages) {
@@ -311,7 +303,7 @@ printAndCapture <- function(x) {
 # read only status, and published status.
 getFolderData <- function(x) {
   
-  FolderID = NULL
+  FolderId = NULL
   X = NULL
   
   args <- list(lib = .filepath(x), list = NULL, folders = NULL)
@@ -324,7 +316,7 @@ getFolderData <- function(x) {
   out <- subset(out, select = -c(X))
   
   if (is(x, "Folder")){
-    out <- subset(out, FolderID == x@folderId)
+    out <- subset(out, FolderId == x@folderId)
   }
   
   return(out)
@@ -335,9 +327,12 @@ getFolderData <- function(x) {
 # @param x SyncroSim Library, Project, Scenario, or Folder object.
 # @param folderId integer value of the child Folder ID.
 # @param item string indicating type of the child item ("Folder" or "Scenario")
+# @param item string indicating type of the child item ("Folder" or "Scenario")
 # @return integer corresponding to the parent folder ID or project ID.
 getParentFolderId <- function(x, id, item="Folder") {
+getParentFolderId <- function(x, id, item="Folder") {
   df <- getLibraryStructure(x)
+  childRowInd <- which((df$id == id) & (df$item == item))
   childRowInd <- which((df$id == id) & (df$item == item))
   parentRowInd <- childRowInd - 1
   childRow <- df[childRowInd, ]
@@ -374,7 +369,7 @@ addScenarioToFolder <- function(x, pid, sid, folder) {
     fid <- folder@folderId
   } else if (is.character(folder)) {
     folderData <- getFolderData(x)
-    fid <- subset(folderData, Name == folder)$FolderID
+    fid <- subset(folderData, Name == folder)$FolderId
     if (length(fid) == 0){
       stop(paste0("Folder name ", folder, " does not exist."))
     } else if (length(fid) > 1){
@@ -435,6 +430,7 @@ getLibraryStructure <- function(x) {
   }
   
   libStructureDF <- libStructureDF[!is.na(libStructureDF$item),]
+  libStructureDF <- libStructureDF[!is.na(libStructureDF$item),]
   return(libStructureDF)
 }
 
@@ -479,6 +475,11 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     datasheets <- .dataframeFromSSim(tt, convertToLogical = c("isOutput", "isSingle"))
     datasheets$scope <- sapply(datasheets$scope, camel)
   }
+  
+  if (nrow(datasheets) == 0){
+    return(datasheets)
+  }
+  
   datasheets$order <- seq(1, nrow(datasheets))
   if (!is.null(scope) && (scope == "all")) {
     datasheets$order <- NULL
@@ -507,8 +508,8 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 .getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = TRUE) {
   # If x is scenario, ignore project and scenario arguments
   Freq <- NULL
-  ProjectID <- NULL
-  ScenarioID <- NULL
+  ProjectId <- NULL
+  ScenarioId <- NULL
   
   if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
@@ -596,7 +597,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           stop("No projects found in library.")
         }
       }
-      project <- projectSet$ProjectID
+      project <- projectSet$ProjectId
     }
     
     # Now assume project is defined
@@ -604,7 +605,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     areIds <- is.numeric(project)
     
     if (areIds) {
-      mergeBit <- data.frame(ProjectID = as.numeric(as.character(project)))
+      mergeBit <- data.frame(ProjectId = as.numeric(as.character(project)))
     } else {
       mergeBit <- data.frame(Name = project, stringsAsFactors = FALSE)
     }
@@ -613,7 +614,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     missingProjects <- subset(fullProjectSet, is.na(fullProjectSet$exists) & (!is.na(fullProjectSet$order)))
     if (complainIfMissing & (nrow(missingProjects) > 0)) {
       if (areIds) {
-        stop("Project ids (", paste(missingProjects$ProjectID, collapse = ","), ") not found in ssimObject. ")
+        stop("Project ids (", paste(missingProjects$ProjectId, collapse = ","), ") not found in ssimObject. ")
       } else {
         stop("Projects (", paste(missingProjects$Name, collapse = ","), ") not found in ssimObject. ")
       }
@@ -621,7 +622,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     
     missingNames <- subset(missingProjects, is.na(missingProjects$Name))
     if (areIds & (nrow(missingNames) > 0)) {
-      stop("Project ids (", paste(missingNames$ProjectID, collapse = ","), ") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument of the project() function. SyncroSim will automatically assign project ids.")
+      stop("Project ids (", paste(missingNames$ProjectId, collapse = ","), ") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument of the project() function. SyncroSim will automatically assign project ids.")
     }
     
     # Stop if an element of project corresponds to more than one existing row of the project list
@@ -631,7 +632,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       if (nrow(dupNames) > 0) {
         # report the first error only
         cName <- dupNames$Var1[1]
-        cIds <- checkDups$ProjectID[checkDups$Name == cName]
+        cIds <- checkDups$ProjectId[checkDups$Name == cName]
         stop(paste0("The library contains more than one project called ", cName, ". Specify a project id: ", paste(cIds, collapse = ",")))
       }
     }
@@ -644,10 +645,10 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       if (!smallProjectSet$exists) {
         stop("Project ", project, " not found in the ssimObject.")
       }
-      return(new("Project", ssimObject, id = smallProjectSet$ProjectID, projects = fullProjectSet))
+      return(new("Project", ssimObject, id = smallProjectSet$ProjectId, projects = fullProjectSet))
     }
     if (sum(is.na(smallProjectSet$exists)) == 0) {
-      project <- smallProjectSet$ProjectID
+      project <- smallProjectSet$ProjectId
     }
     
     return(list(ssimObject = ssimObject, project = project, scenario = scenario, projectSet = fullProjectSet, goal = goal))
@@ -674,10 +675,10 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     
     scnSet <- getScnSet(ssimObject)
     if (!is.null(project)) {
-      scnSet <- subset(scnSet, is.element(ProjectID, project))
+      scnSet <- subset(scnSet, is.element(ProjectId, project))
     }
     if (!is.null(scenario) && is.numeric(scenario)) {
-      scnSet <- subset(scnSet, is.element(ScenarioID, scenario))
+      scnSet <- subset(scnSet, is.element(ScenarioId, scenario))
     }
     if (is.null(scenario)) {
       if (nrow(scnSet) == 0) {
@@ -688,26 +689,26 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           stop("No scenarios found in ssimObject.")
         }
       }
-      scenario <- scnSet$ScenarioID
+      scenario <- scnSet$ScenarioId
     }
     
     # Now assume scenario is defined
     # distinguish existing scenarios from those that need to be made
     areIds <- is.numeric(scenario)
     if (areIds) {
-      mergeBit <- data.frame(ScenarioID = scenario)
+      mergeBit <- data.frame(ScenarioId = scenario)
     } else {
       mergeBit <- data.frame(Name = scenario, stringsAsFactors = FALSE)
     }
     if (!is.null(project)) {
-      mergeBit$ProjectID <- project
+      mergeBit$ProjectId <- project
     }
     mergeBit$order <- seq(1:length(scenario))
     fullScnSet <- merge(scnSet, mergeBit, all = TRUE)
     missingScns <- subset(fullScnSet, is.na(fullScnSet$exists) & (!is.na(fullScnSet$order)))
     if (complainIfMissing & (nrow(missingScns) > 0)) {
       if (areIds) {
-        stop("Scenario ids (", paste(missingScns$ScenarioID, collapse = ","), ") not found in ssimObject. ")
+        stop("Scenario ids (", paste(missingScns$ScenarioId, collapse = ","), ") not found in ssimObject. ")
       } else {
         stop("Scenarios (", paste(missingScns$Name, collapse = ","), ") not found in ssimObject. ")
       }
@@ -715,7 +716,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     
     missingNames <- subset(missingScns, is.na(missingScns$Name))
     if (areIds & (nrow(missingNames) > 0)) {
-      stop("Scenario ids (", paste(missingNames$ScenarioID, collapse = ","), ") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.")
+      stop("Scenario ids (", paste(missingNames$ScenarioId, collapse = ","), ") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.")
     }
     
     # For scenarios that need to be made, assign project or fail
@@ -730,13 +731,13 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           obj <- project(ssimObject, project = "project1")
           project <- .projectId(obj)
         } else {
-          project <- allProjects$ProjectID
+          project <- allProjects$ProjectId
         }
       }
       if (is.null(project) || is.na(project)) {
         stop("Something is wrong")
       }
-      fullScnSet$ProjectID[!is.na(fullScnSet$order) & is.na(fullScnSet$exists)] <- project
+      fullScnSet$ProjectId[!is.na(fullScnSet$order) & is.na(fullScnSet$exists)] <- project
     }
     
     # Stop if an element of scenarios corresponds to more than one existing row of the scenario list
@@ -746,7 +747,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       if (nrow(dupNames) > 0) {
         # report the first error only
         cName <- dupNames$Var1[1]
-        cIds <- checkDups$ScenarioID[checkDups$Name == cName]
+        cIds <- checkDups$ScenarioId[checkDups$Name == cName]
         stop(paste0("The ssimObject contains more than one scenario called ", cName, ". Specify a scenario id: ", paste(cIds, collapse = ",")))
       }
     }
@@ -762,7 +763,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       return(new("Scenario", ssimObject, id = scenario, scenarios = fullScnSet))
     }
     if (sum(is.na(smallScenarioSet$exists)) == 0) {
-      scenario <- smallScenarioSet$ScenarioID
+      scenario <- smallScenarioSet$ScenarioId
     }
     
     return(list(ssimObject = ssimObject, project = project, scenario = scenario, scenarioSet = fullScnSet, goal = goal))

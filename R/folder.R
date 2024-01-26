@@ -7,13 +7,13 @@ setMethod(
   f = "initialize", signature = "Folder",
   definition = function(.Object, ssimObject, folder, parentFolder = NULL, create = FALSE) {
     Name <- NULL
-    FolderID <- NULL
+    FolderId <- NULL
     
     x <- ssimObject
     
     # Set some defaults
-    ProjectID <- x@projectId
-    ParentID <- 0
+    ProjectId <- x@projectId
+    ParentId <- 0
     
     # Depending on whether x is a ssimLibrary or Project, grab corresponding folder data
     folders <- getFolderData(x)
@@ -32,7 +32,7 @@ setMethod(
 
     } else if (is.numeric(folder)){
       
-      folders <- subset(folders, FolderID == folder)
+      folders <- subset(folders, FolderId == folder)
       
       # If no folders retrieved, then ID does not yet exist
       if (nrow(folders) == 0){
@@ -53,11 +53,11 @@ setMethod(
 
     # If one folder retrieved, then open folder
     if ((nrow(folders) == 1) & (create == FALSE)) {
-      .Object@folderId <- folders$FolderID
-      .Object@parentId <- getParentFolderId(x, folders$FolderID)
+      .Object@folderId <- folders$FolderId
+      .Object@parentId <- getParentFolderId(x, folders$FolderId)
       .Object@session <- .session(x)
       .Object@filepath <- .filepath(x)
-      .Object@projectId <- ProjectID
+      .Object@projectId <- ProjectId
       return(.Object)
     }
     
@@ -66,7 +66,7 @@ setMethod(
       
       # Grab parent folder ID and validate inputs
       if (is(parentFolder, "Folder")) {
-        ParentID <- parentFolder@folderId 
+        ParentId <- parentFolder@folderId 
         
       } else if (is.character(parentFolder)) {
         parentFolderData <- subset(allFolders, Name == parentFolder)
@@ -77,10 +77,10 @@ setMethod(
                       ". Please provide a valid parent folder name."))
         }
         
-        ParentID <- parentFolderData$FolderID
+        ParentId <- parentFolderData$FolderId
         
       } else if (is.numeric(parentFolder)) {
-        parentFolderData <- subset(allFolders, FolderID == parentFolder)
+        parentFolderData <- subset(allFolders, FolderId == parentFolder)
         
         if (nrow(parentFolderData) == 0) {
           stop(paste0("The library does not contain a folder with the ID ", 
@@ -88,7 +88,7 @@ setMethod(
                       ". Please provide a valid parent folder ID"))
         }
         
-        ParentID <- parentFolderData$FolderID
+        ParentId <- parentFolderData$FolderId
         
       } else {
         stop("The parentFolder argument must be a character, integer, or SyncroSim folder object.")
@@ -96,9 +96,9 @@ setMethod(
       
       # Create nested folder
       args <- list(lib = .filepath(x), create = NULL, folder = NULL, 
-                   name = Name, tfid = ParentID)
+                   name = Name, tfid = ParentId)
       tt <- command(args = args, session = .session(x))
-      FolderID <- as.integer(strsplit(tt, ": ")[[1]][2])
+      FolderId <- as.integer(strsplit(tt, ": ")[[1]][2])
       
     } else {
       
@@ -108,16 +108,16 @@ setMethod(
       }
       
       args <- list(lib = .filepath(x), create = NULL, folder = NULL, 
-                   name = Name, tpid = ProjectID)
+                   name = Name, tpid = ProjectId)
       tt <- command(args = args, session = .session(x))
-      FolderID <- as.integer(strsplit(tt, ": ")[[1]][2])
+      FolderId <- as.integer(strsplit(tt, ": ")[[1]][2])
     }
     
-    .Object@folderId <- FolderID
-    .Object@parentId <- getParentFolderId(x, FolderID)
+    .Object@folderId <- FolderId
+    .Object@parentId <- getParentFolderId(x, FolderId)
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
-    .Object@projectId <- ProjectID
+    .Object@projectId <- ProjectId
     return(.Object)
   }
 )
@@ -205,7 +205,7 @@ folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL, create
         }
       }
       
-      folders <- folders[which(folders$FolderID %in% ids), ]
+      folders <- folders[which(folders$FolderId %in% ids), ]
     }
     
     return(folders)

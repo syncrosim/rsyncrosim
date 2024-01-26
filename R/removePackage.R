@@ -3,65 +3,73 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Removes package from SyncroSim installation
+#' Removes SyncroSim package(s)
+#'
+#' Removes package(s) from a \code{\link{SsimLibrary}}.
+#'
+#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param name character string or vector of package name(s)
 #' 
-#' @param name character. The name of the package to remove
-#' @param session \code{\link{Session}} object. If \code{NULL} (default), 
-#' \code{session()} will be used
-#' @param force logical. If \code{TRUE}, remove without requiring confirmation from 
-#'     the user. Default is \code{FALSE}
+#' @return
+#' This function invisibly returns \code{TRUE} upon success (i.e.successful 
+#' removal of the package) or \code{FALSE} upon failure.
 #' 
-#' @return 
-#' Invisibly returns \code{TRUE} upon success (i.e.successful 
-#' removal) and \code{FALSE} upon failure.
+#' @seealso 
+#' \code{\link{packages}}
 #' 
-#' @examples 
+#' @examples
 #' \donttest{
-#' # Set SyncroSim Session
-#' mySession <- session()
+#' # Install "stsim" SyncroSim package
+#' installPackage("stsim")
 #' 
-#' # Remove package from SyncroSim Session
-#' removePackage("stsim", mySession, force = FALSE)
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, and Project
+#' mySession <- session()
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, 
+#'                          package = "stsim")
+#' 
+#' # Add package
+#' addPackage(myLibrary, c("stsimsf"))
+#' packages(myLibrary)
+#' 
+#' # Remove package
+#' removePackage(myLibrary, c("stsimsf"))
+#' packages(myLibrary)
 #' }
 #' 
 #' @export
-setGeneric("removePackage", function(name, session = NULL, force = FALSE) standardGeneric("removePackage"))
+setGeneric("removePackage", function(ssimLibrary, name) standardGeneric("removePackage"))
 
 #' @rdname removePackage
-setMethod("removePackage", signature(session = "character"), function(name, session, force) {
-  return(SyncroSimNotFound(session))
+setMethod("removePackage", signature(ssimLibrary = "character"), function(ssimLibrary, name) {
+  return(SyncroSimNotFound(ssimLibrary))
 })
 
 #' @rdname removePackage
-setMethod("removePackage", signature(session = "missingOrNULL"), function(name, session, force) {
-  session <- .session(session)
-  return(removePackage(name, session, force))
-})
+setMethod("removePackage", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, name) {
+  libraryPkgs <- subset(packages(ssimLibrary))
+  retList <- list()
 
-#' @rdname removePackage
-setMethod("removePackage", signature(session = "Session"), function(name, session, force) {
-  installed <- package(session)
-  success <- FALSE
-  
-  if (!is.element(name, installed$name)) {
-    stop("The package is not installed.")
-  }
-  
-  if (force) {
-    answer <- "y"
-  } else {
-    answer <- readline(prompt = paste0("Do you really want to remove package '", name, "'? (y/n)"))
-  }
-  
-  if (answer == "y") {
-    tt <- command(args = list(uninstall = name), session, program = "SyncroSim.PackageManager.exe")
+  for (i in seq(length.out = length(name))) {
+    cVal <- name[i]
+    if (!is.element(cVal, libraryPkgs$name)) {
+      print(paste0("Warning - ", cVal, " is not among the available packages: ", 
+                   paste(libraryPkgs$name, collapse = ",")))
+      retList[[cVal]] <- FALSE
+      next
+    }
+
+    tt <- command(list(remove = NULL, package = NULL, force = NULL, lib = .filepath(ssimLibrary), pkg = cVal), .session(ssimLibrary))
     if (tt == "saved"){
-      tt <- paste0("Package <", name,"> removed")
-      success <- TRUE
-    } 
-  } else {
-    tt <- paste0("Removal of package <", name,"> skipped")
+      message(paste0("Package <", cVal, "> removed"))
+      retList[[cVal]] <- TRUE
+    } else {
+      message(tt)
+      retList[[cVal]] <- FALSE
+    }
   }
-  message(tt)
-  return(invisible(success))
+
+  return(invisible(retList))
 })

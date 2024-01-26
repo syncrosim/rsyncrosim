@@ -5,14 +5,12 @@
 \alias{run,character-method}
 \alias{run,list-method}
 \alias{run,SsimObject-method}
-\alias{run,BreakpointSession-method}
 \title{Run scenarios}
 \usage{
 run(
   ssimObject,
   scenario = NULL,
   summary = FALSE,
-  jobs = 1,
   copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
@@ -22,7 +20,6 @@ run(
   ssimObject,
   scenario = NULL,
   summary = FALSE,
-  jobs = 1,
   copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
@@ -32,7 +29,6 @@ run(
   ssimObject,
   scenario = NULL,
   summary = FALSE,
-  jobs = 1,
   copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
@@ -42,13 +38,10 @@ run(
   ssimObject,
   scenario = NULL,
   summary = FALSE,
-  jobs = 1,
   copyExternalInputs = FALSE,
   transformerName = NULL,
   forceElements = FALSE
 )
-
-\S4method{run}{BreakpointSession}(ssimObject, scenario, summary, jobs, copyExternalInputs, forceElements)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or
@@ -62,12 +55,10 @@ that integer ids are slightly faster}
 \item{summary}{logical. If \code{FALSE} (default) result Scenario objects are returned.
 If \code{TRUE} (faster) result Scenario ids are returned}
 
-\item{jobs}{integer. The number of jobs to run. Passed to SyncroSim where
-multithreading is handled}
-
 \item{copyExternalInputs}{logical. If \code{FALSE} (default) then a copy of external
-input files (e.g. GeoTIFF files) is not created for each job. Otherwise, a
-copy of external inputs is created for each job. Applies only when \code{jobs}>1}
+input files (e.g. GeoTIFF files) is not created for each multiprocessing job. Otherwise, a
+copy of external inputs is created for each multiprocessing job. Applies only when
+the number of jobs is set to >1 in the core_Multiprocessing datasheet.}
 
 \item{transformerName}{character.  The name of the transformer to run (optional)}
 
@@ -89,7 +80,7 @@ Note that breakpoints are ignored unless the SsimObject is a single Scenario.
 \examples{
 \dontrun{
 # Install helloworldSpatial package
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
@@ -109,9 +100,6 @@ resultScenario <- run(myScenario)
 
 # Only return summary information
 resultScenario <- run(myScenario, summary = TRUE)
-
-# Run with multiprocessing
-resultScenario <- run(myScenario, jobs = 6)
 
 # Return results as a named list
 resultScenario <- run(myScenario, forceElements = TRUE)

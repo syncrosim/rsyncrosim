@@ -22,7 +22,7 @@ library(rsyncrosim)
 
 Install a Package that uses Conda environments
 ```{r}
-addPackage("c:/Users/birch/OneDrive/Desktop/wisdm.ssimpkg")
+installPackage("c:/Users/birch/OneDrive/Desktop/wisdm.ssimpkg")
 ```
 
 Start an rsyncrosim Session and set the Conda Filepath

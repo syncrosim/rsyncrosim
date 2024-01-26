@@ -37,14 +37,14 @@ query by the \code{\link{datasheet}} function.
 Variables are column names of the Datasheet. See column names using \code{datasheet(,empty=TRUE)}
 Variables not included in \code{groupBy}, \code{aggregate} or \code{where} will be dropped from the table.
 Note that it is not possible to construct a complete SQL query at this stage,
-because the \code{\link{datasheet}} function may add ScenarioID and/or ProjectID to the query.
+because the \code{\link{datasheet}} function may add ScenarioId and/or ProjectId to the query.
 }
 \examples{
 \donttest{
-# Query total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
+# Query total Amount for each combination of ScenarioId, Iteration, Timestep and StateLabelXID,
 # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 mySQL <- sqlStatement(
-  groupBy = c("ScenarioID", "Iteration", "Timestep"),
+  groupBy = c("ScenarioId", "Iteration", "Timestep"),
   aggregate = c("yCum"),
   aggregateFunction = "SUM",
   where = list(Timestep = c(0, 1, 2), Iteration = c(3, 4))
@@ -53,7 +53,7 @@ mySQL
 
 # The SQL statement can then be used in the datasheet function
 # Install helloworldSpatial package
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib_sqlStatement")

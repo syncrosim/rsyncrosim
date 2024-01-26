@@ -88,7 +88,7 @@ setReplaceMethod(
       
       tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useconda = "yes"), .session(ssimObject))
       
-      currentPackages <- package(ssimObject)$name
+      currentPackages <- packages(ssimObject)$name
     }
     
     createCondaEnv(.filepath(ssimObject), currentPackages, .session(ssimObject))
