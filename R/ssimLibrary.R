@@ -135,13 +135,6 @@ setMethod(
         if (grepl(cStatus[1], "Creating Library from Template")) {
           stop("Problem creating library: ", cStatus[1])
         }
-        
-        # Print out available scenarios for the template
-        args <- list(list = NULL, scenarios = NULL, lib = path, csv = NULL)
-        tt <- command(args, session)
-        tempScenarios <- read.csv(text = tt)
-        message(paste(c("Scenarios available in this template:",
-                      tempScenarios$Name), collapse = "    "))
       } 
       
       if (!is.null(template) & !is.character(template)) {
