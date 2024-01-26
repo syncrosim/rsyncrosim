@@ -141,8 +141,9 @@ performance.  Ignored if combined with summary, empty, or
 \code{\link{sqlStatement}} flags. Default is \code{FALSE}}
 
 \item{returnScenarioInfo}{logical. If \code{TRUE}, returns the Scenario ID,
-Scenario Name, Parent ID, and Parent Name columns with the Datasheet.
-Default is \code{FALSE}}
+Scenario Name, Parent ID, and Parent Name columns with the
+Scenario-scoped Datasheet. Does nothing if the Datasheet exists at the
+Library or Project level. Default is \code{FALSE}}
 
 \item{returnInvisible}{logical. If \code{TRUE}, returns columns that are
 invisible in the User Interface (i.e., are only used and populated
