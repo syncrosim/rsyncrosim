@@ -86,7 +86,6 @@ Collate:
     'parentId.R'
     'print.R'
     'printCmd.R'
-    'published.R'
     'readOnly.R'
     'removePackage.R'
     'rsyncrosim.R'
