@@ -330,7 +330,6 @@ getFolderData <- function(x) {
 # @param item string indicating type of the child item ("Folder" or "Scenario")
 # @return integer corresponding to the parent folder ID or project ID.
 getParentFolderId <- function(x, id, item="Folder") {
-getParentFolderId <- function(x, id, item="Folder") {
   df <- getLibraryStructure(x)
   childRowInd <- which((df$id == id) & (df$item == item))
   childRowInd <- which((df$id == id) & (df$item == item))
