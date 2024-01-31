@@ -18,7 +18,7 @@ NULL
 #' \code{\link{addon}}
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Install "stsim" SyncroSim package
 #' addPackage("stsim")
 #' 

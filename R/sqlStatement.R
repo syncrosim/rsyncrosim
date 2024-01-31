@@ -29,7 +29,7 @@ NULL
 #' \code{\link{datasheet}} function to construct an SQLite database query.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Query total Amount for each combination of ScenarioID, Iteration, Timestep and StateLabelXID,
 #' # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 #' mySQL <- sqlStatement(

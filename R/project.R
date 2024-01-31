@@ -161,7 +161,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' summary is \code{TRUE}, returns a data.frame of Project names and descriptions.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib_project")
 #' 
