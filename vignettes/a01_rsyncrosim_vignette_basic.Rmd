@@ -259,7 +259,7 @@ Each SyncroSim Library contains multiple SyncroSim <a href="https://docs.syncros
 datasheet(myScenario)
 ```
 
-If we want to see more information about each Datasheet, such as the scope of the Datasheet or if it only accepts a single row of data, we can set the `optional` argument to `FALSE`.
+If we want to see more information about each Datasheet, such as the scope of the Datasheet or if it only accepts a single row of data, we can set the `optional` argument to `TRUE`.
 
 ```{r}
 datasheet(myScenario, optional = TRUE)
