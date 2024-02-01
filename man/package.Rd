@@ -40,7 +40,7 @@ for a specified package.
 Retrieves the packages installed or available for this version of SyncroSim.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

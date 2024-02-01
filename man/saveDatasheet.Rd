@@ -115,7 +115,7 @@ source and has a Project scope.  In this case the data will be MERGED.
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # Install helloworldSpatial package
 addPackage("helloworldSpatial")
 

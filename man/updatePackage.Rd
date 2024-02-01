@@ -33,7 +33,7 @@ and \code{FALSE} upon failure.
 Updates a SyncroSim package.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set SyncroSim Session
 mySession <- session()
 

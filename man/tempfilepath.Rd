@@ -28,7 +28,7 @@ Retrieves the temporary file path to a SyncroSim \code{\link{Session}},
 on disk.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

@@ -28,7 +28,7 @@ Retrieves the id of the parent of a SyncroSim results Scenario or a SyncroSim
 Folder.
 }
 \examples{
-\donttest{
+\dontrun{
 # Install helloworldSpatial SyncroSim package
 addPackage("helloworldSpatial")
 
