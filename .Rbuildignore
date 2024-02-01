@@ -31,4 +31,4 @@ debugging.R
 ^CRAN-SUBMISSION$
 ^rsyncrosim\.Rproj$
 ^tests_in_progress$
-utilities
+^utilities$
