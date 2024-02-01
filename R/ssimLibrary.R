@@ -286,17 +286,17 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' @details  
 #' Example arguments:
 #' \itemize{
-#'   \item {If name is SyncroSim Project or Scenario: }{Returns the 
-#'          \code{\link{SsimLibrary}} associated with the Project or Scenario.}
-#'   \item {If name is \code{NULL}: }{Create/open a SsimLibrary in the current working 
-#'          directory with the filename SsimLibrary.ssim.}
-#'   \item {If name is a string: }{If string is not a valid path treat as filename 
+#'   \item If name is SyncroSim Project or Scenario: Returns the 
+#'          \code{\link{SsimLibrary}} associated with the Project or Scenario.
+#'   \item If name is \code{NULL}: Create/open a SsimLibrary in the current working 
+#'          directory with the filename SsimLibrary.ssim.
+#'   \item If name is a string: If string is not a valid path treat as filename 
 #'          in working directory. If no file suffix provided in string then add 
 #'          .ssim. Attempts to open a SsimLibrary of that name. If SsimLibrary does not 
-#'          exist creates a SsimLibrary of type package in the current working directory.}
-#'   \item {If given a name and a package: }{Create/open a SsimLibrary called [name].ssim. 
+#'          exist creates a SsimLibrary of type package in the current working directory.
+#'   \item If given a name and a package: Create/open a SsimLibrary called [name].ssim. 
 #'          Returns an error if the SsimLibrary already exists but is a different type 
-#'          of package.}
+#'          of package.
 #' }
 #' 
 #' @examples
