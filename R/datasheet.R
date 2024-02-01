@@ -641,7 +641,7 @@ setMethod("datasheet",
       }
       
       if (!returnInvisible) {
-        sheetInfo <- subset(sheetInfo, is.element(visible, c("Yes")))
+        sheetInfo <- sheetInfo[sheetInfo$visible == "Yes",]
       }
       
       sheetInfo <- sheetInfo[order(sheetInfo$id), ]

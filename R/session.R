@@ -27,7 +27,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   
   loadVersion <- FALSE
   if (ssimCurrentVersionBits[1] >= ssimRequiredVersionBits[1]){
-    if (ssimCurrentVersionBits[1] > ssimRequiredVersion[1]) {
+    if (ssimCurrentVersionBits[1] > ssimRequiredVersionBits[1]) {
       loadVersion <- TRUE
     } else {
       if (ssimCurrentVersionBits[2] >= ssimRequiredVersionBits[2]){
@@ -35,7 +35,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
           loadVersion <- TRUE
         } else {
           if (ssimCurrentVersionBits[3] >= ssimRequiredVersionBits[3]){
-            if (ssimCurrentVersionBits[3] > ssimRequiredVersionBits[3]){
+            if (ssimCurrentVersionBits[3] >= ssimRequiredVersionBits[3]){
               loadVersion <- TRUE
             } 
           }
