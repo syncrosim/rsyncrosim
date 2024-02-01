@@ -18,24 +18,24 @@ NULL
 #'
 #' Otherwise, for each element in name a Datasheet is returned as follows:
 #' \itemize{
-#'   \item {If \code{lookupsAsFactors=TRUE} (default): }{Each column is given the correct 
+#'   \item If \code{lookupsAsFactors=TRUE} (default): Each column is given the correct 
 #'          data type, and dependencies returned as factors with allowed values (levels). 
-#'          A warning is issued if the lookup has not yet been set.}
-#'   \item {If \code{empty=TRUE}: }{Each column is given the correct data type. Fast (1 less 
-#'          console command)}.
-#'   \item {If \code{empty=FALSE} and \code{lookupsAsFactors=FALSE}: }{Column types are not checked, 
-#'          and the optional argument is ignored. Fast (1 less console command).}
-#'   \item {If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}} 
+#'          A warning is issued if the lookup has not yet been set.
+#'   \item If \code{empty=TRUE}: Each column is given the correct data type. Fast (1 less 
+#'          console command).
+#'   \item If \code{empty=FALSE} and \code{lookupsAsFactors=FALSE}: Column types are not checked, 
+#'          and the optional argument is ignored. Fast (1 less console command).
+#'   \item If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}} 
 #'          objects (output from \code{\link{run}}, \code{\link{Scenario}} or 
-#'          \code{\link{Project}}): }{Adds ScenarioID/ProjectID column if appropriate.}
-#'   \item {If Scenario/Project is a vector: }{Adds ScenarioID/ProjectID column 
-#'          as necessary.}
-#'   \item {If requested Datasheet has Scenario scope and contains info from more 
-#'          than one Scenario: }{ScenarioID/ScenarioName/ScenarioParent columns 
-#'          identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario)}.
-#'   \item {If requested Datasheet has Project scope and contains info from more 
-#'          than one Project: }{ProjectID/ProjectName columns identify the Project 
-#'          by \code{name} and \code{id}}
+#'          \code{\link{Project}}): Adds ScenarioID/ProjectID column if appropriate.
+#'   \item If Scenario/Project is a vector: Adds ScenarioID/ProjectID column 
+#'          as necessary.
+#'   \item If requested Datasheet has Scenario scope and contains info from more 
+#'          than one Scenario: ScenarioID/ScenarioName/ScenarioParent columns 
+#'          identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario).
+#'   \item If requested Datasheet has Project scope and contains info from more 
+#'          than one Project: ProjectID/ProjectName columns identify the Project 
+#'          by \code{name} and \code{id}
 #' }
 #'
 #' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}},
