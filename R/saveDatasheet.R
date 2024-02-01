@@ -64,7 +64,7 @@ NULL
 #' input: \code{TRUE} upon success (i.e.successful save) and \code{FALSE} upon failure.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Install helloworldSpatial package
 #' addPackage("helloworldSpatial")
 #' 

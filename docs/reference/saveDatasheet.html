@@ -18,7 +18,7 @@ Scenario."><meta property="og:image" content="https://syncrosim.github.io/rsyncr
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -210,10 +210,9 @@ source and has a Project scope.  In this case the data will be MERGED.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Install helloworldSpatial package</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;helloworldSpatial&gt; is already installed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set the file path and name of the new SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="va">myLibraryName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"testlib_saveDatasheet"</span><span class="op">)</span></span></span>
@@ -225,7 +224,6 @@ source and has a Project scope.  In this case the data will be MERGED.</p></li>
 <span class="r-in"><span>                         package <span class="op">=</span> <span class="st">"helloworldSpatial"</span>,</span></span>
 <span class="r-in"><span>                         template <span class="op">=</span> <span class="st">"example-library"</span>,</span></span>
 <span class="r-in"><span>                         forceUpdate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scenarios available in this template:</span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="scenario.html">scenario</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My Scenario"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -240,24 +238,19 @@ source and has a Project scope.  In this case the data will be MERGED.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Save Datasheet</span></span></span>
 <span class="r-in"><span><span class="fu">saveDatasheet</span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myDatasheet</span>, name <span class="op">=</span> <span class="st">"RunControl"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Datasheet &lt;helloworldSpatial_RunControl&gt; saved</span>
 <span class="r-in"><span>          </span></span>
 <span class="r-in"><span><span class="co"># Import data after saving</span></span></span>
 <span class="r-in"><span><span class="fu">saveDatasheet</span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myDatasheet</span>, name <span class="op">=</span> <span class="st">"RunControl"</span>,</span></span>
 <span class="r-in"><span>              import <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Datasheet &lt;helloworldSpatial_RunControl&gt; saved</span>
 <span class="r-in"><span>        </span></span>
 <span class="r-in"><span><span class="co"># Save the new Datasheet to a specified output path</span></span></span>
 <span class="r-in"><span><span class="fu">saveDatasheet</span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myDatasheet</span>, name <span class="op">=</span> <span class="st">"RunControl"</span>,</span></span>
 <span class="r-in"><span>              path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Datasheet &lt;helloworldSpatial_RunControl&gt; saved</span>
 <span class="r-in"><span>              </span></span>
 <span class="r-in"><span><span class="co"># Save a raster stack using fileData</span></span></span>
 <span class="r-in"><span><span class="co"># Create a raster stack - add as many raster files as you want here</span></span></span>
 <span class="r-in"><span><span class="va">map1</span> <span class="op">&lt;-</span> <span class="fu"><a href="datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span><span class="va">myScenario</span>, datasheet <span class="op">=</span> <span class="st">"InputDatasheet"</span>,</span></span>
 <span class="r-in"><span>                        column <span class="op">=</span> <span class="st">"InterceptRasterFile"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`datasheetRaster()` was deprecated in rsyncrosim 1.4.6.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `datasheetSpatRaster()` instead.</span>
 <span class="r-in"><span><span class="va">inRasters</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">map1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Change the name of the rasters in the input Datasheets to match the stack</span></span></span>
@@ -267,8 +260,7 @@ source and has a Project scope.  In this case the data will be MERGED.</p></li>
 <span class="r-in"><span><span class="co"># Save the raster stack to the input Datasheet</span></span></span>
 <span class="r-in"><span><span class="fu">saveDatasheet</span><span class="op">(</span><span class="va">myScenario</span>, data<span class="op">=</span><span class="va">inSheet</span>, name<span class="op">=</span><span class="st">"InputDatasheet"</span>, </span></span>
 <span class="r-in"><span>              fileData<span class="op">=</span><span class="va">inRasters</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Datasheet &lt;helloworldSpatial_InputDatasheet&gt; saved</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -18,7 +18,7 @@ console, or by directly querying the SsimLibrary database."><meta property="og:i
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -94,7 +94,9 @@ console, or by directly querying the <code><a href="SsimLibrary-class.html">Ssim
 <span>  sqlStatement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>select <span class="op">=</span> <span class="st">"SELECT *"</span>, groupBy <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>  includeKey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  forceElements <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  fastQuery <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  fastQuery <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnScenarioInfo <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnInvisible <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for list</span></span>
@@ -112,7 +114,9 @@ console, or by directly querying the <code><a href="SsimLibrary-class.html">Ssim
 <span>  sqlStatement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>select <span class="op">=</span> <span class="st">"SELECT *"</span>, groupBy <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>  includeKey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  forceElements <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  fastQuery <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  fastQuery <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnScenarioInfo <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnInvisible <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for character</span></span>
@@ -129,7 +133,9 @@ console, or by directly querying the <code><a href="SsimLibrary-class.html">Ssim
 <span>  <span class="va">lookupsAsFactors</span>,</span>
 <span>  <span class="va">sqlStatement</span>,</span>
 <span>  <span class="va">includeKey</span>,</span>
-<span>  <span class="va">fastQuery</span></span>
+<span>  <span class="va">fastQuery</span>,</span>
+<span>  <span class="va">returnScenarioInfo</span>,</span>
+<span>  <span class="va">returnInvisible</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for SsimObject</span></span>
@@ -147,7 +153,9 @@ console, or by directly querying the <code><a href="SsimLibrary-class.html">Ssim
 <span>  sqlStatement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>select <span class="op">=</span> <span class="st">"SELECT *"</span>, groupBy <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>  includeKey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  forceElements <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  fastQuery <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  fastQuery <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnScenarioInfo <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  returnInvisible <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -237,6 +245,19 @@ returns a data.frame; otherwise returns a list of data.frames. Ignored if
 performance.  Ignored if combined with summary, empty, or
 <code><a href="sqlStatement.html">sqlStatement</a></code> flags. Default is <code>FALSE</code></p></dd>
 
+
+<dt>returnScenarioInfo</dt>
+<dd><p>logical. If <code>TRUE</code>, returns the Scenario ID,
+Scenario Name, Parent ID, and Parent Name columns with the
+Scenario-scoped Datasheet. Does nothing if the Datasheet exists at the
+Library or Project level. Default is <code>FALSE</code></p></dd>
+
+
+<dt>returnInvisible</dt>
+<dd><p>logical. If <code>TRUE</code>, returns columns that are
+invisible in the User Interface (i.e., are only used and populated
+internally by SyncroSim or the SyncroSim Package). Default is <code>FALSE</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -275,10 +296,9 @@ by <code>name</code> and <code>id</code></p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Install helloworldSpatial package from package server</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;helloworldSpatial&gt; is already installed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set the file path and name of the new SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="va">myLibraryName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"testlib_datasheet"</span><span class="op">)</span></span></span>
@@ -292,7 +312,6 @@ by <code>name</code> and <code>id</code></p></li>
 <span class="r-in"><span>                         package <span class="op">=</span> <span class="st">"helloworldSpatial"</span>,</span></span>
 <span class="r-in"><span>                         template <span class="op">=</span> <span class="st">"example-library"</span>,</span></span>
 <span class="r-in"><span>                         forceUpdate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scenarios available in this template:</span>
 <span class="r-in"><span>                         </span></span>
 <span class="r-in"><span><span class="co"># Set the Project and Scenario</span></span></span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
@@ -318,8 +337,6 @@ by <code>name</code> and <code>id</code></p></li>
 <span class="r-in"><span><span class="co"># Return Datasheet as an element</span></span></span>
 <span class="r-in"><span><span class="va">myDatasheet</span> <span class="op">&lt;-</span> <span class="fu">datasheet</span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"RunControl"</span>, forceElements <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myDatasheet</span><span class="op">$</span><span class="va">helloworldSpatial_RunControl</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   MinimumIteration MaximumIteration MinimumTimestep MaximumTimestep</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                1                5               1              20</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get a Datasheet without pre-specified values</span></span></span>
 <span class="r-in"><span><span class="va">myDatasheetEmpty</span> <span class="op">&lt;-</span> <span class="fu">datasheet</span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"RunControl"</span>, empty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -342,7 +359,7 @@ by <code>name</code> and <code>id</code></p></li>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myAggregatedDatasheet</span> <span class="op">&lt;-</span> <span class="fu">datasheet</span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"RunControl"</span>,</span></span>
 <span class="r-in"><span>                                   sqlStatement <span class="op">=</span> <span class="va">mySQL</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
