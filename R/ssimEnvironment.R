@@ -270,6 +270,14 @@ updateRunLog <- function(..., sep = "", type = "status") {
   # Annotate messages
   annotatedMessage <- paste0("ssim-task-log=", splitMessage, "\r\n")
   
+  if(!type %in% c("status", "info", "warning"))
+    stop("Please select a valid run log message type.")
+  
+  if(type == "info")
+    annotatedMessage[1] <- sub("ssim-task-log", "ssim-task-info", annotatedMessage[1])
+  if(type == "warning")
+    annotatedMessage[1] <- sub("ssim-task-log", "ssim-task-warning", annotatedMessage[1])
+  
   # Send to SyncroSim
   for(m in annotatedMessage) {
     cat(m)
