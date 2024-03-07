@@ -5,8 +5,7 @@ NULL
 
 setMethod(
   f = "initialize", signature = "Chart",
-  definition = function(.Object, ssimObject, chart = "_Chart", type = "line", 
-                        create = FALSE) {
+  definition = function(.Object, ssimObject, chart = NULL, create = FALSE) {
     Name <- NULL
     ChartId <- NULL
     
@@ -25,13 +24,14 @@ setMethod(
       
       # If more than 1 chart retrieved, then name is not unique
       if ((nrow(charts) > 1) & (create == FALSE)) {
-        stop(paste0("folder provided is not unique. Either set create=TRUE to",
+        stop(paste0("Chart provided is not unique. Either set create=TRUE to",
                     " create another chart with the same name or specify a ",
                     "unique name."))
       }
       
       Name <- chart
-      
+      ChartId <- charts$ChartId
+
     } else if (is.numeric(chart)){
       
       charts <- subset(charts, ChartId == chart)
@@ -51,14 +51,15 @@ setMethod(
       }
       
       Name <- charts$Name
+      ChartId <- charts$ChartId
       
-    } else{
+    } else if (!is.null(chart)) {
       stop("chart argument must be a character or integer.")
     }
     
     # If one chart retrieved, then open chart
-    if ((nrow(charts) == 1) & (create == FALSE)) {
-      .Object@chartId <- chart$ChartId
+    if ((nrow(charts) == 1) && (create == FALSE) && !is.null(chart)) {
+      .Object@chartId <- ChartId
       .Object@session <- .session(x)
       .Object@filepath <- .filepath(x)
       .Object@projectId <- ProjectId
@@ -66,14 +67,21 @@ setMethod(
     }
       
     # If no charts retrieved, then create a new chart
-    if (!is(x, "Project")){
+    if (!is(x, "Project") && !is(x, "Scenario")){
       stop(paste0("Can only create a new chart if the ssimObject provided ",
-                  "is a SyncroSim Project."))
+                  "is a SyncroSim Project or Scenario."))
     }
     
     args <- list(lib = .filepath(x), create = NULL, chart = NULL, 
-                 name = Name, pid = ProjectId, type = type)
-    tt <- command(args = args, session = .session(x))
+                 pid = ProjectId)
+    
+    if (!is.null(chart)){
+      args <- append(args, list(name = Name))
+    }
+    
+    tt <- command(args = args, session = .session(x), 
+                  program = "SyncroSim.CPConsole.exe")
+    
     ChartId <- as.integer(strsplit(tt, ": ")[[1]][2])
     
     .Object@chartId <- ChartId
@@ -96,7 +104,6 @@ setMethod(
 #' If integer, will open the existing chart with the given chart ID (if the
 #' ID exists). If no value is provided and \code{create=TRUE}, a new chart will
 #' be created with the default naming convention (e.g. "_Chart1", "_Chart2")
-#' @param type character. Can be "line" (Default) or "bar"
 #' @param create logical. Whether to create a new chart if the chart name given
 #' already exists in the SyncroSim library. If \code{FALSE} (Default), then will 
 #' return the existing chart with the given name. If \code{TRUE}, then will
@@ -121,11 +128,11 @@ setMethod(
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' # Create a new chart
-#' myChart <- chart(myProject, chart = "New Chart", type = "line")
+#' myChart <- chart(myProject, chart = "New Chart")
 #' 
 #' @name chart
 #' @export
-chart <- function(ssimObject = NULL, chart = NULL, type = "line", create = FALSE, summary = FALSE) {
+chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE) {
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
@@ -142,7 +149,7 @@ chart <- function(ssimObject = NULL, chart = NULL, type = "line", create = FALSE
     return(charts)
   }
   
-  obj <- new("Chart", ssimObject, chart = chart, type = type, create = create)
+  obj <- new("Chart", ssimObject, chart = chart, create = create)
   
   return(obj)
 }
