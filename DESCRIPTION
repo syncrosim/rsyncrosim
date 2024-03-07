@@ -50,6 +50,8 @@ Collate:
     'addRow.R'
     'autogentags.R'
     'backup.R'
+    'chart.R'
+    'chartMapConstructor.R'
     'command.R'
     'condaFilepath.R'
     'datasheet.R'

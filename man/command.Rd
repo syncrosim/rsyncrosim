@@ -9,7 +9,8 @@ command(
   session = NULL,
   program = "SyncroSim.Console.exe",
   wait = TRUE,
-  progName = NULL
+  progName = NULL,
+  console = NULL
 )
 }
 \arguments{
@@ -29,6 +30,10 @@ before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}}
 
 \item{progName}{character. Internal argument for setting path to SyncroSim
 installation folder.}
+
+\item{console}{character. Which console to issue a command to. By default,
+this is the "core" console. For charts and maps, this should be set to
+"corestime".}
 }
 \value{
 Character string: output from the SyncroSim program.

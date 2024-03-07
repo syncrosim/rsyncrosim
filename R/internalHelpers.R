@@ -296,6 +296,33 @@ printAndCapture <- function(x) {
   return(out)
 }
 
+# Gets chart info for a Project.
+#
+# @param x A Project object.
+# @return A dataframe of chart info, including chart IDs, names
+getChartData <- function(x) {
+  
+  ChartId = NULL
+  X = NULL
+  
+  args <- list(lib = .filepath(x), list = NULL, 
+               charts = NULL, pid = .projectId(x))
+  tt <- command(args = args, session = .session(x), 
+                program = "SyncroSim.CPConsole.exe")
+  out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
+  
+  # Clean up dataframe names and columns
+  names(out) <- sapply(names(out), pascal)
+  colnames(out)[colnames(out) == "Id"] ="ChartId"
+  out <- subset(out, select = -c(X))
+  
+  if (is(x, "Chart")){
+    out <- subset(out, ChartId == x@chartId)
+  }
+  
+  return(out)
+}
+
 # Gets folder info from an SsimLibrary, Project, Scenario, or Folder.
 #
 # @param x An SsimLibrary, Project, Scenario, or Folder object. Or a path to a SyncroSim library on disk.
@@ -312,7 +339,7 @@ getFolderData <- function(x) {
   
   # Clean up dataframe names and columns
   names(out) <- sapply(names(out), pascal)
-  colnames(out)[colnames(out) == "ID"] ="FolderID"
+  colnames(out)[colnames(out) == "Id"] ="FolderId"
   out <- subset(out, select = -c(X))
   
   if (is(x, "Folder")){
