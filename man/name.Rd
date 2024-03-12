@@ -7,12 +7,14 @@
 \alias{name,Scenario-method}
 \alias{name,Project-method}
 \alias{name,Folder-method}
+\alias{name,Chart-method}
 \alias{name<-}
 \alias{name<-,character-method}
 \alias{name<-,SsimLibrary-method}
 \alias{name<-,Project-method}
 \alias{name<-,Scenario-method}
 \alias{name<-,Folder-method}
+\alias{name<-,Chart-method}
 \title{Name of a SsimLibrary, Project, Scenario, or Folder}
 \usage{
 name(ssimObject)
@@ -27,6 +29,8 @@ name(ssimObject)
 
 \S4method{name}{Folder}(ssimObject)
 
+\S4method{name}{Chart}(ssimObject)
+
 name(ssimObject) <- value
 
 \S4method{name}{character}(ssimObject) <- value
@@ -38,6 +42,8 @@ name(ssimObject) <- value
 \S4method{name}{Scenario}(ssimObject) <- value
 
 \S4method{name}{Folder}(ssimObject) <- value
+
+\S4method{name}{Chart}(ssimObject) <- value
 }
 \arguments{
 \item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},

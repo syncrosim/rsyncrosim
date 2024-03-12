@@ -129,7 +129,7 @@ setMethod(
 #' 
 #' # Create a new chart
 #' myChart <- chart(myProject, chart = "New Chart")
-#' 
+#' }
 #' @name chart
 #' @export
 chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE) {

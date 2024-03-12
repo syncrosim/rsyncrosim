@@ -4,13 +4,7 @@
 \alias{chart}
 \title{Create or open a chart}
 \usage{
-chart(
-  ssimObject = NULL,
-  chart = NULL,
-  type = "line",
-  create = FALSE,
-  summary = FALSE
-)
+chart(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
 }
 \arguments{
 \item{ssimObject}{\code{\link{Project}} or \code{\link{Scenario}} object}
@@ -19,10 +13,8 @@ chart(
 existing chart if \code{create=FALSE}, or will create a new chart with the
 given name if the chart does not exist yet or \code{create=TRUE}.
 If integer, will open the existing chart with the given chart ID (if the
-ID exists). If no value is provided, the default is to create a new chart
-called "_Chart"}
-
-\item{type}{character. Can be "line" (Default) or "bar"}
+ID exists). If no value is provided and \code{create=TRUE}, a new chart will
+be created with the default naming convention (e.g. "_Chart1", "_Chart2")}
 
 \item{create}{logical. Whether to create a new chart if the chart name given
 already exists in the SyncroSim library. If \code{FALSE} (Default), then will
@@ -40,4 +32,19 @@ A \code{Chart} object representing a SyncroSim chart
 \description{
 Create or open a \code{\link{Chart}} from a SyncroSim
 \code{\link{Project}}.
+}
+\examples{
+\donttest{
+# Set the file path and name of the new SsimLibrary
+myLibraryName <- file.path(tempdir(),"testlib")
+
+# Set the SyncroSim Session, SsimLibrary, Project, and Scenario
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
+myProject <- project(myLibrary, project = "My Project")
+myScenario <- scenario(myProject, scenario = "My Scenario")
+
+# Create a new chart
+myChart <- chart(myProject, chart = "New Chart")
+}
 }

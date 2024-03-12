@@ -51,6 +51,7 @@ Collate:
     'autogentags.R'
     'backup.R'
     'chart.R'
+    'chartId.R'
     'chartMapConstructor.R'
     'command.R'
     'condaFilepath.R'

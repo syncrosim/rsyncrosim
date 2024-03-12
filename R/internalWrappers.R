@@ -27,6 +27,8 @@ NULL
 # @export
 .folderId <- folderId
 # @export
+.chartId <- chartId
+# @export
 .filepath <- filepath
 # @export
 .tempfilepath <- tempfilepath
