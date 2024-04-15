@@ -5,7 +5,9 @@ NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
+  definition = function(.Object, name = NULL, packages = NULL, session = NULL, 
+                        template = NULL, forceUpdate = FALSE, overwrite = FALSE, 
+                        useConda = NULL) {
     
     enabled <- NULL
     
@@ -185,17 +187,26 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", 
+           function(name = NULL, packages = NULL, session = NULL, 
+                    template = NULL, forceUpdate = FALSE, overwrite = FALSE, 
+                    useConda = NULL) standardGeneric(".ssimLibrary"))
 
-setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, packages, session, template, forceUpdate, overwrite, useConda) {
+setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), 
+          function(name, packages, session, template, forceUpdate, overwrite, 
+                   useConda) {
   return(new("SsimLibrary", name, packages, session, forceUpdate))
 })
 
-setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, packages, session, template, forceUpdate, overwrite, useConda) {
+setMethod(".ssimLibrary", signature(name = "SsimObject"), 
+          function(name, packages, session, template, forceUpdate, overwrite, 
+                   useConda) {
   if (is(name, "SsimLibrary")) {
     out <- name
   } else {
-    out <- .ssimLibrary(name = .filepath(name), packages, session = .session(name), template, forceUpdate, overwrite, useConda)
+    out <- .ssimLibrary(name = .filepath(name), packages, 
+                        session = .session(name), template, forceUpdate, 
+                        overwrite, useConda)
   }
   return(out)
 })

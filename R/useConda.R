@@ -76,7 +76,8 @@ setReplaceMethod(
     
     if (value == FALSE) {
       
-      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useconda = "no"), .session(ssimObject))
+      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), 
+                         useconda = "no"), .session(ssimObject))
       if (!identical(tt, "saved")) {
         stop(tt)
       }
@@ -86,7 +87,8 @@ setReplaceMethod(
     
     if (value == TRUE){
       
-      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useconda = "yes"), .session(ssimObject))
+      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), 
+                         useconda = "yes"), .session(ssimObject))
       
       currentPackages <- packages(ssimObject)$name
     }

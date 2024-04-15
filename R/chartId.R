@@ -33,10 +33,12 @@ NULL
 #' 
 #' @export
 setGeneric("chartId", function(ssimObject) standardGeneric("chartId"))
+
 #' @rdname chartId
 setMethod("chartId", signature(ssimObject = "character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
+
 #' @rdname chartId
 setMethod("chartId", signature(ssimObject = "Chart"), function(ssimObject) {
   return(ssimObject@chartId)

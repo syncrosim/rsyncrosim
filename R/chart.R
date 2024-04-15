@@ -130,9 +130,10 @@ setMethod(
 #' # Create a new chart
 #' myChart <- chart(myProject, chart = "New Chart")
 #' }
-#' @name chart
+#' @name folder
 #' @export
-chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE) {
+chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE){
+  
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
