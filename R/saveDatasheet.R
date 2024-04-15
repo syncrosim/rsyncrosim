@@ -224,38 +224,41 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     }
     
     # Subset data by available columns
-    tt <- command(c("list", "columns", "csv", "allprops", paste0("lib=", .filepath(x)), paste0("sheet=", name)), .session(x))
+    tt <- command(c("list", "columns", "csv", "allprops", 
+                    paste0("lib=", .filepath(x)), 
+                    paste0("sheet=", name)), .session(x))
     sheetInfo <- .dataframeFromSSim(tt)
+    
+    # Remove the library/project/scenario ID from the datasheet
     if (scope == "library"){
-      colsToKeep <- sheetInfo$name[2:length(sheetInfo$name)]
-    } else {
-      colsToKeep <- sheetInfo$name[3:length(sheetInfo$name)]
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("LibraryID")]
+    } else if (scope == "project"){
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ProjectID")]
+    } else if (scope == "scenario"){
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ScenarioID")]
     }
+    
+    # Remove the datasheet ID from the datasheet if it exists
+    dsInfo <- sheetNames[sheetNames$name == cName,]
+    dsName <- gsub(paste0(dsInfo$package, "_"), '', dsInfo$name)
+    dsNameID <- paste0(dsName, "ID")
+    colsToKeep <- colsToKeep[!colsToKeep %in% c(dsNameID)]
+    
+    # Subset data by the valid columns
     colsToKeep <- colnames(cDat)[colnames(cDat) %in% colsToKeep]
     cDat <- cDat[colsToKeep]
 
     # if no fileData found and datasheet contains files, find the files
     if (is.null(fileData)) {
-      # get info on sheet type
-      # tt <- command(c("list", "columns", "csv", "allprops", paste0("lib=", .filepath(x)), paste0("sheet=", name)), .session(x))
-      # sheetInfo <- .dataframeFromSSim(tt)
+      
       if (sum(grepl("isExternalFile^True", sheetInfo$properties, fixed = TRUE)) > 0) {
         sheetInfo$isFile <- grepl("isRaster^True", sheetInfo$properties, fixed = TRUE)
       } else {
         sheetInfo$isFile <- grepl("isExternalFile^Yes", sheetInfo$properties, fixed = TRUE)
         # NOTE: this should be isExternalFile - but the flag is set to true even for non-files
       }
-      # We only want to keep the valid columns in cDat (not scenario ID, etc.)
-      # if (scope == "library"){
-      #   colsToKeep <- sheetInfo$name[2:length(sheetInfo$name)]
-      # } else {
-      #   colsToKeep <- sheetInfo$name[3:length(sheetInfo$name)]
-      # }
-      # colsToKeep <- colnames(cDat)[colnames(cDat) %in% colsToKeep]
-      # cDat <- cDat[colsToKeep]
       
       sheetInfo <- subset(sheetInfo, isFile)
-
       sheetInfo <- subset(sheetInfo, is.element(name, names(cDat)))
     }
 

@@ -180,20 +180,20 @@ setMethod(
 #'
 #' For each element of Scenario:
 #' \itemize{
-#'   \item {If element/Project/SsimObject uniquely identifies an existing 
-#'          Scenario: }{Returns the existing Scenario}.
-#'   \item {If element/Project/SsimObject uniquely identifies more than one existing 
-#'          Scenario: }{Error}.
-#'   \item {If element/Project/SsimObject do not identify an existing Scenario or 
-#'          Project: }{Error}.
-#'   \item {If element/Project/SsimObject do not identify an existing Scenario and 
-#'          element is numeric: }{Error - a name is required for new Scenarios. 
-#'          SyncroSim will automatically assign an id when a Scenario is created.}
-#'   \item {If element/Project/SsimObject do not identify an existing Scenario and 
-#'          do identify a Project, and element is a character string: }{Creates a 
+#'   \item If element/Project/SsimObject uniquely identifies an existing 
+#'          Scenario: Returns the existing Scenario.
+#'   \item If element/Project/SsimObject uniquely identifies more than one existing 
+#'          Scenario: Error.
+#'   \item If element/Project/SsimObject do not identify an existing Scenario or 
+#'          Project: Error.
+#'   \item If element/Project/SsimObject do not identify an existing Scenario and 
+#'          element is numeric: Error - a name is required for new Scenarios. 
+#'          SyncroSim will automatically assign an id when a Scenario is created.
+#'   \item If element/Project/SsimObject do not identify an existing Scenario and 
+#'          do identify a Project, and element is a character string: Creates a 
 #'          new Scenario named element in the Project. SyncroSim automatically 
-#'          assigns an id. If sourceScenario is not \code{NULL} the new Scenario will be 
-#'          a copy of sourceScenario.}
+#'          assigns an id. If sourceScenario is not \codeNULL the new Scenario will be 
+#'          a copy of sourceScenario.
 #' }
 #' 
 #' @examples
