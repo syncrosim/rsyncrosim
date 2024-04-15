@@ -247,6 +247,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     colsToKeep <- colsToKeep[!colsToKeep %in% c(dsNameID)]
     
     # Subset data by the valid columns
+    colsToKeep <- colnames(cDat)[colnames(cDat) %in% colsToKeep]
     cDat <- cDat[colsToKeep]
 
     # if no fileData found and datasheet contains files, find the files
