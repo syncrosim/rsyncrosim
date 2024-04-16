@@ -305,7 +305,7 @@ deleteChart <- function(x, chartId, chartName, out = list(), force){
                    chart = NULL, lib = .filepath(x), 
                    cid = chartIdToDelete, force = NULL) 
       outBit <- command(args, session = .session(x), 
-                        program = "SyncroSim.CPConsole.exe")
+                        program = "SyncroSim.VizConsole.exe")
     } else {
       outBit <- paste0("Deletion of chart ", chartNameToDelete, " skipped")
     }
@@ -510,7 +510,7 @@ getChartData <- function(x) {
   args <- list(lib = .filepath(x), list = NULL, 
                charts = NULL, pid = .projectId(x))
   tt <- command(args = args, session = .session(x), 
-                program = "SyncroSim.CPConsole.exe")
+                program = "SyncroSim.VizConsole.exe")
   out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
   
   # Clean up dataframe names and columns

@@ -80,7 +80,7 @@ setMethod(
     }
     
     tt <- command(args = args, session = .session(x), 
-                  program = "SyncroSim.CPConsole.exe")
+                  program = "SyncroSim.VizConsole.exe")
     
     ChartId <- as.integer(strsplit(tt, ": ")[[1]][2])
     

@@ -192,7 +192,7 @@ setMethod(
 #'   \item If element/Project/SsimObject do not identify an existing Scenario and 
 #'          do identify a Project, and element is a character string: Creates a 
 #'          new Scenario named element in the Project. SyncroSim automatically 
-#'          assigns an id. If sourceScenario is not \codeNULL the new Scenario will be 
+#'          assigns an id. If sourceScenario is not \code{NULL} the new Scenario will be 
 #'          a copy of sourceScenario.
 #' }
 #' 

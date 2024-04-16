@@ -22,7 +22,7 @@ NULL
 #' @param session \code{\link{Session}} object. If \code{NULL}(default), the default
 #'  session will be used
 #' @param program character. The name of the target SyncroSim executable. 
-#'     Options include "SyncroSim.Console.exe" (default), "SyncroSim.CPConsole.exe", 
+#'     Options include "SyncroSim.Console.exe" (default), "SyncroSim.VizConsole.exe", 
 #'     "SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"
 #' @param wait logical. If \code{TRUE}(default) R will wait for the command to finish 
 #'     before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}
