@@ -167,10 +167,6 @@ setMethod(
         tt <- command(list(setprop = NULL, lib = path, useconda = "no"), session)
       } else {
         tt <- command(list(setprop = NULL, lib = path, useconda = "yes"), session)
-        if (useConda == TRUE){
-          currentPackages <- unique(datasheets$package)
-        }
-        createCondaEnv(path, currentPackages, session)
       } 
     }
 

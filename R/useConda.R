@@ -5,7 +5,11 @@ NULL
 
 #' Conda configuration of a SsimLibrary
 #'
-#' Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.
+#' Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}. Note
+#' that in order to use conda environments, you will first need to ensure that
+#' the conda environment has been created for a given package. You can create 
+#' the conda environment for a package using the \code{\link{createCondaEnv}}
+#' function.
 #'
 #' @param ssimObject \code{\link{SsimLibrary}} object
 #' @param value logical for whether to use Conda 
@@ -89,11 +93,7 @@ setReplaceMethod(
       
       tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), 
                          useconda = "yes"), .session(ssimObject))
-      
-      currentPackages <- packages(ssimObject)$name
     }
-    
-    createCondaEnv(.filepath(ssimObject), currentPackages, .session(ssimObject))
     
     return(ssimObject)
   }

@@ -3,62 +3,64 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Installs Miniconda
+#' Create SyncroSim package conda environments
 #'
-#' This function installs Miniconda to the default installation path
-#' within the SyncroSim installation folder. If you already have Conda 
-#' installed in the non-default location, you can point SyncroSim towards
-#' that installation using the \code{\link{condaFilepath}} function.
+#' Creates the conda environment for the specified SyncroSim package(s).
 #'
-#' @param session \code{\link{Session}} object. If \code{NULL} (default),
-#' \code{session()} will be used
-#' 
+#' @param pkgs character or list of characters. 
+#' @param session \code{\link{Session}} object or character (i.e. filepath to a 
+#' session). If \code{NULL}, \code{session()} will be used
+#'  
 #' @return 
-#' Invisibly returns \code{TRUE} upon success (i.e.successful 
-#' install) and \code{FALSE} upon failure.
+#' Invisibly returns \code{TRUE} upon success (i.e.successful creation of the 
+#' conda environment(s)) or \code{FALSE} upon failure.
 #' 
-#' @examples
+#' @examples 
 #' \dontrun{
-#' # Install Conda for the default SyncroSim session
-#' installConda()
+#' # Set up a SyncroSim Session
+#' mySession <- session()
+#' 
+#' # Create the conda environment for helloworldConda package
+#' condaFilepath(pkgs = "helloworldConda", mySession)
 #' }
 #' 
 #' @export
-setGeneric("installConda", function(session) standardGeneric("installConda"))
+setGeneric("createCondaEnv", function(pkgs, session = NULL) standardGeneric("createCondaEnv"))
 
-#' @rdname installConda
-setMethod("installConda", signature(session = "character"), function(session) {
+#' @rdname createCondaEnv
+setMethod("createCondaEnv", signature(session = "character"), function(pkgs, session) {
   return(SyncroSimNotFound(session))
 })
 
-#' @rdname installConda
-setMethod("installConda", signature(session = "missingOrNULL"), function(session) {
+#' @rdname createCondaEnv
+setMethod("createCondaEnv", signature(session = "missingOrNULL"), function(pkgs, session) {
   session <- .session()
-  return(installConda(session))
+  return(createCondaEnv(session))
 })
 
-#' @rdname installConda
-setMethod("installConda", signature(session = "Session"), function(session) {
+#' @rdname createCondaEnv
+setMethod("createCondaEnv", signature(session = "Session"), function(pkgs, session) {
   
-  success <- FALSE
-  message("Setting Conda filepath to the default installation.")
-  args <- list(conda = NULL, install = NULL)
-
-  message("Running Conda Installer.  Please wait...")
-  if (is.null(session)){
-    session <- .session()
+  message("Creating Conda environments. Please wait...")
+  
+  # Check if environment needs to be created, create if doesn't exist yet
+  for (package in pkgs) {
+    tt <- command(list(conda = NULL, createenv = NULL, pkg = package), session)
+    if (length(tt) > 1){
+      if (!grepl("Creating Conda environments", tt[1], fixed = TRUE)){
+        stop(tt[1])
+      }
+    } else {
+      if (grepl("No Conda installation found", tt, fixed = TRUE)) {
+        errorMessage = "Conda must be installed to use Conda environments. See ?installConda for details."
+      } else {
+        errorMessage = tt
+      }
+      
+      message(errorMessage)
+      return(invisible(TRUE))
+    }
   }
-  tt <- command(args, session)
-
-  if (tt[1] == "Conda already installed at that location"){
-    success <- FALSE
-    tt <- "Conda already installed"
-  } else if (tt[3] == "Saved") {
-    success <- TRUE
-    tt <- paste0("Miniconda successfully installed")
-  } 
   
-  message(tt)
-  
-  return(invisible(success))
+  return(invisible(TRUE))
 })
