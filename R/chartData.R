@@ -8,15 +8,16 @@ NULL
 #' Sets the \code{\link{Chart}} type to "Line" and adds the variables to plot
 #' in the line chart.
 #'
-#' @param Chart \code{\link{Chart}} object
-#' @param x character or character vector. X variable(s) to plot (Default is 
-#' "Timesteps").
+#' @param chart \code{\link{Chart}} object
+#' @param type character. Chart type. Can be "Line" (Default) or "Column".
+#' @param x character or character vector. X variable(s) to plot. If \code{NULL} 
+#' (Default), then will plot timesteps along the X axis.
 #' @param y character or character vector. Y variable(s) to plot.
 #' @param timesteps integer vector. The range of timesteps to plot against 
 #' (Default is the minimum and maximum timesteps defined in the simulation).
 #' @param iterationType character. How to display multiple iterations in the 
-#' chart. Can be "mean" (Default), "single", or "all".
-#' @param iteration integer. If the `iterationType` is set to "single", this argument
+#' chart. Can be "Mean" (Default), "Single", or "All".
+#' @param iteration integer. If the `iterationType` is set to "Single", this argument
 #' determines which iteration to display. Default is 1.
 #' 
 #' @return 
@@ -28,19 +29,19 @@ NULL
 #' myChart <- chart(myProject, chart = "New Chart")
 #' 
 #' # Set the chart type and data
-#' myChart <- chartLine(myChart, x = "Timesteps", y = c("variable1", "variable2"),
+#' myChart <- chartData(myChart, y = c("variable1", "variable2"),
 #' timesteps = c(0,10), iterationType = "single", iteration = 1)
 #' 
 #' }
 #' 
 #' @export
-setGeneric("chartLine", function(chart, x = "Timesteps", y = NULL, 
-                                 timesteps = NULL, iterationType = "mean",
-                                 iteration = 1) standardGeneric("chartLine"))
+setGeneric("chartData", function(chart, type = "Line", x = NULL, y = NULL, 
+                                 timesteps = NULL, iterationType = "Mean",
+                                 iteration = 1) standardGeneric("chartData"))
 
-#' @rdname chartLine
-setMethod("chartLine", signature(chart = "Chart"), 
-          function(chart, x, y, timesteps, iterationType, iteration) {
+#' @rdname chartData
+setMethod("chartData", signature(chart = "Chart"), 
+          function(chart, type, x, y, timesteps, iterationType, iteration) {
             
   # Set arguments used throughout
   chartSession <- .session(chart)
@@ -51,11 +52,16 @@ setMethod("chartLine", signature(chart = "Chart"),
   generalArgs <- list(lib = libPath, pid = chartPID, cid = chartCID)
   
   # Set chart type
-  args <- append(list(set = NULL, `chart-type` = NULL, type = "Line"), generalArgs)
+  
+  if (!type %in% c("Line", "Column")){
+    stop("type must be one of 'Line' or 'Column'.")
+  }
+  
+  args <- append(list(set = NULL, `chart-type` = NULL, type = type), generalArgs)
   tt <- command(args, session = chartSession, program = consoleExe)
   
   if (tt[1] != "saved"){
-    stop("Failed to set Chart Type.")
+    stop(paste("Failed to set Chart Type:", tt[1]))
   }
   
   # Set x variable
@@ -126,8 +132,8 @@ setMethod("chartLine", signature(chart = "Chart"),
   # Set iteration type
   if (!is.null(iterationType)){
     
-    if (!iterationType %in% c("mean", "single", "all")){
-      stop("iterationType must be one of 'mean', 'single', or 'all'.")
+    if (!iterationType %in% c("Mean", "Single", "All")){
+      stop("iterationType must be one of 'Mean', 'Single', or 'All'.")
     }
     
     args <- append(list(set = NULL, `chart-iter-type` = NULL, `iter-type` = iterationType), generalArgs)
