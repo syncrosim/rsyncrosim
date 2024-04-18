@@ -42,7 +42,6 @@ setGeneric("chartLine", function(chart, x = "Timesteps", y = NULL,
 setMethod("chartLine", signature(chart = "Chart"), 
           function(chart, x, y, timesteps, iterationType, iteration) {
             
-  browser()
   # Set arguments used throughout
   chartSession <- .session(chart)
   libPath <- .filepath(.ssimLibrary(chart))
