@@ -10,11 +10,17 @@ NULL
 #'
 #' @param chart \code{\link{Chart}} object
 #' @param type character. Chart type. Can be "Line" (Default) or "Column".
-#' @param x character or character vector. X variable(s) to plot. If \code{NULL} 
-#' (Default), then will plot timesteps along the X axis.
-#' @param y character or character vector. Y variable(s) to plot.
+#' @param addX character or character vector. X variable(s) to add to the chart. 
+#' If \code{NULL} (Default), does not add any X variables. If no X variables
+#' specified in chart, then will default to plotting timesteps on the X axis.
+#' @param addY character or character vector. Y variable(s) to add to the chart.
+#' If \code{NULL} (Default), does not add any Y variables.
+#' @param removeX character or character vector. X variable(s) to remove from 
+#' plot. If \code{NULL} (Default), then does not remove any X variables.
+#' @param removeY character or character vector. Y variable(s) to remove from 
+#' plot. If \code{NULL} (Default), then does not remove any Y variables.
 #' @param timesteps integer vector. The range of timesteps to plot against 
-#' (Default is the minimum and maximum timesteps defined in the simulation).
+#' If \code{NULL}, then uses SyncroSim defaults.
 #' @param iterationType character. How to display multiple iterations in the 
 #' chart. Can be "Mean" (Default), "Single", or "All".
 #' @param iteration integer. If the `iterationType` is set to "Single", this argument
@@ -35,13 +41,15 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("chartData", function(chart, type = "Line", x = NULL, y = NULL, 
+setGeneric("chartData", function(chart, type = "Line", addX = NULL, addY = NULL,
+                                 removeX = NULL, removeY = NULL,
                                  timesteps = NULL, iterationType = "Mean",
                                  iteration = 1) standardGeneric("chartData"))
 
 #' @rdname chartData
 setMethod("chartData", signature(chart = "Chart"), 
-          function(chart, type, x, y, timesteps, iterationType, iteration) {
+          function(chart, type, addX, addY, removeX, removeY, timesteps, 
+                   iterationType, iteration) {
             
   # Set arguments used throughout
   chartSession <- .session(chart)
@@ -52,7 +60,6 @@ setMethod("chartData", signature(chart = "Chart"),
   generalArgs <- list(lib = libPath, pid = chartPID, cid = chartCID)
   
   # Set chart type
-  
   if (!type %in% c("Line", "Column")){
     stop("type must be one of 'Line' or 'Column'.")
   }
@@ -64,21 +71,35 @@ setMethod("chartData", signature(chart = "Chart"),
     stop(paste("Failed to set Chart Type:", tt[1]))
   }
   
-  # Set x variable
-  if (!is.null(x) && (x != "Timesteps")){
+  # Add x variables
+  if (!is.null(addX)){
     
-    if (is.character(x)){
+    if (is.character(addX)){
       
-      # Clear existing variables first
-      args <- append(list(clear = NULL, `chart-variable-x` = NULL), generalArgs)
-      tt <- command(args, session = chartSession, program = consoleExe)
-      
-      for (xVar in x){
+      for (xVar in addX){
         args <- append(list(set = NULL, `chart-variable-x` = NULL, var = xVar), generalArgs)
         tt <- command(args, session = chartSession, program = consoleExe)
         
         if (tt[1] != "saved"){
-          stop(paste("Failed to set Chart X Variable:", tt[1]))
+          stop(paste("Failed to add Chart X Variable:", tt[1]))
+        } 
+      }
+    } else {
+      stop("x must be a character or vector of characters.")
+    }
+  }
+  
+  # Remove x variables
+  if (!is.null(removeX)){
+    
+    if (is.character(removeX)){
+      
+      for (xVar in removeX){
+        args <- append(list(clear = NULL, `chart-variable-x` = NULL, var = xVar), generalArgs)
+        tt <- command(args, session = chartSession, program = consoleExe)
+        
+        if (tt[1] != "saved"){
+          stop(paste("Failed to remove Chart X Variable:", tt[1]))
         } 
       }
     } else {
@@ -86,21 +107,35 @@ setMethod("chartData", signature(chart = "Chart"),
     }
   }
             
-  # Set y variable
-  if (!is.null(y)){
+  # Add y variable
+  if (!is.null(addY)){
     
-    if (is.character(y)){
+    if (is.character(addY)){
       
-      # Clear existing variables first
-      args <- append(list(clear = NULL, `chart-variable-y` = NULL), generalArgs)
-      tt <- command(args, session = chartSession, program = consoleExe)
-      
-      for (yVar in y){
+      for (yVar in addY){
         args <- append(list(set = NULL, `chart-variable-y` = NULL, var = yVar), generalArgs)
         tt <- command(args, session = chartSession, program = consoleExe)
         
         if (tt[1] != "saved"){
-          stop(paste("Failed to set Chart Y Variable:", tt[1]))
+          stop(paste("Failed to add Chart Y Variable:", tt[1]))
+        } 
+      }
+    } else {
+      stop("y must be a character or vector of characters.")
+    }
+  }
+  
+  # Remove y variable
+  if (!is.null(removeY)){
+    
+    if (is.character(removeY)){
+      
+      for (yVar in removeY){
+        args <- append(list(clear = NULL, `chart-variable-y` = NULL, var = yVar), generalArgs)
+        tt <- command(args, session = chartSession, program = consoleExe)
+        
+        if (tt[1] != "saved"){
+          stop(paste("Failed to remove Chart Y Variable:", tt[1]))
         } 
       }
     } else {
