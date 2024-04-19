@@ -195,4 +195,6 @@ setMethod("chartData", signature(chart = "Chart"),
       stop(paste("Failed to set Chart Iteration:", tt[1]))
     }
   }
+  
+  return(chart)
 })

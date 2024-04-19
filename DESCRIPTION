@@ -52,6 +52,7 @@ Collate:
     'backup.R'
     'chart.R'
     'chartData.R'
+    'chartDisagg.R'
     'chartId.R'
     'command.R'
     'condaFilepath.R'

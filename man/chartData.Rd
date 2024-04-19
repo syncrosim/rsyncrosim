@@ -8,8 +8,10 @@
 chartData(
   chart,
   type = "Line",
-  x = NULL,
-  y = NULL,
+  addX = NULL,
+  addY = NULL,
+  removeX = NULL,
+  removeY = NULL,
   timesteps = NULL,
   iterationType = "Mean",
   iteration = 1
@@ -18,8 +20,10 @@ chartData(
 \S4method{chartData}{Chart}(
   chart,
   type = "Line",
-  x = NULL,
-  y = NULL,
+  addX = NULL,
+  addY = NULL,
+  removeX = NULL,
+  removeY = NULL,
   timesteps = NULL,
   iterationType = "Mean",
   iteration = 1
@@ -30,13 +34,21 @@ chartData(
 
 \item{type}{character. Chart type. Can be "Line" (Default) or "Column".}
 
-\item{x}{character or character vector. X variable(s) to plot. If \code{NULL}
-(Default), then will plot timesteps along the X axis.}
+\item{addX}{character or character vector. X variable(s) to add to the chart.
+If \code{NULL} (Default), does not add any X variables. If no X variables
+specified in chart, then will default to plotting timesteps on the X axis.}
 
-\item{y}{character or character vector. Y variable(s) to plot.}
+\item{addY}{character or character vector. Y variable(s) to add to the chart.
+If \code{NULL} (Default), does not add any Y variables.}
+
+\item{removeX}{character or character vector. X variable(s) to remove from
+plot. If \code{NULL} (Default), then does not remove any X variables.}
+
+\item{removeY}{character or character vector. Y variable(s) to remove from
+plot. If \code{NULL} (Default), then does not remove any Y variables.}
 
 \item{timesteps}{integer vector. The range of timesteps to plot against
-(Default is the minimum and maximum timesteps defined in the simulation).}
+If \code{NULL}, then uses SyncroSim defaults.}
 
 \item{iterationType}{character. How to display multiple iterations in the
 chart. Can be "Mean" (Default), "Single", or "All".}
