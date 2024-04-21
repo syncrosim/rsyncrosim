@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Sets the \code{\link{Chart}} type to "Line"
+#' Sets the \code{\link{Chart}} type and axes
 #'
-#' Sets the \code{\link{Chart}} type to "Line" and adds the variables to plot
+#' Sets the \code{\link{Chart}} type and adds the variables to plot
 #' in the line chart.
 #'
 #' @param chart \code{\link{Chart}} object

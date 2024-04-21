@@ -3,7 +3,7 @@
 \name{chartData}
 \alias{chartData}
 \alias{chartData,Chart-method}
-\title{Sets the \code{\link{Chart}} type to "Line"}
+\title{Sets the \code{\link{Chart}} type and axes}
 \usage{
 chartData(
   chart,
@@ -60,7 +60,7 @@ determines which iteration to display. Default is 1.}
 A \code{Chart} object representing a SyncroSim chart
 }
 \description{
-Sets the \code{\link{Chart}} type to "Line" and adds the variables to plot
+Sets the \code{\link{Chart}} type and adds the variables to plot
 in the line chart.
 }
 \examples{

@@ -54,6 +54,7 @@ Collate:
     'chartData.R'
     'chartDisagg.R'
     'chartId.R'
+    'chartInfo.R'
     'command.R'
     'condaFilepath.R'
     'createCondaEnv.R'
