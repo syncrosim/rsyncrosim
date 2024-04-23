@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -142,8 +142,8 @@ iteration, a value <em>m</em>, representing the slope, is sampled from a
 normal distribution with mean of <em>mMean</em> and standard deviation
 of <em>mSD</em>. These values are run through 2 models to produce both
 spatial and non-spatial outputs.</p>
-<div class="figure">
-<img src="infographic-spatial.png" width="600" alt=""><p class="caption">Infographic of helloworldSpatial package</p>
+<div class="float">
+<img src="infographic-spatial.png" width="600" alt="Infographic of helloworldSpatial package"><div class="figcaption">Infographic of helloworldSpatial package</div>
 </div>
 <p>For more details on the different features of the
 <code>helloworldSpatial</code> SyncroSim package, consult the SyncroSim
@@ -173,12 +173,19 @@ repository</a>. Versions of <code>rsyncrosim</code> are available for
 both Windows and Linux. You may need to install the <code>raster</code>
 and <code>rgdal</code> packages from CRAN as well.</p>
 <p>In a new R script, load the necessary packages. This includes the
-<code>rsyncrosim</code> and <code>raster</code> R packages.</p>
+<code>rsyncrosim</code> and <code>terra</code> R packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load R packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span>      <span class="co"># package for working with raster data</span></span></code></pre></div>
-<pre><code><span><span class="co">## Loading required package: sp</span></span></code></pre>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: package 'rsyncrosim' was built under R version 4.3.3</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span>       <span class="co"># package for working with spatial data</span></span></code></pre></div>
+<pre><code><span><span class="co">## terra 1.7.55</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'terra'</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:rsyncrosim':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     project</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="connecting-r-to-syncrosim-using-session">Connecting R to SyncroSim using <code>session()</code><a class="anchor" aria-label="anchor" href="#connecting-r-to-syncrosim-using-session"></a>
@@ -187,7 +194,7 @@ and <code>rgdal</code> packages from CRAN as well.</p>
 workflow by creating a SyncroSim Session object. Use the
 <code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of
 the SyncroSim software.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span></span>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
@@ -198,9 +205,9 @@ the SyncroSim software.</p>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the
 latest version of SyncroSim.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.27"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.5.11"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -209,20 +216,20 @@ latest version of SyncroSim.</p>
 <code>rynscrosim</code> function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This
 function takes a package name as input and then queries the SyncroSim
 package server for the specified package.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldSpatial</span></span>
 <span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Package &lt;helloworldSpatial&gt; installed</span></span></code></pre>
 <p><code>helloworldSpatial</code> should now be included in the package
 list returned by the <code><a href="../reference/package.html">package()</a></code> function in
 <code>rsyncrosim</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                name                                   description version</span></span>
-<span><span class="co">## 1 helloworldSpatial Example demonstrating how to use spatial data   1.0.5</span></span>
-<span><span class="co">##                                                         NA NA</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\SyncroSim\\Packages\\helloworldSpatial OK</span></span></code></pre>
+<span><span class="co">## 1 helloworldSpatial Example demonstrating how to use spatial data   1.1.0</span></span>
+<span><span class="co">##                                                   location status</span></span>
+<span><span class="co">## 1 C:\\Users\\sarah\\SyncroSim\\Packages\\helloworldSpatial     OK</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -240,7 +247,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <div class="section level3">
 <h3 id="set-up-library-project-and-scenario">Set up Library, Project, and Scenario<a class="anchor" aria-label="anchor" href="#set-up-library-project-and-scenario"></a>
 </h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Library</span></span>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"helloworldLibrary.ssim"</span>,</span>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
@@ -248,7 +255,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Open the default Project</span></span>
-<span><span class="va">myProject</span> <span class="op">=</span> <span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
+<span><span class="va">myProject</span> <span class="op">=</span> <span class="fu">rsyncrosim</span><span class="fu">::</span><span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a new Scenario (associated with the default Project)</span></span>
 <span><span class="va">myScenario</span> <span class="op">=</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My spatial scenario"</span><span class="op">)</span></span></code></pre></div>
@@ -258,7 +265,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 </h3>
 <p>View the Datasheets associated with your new Scenario using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function from <code>rsyncrosim</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View all Datasheets associated with a Library, Project, or Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                                    name                displayName</span></span>
@@ -319,7 +326,7 @@ a Package: Linking Models</a> tutorial.</p>
 <p>First, assign the contents of the input Datasheet to a new data frame
 variable using <code><a href="../reference/datasheet.html">datasheet()</a></code>, then check the columns that
 need input values.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load input Datasheet to a new R data frame</span></span>
 <span><span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>,</span>
 <span>                              name <span class="op">=</span> <span class="st">"helloworldSpatial_InputDatasheet"</span><span class="op">)</span></span>
@@ -346,27 +353,27 @@ linear equation.</li>
 <p>In this example, the external file we are using for the
 <code>InterceptRasterFile</code> is a simple 5x5 raster TIF file
 generated using the <code>raster</code> package in R. The file used in
-this vignete can be found
+this vignette can be found
 <a href="https://github.com/ApexRMS/helloworldSpatial/blob/main/images/input-raster.tif" target="_blank" class="external-link">here</a>.</p>
-<div class="figure">
-<img src="input-raster.png" alt=""><p class="caption">InterceptRasterFile input image</p>
+<div class="float">
+<img src="input-raster.png" alt="InterceptRasterFile input image"><div class="figcaption">InterceptRasterFile input image</div>
 </div>
 <p>Add these values to a new data frame, then use the
 <code><a href="../reference/addRow.html">addRow()</a></code> function from <code>rsyncrosim</code> to update
 the input data frame</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create input data and add it to the input data frame</span></span>
 <span><span class="va">myInputRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mMean <span class="op">=</span> <span class="fl">0</span>, mSD <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>                         InterceptRasterFile <span class="op">=</span> <span class="st">"path/to/raster-image.tif"</span><span class="op">)</span></span>
+<span>                         InterceptRasterFile <span class="op">=</span> <span class="st">"path/to/input-raster.tif"</span><span class="op">)</span></span>
 <span><span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">myInputDataframe</span>, <span class="va">myInputRow</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Check values</span></span>
 <span><span class="va">myInputDataframe</span></span></code></pre></div>
 <pre><code><span><span class="co">##   mMean mSD      InterceptRasterFile</span></span>
-<span><span class="co">## 1     0   4 path/to/raster-image.tif</span></span></code></pre>
+<span><span class="co">## 1     0   4 path/to/input-raster.tif</span></span></code></pre>
 <p>Finally, save the updated R data frame to a SyncroSim Datasheet using
 <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save input R data frame as a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myInputDataframe</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"helloworldSpatial_InputDatasheet"</span><span class="op">)</span></span></code></pre></div>
@@ -380,9 +387,6 @@ add then update the information in the data frame using
 columns:</p>
 <ul>
 <li>
-<code>MinimumIteration</code> : starting value of iterations
-(default=1).</li>
-<li>
 <code>MaximumIteration</code> : total number of iterations to run
 the model for.</li>
 <li>
@@ -392,30 +396,30 @@ simulation.</li>
 <code>MaximumTimestep</code> : the end time point of the
 simulation.</li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<p><em>Note:</em> A fourth hidden column, <code>MinimumIteration</code>,
+also exists in the RunControl Datasheet (default=1).</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load RunControl Datasheet to an R data frame</span></span>
 <span><span class="va">runSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"helloworldSpatial_RunControl"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Check the columns of the run control data frame</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">runSettings</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 'data.frame':    0 obs. of  4 variables:</span></span>
-<span><span class="co">##  $ MinimumIteration: num </span></span>
+<pre><code><span><span class="co">## 'data.frame':    0 obs. of  3 variables:</span></span>
 <span><span class="co">##  $ MaximumIteration: num </span></span>
 <span><span class="co">##  $ MinimumTimestep : num </span></span>
 <span><span class="co">##  $ MaximumTimestep : num</span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create RunControl data and add it to the RunControl data frame</span></span>
-<span><span class="va">runSettingsRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MinimumIteration <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                             MaximumIteration <span class="op">=</span> <span class="fl">5</span>,</span>
+<span><span class="va">runSettingsRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MaximumIteration <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>                             MinimumTimestep <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                             MaximumTimestep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">runSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">runSettings</span>, <span class="va">runSettingsRow</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Check values</span></span>
 <span><span class="va">runSettings</span></span></code></pre></div>
-<pre><code><span><span class="co">##   MinimumIteration MaximumIteration MinimumTimestep MaximumTimestep</span></span>
-<span><span class="co">## 1                1                5               1              10</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">##   MaximumIteration MinimumTimestep MaximumTimestep</span></span>
+<span><span class="co">## 1                5               1              10</span></span></code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save run control R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">runSettings</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"helloworldSpatial_RunControl"</span><span class="op">)</span></span></code></pre></div>
@@ -437,7 +441,7 @@ that the <code>StageNameID</code> is a factor with two levels: “First
 Model” and “Second Model”. We will set the data for this Datasheet such
 that “First Model” is run first, then “Second Model”. This way, the
 output from “First Model” is used as the input for “Second Model”.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load Pipeline Datasheet to an R data frame</span></span>
 <span><span class="va">myPipelineDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"core_Pipeline"</span><span class="op">)</span></span>
 <span></span>
@@ -446,7 +450,7 @@ output from “First Model” is used as the input for “Second Model”.</p>
 <pre><code><span><span class="co">## 'data.frame':    0 obs. of  2 variables:</span></span>
 <span><span class="co">##  $ StageNameID: Factor w/ 2 levels "First Model",..: </span></span>
 <span><span class="co">##  $ RunOrder   : num</span></span></code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create Pipeline data and add it to the Pipeline data frame</span></span>
 <span><span class="va">myPipelineRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>StageNameID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First Model"</span>, <span class="st">"Second Model"</span><span class="op">)</span>,</span>
 <span>                            RunOrder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
@@ -458,7 +462,7 @@ output from “First Model” is used as the input for “Second Model”.</p>
 <pre><code><span><span class="co">##    StageNameID RunOrder</span></span>
 <span><span class="co">## 1  First Model        1</span></span>
 <span><span class="co">## 2 Second Model        2</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save Pipeline R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myPipelineDataframe</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"core_Pipeline"</span><span class="op">)</span></span></code></pre></div>
@@ -475,7 +479,7 @@ output from “First Model” is used as the input for “Second Model”.</p>
 <code>rsyncrosim</code>. If we have a large modeling workflow and we
 want to parallelize the run using multiprocessing, we can set the
 <code>jobs</code> argument to be a value greater than one.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run the first Scenario we created</span></span>
 <span><span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span>, jobs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Running scenario [1] My spatial scenario"</span></span></code></pre>
@@ -494,54 +498,54 @@ Scenario when it was run.</p>
 <p>First, we will view the non-spatial results within the Results
 Scenarios. For each step in the pipeline, We can load the result tables
 using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load results of first Transformer in Pipeline</span></span>
 <span><span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                            name <span class="op">=</span> <span class="st">"helloworldSpatial_IntermediateDatasheet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View results table of first Transformer in Pipeline</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   Iteration Timestep         y        OutputRasterFile</span></span>
-<span><span class="co">## 1         1        1  -78.6893 rasterMap_iter1_ts1.tif</span></span>
-<span><span class="co">## 2         1        2 -153.0446 rasterMap_iter1_ts2.tif</span></span>
-<span><span class="co">## 3         1        3 -227.3999 rasterMap_iter1_ts3.tif</span></span>
-<span><span class="co">## 4         1        4 -301.7552 rasterMap_iter1_ts4.tif</span></span>
-<span><span class="co">## 5         1        5 -376.1105 rasterMap_iter1_ts5.tif</span></span>
-<span><span class="co">## 6         1        6 -450.4657 rasterMap_iter1_ts6.tif</span></span></code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<span><span class="co">## 1         1        1 -130.7026 rasterMap_iter1_ts1.tif</span></span>
+<span><span class="co">## 2         1        2 -257.0712 rasterMap_iter1_ts2.tif</span></span>
+<span><span class="co">## 3         1        3 -383.4399 rasterMap_iter1_ts3.tif</span></span>
+<span><span class="co">## 4         1        4 -509.8085 rasterMap_iter1_ts4.tif</span></span>
+<span><span class="co">## 5         1        5 -636.1771 rasterMap_iter1_ts5.tif</span></span>
+<span><span class="co">## 6         1        6 -762.5457 rasterMap_iter1_ts6.tif</span></span></code></pre>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load results of second Transformer in Pipeline</span></span>
 <span><span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                             name <span class="op">=</span> <span class="st">"helloworldSpatial_OutputDatasheet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View results table of second Transformer in Pipeline</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   Iteration Timestep       yCum</span></span>
-<span><span class="co">## 1         1        1   -78.6893</span></span>
-<span><span class="co">## 2         1        2  -231.7339</span></span>
-<span><span class="co">## 3         1        3  -459.1338</span></span>
-<span><span class="co">## 4         1        4  -760.8890</span></span>
-<span><span class="co">## 5         1        5 -1136.9995</span></span>
-<span><span class="co">## 6         1        6 -1587.4652</span></span></code></pre>
+<span><span class="co">## 1         1        1  -130.7026</span></span>
+<span><span class="co">## 2         1        2  -387.7738</span></span>
+<span><span class="co">## 3         1        3  -771.2137</span></span>
+<span><span class="co">## 4         1        4 -1281.0222</span></span>
+<span><span class="co">## 5         1        5 -1917.1993</span></span>
+<span><span class="co">## 6         1        6 -2679.7450</span></span></code></pre>
 <p>From viewing these Datasheets, we can see that the spatial output is
 contained within the <code>IntermediateDatasheet</code>, in the column
 called <code>OutputRasterFile</code>.</p>
 </div>
 <div class="section level3">
-<h3 id="viewing-spatial-results-with-datasheetraster">Viewing spatial results with <code>datasheetRaster()</code><a class="anchor" aria-label="anchor" href="#viewing-spatial-results-with-datasheetraster"></a>
+<h3 id="viewing-spatial-results-with-datasheetspatraster">Viewing spatial results with <code>datasheetSpatRaster()</code><a class="anchor" aria-label="anchor" href="#viewing-spatial-results-with-datasheetspatraster"></a>
 </h3>
 <p>For spatial results, we want to load the results as raster images. To
-do this, we will use the <code><a href="../reference/datasheetRaster.html">datasheetRaster()</a></code> function from
-<code>rsyncrosim</code>. The first argument is the result Scenario
+do this, we will use the <code><a href="../reference/datasheetSpatRaster.html">datasheetSpatRaster()</a></code> function
+from <code>rsyncrosim</code>. The first argument is the result Scenario
 object. Next, we specify the name of the Datasheet containing raster
-images using the <code>datasheet</code> argument, amd the column
+images using the <code>datasheet</code> argument, and the column
 pertaining to the raster images using the <code>column</code> argument.
 The results contain many raster images, since we have a raster for each
 combination of iteration and time step. We can use the
 <code>iteration</code> and <code>timestep</code> arguments to specify a
 single raster image or a subset of raster images we want to view.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load raster files for first result Scenario with time step and iteration</span></span>
-<span><span class="va">rasterMaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span></span>
+<span><span class="va">rasterMaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetSpatRaster.html">datasheetSpatRaster</a></span><span class="op">(</span></span>
 <span>  <span class="va">myResultScenario</span>,</span>
 <span>  datasheet <span class="op">=</span> <span class="st">"helloworldSpatial_IntermediateDatasheet"</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"OutputRasterFile"</span>,</span>
@@ -551,16 +555,17 @@ single raster image or a subset of raster images we want to view.</p>
 <span></span>
 <span><span class="co"># View results</span></span>
 <span><span class="va">rasterMaps</span></span></code></pre></div>
-<pre><code><span><span class="co">## class      : RasterLayer </span></span>
-<span><span class="co">## dimensions : 5, 5, 25  (nrow, ncol, ncell)</span></span>
-<span><span class="co">## resolution : 0.4, 0.4  (x, y)</span></span>
-<span><span class="co">## extent     : -1, 1, -1, 1  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">## crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">## source     : rasterMap_iter1_ts5.tif </span></span>
-<span><span class="co">## names      : rasterMap_iter1_ts5 </span></span>
-<span><span class="co">## values     : -17.49688, -12.75262  (min, max)</span></span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 5, 5, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 0.4, 0.4  (x, y)</span></span>
+<span><span class="co">## extent      : -1, 1, -1, 1  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. : lon/lat WGS 84 </span></span>
+<span><span class="co">## source      : rasterMap_iter1_ts5.tif </span></span>
+<span><span class="co">## name        : rasterMap_iter1_ts5 </span></span>
+<span><span class="co">## min value   :           -27.89954 </span></span>
+<span><span class="co">## max value   :           -23.15529</span></span></code></pre>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -577,9 +582,9 @@ the User Interface, see the SyncroSim tutorials on
 and
 <a href="http://docs.syncrosim.com/how_to_guides/results_map_customize.html" target="_blank" class="external-link">customizing</a>
 maps</p>
-<div class="figure">
-<img src="rsyncrosim-with-UI-spatial.png" width="600" alt=""><p class="caption">Using <code>rsyncrosim</code> with the SyncroSim
-Windows User Interface to map spatial data</p>
+<div class="float">
+<img src="rsyncrosim-with-UI-spatial.png" width="600" alt="Using rsyncrosim with the SyncroSim Windows User Interface to map spatial data"><div class="figcaption">Using <code>rsyncrosim</code> with the SyncroSim
+Windows User Interface to map spatial data</div>
 </div>
 </div>
 </div>
@@ -602,7 +607,7 @@ Windows User Interface to map spatial data</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

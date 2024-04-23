@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -174,8 +174,10 @@ and <code>rgdal</code> packages from CRAN as well.</p>
 <code>rsyncrosim</code> and <code>raster</code> R packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load R packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span>      <span class="co"># package for working with raster data</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span>  <span class="co"># package for working with SyncroSim</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: package 'rsyncrosim' was built under R version 4.3.3</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span>       <span class="co"># package for working with spatial data</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="connecting-r-to-syncrosim-using-session">Connecting R to SyncroSim using <code>session()</code><a class="anchor" aria-label="anchor" href="#connecting-r-to-syncrosim-using-session"></a>
@@ -184,7 +186,7 @@ and <code>rgdal</code> packages from CRAN as well.</p>
 workflow by creating a SyncroSim Session object. Use the
 <code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of
 the SyncroSim software.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span></span>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
@@ -195,9 +197,9 @@ the SyncroSim software.</p>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the
 latest version of SyncroSim.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.27"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.5.11"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
@@ -206,20 +208,20 @@ latest version of SyncroSim.</p>
 <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name as input
 and then queries the SyncroSim package server for the specified
 package.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install stsim</span></span>
 <span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Package &lt;stsim&gt; installed</span></span></code></pre>
 <p><code>stsim</code> should now be included in the package list
 returned by the <code><a href="../reference/package.html">package()</a></code> function in
 <code>rsyncrosim</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    name                                      description version</span></span>
-<span><span class="co">## 1 stsim The ST-Sim state-and-transition simulation model  3.3.13</span></span>
-<span><span class="co">##                                             NA NA</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\SyncroSim\\Packages\\stsim OK</span></span></code></pre>
+<span><span class="co">## 1 stsim The ST-Sim state-and-transition simulation model   3.4.5</span></span>
+<span><span class="co">##                                       location status</span></span>
+<span><span class="co">## 1 C:\\Users\\sarah\\SyncroSim\\Packages\\stsim     OK</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -238,7 +240,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <div class="section level3">
 <h3 id="set-up-library-project-and-scenario">Set up Library, Project, and Scenario<a class="anchor" aria-label="anchor" href="#set-up-library-project-and-scenario"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Library</span></span>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"stsimLibrary.ssim"</span>,</span>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
@@ -246,7 +248,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Open the default Project</span></span>
-<span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
+<span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu">rsyncrosim</span><span class="fu">::</span><span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a new Scenario (associated with the default Project)</span></span>
 <span><span class="va">myScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My spatial scenario"</span><span class="op">)</span></span></code></pre></div>
@@ -257,10 +259,10 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <p>View the Datasheets associated with your new Project and Scenario
 using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function from
 <code>rsyncrosim</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View all Datasheets associated with a Library, Project, or Scenario</span></span>
 <span><span class="va">datasheet_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datasheet_list</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datasheet_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     scope                 name              displayName</span></span>
 <span><span class="co">## 1 library          core_Backup                   Backup</span></span>
 <span><span class="co">## 2 library     core_CondaConfig      Conda Configuration</span></span>
@@ -268,8 +270,8 @@ using the <code><a href="../reference/datasheet.html">datasheet()</a></code> fun
 <span><span class="co">## 4 library      core_LNGPackage Last Known Good Packages</span></span>
 <span><span class="co">## 5 library core_Multiprocessing          Multiprocessing</span></span>
 <span><span class="co">## 6 library         core_Options                  Options</span></span></code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">datasheet_list</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">datasheet_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        scope                                        name</span></span>
 <span><span class="co">## 107 scenario             stsim_TransitionSlopeMultiplier</span></span>
 <span><span class="co">## 108 scenario stsim_TransitionSpatialInitiationMultiplier</span></span>
@@ -313,7 +315,7 @@ Datasheets to add and edit their values.</p>
 <p><strong>Terminology</strong>: The Project-scoped Datasheet called
 <code>Terminology</code> specifies terms used across all Scenarios in
 the same Project.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the Terminology Datasheet to a new R data frame </span></span>
 <span><span class="va">terminology</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myProject</span>, name <span class="op">=</span> <span class="st">"stsim_Terminology"</span><span class="op">)</span></span>
 <span></span>
@@ -321,7 +323,7 @@ the same Project.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">terminology</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    1 obs. of  8 variables:</span></span>
 <span><span class="co">##  $ AmountLabel          : chr "Area"</span></span>
-<span><span class="co">##  $ AmountUnits          : Factor w/ 4 levels "Acres","Hectares",..: 1</span></span>
+<span><span class="co">##  $ AmountUnits          : Factor w/ 5 levels "acres","hectares",..: 1</span></span>
 <span><span class="co">##  $ StateLabelX          : chr "Class"</span></span>
 <span><span class="co">##  $ StateLabelY          : chr "Subclass"</span></span>
 <span><span class="co">##  $ PrimaryStratumLabel  : chr "Primary Stratum"</span></span>
@@ -331,9 +333,9 @@ the same Project.</p>
 <p>We can change the terminology of the <code>StateLabelX</code> and
 <code>AmountUnits</code> columns in this Datasheet, and then save those
 changes back to the SyncroSim Library file.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Edit the values of the StateLabelX and AmountUnits columns</span></span>
-<span><span class="va">terminology</span><span class="op">$</span><span class="va">AmountUnits</span> <span class="op">&lt;-</span> <span class="st">"Hectares"</span></span>
+<span><span class="va">terminology</span><span class="op">$</span><span class="va">AmountUnits</span> <span class="op">&lt;-</span> <span class="st">"hectares"</span></span>
 <span><span class="va">terminology</span><span class="op">$</span><span class="va">StateLabelX</span> <span class="op">&lt;-</span> <span class="st">"Forest Type"</span></span>
 <span></span>
 <span><span class="co"># Saves edits as a SyncroSim Datasheet</span></span>
@@ -342,7 +344,7 @@ changes back to the SyncroSim Library file.</p>
 <p>Similarly, we can edit other Project-scoped Datasheets for
 ‘stsim’.</p>
 <p><strong>Stratum</strong>: Primary Strata in the model</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load a copy of the Stratum Datasheet.</span></span>
 <span><span class="co"># To load an empty copy of this Datasheet, specify the argument empty = TRUE in the datasheet() function.</span></span>
 <span><span class="va">stratum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="st">"stsim_Stratum"</span>, empty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -359,7 +361,7 @@ Classes</p>
 into R. Below we create a vector of <code>forestTypes</code> and add
 this to the <code>stsim_StateLabelX</code> Datasheet as a data frame
 using <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a vector containing the State Class labels </span></span>
 <span><span class="va">forestTypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Coniferous"</span>, <span class="st">"Deciduous"</span>, <span class="st">"Mixed"</span><span class="op">)</span></span>
 <span></span>
@@ -371,7 +373,7 @@ using <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_StateLabelX&gt; saved</span></span></code></pre>
 <p><strong>StateLabelY</strong>: Second dimension of labels for State
 Classes</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Add values as a data frame directly to an stsim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, </span>
 <span>              <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"All"</span><span class="op">)</span><span class="op">)</span>, </span>
@@ -380,7 +382,7 @@ Classes</p>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_StateLabelY&gt; saved</span></span></code></pre>
 <p><strong>State Classes</strong>: Combine <code>StateLabelX</code> and
 <code>StateLabelY</code>, and assign each class a unique name and ID</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new R data frame containing the names of the State Classes and their corresponding data</span></span>
 <span><span class="va">stateClasses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="va">forestTypes</span><span class="op">)</span></span>
 <span><span class="va">stateClasses</span><span class="op">$</span><span class="va">StateLabelXID</span> <span class="op">&lt;-</span> <span class="va">stateClasses</span><span class="op">$</span><span class="va">Name</span></span>
@@ -392,7 +394,7 @@ Classes</p>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_StateClass&gt; saved</span></span></code></pre>
 <p><strong>Transition Types</strong>: Assign a unique name and ID to
 each type of transition in our model.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create an R data frame containing transition type data </span></span>
 <span><span class="va">transitionTypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Fire"</span>, <span class="st">"Harvest"</span>, <span class="st">"Succession"</span><span class="op">)</span>, </span>
 <span>                              ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
@@ -402,7 +404,7 @@ each type of transition in our model.</p>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_TransitionType&gt; saved</span></span></code></pre>
 <p><strong>Transition Groups</strong>: Create Transition Groups
 identical to the Types</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create an R data frame containing a column of transition type names </span></span>
 <span><span class="va">transitionGroups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Fire"</span>, <span class="st">"Harvest"</span>, <span class="st">"Succession"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -411,7 +413,7 @@ identical to the Types</p>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_TransitionGroup&gt; saved</span></span></code></pre>
 <p><strong>Transition Types by Groups</strong>: Assign each Type to its
 Group</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create an R data frame that contains Transition Type Group names</span></span>
 <span><span class="va">transitionTypesGroups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>TransitionTypeID <span class="op">=</span> <span class="va">transitionTypes</span><span class="op">$</span><span class="va">Name</span>,</span>
 <span>                                    TransitionGroupID <span class="op">=</span> <span class="va">transitionGroups</span><span class="op">$</span><span class="va">Name</span><span class="op">)</span></span>
@@ -424,7 +426,7 @@ Group</p>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_TransitionTypeGroup&gt; saved</span></span></code></pre>
 <p><strong>Ages</strong>: Define the basic parameters to control the age
 reporting in the model</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define values for age reporting</span></span>
 <span><span class="va">ageFrequency</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">ageMax</span> <span class="op">&lt;-</span> <span class="fl">101</span></span>
@@ -436,7 +438,7 @@ reporting in the model</p>
 <span>              <span class="st">"AgeType"</span>, </span>
 <span>              force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_AgeType&gt; saved</span></span></code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myProject</span>, </span>
 <span>              <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MaximumAge <span class="op">=</span> <span class="va">ageGroups</span><span class="op">)</span>, </span>
 <span>              <span class="st">"stsim_AgeGroup"</span>, </span>
@@ -450,18 +452,18 @@ reporting in the model</p>
 can move on to specifying Scenario-specific model inputs. We begin by
 using the <code>scenario</code> function to create a new Scenario in our
 Project.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new SyncroSim Scenario</span></span>
 <span><span class="va">myScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="st">"No Harvest"</span><span class="op">)</span></span></code></pre></div>
 <p>Once again we can use the <code><a href="../reference/datasheet.html">datasheet()</a></code> function (with
 <code>summary=TRUE</code>) to display all the Scenario-scoped
 Datasheets.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subset the full Datasheet list to show only Scenario-scoped Datasheets</span></span>
-<span><span class="va">scenario_datasheet_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span><span class="va">scenario_datasheet_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>                                  <span class="va">scope</span> <span class="op">==</span> <span class="st">"scenario"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scenario_datasheet_list</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scenario_datasheet_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                            name                displayName</span></span>
 <span><span class="co">## 46 scenario            core_AutoGenTagValue Auto Generation Tag Values</span></span>
 <span><span class="co">## 47 scenario                   core_Pipeline                   Pipeline</span></span>
@@ -469,8 +471,8 @@ Datasheets.</p>
 <span><span class="co">## 49 scenario              corestime_External                   External</span></span>
 <span><span class="co">## 50 scenario corestime_ExternalVariableValue         External Variables</span></span>
 <span><span class="co">## 51 scenario       corestime_Multiprocessing    Spatial Multiprocessing</span></span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">scenario_datasheet_list</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/headtail.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">scenario_datasheet_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        scope                                        name</span></span>
 <span><span class="co">## 107 scenario             stsim_TransitionSlopeMultiplier</span></span>
 <span><span class="co">## 108 scenario stsim_TransitionSpatialInitiationMultiplier</span></span>
@@ -490,20 +492,20 @@ at a time, each of our Scenario-scoped Datasheets from our Library.</p>
 <p><strong>Run Control</strong>: Define the length of the run and
 whether or not it is a spatial run (requires spatial inputs to be set,
 see below). Here we make the run spatial.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create an R data frame specifying to run the simulation for 7 realizations and 10 timesteps</span></span>
 <span><span class="va">runControl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MaximumIteration <span class="op">=</span> <span class="fl">7</span>,</span>
 <span>                         MinimumTimestep <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                         MaximumTimestep <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>                         isSpatial <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                         IsSpatial <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Save transitionTypesGroups R data frame to a SyncroSim Datasheet</span></span>
-<span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">runControl</span>, <span class="st">"stsim_RunControl"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">runControl</span>, <span class="st">"stsim_RunControl"</span>,append <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_RunControl&gt; saved</span></span></code></pre>
 <p><strong>Deterministic Transitions</strong>: Define transitions that
 take place in the absence of probabilistic transitions. Here we also set
 the age boundaries for each State Class.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load  an empty Deterministic Transitions Datasheet to a new R data frame</span></span>
 <span><span class="va">dTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, </span>
 <span>                          <span class="st">"stsim_DeterministicTransition"</span>, </span>
@@ -531,7 +533,7 @@ the age boundaries for each State Class.</p>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_DeterministicTransition&gt; saved</span></span></code></pre>
 <p><strong>Probabilistic Transitions</strong>: Define transitions
 between State Classes and assigns a probability to each.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load  an empty Probabilistic Transitions Datasheet to a new R data frame</span></span>
 <span><span class="va">pTransitions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="st">"stsim_Transition"</span>, optional <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                          empty <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
@@ -585,29 +587,29 @@ initial conditions non-spatially below.</p>
 look at our rasters. We will retrieve the sample raster files (in
 GeoTIFF format) provided with the <code>rsyncrosim</code> package.</li>
 </ul>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load sample .tif files</span></span>
 <span><span class="va">stratumTif</span> <span class="op">&lt;-</span> <span class="st">"initial-stratum.tif"</span></span>
 <span><span class="va">sclassTif</span> <span class="op">&lt;-</span> <span class="st">"initial-sclass.tif"</span></span>
 <span><span class="va">ageTif</span> <span class="op">&lt;-</span> <span class="st">"initial-age.tif"</span></span></code></pre></div>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create raster layers from the .tif files</span></span>
-<span><span class="va">rStratum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">stratumTif</span><span class="op">)</span></span>
-<span><span class="va">rSclass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">sclassTif</span><span class="op">)</span></span>
-<span><span class="va">rAge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">ageTif</span><span class="op">)</span></span>
+<span><span class="va">rStratum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">stratumTif</span><span class="op">)</span></span>
+<span><span class="va">rSclass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">sclassTif</span><span class="op">)</span></span>
+<span><span class="va">rAge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">ageTif</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plot raster layers</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rStratum</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rStratum</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/plot%20initial%20conditions%20rasters-1.png" width="480" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rSclass</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rSclass</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/plot%20initial%20conditions%20rasters-2.png" width="480" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rAge</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rAge</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/plot%20initial%20conditions%20rasters-3.png" width="480" style="display: block; margin: auto;"></p>
 <p>We can add these rasters as model inputs using the
 <code>stsim_InitialConditionsSpatial</code> Datasheet.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create an R list of the input raster layers</span></span>
 <span><span class="va">ICSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>StratumFileName <span class="op">=</span> <span class="va">stratumTif</span>, </span>
 <span>                  StateClassFileName <span class="op">=</span> <span class="va">sclassTif</span>, </span>
@@ -625,7 +627,7 @@ parameterization. To do so, we use the
 <code>stsim_InitialConditionsNonSpatialDistribution</code>
 datasheets:</li>
 </ul>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create non-spatial initial conditions data and add it to an R data frame</span></span>
 <span><span class="va">ICNonSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>TotalAmount <span class="op">=</span> <span class="fl">100</span>, </span>
 <span>                           NumCells <span class="op">=</span> <span class="fl">100</span>, </span>
@@ -634,7 +636,7 @@ datasheets:</li>
 <span><span class="co"># Save the ICNonSpatial R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">ICNonSpatial</span>, <span class="st">"stsim_InitialConditionsNonSpatial"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_InitialConditionsNonSpatial&gt; saved</span></span></code></pre>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create non-spatial initial conditions distribution data and add it to an R data frame</span></span>
 <span><span class="va">ICNonSpatialDistribution</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>StratumID <span class="op">=</span> <span class="st">"Entire Forest"</span>, </span>
 <span>                                       StateClassID <span class="op">=</span> <span class="st">"Coniferous"</span>, </span>
@@ -646,7 +648,7 @@ datasheets:</li>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_InitialConditionsNonSpatialDistribution&gt; saved</span></span></code></pre>
 <p><strong>Transition Targets</strong>: Define targets, in units of
 area, to be reached by the allocation procedure within SyncroSim.</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set the transition target for harvest to 0</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, </span>
 <span>              <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>TransitionGroupID <span class="op">=</span> <span class="st">"Harvest"</span>, </span>
@@ -655,7 +657,7 @@ area, to be reached by the allocation procedure within SyncroSim.</p>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_TransitionTarget&gt; saved</span></span></code></pre>
 <p><strong>Output Options</strong>: Regulate the model outputs and
 determine the frequency at which syncrosim saves the model outputs.</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create output options for spatial model and add it to an R data frame</span></span>
 <span><span class="va">outputOptionsSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  RasterOutputSC <span class="op">=</span> <span class="cn">T</span>, RasterOutputSCTimesteps <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -666,7 +668,7 @@ determine the frequency at which syncrosim saves the model outputs.</p>
 <span><span class="co"># Save the outputOptionsSpatial R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="va">outputOptionsSpatial</span>, <span class="st">"stsim_OutputOptionsSpatial"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_OutputOptionsSpatial&gt; saved</span></span></code></pre>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create output options for non-spatial model and add it to an R data frame</span></span>
 <span><span class="va">outputOptionsNonSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  SummaryOutputSC <span class="op">=</span> <span class="cn">T</span>, SummaryOutputSCTimesteps <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -680,7 +682,7 @@ determine the frequency at which syncrosim saves the model outputs.</p>
 now define a new Scenario that implements forest harvesting. Below, we
 create a second “Harvest” Scenario that is a copy of the first Scenario,
 but with a harvest level of 20 acres/year.</p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a copy of the no harvest scenario (i.e myScenario) and name it myScenarioHarvest</span></span>
 <span><span class="va">myScenarioHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myProject</span>, </span>
 <span>                              scenario <span class="op">=</span> <span class="st">"Harvest"</span>, </span>
@@ -692,7 +694,7 @@ but with a harvest level of 20 acres/year.</p>
 <span>              <span class="st">"stsim_TransitionTarget"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;stsim_TransitionTarget&gt; saved</span></span></code></pre>
 <p>We can display the harvest levels for both scenarios.</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View the transition targets for the Harvest and No Harvest scenarios</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Harvest"</span>, <span class="st">"No Harvest"</span><span class="op">)</span>, </span>
 <span>          name <span class="op">=</span> <span class="st">"stsim_TransitionTarget"</span><span class="op">)</span></span></code></pre></div>
@@ -718,7 +720,7 @@ the results of the run along with a snapshot of all the model inputs. If
 we have a large modeling workflow and we want to parallelize the run
 using multiprocessing, we can set the <code>jobs</code> argument to be a
 value greater than one.</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run both Scenarios</span></span>
 <span><span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Harvest"</span>, <span class="st">"No Harvest"</span><span class="op">)</span>, </span>
 <span>                     jobs <span class="op">=</span> <span class="fl">7</span>, summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -733,16 +735,16 @@ value greater than one.</p>
 Scenario when it was run. To look at the results we first need to
 retrieve the unique <code>scenarioId</code> for each child <em>Result
 Scenario</em>.</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve Scenario IDs</span></span>
-<span><span class="va">resultIDNoHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
+<span><span class="va">resultIDNoHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
 <span>                            <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span></span>
-<span><span class="va">resultIDHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
+<span><span class="va">resultIDHarvest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">myResultScenario</span>, </span>
 <span>                          <span class="va">ParentID</span> <span class="op">==</span> <span class="fu"><a href="../reference/scenarioId.html">scenarioId</a></span><span class="op">(</span><span class="va">myScenarioHarvest</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ScenarioID</span></span></code></pre></div>
 <p>We can now retrieve tabular output regarding the projected State
 Class over time (for both scenarios combined) from the
 <code>stsim_OutputStratumState</code> Datasheet.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve output projected State Class for both Scenarios in tabular form</span></span>
 <span><span class="va">outputStratumState</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span></span>
 <span>  <span class="va">myProject</span>, </span>
@@ -751,22 +753,26 @@ Class over time (for both scenarios combined) from the
 <p>Finally, we can get the State Class raster output using the
 <code><a href="../reference/datasheetRaster.html">datasheetRaster()</a></code> function (here for the Harvest scenario
 only).</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Retrieve the output State Class raster for the Harvest scenario at timestep 5</span></span>
-<span><span class="va">myRastersTimestep5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetRaster.html">datasheetRaster</a></span><span class="op">(</span><span class="va">myProject</span>, </span>
-<span>                                      scenario <span class="op">=</span> <span class="va">resultIDHarvest</span>, </span>
-<span>                                      <span class="st">"stsim_OutputSpatialState"</span>, </span>
-<span>                                      timestep <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">myRastersTimestep5</span></span></code></pre></div>
-<pre><code><span><span class="co">## class      : RasterStack </span></span>
-<span><span class="co">## dimensions : 10, 10, 100, 7  (nrow, ncol, ncell, nlayers)</span></span>
-<span><span class="co">## resolution : 1, 1  (x, y)</span></span>
-<span><span class="co">## extent     : 0, 10, 0, 10  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">## crs        : +proj=utm +zone=10 +ellps=GRS80 +units=m +no_defs </span></span>
-<span><span class="co">## names      : sc.it1.ts5, sc.it2.ts5, sc.it3.ts5, sc.it4.ts5, sc.it5.ts5, sc.it6.ts5, sc.it7.ts5</span></span></code></pre>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Retrieve the output State Class raster for the Harvest scenario at timestep 5</span></span>
+<span><span class="va">myRastersTimestep5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetSpatRaster.html">datasheetSpatRaster</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>, </span>
+<span>                                          scenario <span class="op">=</span> <span class="va">resultIDHarvest</span>,</span>
+<span>                                          datasheet <span class="op">=</span> <span class="st">"stsim_OutputSpatialState"</span>, </span>
+<span>                                          timestep <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">myRastersTimestep5</span></span></code></pre></div>
+<pre><code><span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 10, 10, 7  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">## extent      : 0, 10, 0, 10  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. : UTM Zone 10, Northern Hemisphere </span></span>
+<span><span class="co">## sources     : sc.it1.ts5.tif  </span></span>
+<span><span class="co">##               sc.it2.ts5.tif  </span></span>
+<span><span class="co">##               sc.it3.ts5.tif  </span></span>
+<span><span class="co">##               ... and 4 more source(s)</span></span>
+<span><span class="co">## names       : sc.it1.ts5, sc.it2.ts5, sc.it3.ts5, sc.it4.ts5, sc.it5.ts5, sc.it6.ts5, ...</span></span></code></pre>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot raster for the first realization of timestep 5</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myRastersTimestep5</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myRastersTimestep5</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a05_rsyncrosim_stsim_vignette_files/figure-html/view%20myRastersTimestep5-1.png" width="480" style="display: block; margin: auto auto auto 0;"></p>
 </div>
   </div>
@@ -788,7 +794,7 @@ only).</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
