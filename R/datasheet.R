@@ -87,6 +87,9 @@ NULL
 #' @param returnInvisible logical. If \code{TRUE}, returns columns that are 
 #'     invisible in the User Interface (i.e., are only used and populated
 #'     internally by SyncroSim or the SyncroSim Package). Default is \code{FALSE}
+#' @param rawValues logical. If \code{TRUE}, returns the raw ID values rather
+#'     than automatically translating the values to strings. Default is 
+#'     \code{FALSE}.
 #' 
 #' @return 
 #' If \code{summary=TRUE} returns a data.frame of Datasheet names 
@@ -168,7 +171,7 @@ setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenar
                                  sqlStatement = list(select = "SELECT *", groupBy = ""), 
                                  includeKey = FALSE, forceElements = FALSE, 
                                  fastQuery = FALSE, returnScenarioInfo = FALSE,
-                                 returnInvisible = FALSE) standardGeneric("datasheet"))
+                                 returnInvisible = FALSE, rawValues = FALSE) standardGeneric("datasheet"))
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
@@ -177,7 +180,7 @@ setMethod("datasheet",
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
-                   returnInvisible) {
+                   returnInvisible, rawValues) {
   cScn <- ssimObject[[1]]
   x <- NULL
   if (is(cScn, "Scenario")) {
@@ -202,7 +205,7 @@ setMethod("datasheet",
                     lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, 
                     includeKey = includeKey, forceElements = forceElements, 
                     fastQuery = fastQuery, returnScenarioInfo = returnScenarioInfo,
-                    returnInvisible = returnInvisible)
+                    returnInvisible = returnInvisible, rawValues = rawValues)
   
   return(out)
 })
@@ -212,7 +215,8 @@ setMethod("datasheet",
           signature(ssimObject = "character"), 
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
-                   includeKey, fastQuery, returnScenarioInfo, returnInvisible) {
+                   includeKey, fastQuery, returnScenarioInfo, returnInvisible,
+                   rawValues) {
   return(SyncroSimNotFound(ssimObject))
 })
 
@@ -222,7 +226,7 @@ setMethod("datasheet",
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
-                   returnInvisible) {
+                   returnInvisible, rawValues) {
   temp <- NULL
   ProjectId <- NULL
   ScenarioId <- NULL
@@ -538,6 +542,11 @@ setMethod("datasheet",
           
           if (!is.null(filterColumn)){
             args[["filtercol"]] <- filterColumn
+          }
+          
+          if (rawValues){
+            args[["valSheet"]] <- NULL
+            args <- append(args, list(rawvalues = NULL))
           }
           
           tt <- command(args, .session(x))
