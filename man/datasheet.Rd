@@ -23,7 +23,8 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE
 )
 
 \S4method{datasheet}{list}(
@@ -42,7 +43,8 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE
 )
 
 \S4method{datasheet}{character}(
@@ -60,7 +62,8 @@ datasheet(
   includeKey,
   fastQuery,
   returnScenarioInfo,
-  returnInvisible
+  returnInvisible,
+  rawValues
 )
 
 \S4method{datasheet}{SsimObject}(
@@ -79,7 +82,8 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE
 )
 }
 \arguments{
@@ -147,6 +151,10 @@ Default is \code{FALSE}}
 \item{returnInvisible}{logical. If \code{TRUE}, returns columns that are
 invisible in the User Interface (i.e., are only used and populated
 internally by SyncroSim or the SyncroSim Package). Default is \code{FALSE}}
+
+\item{rawValues}{logical. If \code{TRUE}, returns the raw ID values rather
+than automatically translating the values to strings. Default is
+\code{FALSE}.}
 }
 \value{
 If \code{summary=TRUE} returns a data.frame of Datasheet names

@@ -7,18 +7,18 @@
 \usage{
 chartInclude(
   chart,
-  axis,
   variable,
   filter,
+  axis = "Y",
   addValue = NULL,
   removeValue = NULL
 )
 
 \S4method{chartInclude}{Chart}(
   chart,
-  axis,
   variable,
   filter,
+  axis = "Y",
   addValue = NULL,
   removeValue = NULL
 )
@@ -26,13 +26,13 @@ chartInclude(
 \arguments{
 \item{chart}{\code{\link{Chart}} object}
 
-\item{axis}{character. Either "X" or "Y" corresponding to the X or Y axis of
-the chart.}
-
 \item{variable}{character. A variable belonging to the X or Y axis.}
 
 \item{filter}{character or character vector. A filter column belonging to
-the X or Y variable..}
+the X or Y variable.}
+
+\item{axis}{character. Either "X" or "Y" corresponding to the X or Y axis of
+the chart. Default is "Y".}
 
 \item{addValue}{character or character vector. Adds value(s) from the
 specified filter column and X or Y variable to be included in the chart.}

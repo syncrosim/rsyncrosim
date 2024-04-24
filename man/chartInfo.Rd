@@ -5,9 +5,9 @@
 \alias{chartInfo,SsimObject-method}
 \title{Retrieves chart variables}
 \usage{
-chartInfo(ssimObject, chart = NULL)
+chartInfo(ssimObject, chart = NULL, variable = NULL, filter = NULL)
 
-\S4method{chartInfo}{SsimObject}(ssimObject, chart = NULL)
+\S4method{chartInfo}{SsimObject}(ssimObject, chart = NULL, variable = NULL, filter = NULL)
 }
 \arguments{
 \item{ssimObject}{\code{\link{Project}} or \code{\link{Chart}} object}
@@ -15,9 +15,21 @@ chartInfo(ssimObject, chart = NULL)
 \item{chart}{character or integer. Either the name or ID of an existing chart.
 If \code{NULL} and a \code{\link{Project}} is provided as the first argument,
 then will return the available variables for charting.}
+
+\item{variable}{character. The name of a charting variable. If provided,
+then will return a list of the available filter columns for that variable.
+Default is \code{NULL}.}
+
+\item{filter}{character. The name of a filter column for a specified
+variable. If provided, then will return a list of values that pertain to
+the specified filter. If the filter column is used to disaggregate the
+chart data (using the \code{\link{chartDisagg}} function), one panel will be
+created for each of these values. If you would like to omit values from the
+chart, you can also add or remove values by the specified filter column
+using the \code{\link{chartInclude}} function. Default is \code{NULL}.}
 }
 \value{
-A data.frame of variables, filter columns, and filter values.
+A data.frame or list of variables, filter columns, and filter values.
 }
 \description{
 Retrieves the available variables for charting, or the variables that are
@@ -30,6 +42,10 @@ Example arguments:
 a data.frame of available variables for creating a new chart.
 \item If ssimObject is SyncroSIm Chart or chart is not \code{NULL}: Returns
 a data.frame of variables in use by the specified chart.
+\item If variable is not \code{NULL}: Returns a list of filter columns
+that belong to the given variable.
+\item If variable and filter are not \code{NULL}: Returns a dataframe of
+value IDs and names that belong to the given variable and filter.
 }
 }
 \examples{

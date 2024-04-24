@@ -9,11 +9,11 @@ NULL
 #' \code{\link{Chart}}.
 #'
 #' @param chart \code{\link{Chart}} object
-#' @param axis character. Either "X" or "Y" corresponding to the X or Y axis of
-#' the chart.
 #' @param variable character. A variable belonging to the X or Y axis.
 #' @param filter character or character vector. A filter column belonging to
-#' the X or Y variable..
+#' the X or Y variable.
+#' @param axis character. Either "X" or "Y" corresponding to the X or Y axis of
+#' the chart. Default is "Y".
 #' @param addValue character or character vector. Adds value(s) from the 
 #' specified filter column and X or Y variable to be included in the chart.
 #' @param removeValue character or character vector. Removes value(s) from the 
@@ -41,13 +41,13 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("chartInclude", function(chart, axis, variable, filter, addValue = NULL, 
+setGeneric("chartInclude", function(chart, variable, filter, axis="Y", addValue = NULL, 
                                     removeValue = NULL) standardGeneric("chartInclude"))
 
 #' @rdname chartInclude
 setMethod("chartInclude", signature(chart = "Chart"), 
-          function(chart, axis, variable, filter, addValue, removeValue) {
-            
+          function(chart, variable, filter, axis, addValue, removeValue) {
+         
     # Set arguments used throughout
     chartSession <- .session(chart)
     libPath <- .filepath(.ssimLibrary(chart))
@@ -73,45 +73,68 @@ setMethod("chartInclude", signature(chart = "Chart"),
       stop("axis argument must be 'X' or 'Y'.")
     }
     
+    # Retrieve value names and IDs for given variable and filter
+    valueDF <- chartInfo(chart, variable = variable, filter = filter)
+    
     # Include all values specified in addValue argument
     if (!is.null(addValue)){
       
-      if (is.character(addValue)){
+      if (is.character(addValue) || is.numeric(addValue)){
+        
+        addValueIDs <- c()
         
         for (v in addValue){
-          
-          # Convert v to ID values (can provide multiple IDs)
-          
-          args <- append(list(set = NULL, var = variable, col = filter), 
-                         generalArgs)
-          tt <- command(args, session = chartSession, program = consoleExe)
-          
-          if (tt[1] != "saved"){
-            stop(paste("Failed to disaggregate by column", filterCol, ":", tt[1]))
-          } 
+          if (v %in% valueDF$Name){
+            addValueIDs <- c(addValueIDs, valueDF[valueDF$Name == v,]$ID)
+          } else if (v %in% valueDF$ID){
+            addValueIDs <- c(addValueIDs, v)
+          } else {
+            stop(paste("value does not exist for specified variable and filter:", v))
+          }
         }
+        
+        addValueString <- paste(addValueIDs, collapse=",")
+          
+        args <- append(list(set = NULL, var = variable, col = filter, 
+                            ids = addValueString), generalArgs)
+        tt <- command(args, session = chartSession, program = consoleExe)
+          
+        if (tt[1] != "saved"){
+          stop(paste("Failed to include value for filter column", filter, ":", tt[1]))
+        } 
       } else {
-        stop("addFilter must be a character or vector of characters.")
+        stop("addValue must be a character or vector of characters.")
       }
     }
     
-    # Remove Y variable disaggregations by filter column provided
-    if (!is.null(removeFilter)){
+    # Remove values from Y variable / filter 
+    if (!is.null(removeValue)){
       
-      if (is.character(removeFilter)){
+      if (is.character(removeValue)  || is.numeric(removeValue)){
         
-        for (filterCol in removeFilter){
-          args <- append(list(clear = NULL, `chart-disagg-y` = NULL, 
-                              var = variable, col = filterCol), generalArgs)
-          tt <- command(args, session = chartSession, program = consoleExe)
-          
-          if (tt[1] != "saved"){
-            stop(paste("Failed to remove disaggregate by column", filterCol, 
-                       ":", tt[1]))
-          } 
+        removeValueIDs <- c()
+        
+        for (v in removeValue){
+          if (v %in% valueDF$Name){
+            removeValueIDs <- c(removeValueIDs, valueDF[valueDF$Name == v,]$ID)
+          } else if (v %in% valueDF$ID){
+            removeValueIDs <- c(removeValueIDs, v)
+          } else {
+            stop(paste("value does not exist for specified variable and filter:", v))
+          }
         }
+        
+        removeValueString <- paste(removeValueIDs, collapse=",")
+        
+        args <- append(list(clear = NULL, var = variable, col = filter, 
+                            ids = removeValueString), generalArgs)
+        tt <- command(args, session = chartSession, program = consoleExe)
+        
+        if (tt[1] != "saved"){
+          stop(paste("Failed to include value for filter column", filter, ":", tt[1]))
+        } 
       } else {
-        stop("addFilter must be a character or vector of characters.")
+        stop("removeValue must be a character or vector of characters.")
       }
     }
     
