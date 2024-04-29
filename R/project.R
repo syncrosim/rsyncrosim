@@ -130,11 +130,11 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' Creates or retrieves a \code{\link{Project}} or multiple Projects from a
 #' SsimLibrary.
 #'
-#' @param ssimObject \code{\link{Scenario}} or 
-#'     \code{\link{SsimLibrary}} object, or a character string (i.e. a filepath)
+#' @param ssimObject \code{\link{Scenario}}, \code{\link{SsimLibrary}}, or 
+#'     \code{\link{Chart}} object, or a character string (i.e. a filepath)
 #' @param project \code{\link{Project}} object, character, integer, or vector 
-#' of these. Names or ids of one or more Projects. Note that integer ids are 
-#' slightly faster (optional)
+#'     of these. Names or ids of one or more Projects. Note that integer ids are 
+#'     slightly faster (optional)
 #' @param sourceProject \code{\link{Project}} object, character, or integer. If 
 #'     not \code{NULL} (default), new Projects will be copies of the sourceProject
 #' @param summary logical. If \code{TRUE} then return the Project(s) in a data.frame with 
@@ -145,7 +145,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #'     list; otherwise returns a single project as a \code{\link{Project}} object. 
 #'     Applies only when \code{summary=FALSE} Default is \code{FALSE}
 #' @param overwrite logical. If \code{TRUE} an existing Project will be overwritten. 
-#' Default is \code{FALSE}
+#'     Default is \code{FALSE}
 #' 
 #' @details
 #' For each element of project:
@@ -199,6 +199,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   if ((is(ssimObject, "character")) && (is(ssimObject, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
+  
   if (is.null(ssimObject)) {
     e <- ssimEnvironment()
     ssimObject <- ssimLibrary(e$LibraryFilePath)
@@ -206,7 +207,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   }
 
   # if ssimObject is a scenario or project, return the project
-  if (is.element(class(ssimObject), c("Scenario", "Project")) & is.null(project)) {
+  if (is.element(class(ssimObject), c("Scenario", "Project", "Chart")) & is.null(project)) {
     if (is.null(summary)) {
       summary <- FALSE
     }

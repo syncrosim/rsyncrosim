@@ -814,14 +814,15 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   }
   
   # If the goal is a project, return one or more, or complain
-  if (!is.null(goal) && ((goal == "project") || (goal == "folder") || (goal == "chart"))) {
+  if (!is.null(goal) && (goal == "project")) {
     # if ssimObject is a scenario, return the parent project
-    if ((is(ssimObject, "Scenario"))) {
+    if (is.element(class(ssimObject), c("Scenario", "Folder", "Chart"))) {
       if (convertObject | !returnIds) {
         ssimObject <- new("Project", ssimObject, id = .projectId(ssimObject))
       }
     }
-    if (is.element(class(ssimObject), c("Project", "Scenario"))) {
+    
+    if (is.element(class(ssimObject), c("Project", "Scenario", "Folder", "Chart"))) {
       if (returnIds) {
         project <- .projectId(ssimObject)
         if (convertObject) {
@@ -1017,6 +1018,20 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     }
     
     return(list(ssimObject = ssimObject, project = project, scenario = scenario, scenarioSet = fullScnSet, goal = goal))
+  }
+  
+  # if goal is chart, and we have one, return immediately
+  if (!is.null(goal) && (goal == "chart")) {
+    if (is.element(class(ssimObject), c("Chart"))) {
+      return(ssimObject)
+    }
+  }
+  
+  # if goal is folder, and we have one, return immediately
+  if (!is.null(goal) && (goal == "folder")) {
+    if (is.element(class(ssimObject), c("Folder"))) {
+      return(ssimObject)
+    }
   }
   
   stop(paste0("Could not identify a SsimLibrary, Project or Scenario from ssimObject, project, and scenario arguments."))

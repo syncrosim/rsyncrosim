@@ -9,7 +9,7 @@ NULL
 #'
 #' @param chart \code{\link{Chart}} object
 #' @param type character. Type of error bar. Values can be "percentile", 
-#' "minmax", or "none". Default is "none".
+#' "minmax", or "none". Default is NULL.
 #' @param lower float. If the error bar type is set to "percentile", then
 #' sets the minimum percentile for the lower range of the error bar. Default is 
 #' \code{NULL}.
@@ -18,7 +18,8 @@ NULL
 #' \code{NULL}.
 #' 
 #' @return 
-#' A \code{Chart} object representing a SyncroSim chart
+#' A \code{Chart} object representing a SyncroSim chart or a data.frame of
+#' the current chart error bar settings.
 #' 
 #' @examples
 #' \dontrun{
@@ -37,13 +38,14 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("chartErrorBar", function(chart, type = "none", lower = NULL, 
+setGeneric("chartErrorBar", function(chart, type = NULL, lower = NULL, 
                                      upper = NULL) standardGeneric("chartErrorBar"))
 
 #' @rdname chartErrorBar
 setMethod("chartErrorBar", signature(chart = "Chart"), 
           function(chart, type, lower, upper) {
           
+    browser()
     # Grab project and chart ID from chart
     proj <- .project(chart)
     chartCID <- .chartId(chart)
@@ -52,6 +54,13 @@ setMethod("chartErrorBar", signature(chart = "Chart"),
     # Load chart configuration datasheet
     ds <- .datasheet(proj, name = chartDSName, optional = T, 
                      returnInvisible = T, includeKey = T)
+    
+    if (is.null(type)){
+      errorBarInfo <- data.frame(type = ds$ErrorBarType,
+                                 lower = ds$ErrorBarMinPercentile,
+                                 upper = ds$ErrorBarMaxPercentile)
+      return(errorBarInfo)
+    }
     
     # Set error bar type
     if (type == "none"){
