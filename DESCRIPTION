@@ -57,6 +57,8 @@ Collate:
     'chartId.R'
     'chartInclude.R'
     'chartInfo.R'
+    'chartXAxis.R'
+    'chartYAxis.R'
     'command.R'
     'condaFilepath.R'
     'createCondaEnv.R'

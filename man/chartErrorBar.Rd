@@ -5,15 +5,15 @@
 \alias{chartErrorBar,Chart-method}
 \title{Modify the error bars of a \code{\link{Chart}}}
 \usage{
-chartErrorBar(chart, type = "none", lower = NULL, upper = NULL)
+chartErrorBar(chart, type = NULL, lower = NULL, upper = NULL)
 
-\S4method{chartErrorBar}{Chart}(chart, type = "none", lower = NULL, upper = NULL)
+\S4method{chartErrorBar}{Chart}(chart, type = NULL, lower = NULL, upper = NULL)
 }
 \arguments{
 \item{chart}{\code{\link{Chart}} object}
 
 \item{type}{character. Type of error bar. Values can be "percentile",
-"minmax", or "none". Default is "none".}
+"minmax", or "none". Default is NULL.}
 
 \item{lower}{float. If the error bar type is set to "percentile", then
 sets the minimum percentile for the lower range of the error bar. Default is
@@ -24,7 +24,9 @@ sets the maximum percentile for the upper range of the error bar. Default is
 \code{NULL}.}
 }
 \value{
-A \code{Chart} object representing a SyncroSim chart
+A \code{Chart} object representing a SyncroSim chart or, if no arguments
+other than the chart are provided, a data.frame of the current chart error
+bar settings.
 }
 \description{
 Set the type and properties of the error bars of a \code{\link{Chart}}.

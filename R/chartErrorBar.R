@@ -18,8 +18,9 @@ NULL
 #' \code{NULL}.
 #' 
 #' @return 
-#' A \code{Chart} object representing a SyncroSim chart or a data.frame of
-#' the current chart error bar settings.
+#' A \code{Chart} object representing a SyncroSim chart or, if no arguments 
+#' other than the chart are provided, a data.frame of the current chart error 
+#' bar settings.
 #' 
 #' @examples
 #' \dontrun{
