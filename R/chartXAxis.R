@@ -74,7 +74,7 @@ setMethod("chartXAxis", signature(chart = "Chart"),
   if (!is.null(decimals) && is.numeric(decimals)){
     allNULL <- FALSE
     if ((decimals >= 0) && (decimals <= 8)){
-      PanelXAxisDecimalPlaces
+      ds[ds$ChartId == chartCID,]$PanelYAxisDecimalPlaces <- decimals
     } else {
       stop("decimals should be an integer between 0 and 8.")
     }
