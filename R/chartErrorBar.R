@@ -45,7 +45,6 @@ setGeneric("chartErrorBar", function(chart, type = NULL, lower = NULL,
 setMethod("chartErrorBar", signature(chart = "Chart"), 
           function(chart, type, lower, upper) {
           
-    browser()
     # Grab project and chart ID from chart
     proj <- .project(chart)
     chartCID <- .chartId(chart)
@@ -56,6 +55,7 @@ setMethod("chartErrorBar", signature(chart = "Chart"),
                      returnInvisible = T, includeKey = T)
     
     if (is.null(type)){
+      ds <- ds[ds$ChartId == chartCID,]
       errorBarInfo <- data.frame(type = ds$ErrorBarType,
                                  lower = ds$ErrorBarMinPercentile,
                                  upper = ds$ErrorBarMaxPercentile)
@@ -69,21 +69,22 @@ setMethod("chartErrorBar", signature(chart = "Chart"),
       ds[ds$ChartId == chartCID,]$ErrorBarType <- "Min/Max"
     } else if (type == "percentile"){
       ds[ds$ChartId == chartCID,]$ErrorBarType <- "Percentile"
+      
+      # Set min / max percentiles
+      if (is.numeric(lower)){
+        ds[ds$ChartId == chartCID,]$ErrorBarMinPercentile <- lower
+      } else {
+        stop("Invalid lower percentile value:", lower)
+      }
+      
+      if (is.numeric(upper)){
+        ds[ds$ChartId == chartCID,]$ErrorBarMaxPercentile <- upper
+      } else {
+        stop("Invalid upper percentile value:", upper)
+      }
+      
     } else {
       stop(paste("Invalid error bar type:", type))
-    }
-    
-    # Set min / max percentiles
-    if (is.numeric(lower)){
-      ds[ds$ChartId == chartCID,]$ErrorBarMinPercentile <- lower
-    } else {
-      stop("Invalid lower percentile value:", lower)
-    }
-    
-    if (is.numeric(upper)){
-      ds[ds$ChartId == chartCID,]$ErrorBarMaxPercentile <- upper
-    } else {
-      stop("Invalid upper percentile value:", upper)
     }
     
     saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
