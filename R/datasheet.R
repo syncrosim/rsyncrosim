@@ -90,6 +90,8 @@ NULL
 #' @param rawValues logical. If \code{TRUE}, returns the raw ID values rather
 #'     than automatically translating the values to strings. Default is 
 #'     \code{FALSE}.
+#' @param verbose logical. If set to \code{FALSE}, will not print notes about
+#'     datasheet validation. Default is \code{TRUE}.
 #' 
 #' @return 
 #' If \code{summary=TRUE} returns a data.frame of Datasheet names 
@@ -171,7 +173,8 @@ setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenar
                                  sqlStatement = list(select = "SELECT *", groupBy = ""), 
                                  includeKey = FALSE, forceElements = FALSE, 
                                  fastQuery = FALSE, returnScenarioInfo = FALSE,
-                                 returnInvisible = FALSE, rawValues = FALSE) standardGeneric("datasheet"))
+                                 returnInvisible = FALSE, rawValues = FALSE,
+                                 verbose = TRUE) standardGeneric("datasheet"))
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
@@ -180,7 +183,7 @@ setMethod("datasheet",
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
-                   returnInvisible, rawValues) {
+                   returnInvisible, rawValues, verbose) {
   cScn <- ssimObject[[1]]
   x <- NULL
   if (is(cScn, "Scenario")) {
@@ -205,7 +208,8 @@ setMethod("datasheet",
                     lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, 
                     includeKey = includeKey, forceElements = forceElements, 
                     fastQuery = fastQuery, returnScenarioInfo = returnScenarioInfo,
-                    returnInvisible = returnInvisible, rawValues = rawValues)
+                    returnInvisible = returnInvisible, rawValues = rawValues,
+                    verbose = verbose)
   
   return(out)
 })
@@ -216,7 +220,7 @@ setMethod("datasheet",
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, fastQuery, returnScenarioInfo, returnInvisible,
-                   rawValues) {
+                   rawValues, verbose) {
   return(SyncroSimNotFound(ssimObject))
 })
 
@@ -226,7 +230,7 @@ setMethod("datasheet",
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
-                   returnInvisible, rawValues) {
+                   returnInvisible, rawValues, verbose) {
   temp <- NULL
   ProjectId <- NULL
   ScenarioId <- NULL
@@ -780,16 +784,14 @@ setMethod("datasheet",
             sheet[[cRow$name]] <- as.character(sheet[[cRow$name]])
           }
         }
-        if (cRow$valType != "List") {
-          if (cRow$formula2 != "N/A") {
-            if (cRow$valCond == "Between") {
-              print(paste0("Note: ", cRow$name, " should be between ", cRow$formula1, " and ", cRow$formula2))
-            } else {
-              stop("handle this case")
-            }
+        
+        if (cRow$valType != "List" && cRow$formula2 != "N/A") {
+          if (cRow$valCond == "Between" && verbose) {
+            print(paste0("Note: ", cRow$name, " should be between ", cRow$formula1, " and ", cRow$formula2))
           }
         }
       }
+      
       if (lookupsAsFactors && !useConsole && directQuery) {
         DBI::dbDisconnect(con)
       }

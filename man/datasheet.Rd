@@ -24,7 +24,8 @@ datasheet(
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
   returnInvisible = FALSE,
-  rawValues = FALSE
+  rawValues = FALSE,
+  verbose = TRUE
 )
 
 \S4method{datasheet}{list}(
@@ -44,7 +45,8 @@ datasheet(
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
   returnInvisible = FALSE,
-  rawValues = FALSE
+  rawValues = FALSE,
+  verbose = TRUE
 )
 
 \S4method{datasheet}{character}(
@@ -63,7 +65,8 @@ datasheet(
   fastQuery,
   returnScenarioInfo,
   returnInvisible,
-  rawValues
+  rawValues,
+  verbose
 )
 
 \S4method{datasheet}{SsimObject}(
@@ -83,7 +86,8 @@ datasheet(
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
   returnInvisible = FALSE,
-  rawValues = FALSE
+  rawValues = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -155,6 +159,9 @@ internally by SyncroSim or the SyncroSim Package). Default is \code{FALSE}}
 \item{rawValues}{logical. If \code{TRUE}, returns the raw ID values rather
 than automatically translating the values to strings. Default is
 \code{FALSE}.}
+
+\item{verbose}{logical. If set to \code{FALSE}, will not print notes about
+datasheet validation. Default is \code{TRUE}.}
 }
 \value{
 If \code{summary=TRUE} returns a data.frame of Datasheet names

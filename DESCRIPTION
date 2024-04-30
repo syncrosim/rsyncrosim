@@ -57,6 +57,7 @@ Collate:
     'chartId.R'
     'chartInclude.R'
     'chartInfo.R'
+    'chartOptionsFont.R'
     'chartXAxis.R'
     'chartYAxis.R'
     'command.R'
