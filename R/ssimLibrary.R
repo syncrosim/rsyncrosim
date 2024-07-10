@@ -204,7 +204,8 @@ setMethod("ssimLibrary", signature(name = "SsimObject"),
       summary <- TRUE
     }
   } else {
-    out <- .ssimLibrary(name = .filepath(name), packages, session = .session(name), template, forceUpdate, overwrite, useConda)
+    out <- .ssimLibrary(name = .filepath(name), packages,
+                        session = .session(name), overwrite, useConda)
     if (is.null(summary)) {
       summary <- FALSE
     }
@@ -217,7 +218,7 @@ setMethod("ssimLibrary", signature(name = "SsimObject"),
 
 #' @rdname ssimLibrary
 setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), 
-          function(name = NULL, summary = NULL, packages, session,overwrite, useConda) {
+          function(name = NULL, summary = NULL, packages, session, overwrite, useConda) {
   if (is.null(session)) {
     session <- .session()
   }
