@@ -231,11 +231,11 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     
     # Remove the Library/Project/Scenario ID from the datasheet
     if (scope == "library"){
-      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("LibraryID")]
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("LibraryId")]
     } else if (scope == "project"){
-      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ProjectID")]
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ProjectId")]
     } else if (scope == "scenario"){
-      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ScenarioID")]
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ScenarioId")]
     }
     
     # Remove the datasheet ID from the datasheet if it exists
