@@ -3,7 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-setMethod(f = "initialize", signature = "Project", definition = function(.Object, ssimLibrary, name = NULL, id = NULL, projects = NULL, sourceProject = NULL) {
+setMethod(f = "initialize", signature = "Project", 
+          definition = function(.Object, ssimLibrary, name = NULL, id = NULL, 
+                                projects = NULL, sourceProject = NULL) {
 
   ProjectId <- NULL
   Name <- NULL
@@ -107,9 +109,12 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
         }
       }
     }
-    tt <- command(list(copy = NULL, project = NULL, slib = slib, tlib = .filepath(x), pid = sourcePID, name = name), .session(x))
+    tt <- command(list(copy = NULL, project = NULL, slib = slib, 
+                       tlib = .filepath(x), pid = sourcePID, name = name), 
+                  .session(x))
   } else {
-    tt <- command(list(create = NULL, project = NULL, lib = .filepath(x), name = name), .session(x))
+    tt <- command(list(create = NULL, project = NULL, lib = .filepath(x), 
+                       name = name), .session(x))
   }
 
   if (!grepl("Project ID is:", tt[1], fixed = TRUE)) {
@@ -195,7 +200,8 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' 
 #' @name project
 #' @export
-project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, summary = NULL, forceElements = FALSE, overwrite = FALSE) {
+project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, 
+                    summary = NULL, forceElements = FALSE, overwrite = FALSE) {
   if ((is(ssimObject, "character")) && (is(ssimObject, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
@@ -235,7 +241,10 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     returnIds <- TRUE
   }
 
-  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = NULL, convertObject = convertObject, returnIds = returnIds, goal = "project", complainIfMissing = FALSE)
+  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = NULL, 
+                               convertObject = convertObject, 
+                               returnIds = returnIds, goal = "project", 
+                               complainIfMissing = FALSE)
 
   if (is(xProjScn, "Project")) {
     if (!overwrite) {
@@ -246,9 +255,11 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   if (!is(xProjScn, "list")) {
     stop("something is wrong")
   }
+  
   ssimObject <- xProjScn$ssimObject
   project <- xProjScn$project
   allProjects <- xProjScn$projectSet
+  
   if (is.element("order", names(allProjects))) {
     projectSet <- subset(allProjects, !is.na(order))
   } else {
@@ -257,6 +268,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     }
     projectSet <- allProjects
   }
+  
   if (nrow(projectSet) == 0) {
     if (summary) {
       projectSet$exists <- NULL
@@ -266,6 +278,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
       stop("Error in project(): No projects to get or make.")
     }
   }
+  
   # if all projects exist and summary, simply return summary
   if ((sum(is.na(projectSet$exists)) == 0) & summary) {
     projectSet <- subset(projectSet, !is.na(order))
@@ -295,7 +308,8 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
 
     if (projExists) {
       if (overwrite) {
-        command(list(delete = NULL, project = NULL, lib = .filepath(ssimObject), pid = cRow$ProjectId, force = NULL), .session(ssimObject))
+        command(list(delete = NULL, project = NULL, lib = .filepath(ssimObject), 
+                     pid = cRow$ProjectId, force = NULL), .session(ssimObject))
         allProjects[i, "exists"] <- NA
         projectsToMake[i, "exists"] <- NA
       }
@@ -320,14 +334,18 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     }
     return(projectList)
   }
+  
   projectSetOut <- getProjectSet(ssimObject)
   projectSetOut$exists <- NULL
   idList <- data.frame(id = as.numeric(names(projectList)), order = seq(1:length(projectList)))
   projectSetOut <- merge(idList, projectSetOut, all.x = TRUE)
+  
   if (sum(is.na(projectSetOut$name)) > 0) {
     stop("Something is wrong with project()")
   }
+  
   projectSetOut <- projectSetOut[order(projectSetOut$order), ]
   projectSetOut$order <- NULL
+  
   return(projectSetOut)
 }
