@@ -86,7 +86,9 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"),
       next
     }
     
-    if (!is.element(cPkg, sessionPkgs$name)) {
+    sessPkgRow <- sessionPkgs[(sessionPkgs$name == cPkg) && (sessionPkgs$version == cVer), ]
+    
+    if (nrow(sessPkgRow) == 0) {
       print(paste0("Warning - ", cPkg, " v", cVer, " is not among the available packages: ", 
                    paste(sessionPkgs$name, collapse = ",")))
       retList[[cPkg]] <- FALSE
