@@ -5,7 +5,8 @@ NULL
 
 setMethod(
   f = "initialize", signature = "SsimLibrary",
-  definition = function(.Object, name = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) {
+  definition = function(.Object, name = NULL, packages = NULL, session = NULL, 
+                        overwrite = FALSE, useConda = NULL) {
     
     enabled <- NULL
     
@@ -57,44 +58,11 @@ setMethod(
       pathBits <- strsplit(path, "/")[[1]]
       dir.create(paste(head(pathBits, -1), collapse = "/"), showWarnings = FALSE)
       
-      # If no template specified, create an empty library
-      if (is.null(template)) {
-        args <- list(create = NULL, library = NULL, name = path)
-        cStatus <- command(args, session)
-        if (cStatus[1] != "saved") {
-          stop("Problem creating library: ", cStatus[1])
-        }
-      }
-      
-      # If template specified, create library from template
-      if (is.character(template)) {
-        
-        # Check if .ssim is appended to the template
-        if (grepl(".ssim", template)) {
-          template <- gsub(".ssim", "", template)
-        }
-        
-        # Check if template exists in the list of supplied packages
-        for (pkg in packages){
-          args <- list(list = NULL, templates = NULL,
-                       pkg = packageOptions$name[packageOptions$name == pkg],
-                       csv = NULL)
-          tt <- command(args, session)
-          tempsDataframe <- read.csv(text = tt)
-          pkgTemplate <- paste0(pkg, "_", template)
-          
-          if (pkgTemplate %in% tempsDataframe$Name){
-            templateExists <- TRUE
-            templatePkg <- pkg
-            break
-          } else {
-            templateExists <- FALSE
-          }
-        }
-      } 
-      
-      if (!is.null(template) & !is.character(template)) {
-        stop(paste(template, "is not a valid template name"))
+      # Create an empty library
+      args <- list(create = NULL, library = NULL, name = path)
+      cStatus <- command(args, session)
+      if (cStatus[1] != "saved") {
+        stop("Problem creating library: ", cStatus[1])
       }
     }
     
@@ -104,42 +72,11 @@ setMethod(
     tt <- command(args, session)
     
     if (grepl("Could not find package", tt[[1]])) {
-      stop(paste(tt[[1]], "Use addPackage() to install this package."))
+      stop(paste(tt[[1]], "Use installPackage() to install this package."))
     }
 
-    # Apply DB updates to out-of-date libraries
-    if (grepl("The library has unapplied updates", tt[[1]])) {
-      if (is.null(inName) | forceUpdate) {
-        answer <- "y"
-      } else {
-        message("The library has unapplied updates.\nDo you want to update library with path '", path, "' ?")
-        answer <- readline(prompt = "(y/n):")
-      }
-      if (answer == "y") {
-        UpdateArgs <- list(update = NULL, lib = path)
-
-        if (backupEnabled(path)) {
-          UpdateArgs <- c(UpdateArgs, list(backup = NULL))
-        }
-
-        updateMessage <- command(UpdateArgs, session)
-        updateMessage <- paste(updateMessage, collapse = " ")
-
-        if (grepl("Update complete", updateMessage, fixed = TRUE)) {
-          updateMessage <- "saved"
-        }
-
-        if (!identical(updateMessage, "saved")) {
-          stop(updateMessage)
-        }
-      } else {
-        stop("Cannot open a library with unapplied updates.")
-      }
-      tt <- command(args, session)
-    } else {
-      if (grepl("The library ", tt[[1]])) {
-        stop("Problem loading library: ", tt[1])
-      }
+    if (grepl("The library ", tt[[1]])) {
+      stop("Problem loading library: ", tt[1])
     }
 
     datasheets <- .dataframeFromSSim(tt, convertToLogical = c("isOutput", "isSingle"))
@@ -164,17 +101,22 @@ setMethod(
   }
 )
 
-setGeneric(".ssimLibrary", function(name = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
+setGeneric(".ssimLibrary", 
+           function(name = NULL, packages = NULL, session = NULL, 
+                    overwrite = FALSE, useConda = NULL) standardGeneric(".ssimLibrary"))
 
-setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name, packages, session, template, forceUpdate, overwrite, useConda) {
-  return(new("SsimLibrary", name, packages, session, forceUpdate))
+setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"), 
+          function(name, packages, session, overwrite, useConda) {
+  return(new("SsimLibrary", name, packages, session))
 })
 
-setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, packages, session, template, forceUpdate, overwrite, useConda) {
+setMethod(".ssimLibrary", signature(name = "SsimObject"), 
+          function(name, packages, session, overwrite, useConda) {
   if (is(name, "SsimLibrary")) {
     out <- name
   } else {
-    out <- .ssimLibrary(name = .filepath(name), packages, session = .session(name), template, forceUpdate, overwrite, useConda)
+    out <- .ssimLibrary(name = .filepath(name), packages, 
+                        session = .session(name), overwrite, useConda)
   }
   return(out)
 })
@@ -195,10 +137,6 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #'  add to the Library if creating a new Library (optional)
 #' @param session \code{\link{Session}} object. If \code{NULL} (default), session()
 #'  will be used
-#' @param template character. Creates the SsimLibrary with the specified template
-#' (optional)
-#' @param forceUpdate logical. If \code{FALSE} (default) user will be prompted to approve 
-#'     any required updates. If \code{TRUE}, required updates will be applied silently
 #' @param overwrite logical. If \code{TRUE} an existing SsimLibrary will be overwritten
 #' @param useConda logical. If set to TRUE, then all packages associated with the 
 #'  Library will have their Conda environments created and Conda environments will
@@ -229,7 +167,6 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' \donttest{
 #' # Make sure packages are installed
 #' installPackage("stsim")
-#' installPackage("stsimsf")
 #' 
 #' # Create or open a SsimLibrary using the default Session
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
@@ -249,17 +186,18 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"), function(name, package
 #' myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
 #'                          session = mySession,
 #'                          packages = "helloworldSpatial",
-#'                          template = "example-library",
-#'                          overwrite = TRUE,
-#'                          forceUpdate = TRUE)
+#'                          overwrite = TRUE)
 #'                          
 #' }
 #' 
 #' @export
-setGeneric("ssimLibrary", function(name = NULL, summary = NULL, packages = NULL, session = NULL, template = NULL, forceUpdate = FALSE, overwrite = FALSE, useConda = NULL) standardGeneric("ssimLibrary"))
+setGeneric("ssimLibrary", 
+           function(name = NULL, summary = NULL, packages = NULL, session = NULL, 
+                    overwrite = FALSE, useConda = NULL) standardGeneric("ssimLibrary"))
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary, packages, session, template, forceUpdate, overwrite, useConda) {
+setMethod("ssimLibrary", signature(name = "SsimObject"), 
+          function(name, summary, packages, session, overwrite, useConda) {
   if (is(name, "SsimLibrary")) {
     out <- name
     if (is.null(summary)) {
@@ -278,7 +216,8 @@ setMethod("ssimLibrary", signature(name = "SsimObject"), function(name, summary,
 })
 
 #' @rdname ssimLibrary
-setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name = NULL, summary = NULL, packages, session, template, forceUpdate, overwrite, useConda) {
+setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), 
+          function(name = NULL, summary = NULL, packages, session,overwrite, useConda) {
   if (is.null(session)) {
     session <- .session()
   }
@@ -286,7 +225,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), function(name 
     return(SyncroSimNotFound())
   }
 
-  newLib <- new("SsimLibrary", name, packages, session, template, forceUpdate, overwrite, useConda)
+  newLib <- new("SsimLibrary", name, packages, session, overwrite, useConda)
   
   # Add specified packages to the library
   packageOptions <- .packages(session, installed = TRUE)
