@@ -137,28 +137,47 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("datasheetSpatRaster", function(ssimObject, datasheet, column = NULL, scenario = NULL, iteration = NULL, timestep = NULL, filterColumn = NULL, filterValue = NULL, subset = NULL, forceElements = FALSE, pathOnly = FALSE) standardGeneric("datasheetSpatRaster"))
+setGeneric("datasheetSpatRaster", 
+           function(ssimObject, datasheet, column = NULL, scenario = NULL, 
+                    iteration = NULL, timestep = NULL, filterColumn = NULL, 
+                    filterValue = NULL, subset = NULL, forceElements = FALSE, 
+                    pathOnly = FALSE) standardGeneric("datasheetSpatRaster"))
 
 #' @rdname datasheetSpatRaster
-setMethod("datasheetSpatRaster", signature(ssimObject = "character"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+setMethod("datasheetSpatRaster", signature(ssimObject = "character"), 
+          function(ssimObject, datasheet, column, scenario, iteration, timestep, 
+                   filterColumn, filterValue, subset, forceElements, pathOnly) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname datasheetSpatRaster
-setMethod("datasheetSpatRaster", signature(ssimObject = "list"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+setMethod("datasheetSpatRaster", signature(ssimObject = "list"), 
+          function(ssimObject, datasheet, column, scenario, iteration, timestep, 
+                   filterColumn, filterValue, subset, forceElements, pathOnly) {
+            
   if (!is(ssimObject[[1]], "Scenario")) {
     stop("Expecting an SsimLibrary/Project/Scenario or list of Scenario objects.")
   }
+            
   if (!is.null(scenario)) {
     warning("scenario argument is ignored when ssimObject is a list of Scenarios")
     scenario <- NULL
   }
+            
   started <- FALSE
+  
   for (i in 1:length(ssimObject)) {
     cScn <- ssimObject[[i]]
-    cOut <- datasheetSpatRaster(cScn, datasheet = datasheet, column = column, scenario = scenario, iteration = iteration, timestep = timestep, filterColumn = filterColumn, filterValue = filterValue, subset = subset, forceElements = forceElements, pathOnly = pathOnly)
+    cOut <- datasheetSpatRaster(cScn, datasheet = datasheet, column = column, 
+                                scenario = scenario, iteration = iteration, 
+                                timestep = timestep, filterColumn = filterColumn, 
+                                filterValue = filterValue, subset = subset, 
+                                forceElements = forceElements, 
+                                pathOnly = pathOnly)
+    
     if (!(is(cOut, "list") && (length(cOut) == 0))) {
       names(cOut) <- paste0("scn", .scenarioId(cScn), ".", names(cOut))
+      
       if (!started) {
         out <- cOut
       } else {
@@ -171,22 +190,30 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "list"), function(ssimOb
   if ((length(names(out)) == 1) & !forceElements) {
     out <- out[[1]]
   }
+  
   return(out)
 })
 
 #' @rdname datasheetSpatRaster
-setMethod("datasheetSpatRaster", signature(ssimObject = "SsimObject"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+setMethod("datasheetSpatRaster", signature(ssimObject = "SsimObject"), 
+          function(ssimObject, datasheet, column, scenario, iteration, timestep, 
+                   filterColumn, filterValue, subset, forceElements, pathOnly) {
+            
   if (is.null(scenario)) {
     stop("If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument.")
   }
+            
   scnSet <- .scenario(ssimObject)
   missingScns <- scenario
+  
   if (is.character(scenario)) {
     missingScns <- setdiff(scenario, scnSet$Name)
   }
+  
   if (is.numeric(scenario)) {
     missingScns <- setdiff(scenario, scnSet$ScenarioId)
   }
+  
   if (length(missingScns) > 0) {
     stop("Scenarios not found in ssimObject: ", paste(missingScns, collapse = ","))
   }
@@ -194,21 +221,29 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "SsimObject"), function(
   scnList <- .scenario(ssimObject, scenario = scenario)
   scenario <- NULL
   
-  return(datasheetSpatRaster(scnList, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements))
+  return(datasheetSpatRaster(scnList, datasheet, column, scenario, iteration, 
+                             timestep, filterColumn, filterValue, subset, 
+                             forceElements))
 })
 
 #' @rdname datasheetSpatRaster
-setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ssimObject, datasheet, column, scenario, iteration, timestep, filterColumn, filterValue, subset, forceElements, pathOnly) {
+setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), 
+          function(ssimObject, datasheet, column, scenario, iteration, timestep, 
+                   filterColumn, filterValue, subset, forceElements, pathOnly) {
+            
   rat <- NULL
+  
   if (is.null(subset)) {
     getFactors <- FALSE
   } else {
     getFactors <- TRUE
   }
+  
   Timestep <- NULL
   Iteration <- NULL
   layerName <- NULL
   freq <- NULL
+  
   if (!is.null(scenario)) {
     warning("scenario argument is ignored when ssimObject is a scenario.")
   }
@@ -229,16 +264,23 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
   }
   
   # TO DO: make sure datasheet is spatial after opening
-  cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, filterValue = filterValue, lookupsAsFactors = getFactors)
+  cMeta <- .datasheet(x, name = datasheet, optional = TRUE, 
+                      filterColumn = filterColumn, filterValue = filterValue,
+                      lookupsAsFactors = getFactors)
   
   if (nrow(cMeta) == 0) {
-    cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, filterValue = filterValue, lookupsAsFactors = getFactors)
+    cMeta <- .datasheet(x, name = datasheet, optional = TRUE, 
+                        filterColumn = filterColumn, filterValue = filterValue, 
+                        lookupsAsFactors = getFactors)
   }
-  args <- list(list = NULL, columns = NULL, allprops = NULL, sheet = datasheet, csv = NULL, lib = .filepath(x))
+  
+  args <- list(list = NULL, columns = NULL, allprops = NULL, sheet = datasheet, 
+               csv = NULL, lib = .filepath(x))
   
   tt <- command(args, session = .session(x))
   cPropsAll <- .dataframeFromSSim(tt)
   cPropsAll$isRaster <- grepl("isRaster^True", cPropsAll$properties, fixed = TRUE)
+  
   # get a valid raster column
   if (is.null(column)) {
     column <- cPropsAll$name[cPropsAll$isRaster][1]
@@ -250,14 +292,18 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
       stop("Column ", column, " not found in datasheet ", datasheet)
     }
   }
+  
   cProps <- subset(cPropsAll, name == column)
+  
   if (!cProps$isRaster) {
     stop(column, " is not a raster column.")
   }
   
   tryCount <- 0
   while (tryCount <= 1) {
+    
     warningMsg <- ""
+    
     if (!is.null(timestep) & is.element("Timestep", names(cMeta))) {
       timestep <- as.numeric(timestep)
       missSteps <- setdiff(timestep, cMeta$Timestep)
@@ -287,6 +333,7 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
         cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, lookupsAsFactors = getFactors)
       }
     }
+    
     tryCount <- tryCount + 1
   }
   
@@ -298,7 +345,9 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
   } else {
     cMeta$bandColumn <- NA
   }
+  
   cMeta$rasterColumn <- cMeta[[column]]
+  
   # subset rows using subset argument
   if (!is.null(subset)) {
     cMeta <- .subset(cMeta, eval(subset))
@@ -322,13 +371,16 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
   
   # Case of unique file for many iterations/timestep
   if ((length(nFiles) == 1) & (nrow(cMeta) > 1) & !is.null(cMeta$Band[1])) {
+    
     if (!file.exists(nFiles)) {
-      addPath <- paste0(.filepath(x), ".output/Scenario-", .scenarioId(x), "/", datasheet, "/", nFiles)
+      addPath <- paste0(.filepath(x), ".data/Scenario-", .scenarioId(x), "/", 
+                        datasheet, "/", nFiles)
       if (!file.exists(addPath)) {
         stop("Output not found: ", nFiles)
       }
       cMeta$rasterColumn <- addPath
     }
+    
     cStack <- terra::rast(cMeta$rasterColumn[1]) #TODO: TEST - updated for terra
     
     cMeta$layerName <- paste0(strsplit(nFiles, ".", fixed = TRUE)[[1]][1], ".", cMeta$Band)
@@ -336,8 +388,10 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
     keepLayers <- intersect(names(cStack), cMeta$layerName)
     cStack <- terra::subset(cStack, keepLayers) #TODO: TEST - updated for terra
     missing <- setdiff(cMeta$layerName, names(cStack))
+    
     if (length(missing) > 0) {
-      warning("Some layers not found: ", paste(cMeta$outName[is.element(cMeta$layerName, missing)]))
+      warning("Some layers not found: ", 
+              paste(cMeta$outName[is.element(cMeta$layerName, missing)]))
     }
     
     cMeta <- subset(cMeta, is.element(layerName, names(cStack)))
@@ -347,19 +401,25 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
       cName <- cRow$layerName
       names(cStack)[names(cStack) == cRow$layerName] <- cRow$outName
     }
+    
   } else {
     # Every other case
     for (i in seq(length.out = nrow(cMeta))) {
       cRow <- cMeta[i, ]
+      
       if (is.na(cRow$rasterColumn)) {
         next
       }
+      
       if (!file.exists(cRow$rasterColumn)) {
         # TO DO: path should already be there...
-        addPath <- paste0(.filepath(x), ".output/Scenario-", .scenarioId(x), "/", datasheet, "/", cRow$rasterColumn)
+        addPath <- paste0(.filepath(x), ".data/Scenario-", .scenarioId(x), 
+                          "/", datasheet, "/", cRow$rasterColumn)
+        
         if (!file.exists(addPath)) {
           stop("Output not found: ", cRow$rasterColumn)
         }
+        
         cRow$rasterColumn <- addPath
       }
       if (is.na(cRow$bandColumn)) {
@@ -392,5 +452,6 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"), function(ss
   if ((length(names(cStack)) == 1) & !forceElements) {
     cStack <- cStack[[1]]
   }
+  
   return(cStack)
 })
