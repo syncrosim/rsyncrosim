@@ -88,7 +88,7 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
 #' @rdname readOnly
 setMethod("readOnly", signature(ssimObject = "Folder"), function(ssimObject) {
   info <- getFolderData(ssimObject)
-  readOnlyStatus <- info$ReadOnly #TODO: make this match others?
+  readOnlyStatus <- info$IsReadOnly
   if (readOnlyStatus == "No") {
     return(FALSE)
   } else {

@@ -214,7 +214,7 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
 #' which are pasted together using `sep`.
 #' @param sep character. Used to separate terms. Not NA_character_
 #' @param type character. Type of message to add to run log. One of "status",
-#' "info", or "warning".
+#' (default) "info", or "warning".
 #' 
 #' @return 
 #' No returned value, used for side effects
