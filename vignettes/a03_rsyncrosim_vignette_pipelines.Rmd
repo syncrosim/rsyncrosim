@@ -186,19 +186,19 @@ runSettings <- datasheet(myScenario, name = "helloworldPipeline_RunControl")
 str(runSettings)
 ```
 
-The RunControl Datasheet requires the following 4 columns:
+The RunControl Datasheet requires the following 3 columns:
 
-* `MinimumIteration` : starting value of iterations (default=1).
 * `MaximumIteration` : total number of iterations to run the model for.
 * `MinimumTimestep` : the starting time point of the simulation.
 * `MaximumTimestep` : the end time point of the simulation.
+
+*Note:* A fourth hidden column, `MinimumIteration`, also exists in the RunControl Datasheet (default=1).
 
 We'll add this information to a new data frame and then add it to the Run Control data frame using `addRow()`.
 
 ```{r}
 # Create RunControl data and add it to the RunControl data frame
-runSettingsRow <- data.frame(MinimumIteration = 1,
-                             MaximumIteration = 5,
+runSettingsRow <- data.frame(MaximumIteration = 5,
                              MinimumTimestep = 1,
                              MaximumTimestep = 10)
 runSettings <- addRow(runSettings, runSettingsRow)

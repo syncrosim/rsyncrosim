@@ -47,10 +47,10 @@ SsimLibrary.
 \details{
 For each element of project:
 \itemize{
-\item {If element identifies an existing Project: }{Returns the existing Project}.
-\item {If element identifies more than one Project: }{Error}.
-\item {If element does not identify an existing Project: }{Creates a new Project
-named element. Note that SyncroSim automatically assigns an id to a new Project.}
+\item If element identifies an existing Project: Returns the existing Project.
+\item If element identifies more than one Project: Error.
+\item If element does not identify an existing Project: Creates a new Project
+named element. Note that SyncroSim automatically assigns an id to a new Project.
 }
 }
 \examples{

@@ -81,13 +81,16 @@ setMethod("packages", signature(ssimObject = "Session"), function(ssimObject, in
       } else if (grepl("The remote name could not be resolved", tt[1])) {
         out <- "Could not connect to the package server."
       } else {
-        # out <- .dataframeFromSSim(tt, colNames = c("name", "description", "version"), csv = FALSE)
-        out <- .dataframeFromSSim(tt, csv = FALSE)
+        out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
       }
+      drops <- c("x")
+      out <- out[ , !(names(out) %in% drops)]
       return(out)
     } else {
       tt <- command(c("list", arg, "csv"), ssimObject)
       out <- .dataframeFromSSim(tt, localNames = TRUE, csv = FALSE)
+      drops <- c("x")
+      out <- out[ , !(names(out) %in% drops)]
       return(out)
     }
   } else {
@@ -96,22 +99,22 @@ setMethod("packages", signature(ssimObject = "Session"), function(ssimObject, in
       # Make sure package is installed
       pkgList <- command(c("installed"), ssimObject,
                          program = "SyncroSim.PackageManager.exe")
-      # pkgDf <- .dataframeFromSSim(pkgList,
-      #                             colNames = c("name", "description", "version"),
-      #                             csv = FALSE)
-      pkgDf <- .dataframeFromSSim(pkgList, csv = FALSE)
-      if (listTemplates %in% pkgDf$Name == FALSE) {
+      pkgDf <- .dataframeFromSSim(pkgList,
+                                  localNames = TRUE,
+                                  csv = FALSE)
+      if (listTemplates %in% pkgDf$name == FALSE) {
         stop("SyncroSim package not installed")
       }
       
       # Retrieve list of templates
       args <- list(list = NULL, templates = NULL, noheaders = NULL,
                    package = listTemplates)
-      tt <- command(args, ssimObject, program = "SyncroSim.Console.exe")
-      # out <- .dataframeFromSSim(tt,
-      #                           colNames =c("name", "displayName", "installed"),
-      #                           csv = F)
-      out <- .dataframeFromSSim(tt, csv = F)
+      tt <- command(args, program = "SyncroSim.Console.exe")
+      out <- .dataframeFromSSim(tt,
+                                colNames =c("name", "displayName", "installed"),
+                                csv = F)
+      drops <- c("x")
+      out <- out[ , !(names(out) %in% drops)]
       return(out)
     } else {
       stop("listTemplates must be a character name of a SyncroSim Package")

@@ -166,7 +166,7 @@ Add these values to a new data frame, then use the `addRow()` function from `rsy
 ```{r add input data not run, warning = FALSE}
 # Create input data and add it to the input data frame
 myInputRow <- data.frame(mMean = 0, mSD = 4,
-                         InterceptRasterFile = "path/to/raster-image.tif")
+                         InterceptRasterFile = "path/to/input-raster.tif")
 myInputDataframe <- addRow(myInputDataframe, myInputRow)
 
 # Check values
@@ -192,10 +192,11 @@ saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
 
 The `RunControl` Datasheet sets the number of iterations and the minimum and maximum time steps for our model. We'll assign the contents of this Datasheet to a new data frame variable as well and then add then update the information in the data frame using `addRow()`. We need to specify data for the following four columns:
 
-* `MinimumIteration` : starting value of iterations (default=1).
 * `MaximumIteration` : total number of iterations to run the model for.
 * `MinimumTimestep` : the starting time point of the simulation.
 * `MaximumTimestep` : the end time point of the simulation.
+
+*Note:* A fourth hidden column, `MinimumIteration`, also exists in the RunControl Datasheet (default=1).
 
 ```{r modify run control}
 # Load RunControl Datasheet to an R data frame
@@ -205,8 +206,7 @@ runSettings <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 str(runSettings)
 
 # Create RunControl data and add it to the RunControl data frame
-runSettingsRow <- data.frame(MinimumIteration = 1,
-                             MaximumIteration = 5,
+runSettingsRow <- data.frame(MaximumIteration = 5,
                              MinimumTimestep = 1,
                              MaximumTimestep = 10)
 runSettings <- addRow(runSettings, runSettingsRow)

@@ -330,7 +330,11 @@ getFolderData <- function(x) {
 # @param item string indicating type of the child item ("Folder" or "Scenario")
 # @return integer corresponding to the parent folder ID or project ID.
 getParentFolderId <- function(x, id, item="Folder") {
+  
   df <- getLibraryStructure(x)
+  if (item == "Scenario" && !is.na(x@parentId)){
+    item <- "Result(S)"
+  }
   childRowInd <- which((df$id == id) & (df$item == item))
   childRowInd <- which((df$id == id) & (df$item == item))
   parentRowInd <- childRowInd - 1
@@ -417,10 +421,24 @@ getLibraryStructure <- function(x) {
       item <- regmatches(entry, 
                          regexec("+- \\s*(.*?)\\s* \\[", 
                                  entry))[[1]][2]
+      if (is.na(item)){
+        # Case when item is Dependency or Result Scenario
+        item <- regmatches(entry, 
+                           regexec("\\s*(.*?)\\s* \\[", 
+                                   entry))[[1]][2]
+      }
+      
       id <- regmatches(entry, 
                        regexec(paste0("+- ", item, " \\[\\s*(.*?)\\s*\\]"), 
                                entry))[[1]][2]
-      id <- as.numeric(id)
+      if (is.na(id)){
+        # Case when item is Dependency or Result Scenario
+        id <- regmatches(entry, 
+                         regexec(paste0(" \\[\\s*(.*?)\\s*\\]:"), 
+                                 entry))[[1]][2]
+        level <- level - 2 # level is actually 2 above 
+      }
+      id <- suppressWarnings(as.numeric(id))
     }
     
     libStructureDF[i+1, ] <- c(level, item, id)

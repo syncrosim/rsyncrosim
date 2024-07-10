@@ -23,7 +23,7 @@ detach("package:rsyncrosim", unload=TRUE)
 3. Use the `install.packages()` function to install `rsyncrosim` from a website URL. Use the following code to install version 1.4.5 from the `rsyncrosim` GitHub repository:
 
 ```{r step 3, eval=FALSE}
-install.packages("https://github.com/syncrosim/rsyncrosim/releases/download/1.4.5/rsyncrosim_1.4.5.tar.gz", repo=NULL)
+install.packages("https://github.com/syncrosim/rsyncrosim/releases/download/1.5.0/rsyncrosim_1.5.0.tar.gz", repo=NULL)
 ```
 
 4. You many need to restart your R environment to get rid of any environmental conflicts. You can do this from RStudio using the following code:

@@ -88,8 +88,10 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   mySheet <- addRow(mySheet, data.frame(StateClassIDSource = "Deciduous:All", StateClassIDDest = "Deciduous:All", Location = "A1"))
   mySheet <- addRow(mySheet, data.frame(StateClassIDSource = "Mixed:All", StateClassIDDest = "Mixed:All", AgeMin = 11, Location = "B1"))
   expect_equal(mySheet$AgeMin, c(21, NA, 11))
-  expect_equal(levels(mySheet$StateClassIDSource), c("Coniferous:All", "Deciduous:All", "Mixed:All"))
+  # expect_equal(levels(mySheet$StateClassIDSource), c("Coniferous:All", "Deciduous:All", "Mixed:All")) # addRow not conserving factors
   ret <- saveDatasheet(myScenario, mySheet, name = sheetName)
+  mySheet <- datasheet(myScenario, name = sheetName)
+  expect_equal(levels(mySheet$StateClassIDSource), c("Coniferous:All", "Deciduous:All", "Mixed:All"))
   
   #*************************
   # Probabilistic transitions

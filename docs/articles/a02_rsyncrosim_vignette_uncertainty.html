@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rsyncrosim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -174,6 +174,7 @@ both Windows and Linux.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load R package for working with SyncroSim</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: package 'rsyncrosim' was built under R version 4.3.3</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="connecting-r-to-syncrosim-using-session">Connecting R to SyncroSim using <code>session()</code><a class="anchor" aria-label="anchor" href="#connecting-r-to-syncrosim-using-session"></a>
@@ -182,7 +183,7 @@ both Windows and Linux.</p>
 workflow by creating a SyncroSim Session object. Use the
 <code><a href="../reference/session.html">session()</a></code> function to connect R to your installed copy of
 the SyncroSim software.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="st">"path/to/install_folder"</span><span class="op">)</span>      <span class="co"># Create a Session based SyncroSim install folder</span></span>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
@@ -193,9 +194,9 @@ the SyncroSim software.</p>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
 <p>Use the <code><a href="../reference/version.html">version()</a></code> function to ensure you are using the
 latest version of SyncroSim.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "2.4.36"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "2.5.11"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installPackage">Installing SyncroSim packages using <code>installPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-installPackage"></a>
@@ -204,19 +205,19 @@ latest version of SyncroSim.</p>
 <code>rynscrosim</code> function <code><a href="../reference/installPackage.html">installPackage()</a></code>. This
 function takes a package name as input and then queries the SyncroSim
 package server for the specified package.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldUncertainty</span></span>
 <span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldUncertainty"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Package &lt;helloworldUncertainty&gt; installed</span></span></code></pre>
 <p><code>helloworldUncertainty</code> should now be included in the
 package list when we call the <code><a href="../reference/package.html">package()</a></code> function:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/package.html">package</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                    name                                 description version</span></span>
-<span><span class="co">## 1 helloworldUncertainty Example demonstrating how to use iterations   1.0.0</span></span>
-<span><span class="co">##                                                             NA NA</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\SyncroSim\\Packages\\helloworldUncertainty OK</span></span></code></pre>
+<span><span class="co">## 1 helloworldUncertainty Example demonstrating how to use iterations   1.1.0</span></span>
+<span><span class="co">##                                                       location status</span></span>
+<span><span class="co">## 1 C:\\Users\\sarah\\SyncroSim\\Packages\\helloworldUncertainty     OK</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -234,7 +235,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <div class="section level3">
 <h3 id="set-up-library-project-and-scenario">Set up Library, Project, and Scenario<a class="anchor" aria-label="anchor" href="#set-up-library-project-and-scenario"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new Library</span></span>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"helloworldLibrary.ssim"</span>,</span>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
@@ -252,7 +253,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 </h3>
 <p>View the Datasheets associated with your new Scenario using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function from <code>rsyncrosim</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View all Datasheets associated with a Library, Project, or Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                                  name                displayName</span></span>
@@ -292,7 +293,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <p>From the list of Datasheets above, we can see that there are three
 Datasheets specific to the <code>helloworldUncertainty</code> package.
 Let’s view the contents of the input Datasheet as an R data frame.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View the contents of the input Datasheet for the Scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"helloworldUncertainty_InputDatasheet"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] mMean mSD   b    </span></span>
@@ -308,7 +309,7 @@ values to our input Datasheet (<code>InputDatasheet</code>) so we can
 run our model. First, assign the contents of the input Datasheet to a
 new data frame variable using <code><a href="../reference/datasheet.html">datasheet()</a></code>, then check the
 columns that need input values.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the input Datasheet to an R data frame</span></span>
 <span><span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>,</span>
 <span>                              name <span class="op">=</span> <span class="st">"helloworldUncertainty_InputDatasheet"</span><span class="op">)</span></span>
@@ -332,7 +333,7 @@ distribution.</li>
 <p>Add these values to a new data frame, then use the
 <code><a href="../reference/addRow.html">addRow()</a></code> function from <code>rsyncrosim</code> to update
 the input data frame.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create input data and add it to the input data frame</span></span>
 <span><span class="va">myInputRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>mMean <span class="op">=</span> <span class="fl">2</span>, mSD <span class="op">=</span> <span class="fl">4</span>, b <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">myInputDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">myInputDataframe</span>, <span class="va">myInputRow</span><span class="op">)</span></span>
@@ -343,7 +344,7 @@ the input data frame.</p>
 <span><span class="co">## 1     2   4 3</span></span></code></pre>
 <p>Finally, save the updated R data frame to a SyncroSim Datasheet using
 <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save input R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">myInputDataframe</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"helloworldUncertainty_InputDatasheet"</span><span class="op">)</span></span></code></pre></div>
@@ -356,22 +357,18 @@ steps for our model. The number of iterations we set is equivalent to
 the number of Monte Carlo realizations, so the greater the number of
 iterations, the more accurate the range of output values we will obtain.
 Let’s take a look at the columns that need input values.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load RunControl Datasheet to a new R data frame</span></span>
 <span><span class="va">runSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, name <span class="op">=</span> <span class="st">"helloworldUncertainty_RunControl"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Check the columns of the RunControl data frame</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">runSettings</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 'data.frame':    0 obs. of  4 variables:</span></span>
-<span><span class="co">##  $ MinimumIteration: num </span></span>
+<pre><code><span><span class="co">## 'data.frame':    0 obs. of  3 variables:</span></span>
 <span><span class="co">##  $ MaximumIteration: num </span></span>
 <span><span class="co">##  $ MinimumTimestep : num </span></span>
 <span><span class="co">##  $ MaximumTimestep : num</span></span></code></pre>
-<p>The RunControl Datasheet requires the following 4 columns:</p>
+<p>The RunControl Datasheet requires the following 3 columns:</p>
 <ul>
-<li>
-<code>MinimumIteration</code> : starting value of iterations
-(default=1).</li>
 <li>
 <code>MaximumIteration</code> : total number of iterations to run
 the model for.</li>
@@ -382,24 +379,25 @@ simulation.</li>
 <code>MaximumTimestep</code> : the end time point of the
 simulation.</li>
 </ul>
+<p><em>Note:</em> A fourth hidden column, <code>MinimumIteration</code>,
+also exists in the RunControl Datasheet (default=1).</p>
 <p>We’ll add this information to an R data frame and then add it to the
 Run Control data frame using <code><a href="../reference/addRow.html">addRow()</a></code>. For this example, we
 will use only five iterations.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create run control data and add it to the run control data frame</span></span>
-<span><span class="va">runSettingsRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MinimumIteration <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                             MaximumIteration <span class="op">=</span> <span class="fl">5</span>,</span>
+<span><span class="va">runSettingsRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>MaximumIteration <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>                             MinimumTimestep <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                             MaximumTimestep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">runSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addRow.html">addRow</a></span><span class="op">(</span><span class="va">runSettings</span>, <span class="va">runSettingsRow</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Check values</span></span>
 <span><span class="va">runSettings</span></span></code></pre></div>
-<pre><code><span><span class="co">##   MinimumIteration MaximumIteration MinimumTimestep MaximumTimestep</span></span>
-<span><span class="co">## 1                1                5               1              10</span></span></code></pre>
+<pre><code><span><span class="co">##   MaximumIteration MinimumTimestep MaximumTimestep</span></span>
+<span><span class="co">## 1                5               1              10</span></span></code></pre>
 <p>Finally, save the R data frame to a SyncroSim Datasheet using
 <code><a href="../reference/saveDatasheet.html">saveDatasheet()</a></code>.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save RunControl R data frame to a SyncroSim Datasheet</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myScenario</span>, data <span class="op">=</span> <span class="va">runSettings</span>,</span>
 <span>              name <span class="op">=</span> <span class="st">"helloworldUncertainty_RunControl"</span><span class="op">)</span></span></code></pre></div>
@@ -418,7 +416,7 @@ parallelize the run using multiprocessing, we can set the
 <code>jobs</code> argument to be a value greater than one. Since we are
 using five iterations in our model, we will set the number of jobs to
 five so each multiprocessing core will run a single iteration.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run the first Scenario we created</span></span>
 <span><span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span>, jobs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Running scenario [1] My first scenario"</span></span></code></pre>
@@ -427,15 +425,15 @@ a Results Scenario, that contains a read-only snapshot of the input
 Datasheets, as well as the output Datasheets filled with result data. We
 can view which Scenarios are Results Scenarios using the
 <code><a href="../reference/scenario.html">scenario()</a></code> function from <code>rsyncrosim</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check that we have two Scenarios, and one is a Results Scenario</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   ScenarioId ProjectId                                          Name IsResult</span></span>
-<span><span class="co">## 1          1         1                             My first scenario       No</span></span>
-<span><span class="co">## 2          2         1 My first scenario ([1] @ 24-Aug-2023 9:17 AM)      Yes</span></span>
-<span><span class="co">##   ParentId Owner      DateLastModified IsReadOnly MergeDependencies</span></span>
-<span><span class="co">## 1       NA   N/A 2023-08-24 at 9:17 AM         No                No</span></span>
-<span><span class="co">## 2        1   N/A 2023-08-24 at 9:17 AM         No                No</span></span>
+<pre><code><span><span class="co">##   ScenarioID ProjectID                                           Name IsResult</span></span>
+<span><span class="co">## 1          1         1                              My first scenario       No</span></span>
+<span><span class="co">## 2          2         1 My first scenario ([1] @ 19-Apr-2024 12:42 PM)      Yes</span></span>
+<span><span class="co">##   ParentID Owner       DateLastModified IsReadOnly MergeDependencies</span></span>
+<span><span class="co">## 1       NA   N/A 2024-04-19 at 12:42 PM         No                No</span></span>
+<span><span class="co">## 2        1   N/A 2024-04-19 at 12:43 PM         No                No</span></span>
 <span><span class="co">##   IgnoreDependencies AutoGenTags</span></span>
 <span><span class="co">## 1                 NA          NA</span></span>
 <span><span class="co">## 2                 NA          NA</span></span></code></pre>
@@ -451,7 +449,7 @@ can view which Scenarios are Results Scenarios using the
 Scenario when it was run. We can load the result tables using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function. In this package, the Datasheet
 containing the results is called “OutputDatasheet”.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Results of first Scenario</span></span>
 <span><span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                            name <span class="op">=</span> <span class="st">"helloworldUncertainty_OutputDatasheet"</span><span class="op">)</span></span>
@@ -459,12 +457,12 @@ containing the results is called “OutputDatasheet”.</p>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   Iteration Timestep       y</span></span>
-<span><span class="co">## 1         1        1  4.5733</span></span>
-<span><span class="co">## 2         1        2  6.1466</span></span>
-<span><span class="co">## 3         1        3  7.7199</span></span>
-<span><span class="co">## 4         1        4  9.2932</span></span>
-<span><span class="co">## 5         1        5 10.8665</span></span>
-<span><span class="co">## 6         1        6 12.4398</span></span></code></pre>
+<span><span class="co">## 1         1        1  2.2530</span></span>
+<span><span class="co">## 2         1        2  1.5061</span></span>
+<span><span class="co">## 3         1        3  0.7591</span></span>
+<span><span class="co">## 4         1        4  0.0121</span></span>
+<span><span class="co">## 5         1        5 -0.7348</span></span>
+<span><span class="co">## 6         1        6 -1.4818</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="plotting-uncertainty-in-the-syncrosim-windows-user-interface">Plotting uncertainty in the SyncroSim Windows User Interface<a class="anchor" aria-label="anchor" href="#plotting-uncertainty-in-the-syncrosim-windows-user-interface"></a>
@@ -509,7 +507,7 @@ Windows User Interface to plot uncertainty</div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

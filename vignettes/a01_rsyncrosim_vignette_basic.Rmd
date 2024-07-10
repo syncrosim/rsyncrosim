@@ -120,7 +120,7 @@ installPackage("helloworldTime")
 ```
 
 
-To install the package from a `.ssimpkg` file on your local computer rather than installing directly from the server, you can use the `installPackage()` function with the `filepath` argument set to `TRUE`. Instead of using the package name as the argument, the file path to the `.ssimpkg` is used.
+To install the package from a `.ssimpkg` file on your local computer rather than installing directly from the server, you can use the `addPackage()` function with the file path to the `.ssimpkg`, rather than using the package name as the argument.
 
 ```{r add package from path not run, warning = FALSE, eval = FALSE}
 # Install helloworldTime using file path to ssimpkg file
@@ -259,7 +259,7 @@ Each SyncroSim Library contains multiple SyncroSim <a href="https://docs.syncros
 datasheet(myScenario)
 ```
 
-If we want to see more information about each Datasheet, such as the scope of the Datasheet or if it only accepts a single row of data, we can set the `optional` argument to `FALSE`.
+If we want to see more information about each Datasheet, such as the scope of the Datasheet or if it only accepts a single row of data, we can set the `optional` argument to `TRUE`.
 
 ```{r}
 datasheet(myScenario, optional = TRUE)
