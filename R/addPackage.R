@@ -21,8 +21,9 @@ NULL
 #' 
 #' @examples
 #' \donttest{
-#' # Install "stsim" SyncroSim package
+#' # Install "stsim" and "stsimecodep" SyncroSim packages
 #' installPackage("stsim")
+#' installPackage("stsimecodep")
 #' 
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
