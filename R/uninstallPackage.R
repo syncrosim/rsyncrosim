@@ -5,11 +5,13 @@ NULL
 
 #' Removes a package from SyncroSim installation
 #' 
-#' @param name character. The name of the package to uninstall
+#' @param packages character or character vector. The name(s) of the package(s) 
+#' to uninstall
+#' @param versions character or character vector. The version(s) of the 
+#' package(s) to uninstall. If \code{NULL} then will uninstall all versions of 
+#' the package(s).
 #' @param session \code{\link{Session}} object. If \code{NULL} (default), 
 #' \code{session()} will be used
-#' @param force logical. If \code{TRUE}, uninstall without requiring 
-#'     confirmation from the user. Default is \code{FALSE}
 #' 
 #' @return 
 #' Invisibly returns \code{TRUE} upon success (i.e.successful 
@@ -21,47 +23,68 @@ NULL
 #' mySession <- session()
 #' 
 #' # Uninstalls package from SyncroSim Session
-#' uninstallPackage("stsim", mySession, force = FALSE)
+#' uninstallPackage(packages = "stsim", versions = "4.0.0", session = mySession)
+#' 
+#' uninstallPackage(packages = "stsim", session = mySession)
 #' }
 #' 
 #' @export
-setGeneric("uninstallPackage", function(name, session = NULL, force = FALSE) standardGeneric("uninstallPackage"))
+setGeneric("uninstallPackage", 
+           function(packages, versions = NULL, session = NULL) standardGeneric("uninstallPackage"))
 
 #' @rdname uninstallPackage
-setMethod("uninstallPackage", signature(session = "character"), function(name, session, force) {
+setMethod("uninstallPackage", signature(session = "character"), 
+          function(packages, versions, session) {
   return(SyncroSimNotFound(session))
 })
 
 #' @rdname uninstallPackage
-setMethod("uninstallPackage", signature(session = "missingOrNULL"), function(name, session, force) {
+setMethod("uninstallPackage", signature(session = "missingOrNULL"), 
+          function(packages, versions, session) {
   session <- .session(session)
-  return(uninstallPackage(name, session, force))
+  return(uninstallPackage(packages, versions, session))
 })
 
 #' @rdname uninstallPackage
-setMethod("uninstallPackage", signature(session = "Session"), function(name, session, force) {
-  installed <- packages(session)
-  success <- FALSE
+setMethod("uninstallPackage", signature(session = "Session"), 
+          function(packages, versions, session) {
+            
+  installed <- .packages(session, installed = T)
+  retList <- list()
   
-  if (!is.element(name, installed$name)) {
-    stop("The package is not installed.")
+  for (i in length(packages)){
+    
+    cPkg <- packages[i]
+    
+    if (!is.element(cPkg, installed$name)) {
+      message(paste0("The package <", cPkg, "> is not installed."))
+    }
+    
+    installedPkgRows <- installed[installed$name == cPkg,]
+    
+    if (!is.null(versions)){
+      cVer <- versions[i]
+      
+      if (!is.element(cVer, installedPkgRows$version)){
+        message(paste0("The package <", cPkg, " v", cVer, "> is not installed."))
+      }
+    } else {
+      cVer <- installedPkgRows$version
+    }
+    
+    for (v in cVer){
+      tt <- command(args = list(remove = cPkg, version = v), session, 
+                    program = "SyncroSim.PackageManager.exe")
+      
+      if (tt[1] == "saved"){
+        message(paste0("Package <", cPkg, " v", cVer, "> removed"))
+        retList[[cPkg]] <- TRUE
+      } else {
+        message(tt)
+        retList[[cPkg]] <- FALSE
+      }
+    }
   }
   
-  if (force) {
-    answer <- "y"
-  } else {
-    answer <- readline(prompt = paste0("Do you really want to remove package '", name, "'? (y/n)"))
-  }
-  
-  if (answer == "y") {
-    tt <- command(args = list(uninstall = name), session, program = "SyncroSim.PackageManager.exe")
-    if (tt[1] == "saved"){
-      tt <- paste0("Package <", name,"> removed")
-      success <- TRUE
-    } 
-  } else {
-    tt <- paste0("Removal of package <", name,"> skipped")
-  }
-  message(tt)
-  return(invisible(success))
+  return(invisible(retList))
 })
