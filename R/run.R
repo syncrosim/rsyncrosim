@@ -61,30 +61,48 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("run", function(ssimObject, scenario = NULL, summary = FALSE, copyExternalInputs = FALSE, transformerName = NULL, forceElements = FALSE) standardGeneric("run"))
+setGeneric("run", function(ssimObject, scenario = NULL, summary = FALSE, 
+                           copyExternalInputs = FALSE, transformerName = NULL, 
+                           forceElements = FALSE) standardGeneric("run"))
 
 #' @rdname run
-setMethod("run", signature(ssimObject = "character"), function(ssimObject, scenario, summary, copyExternalInputs, transformerName, forceElements) {
+setMethod("run", signature(ssimObject = "character"), 
+          function(ssimObject, scenario, summary, copyExternalInputs, 
+                   transformerName, forceElements) {
+            
   if (ssimObject == SyncroSimNotFound(warn = FALSE)) {
     return(SyncroSimNotFound())
   }
+            
   ssimObject <- .ssimLibrary(ssimObject)
-  out <- run(ssimObject, scenario, summary, copyExternalInputs, transformerName, forceElements)
+  out <- run(ssimObject, scenario, summary, copyExternalInputs, 
+             transformerName, forceElements)
+  
   return(out)
 })
 
 #' @rdname run
-setMethod("run", signature(ssimObject = "list"), function(ssimObject, scenario, summary, copyExternalInputs, transformerName, forceElements) {
+setMethod("run", signature(ssimObject = "list"), 
+          function(ssimObject, scenario, summary, copyExternalInputs, 
+                   transformerName, forceElements) {
+            
   x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", scenario = scenario)
   ssimObject <- x$ssimObject
   scenario <- x$objs
   out <- run(ssimObject, scenario, summary, copyExternalInputs, transformerName, forceElements)
+  
   return(out)
 })
 
 #' @rdname run
-setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scenario, summary, copyExternalInputs, transformerName, forceElements) {
-  xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, convertObject = TRUE, returnIds = TRUE, goal = "scenario", complainIfMissing = TRUE)
+setMethod("run", signature(ssimObject = "SsimObject"), 
+          function(ssimObject, scenario, summary, copyExternalInputs, 
+                   transformerName, forceElements) {
+            
+  xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, 
+                               convertObject = TRUE, returnIds = TRUE, 
+                               goal = "scenario", complainIfMissing = TRUE)
+  
   # Now assume scenario is x is valid object and scenario is valid vector of scenario ids
   x <- xProjScn$ssimObject
   scenario <- xProjScn$scenario
@@ -96,6 +114,7 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
 
   out <- list()
   addBits <- seq(1, length(scenario))
+  
   for (i in seq(length.out = length(scenario))) {
     tt <- NULL
     cScn <- scenario[i]
@@ -160,15 +179,18 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
       resp <- writeLines("shutdown", connection(cBreakpointSession), sep = "")
       close(connection(cBreakpointSession)) # Close the connection.
     }
+    
     inScn <- paste0(name, " (", cScn, ")")
 
     if (is.element(inScn, names(out))) {
       inScn <- paste(inScn, addBits[i])
     }
+    
     if (!identical(resultId, suppressWarnings(as.character(as.numeric(resultId))))) {
       out[[inScn]] <- tt
       print(tt)
     } else {
+      
       if (summary) {
         out[[inScn]] <- as.numeric(resultId)
         scn <- .scenario(x, scenario = as.numeric(resultId))
@@ -187,5 +209,6 @@ setMethod("run", signature(ssimObject = "SsimObject"), function(ssimObject, scen
   if (!forceElements && (is(out, "list")) && (length(out) == 1)) {
     out <- out[[1]]
   }
+  
   return(out)
 })
