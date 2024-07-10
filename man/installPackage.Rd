@@ -2,22 +2,26 @@
 % Please edit documentation in R/installPackage.R
 \name{installPackage}
 \alias{installPackage}
-\alias{installPackage,ANY,character-method}
-\alias{installPackage,ANY,missingOrNULL-method}
-\alias{installPackage,ANY,Session-method}
+\alias{installPackage,ANY,ANY,character-method}
+\alias{installPackage,ANY,ANY,missingOrNULL-method}
+\alias{installPackage,ANY,ANY,Session-method}
 \title{Adds package to SyncroSim Installation}
 \usage{
-installPackage(name, session = NULL)
+installPackage(packages, versions, session = NULL)
 
-\S4method{installPackage}{ANY,character}(name, session = NULL)
+\S4method{installPackage}{ANY,ANY,character}(packages, versions, session = NULL)
 
-\S4method{installPackage}{ANY,missingOrNULL}(name, session = NULL)
+\S4method{installPackage}{ANY,ANY,missingOrNULL}(packages, versions, session = NULL)
 
-\S4method{installPackage}{ANY,Session}(name, session = NULL)
+\S4method{installPackage}{ANY,ANY,Session}(packages, versions, session = NULL)
 }
 \arguments{
-\item{name}{character string.  The name or file path of the package to
+\item{packages}{character string. The name or file path of the package to
 install}
+
+\item{versions}{character string. The packages version(s) to install if
+installing a package from the server. If \code{NULL} then installs the
+latest version}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
@@ -40,7 +44,7 @@ found \href{https://syncrosim.com/packages/}{here}.
 mySession <- session()
 
 # Install package from the package server
-installPackage("stsim", session = mySession)
+installPackage(packages="stsim", versions="4.0.1", session = mySession)
 
 # Install package using a local file path
 installPackage("c:/path/to/stsim.ssimpkg")

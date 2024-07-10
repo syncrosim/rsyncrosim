@@ -8,13 +8,13 @@
 \alias{packages,SsimLibrary-method}
 \title{Installed or available packages}
 \usage{
-packages(ssimObject = NULL, installed = TRUE, listTemplates = NULL)
+packages(ssimObject = NULL, installed = TRUE)
 
-\S4method{packages}{character}(ssimObject = NULL, installed = TRUE, listTemplates = NULL)
+\S4method{packages}{character}(ssimObject = NULL, installed = TRUE)
 
-\S4method{packages}{missingOrNULL}(ssimObject = NULL, installed = TRUE, listTemplates = NULL)
+\S4method{packages}{missingOrNULL}(ssimObject = NULL, installed = TRUE)
 
-\S4method{packages}{Session}(ssimObject = NULL, installed = TRUE, listTemplates = NULL)
+\S4method{packages}{Session}(ssimObject = NULL, installed = TRUE)
 
 \S4method{packages}{SsimLibrary}(ssimObject)
 }
@@ -25,11 +25,6 @@ will be used}
 
 \item{installed}{logical or character. \code{TRUE} (default) to list
 installed packages or \code{FALSE} to list available packages on the server}
-
-\item{listTemplates}{character. Name of a SyncroSim package. If not \code{NULL}
-(default), then lists all templates available for that package. The package
-must be installed in the current Session. Ignored if ssimObject is a
-\code{\link{SsimLibrary}} object}
 }
 \value{
 Returns a \code{data.frame} of packages installed or templates available
@@ -60,10 +55,6 @@ packages(installed = FALSE)
  
 # Check the package(s) in your SsimLibrary
 packages(myLibrary)
-
-# Check the templates available for an installed package
-installPackage("helloworldSpatial")
-packages(listTemplates = "helloworldSpatial")
 }
 
 }

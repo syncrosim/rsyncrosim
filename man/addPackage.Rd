@@ -6,16 +6,19 @@
 \alias{addPackage,SsimLibrary-method}
 \title{Add SyncroSim package(s)}
 \usage{
-addPackage(ssimLibrary, name)
+addPackage(ssimLibrary, packages, versions)
 
-\S4method{addPackage}{character}(ssimLibrary, name)
+\S4method{addPackage}{character}(ssimLibrary, packages, versions)
 
-\S4method{addPackage}{SsimLibrary}(ssimLibrary, name)
+\S4method{addPackage}{SsimLibrary}(ssimLibrary, packages, versions)
 }
 \arguments{
 \item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 
-\item{name}{character string or vector of package name(s)}
+\item{packages}{character string or vector of package name(s)}
+
+\item{versions}{character string or vector of package version(s). If
+\code{NULL} then uses the latest installed version of the package}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful addition
@@ -26,23 +29,24 @@ Adds package(s) to a \code{\link{SsimLibrary}}.
 }
 \examples{
 \donttest{
-# Install "stsim" SyncroSim package
+# Install "stsim" and "stsimecodep" SyncroSim packages
 installPackage("stsim")
+installPackage("stsimecodep")
 
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 
 # Set up a SyncroSim Session, SsimLibrary, and Project
 mySession <- session()
-myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, 
-                         package = "stsim")
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 
 # Add package
-addPackage(myLibrary, c("stsimsf"))
+addPackage(myLibrary, packages = "stsim", versions = "4.0.1")
+addPackage(myLibrary, packages = "stsimecodep")
 packages(myLibrary)
 
 # Remove package
-removePackage(myLibrary, c("stsimsf"))
+removePackage(myLibrary, packages = c("stsim", "stsimecodep"))
 packages(myLibrary)
 }
 

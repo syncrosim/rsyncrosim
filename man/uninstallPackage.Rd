@@ -2,27 +2,29 @@
 % Please edit documentation in R/uninstallPackage.R
 \name{uninstallPackage}
 \alias{uninstallPackage}
-\alias{uninstallPackage,ANY,character-method}
-\alias{uninstallPackage,ANY,missingOrNULL-method}
-\alias{uninstallPackage,ANY,Session-method}
+\alias{uninstallPackage,ANY,ANY,character-method}
+\alias{uninstallPackage,ANY,ANY,missingOrNULL-method}
+\alias{uninstallPackage,ANY,ANY,Session-method}
 \title{Removes a package from SyncroSim installation}
 \usage{
-uninstallPackage(name, session = NULL, force = FALSE)
+uninstallPackage(packages, versions = NULL, session = NULL)
 
-\S4method{uninstallPackage}{ANY,character}(name, session = NULL, force = FALSE)
+\S4method{uninstallPackage}{ANY,ANY,character}(packages, versions = NULL, session = NULL)
 
-\S4method{uninstallPackage}{ANY,missingOrNULL}(name, session = NULL, force = FALSE)
+\S4method{uninstallPackage}{ANY,ANY,missingOrNULL}(packages, versions = NULL, session = NULL)
 
-\S4method{uninstallPackage}{ANY,Session}(name, session = NULL, force = FALSE)
+\S4method{uninstallPackage}{ANY,ANY,Session}(packages, versions = NULL, session = NULL)
 }
 \arguments{
-\item{name}{character. The name of the package to uninstall}
+\item{packages}{character or character vector. The name(s) of the package(s)
+to uninstall}
+
+\item{versions}{character or character vector. The version(s) of the
+package(s) to uninstall. If \code{NULL} then will uninstall all versions of
+the package(s).}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
-
-\item{force}{logical. If \code{TRUE}, uninstall without requiring
-confirmation from the user. Default is \code{FALSE}}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful
@@ -37,7 +39,9 @@ Removes a package from SyncroSim installation
 mySession <- session()
 
 # Uninstalls package from SyncroSim Session
-uninstallPackage("stsim", mySession, force = FALSE)
+uninstallPackage(packages = "stsim", versions = "4.0.0", session = mySession)
+
+uninstallPackage(packages = "stsim", session = mySession)
 }
 
 }

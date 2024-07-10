@@ -6,16 +6,16 @@
 \alias{removePackage,SsimLibrary-method}
 \title{Removes SyncroSim package(s)}
 \usage{
-removePackage(ssimLibrary, name)
+removePackage(ssimLibrary, packages)
 
-\S4method{removePackage}{character}(ssimLibrary, name)
+\S4method{removePackage}{character}(ssimLibrary, packages)
 
-\S4method{removePackage}{SsimLibrary}(ssimLibrary, name)
+\S4method{removePackage}{SsimLibrary}(ssimLibrary, packages)
 }
 \arguments{
 \item{ssimLibrary}{\code{\link{SsimLibrary}} object}
 
-\item{name}{character string or vector of package name(s)}
+\item{packages}{character string or vector of package name(s)}
 }
 \value{
 This function invisibly returns \code{TRUE} upon success (i.e.successful
@@ -26,23 +26,24 @@ Removes package(s) from a \code{\link{SsimLibrary}}.
 }
 \examples{
 \donttest{
-# Install "stsim" SyncroSim package
+# Install "stsim" and "stsimecodep" SyncroSim packages
 installPackage("stsim")
+installPackage("stsimecodep")
 
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 
 # Set up a SyncroSim Session, SsimLibrary, and Project
 mySession <- session()
-myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, 
-                         package = "stsim")
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 
 # Add package
-addPackage(myLibrary, c("stsimsf"))
+addPackage(myLibrary, packages = "stsim", versions = "4.0.1")
+addPackage(myLibrary, packages = "stsimecodep")
 packages(myLibrary)
 
 # Remove package
-removePackage(myLibrary, c("stsimsf"))
+removePackage(myLibrary, packages = c("stsim", "stsimecodep"))
 packages(myLibrary)
 }
 

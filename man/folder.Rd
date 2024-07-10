@@ -49,6 +49,9 @@ myFolder <- folder(myProject, folder = "New Folder")
 # Create a nested folder within "New Folder"
 myNestedFolder <- folder(myProject, folder = "New Nested Folder", 
                          parentFolder = myFolder)
+                         
+# Retrieve a dataframe of all folders in a project
+folder(myProject)
 }
 
 }

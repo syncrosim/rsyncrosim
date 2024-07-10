@@ -11,8 +11,6 @@ ssimLibrary(
   summary = NULL,
   packages = NULL,
   session = NULL,
-  template = NULL,
-  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -22,8 +20,6 @@ ssimLibrary(
   summary = NULL,
   packages = NULL,
   session = NULL,
-  template = NULL,
-  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -33,8 +29,6 @@ ssimLibrary(
   summary = NULL,
   packages = NULL,
   session = NULL,
-  template = NULL,
-  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -51,12 +45,6 @@ add to the Library if creating a new Library (optional)}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
 will be used}
-
-\item{template}{character. Creates the SsimLibrary with the specified template
-(optional)}
-
-\item{forceUpdate}{logical. If \code{FALSE} (default) user will be prompted to approve
-any required updates. If \code{TRUE}, required updates will be applied silently}
 
 \item{overwrite}{logical. If \code{TRUE} an existing SsimLibrary will be overwritten}
 
@@ -95,7 +83,6 @@ of package.
 \donttest{
 # Make sure packages are installed
 installPackage("stsim")
-installPackage("stsimsf")
 
 # Create or open a SsimLibrary using the default Session
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
@@ -115,9 +102,7 @@ mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,
                          packages = "helloworldSpatial",
-                         template = "example-library",
-                         overwrite = TRUE,
-                         forceUpdate = TRUE)
+                         overwrite = TRUE)
                          
 }
 
