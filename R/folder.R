@@ -162,6 +162,9 @@ setMethod(
 #' # Create a nested folder within "New Folder"
 #' myNestedFolder <- folder(myProject, folder = "New Nested Folder", 
 #'                          parentFolder = myFolder)
+#'                          
+#' # Retrieve a dataframe of all folders in a project
+#' folder(myProject)
 #' }
 #' 
 #' @name folder
@@ -184,7 +187,7 @@ folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL, create
       # Filter for folders in the project
       pid <- .projectId(ssimObject)
       df <- getLibraryStructure(ssimObject)
-      projInd <- which(df$id == pid)
+      projInd <- which((df$id == pid) & (df$item == "Project"))
       projRow <- df[projInd, ]
       childInd <- projInd + 1
       childRow <- df[childInd, ]
