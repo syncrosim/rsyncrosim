@@ -60,7 +60,7 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"),
   if (!is.null(versions) && (length(versions) != length(packages))){
     stop("The number of versions supplied does not match the number of packages.")
   }
-  browser()
+  
   sessionPkgs <- .packages(.session(ssimLibrary), installed = T)
   libraryPkgs <- .packages(ssimLibrary)
   retList <- list()
@@ -81,24 +81,21 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"),
     # Check if another version of the package is already installed
     libPkgRow <- libraryPkgs[libraryPkgs$name == cPkg,]
     
-    if ((nrow(libPkgRow) == 1) & (libPkgRow$version != cVer)){
-      .removePackage(ssimLibrary, cPkg)
-    }
-    
-    # If the same version of the package is already installed, then skip
-    libPkgRow <- libraryPkgs[((libraryPkgs$name == cPkg) & (libraryPkgs$version == cVer)), ]
-  
-    if (nrow(libPkgRow) > 0){
-      print(paste0(cPkg, " v", cVer, " has already been added to the ssimLibrary"))
-      retList[[cPkg]] <- FALSE
-      next
+    if (nrow(libPkgRow) == 1){
+      if (libPkgRow$version != cVer){
+        removePackage(ssimLibrary, cPkg)
+      } else {
+        print(paste0(cPkg, " v", cVer, " has already been added to the ssimLibrary"))
+        retList[[cPkg]] <- FALSE
+        next  
+      }
     }
     
     sessPkgRow <- sessionPkgs[((sessionPkgs$name == cPkg) & (sessionPkgs$version == cVer)), ]
     
     if (nrow(sessPkgRow) == 0) {
-      print(paste0("Warning - ", cPkg, " v", cVer, " is not among the available packages: ", 
-                   paste(sessionPkgs$name, collapse = ",")))
+      print(paste0("Package ", cPkg, " v", cVer, 
+                   " is not among the available packages."))
       retList[[cPkg]] <- FALSE
       next
     }

@@ -56,7 +56,7 @@ setMethod("installPackage", signature(session = "missingOrNULL"),
 #' @rdname installPackage
 setMethod("installPackage", signature(session = "Session"), 
           function(packages, versions, session) {
-  browser()          
+            
   success <- FALSE
   progName <- "SyncroSim.PackageManager.exe"
   

@@ -59,9 +59,14 @@ setMethod("removePackage", signature(ssimLibrary = "SsimLibrary"),
   for (i in seq(length.out = length(packages))) {
     cVal <- packages[i]
     
+    if (cVal == "core"){
+      print(paste0("Cannot remove 'core' package!"))
+      retList[[cVal]] <- FALSE
+      next
+    }
+    
     if (!is.element(cVal, libraryPkgs$name)) {
-      print(paste0("Warning - ", cVal, " is not among the available packages: ", 
-                   paste(libraryPkgs$name, collapse = ",")))
+      print(paste0("Package ", cVal, " is not among the library packages."))
       retList[[cVal]] <- FALSE
       next
     }

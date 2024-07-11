@@ -77,7 +77,7 @@ setMethod("uninstallPackage", signature(session = "Session"),
                     program = "SyncroSim.PackageManager.exe")
       
       if (tt[1] == "saved"){
-        message(paste0("Package <", cPkg, " v", cVer, "> removed"))
+        message(paste0("Package <", cPkg, " v", v, "> removed"))
         retList[[cPkg]] <- TRUE
       } else {
         message(tt)
