@@ -44,7 +44,7 @@ NULL
 #' 
 #' @export
 setGeneric("addPackage", 
-           function(ssimLibrary, packages, versions) standardGeneric("addPackage"))
+           function(ssimLibrary, packages, versions = NULL) standardGeneric("addPackage"))
 
 #' @rdname addPackage
 setMethod("addPackage", signature(ssimLibrary = "character"), 
@@ -60,9 +60,9 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"),
   if (!is.null(versions) && (length(versions) != length(packages))){
     stop("The number of versions supplied does not match the number of packages.")
   }
-  
-  sessionPkgs <- packages(.session(ssimLibrary))
-  libraryPkgs <- packages(ssimLibrary)
+  browser()
+  sessionPkgs <- .packages(.session(ssimLibrary), installed = T)
+  libraryPkgs <- .packages(ssimLibrary)
   retList <- list()
   
   for (i in seq(length.out = length(packages))) {
@@ -70,15 +70,23 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"),
     
     cVer <- "0.0.0"
     if (is.null(versions)){
-      pkgVersions <- sessionPkgs[sessionPkgs$name == cPkg]$version
-      if (nrow(pkgVersions) > 0){
+      pkgVersions <- sessionPkgs[sessionPkgs$name == cPkg, ]$version
+      if (length(pkgVersions) > 0){
         cVer <- pkgVersions[length(pkgVersions)]
       }
     } else {
       cVer <- versions[i]
     }
     
-    libPkgRow <- libraryPkgs[(libraryPkgs$name == cPkg) && (libraryPkgs$version == cVer), ]
+    # Check if another version of the package is already installed
+    libPkgRow <- libraryPkgs[libraryPkgs$name == cPkg,]
+    
+    if ((nrow(libPkgRow) == 1) & (libPkgRow$version != cVer)){
+      .removePackage(ssimLibrary, cPkg)
+    }
+    
+    # If the same version of the package is already installed, then skip
+    libPkgRow <- libraryPkgs[((libraryPkgs$name == cPkg) & (libraryPkgs$version == cVer)), ]
   
     if (nrow(libPkgRow) > 0){
       print(paste0(cPkg, " v", cVer, " has already been added to the ssimLibrary"))
@@ -86,7 +94,7 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"),
       next
     }
     
-    sessPkgRow <- sessionPkgs[(sessionPkgs$name == cPkg) && (sessionPkgs$version == cVer), ]
+    sessPkgRow <- sessionPkgs[((sessionPkgs$name == cPkg) & (sessionPkgs$version == cVer)), ]
     
     if (nrow(sessPkgRow) == 0) {
       print(paste0("Warning - ", cPkg, " v", cVer, " is not among the available packages: ", 

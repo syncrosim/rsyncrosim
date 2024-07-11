@@ -6,11 +6,11 @@
 \alias{addPackage,SsimLibrary-method}
 \title{Add SyncroSim package(s)}
 \usage{
-addPackage(ssimLibrary, packages, versions)
+addPackage(ssimLibrary, packages, versions = NULL)
 
-\S4method{addPackage}{character}(ssimLibrary, packages, versions)
+\S4method{addPackage}{character}(ssimLibrary, packages, versions = NULL)
 
-\S4method{addPackage}{SsimLibrary}(ssimLibrary, packages, versions)
+\S4method{addPackage}{SsimLibrary}(ssimLibrary, packages, versions = NULL)
 }
 \arguments{
 \item{ssimLibrary}{\code{\link{SsimLibrary}} object}

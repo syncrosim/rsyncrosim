@@ -7,13 +7,13 @@
 \alias{installPackage,ANY,ANY,Session-method}
 \title{Adds package to SyncroSim Installation}
 \usage{
-installPackage(packages, versions, session = NULL)
+installPackage(packages, versions = NULL, session = NULL)
 
-\S4method{installPackage}{ANY,ANY,character}(packages, versions, session = NULL)
+\S4method{installPackage}{ANY,ANY,character}(packages, versions = NULL, session = NULL)
 
-\S4method{installPackage}{ANY,ANY,missingOrNULL}(packages, versions, session = NULL)
+\S4method{installPackage}{ANY,ANY,missingOrNULL}(packages, versions = NULL, session = NULL)
 
-\S4method{installPackage}{ANY,ANY,Session}(packages, versions, session = NULL)
+\S4method{installPackage}{ANY,ANY,Session}(packages, versions = NULL, session = NULL)
 }
 \arguments{
 \item{packages}{character string. The name or file path of the package to

@@ -89,7 +89,6 @@ Collate:
     'saveDatasheet.R'
     'silent.R'
     'ssimEnvironment.R'
-    'ssimUpdate.R'
     'uninstallPackage.R'
     'useConda.R'
     'version.R'

@@ -38,7 +38,7 @@ NULL
 #' 
 #' @export
 setGeneric("installPackage", 
-           function(packages, versions, session = NULL) standardGeneric("installPackage"))
+           function(packages, versions = NULL, session = NULL) standardGeneric("installPackage"))
 
 #' @rdname installPackage
 setMethod("installPackage", signature(session = "character"), 
@@ -56,7 +56,7 @@ setMethod("installPackage", signature(session = "missingOrNULL"),
 #' @rdname installPackage
 setMethod("installPackage", signature(session = "Session"), 
           function(packages, versions, session) {
-            
+  browser()          
   success <- FALSE
   progName <- "SyncroSim.PackageManager.exe"
   
@@ -69,40 +69,46 @@ setMethod("installPackage", signature(session = "Session"),
   }
   
   # Install from file
-  if (grepl(".ssimpkg", name)) {
-    if (!file.exists(name)) {
-      tt <- paste0("Cannot find file: ", name)
+  if (length(packages) == 1 && grepl(".ssimpkg", packages)) {
+    if (!file.exists(packages)) {
+      tt <- paste0("Cannot find file: ", packages)
     } else {
-      tt <- command(args = list(finstall = name), session, program = progName)
+      tt <- command(args = list(finstall = packages), session, program = progName)
       if (tt == "saved"){
         success <- TRUE
-        tt <- paste0("Package installed from file <", name, ">")
+        tt <- paste0("Package installed from file <", packages, ">")
       }
     }
+    
+    return(invisible(success))
   } 
   
   # Install from folder
-  if (dir.exists(name)){
-    if (!file.exists(file.path(name, "package.xml"))){
+  if (length(packages) == 1 && dir.exists(packages)){
+    if (!file.exists(file.path(packages, "package.xml"))){
       tt <- paste0("Package folder is not valid")
     }
-    tt <- command(args = list(xinstall = name), session, program = progName)
+    tt <- command(args = list(xinstall = packages), session, program = progName)
     if (tt[1] == "saved"){
       success <- TRUE
-      tt <- paste0("Package installed from folder <", name, ">")
+      tt <- paste0("Package installed from folder <", packages, ">")
     }
+    
+    return(invisible(success))
   } 
   
   # Install from server
-  installedSessionPkgs <- packages(session, installed = T)
+  availSessionPkgs <- .packages(session, installed = F)
+  installedSessionPkgs <- .packages(session, installed = T)
+  retList <- list()
   
   for (i in seq(length.out = length(packages))) {
     cPkg <- packages[i]
     
     cVer <- "0.0.0"
     if (is.null(versions)){
-      pkgVersions <- sessionPkgs[sessionPkgs$name == cPkg]$version
-      if (nrow(pkgVersions) > 0){
+      pkgVersions <- availSessionPkgs[availSessionPkgs$name == cPkg, ]$version
+      if (length(pkgVersions) > 0){
         cVer <- pkgVersions[length(pkgVersions)]
       }
     } else {
@@ -110,23 +116,19 @@ setMethod("installPackage", signature(session = "Session"),
     }
     
     sessPkgRow <- installedSessionPkgs[
-      (installedSessionPkgs$name == cPkg) && (installedSessionPkgs$version == cVer), ]
+      ((installedSessionPkgs$name == cPkg) & (installedSessionPkgs$version == cVer)),]
     
     if (nrow(sessPkgRow) > 0) {
-      print(paste0("Warning - ", cPkg, " v", cVer, " is already installed: ", 
-                   paste(sessionPkgs$name, collapse = ",")))
+      print(paste0("Package ", cPkg, " v", cVer, " is already installed."))
       retList[[cPkg]] <- FALSE
       next
     }
-    
-    availSessionPkgs <- packages(session, installed = T)
-    
+  
     sessPkgRow <- availSessionPkgs[
-      (availSessionPkgs$name == cPkg) && (availSessionPkgs$version == cVer), ]
+      ((availSessionPkgs$name == cPkg) & (availSessionPkgs$version == cVer)), ]
     
     if (nrow(sessPkgRow) == 0) {
-      print(paste0("Warning - ", cPkg, " v", cVer, " is not available from package server: ", 
-                   paste(sessionPkgs$name, collapse = ",")))
+      print(paste0("Package ", cPkg, " v", cVer, " is not available from package server."))
       retList[[cPkg]] <- FALSE
       next
     }
@@ -140,7 +142,7 @@ setMethod("installPackage", signature(session = "Session"),
       message(tt)
       retList[[cPkg]] <- FALSE
     }
+    
+    return(invisible(retList))
   }
-
-  return(invisible(retList))
 })

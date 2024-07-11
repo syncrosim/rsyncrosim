@@ -7,7 +7,7 @@ setMethod(
   f = "initialize", signature = "SsimLibrary",
   definition = function(.Object, name = NULL, packages = NULL, session = NULL, 
                         overwrite = FALSE, useConda = NULL) {
-    
+    browser()
     enabled <- NULL
     
     if (is.null(session)) {
@@ -219,9 +219,11 @@ setMethod("ssimLibrary", signature(name = "SsimObject"),
 #' @rdname ssimLibrary
 setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), 
           function(name = NULL, summary = NULL, packages, session, overwrite, useConda) {
+  browser()          
   if (is.null(session)) {
     session <- .session()
   }
+            
   if ((is(session, "character")) && (is(session, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
