@@ -172,40 +172,6 @@ getProjectSet <- function(ssimObject) {
   return(projectSet)
 }
 
-# Create package Conda environments
-createCondaEnv <- function(libPath, currentPackages, session) {
-  
-  message("Creating Conda environments. Please wait...")
-  
-  # Check if environment needs to be created, create if doesn't exist yet
-  for (package in currentPackages) {
-    tt <- command(list(conda = NULL, createenv = NULL, pkg = package), session)
-    if (length(tt) > 1){
-      if (!grepl("Creating Conda environments", tt[1], fixed = TRUE)){
-        stop(tt[1])
-      }
-    } else {
-      if (grepl("No Conda installation found", tt, fixed = TRUE)) {
-        errorMessage = "Conda must be installed to use Conda environments. See ?installConda for details."
-        tt <- command(list(setprop = NULL,
-                           lib = libPath,
-                           useconda = "no"), session)
-      } else {
-        errorMessage = tt
-      }
-
-      message(errorMessage)
-      return(TRUE)
-    }
-  }
-  
-  tt <- command(list(setprop = NULL,
-                     lib = libPath,
-                     useconda = "yes"), session)
-  
-  return(TRUE)
-}
-
 # make first character of string lower case
 camel <- function(x) {
   substr(x, 1, 1) <- tolower(substr(x, 1, 1))

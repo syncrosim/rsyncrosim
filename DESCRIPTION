@@ -52,6 +52,7 @@ Collate:
     'backup.R'
     'command.R'
     'condaFilepath.R'
+    'createCondaEnv.R'
     'datasheet.R'
     'datasheetSpatRaster.R'
     'dateModified.R'
