@@ -28,8 +28,10 @@ setGeneric("info", function(ssimLibrary) standardGeneric("info"))
 
 #' @rdname info
 setMethod("info", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary) {
+  
   args <- list(list = NULL, library = NULL, csv = NULL, lib = .filepath(ssimLibrary))
   tt <- command(args, .session(ssimLibrary))
   out <- .dataframeFromSSim(tt, localNames = TRUE)
+  
   return(out)
 })

@@ -49,10 +49,12 @@ setMethod("useConda", signature(ssimObject = "character"), function(ssimObject) 
 
 #' @rdname useConda
 setMethod("useConda", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
+  
   cInfo <- info(ssimObject)
   property <- NULL
   useCondaValue <- subset(cInfo, property == "Use Conda:")$value
-  if (useCondaValue == "yes") {
+  
+  if (useCondaValue == "Yes") {
     return(TRUE)
   } else {
     return(FALSE)
