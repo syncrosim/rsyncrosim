@@ -3,13 +3,13 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Owner of a SsimLibrary, Project, Scenario, or Folder
+#' Owner of a SsimLibrary, Project, or Scenario
 #'
 #' Retrieves or sets the owner of a \code{\link{SsimLibrary}},
-#' \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
+#' \code{\link{Project}}, or \code{\link{Scenario}}.
 #'
 #' @param ssimObject \code{\link{Session}}, \code{\link{Project}}, 
-#' \code{\link{SsimLibrary}}, or \code{\link{Folder}} object
+#' or \code{\link{SsimLibrary}} object
 #' @param value character string of the new owner
 #' 
 #' @return 
@@ -57,19 +57,13 @@ setMethod("owner", signature(ssimObject = "SsimLibrary"), function(ssimObject) {
 #' @rdname owner
 setMethod("owner", signature(ssimObject = "Project"), function(ssimObject) {
   projInfo <- project(ssimObject, summary = TRUE)
-  return(projInfo$owner)
+  return(projInfo$Owner)
 })
 
 #' @rdname owner
 setMethod("owner", signature(ssimObject = "Scenario"), function(ssimObject) {
   scnInfo <- scenario(ssimObject, summary = TRUE)
-  return(scnInfo$owner)
-})
-
-#' @rdname owner
-setMethod("owner", signature(ssimObject = "Folder"), function(ssimObject) {
-  info <- getFolderData(ssimObject)
-  return(info$Owner)
+  return(scnInfo$Owner)
 })
 
 #' @rdname owner
@@ -86,32 +80,23 @@ setReplaceMethod(
   f = "owner",
   signature = "SsimObject",
   definition = function(ssimObject, value) {
+    
     args <- list(setprop = NULL, lib = .filepath(ssimObject), owner = value)
+    
     if (is(ssimObject, "Project")) {
       args$pid <- .projectId(ssimObject)
     }
+    
     if (is(ssimObject, "Scenario")) {
       args$sid <- .scenarioId(ssimObject)
     }
+    
     tt <- command(args, .session(ssimObject))
+    
     if (!identical(tt, "saved")) {
       stop(tt)
     }
-    return(ssimObject)
-  }
-)
-
-#' @rdname owner
-setReplaceMethod(
-  f = "owner",
-  signature = "Folder",
-  definition = function(ssimObject, value) {
-    args <- list(setprop = NULL, lib = .filepath(ssimObject), owner = value, 
-                 fid = .folderId(ssimObject))
-    tt <- command(args, .session(ssimObject))
-    if (!identical(tt, "saved")) {
-      stop(tt)
-    }
+    
     return(ssimObject)
   }
 )

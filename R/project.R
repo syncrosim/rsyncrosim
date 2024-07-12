@@ -117,7 +117,7 @@ setMethod(f = "initialize", signature = "Project",
                        name = name), .session(x))
   }
 
-  if (!grepl("Project ID is:", tt[1], fixed = TRUE)) {
+  if (!grepl("Project Id is:", tt[1], fixed = TRUE)) {
     stop(tt)
   }
 
