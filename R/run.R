@@ -52,14 +52,14 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("run", function(ssimObject, scenario = NULL, summary = FALSE, 
-                           copyExternalInputs = FALSE, transformerName = NULL, 
-                           forceElements = FALSE) standardGeneric("run"))
+setGeneric("run", 
+           function(ssimObject, scenario = NULL, summary = FALSE, 
+                    copyExternalInputs = FALSE, transformerName = NULL) standardGeneric("run"))
 
 #' @rdname run
 setMethod("run", signature(ssimObject = "character"), 
           function(ssimObject, scenario, summary, copyExternalInputs, 
-                   transformerName, forceElements) {
+                   transformerName) {
             
   if (ssimObject == SyncroSimNotFound(warn = FALSE)) {
     return(SyncroSimNotFound())
@@ -67,7 +67,7 @@ setMethod("run", signature(ssimObject = "character"),
             
   ssimObject <- .ssimLibrary(ssimObject)
   out <- run(ssimObject, scenario, summary, copyExternalInputs, 
-             transformerName, forceElements)
+             transformerName)
   
   return(out)
 })
@@ -75,14 +75,14 @@ setMethod("run", signature(ssimObject = "character"),
 #' @rdname run
 setMethod("run", signature(ssimObject = "list"), 
           function(ssimObject, scenario, summary, copyExternalInputs, 
-                   transformerName, forceElements) {
+                   transformerName) {
             
   x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", 
                                scenario = scenario)
   ssimObject <- x$ssimObject
   scenario <- x$objs
   out <- run(ssimObject, scenario, summary, copyExternalInputs, 
-             transformerName, forceElements)
+             transformerName)
   
   return(out)
 })
@@ -90,7 +90,7 @@ setMethod("run", signature(ssimObject = "list"),
 #' @rdname run
 setMethod("run", signature(ssimObject = "SsimObject"), 
           function(ssimObject, scenario, summary, copyExternalInputs, 
-                   transformerName, forceElements) {
+                   transformerName) {
             
   xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, 
                                convertObject = TRUE, returnIds = TRUE, 
