@@ -46,17 +46,17 @@ setMethod("dateModified", signature(ssimObject = "SsimLibrary"), function(ssimOb
 #' @rdname dateModified
 setMethod("dateModified", signature(ssimObject = "Project"), function(ssimObject) {
   projInfo <- project(ssimObject, summary = TRUE)
-  return(projInfo$lastModified)
+  return(projInfo$LastModified)
 })
 
 #' @rdname dateModified
 setMethod("dateModified", signature(ssimObject = "Scenario"), function(ssimObject) {
   scnInfo <- scenario(ssimObject, summary = TRUE)
-  return(scnInfo$lastModified)
+  return(scnInfo$LastModified)
 })
 
 #' @rdname dateModified
 setMethod("dateModified", signature(ssimObject = "Folder"), function(ssimObject) {
-  folderInfo <- folder(ssimObject)
-  return(folderInfo$lastModified)
+  folderInfo <- folder(ssimObject, summary = TRUE)
+  return(folderInfo$LastModified)
 })

@@ -66,7 +66,7 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 
 #' @rdname name
 setMethod("name", signature(ssimObject = "Folder"), function(ssimObject) {
-  info <- getFolderData(ssimObject)
+  info <- folder(ssimObject, summary = TRUE)
   return(info$Name)
 })
 

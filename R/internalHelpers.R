@@ -298,7 +298,7 @@ getFolderData <- function(x) {
 getParentFolderId <- function(x, id, item="Folder") {
   
   df <- getLibraryStructure(x)
-  if (item == "Scenario" && !is.na(x@parentId)){
+  if ((item == "Scenario") && (x@parentId != 0)){
     item <- "Result(S)"
   }
   childRowInd <- which((df$id == id) & (df$item == item))

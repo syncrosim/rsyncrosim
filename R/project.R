@@ -135,8 +135,8 @@ setMethod(f = "initialize", signature = "Project",
 #' Creates or retrieves a \code{\link{Project}} or multiple Projects from a
 #' SsimLibrary.
 #'
-#' @param ssimObject \code{\link{Scenario}} or 
-#'     \code{\link{SsimLibrary}} object, or a character string (i.e. a filepath)
+#' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Scenario}} object, 
+#'     or a character string (i.e. a filepath)
 #' @param project \code{\link{Project}} object, character, integer, or vector 
 #' of these. Names or ids of one or more Projects. Note that integer ids are 
 #' slightly faster (optional)
