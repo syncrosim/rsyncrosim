@@ -20,9 +20,6 @@ NULL
 #'     copy of external inputs is created for each multiprocessing job. Applies only when 
 #'     the number of jobs is set to >1 in the core_Multiprocessing datasheet.
 #' @param transformerName character.  The name of the transformer to run (optional)
-#' @param forceElements logical. If \code{TRUE} then returns a single result Scenario 
-#'     as a named list; if \code{FALSE} (default) returns a single result Scenario as 
-#'     a Scenario object. Applies only when \code{summary=FALSE}
 #'     
 #' @details
 #' Note that breakpoints are ignored unless the SsimObject is a single Scenario.
@@ -34,30 +31,24 @@ NULL
 #' 
 #' @examples 
 #' \dontrun{
-#' # Install helloworldSpatial package
-#' installPackage("helloworldSpatial")
-#' 
 #' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib")
+#' myLibraryName <- "testlib"
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
-#' mySession <- session(printCmd=T)
 #' myLibrary <- ssimLibrary(name = myLibraryName,
-#'                          session = mySession, 
-#'                          package = "helloworldSpatial",
-#'                          template = "example-library",
-#'                          forceUpdate = TRUE)
+#'                          packages = "helloworldSpatial")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
+#' myScenario2 <- scenario(myProject, scenario = "My Scenario 2")
 #' 
 #' # Run with default parameters
 #' resultScenario <- run(myScenario)
 #' 
 #' # Only return summary information
-#' resultScenario <- run(myScenario, summary = TRUE)
+#' resultScenarioSummary <- run(myScenario, summary = TRUE)
 #' 
-#' # Return results as a named list
-#' resultScenario <- run(myScenario, forceElements = TRUE)
+#' # Run 2 scenarios at once
+#' resultScenarios <- run(c(myScenario, myScenario2))
 #' }
 #' 
 #' @export
@@ -86,10 +77,12 @@ setMethod("run", signature(ssimObject = "list"),
           function(ssimObject, scenario, summary, copyExternalInputs, 
                    transformerName, forceElements) {
             
-  x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", scenario = scenario)
+  x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", 
+                               scenario = scenario)
   ssimObject <- x$ssimObject
   scenario <- x$objs
-  out <- run(ssimObject, scenario, summary, copyExternalInputs, transformerName, forceElements)
+  out <- run(ssimObject, scenario, summary, copyExternalInputs, 
+             transformerName, forceElements)
   
   return(out)
 })
@@ -107,107 +100,50 @@ setMethod("run", signature(ssimObject = "SsimObject"),
   x <- xProjScn$ssimObject
   scenario <- xProjScn$scenario
   scenarioSet <- xProjScn$scenarioSet
+  originalScns <- .scenario(.project(x, project = xProjScn$project))
 
   if (!is.numeric(scenario)) {
     stop("Error in run(): expecting valid scenario ids.")
   }
-
-  out <- list()
-  addBits <- seq(1, length(scenario))
   
   for (i in seq(length.out = length(scenario))) {
-    tt <- NULL
+    
     cScn <- scenario[i]
     name <- scenarioSet$Name[scenarioSet$ScenarioId == cScn][1]
-    resultId <- NA
 
     print(paste0("Running scenario [", cScn, "] ", name))
 
-    if (is(ssimObject, "Scenario")) {
-      breakpoints <- ssimObject@breakpoints
-      xsim <- ssimObject
-      xsim@breakpoints <- breakpoints
-    } else {
-      breakpoints <- NULL
-    }
+    args <- list(run = NULL, lib = .filepath(x), sid = cScn, copyextfiles = "no")
 
-    if ((!is(breakpoints, "list")) | (length(breakpoints) == 0)) {
-      args <- list(run = NULL, lib = .filepath(x), sid = cScn, copyextfiles = "no")
-
-      if (!is.null(transformerName)) {
-        args[["trx"]] <- transformerName
-      }
-      
-      if (copyExternalInputs == TRUE) {
-        args[["copyextfiles"]] <- "yes"
-      }
-
-      tt <- command(args, .session(x))
-
-      for (i in tt) {
-        if (startsWith(i, "Result scenario ID is:")) {
-          resultId <- strsplit(i, ": ", fixed = TRUE)[[1]][2]
-        } else {
-          print(i)
-        }
-      }
-
-      if (is.na(resultId)) {
-        stop()
-      }
-    } else {
-
-      # create a session
-      xsim@breakpoints <- breakpoints
-      cBreakpointSession <- breakpointSession(xsim)
-      # TO DO: multiple tries in connection
-
-      # load a library
-      msg <- paste0('load-library --lib=\"', filepath(x), '\"')
-      ret <- remoteCall(cBreakpointSession, msg)
-      if (ret != "NONE") {
-        stop("Something is wrong: ", ret)
-      }
-
-      # set breakpoints
-      ret <- setBreakpoints(cBreakpointSession)
-      if (ret != "NONE") {
-        stop("Something is wrong: ", ret)
-      }
-
-      resultId <- run(cBreakpointSession)
-      resp <- writeLines("shutdown", connection(cBreakpointSession), sep = "")
-      close(connection(cBreakpointSession)) # Close the connection.
+    if (!is.null(transformerName)) {
+      args[["trx"]] <- transformerName
     }
     
-    inScn <- paste0(name, " (", cScn, ")")
-
-    if (is.element(inScn, names(out))) {
-      inScn <- paste(inScn, addBits[i])
+    if (copyExternalInputs == TRUE) {
+      args[["copyextfiles"]] <- "yes"
     }
-    
-    if (!identical(resultId, suppressWarnings(as.character(as.numeric(resultId))))) {
-      out[[inScn]] <- tt
-      print(tt)
-    } else {
-      
-      if (summary) {
-        out[[inScn]] <- as.numeric(resultId)
-        scn <- .scenario(x, scenario = as.numeric(resultId))
-      } else {
-        out[[inScn]] <- .scenario(x, scenario = as.numeric(resultId))
+
+    tt <- command(args, .session(x))
+
+    if (tt[1] != "saved") {
+      stop(tt)
+    }
+  }
+  
+  finalScns <- .scenario(.project(x, project = xProjScn$project))
+  newScnIds <- setdiff(finalScns$ScenarioId, originalScns$ScenarioId)
+  
+  if (summary == TRUE){
+    out <- subset(finalScns, ScenarioId == newScnIds)
+  } else {
+    if (length(newScnIds) > 1){
+      out <- list()
+      for (scnId in newScnIds){
+        out <- append(out, .scenario(x, scenario = scnId))
       }
+    } else {
+      out <- .scenario(x, scenario = newScnIds)
     }
-  }
-
-  if (summary && (is(out, "list"))) {
-    # summary info for ids
-    scnSelect <- unlist(out)
-    out <- .scenario(x, scenario = scnSelect, summary = TRUE)
-  }
-
-  if (!forceElements && (is(out, "list")) && (length(out) == 1)) {
-    out <- out[[1]]
   }
   
   return(out)
