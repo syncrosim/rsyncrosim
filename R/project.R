@@ -202,9 +202,11 @@ setMethod(f = "initialize", signature = "Project",
 #' @export
 project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, 
                     summary = NULL, forceElements = FALSE, overwrite = FALSE) {
+  
   if ((is(ssimObject, "character")) && (is(ssimObject, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
+  
   if (is.null(ssimObject)) {
     e <- ssimEnvironment()
     ssimObject <- ssimLibrary(e$LibraryFilePath)

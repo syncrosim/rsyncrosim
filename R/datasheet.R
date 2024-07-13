@@ -179,19 +179,24 @@ setMethod("datasheet",
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible) {
+            
   cScn <- ssimObject[[1]]
   x <- NULL
+  
   if (is(cScn, "Scenario")) {
     x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", scenario = scenario, project = project)
     scenario <- x$objs
     project <- NULL
   }
+  
   if (is(cScn, "Project")) {
     x <- getIdsFromListOfObjects(ssimObject, expecting = "Project", scenario = scenario, project = project)
     project <- x$objs
     scenario <- NULL
   }
+  
   ssimObject <- x$ssimObject
+  
   if (is.null(ssimObject)) {
     stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")
   }
@@ -224,6 +229,7 @@ setMethod("datasheet",
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible) {
+           
   temp <- NULL
   ProjectId <- NULL
   ScenarioId <- NULL
@@ -234,18 +240,29 @@ setMethod("datasheet",
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
   IDColumns <- c("ScenarioId", "ProjectId")
   
+  if (is(ssimObject, "SsimLibrary")){
+    scopeDS <- "library"
+  } else if (is(ssimObject, "Project")){
+    scopeDS <- "project"
+  } else {
+    scopeDS <- "scenario"
+  }
+  
   if (is(xProjScn, "SsimLibrary")) {
     x <- xProjScn
     pid <- NULL
     sid <- NULL
+    scopeDS <- "library"
   } else {
     x <- xProjScn$ssimObject
     pid <- xProjScn$project
     sid <- xProjScn$scenario
+    
     if (!is.null(sid) & is.null(pid)) {
       pid <- subset(xProjScn$scenarioSet, is.element(ScenarioId, sid))$ProjectId
     }
   }
+  
   # now have valid pid/sid vectors and x is library.
   if (!is.null(name)) {
     for (i in seq_along(name)) {
@@ -271,22 +288,29 @@ setMethod("datasheet",
   # if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if (summary == TRUE) {
     sumInfo <- .datasheets(x, project[[1]], scenario[[1]], core = TRUE)
+    
     if (nrow(sumInfo) == 0) {
       stop("No datasheets available")
     }
+    
     sumInfo$order <- seq(1, nrow(sumInfo))
+    
     if (is.null(name)) {
       name <- sumInfo$name
       allNames <- name
     }
+    
     missingSheets <- setdiff(name, sumInfo$name)
+    
     if (length(missingSheets) > 0) {
       sumInfo <- .datasheets(x, project[[1]], scenario[[1]], refresh = TRUE)
       missingSheets <- setdiff(name, sumInfo$name)
+      
       if (length(missingSheets) > 0) {
         stop(paste0("Datasheets not found: ", paste(missingSheets, collapse = ",")))
       }
     }
+    
     sumInfo <- subset(sumInfo, is.element(name, allNames))
   }
   
@@ -299,22 +323,30 @@ setMethod("datasheet",
   }
   
   if ((summary == TRUE) & !optional) {
+    
     sumInfo <- subset(sumInfo, select = c("scope", "name", "displayName", "order"))
     sumInfo[order(sumInfo$order), ]
     sumInfo$order <- NULL
+    sumInfo <- subset(sumInfo, scope == scopeDS)
+    
     return(sumInfo)
   }
   
   # Add data info - only for scenario scope datasheets if sid is defined
   if (summary == TRUE) {
+    
     # if no scenario scope sheets, return sumInfo without checking for data
     scnSheetSum <- sum(sumInfo$scope == "scenario")
     
     if (scnSheetSum == 0) {
+      
       sumInfo[order(sumInfo$order), ]
       sumInfo$order <- NULL
+      sumInfo <- subset(sumInfo, scope == scopeDS)
+      
       return(sumInfo)
     }
+    
     for (i in seq(length.out = length(sid))) {
       cSid <- sid[i]
       tt <- command(list(list = NULL, datasources = NULL, lib = .filepath(x), sid = cSid), session = session(x))
@@ -352,6 +384,8 @@ setMethod("datasheet",
     sumInfo <- subset(sumInfo, select = c(prevNames, setdiff(names(sumInfo), prevNames)))
     sumInfo <- sumInfo[order(sumInfo$order, sumInfo$scenario), ]
     sumInfo$order <- NULL
+    sumInfo <- subset(sumInfo, scope == scopeDS)
+    
     return(sumInfo)
   }
   
@@ -848,7 +882,7 @@ setMethod("datasheet",
         names(allScns) <- c("ScenarioId", "ProjectId", "ScenarioName", "ParentId", "ParentName")
         allScns <- allScns[allScns$ScenarioId %in% sid,]
         
-        sheet <- subset(sheet , select=c(-ScenarioId))
+        sheet <- sheet[, !(names(sheet) %in% "ScenarioId")]
         sheet <- merge(allScns, sheet, all.y = TRUE)
       }
     }
