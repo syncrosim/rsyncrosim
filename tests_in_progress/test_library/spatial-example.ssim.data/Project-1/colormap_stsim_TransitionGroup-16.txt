@@ -1,0 +1,4 @@
+# Syncrosim Generated Transition Group (Succession [Type]) Color Map (QGIS-compatible) Export File,,,,,
+INTERPOLATION:EXACT
+1,255,255,0,255,Succession
+0,232,232,232,255,No Occurrence
