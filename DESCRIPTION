@@ -41,9 +41,8 @@ Suggests:
     testthat (>= 3.0.0),
     ggplot2,
     Rcpp,
-    rmarkdown,
-    raster
-SystemRequirements: SyncroSim (>=2.3.10)
+    rmarkdown
+SystemRequirements: SyncroSim (>=3.0.0)
 Collate: 
     'AAAClassDefinitions.R'
     'addPackage.R'
