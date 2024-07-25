@@ -245,7 +245,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     # Remove the datasheet ID from the datasheet if it exists
     dsInfo <- sheetNames[sheetNames$name == cName,]
     dsName <- gsub(paste0(dsInfo$package, "_"), '', dsInfo$name)
-    dsNameID <- paste0(dsName, "ID")
+    dsNameID <- paste0(dsName, "Id")
     colsToKeep <- colsToKeep[!colsToKeep %in% c(dsNameID)]
     
     # Subset data by the valid columns

@@ -278,7 +278,7 @@ getFolderData <- function(x) {
   
   # Clean up dataframe names and columns
   names(out) <- sapply(names(out), pascal)
-  colnames(out)[colnames(out) == "ID"] ="FolderID"
+  colnames(out)[colnames(out) == "Id"] = "FolderId"
   out <- subset(out, select = -c(X))
   
   if (is(x, "Folder")){
