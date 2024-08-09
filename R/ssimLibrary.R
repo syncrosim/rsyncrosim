@@ -108,6 +108,7 @@ setMethod(".ssimLibrary", signature(name = "missingOrNULLOrChar"),
 
 setMethod(".ssimLibrary", signature(name = "SsimObject"), 
           function(name, packages, session, overwrite, useConda) {
+
   if (is(name, "SsimLibrary")) {
     out <- name
   } else {

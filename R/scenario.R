@@ -230,7 +230,9 @@ setMethod(
 #' 
 #' @name scenario
 #' @export
-scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, folder = NULL, summary = NULL, results = FALSE, forceElements = FALSE, overwrite = FALSE) {
+scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
+                     folder = NULL, summary = NULL, results = FALSE, 
+                     forceElements = FALSE, overwrite = FALSE) {
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }

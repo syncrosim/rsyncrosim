@@ -24,7 +24,10 @@ setClassUnion("NULLOrChar", c("NULL", "character"))
 #' @name Session-class
 #' @rdname Session-class
 #' @export Session
-Session <- setClass("Session", representation(filepath = "character", silent = "logical", printCmd = "logical", condaFilepath = "NULLOrChar"))
+Session <- setClass("Session", representation(filepath = "character", 
+                                              silent = "logical", 
+                                              printCmd = "logical", 
+                                              condaFilepath = "NULLOrChar"))
 
 # SyncroSim Object class (nor exported)
 # SsimLibrary, Project and Scenario all inherit from this abstract class.
@@ -33,7 +36,10 @@ Session <- setClass("Session", representation(filepath = "character", silent = "
 # @slot filepath The path to the Library on disk.
 # @slot datasheetNames The names and scope of all datasheets in the Library. 
 # Used to speed calculations.
-SsimObject <- setClass("SsimObject", representation(session = "Session", filepath = "character", datasheetNames = "data.frame"))
+SsimObject <- setClass("SsimObject", 
+                       representation(session = "Session", 
+                                      filepath = "character", 
+                                      datasheetNames = "data.frame"))
 
 #' SyncroSim Library class
 #'
@@ -50,7 +56,8 @@ SsimObject <- setClass("SsimObject", representation(session = "Session", filepat
 #' @name SsimLibrary-class
 #' @rdname SsimLibrary-class
 #' @export SsimLibrary
-SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", representation())
+SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", 
+                        representation())
 
 #' SyncroSim Scenario class
 #'
@@ -75,7 +82,12 @@ SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", representation()
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
-Scenario <- setClass("Scenario", contains = "SsimObject", representation(projectId = "numeric", scenarioId = "numeric", parentId = "numeric", folderId = "numeric", breakpoints = "list"))
+Scenario <- setClass("Scenario", contains = "SsimObject", 
+                     representation(projectId = "numeric", 
+                                    scenarioId = "numeric", 
+                                    parentId = "numeric", 
+                                    folderId = "numeric", 
+                                    breakpoints = "list"))
 
 #' SyncroSim Project class
 #'
@@ -94,7 +106,8 @@ Scenario <- setClass("Scenario", contains = "SsimObject", representation(project
 #' @name Project-class
 #' @rdname Project-class
 #' @export Project
-Project <- setClass("Project", contains = "SsimObject", representation(projectId = "numeric"))
+Project <- setClass("Project", contains = "SsimObject", 
+                    representation(projectId = "numeric"))
 
 #' SyncroSim Folder class
 #'
@@ -114,5 +127,33 @@ Project <- setClass("Project", contains = "SsimObject", representation(projectId
 #' @name Folder-class
 #' @rdname Folder-class
 #' @export Folder
-Folder <- setClass("Folder", representation(session = "Session", filepath = "character", folderId = "numeric", parentId = "numeric", projectId = "numeric"))
+Folder <- setClass("Folder", contains = "SsimObject",
+                   representation(session = "Session", 
+                                  filepath = "character", 
+                                  folderId = "numeric", 
+                                  parentId = "numeric", 
+                                  projectId = "numeric"))
+
+#' SyncroSim Chart class
+#'
+#' \code{Chart} object representing a SyncroSim Chart object. A Chart object
+#' is used to create line or column charts from tabular output data in the 
+#' and can be viewed using the SyncroSim User Interface.
+#'
+#' @seealso See \code{\link{chart}} for options when creating or loading a 
+#' SyncroSim Chart
+#' @slot session \code{\link{Session}} object. The Session associated with the 
+#' Chart's SsimLibrary
+#' @slot filepath character string. The path to the Chart's SsimLibrary on disk
+#' @slot chartId integer. The Chart id
+#' @slot projectId integer. The Project id
+#' @name Chart-class
+#' @rdname Chart-class
+#' @export Chart
+Chart <- setClass("Chart", contains = "SsimObject", 
+                  representation(session = "Session", 
+                                 filepath = "character", 
+                                 chartId = "numeric",
+                                 projectId = "numeric"))
+
 

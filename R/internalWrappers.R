@@ -10,10 +10,12 @@ NULL
 #' @include project.R
 #' @include scenario.R
 #' @include folder.R
+#' @include chart.R
 #' @include sqlStatement.R
 #' @include projectId.R
 #' @include scenarioId.R
 #' @include folderId.R
+#' @include chartId.R
 #' @include filepath.R
 #' @include datasheet.R
 #' @include internalHelpers.R
@@ -27,6 +29,8 @@ NULL
 # @export
 .folderId <- folderId
 # @export
+.chartId <- chartId
+# @export
 .filepath <- filepath
 # @export
 .tempfilepath <- tempfilepath
@@ -36,6 +40,8 @@ NULL
 .project <- project
 # @export 
 .folder <- folder
+# @export
+.chart <- chart
 # @export
 .scenario <- scenario
 # @export

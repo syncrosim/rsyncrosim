@@ -82,7 +82,8 @@ setReplaceMethod(
     
     if (value == FALSE) {
       
-      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), useconda = "no"), .session(ssimObject))
+      tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), 
+                         useconda = "no"), .session(ssimObject))
       if (!identical(tt, "saved")) {
         stop(tt)
       }

@@ -3,13 +3,13 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Name of a SsimLibrary, Project, Scenario, or Folder
+#' Name of a SsimLibrary, Project, Scenario, Folder, or Chart
 #'
 #' Retrieves or sets the name of a \code{\link{SsimLibrary}}, 
 #' \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
 #'
 #' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{SsimLibrary}}, or\code{\link{Folder}} object
+#' \code{\link{SsimLibrary}}, \code{\link{Folder}} or \code{\link{Chart}} object
 #' @param value character string of the new name
 #' 
 #' @return 
@@ -26,12 +26,14 @@ NULL
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' myFolder <- folder(myProject, folder = "New Folder")
+#' myChart <- chart(myProject, chart = "New Chart")
 #' 
 #' # Retrieve names of the SsimObjects
 #' name(myLibrary)
 #' name(myProject)
 #' name(myScenario)
 #' name(myFolder)
+#' name(myChart)
 #' 
 #' # Set the name of the SyncroSim Scenario
 #' name(myScenario) <- "My Scenario Name"
@@ -67,6 +69,12 @@ setMethod("name", signature(ssimObject = "Project"), function(ssimObject) {
 #' @rdname name
 setMethod("name", signature(ssimObject = "Folder"), function(ssimObject) {
   info <- folder(ssimObject, summary = TRUE)
+  return(info$Name)
+})
+
+#' @rdname name
+setMethod("name", signature(ssimObject = "Chart"), function(ssimObject) {
+  info <- getChartData(ssimObject)
   return(info$Name)
 })
 
@@ -134,3 +142,17 @@ setReplaceMethod(
     return(ssimObject)
   }
 )
+
+#' @rdname name
+setReplaceMethod(
+  f = "name",
+  signature = "Chart",
+  definition = function(ssimObject, value) {
+    tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), cid = .chartId(ssimObject), name = value), .session(ssimObject))
+    if (!identical(tt, "saved")) {
+      stop(tt)
+    }
+    return(ssimObject)
+  }
+)
+

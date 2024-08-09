@@ -263,7 +263,6 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
       }
       
       sheetInfo <- subset(sheetInfo, isFile)
-
       sheetInfo <- subset(sheetInfo, is.element(name, names(cDat)))
     }
 

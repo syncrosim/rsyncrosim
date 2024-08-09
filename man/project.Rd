@@ -14,8 +14,8 @@ project(
 )
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}} or
-\code{\link{SsimLibrary}} object, or a character string (i.e. a filepath)}
+\item{ssimObject}{\code{\link{Scenario}}, \code{\link{SsimLibrary}}, or
+\code{\link{Chart}} object, or a character string (i.e. a filepath)}
 
 \item{project}{\code{\link{Project}} object, character, integer, or vector
 of these. Names or ids of one or more Projects. Note that integer ids are
