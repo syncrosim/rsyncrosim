@@ -21,7 +21,7 @@ information about this argument}
 session will be used}
 
 \item{program}{character. The name of the target SyncroSim executable.
-Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe",
+Options include "SyncroSim.Console.exe" (default), "SyncroSim.VizConsole.exe",
 "SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"}
 
 \item{wait}{logical. If \code{TRUE}(default) R will wait for the command to finish

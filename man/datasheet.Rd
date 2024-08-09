@@ -23,7 +23,9 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE,
+  verbose = TRUE
 )
 
 \S4method{datasheet}{list}(
@@ -42,7 +44,9 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE,
+  verbose = TRUE
 )
 
 \S4method{datasheet}{character}(
@@ -60,7 +64,9 @@ datasheet(
   includeKey,
   fastQuery,
   returnScenarioInfo,
-  returnInvisible
+  returnInvisible,
+  rawValues,
+  verbose
 )
 
 \S4method{datasheet}{SsimObject}(
@@ -79,7 +85,9 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -148,6 +156,13 @@ Library or Project level. Default is \code{FALSE}}
 \item{returnInvisible}{logical. If \code{TRUE}, returns columns that are
 invisible in the User Interface (i.e., are only used and populated
 internally by SyncroSim or the SyncroSim Package). Default is \code{FALSE}}
+
+\item{rawValues}{logical. If \code{TRUE}, returns the raw ID values rather
+than automatically translating the values to strings. Default is
+\code{FALSE}.}
+
+\item{verbose}{logical. If set to \code{FALSE}, will not print notes about
+datasheet validation. Default is \code{TRUE}.}
 }
 \value{
 If \code{summary=TRUE} returns a data.frame of Datasheet names

@@ -7,13 +7,15 @@
 \alias{name,Scenario-method}
 \alias{name,Project-method}
 \alias{name,Folder-method}
+\alias{name,Chart-method}
 \alias{name<-}
 \alias{name<-,character-method}
 \alias{name<-,SsimLibrary-method}
 \alias{name<-,Project-method}
 \alias{name<-,Scenario-method}
 \alias{name<-,Folder-method}
-\title{Name of a SsimLibrary, Project, Scenario, or Folder}
+\alias{name<-,Chart-method}
+\title{Name of a SsimLibrary, Project, Scenario, Folder, or Chart}
 \usage{
 name(ssimObject)
 
@@ -27,6 +29,8 @@ name(ssimObject)
 
 \S4method{name}{Folder}(ssimObject)
 
+\S4method{name}{Chart}(ssimObject)
+
 name(ssimObject) <- value
 
 \S4method{name}{character}(ssimObject) <- value
@@ -38,10 +42,12 @@ name(ssimObject) <- value
 \S4method{name}{Scenario}(ssimObject) <- value
 
 \S4method{name}{Folder}(ssimObject) <- value
+
+\S4method{name}{Chart}(ssimObject) <- value
 }
 \arguments{
 \item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
-\code{\link{SsimLibrary}}, or\code{\link{Folder}} object}
+\code{\link{SsimLibrary}}, \code{\link{Folder}} or \code{\link{Chart}} object}
 
 \item{value}{character string of the new name}
 }
@@ -63,12 +69,14 @@ myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 myFolder <- folder(myProject, folder = "New Folder")
+myChart <- chart(myProject, chart = "New Chart")
 
 # Retrieve names of the SsimObjects
 name(myLibrary)
 name(myProject)
 name(myScenario)
 name(myFolder)
+name(myChart)
 
 # Set the name of the SyncroSim Scenario
 name(myScenario) <- "My Scenario Name"

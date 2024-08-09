@@ -22,7 +22,7 @@ NULL
 #' @param session \code{\link{Session}} object. If \code{NULL}(default), the default
 #'  session will be used
 #' @param program character. The name of the target SyncroSim executable. 
-#'     Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe", 
+#'     Options include "SyncroSim.Console.exe" (default), "SyncroSim.VizConsole.exe", 
 #'     "SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"
 #' @param wait logical. If \code{TRUE}(default) R will wait for the command to finish 
 #'     before proceeding. Note that silent(session) is ignored if \code{wait=FALSE}
@@ -62,7 +62,8 @@ NULL
 #' command(list(installed = NULL), program = "SyncroSim.PackageManager.exe")
 #' }
 #' @export
-command <- function(args, session = NULL, program = "SyncroSim.Console.exe", wait = TRUE, progName = NULL) {
+command <- function(args, session = NULL, program = "SyncroSim.Console.exe", 
+                    wait = TRUE, progName = NULL) {
 
   # if a SyncroSim session is not provided, make one
   if (is.null(session) && is.null(progName)) {

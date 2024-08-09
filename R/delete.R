@@ -3,23 +3,43 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Delete SsimLibrary, Project, Scenario, Datasheet
+#' Delete SsimLibrary, Project, Scenario, Folder, Chart or Datasheet
 #'
 #' Deletes one or more items. Note that this is irreversible.
 #'
 #' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}},
-#'     or \code{\link{Scenario}} object, or character (i.e. path to a SsimLibrary)
+#'     \code{\link{Scenario}}, \code{\link{Folder}}, or \code{\link{Chart}} 
+#'     object, or character (i.e. path to a SsimLibrary)
 #' @param project character string, numeric, or vector of these. One or more 
 #'     \code{\link{Project}} names or ids. Note that project argument is ignored 
-#'     if SsimObject is a list. Note that integer ids are slightly faster (optional)
+#'     if ssimObject is a list. Note that integer ids are slightly faster (optional)
 #' @param scenario character string, numeric, or vector of these. One or more 
-#'     \code{\link{Scenario}} names or ids. Note that Scenario argument is 
+#'     \code{\link{Scenario}} names or ids. Note that scenario argument is 
+#'     ignored if ssimObject is a list. Note that integer ids are slightly faster 
+#'     (optional)
+#' @param folder character string, numeric, or vector of these. One or more 
+#'     \code{\link{Folder}} names or ids. Note that folder argument is 
+#'     ignored if ssimObject is a list. Note that integer ids are slightly faster 
+#'     (optional)
+#' @param chart character string, numeric, or vector of these. One or more 
+#'     \code{\link{Chart}} names or ids. Note that chart argument is 
 #'     ignored if SsimObject is a list. Note that integer ids are slightly faster 
 #'     (optional)
-#' @param datasheet character string or vector of these. One or more Datasheet 
+#' @param datasheet character string or vector of these. One or more datasheet 
 #' names (optional)
 #' @param force logical. If \code{FALSE} (default), user will be prompted to approve 
 #'     removal of each item
+#' @param removeBackup logical. If \code{TRUE}, will remove the backup folder when
+#'     deleting a library. Default is \code{FALSE}
+#' @param removePublish logical. If \code{TRUE}, will remove the publish folder when
+#'     deleting a library. Default is \code{FALSE}
+#' @param removeCustom logical. If \code{TRUE} and custom folders have been configured
+#'     for a library, then will remove the custom publish and/or backup folders when 
+#'     deleting a library. Note that the `removePublish` and `removeBackup` arguments 
+#'     must also be set to \code{TRUE} to remove the respective custom folders. Default
+#'     is \code{FALSE}
+#' @param session \code{\link{Session}} object. If \code{NULL} (default), session()
+#'     will be used. Only applicable when `ssimObject` argument is a character
 #' 
 #' @return 
 #' Invisibly returns a list of boolean values corresponding to each
@@ -46,29 +66,50 @@ NULL
 #' }
 #' 
 #' @export
-# Note delete supports character paths because sometimes we want to delete a library without updating it.
-# Note delete supports project/scenario arguments because sometimes we want to delete objects without creating them.
-setGeneric("delete", function(ssimObject, project = NULL, scenario = NULL, datasheet = NULL, force = FALSE) standardGeneric("delete"))
+# Note delete supports character paths because sometimes we want to delete a 
+# library without updating it.
+# Note delete supports project/scenario/folder/chart arguments because sometimes 
+# we want to delete objects without creating them.
+setGeneric("delete", 
+           function(ssimObject, project = NULL, scenario = NULL, 
+                    folder = NULL, chart = NULL, datasheet = NULL, 
+                    force = FALSE, removeBackup = FALSE, removePublish = FALSE,
+                    removeCustom = FALSE, session = NULL) standardGeneric("delete"))
 
 #' @rdname delete
-setMethod("delete", signature(ssimObject = "character"), function(ssimObject, project, scenario, datasheet, force) {
-  if (is.null(datasheet) & is.null(project) & is.null(scenario)) {
-    return(deleteLibrary(ssimObject, force))
+setMethod("delete", signature(ssimObject = "character"), 
+          function(ssimObject, project, scenario, folder, chart, datasheet, 
+                   force, removeBackup, removePublish, removeCustom, session) {
+            
+  if (is.null(datasheet) && is.null(project) && is.null(scenario) && 
+      is.null(folder) && is.null(chart)) {
+    
+    return(deleteLibrary(ssimObject, force, removeBackup, removePublish, 
+                         removeCustom, session))
   } else {
+    
     if (ssimObject == SyncroSimNotFound(warn = FALSE)) {
+      
       return(SyncroSimNotFound())
     }
     
     ssimObject <- .ssimLibrary(ssimObject)
-    return(delete(ssimObject, project, scenario, datasheet, force))
+    return(delete(ssimObject, project, scenario, folder, chart, datasheet, 
+                  force, session))
   }
 })
 
 #' @rdname delete
-setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, project, scenario, datasheet, force) {
+setMethod("delete", signature(ssimObject = "SsimObject"), 
+          function(ssimObject, project, scenario, folder, chart, datasheet, 
+                   force, session) {
+  
   ScenarioId <- NULL
   
-  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
+  xProjScn <- .getFromXProjScn(ssimObject, project = project, 
+                               scenario = scenario, folder = folder,
+                               chart = chart, returnIds = TRUE, 
+                               convertObject = FALSE, complainIfMissing = TRUE)
   
   # expect to have a vector of valid project or scenario ids - checking already done
   x <- xProjScn$ssimObject
@@ -78,10 +119,13 @@ setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, p
   
   if (goal == "library") {
     if (is.null(datasheet)) {
-      out <- deleteLibrary(ssimObject, force)
+      out <- deleteLibrary(ssimObject, force, removeBackup, removePublish, 
+                           removeCustom, session)
     } else {
       datasheets <- .datasheets(ssimObject)
-      out <- deleteDatasheet(datasheet, datasheets, cProj = NULL, cScn = NULL, cProjName = NULL, cScnName = NULL, force = force)
+      out <- deleteDatasheet(datasheet, datasheets, cProj = NULL, 
+                             cScn = NULL, cProjName = NULL, 
+                             cScnName = NULL, force = force)
     }
     
     if (out == "saved"){
@@ -96,133 +140,90 @@ setMethod("delete", signature(ssimObject = "SsimObject"), function(ssimObject, p
   }
   
   if (goal == "project") {
-    allProjects <- xProjScn$projectSet
     
     if (!is.numeric(project)) {
       stop("Error in delete: project ids are not numeric.")
     }
     
     if (!is.null(datasheet)) {
-      if (is.element(class(ssimObject), c("Project", "Scenario"))) {
-        datasheets <- .datasheets(ssimObject, refresh = TRUE)
-      } else {
-        datasheets <- .datasheets(.project(ssimObject, project = project[1]))
-      }
-    }
-    
-    out <- list()
-    for (i in seq(length.out = length(project))) {
-      cProj <- project[i]
-      name <- allProjects$name[allProjects$projectId == cProj]
-      
-      # If datasheets(s) specified delete them. Otherwise delete the projects.
-      if (!is.null(datasheet)) {
-        outBit <- deleteDatasheet(x, datasheet, datasheets, cProj = cProj, cScn = NULL, cProjName = name, cScnName = NULL, out = out, force = force)
-        
-        if (outBit == "saved"){ 
-          message(paste0("Datasheet " , datasheet, " deleted"))
-          outBit <- TRUE
-        } else{
-          message(outBit)
-          outBit <- FALSE
-        }
-        
-      } else {
-        if (force) {
-          answer <- "y"
-        } else {
-          answer <- readline(prompt = paste0("Do you really want to delete project ", name, "(", cProj, ")? (y/n): "))
-        }
-        if (answer == "y") {
-          outBit <- command(list(delete = NULL, project = NULL, lib = .filepath(x), pid = cProj, force = NULL), .session(x))
-        } else {
-          outBit <- paste0("Deletion of project " , cProj, " skipped")
-        }
-        
-        if (outBit == "saved"){ 
-          message(paste0("Project " , cProj, " deleted"))
-          outBit <- TRUE
-        } else{
-          message(outBit)
-          outBit <- FALSE
-        }
-        
-      }
-      
-      out[[as.character(cProj)]] <- outBit
-    }
-    
-    if (length(out) == 1) {
-      out <- out[[1]]
+      allProjects <- xProjScn$projectSet
+      out <- deleteProjectDatasheet(x, datasheet, project, allProjects, 
+                                    out = list(), force)
+    } else {
+      out <- deleteProject(x, project, out = list(), force)
     }
     
     return(invisible(out))
   }
   
   if (goal == "scenario") {
-    allScenarios <- xProjScn$scenarioSet
     
     if (!is.numeric(scenario)) {
       stop("Error in delete: expect to have valid scenario ids.")
     }
     
-    if (!is.null(datasheet)) {
-      if (is.element(class(ssimObject), c("Scenario"))) {
-        datasheets <- .datasheets(ssimObject, refresh = TRUE)
-        scenarioSet <- scenario(.ssimLibrary(ssimObject), summary = TRUE)
-      } else {
-        datasheets <- .datasheets(.scenario(ssimObject, scenario = scenario[1]))
-        scenarioSet <- scenario(ssimObject, summary = TRUE)
+    if (!is.null(datasheet)){
+      allScenarios <- xProjScn$scenarioSet
+      out <- deleteScenarioDatasheet(x, datasheet, scenario, allScenarios, 
+                                     out = list(), force)
+    } else {
+      out <- deleteScenario(x, scenario, out = list(), force)
+    }
+    
+    return(invisible(out))
+  }
+  
+  if (goal == "folder") {
+    
+    if (is.null(folder)) {
+      folderId <- .folderId(ssimObject)
+      folderName <- .name(ssimobject)
+    } else {
+      allFolders <- getFolderData(ssimObject)
+      
+      if (is.character(folder)) {
+        folderId <- subset(allFolders, Name %in% folder)$FolderId
+        folderName <- subset(allFolders, Name %in% folder)$Name
+      } else if (is.numeric(folder)){
+        folderId <- subset(allFolders, FolderId %in% folder)$FolderId
+        folderName <- subset(allFolders, FolderId %in% folder)$Name
       }
     }
     
-    out <- list()
-    for (i in seq(length.out = length(scenario))) {
-      cScn <- scenario[i]
-      name <- allScenarios$Name[allScenarios$ScenarioId == cScn]
-      
-      if (!is.null(datasheet)) {
-        cProj <- subset(scenarioSet, ScenarioId == cScn)$ProjectId
-        outBit <- deleteDatasheet(x, datasheet = datasheet, datasheets = datasheets, 
-                                  cProj = cProj, cScn = cScn, cProjName = "", 
-                                  cScnName = name, out = out, force = force)
-        
-        if (outBit == "saved"){ 
-          message(paste0("Datasheet " , datasheet, " deleted"))
-          outBit <- TRUE
-        } else{
-          message(outBit)
-          outBit <- FALSE
-        }
-        
-      } else {
-        if (force) {
-          answer <- "y"
-        } else {
-          answer <- readline(prompt = paste0("Do you really want to remove scenario ", name, "(", cScn, ")? (y/n): "))
-        }
-        if (answer == "y") {
-          outBit <- command(list(delete = NULL, scenario = NULL, lib = .filepath(x), sid = cScn, force = NULL), .session(x))
-        } else {
-          outBit <- paste0("Deletion of scenario " , cProj, " skipped")
-        }
-        
-        if (outBit == "saved"){ 
-          message(paste0("Scenario " ,cScn, " deleted"))
-          outBit <- TRUE
-        } else{
-          message(outBit)
-          outBit <- FALSE
-        }
-        
-      }
-      
-      out[[as.character(cScn)]] <- outBit
+    if (length(folderId) == 0){
+      stop(paste0("The specified folder(s) does not exist: ", 
+                  paste0(folder, collapse=",")))
     }
     
-    if (length(out) == 1) {
-      out <- out[[1]]
+    out <- deleteFolder(x, folderId, folderName, out = list(), force)
+    
+    return(invisible(out))
+  }
+  
+  if (goal == "chart") {
+    
+    if (is.null(chart)) {
+      chartId <- .chartId(ssimObject)
+      chartName <- .name(ssimObject)
+    } else {
+      allCharts <- getChartData(ssimObject)
+      
+      if (is.character(chart)) {
+        chartId <- subset(allCharts, Name %in% chart)$ChartId
+        chartName <- subset(allCharts, Name %in% chart)$Name
+      } else if (is.numeric(chart)){
+        chartId <- subset(allCharts, ChartId %in% chart)$ChartId
+        chartName <- subset(allCharts, ChartId %in% chart)$Name
+      }
     }
+    
+    if (length(chartId) == 0){
+      stop(paste0("The specified chart(s) does not exist: ", 
+                  paste0(chart, collapse=",")))
+    }
+    
+    out <- deleteChart(x, chartId, chartName, out = list(), force)
+    
     return(invisible(out))
   }
   
