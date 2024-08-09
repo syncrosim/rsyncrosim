@@ -354,6 +354,13 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
       tempFile <- paste0(pathBit, "/", "SSIM_OVERWRITE-", cName, ".csv")
     }
 
+    if (nchar(tempFile) >= 260){
+      msg <- paste("path to temporary files generated at runtime is longer", 
+                   " than 260 characters. This may result in a connection ",
+                   "error if long paths are not enabled on Windows machines.")
+      updateRunLog(msg, type = "warning")
+    }
+    
     write.csv(cDat, file = tempFile, row.names = FALSE, quote = TRUE)
     if (breakpoint) {
       out[[cName]] <- "Saved"
