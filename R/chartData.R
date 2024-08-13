@@ -50,25 +50,27 @@ setGeneric("chartData", function(chart, type = "Line", addX = NULL, addY = NULL,
 setMethod("chartData", signature(chart = "Chart"), 
           function(chart, type, addX, addY, removeX, removeY, timesteps, 
                    iterationType, iteration) {
-            
+  
   # Set arguments used throughout
   chartSession <- .session(chart)
+  proj <- .project(chart)
   libPath <- .filepath(.ssimLibrary(chart))
   chartPID <- .projectId(chart)
   chartCID <- .chartId(chart)
   consoleExe <- "SyncroSim.VizConsole.exe"
+  chartDSName <- "core_Chart"
   generalArgs <- list(lib = libPath, pid = chartPID, cid = chartCID)
   
-  # Set chart type
+  # Load chart configuration datasheet
+  ds <- .datasheet(proj, name = chartDSName, optional = T, 
+                   returnInvisible = T, includeKey = T, verbose = F)
+  
+  # Set chart type and save before adding any variables
   if (!type %in% c("Line", "Column")){
     stop("type must be one of 'Line' or 'Column'.")
-  }
-  
-  args <- append(list(set = NULL, `chart-type` = NULL, type = type), generalArgs)
-  tt <- command(args, session = chartSession, program = consoleExe)
-  
-  if (tt[1] != "saved"){
-    stop(paste("Failed to set Chart Type:", tt[1]))
+  } else {
+    ds[ds$ChartId == chartCID,]$ChartType <- paste0(type, " Chart")
+    saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
   }
   
   # Add x variables
@@ -77,7 +79,8 @@ setMethod("chartData", signature(chart = "Chart"),
     if (is.character(addX)){
       
       for (xVar in addX){
-        args <- append(list(set = NULL, `chart-variable-x` = NULL, var = xVar), generalArgs)
+        args <- append(list(set = NULL, chart = NULL, `variable-x` = NULL, 
+                            var = xVar), generalArgs)
         tt <- command(args, session = chartSession, program = consoleExe)
         
         if (tt[1] != "saved"){
@@ -95,7 +98,8 @@ setMethod("chartData", signature(chart = "Chart"),
     if (is.character(removeX)){
       
       for (xVar in removeX){
-        args <- append(list(clear = NULL, `chart-variable-x` = NULL, var = xVar), generalArgs)
+        args <- append(list(clear = NULL, chart = NULL, 
+                            `variable-x` = NULL, var = xVar), generalArgs)
         tt <- command(args, session = chartSession, program = consoleExe)
         
         if (tt[1] != "saved"){
@@ -113,7 +117,8 @@ setMethod("chartData", signature(chart = "Chart"),
     if (is.character(addY)){
       
       for (yVar in addY){
-        args <- append(list(set = NULL, `chart-variable-y` = NULL, var = yVar), generalArgs)
+        args <- append(list(set = NULL, chart = NULL, 
+                            `variable-y` = NULL, var = yVar), generalArgs)
         tt <- command(args, session = chartSession, program = consoleExe)
         
         if (tt[1] != "saved"){
@@ -131,7 +136,8 @@ setMethod("chartData", signature(chart = "Chart"),
     if (is.character(removeY)){
       
       for (yVar in removeY){
-        args <- append(list(clear = NULL, `chart-variable-y` = NULL, var = yVar), generalArgs)
+        args <- append(list(clear = NULL, chart = NULL, 
+                            `variable-y` = NULL, var = yVar), generalArgs)
         tt <- command(args, session = chartSession, program = consoleExe)
         
         if (tt[1] != "saved"){
@@ -156,11 +162,11 @@ setMethod("chartData", signature(chart = "Chart"),
       stop("timesteps must be a vector of integers")
     }
     
-    args <- append(list(set = NULL, `chart-timesteps` = NULL, timesteps = tsVar), generalArgs)
-    tt <- command(args, session = chartSession, program = consoleExe)
-    
-    if (tt[1] != "saved"){
-      stop(paste("Failed to set Chart Timesteps:", tt[1]))
+    dsRow <- ds[ds$ChartId == chartCID,]
+    if (dsRow$ChartType == "Column Chart"){
+      ds[ds$ChartId == chartCID,]$TimestepsColumn <- tsVar
+    } else {
+      ds[ds$ChartId == chartCID,]$TimestepsLine <- tsVar
     }
   }
             
@@ -171,12 +177,7 @@ setMethod("chartData", signature(chart = "Chart"),
       stop("iterationType must be one of 'Mean', 'Single', or 'All'.")
     }
     
-    args <- append(list(set = NULL, `chart-iter-type` = NULL, `iter-type` = iterationType), generalArgs)
-    tt <- command(args, session = chartSession, program = consoleExe)
-    
-    if (tt[1] != "saved"){
-      stop(paste("Failed to set Chart Iteration Type.", tt[1]))
-    }
+    ds[ds$ChartId == chartCID,]$IterationType <- iterationType
   }  
   
   # Set iteration
@@ -188,13 +189,10 @@ setMethod("chartData", signature(chart = "Chart"),
       stop("iteration must be a single integer.")
     }
     
-    args <- append(list(set = NULL, `chart-iteration` = NULL, iter = itVar), generalArgs)
-    tt <- command(args, session = chartSession, program = consoleExe)
-    
-    if (tt[1] != "saved"){
-      stop(paste("Failed to set Chart Iteration:", tt[1]))
-    }
+    ds[ds$ChartId == chartCID,]$Iteration <- iteration
   }
+  
+  saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
   
   return(chart)
 })

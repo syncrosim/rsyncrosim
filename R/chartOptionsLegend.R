@@ -47,6 +47,7 @@ setMethod("chartOptionsLegend", signature(chart = "Chart"),
                    showStageName, showTimestamp) {
   
   # Grab project and chart ID from chart
+  browser()
   proj <- .project(chart)
   chartCID <- .chartId(chart)
   chartDSName <- "core_Chart"

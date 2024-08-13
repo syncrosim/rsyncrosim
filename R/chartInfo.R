@@ -89,7 +89,7 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
       
       df <- data.frame()
       
-      args <- list(list = NULL, `chart-criteria-y` = NULL, lib = libPath, 
+      args <- list(list = NULL, chart = NULL, `criteria-y` = NULL, lib = libPath, 
                    pid = chartPID, cid = chartCID, csv = NULL)
       yResult <- command(args, session = chartSession, program = consoleExe)
       yResult <- .dataframeFromSSim(yResult)
@@ -99,7 +99,7 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
         df <- yResult
       }
       
-      args <- list(list = NULL, `chart-criteria-x` = NULL, lib = libPath, 
+      args <- list(list = NULL, chart = NULL, `criteria-x` = NULL, lib = libPath, 
                    pid = chartPID, cid = chartCID, csv = NULL)
       xResult <- command(args, session = chartSession, program = consoleExe)
       xResult <- .dataframeFromSSim(xResult)
@@ -113,7 +113,7 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
     }
     
     else if (returnAllChart){
-      args <- list(list = NULL, `chart-variables` = NULL, lib = libPath, 
+      args <- list(list = NULL, chart = NULL, `variables` = NULL, lib = libPath, 
                    pid = chartPID, csv = NULL)
       df <- command(args, session = chartSession, program = consoleExe)
       df <- .dataframeFromSSim(df)

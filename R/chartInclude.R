@@ -66,9 +66,9 @@ setMethod("chartInclude", signature(chart = "Chart"),
     }
     
     if (axis == "X"){
-      generalArgs <- append(list(`chart-include-x` = NULL), generalArgs)
+      generalArgs <- append(list(chart = NULL, `include-x` = NULL), generalArgs)
     } else if (axis == "Y"){
-      generalArgs <- append(list(`chart-include-y` = NULL), generalArgs)
+      generalArgs <- append(list(chart = NULL, `include-y` = NULL), generalArgs)
     } else {
       stop("axis argument must be 'X' or 'Y'.")
     }
@@ -95,8 +95,8 @@ setMethod("chartInclude", signature(chart = "Chart"),
         
         addValueString <- paste(addValueIDs, collapse=",")
           
-        args <- append(list(set = NULL, var = variable, col = filter, 
-                            ids = addValueString), generalArgs)
+        args <- append(list(set = NULL, chart = NULL, var = variable, 
+                            col = filter, ids = addValueString), generalArgs)
         tt <- command(args, session = chartSession, program = consoleExe)
           
         if (tt[1] != "saved"){

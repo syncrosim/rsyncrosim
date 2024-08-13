@@ -507,7 +507,7 @@ getChartData <- function(x) {
   ChartId = NULL
   X = NULL
   
-  args <- list(lib = .filepath(x), list = NULL, 
+  args <- list(lib = .filepath(x), chart = NULL, list = NULL, 
                charts = NULL, pid = .projectId(x))
   tt <- command(args = args, session = .session(x), 
                 program = "SyncroSim.VizConsole.exe")

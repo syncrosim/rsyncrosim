@@ -62,7 +62,7 @@ setMethod("chartDisagg", signature(chart = "Chart"),
       if (is.character(addFilter)){
         
         for (filterCol in addFilter){
-          args <- append(list(set = NULL, `chart-disagg-y` = NULL, 
+          args <- append(list(set = NULL, chart = NULL, `disagg-y` = NULL, 
                               var = variable, col = filterCol), generalArgs)
           tt <- command(args, session = chartSession, program = consoleExe)
           
@@ -81,7 +81,7 @@ setMethod("chartDisagg", signature(chart = "Chart"),
       if (is.character(removeFilter)){
         
         for (filterCol in removeFilter){
-          args <- append(list(clear = NULL, `chart-disagg-y` = NULL, 
+          args <- append(list(clear = NULL, chart = NULL, `disagg-y` = NULL, 
                               var = variable, col = filterCol), generalArgs)
           tt <- command(args, session = chartSession, program = consoleExe)
           
