@@ -110,6 +110,37 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
         xResult[missingCol] <- "N/A" 
         df <- rbind(df, xResult)
       }
+      
+      # Grab list of chart information for project to match names
+      if (is(ssimObject, "Project")){
+        ssimProj <- ssimObject
+      } else {
+        ssimProj <- .project(ssimObject)
+      }
+      
+      browser()
+      # dissagregateBy should match filter values in projectChartInfo
+      for (i in 1:nrow(df)){
+        dfRow <- df[i,]
+        chartFilters <- strsplit(dfRow$disaggregateBy, split = "|", 
+                                 fixed = TRUE)[[1]]
+        availableFilters <- chartInfo(ssimProj, variable = dfRow$variable)
+        finalFilters <- c()
+        
+        for (cf in chartFilters) {
+          for (af in availableFilters) {
+            if (tolower(cf) == tolower(af)) {
+              finalFilters <- c(finalFilters, af)
+            }
+          }
+        }
+        
+        if (length(finalFilters == 0)){
+          df[i, "disaggregateBy"] <- "N/A"
+        }
+        
+        df[i, "disaggregateBy"] <- paste(finalFilters, collapse = '|')
+      }
     }
     
     else if (returnAllChart){
