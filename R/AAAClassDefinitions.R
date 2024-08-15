@@ -128,9 +128,7 @@ Project <- setClass("Project", contains = "SsimObject",
 #' @rdname Folder-class
 #' @export Folder
 Folder <- setClass("Folder", contains = "SsimObject",
-                   representation(session = "Session", 
-                                  filepath = "character", 
-                                  folderId = "numeric", 
+                   representation(folderId = "numeric", 
                                   parentId = "numeric", 
                                   projectId = "numeric"))
 
@@ -151,9 +149,7 @@ Folder <- setClass("Folder", contains = "SsimObject",
 #' @rdname Chart-class
 #' @export Chart
 Chart <- setClass("Chart", contains = "SsimObject", 
-                  representation(session = "Session", 
-                                 filepath = "character", 
-                                 chartId = "numeric",
+                  representation(chartId = "numeric",
                                  projectId = "numeric"))
 
 

@@ -65,12 +65,17 @@ setMethod("chartData", signature(chart = "Chart"),
   ds <- .datasheet(proj, name = chartDSName, optional = T, 
                    returnInvisible = T, includeKey = T, verbose = F)
   
+  browser()
+  
   # Set chart type and save before adding any variables
   if (!type %in% c("Line", "Column")){
     stop("type must be one of 'Line' or 'Column'.")
   } else {
-    ds[ds$ChartId == chartCID,]$ChartType <- paste0(type, " Chart")
-    saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
+    chartType <- paste0(type, " Chart")
+    if (ds[ds$ChartId == chartCID,]$ChartType != chartType) {
+      ds[ds$ChartId == chartCID,]$ChartType <- chartType
+      saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
+    }
   }
   
   # Add x variables
@@ -152,12 +157,12 @@ setMethod("chartData", signature(chart = "Chart"),
   # Set timesteps
   if (!is.null(timesteps)){
     
-    if (is.numeric(timesteps)){
+    if (is.numeric(timesteps) && length(timesteps) == 1){
       tsVar <- as.character(timesteps)
     } else if (is.vector(timesteps) && all(sapply(timesteps, is.numeric))){
       timesteps <- sapply(timesteps, as.integer)
       timesteps <- sapply(timesteps, as.character)
-      tsVar <- paste0(timesteps, collapse=",")
+      tsVar <- paste0(timesteps, collapse=" - ")
     } else{
       stop("timesteps must be a vector of integers")
     }

@@ -118,14 +118,16 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
         ssimProj <- .project(ssimObject)
       }
       
-      browser()
       # dissagregateBy should match filter values in projectChartInfo
       for (i in 1:nrow(df)){
         dfRow <- df[i,]
         chartFilters <- strsplit(dfRow$disaggregateBy, split = "|", 
                                  fixed = TRUE)[[1]]
+        chartIncludeData <- strsplit(dfRow$includeDataFor, split = "|", 
+                                     fixed = TRUE)[[1]]
         availableFilters <- chartInfo(ssimProj, variable = dfRow$variable)
         finalFilters <- c()
+        finalIncludeData <- c()
         
         for (cf in chartFilters) {
           for (af in availableFilters) {
@@ -135,11 +137,30 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
           }
         }
         
-        if (length(finalFilters == 0)){
+        if (length(finalFilters) == 0){
           df[i, "disaggregateBy"] <- "N/A"
+        } else {
+          df[i, "disaggregateBy"] <- paste(finalFilters, collapse = '|')
         }
         
-        df[i, "disaggregateBy"] <- paste(finalFilters, collapse = '|')
+        for (cid in chartIncludeData) {
+          for (af in availableFilters) {
+            includeData <- strsplit(cid, split = "=", fixed = TRUE)[[1]]
+            includeDataFilter <- includeData[1]
+            includeDataValue <- includeData[2]
+            
+            if (tolower(includeDataFilter) == tolower(af)) {
+              newIncludeDataString <- paste0(af, "=", includeDataValue)
+              finalIncludeData <- c(finalIncludeData, newIncludeDataString)
+            }
+          }
+        }
+        
+        if (length(finalIncludeData) == 0){
+          df[i, "includeDataFor"] <- "N/A"
+        } else {
+          df[i, "includeDataFor"] <- paste(finalIncludeData, collapse = '|')
+        }
       }
     }
     
