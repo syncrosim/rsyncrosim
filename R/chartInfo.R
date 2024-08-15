@@ -120,14 +120,16 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
       
       # dissagregateBy should match filter values in projectChartInfo
       for (i in 1:nrow(df)){
+        
+        if (nrow(df) == 0){
+          break
+        }
+        
         dfRow <- df[i,]
+        availableFilters <- chartInfo(ssimProj, variable = dfRow$variable)
         chartFilters <- strsplit(dfRow$disaggregateBy, split = "|", 
                                  fixed = TRUE)[[1]]
-        chartIncludeData <- strsplit(dfRow$includeDataFor, split = "|", 
-                                     fixed = TRUE)[[1]]
-        availableFilters <- chartInfo(ssimProj, variable = dfRow$variable)
         finalFilters <- c()
-        finalIncludeData <- c()
         
         for (cf in chartFilters) {
           for (af in availableFilters) {
@@ -142,6 +144,10 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
         } else {
           df[i, "disaggregateBy"] <- paste(finalFilters, collapse = '|')
         }
+          
+        chartIncludeData <- strsplit(dfRow$includeDataFor, split = "|", 
+                                     fixed = TRUE)[[1]]
+        finalIncludeData <- c()
         
         for (cid in chartIncludeData) {
           for (af in availableFilters) {
@@ -194,7 +200,7 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
           displayNameDS <- gsub(".*formula1\\^(.+)\\!formula2.*", "\\1", df_filtered$properties)
           valuesDS <- .datasheet(myProject, name = displayNameDS, rawValues = T, includeKey = T)
           names(valuesDS) <- c("ID", "Name")
-          return(valuesDS)
+          return(valuesDS[1:2])
         }
       }
     }

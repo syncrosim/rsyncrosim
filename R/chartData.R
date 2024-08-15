@@ -65,8 +65,6 @@ setMethod("chartData", signature(chart = "Chart"),
   ds <- .datasheet(proj, name = chartDSName, optional = T, 
                    returnInvisible = T, includeKey = T, verbose = F)
   
-  browser()
-  
   # Set chart type and save before adding any variables
   if (!type %in% c("Line", "Column")){
     stop("type must be one of 'Line' or 'Column'.")
@@ -74,9 +72,59 @@ setMethod("chartData", signature(chart = "Chart"),
     chartType <- paste0(type, " Chart")
     if (ds[ds$ChartId == chartCID,]$ChartType != chartType) {
       ds[ds$ChartId == chartCID,]$ChartType <- chartType
-      saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
     }
   }
+  
+  # Set timesteps
+  if (!is.null(timesteps)){
+    
+    if (is.numeric(timesteps) && length(timesteps) == 1){
+      tsVar <- as.character(timesteps)
+    } else if (is.vector(timesteps) && all(sapply(timesteps, is.numeric))){
+      timesteps <- sapply(timesteps, as.integer)
+      timesteps <- sapply(timesteps, as.character)
+      tsVar <- paste0(timesteps, collapse=" - ")
+    } else{
+      stop("timesteps must be a vector of integers")
+    }
+    
+    dsRow <- ds[ds$ChartId == chartCID,]
+    if (dsRow$ChartType == "Column Chart"){
+      ds[ds$ChartId == chartCID,]$TimestepsColumn <- tsVar
+    } else {
+      ds[ds$ChartId == chartCID,]$TimestepsLine <- tsVar
+    }
+  }
+  
+  # Set iteration type
+  if (!is.null(iterationType)){
+    
+    if (!iterationType %in% c("Mean", "Single", "All")){
+      stop("iterationType must be one of 'Mean', 'Single', or 'All'.")
+    }
+    
+    if (iterationType == "Single"){
+      iterationType <- "Single Iteration"
+    } else if (iterationType == "All"){
+      iterationType <- "All Iterations"
+    }
+    
+    ds[ds$ChartId == chartCID,]$IterationType <- iterationType
+  }  
+  
+  # Set iteration
+  if (!is.null(iteration)){
+    
+    if (is.numeric(iteration)){
+      itVar <- as.character(iteration)
+    } else{
+      stop("iteration must be a single integer.")
+    }
+    
+    ds[ds$ChartId == chartCID,]$Iteration <- iteration
+  }
+  
+  saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
   
   # Add x variables
   if (!is.null(addX)){
@@ -153,51 +201,6 @@ setMethod("chartData", signature(chart = "Chart"),
       stop("y must be a character or vector of characters.")
     }
   }
-            
-  # Set timesteps
-  if (!is.null(timesteps)){
-    
-    if (is.numeric(timesteps) && length(timesteps) == 1){
-      tsVar <- as.character(timesteps)
-    } else if (is.vector(timesteps) && all(sapply(timesteps, is.numeric))){
-      timesteps <- sapply(timesteps, as.integer)
-      timesteps <- sapply(timesteps, as.character)
-      tsVar <- paste0(timesteps, collapse=" - ")
-    } else{
-      stop("timesteps must be a vector of integers")
-    }
-    
-    dsRow <- ds[ds$ChartId == chartCID,]
-    if (dsRow$ChartType == "Column Chart"){
-      ds[ds$ChartId == chartCID,]$TimestepsColumn <- tsVar
-    } else {
-      ds[ds$ChartId == chartCID,]$TimestepsLine <- tsVar
-    }
-  }
-            
-  # Set iteration type
-  if (!is.null(iterationType)){
-    
-    if (!iterationType %in% c("Mean", "Single", "All")){
-      stop("iterationType must be one of 'Mean', 'Single', or 'All'.")
-    }
-    
-    ds[ds$ChartId == chartCID,]$IterationType <- iterationType
-  }  
-  
-  # Set iteration
-  if (!is.null(iteration)){
-    
-    if (is.numeric(iteration)){
-      itVar <- as.character(iteration)
-    } else{
-      stop("iteration must be a single integer.")
-    }
-    
-    ds[ds$ChartId == chartCID,]$Iteration <- iteration
-  }
-  
-  saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
   
   return(chart)
 })
