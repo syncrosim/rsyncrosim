@@ -216,7 +216,7 @@ setMethod("ssimLibrary", signature(name = "SsimObject"),
 #' @rdname ssimLibrary
 setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"), 
           function(name = NULL, summary = NULL, packages, session, overwrite, useConda) {
-           
+          
   if (is.null(session)) {
     session <- .session()
   }
@@ -230,6 +230,17 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"),
   # Add specified packages to the library
   packageOptions <- .packages(session, installed = TRUE)
   addedPackages <- .packages(newLib)
+  
+  # Check to make sure status of added packages is "OK"
+  for (i in 1:nrow(addedPackages)){
+    pkgRow <- addedPackages[i,]
+    if (pkgRow$status != "OK"){
+      warning(paste0(
+        "The following package associated with this library is not properly installed: ", 
+        pkgRow$name, " v", pkgRow$version, "\n\tUse installPackage(packages = '", 
+        pkgRow$name, "', versions = '", pkgRow$version, "') to install."))
+    }
+  }
   
   if (!is.null(packages)) {
     for (pkg in packages){
