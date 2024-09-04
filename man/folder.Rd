@@ -7,7 +7,13 @@
 \usage{
 chart(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
 
-folder(ssimObject = NULL, folder = NULL, parentFolder = NULL, create = FALSE)
+folder(
+  ssimObject = NULL,
+  folder = NULL,
+  parentFolder = NULL,
+  summary = FALSE,
+  create = FALSE
+)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}} or \code{\link{Project}} object.}
@@ -25,9 +31,9 @@ return the existing folder with the given name. If \code{TRUE}, then will
 return a new folder with the same name as an existing folder (but different
 folder ID)}
 
-\item{summary}{logical. If \code{TRUE}, returns a summary of chart
-information as an R data.frame. If \code{FALSE} (Default), then returns
-a SyncroSim Chart object}
+\item{summary}{logical. If \code{FALSE}, then returns a folder object. If
+\code{TRUE}, then returns a dataframe of information about the specified
+folder}
 
 \item{folder}{character or integer. If character, then will either open an
 existing folder if \code{create=FALSE}, or will create a new folder with the

@@ -12,8 +12,7 @@ run(
   scenario = NULL,
   summary = FALSE,
   copyExternalInputs = FALSE,
-  transformerName = NULL,
-  forceElements = FALSE
+  transformerName = NULL
 )
 
 \S4method{run}{character}(
@@ -21,8 +20,7 @@ run(
   scenario = NULL,
   summary = FALSE,
   copyExternalInputs = FALSE,
-  transformerName = NULL,
-  forceElements = FALSE
+  transformerName = NULL
 )
 
 \S4method{run}{list}(
@@ -30,8 +28,7 @@ run(
   scenario = NULL,
   summary = FALSE,
   copyExternalInputs = FALSE,
-  transformerName = NULL,
-  forceElements = FALSE
+  transformerName = NULL
 )
 
 \S4method{run}{SsimObject}(
@@ -39,8 +36,7 @@ run(
   scenario = NULL,
   summary = FALSE,
   copyExternalInputs = FALSE,
-  transformerName = NULL,
-  forceElements = FALSE
+  transformerName = NULL
 )
 }
 \arguments{
@@ -61,10 +57,6 @@ copy of external inputs is created for each multiprocessing job. Applies only wh
 the number of jobs is set to >1 in the core_Multiprocessing datasheet.}
 
 \item{transformerName}{character.  The name of the transformer to run (optional)}
-
-\item{forceElements}{logical. If \code{TRUE} then returns a single result Scenario
-as a named list; if \code{FALSE} (default) returns a single result Scenario as
-a Scenario object. Applies only when \code{summary=FALSE}}
 }
 \value{
 If \code{summary = FALSE}, returns a result Scenario object or a named list
@@ -79,30 +71,24 @@ Note that breakpoints are ignored unless the SsimObject is a single Scenario.
 }
 \examples{
 \dontrun{
-# Install helloworldSpatial package
-installPackage("helloworldSpatial")
-
 # Set the file path and name of the new SsimLibrary
-myLibraryName <- file.path(tempdir(),"testlib")
+myLibraryName <- "testlib"
 
 # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
-mySession <- session(printCmd=T)
 myLibrary <- ssimLibrary(name = myLibraryName,
-                         session = mySession, 
-                         package = "helloworldSpatial",
-                         template = "example-library",
-                         forceUpdate = TRUE)
+                         packages = "helloworldSpatial")
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
+myScenario2 <- scenario(myProject, scenario = "My Scenario 2")
 
 # Run with default parameters
 resultScenario <- run(myScenario)
 
 # Only return summary information
-resultScenario <- run(myScenario, summary = TRUE)
+resultScenarioSummary <- run(myScenario, summary = TRUE)
 
-# Return results as a named list
-resultScenario <- run(myScenario, forceElements = TRUE)
+# Run 2 scenarios at once
+resultScenarios <- run(c(myScenario, myScenario2))
 }
 
 }
