@@ -52,8 +52,9 @@ setMethod("chartErrorBar", signature(chart = "Chart"),
     chartDSName <- "core_Chart"
     
     # Load chart configuration datasheet
-    ds <- .datasheet(proj, name = chartDSName, optional = T, 
-                     returnInvisible = T, includeKey = T)
+    invisible(capture.output(ds <- .datasheet(proj, name = chartDSName, 
+                                              optional = T, returnInvisible = T, 
+                                              includeKey = T)))
     
     if (is.null(type)){
       ds <- ds[ds$ChartId == chartCID,]
@@ -75,13 +76,17 @@ setMethod("chartErrorBar", signature(chart = "Chart"),
       if (is.numeric(lower)){
         ds[ds$ChartId == chartCID,]$ErrorBarMinPercentile <- lower
       } else {
-        stop("Invalid lower percentile value:", lower)
+        if (is.na(ds[ds$ChartId == chartCID,]$ErrorBarMinPercentile)){
+          stop("Invalid lower percentile value:", lower)
+        }
       }
       
       if (is.numeric(upper)){
         ds[ds$ChartId == chartCID,]$ErrorBarMaxPercentile <- upper
       } else {
-        stop("Invalid upper percentile value:", upper)
+        if (is.na(ds[ds$ChartId == chartCID,]$ErrorBarMaxPercentile)){
+          stop("Invalid upper percentile value:", upper)
+        }
       }
       
     } else {

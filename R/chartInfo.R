@@ -45,18 +45,18 @@ NULL
 #' myChart <- chart(myProject, chart = "New Chart")
 #' 
 #' # Retrieve variables that can be used to create new charts
-#' chartInfo(myProject)
+#' chartCriteria(myProject)
 #' 
 #' # Retrieve variables being used by existing chart
-#' chartInfo(myChart)
+#' chartCriteria(myChart)
 #' }
 #' 
 #' @export
-setGeneric("chartInfo", function(ssimObject, chart = NULL, variable = NULL, 
-                                 filter = NULL) standardGeneric("chartInfo"))
+setGeneric("chartCriteria", function(ssimObject, chart = NULL, variable = NULL, 
+                                 filter = NULL) standardGeneric("chartCriteria"))
 
-#' @rdname chartInfo
-setMethod("chartInfo", signature(ssimObject = "SsimObject"), 
+#' @rdname chartCriteria
+setMethod("chartCriteria", signature(ssimObject = "SsimObject"), 
           function(ssimObject, chart, variable, filter) {
 
     # Set arguments used throughout
@@ -118,7 +118,7 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
         ssimProj <- .project(ssimObject)
       }
       
-      # dissagregateBy should match filter values in projectChartInfo
+      # dissagregateBy should match filter values in projectchartCriteria
       for (i in 1:nrow(df)){
         
         if (nrow(df) == 0){
@@ -126,7 +126,7 @@ setMethod("chartInfo", signature(ssimObject = "SsimObject"),
         }
         
         dfRow <- df[i,]
-        availableFilters <- chartInfo(ssimProj, variable = dfRow$variable)
+        availableFilters <- chartCriteria(ssimProj, variable = dfRow$variable)
         chartFilters <- strsplit(dfRow$disaggregateBy, split = "|", 
                                  fixed = TRUE)[[1]]
         finalFilters <- c()
