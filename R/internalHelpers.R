@@ -209,9 +209,13 @@ deleteScenarioDatasheet <- function(x, datasheet, scenario,
   return(out)
 }
 
-deleteScenario <- function(x, scenario, out = list(), force){
+deleteScenario <- function(x, scenario, allScenarios, out = list(), force){
   
   for (i in seq(length.out = length(scenario))) {
+    cScn <- scenario[i]
+    name <- allScenarios$Name[allScenarios$ScenarioId == cScn]
+    
+    cProj <- subset(allScenarios, ScenarioId == cScn)$ProjectId
     
     if (force) {
       answer <- "y"

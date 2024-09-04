@@ -80,7 +80,7 @@ setGeneric("delete",
 setMethod("delete", signature(ssimObject = "character"), 
           function(ssimObject, project, scenario, folder, chart, datasheet, 
                    force, removeBackup, removePublish, removeCustom, session) {
-            
+          
   if (is.null(datasheet) && is.null(project) && is.null(scenario) && 
       is.null(folder) && is.null(chart)) {
     
@@ -110,6 +110,60 @@ setMethod("delete", signature(ssimObject = "SsimObject"),
                                scenario = scenario, folder = folder,
                                chart = chart, returnIds = TRUE, 
                                convertObject = FALSE, complainIfMissing = TRUE)
+  
+  if (is(xProjScn, "Folder")) {
+    
+    if (is.null(folder)) {
+      folderId <- .folderId(ssimObject)
+      folderName <- .name(ssimobject)
+    } else {
+      allFolders <- getFolderData(ssimObject)
+      
+      if (is.character(folder)) {
+        folderId <- subset(allFolders, Name %in% folder)$FolderId
+        folderName <- subset(allFolders, Name %in% folder)$Name
+      } else if (is.numeric(folder)){
+        folderId <- subset(allFolders, FolderId %in% folder)$FolderId
+        folderName <- subset(allFolders, FolderId %in% folder)$Name
+      }
+    }
+    
+    if (length(folderId) == 0){
+      stop(paste0("The specified folder(s) does not exist: ", 
+                  paste0(folder, collapse=",")))
+    }
+    
+    out <- deleteFolder(xProjScn, folderId, folderName, out = list(), force)
+    
+    return(invisible(out))
+  }
+  
+  if (is(xProjScn, "Chart")) {
+    
+    if (is.null(chart)) {
+      chartId <- .chartId(ssimObject)
+      chartName <- .name(ssimObject)
+    } else {
+      allCharts <- getChartData(ssimObject)
+      
+      if (is.character(chart)) {
+        chartId <- subset(allCharts, Name %in% chart)$ChartId
+        chartName <- subset(allCharts, Name %in% chart)$Name
+      } else if (is.numeric(chart)){
+        chartId <- subset(allCharts, ChartId %in% chart)$ChartId
+        chartName <- subset(allCharts, ChartId %in% chart)$Name
+      }
+    }
+    
+    if (length(chartId) == 0){
+      stop(paste0("The specified chart(s) does not exist: ", 
+                  paste0(chart, collapse=",")))
+    }
+    
+    out <- deleteChart(xProjScn, chartId, chartName, out = list(), force)
+    
+    return(invisible(out))
+  }
   
   # expect to have a vector of valid project or scenario ids - checking already done
   x <- xProjScn$ssimObject
@@ -167,65 +221,14 @@ setMethod("delete", signature(ssimObject = "SsimObject"),
       out <- deleteScenarioDatasheet(x, datasheet, scenario, allScenarios, 
                                      out = list(), force)
     } else {
-      out <- deleteScenario(x, scenario, out = list(), force)
+      allScenarios <- xProjScn$scenarioSet
+      out <- deleteScenario(x, scenario, allScenarios, out = list(), force)
     }
     
     return(invisible(out))
   }
   
-  if (goal == "folder") {
-    
-    if (is.null(folder)) {
-      folderId <- .folderId(ssimObject)
-      folderName <- .name(ssimobject)
-    } else {
-      allFolders <- getFolderData(ssimObject)
-      
-      if (is.character(folder)) {
-        folderId <- subset(allFolders, Name %in% folder)$FolderId
-        folderName <- subset(allFolders, Name %in% folder)$Name
-      } else if (is.numeric(folder)){
-        folderId <- subset(allFolders, FolderId %in% folder)$FolderId
-        folderName <- subset(allFolders, FolderId %in% folder)$Name
-      }
-    }
-    
-    if (length(folderId) == 0){
-      stop(paste0("The specified folder(s) does not exist: ", 
-                  paste0(folder, collapse=",")))
-    }
-    
-    out <- deleteFolder(x, folderId, folderName, out = list(), force)
-    
-    return(invisible(out))
-  }
-  
-  if (goal == "chart") {
-    
-    if (is.null(chart)) {
-      chartId <- .chartId(ssimObject)
-      chartName <- .name(ssimObject)
-    } else {
-      allCharts <- getChartData(ssimObject)
-      
-      if (is.character(chart)) {
-        chartId <- subset(allCharts, Name %in% chart)$ChartId
-        chartName <- subset(allCharts, Name %in% chart)$Name
-      } else if (is.numeric(chart)){
-        chartId <- subset(allCharts, ChartId %in% chart)$ChartId
-        chartName <- subset(allCharts, ChartId %in% chart)$Name
-      }
-    }
-    
-    if (length(chartId) == 0){
-      stop(paste0("The specified chart(s) does not exist: ", 
-                  paste0(chart, collapse=",")))
-    }
-    
-    out <- deleteChart(x, chartId, chartName, out = list(), force)
-    
-    return(invisible(out))
-  }
+
   
   stop("Error in delete().")
 })
