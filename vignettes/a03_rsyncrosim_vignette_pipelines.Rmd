@@ -134,7 +134,7 @@ From the list of datasheets above, we can see that there are four datasheets spe
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
-Currently our input scenario datasheets are empty! We need to add some values to our input datasheet (`InputDatasheet`) and Run Control datasheet (`RunControl`) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core `Pipeline` Datasheet to specify which transformers are run in which order.
+Currently our input scenario datasheets are empty! We need to add some values to our input datasheet (`InputDatasheet`) and run control datasheet (`RunControl`) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core `Pipeline` datasheet to specify which transformers are run in which order.
 
 **Input Datasheet**
 
