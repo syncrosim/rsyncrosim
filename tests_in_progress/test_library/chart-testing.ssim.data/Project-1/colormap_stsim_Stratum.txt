@@ -1,0 +1,4 @@
+# Syncrosim Generated State Class Color Map (QGIS-compatible),,,,,
+INTERPOLATION:EXACT
+1,255,255,128,255,Meadow
+2,0,128,0,255,Treeline

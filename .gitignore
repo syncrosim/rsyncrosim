@@ -7,9 +7,9 @@ installRSyncroSim.R
 gitIncantations.txt
 *.suo
 *.user
-*.ssim
+# *.ssim
 *.ssim.input/
-*.ssim.temp/
+# *.ssim.temp/
 *.ssim.output/
 *.ssim.backup/
 *.tex
@@ -28,4 +28,4 @@ debugging.R
 binaries/
 # Don't build R-CMD-check (broken)
 **/R-CMD-check.yml
-tests_in_progress/
+# tests_in_progress/

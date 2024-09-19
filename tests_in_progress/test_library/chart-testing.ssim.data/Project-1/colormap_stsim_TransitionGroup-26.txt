@@ -1,0 +1,4 @@
+# Syncrosim Generated Transition Group (Snowfall [Type]) Color Map (QGIS-compatible) Export File,,,,,
+INTERPOLATION:EXACT
+2,0,128,255,255,Snowfall
+0,232,232,232,255,No Occurrence
