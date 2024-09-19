@@ -11,7 +11,7 @@ gitIncantations.txt
 *.ssim.input/
 # *.ssim.temp/
 *.ssim.output/
-*.ssim.backup/
+# *.ssim.backup/
 *.tex
 /vignettes/rsyncrosim_tutorial.html
 /vignettes/demoLib.ssim.temp/RSyncroSim
