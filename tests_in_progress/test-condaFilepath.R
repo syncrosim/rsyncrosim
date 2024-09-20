@@ -1,0 +1,27 @@
+mySession1 <- session()
+mySession2 <- session()
+myLibraryName <- file.path(tempdir(),"testlib.ssim")
+myLibrary1 <- ssimLibrary(name = myLibraryName, session = mySession1)
+myLibrary2 <- ssimLibrary(name = myLibraryName, session = mySession2)
+myProject1 <- project(myLibrary1, project = "My Project")
+myProject2 <- project(myLibrary2, project = "My Project")
+myScenario1 <- scenario(myProject1, scenario = "My Scenario")
+myScenario2 <- scenario(myProject2, scenario = "My Scenario")
+
+test_that("name class", {
+  expect_equal(condaFilepath(mySession1), NULL)
+  expect_type(condaFilepath(mySession1), "NULL")
+  expect_equal((condaFilepath(mySession2) <- "C:/Users/GabrielleEdnie/miniconda3"), "C:/Users/GabrielleEdnie/miniconda3")
+  expect_type((condaFilepath(mySession2) <- "C:/Users/GabrielleEdnie/miniconda3"), "character")
+})
+
+test_that("errors work", {
+  #expect_warning(expect_warning(condaFilepath("mySession1")))
+  expect_error(condaFilepath(mySession2) <- C("C:/Users/GabrielleEdnie/miniconda3"))
+  expect_error(condaFilepath(list("C:/Users/GabrielleEdnie/miniconda3")))
+  #expect_warning(expect_warning(condaFilepath("myLibrary1")))
+  #expect_warning(expect_warning(condaFilepath("C:/Users/GabrielleEdnie/miniconda3")))
+  expect_error(condaFilepath(myLibrary1))
+  expect_error(condaFilepath(myProject1))
+  expect_error(condaFilepath(myScenario1))
+})

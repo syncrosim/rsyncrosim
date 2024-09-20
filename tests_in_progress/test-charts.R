@@ -1,4 +1,21 @@
-# Chart testing
+### ApexRMS
+### 2024-09-20
+### Below script tests the following functions:
+### * chart
+### * chartCriteria
+### * chartData
+### * chartDisagg
+### * chartInclude
+### * chartErrorBar
+### * chartOptions
+### * chartOptionsFont
+### * chartOptionsLegend
+### * chartOptionsFormat
+### * readOnly
+### * name
+### * delete
+
+# Setup ----
 library(rsyncrosim)
 
 # set up library
@@ -18,9 +35,9 @@ myScenario <- scenario(myProject, scenario = "Snow cover")
 # view datasheets
 datasheet(myScenario)
 
-# testing functions ----------------------------------------------
+# Tests ----
 
-# testing chart function ------------------------
+# testing chart function --
 
 # get list of charts in the project
 chart(myProject)
@@ -35,12 +52,12 @@ chart(myScenario)
 myChart <- chart(myScenario,
                  chart = "Test Chart")
 
-# testing chartCriteria function -----------------
+# testing chartCriteria function --
 
 # get information about Test Chart
 chartCriteria(myChart)
 
-# testing chartData function ----------------------
+# testing chartData function --
 
 # Change chart type to "column"
 myChart <- chartData(myChart,
@@ -83,7 +100,7 @@ myChart <- chartData(myChart,
 # view chart information
 chart(myChart)
 
-# testing chartDisagg function ------------------------
+# testing chartDisagg function --
 # look up potential filter columns
 datasheet(myScenario, name = "stsim_StateClass")
 
@@ -105,7 +122,7 @@ myChart <- chartDisagg(myChart, variable = "stsim_StateClass",
 # view chart information
 chart(myChart)
 
-# testing chartInclude function -----------------------
+# testing chartInclude function --
 # add values from the selected variable to include in the chart
 myChart <- chartInclude(myChart,
                         variable = "stsim_StateClass",
@@ -118,7 +135,7 @@ myChart <- chartInclude(myChart,
                         filter = "StateLabelXId",
                         removeValue = "Deciduous") # not working
 
-# testing chartErrorBar function ----------------------
+# testing chartErrorBar function --
 # set the chart error bar to "minmax"
 myChart <- chartErrorBar(myChart,
                          type = "minmax")
@@ -133,7 +150,7 @@ myChart <- chartErrorBar(myChart,
                          lower = 0.25,
                          upper = 97.5)
 
-# testing chartOptionsXAxis function -------------------
+# testing chartOptionsXAxis function -
 # Change chart type back to "Line"
 myChart <- chartData(myChart,
                      type = "Line")
@@ -159,7 +176,7 @@ myChart <- chartOptionsXAxis(myChart,
                              decimals = 3,
                              thousandsSeparator = FALSE)
 
-# testing chartOptionsYAxis function -------------------
+# testing chartOptionsYAxis function --
 # disaggregate to test y axis formatting
 myChart <- chartDisagg(myChart, variable = "stsim_StateClass",
                        addFilter = "StateLabelXId")
@@ -194,7 +211,37 @@ myChart <- chartOptionsYAxis(myChart,
                              sameScale = TRUE,
                              fixedIntervals = FALSE)
 
-# testing chartOptionsLegend function -------------------
+# testing chartOptionsFont function --
+myChart <- chartOptionsFont(myChart,
+                            titleFont = "Times New Roman",
+                            titleStyle = "standard",
+                            titleSize = 6,
+                            panelFont = "Times New Roman",
+                            panelStyle = "standard",
+                            panelSize = 6,
+                            axisFont = "Times New Roman",
+                            axisStyle = "standard",
+                            axisSize = 6,
+                            legendFont = "Times New Roman",
+                            legendStyle = "standard",
+                            legendSize = 6)
+
+# switch to font = Arial, style = bold, and size = 8
+myChart <- chartOptionsFont(myChart,
+                            titleFont = "Arial",
+                            titleStyle = "bold",
+                            titleSize = 8,
+                            panelFont = "Arial",
+                            panelStyle = "bold",
+                            panelSize = 8,
+                            axisFont = "Arial",
+                            axisStyle = "bold",
+                            axisSize = 8,
+                            legendFont = "Arial",
+                            legendStyle = "bold",
+                            legendSize = 9)
+
+# testing chartOptionsLegend function --
 # set all options to TRUE
 myChart <- chartOptionsLegend(myChart,
                               show = TRUE,
@@ -223,7 +270,7 @@ myChart <- chartOptionsLegend(myChart,
 myChart <- chartOptionsLegend(myChart,
                               show = FALSE)
 
-# testing chartOptionsLegend function -------------------
+# testing chartOptionsFormat function --
 # increase lineWidth, set everything to TRUE except showDataPointsOnly
 myChart <- chartOptionsFormat(myChart,
                               noDataAsZero = TRUE,
@@ -254,7 +301,7 @@ myChart <- chartOptionsFormat(myChart,
                               showNoDataPanels = FALSE,
                               lineWidth = 1)
 
-# testing readOnly function -----------------------------
+# testing readOnly function --
 # get read only status
 readOnly(myChart)
 
@@ -264,7 +311,7 @@ readOnly(myChart) <- TRUE
 # confirm
 readOnly(myChart)
 
-# testing name function ---------------------------------
+# testing name function --
 # get name of chart
 name(myChart)
 
@@ -274,6 +321,6 @@ name(myChart) <- "Test Chart Renamed"
 # confirm new name
 name(myChart) # did not assign new name
 
-# testing delete function -------------------------------
+# testing delete function --
 delete(myChart) # this works
 delete(chart = "Test Chart") # this does not work
