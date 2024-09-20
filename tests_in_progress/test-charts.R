@@ -20,7 +20,7 @@ library(rsyncrosim)
 
 # set up library
 mySession <- session("C:/Program Files/SyncroSim Studio")
-libPath <- "tests_in_progress/test_library/chart-testing.ssim"
+libPath <- "tests_in_progress/test_library/spatial-example.ssim"
 
 myLibrary <- ssimLibrary(name = libPath,
                          session = mySession)
@@ -30,7 +30,7 @@ myProject <- rsyncrosim::project(myLibrary, project = 1)
 
 # define scenario
 scenario(myProject)
-myScenario <- scenario(myProject, scenario = "Snow cover")
+myScenario <- scenario(myProject, scenario = 16)
 
 # view datasheets
 datasheet(myScenario)
@@ -239,7 +239,22 @@ myChart <- chartOptionsFont(myChart,
                             axisSize = 8,
                             legendFont = "Arial",
                             legendStyle = "bold",
-                            legendSize = 9)
+                            legendSize = 8)
+
+# switch to font = Microsoft Sans Serif, style = italic, and size = 12
+myChart <- chartOptionsFont(myChart,
+                            titleFont = "Microsoft Sans Serif",
+                            titleStyle = "italic",
+                            titleSize = 12,
+                            panelFont = "Microsoft Sans Serif",
+                            panelStyle = "italic",
+                            panelSize = 12,
+                            axisFont = "Microsoft Sans Serif",
+                            axisStyle = "italic",
+                            axisSize = 12,
+                            legendFont = "Microsoft Sans Serif",
+                            legendStyle = "italic",
+                            legendSize = 12)
 
 # testing chartOptionsLegend function --
 # set all options to TRUE

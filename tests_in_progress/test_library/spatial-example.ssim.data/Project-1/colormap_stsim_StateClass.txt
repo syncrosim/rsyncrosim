@@ -1,0 +1,5 @@
+# Syncrosim Generated State Class Color Map (QGIS-compatible),,,,,
+INTERPOLATION:EXACT
+3,0,128,0,255,Coniferous:All
+1,255,255,0,255,Deciduous:All
+2,128,0,0,255,Mixed:All
