@@ -128,7 +128,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
         envVars <- envVars[envVars != ""]
 
         for (i in seq(length.out = length(envVars))) {
-          cPath <- paste0(envVars[i], "\\SyncroSim3")
+          cPath <- paste0(envVars[i], "\\SyncroSim Studio")
           if (file.exists(paste0(cPath, "\\SyncroSim.Console.exe"))) {
             path <- cPath
             break
