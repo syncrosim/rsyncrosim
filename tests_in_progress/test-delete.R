@@ -62,7 +62,6 @@ test_that("can delete all SsimObjects", {
   myScenario <- scenario(myProject, scenario = "My Scenario")
 
   # Delete using datasheet argument
-  # need to add stsim package first
   expect_equal(delete(myScenario, datasheet = "StateClass", force = TRUE), TRUE) # error
   expect_type(delete(myProject, datasheet = "StateClass", force = TRUE), "logical") # error
 
