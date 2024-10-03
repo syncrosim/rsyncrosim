@@ -117,7 +117,7 @@ source and has a Project scope.  In this case the data will be MERGED.
 \examples{
 \dontrun{
 # Install helloworldSpatial package
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib_saveDatasheet")
@@ -154,7 +154,7 @@ saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
               
 # Save a raster stack using fileData
 # Create a raster stack - add as many raster files as you want here
-map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
+map1 <- datasheetSpatRaster(myScenario, datasheet = "InputDatasheet",
                         column = "InterceptRasterFile")
 inRasters <- terra::rast(map1)
 

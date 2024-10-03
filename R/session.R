@@ -13,7 +13,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- NULL
 
-  ssimRequiredVersion <- "2.4.44"
+  ssimRequiredVersion <- "3.0.0"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
@@ -96,10 +96,7 @@ setMethod(f = "initialize", signature = "Session", definition = function(.Object
 #' version(mySession)
 #' 
 #' # Data frame of the packages installed with this version of SyncroSim
-#' package(mySession) 
-#' 
-#' # Data frame of the base packages installed with this version of SyncroSim
-#' package(mySession, installed = "BASE") 
+#' packages(mySession)
 #' 
 #' # Set a new SyncroSim Session for the SyncroSim Project
 #' session(myProject) <- session(x = filepath(session(myProject)))
@@ -131,7 +128,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
         envVars <- envVars[envVars != ""]
 
         for (i in seq(length.out = length(envVars))) {
-          cPath <- paste0(envVars[i], "\\SyncroSim")
+          cPath <- paste0(envVars[i], "\\SyncroSim Studio")
           if (file.exists(paste0(cPath, "\\SyncroSim.Console.exe"))) {
             path <- cPath
             break

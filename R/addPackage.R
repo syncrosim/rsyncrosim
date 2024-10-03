@@ -3,81 +3,114 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Adds package to SyncroSim Installation
+#' Add SyncroSim package(s)
 #'
-#' This function installs a package to the SyncroSim \code{\link{Session}}.
-#' If only the package name is provided as input, the function queries the 
-#' SyncroSim package server for the specified package. If a file path is 
-#' provided as input, the function adds a package to SyncroSim from a local 
-#' package file (ends in ".ssimpkg"). The list of SyncroSim packages can be 
-#' found \href{https://syncrosim.com/packages/}{here}.
+#' Adds package(s) to a \code{\link{SsimLibrary}}.
 #'
-#' @param name character string.  The name or file path of the package to 
-#' install
-#' @param session \code{\link{Session}} object. If \code{NULL} (default),
-#' \code{session()} will be used
+#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param packages character string or vector of package name(s)
+#' @param versions character string or vector of package version(s). If 
+#' \code{NULL} then uses the latest installed version of the package
 #' 
-#' @return 
-#' Invisibly returns \code{TRUE} upon success (i.e.successful 
-#' install) and \code{FALSE} upon failure.
+#' @return
+#' Invisibly returns \code{TRUE} upon success (i.e.successful addition 
+#' of the package) or \code{FALSE} upon failure.
+#' 
+#' @seealso 
+#' \code{\link{packages}}
 #' 
 #' @examples
-#' \dontrun{
-#' # Create a new SyncroSim Session
+#' \donttest{
+#' # Install "stsim" and "stsimecodep" SyncroSim packages
+#' installPackage("stsim")
+#' installPackage("stsimecodep")
+#' 
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
+#' 
+#' # Set up a SyncroSim Session, SsimLibrary, and Project
 #' mySession <- session()
+#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 #' 
-#' # Add package from the package server
-#' addPackage("stsim", session = mySession)
+#' # Add package
+#' addPackage(myLibrary, packages = "stsim", versions = "4.0.1")
+#' addPackage(myLibrary, packages = "stsimecodep")
+#' packages(myLibrary)
 #' 
-#' # Add package using a local file path
-#' addPackage("c:/path/to/stsim.ssimpkg")
+#' # Remove package
+#' removePackage(myLibrary, packages = c("stsim", "stsimecodep"))
+#' packages(myLibrary)
 #' }
 #' 
 #' @export
-setGeneric("addPackage", function(name, session = NULL) standardGeneric("addPackage"))
+setGeneric("addPackage", 
+           function(ssimLibrary, packages, versions = NULL) standardGeneric("addPackage"))
 
 #' @rdname addPackage
-setMethod("addPackage", signature(session = "character"), function(name, session) {
-  return(SyncroSimNotFound(session))
+setMethod("addPackage", signature(ssimLibrary = "character"), 
+          function(ssimLibrary, packages, versions) {
+  return(SyncroSimNotFound(ssimLibrary))
 })
 
 #' @rdname addPackage
-setMethod("addPackage", signature(session = "missingOrNULL"), function(name, session) {
-  session <- .session()
-  return(addPackage(name, session))
-})
-
-#' @rdname addPackage
-setMethod("addPackage", signature(session = "Session"), function(name, session) {
-  success <- FALSE
+setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"), 
+          function(ssimLibrary, packages, versions) {
   
-  if (is.null(name)) {
-    stop("A package name or file path is required")
+  # Check that list of packages and list of versions is same length
+  if (!is.null(versions) && (length(versions) != length(packages))){
+    stop("The number of versions supplied does not match the number of packages.")
   }
   
-  if (grepl(".ssimpkg", name)) {
-    if (!file.exists(name)) {
-      tt <- paste0("Cannot find file: ", name)
-    } else{
-      tt <- command(args = list(finstall = name), session, program = "SyncroSim.PackageManager.exe")
-      if (tt == "saved"){
-        success <- TRUE
-        tt <- paste0("Package installed from file <", name, ">")
+  sessionPkgs <- .packages(.session(ssimLibrary), installed = T)
+  libraryPkgs <- .packages(ssimLibrary)
+  retList <- list()
+  
+  for (i in seq(length.out = length(packages))) {
+    cPkg <- packages[i]
+    
+    cVer <- "0.0.0"
+    if (is.null(versions)){
+      pkgVersions <- sessionPkgs[sessionPkgs$name == cPkg, ]$version
+      if (length(pkgVersions) > 0){
+        cVer <- pkgVersions[length(pkgVersions)]
       }
-    }
-  } else {
-    packages <- package(session)
-    if (is.element(name, packages$name)) {
-      tt <- (paste0("Package <", name, "> is already installed"))
     } else {
-      tt <- command(args = list(install = name), session, program = "SyncroSim.PackageManager.exe")
-      if (tt == "saved"){
-        tt <- paste0("Package <", name, "> installed")
-        success <- TRUE
+      cVer <- versions[i]
+    }
+    
+    # Check if another version of the package is already installed
+    libPkgRow <- libraryPkgs[libraryPkgs$name == cPkg,]
+    
+    if (nrow(libPkgRow) == 1){
+      if (libPkgRow$version != cVer){
+        removePackage(ssimLibrary, cPkg)
+      } else {
+        print(paste0(cPkg, " v", cVer, " has already been added to the ssimLibrary"))
+        retList[[cPkg]] <- FALSE
+        next  
       }
+    }
+    
+    sessPkgRow <- sessionPkgs[((sessionPkgs$name == cPkg) & (sessionPkgs$version == cVer)), ]
+    
+    if (nrow(sessPkgRow) == 0) {
+      print(paste0("Package ", cPkg, " v", cVer, 
+                   " is not among the available packages."))
+      retList[[cPkg]] <- FALSE
+      next
+    }
+
+    tt <- command(list(add = NULL, package = NULL, lib = .filepath(ssimLibrary), 
+                       pkg = cPkg, version = cVer), .session(ssimLibrary))
+    
+    if (tt[1] == "saved"){
+      message(paste0("Package <", cPkg, " v", cVer, "> added"))
+      retList[[cPkg]] <- TRUE
+    } else {
+      message(tt)
+      retList[[cPkg]] <- FALSE
     }
   }
 
-  message(tt)
-  return(invisible(success))
+  return(invisible(retList))
 })

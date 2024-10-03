@@ -6,7 +6,8 @@
 \alias{dateModified,SsimLibrary-method}
 \alias{dateModified,Project-method}
 \alias{dateModified,Scenario-method}
-\title{Last date a SsimLibrary, Project or Scenario was modified}
+\alias{dateModified,Folder-method}
+\title{Last date a SsimLibrary, Project, Scenario, or Folder was modified}
 \usage{
 dateModified(ssimObject)
 
@@ -17,10 +18,12 @@ dateModified(ssimObject)
 \S4method{dateModified}{Project}(ssimObject)
 
 \S4method{dateModified}{Scenario}(ssimObject)
+
+\S4method{dateModified}{Folder}(ssimObject)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-or \code{\link{Scenario}} object}
+\code{\link{Scenario}}, or \code{\link{Folder}} object}
 }
 \value{
 A character string: date and time of the most recent modification
@@ -28,7 +31,7 @@ to the SsimObject provided as input.
 }
 \description{
 The most recent modification date of a \code{\link{SsimLibrary}},
-\code{\link{Project}} or \code{\link{Scenario}}.
+\code{\link{Project}}, \code{\link{Scenario}} or \code{\link{Folder}}.
 }
 \examples{
 \dontrun{

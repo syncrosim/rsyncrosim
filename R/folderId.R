@@ -42,24 +42,31 @@ NULL
 #' 
 #' @export
 setGeneric("folderId", function(ssimObject) standardGeneric("folderId"))
+
 #' @rdname folderId
 setMethod("folderId", signature(ssimObject = "character"), function(ssimObject) {
   return(SyncroSimNotFound(ssimObject))
 })
+
 #' @rdname folderId
 setMethod("folderId", signature(ssimObject = "Folder"), function(ssimObject) {
   return(ssimObject@folderId)
 })
+
 #' @rdname folderId
 setMethod("folderId", signature(ssimObject = "Scenario"), function(ssimObject) {
+  
   parentFolderId <- getParentFolderId(ssimObject, ssimObject@scenarioId, 
                                       item="Scenario")
   folderInfo <- getFolderData(ssimObject)
-  if (!parentFolderId %in% folderInfo$FolderID){
+  
+  if (!parentFolderId %in% folderInfo$Id){
     parentFolderId <- NA
   }
+  
   return(parentFolderId)
 })
+
 #' @rdname folderId
 #' @export
 setGeneric("folderId<-", function(ssimObject, value) standardGeneric("folderId<-"))
@@ -82,9 +89,11 @@ setReplaceMethod(
     args <- list(lib = .filepath(ssimObject), move = NULL, scenario = NULL, 
                  sid = ssimObject@scenarioId, tfid = value, tpid = ssimObject@projectId)
     tt <- command(args = args, session = .session(ssimObject))
+    
     if (!identical(tt, "saved")) {
       stop(tt)
     }
+    
     return(ssimObject)
   }
 )

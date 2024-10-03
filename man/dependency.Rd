@@ -4,36 +4,28 @@
 \alias{dependency}
 \alias{dependency,character-method}
 \alias{dependency,Scenario-method}
+\alias{dependency<-}
+\alias{dependency<-,Scenario-method}
 \title{Get, set or remove Scenario dependency(s)}
 \usage{
-dependency(scenario, dependency = NULL, remove = FALSE, force = FALSE)
+dependency(scenario)
 
-\S4method{dependency}{character}(scenario, dependency = NULL, remove = FALSE, force = FALSE)
+\S4method{dependency}{character}(scenario)
 
-\S4method{dependency}{Scenario}(scenario, dependency = NULL, remove = FALSE, force = FALSE)
+\S4method{dependency}{Scenario}(scenario)
+
+dependency(ssimObject) <- value
+
+\S4method{dependency}{Scenario}(ssimObject) <- value
 }
 \arguments{
 \item{scenario}{\code{\link{Scenario}} object, character string, integer, or
 vector of these. The Scenario object, name, or ID to which a dependency is to
 be added (or has already been added if \code{remove=TRUE}). Note that integer ids
 are slightly faster}
-
-\item{dependency}{\code{\link{Scenario}} object, character string, integer, or
-list/vector of these. The Scenario(s) that are the source of the dependency,
-in order from lowest to highest precedence. If \code{NULL} (default) other arguments are
-ignored and the list of existing dependencies is returned}
-
-\item{remove}{logical. If \code{FALSE} (default) dependencies are added. If \code{TRUE},
-dependencies are removed}
-
-\item{force}{logical. If \code{FALSE} (default) prompt before removing dependencies}
 }
 \value{
-If dependency is \code{NULL}, a data frame of existing dependencies, or list of these
-if multiple inputs are provided. If dependency is not \code{NULL}, the function
-invisibly returns a list bearing the names of the dependencies inputted and
-carrying a logical \code{TRUE} upon success (i.e.successful addition or deletion)
-and \code{FALSE} upon failure
+A data.frame: all dependencies for a given Scenario
 }
 \description{
 List dependencies, set dependencies, or remove dependencies from a SyncroSim
@@ -67,17 +59,13 @@ myNewScenario <- scenario(myProject,
                           scenario = "my New Scenario")
 
 # Set myScenario as a dependency of myNewScenario
-dependency(myNewScenario, dependency = myScenario)
+dependency(myNewScenario) <- myScenario
 
 # Get all dependencies info
 dependency(myNewScenario)
 
-# Remove dependency
-dependency(myNewScenario, dependency = myScenario, remove = TRUE)
-
-# Force removal of dependency
-dependency(myNewScenario, dependency = myScenario, remove = TRUE,
-           force = TRUE)
+# Remove all dependencies
+dependency(myNewScenario) <- c()
 }
 
 }

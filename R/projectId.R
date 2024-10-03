@@ -3,13 +3,13 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Retrieves projectId of SyncroSim Project, Scenario, or Folder
+#' Retrieves projectId of SyncroSim Project, Scenario, Folder, or Chart
 #'
 #' Retrieves the projectId of a SyncroSim \code{\link{Project}},
-#' \code{\link{Scenario}}, or \code{\link{Folder}}.
+#' \code{\link{Scenario}}, \code{\link{Folder}} or \code{\link{Chart}}.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, or 
-#' \code{\link{Folder}} object
+#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
+#' \code{\link{Folder}}, or \code{\link{{Chart}}} object
 #' 
 #' @return 
 #' An integer: project id.
@@ -46,5 +46,9 @@ setMethod("projectId", signature(ssimObject = "Scenario"), function(ssimObject) 
 })
 #' @rdname projectId
 setMethod("projectId", signature(ssimObject = "Folder"), function(ssimObject) {
+  return(ssimObject@projectId)
+})
+#' @rdname projectId
+setMethod("projectId", signature(ssimObject = "Chart"), function(ssimObject) {
   return(ssimObject@projectId)
 })

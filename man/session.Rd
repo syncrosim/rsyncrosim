@@ -71,10 +71,7 @@ filepath(mySession)
 version(mySession)
 
 # Data frame of the packages installed with this version of SyncroSim
-package(mySession) 
-
-# Data frame of the base packages installed with this version of SyncroSim
-package(mySession, installed = "BASE") 
+packages(mySession)
 
 # Set a new SyncroSim Session for the SyncroSim Project
 session(myProject) <- session(x = filepath(session(myProject)))

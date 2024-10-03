@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 1.5.0
+Version: 2.0.0
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = "aut"),
@@ -41,36 +41,44 @@ Suggests:
     testthat (>= 3.0.0),
     ggplot2,
     Rcpp,
-    rmarkdown,
-    raster
-SystemRequirements: SyncroSim (>=2.3.10)
+    rmarkdown
+SystemRequirements: SyncroSim (>=3.0.0)
 Collate: 
     'AAAClassDefinitions.R'
     'addPackage.R'
     'addRow.R'
-    'addon.R'
     'autogentags.R'
     'backup.R'
-    'breakpoint.R'
+    'chart.R'
+    'chartCriteria.R'
+    'chartData.R'
+    'chartDisagg.R'
+    'chartErrorBar.R'
+    'chartId.R'
+    'chartInclude.R'
+    'chartOptionsFont.R'
+    'chartOptionsFormat.R'
+    'chartOptionsLegend.R'
+    'chartOptionsXAxis.R'
+    'chartOptionsYAxis.R'
     'command.R'
     'condaFilepath.R'
+    'createCondaEnv.R'
     'datasheet.R'
-    'datasheetRaster.R'
     'datasheetSpatRaster.R'
     'dateModified.R'
     'delete.R'
     'dependency.R'
-    'deprecated.R'
     'description.R'
-    'disableAddon.R'
-    'enableAddon.R'
     'filepath.R'
     'folder.R'
     'folderId.R'
     'ignoreDependencies.R'
     'info.R'
     'installConda.R'
+    'installPackage.R'
     'internalHelpers.R'
+    'packages.R'
     'name.R'
     'scenarioId.R'
     'projectId.R'
@@ -82,7 +90,6 @@ Collate:
     'internalWrappers.R'
     'mergeDependencies.R'
     'owner.R'
-    'package.R'
     'parentId.R'
     'print.R'
     'printCmd.R'
@@ -94,11 +101,10 @@ Collate:
     'saveDatasheet.R'
     'silent.R'
     'ssimEnvironment.R'
-    'ssimUpdate.R'
-    'updatePackage.R'
+    'uninstallPackage.R'
     'useConda.R'
     'version.R'
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 URL: <https://syncrosim.github.io/rsyncrosim/>
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
 Config/testthat/edition: 3

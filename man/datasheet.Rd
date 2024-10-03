@@ -23,7 +23,9 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE,
+  verbose = TRUE
 )
 
 \S4method{datasheet}{list}(
@@ -42,7 +44,9 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE,
+  verbose = TRUE
 )
 
 \S4method{datasheet}{character}(
@@ -60,7 +64,9 @@ datasheet(
   includeKey,
   fastQuery,
   returnScenarioInfo,
-  returnInvisible
+  returnInvisible,
+  rawValues,
+  verbose
 )
 
 \S4method{datasheet}{SsimObject}(
@@ -79,7 +85,9 @@ datasheet(
   forceElements = FALSE,
   fastQuery = FALSE,
   returnScenarioInfo = FALSE,
-  returnInvisible = FALSE
+  returnInvisible = FALSE,
+  rawValues = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -114,7 +122,7 @@ and \code{lookupsAsFactors=FALSE}}
 Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}}
 
 \item{filterColumn}{character string. The column to filter a Datasheet by.
-(e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
+(e.g. "TransitionGroupId"). Note that to use the filterColumn argument,
 you must also specify the filterValue argument. Default is \code{NULL}}
 
 \item{filterValue}{character string or integer. The value to filter the
@@ -140,14 +148,21 @@ returns a data.frame; otherwise returns a list of data.frames. Ignored if
 performance.  Ignored if combined with summary, empty, or
 \code{\link{sqlStatement}} flags. Default is \code{FALSE}}
 
-\item{returnScenarioInfo}{logical. If \code{TRUE}, returns the Scenario ID,
-Scenario Name, Parent ID, and Parent Name columns with the
+\item{returnScenarioInfo}{logical. If \code{TRUE}, returns the Scenario Id,
+Scenario Name, Parent Id, and Parent Name columns with the
 Scenario-scoped Datasheet. Does nothing if the Datasheet exists at the
 Library or Project level. Default is \code{FALSE}}
 
 \item{returnInvisible}{logical. If \code{TRUE}, returns columns that are
 invisible in the User Interface (i.e., are only used and populated
 internally by SyncroSim or the SyncroSim Package). Default is \code{FALSE}}
+
+\item{rawValues}{logical. If \code{TRUE}, returns the raw ID values rather
+than automatically translating the values to strings. Default is
+\code{FALSE}.}
+
+\item{verbose}{logical. If set to \code{FALSE}, will not print notes about
+datasheet validation. Default is \code{TRUE}.}
 }
 \value{
 If \code{summary=TRUE} returns a data.frame of Datasheet names
@@ -159,8 +174,8 @@ console, or by directly querying the \code{\link{SsimLibrary}} database.
 }
 \details{
 If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the
-Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{package},
-\code{name}, \code{displayName}, \code{isSingle}, \code{isOutput}, \code{data}. data only displayed for
+Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{packages},
+\code{name}, \code{displayName}, \code{isSingle}, \code{data}. data only displayed for
 a SyncroSim \code{\link{Scenario}}. \code{dataInherited} and \code{dataSource} columns
 added if a Scenario has dependencies. If \code{optional=FALSE}, columns include:
 \code{scope}, \code{name}, \code{displayName}. All other arguments are ignored.
@@ -176,21 +191,21 @@ console command).
 and the optional argument is ignored. Fast (1 less console command).
 \item If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}}
 objects (output from \code{\link{run}}, \code{\link{Scenario}} or
-\code{\link{Project}}): Adds ScenarioID/ProjectID column if appropriate.
-\item If Scenario/Project is a vector: Adds ScenarioID/ProjectID column
+\code{\link{Project}}): Adds ScenarioId/ProjectId column if appropriate.
+\item If Scenario/Project is a vector: Adds ScenarioId/ProjectId column
 as necessary.
 \item If requested Datasheet has Scenario scope and contains info from more
-than one Scenario: ScenarioID/ScenarioName/ScenarioParent columns
+than one Scenario: ScenarioId/ScenarioName/ScenarioParent columns
 identify the Scenario by \code{name}, \code{id}, and \code{parent} (if a result Scenario).
 \item If requested Datasheet has Project scope and contains info from more
-than one Project: ProjectID/ProjectName columns identify the Project
+than one Project: ProjectId/ProjectName columns identify the Project
 by \code{name} and \code{id}
 }
 }
 \examples{
 \dontrun{
 # Install helloworldSpatial package from package server
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib_datasheet")
@@ -245,7 +260,7 @@ myDatasheet <- datasheet(myLibrary, name = "core_Backup")
 
 # Use an SQL statement to query a Datasheet
 mySQL <- sqlStatement(
-  groupBy = c("ScenarioID"),
+  groupBy = c("ScenarioId"),
   aggregate = c("MinimumTimestep"),
   where = list(MinimumTimestep = c(1))
 )

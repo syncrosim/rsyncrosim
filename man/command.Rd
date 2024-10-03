@@ -21,7 +21,7 @@ information about this argument}
 session will be used}
 
 \item{program}{character. The name of the target SyncroSim executable.
-Options include "SyncroSim.Console.exe" (default), "SyncroSim.Server.exe",
+Options include "SyncroSim.Console.exe" (default), "SyncroSim.VizConsole.exe",
 "SyncroSim.PackageManager.exe" and "SyncroSim.Multiband.exe"}
 
 \item{wait}{logical. If \code{TRUE}(default) R will wait for the command to finish
@@ -48,7 +48,7 @@ Example args, and the resulting character string passed to the SyncroSim console
 \examples{
 \dontrun{
 # Install "stsim" if not already installed
-addPackage("stsim")
+installPackage("stsim")
 
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib.ssim")

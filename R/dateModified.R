@@ -3,13 +3,13 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Last date a SsimLibrary, Project or Scenario was modified
+#' Last date a SsimLibrary, Project, Scenario, or Folder was modified
 #'
 #' The most recent modification date of a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}} or \code{\link{Scenario}}.
+#' \code{\link{Project}}, \code{\link{Scenario}} or \code{\link{Folder}}.
 #'
 #' @param ssimObject  \code{\link{SsimLibrary}}, \code{\link{Project}},
-#'     or \code{\link{Scenario}} object
+#'     \code{\link{Scenario}}, or \code{\link{Folder}} object
 #' 
 #' @return 
 #' A character string: date and time of the most recent modification 
@@ -45,12 +45,18 @@ setMethod("dateModified", signature(ssimObject = "SsimLibrary"), function(ssimOb
 
 #' @rdname dateModified
 setMethod("dateModified", signature(ssimObject = "Project"), function(ssimObject) {
-  scnInfo <- project(ssimObject, summary = TRUE)
-  return(scnInfo$lastModified)
+  projInfo <- project(ssimObject, summary = TRUE)
+  return(projInfo$LastModified)
 })
 
 #' @rdname dateModified
 setMethod("dateModified", signature(ssimObject = "Scenario"), function(ssimObject) {
   scnInfo <- scenario(ssimObject, summary = TRUE)
-  return(scnInfo$lastModified)
+  return(scnInfo$LastModified)
+})
+
+#' @rdname dateModified
+setMethod("dateModified", signature(ssimObject = "Folder"), function(ssimObject) {
+  folderInfo <- folder(ssimObject, summary = TRUE)
+  return(folderInfo$LastModified)
 })

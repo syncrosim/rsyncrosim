@@ -13,8 +13,9 @@
 #' To learn more about rsyncrosim, start with the vignette tutorial:
 #' \code{browseVignettes("rsyncrosim")}.
 #'
-#' @docType package
 #' @name rsyncrosim
+"_PACKAGE"
+
 #' @aliases rsyncrosim-package
 #' @import methods
 #' @importFrom gtools smartbind

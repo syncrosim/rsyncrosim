@@ -7,10 +7,12 @@
 \alias{readOnly,Project-method}
 \alias{readOnly,Scenario-method}
 \alias{readOnly,Folder-method}
+\alias{readOnly,Chart-method}
 \alias{readOnly<-}
 \alias{readOnly<-,character-method}
 \alias{readOnly<-,SsimObject-method}
 \alias{readOnly<-,Folder-method}
+\alias{readOnly<-,Chart-method}
 \title{Read-only status of a SsimLibrary, Project, Scenario or Folder}
 \usage{
 readOnly(ssimObject)
@@ -25,6 +27,8 @@ readOnly(ssimObject)
 
 \S4method{readOnly}{Folder}(ssimObject)
 
+\S4method{readOnly}{Chart}(ssimObject)
+
 readOnly(ssimObject) <- value
 
 \S4method{readOnly}{character}(ssimObject) <- value
@@ -32,6 +36,8 @@ readOnly(ssimObject) <- value
 \S4method{readOnly}{SsimObject}(ssimObject) <- value
 
 \S4method{readOnly}{Folder}(ssimObject) <- value
+
+\S4method{readOnly}{Chart}(ssimObject) <- value
 }
 \arguments{
 \item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},

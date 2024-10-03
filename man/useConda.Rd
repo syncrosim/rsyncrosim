@@ -34,7 +34,11 @@ Logical: whether Conda environments will be used during runtime for the given
 \code{\link{SsimLibrary}}
 }
 \description{
-Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}.
+Retrieves or sets the Conda configuration of a \code{\link{SsimLibrary}}. Note
+that in order to use conda environments, you will first need to ensure that
+the conda environment has been created for a given package. You can create
+the conda environment for a package using the \code{\link{createCondaEnv}}
+function.
 }
 \examples{
 \dontrun{

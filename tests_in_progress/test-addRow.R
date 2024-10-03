@@ -125,7 +125,6 @@ test_that("number NAs", {
   expect_equal(sum(is.na(addRow(chardf, list(x = "sixteen", y = "seventeen", z = "eigteen")))), 0)
 })
 
-
 test_that("errors work", {
   expect_error(addRow(as.data.frame(mtcars), wrongcolumnnames))
   expect_error(addRow(as.data.frame(mtcars), vector))

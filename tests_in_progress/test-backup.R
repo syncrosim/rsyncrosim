@@ -11,7 +11,6 @@ library(testthat)
 # set library path and session
 myLibraryName <- file.path(tempdir(), "testlib")
 mySession <- session("C:/Program Files/SyncroSim Studio")
-
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "My Project")
 myScenario <- scenario(myProject, scenario = "My Scenario")

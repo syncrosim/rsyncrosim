@@ -43,16 +43,17 @@ backupEnabled <- function(path) {
   return(TRUE)
 }
 
-deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL, cProjName = NULL, cScnName = NULL, out = list(), force) {
+deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL, 
+                            cProjName = NULL, cScnName = NULL, out = list(), 
+                            force) {
   out <- list()
   lib = ssimLibrary(.filepath(x), summary=T)
-  pkg = lib$value[lib$property == "Package Name:"]
   
   for (j in seq(length.out = length(datasheet))) {
     cName <- datasheet[j]
     
     if (!grepl("_", cName, fixed = TRUE)) {
-      cName <- paste0(pkg, "_", cName)
+      stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
     }
     
     cSheet <- subset(datasheets, name == cName)
@@ -90,6 +91,244 @@ deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL,
   if (length(out) == 1) {
     out <- out[[1]]
   }
+  return(out)
+}
+
+deleteProjectDatasheet <- function(x, datasheet, project, allProjects,
+                                   out = list(), force){
+  
+  if (is.element(class(ssimObject), c("Project", "Scenario"))) {
+    datasheets <- .datasheets(ssimObject, refresh = TRUE)
+  } else {
+    datasheets <- .datasheets(.project(ssimObject, project = project[1]))
+  }
+  
+  out <- list()
+  for (i in seq(length.out = length(project))) {
+    
+    cProj <- project[i]
+    name <- allProjects$name[allProjects$projectId == cProj]
+    outBit <- deleteDatasheet(x, datasheet, datasheets, cProj = cProj, 
+                              cScn = NULL, cProjName = name, cScnName = NULL, 
+                              out = out, force = force)
+    
+    if (outBit == "saved"){ 
+      message(paste0("Datasheet " , datasheet, " deleted"))
+      outBit <- TRUE
+    } else{
+      message(outBit)
+      outBit <- FALSE
+    }
+    
+    out[[as.character(cProj)]] <- outBit
+  }
+  
+  if (length(out) == 1) {
+    out <- out[[1]]
+  }
+  
+  return(out)
+}
+
+deleteProject <- function(x, project, out = list(), force){
+  
+  out <- list()
+  for (i in seq(length.out = length(project))) {
+    cProj <- project[i]
+    name <- allProjects$name[allProjects$projectId == cProj]
+    
+    if (force) {
+      answer <- "y"
+    } else {
+      answer <- readline(prompt = paste0("Do you really want to delete project ", 
+                                         name, "(", cProj, ")? (y/n): "))
+    }
+    
+    if (answer == "y") {
+      outBit <- command(list(delete = NULL, project = NULL, lib = .filepath(x), 
+                             pid = cProj, force = NULL), .session(x))
+    } else {
+      outBit <- paste0("Deletion of project " , cProj, " skipped")
+    }
+    
+    if (outBit == "saved"){ 
+      message(paste0("Project " , cProj, " deleted"))
+      outBit <- TRUE
+    } else{
+      message(outBit)
+      outBit <- FALSE
+    }
+    
+    out[[as.character(cProj)]] <- outBit
+  }
+  
+  if (length(out) == 1) {
+    out <- out[[1]]
+  }
+  
+  return(out)
+}
+
+
+deleteScenarioDatasheet <- function(x, datasheet, scenario, 
+                                    allScenarios, out = list(), force){
+  ScenarioId <- NULL
+  
+  if (is.element(class(ssimObject), c("Scenario"))) {
+    datasheets <- .datasheets(ssimObject, refresh = TRUE)
+    scenarioSet <- scenario(.ssimLibrary(ssimObject), summary = TRUE)
+  } else {
+    datasheets <- .datasheets(.scenario(ssimObject, scenario = scenario[1]))
+    scenarioSet <- scenario(ssimObject, summary = TRUE)
+  }
+  
+  out <- list()
+  for (i in seq(length.out = length(scenario))) {
+    cScn <- scenario[i]
+    name <- allScenarios$Name[allScenarios$ScenarioId == cScn]
+    
+    cProj <- subset(scenarioSet, ScenarioId == cScn)$ProjectId
+    outBit <- deleteDatasheet(x, datasheet = datasheet, datasheets = datasheets, 
+                              cProj = cProj, cScn = cScn, cProjName = "", 
+                              cScnName = name, out = out, force = force)
+    
+    if (outBit == "saved"){ 
+      message(paste0("Datasheet " , datasheet, " deleted"))
+      outBit <- TRUE
+    } else{
+      message(outBit)
+      outBit <- FALSE
+    }
+    out[[as.character(cScn)]] <- outBit
+  }
+  
+  if (length(out) == 1) {
+    out <- out[[1]]
+  }
+  
+  return(out)
+}
+
+deleteScenario <- function(x, scenario, allScenarios, out = list(), force){
+  
+  for (i in seq(length.out = length(scenario))) {
+    cScn <- scenario[i]
+    name <- allScenarios$Name[allScenarios$ScenarioId == cScn]
+    
+    cProj <- subset(allScenarios, ScenarioId == cScn)$ProjectId
+    
+    if (force) {
+      answer <- "y"
+    } else {
+      answer <- readline(prompt = paste0("Do you really want to remove scenario ", 
+                                         name, "(", cScn, ")? (y/n): "))
+    }
+    
+    if (answer == "y") {
+      outBit <- command(list(delete = NULL, scenario = NULL, lib = .filepath(x), 
+                             sid = cScn, force = NULL), .session(x))
+    } else {
+      outBit <- paste0("Deletion of scenario " , cProj, " skipped")
+    }
+    
+    if (outBit == "saved"){ 
+      message(paste0("Scenario " ,cScn, " deleted"))
+      outBit <- TRUE
+    } else{
+      message(outBit)
+      outBit <- FALSE
+    }
+    
+    out[[as.character(cScn)]] <- outBit
+  }
+  
+  if (length(out) == 1) {
+    out <- out[[1]]
+  }
+  
+  return(out)
+}
+
+deleteFolder <- function(x, folderId, folderName, out = list(), force){
+  
+  for (i in seq(length.out = length(folderId))) {
+    
+    folderIdToDelete <- folderId[i]
+    folderNameToDelete <- folderName[i]
+    
+    if (force) {
+      answer <- "y"
+    } else {
+      answer <- readline(prompt = paste0("Do you really want to remove folder ", 
+                                         folderNameToDelete, "(", 
+                                         folderIdToDelete, ")? (y/n): "))
+    }
+    
+    if (answer == "y") {
+      outBit <- command(list(delete = NULL, folder = NULL, lib = .filepath(x), 
+                             fid = folderIdToDelete, force = NULL), .session(x))
+    } else {
+      outBit <- paste0("Deletion of folder ", folderNameToDelete, " skipped")
+    }
+    
+    if (outBit == paste0("Folder deleted: ", folderIdToDelete)){ 
+      message(paste0("Folder ", folderNameToDelete, " deleted"))
+      outBit <- TRUE
+    } else{
+      message(outBit)
+      outBit <- FALSE
+    }
+    
+    out[[as.character(folderNameToDelete)]] <- outBit
+  }
+  
+  if (length(out) == 1) {
+    out <- out[[1]]
+  }
+  
+  return(out)
+}
+
+deleteChart <- function(x, chartId, chartName, out = list(), force){
+  
+  for (i in seq(length.out = length(chartId))) {
+    
+    chartIdToDelete <- chartId[i]
+    chartNameToDelete <- chartName[i]
+    
+    if (force) {
+      answer <- "y"
+    } else {
+      answer <- readline(prompt = paste0("Do you really want to remove chart ", 
+                                         chartNameToDelete, "(", chartIdToDelete, 
+                                         ")? (y/n): "))
+    }
+    
+    if (answer == "y") {
+      args <- list(delete = NULL, 
+                   chart = NULL, lib = .filepath(x), 
+                   cid = chartIdToDelete, force = NULL) 
+      outBit <- command(args, session = .session(x), 
+                        program = "SyncroSim.VizConsole.exe")
+    } else {
+      outBit <- paste0("Deletion of chart ", chartNameToDelete, " skipped")
+    }
+    
+    if (outBit == paste0("Chart deleted: ", chartIdToDelete)){ 
+      message(paste0("Chart ", chartNameToDelete, " deleted"))
+      outBit <- TRUE
+    } else{
+      message(outBit)
+      outBit <- FALSE
+    }
+    
+    out[[as.character(chartNameToDelete)]] <- outBit
+  }
+  
+  if (length(out) == 1) {
+    out <- out[[1]]
+  }
+  
   return(out)
 }
 
@@ -144,12 +383,15 @@ getIdsFromListOfObjects <- function(ssimObject, expecting = NULL, scenario = NUL
 # get scnSet
 getScnSet <- function(ssimObject) {
   # get current scenario info
-  ScenarioID <- NULL
+  ScenarioId <- NULL
   tt <- command(list(list = NULL, scenarios = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   scnSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
+  names(scnSet)[names(scnSet) == "Id"] <- "ScenarioId"
+  names(scnSet)[names(scnSet) == "ProjectId"] <- "ProjectId"
+  names(scnSet)[names(scnSet) == "ParentId"] <- "ParentId"
   if (nrow(scnSet) == 0) {
-    scnSet <- merge(scnSet, data.frame(ScenarioID = NA, exists = NA), all = TRUE)
-    scnSet <- subset(scnSet, !is.na(ScenarioID))
+    scnSet <- merge(scnSet, data.frame(ScenarioId = NA, exists = NA), all = TRUE)
+    scnSet <- subset(scnSet, !is.na(ScenarioId))
   } else {
     scnSet$exists <- TRUE
   }
@@ -158,60 +400,16 @@ getScnSet <- function(ssimObject) {
 
 # get projectSet
 getProjectSet <- function(ssimObject) {
-  ProjectID <- NULL
+  ProjectId <- NULL
   tt <- command(list(list = NULL, projects = NULL, csv = NULL, lib = .filepath(ssimObject)), .session(ssimObject))
   projectSet <- .dataframeFromSSim(tt, localNames = FALSE, convertToLogical = c("IsReadOnly"))
   if (nrow(projectSet) == 0) {
-    projectSet[1, "ProjectID"] <- NA
+    projectSet[1, "ProjectId"] <- NA
   }
-  # names(projectSet)[names(projectSet) == "iD"] <- "projectId"
+  names(projectSet)[names(projectSet) == "Id"] <- "ProjectId"
   projectSet$exists <- TRUE
-  projectSet <- subset(projectSet, !is.na(ProjectID))
+  projectSet <- subset(projectSet, !is.na(ProjectId))
   return(projectSet)
-}
-
-# Create package Conda environments
-createCondaEnv <- function(libPath, currentPackages, session) {
-  
-  message("Creating Conda environments. Please wait...")
-  
-  # Check if Conda is installed
-  # tt <- command(list(conda = NULL, config = NULL), session)
-  # if (identical(tt, "No Conda configuration yet.")){
-  #   tt <- command(list(setprop = NULL,
-  #                      lib = libPath,
-  #                      useconda = "no"), session)
-  #   message("Conda must be installed to use Conda environments.")
-  #   return(TRUE)
-  # }
-  
-  # Check if environment needs to be created, create if doesn't exist yet
-  for (package in currentPackages) {
-    tt <- command(list(conda = NULL, createenv = NULL, pkg = package), session)
-    if (length(tt) > 1){
-      if (!grepl("Creating Conda environments", tt[1], fixed = TRUE)){
-        stop(tt[1])
-      }
-    } else {
-      if (grepl("No Conda installation found", tt, fixed = TRUE)) {
-        errorMessage = "Conda must be installed to use Conda environments. See ?installConda for details."
-        tt <- command(list(setprop = NULL,
-                           lib = libPath,
-                           useconda = "no"), session)
-      } else {
-        errorMessage = tt
-      }
-
-      message(errorMessage)
-      return(TRUE)
-    }
-  }
-  
-  tt <- command(list(setprop = NULL,
-                     lib = libPath,
-                     useconda = "yes"), session)
-  
-  return(TRUE)
 }
 
 # make first character of string lower case
@@ -304,6 +502,33 @@ printAndCapture <- function(x) {
   return(out)
 }
 
+# Gets chart info for a Project.
+#
+# @param x A Project object.
+# @return A dataframe of chart info, including chart IDs, names
+getChartData <- function(x) {
+  
+  ChartId = NULL
+  X = NULL
+  
+  args <- list(lib = .filepath(x), chart = NULL, list = NULL, 
+               charts = NULL, pid = .projectId(x))
+  tt <- command(args = args, session = .session(x), 
+                program = "SyncroSim.VizConsole.exe")
+  out <- .dataframeFromSSim(tt, localNames = TRUE, csv=FALSE)
+  
+  # Clean up dataframe names and columns
+  names(out) <- sapply(names(out), pascal)
+  colnames(out)[colnames(out) == "Id"] ="ChartId"
+  out <- subset(out, select = -c(X))
+  
+  if (is(x, "Chart")){
+    out <- subset(out, ChartId == x@chartId)
+  }
+  
+  return(out)
+}
+
 # Gets folder info from an SsimLibrary, Project, Scenario, or Folder.
 #
 # @param x An SsimLibrary, Project, Scenario, or Folder object. Or a path to a SyncroSim library on disk.
@@ -311,7 +536,7 @@ printAndCapture <- function(x) {
 # read only status, and published status.
 getFolderData <- function(x) {
   
-  FolderID = NULL
+  FolderId = NULL
   X = NULL
   
   args <- list(lib = .filepath(x), list = NULL, folders = NULL)
@@ -320,11 +545,11 @@ getFolderData <- function(x) {
   
   # Clean up dataframe names and columns
   names(out) <- sapply(names(out), pascal)
-  colnames(out)[colnames(out) == "ID"] ="FolderID"
+  colnames(out)[colnames(out) == "Id"] = "FolderId"
   out <- subset(out, select = -c(X))
   
   if (is(x, "Folder")){
-    out <- subset(out, FolderID == x@folderId)
+    out <- subset(out, FolderId == x@folderId)
   }
   
   return(out)
@@ -335,13 +560,15 @@ getFolderData <- function(x) {
 # @param x SyncroSim Library, Project, Scenario, or Folder object.
 # @param folderId integer value of the child Folder ID.
 # @param item string indicating type of the child item ("Folder" or "Scenario")
+# @param item string indicating type of the child item ("Folder" or "Scenario")
 # @return integer corresponding to the parent folder ID or project ID.
 getParentFolderId <- function(x, id, item="Folder") {
   
   df <- getLibraryStructure(x)
-  if (item == "Scenario" && !is.na(x@parentId)){
+  if ((item == "Scenario") && (x@parentId != 0)){
     item <- "Result(S)"
   }
+  childRowInd <- which((df$id == id) & (df$item == item))
   childRowInd <- which((df$id == id) & (df$item == item))
   parentRowInd <- childRowInd - 1
   childRow <- df[childRowInd, ]
@@ -378,7 +605,7 @@ addScenarioToFolder <- function(x, pid, sid, folder) {
     fid <- folder@folderId
   } else if (is.character(folder)) {
     folderData <- getFolderData(x)
-    fid <- subset(folderData, Name == folder)$FolderID
+    fid <- subset(folderData, Name == folder)$FolderId
     if (length(fid) == 0){
       stop(paste0("Folder name ", folder, " does not exist."))
     } else if (length(fid) > 1){
@@ -453,6 +680,7 @@ getLibraryStructure <- function(x) {
   }
   
   libStructureDF <- libStructureDF[!is.na(libStructureDF$item),]
+  libStructureDF <- libStructureDF[!is.na(libStructureDF$item),]
   return(libStructureDF)
 }
 
@@ -497,6 +725,11 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     datasheets <- .dataframeFromSSim(tt, convertToLogical = c("isOutput", "isSingle"))
     datasheets$scope <- sapply(datasheets$scope, camel)
   }
+  
+  if (nrow(datasheets) == 0){
+    return(datasheets)
+  }
+  
   datasheets$order <- seq(1, nrow(datasheets))
   if (!is.null(scope) && (scope == "all")) {
     datasheets$order <- NULL
@@ -522,13 +755,17 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 
 # Internal helper - return uniquely identified and valid SyncroSim object
 
-.getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL, convertObject = FALSE, returnIds = NULL, goal = NULL, complainIfMissing = TRUE) {
+.getFromXProjScn <- function(ssimObject, project = NULL, scenario = NULL,
+                             folder = NULL, chart = NULL,
+                             convertObject = FALSE, returnIds = NULL, 
+                             goal = NULL, complainIfMissing = TRUE) {
   # If x is scenario, ignore project and scenario arguments
   Freq <- NULL
-  ProjectID <- NULL
-  ScenarioID <- NULL
+  ProjectId <- NULL
+  ScenarioId <- NULL
   
-  if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", "Scenario"))) {
+  if (!is.element(class(ssimObject), c("character", "SsimLibrary", "Project", 
+                                       "Scenario", "Folder", "Chart"))) {
     stop("ssimObject should be a filepath, or an SsimLibrary/Scenario object.")
   }
   
@@ -537,58 +774,77 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   }
   
   # Check for conflicts between ssimObject and project/scenario.
-  if (is.element(class(ssimObject), c("Project", "Scenario")) & (!is.null(project))) {
-    warning("project argument is ignored when ssimObject is a Project/Scenario or list of these.")
+  if (is.element(class(ssimObject), 
+                 c("Project", "Scenario", "Folder", "Chart")) & (!is.null(project))) {
+    warning("project argument is ignored when ssimObject is a Project/Scenario/Folder/Chart or list of these.")
     project <- NULL
   }
   
-  if (is.element(class(ssimObject), c("Scenario")) & (!is.null(scenario))) {
-    warning("scenario argument is ignored when ssimObject is a Scenario or list of these.")
+  if (is.element(class(ssimObject), 
+                 c("Scenario", "Folder", "Chart")) && (!is.null(scenario))) {
+    warning("scenario argument is ignored when ssimObject is a Scenario/Folder/Chart or list of these.")
     scenario <- NULL
   }
   
-  if (is.null(goal) & (!is.null(project) | (is(ssimObject, "Project")) & is.null(scenario))) {
-    goal <- "project"
-    if (is.null(returnIds)) {
-      if (length(project) > 1) {
-        returnIds <- TRUE
-      } else {
-        returnIds <- FALSE
+  if (is.null(goal)){
+    if (!is.null(project) || (is(ssimObject, "Project")) && is.null(c(scenario, chart, folder))) {
+      goal <- "project"
+      if (is.null(returnIds)) {
+        if (length(project) > 1) {
+          returnIds <- TRUE
+        } else {
+          returnIds <- FALSE
+        }
       }
-    }
-  }
-  
-  if (is.null(goal) & (!is.null(scenario) | (is(ssimObject, "Scenario")))) {
-    goal <- "scenario"
-    if (is.null(returnIds)) {
-      if (length(scenario) > 1) {
-        returnIds <- TRUE
-      } else {
-        returnIds <- FALSE
+    } else if (!is.null(scenario) || (is(ssimObject, "Scenario"))){
+      goal <- "scenario"
+      if (is.null(returnIds)) {
+        if (length(scenario) > 1) {
+          returnIds <- TRUE
+        } else {
+          returnIds <- FALSE
+        }
       }
-    }
-  }
-  
-  if (is.null(goal)) {
-    if (is.null(project) & is.null(scenario)) {
-      if (!is.null(returnIds) && returnIds) {
-        return(list(ssimObject = ssimObject, project = NULL, scenario = NULL, goal = "library"))
-      } else {
-        return(ssimObject)
+    } else if (!is.null(folder) || is(ssimObject, "Folder")) {
+      goal <- "folder"
+      if (is.null(returnIds)) {
+        if (length(folder) > 1) {
+          returnIds <- TRUE
+        } else {
+          returnIds <- FALSE
+        }
       }
+    } else if (!is.null(chart) || is(ssimObject, "Chart")) {
+      goal <- "chart"
+      if (is.null(returnIds)) {
+        if (length(chart) > 1) {
+          returnIds <- TRUE
+        } else {
+          returnIds <- FALSE
+        }
+      }
+    } else {
+      if (is.null(project) && is.null(scenario) && is.null(folder) && is.null(chart)) {
+        if (!is.null(returnIds) && returnIds) {
+          return(list(ssimObject = ssimObject, project = NULL, scenario = NULL, goal = "library"))
+        } else {
+          return(ssimObject)
+        }
+      }
+      stop("Error in getFromXProjScn()")
     }
-    stop("Error in getFromXProjScn()")
   }
   
   # If the goal is a project, return one or more, or complain
   if (!is.null(goal) && (goal == "project")) {
     # if ssimObject is a scenario, return the parent project
-    if ((is(ssimObject, "Scenario"))) {
+    if (is.element(class(ssimObject), c("Scenario", "Folder", "Chart"))) {
       if (convertObject | !returnIds) {
         ssimObject <- new("Project", ssimObject, id = .projectId(ssimObject))
       }
     }
-    if (is.element(class(ssimObject), c("Project", "Scenario"))) {
+    
+    if (is.element(class(ssimObject), c("Project", "Scenario", "Folder", "Chart"))) {
       if (returnIds) {
         project <- .projectId(ssimObject)
         if (convertObject) {
@@ -614,7 +870,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           stop("No projects found in library.")
         }
       }
-      project <- projectSet$ProjectID
+      project <- projectSet$ProjectId
     }
     
     # Now assume project is defined
@@ -622,7 +878,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     areIds <- is.numeric(project)
     
     if (areIds) {
-      mergeBit <- data.frame(ProjectID = as.numeric(as.character(project)))
+      mergeBit <- data.frame(ProjectId = as.numeric(as.character(project)))
     } else {
       mergeBit <- data.frame(Name = project, stringsAsFactors = FALSE)
     }
@@ -631,7 +887,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     missingProjects <- subset(fullProjectSet, is.na(fullProjectSet$exists) & (!is.na(fullProjectSet$order)))
     if (complainIfMissing & (nrow(missingProjects) > 0)) {
       if (areIds) {
-        stop("Project ids (", paste(missingProjects$ProjectID, collapse = ","), ") not found in ssimObject. ")
+        stop("Project ids (", paste(missingProjects$ProjectId, collapse = ","), ") not found in ssimObject. ")
       } else {
         stop("Projects (", paste(missingProjects$Name, collapse = ","), ") not found in ssimObject. ")
       }
@@ -639,7 +895,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     
     missingNames <- subset(missingProjects, is.na(missingProjects$Name))
     if (areIds & (nrow(missingNames) > 0)) {
-      stop("Project ids (", paste(missingNames$ProjectID, collapse = ","), ") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument of the project() function. SyncroSim will automatically assign project ids.")
+      stop("Project ids (", paste(missingNames$ProjectId, collapse = ","), ") not found in ssimObject. To make new projects, please provide names (as one or more character strings) to the project argument of the project() function. SyncroSim will automatically assign project ids.")
     }
     
     # Stop if an element of project corresponds to more than one existing row of the project list
@@ -649,7 +905,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       if (nrow(dupNames) > 0) {
         # report the first error only
         cName <- dupNames$Var1[1]
-        cIds <- checkDups$ProjectID[checkDups$Name == cName]
+        cIds <- checkDups$ProjectId[checkDups$Name == cName]
         stop(paste0("The library contains more than one project called ", cName, ". Specify a project id: ", paste(cIds, collapse = ",")))
       }
     }
@@ -662,10 +918,10 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       if (!smallProjectSet$exists) {
         stop("Project ", project, " not found in the ssimObject.")
       }
-      return(new("Project", ssimObject, id = smallProjectSet$ProjectID, projects = fullProjectSet))
+      return(new("Project", ssimObject, id = smallProjectSet$ProjectId, projects = fullProjectSet))
     }
     if (sum(is.na(smallProjectSet$exists)) == 0) {
-      project <- smallProjectSet$ProjectID
+      project <- smallProjectSet$ProjectId
     }
     
     return(list(ssimObject = ssimObject, project = project, scenario = scenario, projectSet = fullProjectSet, goal = goal))
@@ -692,10 +948,10 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     
     scnSet <- getScnSet(ssimObject)
     if (!is.null(project)) {
-      scnSet <- subset(scnSet, is.element(ProjectID, project))
+      scnSet <- subset(scnSet, is.element(ProjectId, project))
     }
     if (!is.null(scenario) && is.numeric(scenario)) {
-      scnSet <- subset(scnSet, is.element(ScenarioID, scenario))
+      scnSet <- subset(scnSet, is.element(ScenarioId, scenario))
     }
     if (is.null(scenario)) {
       if (nrow(scnSet) == 0) {
@@ -706,26 +962,26 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           stop("No scenarios found in ssimObject.")
         }
       }
-      scenario <- scnSet$ScenarioID
+      scenario <- scnSet$ScenarioId
     }
     
     # Now assume scenario is defined
     # distinguish existing scenarios from those that need to be made
     areIds <- is.numeric(scenario)
     if (areIds) {
-      mergeBit <- data.frame(ScenarioID = scenario)
+      mergeBit <- data.frame(ScenarioId = scenario)
     } else {
       mergeBit <- data.frame(Name = scenario, stringsAsFactors = FALSE)
     }
     if (!is.null(project)) {
-      mergeBit$ProjectID <- project
+      mergeBit$ProjectId <- project
     }
     mergeBit$order <- seq(1:length(scenario))
     fullScnSet <- merge(scnSet, mergeBit, all = TRUE)
     missingScns <- subset(fullScnSet, is.na(fullScnSet$exists) & (!is.na(fullScnSet$order)))
     if (complainIfMissing & (nrow(missingScns) > 0)) {
       if (areIds) {
-        stop("Scenario ids (", paste(missingScns$ScenarioID, collapse = ","), ") not found in ssimObject. ")
+        stop("Scenario ids (", paste(missingScns$ScenarioId, collapse = ","), ") not found in ssimObject. ")
       } else {
         stop("Scenarios (", paste(missingScns$Name, collapse = ","), ") not found in ssimObject. ")
       }
@@ -733,7 +989,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
     
     missingNames <- subset(missingScns, is.na(missingScns$Name))
     if (areIds & (nrow(missingNames) > 0)) {
-      stop("Scenario ids (", paste(missingNames$ScenarioID, collapse = ","), ") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.")
+      stop("Scenario ids (", paste(missingNames$ScenarioId, collapse = ","), ") not found in ssimObject. To make new scenarios, please provide names (as one or more character strings) to the scenario argument of the scenario() function. SyncroSim will automatically assign scenario ids.")
     }
     
     # For scenarios that need to be made, assign project or fail
@@ -748,13 +1004,13 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
           obj <- project(ssimObject, project = "project1")
           project <- .projectId(obj)
         } else {
-          project <- allProjects$ProjectID
+          project <- allProjects$ProjectId
         }
       }
       if (is.null(project) || is.na(project)) {
         stop("Something is wrong")
       }
-      fullScnSet$ProjectID[!is.na(fullScnSet$order) & is.na(fullScnSet$exists)] <- project
+      fullScnSet$ProjectId[!is.na(fullScnSet$order) & is.na(fullScnSet$exists)] <- project
     }
     
     # Stop if an element of scenarios corresponds to more than one existing row of the scenario list
@@ -764,7 +1020,7 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       if (nrow(dupNames) > 0) {
         # report the first error only
         cName <- dupNames$Var1[1]
-        cIds <- checkDups$ScenarioID[checkDups$Name == cName]
+        cIds <- checkDups$ScenarioId[checkDups$Name == cName]
         stop(paste0("The ssimObject contains more than one scenario called ", cName, ". Specify a scenario id: ", paste(cIds, collapse = ",")))
       }
     }
@@ -780,11 +1036,26 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
       return(new("Scenario", ssimObject, id = scenario, scenarios = fullScnSet))
     }
     if (sum(is.na(smallScenarioSet$exists)) == 0) {
-      scenario <- smallScenarioSet$ScenarioID
+      scenario <- smallScenarioSet$ScenarioId
     }
     
     return(list(ssimObject = ssimObject, project = project, scenario = scenario, scenarioSet = fullScnSet, goal = goal))
   }
+  
+  # if goal is chart, and we have one, return immediately
+  if (!is.null(goal) && (goal == "chart")) {
+    if (is.element(class(ssimObject), c("Chart"))) {
+      return(ssimObject)
+    }
+  }
+  
+  # if goal is folder, and we have one, return immediately
+  if (!is.null(goal) && (goal == "folder")) {
+    if (is.element(class(ssimObject), c("Folder"))) {
+      return(ssimObject)
+    }
+  }
+  
   stop(paste0("Could not identify a SsimLibrary, Project or Scenario from ssimObject, project, and scenario arguments."))
 }
 
@@ -794,34 +1065,64 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
 #
 # @param ssimLibrary SsimLibrary or path to a library
 # @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
+# @param removeBackup logical. If \code{TRUE}, will remove the backup folder when
+#'     deleting a library. Default is FALSE
+# @param removePublish logical. If TRUE, will remove the publish folder when
+#'     deleting a library. Default is FALSE
+# @param removeCustom logical. If TRUE and custom folders have been configured
+#'     for a library, then will remove the custom publish and/or backup folders when 
+#'     deleting a library. Note that the `removePublish` and `removeBackup` arguments 
+#'     must also be set to TRUE to remove the respective custom folders. Default
+#'     is FALSE
+# @param session Session
 # @return "saved" or failure message.
 # @export
 
-setGeneric("deleteLibrary", function(ssimLibrary, force = FALSE) standardGeneric("deleteLibrary"))
+setGeneric("deleteLibrary", 
+           function(ssimLibrary, force = FALSE, removeBackup = FALSE,
+                    removePublish = FALSE, removeCustom = FALSE,
+                    session = NULL) standardGeneric("deleteLibrary"))
 
-setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary, force) {
-  return(deleteLibrary(.filepath(ssimLibrary), force))
+setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), 
+          function(ssimLibrary, force, removeBackup, removePublish, removeCustom) {
+            
+  return(deleteLibrary(.filepath(ssimLibrary), force, removeBackup, 
+                       removePublish, removeCustom, .session(ssimLibrary)))
 })
 
-setMethod("deleteLibrary", signature(ssimLibrary = "character"), function(ssimLibrary, force) {
+setMethod("deleteLibrary", signature(ssimLibrary = "character"), 
+          function(ssimLibrary, force, removeBackup, removePublish, 
+                   removeCustom, session) {
+            
   if (!file.exists(ssimLibrary)) {
     stop(paste0("Library not found: ", ssimLibrary))
   }
+            
   if (force) {
     answer <- "y"
   } else {
     answer <- readline(prompt = paste0("Do you really want to delete library ", ssimLibrary, "? (y/n): "))
   }
+            
   if (answer == "y") {
-    unlink(ssimLibrary)
-    if (file.exists(ssimLibrary)) {
-      return(paste0("Failed to delete ", ssimLibrary))
+    
+    args <- list(delete = NULL, library = NULL, lib = ssimLibrary, force = NULL)
+    
+    if (removeBackup){
+      args <- c(args, list(delrelback = NULL))
+      if (removeCustom){
+        args <- c(args, list(delcustback = NULL))
+      }
     }
     
-    unlink(paste0(ssimLibrary, ".backup"), recursive = TRUE, force = TRUE)
-    unlink(paste0(ssimLibrary, ".input"), recursive = TRUE, force = TRUE)
-    unlink(paste0(ssimLibrary, ".output"), recursive = TRUE, force = TRUE)
-    unlink(paste0(ssimLibrary, ".temp"), recursive = TRUE, force = TRUE)
+    if (removePublish){
+      args <- c(args, list(delrelpub = NULL))
+      if (removeCustom){
+        args <- c(args, list(delcustpub = NULL))
+      }
+    }
+    
+    tt <- command(args = args, session = session)
     
     return("saved")
   } else {

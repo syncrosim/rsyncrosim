@@ -87,8 +87,19 @@ setMethod("readOnly", signature(ssimObject = "Scenario"), function(ssimObject) {
 
 #' @rdname readOnly
 setMethod("readOnly", signature(ssimObject = "Folder"), function(ssimObject) {
-  info <- getFolderData(ssimObject)
-  readOnlyStatus <- info$ReadOnly #TODO: make this match others?
+  info <- folder(ssimObject, summary = TRUE)
+  readOnlyStatus <- info$IsReadOnly
+  if (readOnlyStatus == "No") {
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
+})
+
+#' @rdname readOnly
+setMethod("readOnly", signature(ssimObject = "Chart"), function(ssimObject) {
+  info <- chart(ssimObject, summary = TRUE)
+  readOnlyStatus <- info$IsReadOnly
   if (readOnlyStatus == "No") {
     return(FALSE)
   } else {
@@ -153,6 +164,30 @@ setReplaceMethod(
     args <- list(setprop = NULL, lib = .filepath(ssimObject), 
                  readonly = readOnly, fid = .folderId(ssimObject))
     tt <- command(args, .session(ssimObject))
+    if (!identical(tt, "saved")) {
+      stop(tt)
+    }
+    return(ssimObject)
+  }
+)
+
+#' @rdname readOnly
+setReplaceMethod(
+  f = "readOnly",
+  signature = "Chart",
+  definition = function(ssimObject, value) {
+    if (!is(value, "logical")) {
+      stop("readOnly must be TRUE or FALSE.")
+    }
+    if (value == TRUE) {
+      readOnly <- "yes"
+    } else {
+      readOnly <- "no"
+    }
+    args <- list(chart = NULL, set = NULL, lib = .filepath(ssimObject), 
+                 readonly = readOnly, cid = .chartId(ssimObject))
+    tt <- command(args, .session(ssimObject), 
+                  program = "SyncroSim.VizConsole.exe")
     if (!identical(tt, "saved")) {
       stop(tt)
     }

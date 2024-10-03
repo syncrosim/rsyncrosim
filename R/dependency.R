@@ -27,20 +27,9 @@ NULL
 #' vector of these. The Scenario object, name, or ID to which a dependency is to 
 #' be added (or has already been added if \code{remove=TRUE}). Note that integer ids 
 #' are slightly faster
-#' @param dependency \code{\link{Scenario}} object, character string, integer, or 
-#'     list/vector of these. The Scenario(s) that are the source of the dependency, 
-#'     in order from lowest to highest precedence. If \code{NULL} (default) other arguments are 
-#'     ignored and the list of existing dependencies is returned
-#' @param remove logical. If \code{FALSE} (default) dependencies are added. If \code{TRUE},
-#'  dependencies are removed
-#' @param force logical. If \code{FALSE} (default) prompt before removing dependencies
 #' 
 #' @return 
-#' If dependency is \code{NULL}, a data frame of existing dependencies, or list of these 
-#' if multiple inputs are provided. If dependency is not \code{NULL}, the function 
-#' invisibly returns a list bearing the names of the dependencies inputted and 
-#' carrying a logical \code{TRUE} upon success (i.e.successful addition or deletion) 
-#' and \code{FALSE} upon failure
+#' A data.frame: all dependencies for a given Scenario
 #' 
 #' @examples 
 #' \donttest{
@@ -56,145 +45,129 @@ NULL
 #'                           scenario = "my New Scenario")
 #' 
 #' # Set myScenario as a dependency of myNewScenario
-#' dependency(myNewScenario, dependency = myScenario)
+#' dependency(myNewScenario) <- myScenario
 #' 
 #' # Get all dependencies info
 #' dependency(myNewScenario)
 #' 
-#' # Remove dependency
-#' dependency(myNewScenario, dependency = myScenario, remove = TRUE)
-#' 
-#' # Force removal of dependency
-#' dependency(myNewScenario, dependency = myScenario, remove = TRUE,
-#'            force = TRUE)
+#' # Remove all dependencies
+#' dependency(myNewScenario) <- c()
 #' }
 #' 
 #' @export
-setGeneric("dependency", function(scenario, dependency = NULL, remove = FALSE, force = FALSE) standardGeneric("dependency"))
+setGeneric("dependency", function(scenario) standardGeneric("dependency"))
 
 #' @rdname dependency
-setMethod("dependency", signature(scenario = "character"), function(scenario, dependency, remove, force) {
+setMethod("dependency", signature(scenario = "character"), function(scenario) {
   return(SyncroSimNotFound(scenario))
 })
 
 #' @rdname dependency
-setMethod("dependency", signature(scenario = "Scenario"), function(scenario, dependency, remove, force) {
-  x <- scenario
-  cScn <- scenarioId(scenario)
-  cScnName <- .name(scenario)
-  outName <- paste0(cScnName, " [", cScn, "]")
+setMethod("dependency", signature(scenario = "Scenario"), function(scenario) {
+  
+  # Rename variable so it's not the same as the rsyncrosim::scenario() function
+  s <- scenario
+  
   # get set of existing dependencies
-  args <- list(list = NULL, dependencies = NULL, lib = .filepath(x), sid = cScn, csv = NULL)
-  tt <- command(args, .session(x))
-  if (!grepl("ID,Name", tt[1], fixed = TRUE)) {
+  args <- list(list = NULL, dependencies = NULL, lib = .filepath(s), 
+               sid = scenarioId(s), csv = NULL)
+  tt <- command(args, .session(s))
+  
+  if (!grepl("Id,Name", tt[1], fixed = TRUE)) {
     stop(tt[1])
   }
-  dependencySet <- .dataframeFromSSim(tt)
-  names(dependencySet)[names(dependencySet) == "iD"] <- "ScenarioID"
   
-  # if no dependency, dependency info for each scenario
-  if (is.null(dependency)) {
-    return(dependencySet)
+  dependencySet <- .dataframeFromSSim(tt, localNames = FALSE)
+  names(dependencySet)[names(dependencySet) == "Id"] <- "ScenarioId"
+  
+  return(dependencySet)
   }
-  
-  allScns <- .scenario(.ssimLibrary(x), summary = TRUE)
-  
-  success <- FALSE
-  outResults <- list()
-  
-  if (is(dependency, "Scenario")) {
-    dependency <- scenarioId(dependency)
-  }
-  
-  for (j in seq(length.out = length(dependency))) {
-    cDepRaw <- dependency[[j]]
-    cDep <- NULL
+)
+
+#' @rdname dependency
+#' @export
+setGeneric("dependency<-", function(ssimObject, value) standardGeneric("dependency<-"))
+
+#' @rdname dependency
+setReplaceMethod(
+  f = "dependency",
+  signature = "Scenario",
+  definition = function(ssimObject, value) {
     
-    if (is(cDepRaw, "Scenario")) {
-      cDep <- .scenarioId(cDepRaw)
-    } 
-    
-    else if (is(cDepRaw, "character")) {
-      if (!is.element(cDepRaw, allScns$Name)) {
-        warning(cDepRaw, ": dependency scenario not found in library, wil be ignored.")
-      }
-      cDep <- allScns$ScenarioID[allScns$Name == cDepRaw]
-      if (length(cDep) == 0) {
-        stop("Could not find dependency scenario ", cDepRaw)
-      }
-      if (length(cDep) > 1) {
-        stop("Found more than one scenario named ", cDepRaw, ". Please specify a dependency scenario id:", paste0(cDep, collapse = ","))
-      }
-    } 
-    
-    else if (is(cDepRaw, "numeric")) {
-      if (!is.element(cDepRaw, allScns$ScenarioID)) {
-        warning(cDepRaw, ": dependency scenario not found in library, will be ignored.")
-      }
-      cDep <- cDepRaw
+    # Parse value into string of dependency IDs, separated by a comma
+    onlyRemoveDeps <- FALSE
+    if (is.character(value) && length(value) == 1 && value == ""){
+      onlyRemoveDeps <- TRUE
+    } else if (length(value) == 0){
+      onlyRemoveDeps <- TRUE
     }
     
-    if (is.null(cDep)) {
-      stop("dependency must be a Scenario, character string, integer, or vector/list of these.")
+    if (is(value, "Scenario")){
+      value <- scenarioId(value)
     }
-    cDepOutName <- paste0(allScns$Name[allScns$ScenarioID == cDep], " [", cDep, "]")
     
-    # if Add
-    if (!remove) {
-      if ((nrow(dependencySet) > 0) && is.element(cDep, dependencySet$ScenarioID)) {
-        # to guarantee order of provided dependency, remove then re-add
-        args <- list(delete = NULL, dependency = NULL, lib = .filepath(x), sid = cScn, did = cDep, force = NULL)
-        tt <- command(args, .session(x))
+    valueList <- c()
+    
+    if (!onlyRemoveDeps){
+      
+      allScns <- .scenario(.ssimLibrary(ssimObject), summary = TRUE)
+      
+      for (v in value){
+        if (is(v, "Scenario")) {
+          valueList <- c(valueList, scenarioId(v))
+        }
         
-        if (is.na(tt[1])){
-          warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
-        } else if (tt[1] != "saved"){
-          warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
-        }
-      }
-      
-      args <- list(create = NULL, dependency = NULL, lib = .filepath(x), sid = cScn, did = cDep)
-      tt <- command(args, .session(x))
-  
-      if (is.na(tt[1])){
-        warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
-        outResults[[cDepOutName]] <- FALSE
-      } else if (tt[1] == "saved"){
-        message(paste0("Dependency: <", cDepOutName, ">, added to scenario: <", outName, ">"))
-        outResults[[cDepOutName]] <- TRUE
-      } else {
-        warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
-        outResults[[cDepOutName]] <- FALSE
-      }
-      
-      # if Remove
-    } else { 
-      if ((nrow(dependencySet) == 0) || !is.element(cDep, dependencySet$ScenarioID)) {
-        warning(paste0(cDepOutName, " is not a dependency of ", outName))
-        outResults[[cDepOutName]] <- FALSE
-      } else {
-        if (force) {
-          answer <- "y"
-        } else {
-          answer <- readline(prompt = paste0("Do you really want to remove dependency ", cDepOutName, " from ", outName, "? (y/n): "))
-        }
-        if (answer == "y") {
-          args <- list(delete = NULL, dependency = NULL, lib = .filepath(x), sid = cScn, did = cDep, force = NULL)
-          tt <- command(args, .session(x))
-          if (tt[1] == "saved") {
-            message(paste0("Dependency: <", cDepOutName, ">, deleted from scenario: <", outName, ">"))
-            outResults[[cDepOutName]] <- TRUE
-          } else{
-            warning("Scenario ", outName, ", Dependency ", cDepOutName, " error: ", tt[1])
-            outResults[[cDepOutName]] <- FALSE
+        else if (is(v, "character")) {
+          cDep <- allScns$ScenarioId[allScns$Name == v]
+          
+          if (length(cDep) == 0) {
+            stop("Could not find dependency scenario ", cDepRaw)
+          } else if (length(cDep) > 1) {
+            stop("Found more than one scenario named ", v, ". Please specify a dependency scenario id:", paste0(v, collapse = ","))
+          } else {
+            valueList <- c(valueList, cDep)
           }
-        } else {
-          message("Deletion of dependency ", cDepOutName," skipped")
-          outResults[[cDepOutName]] <- FALSE
+        } 
+        
+        else if (is(v, "numeric")) {
+          if (!is.element(v, allScns$ScenarioId)) {
+            stop(v, ": dependency scenario not found in library.")
+          }
+          valueList <- c(valueList, v)
         }
       }
     }
     
+    valueList <- paste(valueList, collapse = ",")
+    
+    # Remove all existing dependencies
+    tt <- command(list(remove = NULL, dependency = NULL, lib = .filepath(ssimObject), 
+                       sid = .scenarioId(ssimObject), all = NULL, force = NULL), 
+                  .session(ssimObject))
+    
+    if (!identical(tt[1], "saved")) {
+      stop(tt)
+    }
+    
+    if (!onlyRemoveDeps) {
+      # Add all new dependencies, with priority being the same order they were input
+      args <- list(add = NULL, dependency = NULL, lib = .filepath(ssimObject),
+                   sid = .scenarioId(ssimObject))
+      
+      # TODO: parse value depending on what the input format is
+      if (length(value) == 1) {
+        args <- append(args, list(did = valueList))
+      } else {
+        args <- append(args, list(dids = valueList))
+      }
+      
+      tt <- command(args, .session(ssimObject))
+      
+      if (!identical(tt[1], "saved")) {
+        stop(tt)
+      }
+    }
+
+    return(ssimObject)
   }
-  return(invisible(outResults))
-})
+)
