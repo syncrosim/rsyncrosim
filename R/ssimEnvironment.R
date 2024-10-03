@@ -27,8 +27,7 @@ ssimEnvironment <- function() {
     LibraryFilePath = Sys.getenv(tolower("SSIM_LIBRARY_FILEPATH"), unset = NA),
     ProjectId = as.integer(Sys.getenv(tolower("SSIM_PROJECT_ID"), unset = -1)),
     ScenarioId = as.integer(Sys.getenv(tolower("SSIM_SCENARIO_ID"), unset = -1)),
-    InputDirectory = Sys.getenv(tolower("SSIM_INPUT_DIRECTORY"), unset = NA),
-    OutputDirectory = Sys.getenv(tolower("SSIM_OUTPUT_DIRECTORY"), unset = NA),
+    DataDirectory = Sys.getenv(tolower("SSIM_DATA_DIRECTORY"), unset = NA),
     TempDirectory = Sys.getenv(tolower("SSIM_TEMP_DIRECTORY"), unset = NA),
     TransferDirectory = Sys.getenv(tolower("SSIM_TRANSFER_DIRECTORY"), unset = NA),
     BeforeIteration = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_BEFORE_ITERATION"), unset = -1)),
@@ -73,50 +72,27 @@ envCreateTempFolder <- function(folderName) {
   return(f)
 }
 
-#' SyncroSim DataSheet Input Folder
+#' SyncroSim Data Folder
 #'
 #' This function is part of a set of functions designed to facilitate the
 #' development of R-based Syncrosim Packages. This function creates and returns 
-#' a SyncroSim Datasheet Input Folder.
+#' a SyncroSim Data Folder.
 #'
 #' @param scenario \code{\link{Scenario}} object. A SyncroSim result Scenario
-#' @param datasheetName character. The input Datasheet name
+#' @param datasheetName character. The datasheet name
 #' 
 #' @return 
-#' Returns a folder name for the specified Datasheet.
+#' Returns a data folder name for the specified datasheet.
 #' 
 #' @examples 
 #' \dontrun{
-#' inputFolder <- runtimeInputFolder()
+#' dataFolder <- runtimeDataFolder()
 #' }
 #' 
 #' @export
-runtimeInputFolder <- function(scenario, datasheetName) {
+runtimeDataFolder <- function(scenario, datasheetName) {
   envValidateEnvironment()
-  return(envCreateScenarioFolder(scenario, ssimEnvironment()$InputDirectory, datasheetName))
-}
-
-#' SyncroSim DataSheet Output Folder
-#'
-#' This function is part of a set of functions designed to facilitate the
-#' development of R-based Syncrosim Packages. This function creates and returns 
-#' a SyncroSim DataSheet Output Folder.
-#'
-#' @param scenario \code{\link{Scenario}} object. A SyncroSim result Scenario
-#' @param datasheetName character. The output Datasheet name
-#' 
-#' @return 
-#' Returns a folder name for the specified datasheet.
-#' 
-#' @examples 
-#' \dontrun{
-#' outputFolder <- runtimeOutputFolder()
-#' }
-#' 
-#' @export
-runtimeOutputFolder <- function(scenario, datasheetName) {
-  envValidateEnvironment()
-  return(envCreateScenarioFolder(scenario, ssimEnvironment()$OutputDirectory, datasheetName))
+  return(envCreateScenarioFolder(scenario, ssimEnvironment()$DataDirectory, datasheetName))
 }
 
 #' SyncroSim Temporary Folder
@@ -238,7 +214,7 @@ progressBar <- function(type = "step", iteration = NULL, timestep = NULL, totalS
 #' which are pasted together using `sep`.
 #' @param sep character. Used to separate terms. Not NA_character_
 #' @param type character. Type of message to add to run log. One of "status",
-#' "info", or "warning".
+#' (default) "info", or "warning".
 #' 
 #' @return 
 #' No returned value, used for side effects

@@ -5,10 +5,8 @@
 \alias{description<-}
 \alias{description,character-method}
 \alias{description,SsimObject-method}
-\alias{description,Folder-method}
 \alias{description<-,character-method}
 \alias{description<-,SsimObject-method}
-\alias{description<-,Folder-method}
 \title{Description of SsimLibrary, Project or Scenario}
 \usage{
 description(ssimObject)
@@ -19,13 +17,9 @@ description(ssimObject) <- value
 
 \S4method{description}{SsimObject}(ssimObject)
 
-\S4method{description}{Folder}(ssimObject)
-
 \S4method{description}{character}(ssimObject) <- value
 
 \S4method{description}{SsimObject}(ssimObject) <- value
-
-\S4method{description}{Folder}(ssimObject) <- value
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
@@ -38,7 +32,7 @@ A character string: the description of the SsimObject
 }
 \description{
 Get or set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}},
-\code{\link{Scenario}} or \code{\link{Folder}}.
+or \code{\link{Scenario}}.
 }
 \examples{
 \donttest{

@@ -10,15 +10,17 @@ NULL
 #' @include project.R
 #' @include scenario.R
 #' @include folder.R
+#' @include chart.R
 #' @include sqlStatement.R
 #' @include projectId.R
 #' @include scenarioId.R
 #' @include folderId.R
+#' @include chartId.R
 #' @include filepath.R
-#' @include addon.R
 #' @include datasheet.R
 #' @include internalHelpers.R
 #' @include name.R
+#' @include packages.R
 NULL
 # @export
 .projectId <- projectId
@@ -26,6 +28,8 @@ NULL
 .scenarioId <- scenarioId
 # @export
 .folderId <- folderId
+# @export
+.chartId <- chartId
 # @export
 .filepath <- filepath
 # @export
@@ -37,9 +41,9 @@ NULL
 # @export 
 .folder <- folder
 # @export
-.scenario <- scenario
+.chart <- chart
 # @export
-.addon <- addon
+.scenario <- scenario
 # @export
 .datasheet <- datasheet
 # @export
@@ -50,3 +54,5 @@ NULL
 .subset <- subset
 # @export
 .sqlStatement <- sqlStatement
+# @export
+.packages <- packages

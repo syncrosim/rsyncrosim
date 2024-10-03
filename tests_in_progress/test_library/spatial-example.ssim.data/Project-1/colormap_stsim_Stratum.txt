@@ -1,0 +1,2 @@
+# Syncrosim Generated State Class Color Map (QGIS-compatible),,,,,
+INTERPOLATION:EXACT

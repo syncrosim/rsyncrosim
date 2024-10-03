@@ -6,7 +6,8 @@
 \alias{projectId,Project-method}
 \alias{projectId,Scenario-method}
 \alias{projectId,Folder-method}
-\title{Retrieves projectId of SyncroSim Project, Scenario, or Folder}
+\alias{projectId,Chart-method}
+\title{Retrieves projectId of SyncroSim Project, Scenario, Folder, or Chart}
 \usage{
 projectId(ssimObject)
 
@@ -17,17 +18,19 @@ projectId(ssimObject)
 \S4method{projectId}{Scenario}(ssimObject)
 
 \S4method{projectId}{Folder}(ssimObject)
+
+\S4method{projectId}{Chart}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}}, or
-\code{\link{Folder}} object}
+\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
+\code{\link{Folder}}, or \code{\link{{Chart}}} object}
 }
 \value{
 An integer: project id.
 }
 \description{
 Retrieves the projectId of a SyncroSim \code{\link{Project}},
-\code{\link{Scenario}}, or \code{\link{Folder}}.
+\code{\link{Scenario}}, \code{\link{Folder}} or \code{\link{Chart}}.
 }
 \examples{
 \donttest{

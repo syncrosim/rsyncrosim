@@ -4,50 +4,82 @@
 \alias{delete}
 \alias{delete,character-method}
 \alias{delete,SsimObject-method}
-\title{Delete SsimLibrary, Project, Scenario, Datasheet}
+\title{Delete SsimLibrary, Project, Scenario, Folder, Chart or Datasheet}
 \usage{
 delete(
   ssimObject,
   project = NULL,
   scenario = NULL,
+  folder = NULL,
+  chart = NULL,
   datasheet = NULL,
-  force = FALSE
+  force = FALSE,
+  removeBackup = FALSE,
+  removePublish = FALSE,
+  removeCustom = FALSE,
+  session = NULL
 )
 
 \S4method{delete}{character}(
   ssimObject,
   project = NULL,
   scenario = NULL,
+  folder = NULL,
+  chart = NULL,
   datasheet = NULL,
-  force = FALSE
+  force = FALSE,
+  removeBackup = FALSE,
+  removePublish = FALSE,
+  removeCustom = FALSE,
+  session = NULL
 )
 
-\S4method{delete}{SsimObject}(
-  ssimObject,
-  project = NULL,
-  scenario = NULL,
-  datasheet = NULL,
-  force = FALSE
-)
+\S4method{delete}{SsimObject}(ssimObject, project, scenario, folder, chart, datasheet, force, session)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-or \code{\link{Scenario}} object, or character (i.e. path to a SsimLibrary)}
+\code{\link{Scenario}}, \code{\link{Folder}}, or \code{\link{Chart}}
+object, or character (i.e. path to a SsimLibrary)}
 
 \item{project}{character string, numeric, or vector of these. One or more
 \code{\link{Project}} names or ids. Note that project argument is ignored
-if SsimObject is a list. Note that integer ids are slightly faster (optional)}
+if ssimObject is a list. Note that integer ids are slightly faster (optional)}
 
 \item{scenario}{character string, numeric, or vector of these. One or more
-\code{\link{Scenario}} names or ids. Note that Scenario argument is
+\code{\link{Scenario}} names or ids. Note that scenario argument is
+ignored if ssimObject is a list. Note that integer ids are slightly faster
+(optional)}
+
+\item{folder}{character string, numeric, or vector of these. One or more
+\code{\link{Folder}} names or ids. Note that folder argument is
+ignored if ssimObject is a list. Note that integer ids are slightly faster
+(optional)}
+
+\item{chart}{character string, numeric, or vector of these. One or more
+\code{\link{Chart}} names or ids. Note that chart argument is
 ignored if SsimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
-\item{datasheet}{character string or vector of these. One or more Datasheet
+\item{datasheet}{character string or vector of these. One or more datasheet
 names (optional)}
 
 \item{force}{logical. If \code{FALSE} (default), user will be prompted to approve
 removal of each item}
+
+\item{removeBackup}{logical. If \code{TRUE}, will remove the backup folder when
+deleting a library. Default is \code{FALSE}}
+
+\item{removePublish}{logical. If \code{TRUE}, will remove the publish folder when
+deleting a library. Default is \code{FALSE}}
+
+\item{removeCustom}{logical. If \code{TRUE} and custom folders have been configured
+for a library, then will remove the custom publish and/or backup folders when
+deleting a library. Note that the \code{removePublish} and \code{removeBackup} arguments
+must also be set to \code{TRUE} to remove the respective custom folders. Default
+is \code{FALSE}}
+
+\item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
+will be used. Only applicable when \code{ssimObject} argument is a character}
 }
 \value{
 Invisibly returns a list of boolean values corresponding to each

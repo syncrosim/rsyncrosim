@@ -1,9 +1,8 @@
 #' Retrieves information about a library
 #' 
 #' Retrieves some basic metadata about a SsimLibrary: Name, Owner, Last Modified, 
-#' Size, Read Only, Package Name, Package Description, Current Package Version,
-#' Minimum Package Version, External input files, External output files, 
-#' Temporary files, Backup files.
+#' Size, Read Only, Data files, Publish files, Temporary files, Backup files, 
+#' and Use conda.
 #' 
 #' @param ssimLibrary \code{\link{SsimLibrary}} object
 #' 
@@ -29,8 +28,10 @@ setGeneric("info", function(ssimLibrary) standardGeneric("info"))
 
 #' @rdname info
 setMethod("info", signature(ssimLibrary = "SsimLibrary"), function(ssimLibrary) {
+  
   args <- list(list = NULL, library = NULL, csv = NULL, lib = .filepath(ssimLibrary))
   tt <- command(args, .session(ssimLibrary))
   out <- .dataframeFromSSim(tt, localNames = TRUE)
+  
   return(out)
 })

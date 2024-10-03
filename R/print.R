@@ -47,6 +47,20 @@ setMethod(
   }
 )
 
+setMethod(
+  "print", "Chart",
+  function(x, ...) {
+    show(x)
+  }
+)
+
+setMethod(
+  "show", "Chart",
+  function(object) {
+    .printSsim(object)
+  }
+)
+
 .printSsim <- function(x, ...) {
   outStrings <- list()
 

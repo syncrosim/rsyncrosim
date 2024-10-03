@@ -5,14 +5,17 @@ NULL
 
 setMethod(
   f = "initialize", signature = "Scenario",
-  definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, id = NULL, sourceScenario = NULL, scenarios = NULL, folder = NULL) {
+  definition = function(.Object, ssimLibrary = NULL, project = NULL, name = NULL, 
+                        id = NULL, sourceScenario = NULL, scenarios = NULL, 
+                        folder = NULL) {
     
-    ProjectID <- NULL
-    ScenarioID <- NULL
+    ProjectId <- NULL
+    ScenarioId <- NULL
     Name <- NULL
     
-    # assume this is being called from scenario fn or getFromXProjScn(). ssimObject and pid are valid, id is valid if not null, and duplicate name problems have been sorted out.
-    .Object@breakpoints <- list()
+    # assume this is being called from scenario fn or getFromXProjScn(). 
+    # ssimObject and pid are valid, id is valid if not null, and duplicate name
+    # problems have been sorted out.
     .Object@parentId <- 0
     
     x <- ssimLibrary
@@ -31,13 +34,13 @@ setMethod(
       scenarios <- subset(scenarios, Name == cName)
     }
     if (!is.null(id)) {
-      scenarios <- subset(scenarios, ScenarioID == id)
+      scenarios <- subset(scenarios, ScenarioId == id)
     }
     if (!is.null(project)) {
-      scenarios <- subset(scenarios, ProjectID == project)
+      scenarios <- subset(scenarios, ProjectId == project)
     }
 
-    findScn <- subset(scenarios, !is.na(ScenarioID))
+    findScn <- subset(scenarios, !is.na(ScenarioId))
     if (nrow(findScn) > 1) {
       stop("Something is wrong.")
     }
@@ -54,8 +57,8 @@ setMethod(
         .Object@parentId <- as.numeric(parent)
       }
       
-      pid <- as.numeric(findScn$ProjectID)
-      sid <- as.numeric(findScn$ScenarioID)
+      pid <- as.numeric(findScn$ProjectId)
+      sid <- as.numeric(findScn$ScenarioId)
       folderId <- addScenarioToFolder(x, pid, sid, folder)
 
       # Go ahead and create the Scenario object without issuing system commands to make sure it is ok
@@ -85,7 +88,7 @@ setMethod(
       sid <- sourceScenario
       slib <- .filepath(x)
       if (is(sourceScenario, "numeric")) {
-        if (!is.element(sourceScenario, allScenarios$ScenarioID)) {
+        if (!is.element(sourceScenario, allScenarios$ScenarioId)) {
           stop("Source scenario id ", sourceScenario, " not found in SsimLibrary.")
         }
       }
@@ -97,7 +100,7 @@ setMethod(
         if (nrow(sourceOptions) > 1) {
           stop(paste0("There is more than one scenario called ", sourceScenario, " in the SsimLibrary. Please provide a sourceScenario id: ", paste(sourceOptions$scenarioId, collapse = ",")))
         }
-        sid <- sourceOptions$ScenarioID
+        sid <- sourceOptions$ScenarioId
       }
 
       if (is(sourceScenario, "Scenario")) {
@@ -105,7 +108,7 @@ setMethod(
         slib <- .filepath(sourceScenario)
         sourceScnName <- name(sourceScenario)
       } else {
-        sourceScnName <- subset(allScenarios, ScenarioID == sid)$Name
+        sourceScnName <- subset(allScenarios, ScenarioId == sid)$Name
       }
 
       if (name == "GetSourceCopyCopyCopy") {
@@ -227,7 +230,9 @@ setMethod(
 #' 
 #' @name scenario
 #' @export
-scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, folder = NULL, summary = NULL, results = FALSE, forceElements = FALSE, overwrite = FALSE) {
+scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
+                     folder = NULL, summary = NULL, results = FALSE, 
+                     forceElements = FALSE, overwrite = FALSE) {
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
   }
@@ -341,11 +346,11 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
       if (is.na(scnsToMake$exists[i])) {
         next
       }
-      ret <- delete(ssimObject, scenario = scnsToMake$ScenarioID[i], force = TRUE)
+      ret <- delete(ssimObject, scenario = scnsToMake$ScenarioId[i], force = TRUE)
       cRow <- scnsToMake[i, ]
       scnsToMake[i, ] <- NA
       scnsToMake$Name[i] <- cRow$Name
-      scnsToMake$ProjectID[i] <- cRow$ProjectID
+      scnsToMake$ProjectId[i] <- cRow$ProjectId
       scnsToMake$order[i] <- cRow$order
     }
     libScns <- getScnSet(ssimObject)
@@ -367,9 +372,9 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
   for (i in seq(length.out = nrow(scnsToMake))) {
     cRow <- scnsToMake[i, ]
     if (!is.na(cRow$exists)) {
-      scnList[[as.character(scnsToMake$ScenarioID[i])]] <- new("Scenario", ssimObject, project = cRow$ProjectID, id = cRow$ScenarioID, scenarios = cRow)
+      scnList[[as.character(scnsToMake$ScenarioId[i])]] <- new("Scenario", ssimObject, project = cRow$ProjectId, id = cRow$ScenarioId, scenarios = cRow)
     } else {
-      obj <- new("Scenario", ssimObject, project = cRow$ProjectID, name = cRow$Name, sourceScenario = sourceScenario, scenarios = libScns, folder = folder)
+      obj <- new("Scenario", ssimObject, project = cRow$ProjectId, name = cRow$Name, sourceScenario = sourceScenario, scenarios = libScns, folder = folder)
       scnList[[as.character(.scenarioId(obj))]] <- obj
     }
   }
@@ -383,7 +388,7 @@ scenario <- function(ssimObject = NULL, scenario = NULL, sourceScenario = NULL, 
 
   scnSetOut <- getScnSet(ssimObject)
   scnSetOut$exists <- NULL
-  idList <- data.frame(ScenarioID = as.numeric(names(scnList)), order = seq(1:length(scnList)))
+  idList <- data.frame(ScenarioId = as.numeric(names(scnList)), order = seq(1:length(scnList)))
   scnSetOut <- merge(idList, scnSetOut, all.x = TRUE)
   if (sum(is.na(scnSetOut$Name)) > 0) {
     stop("Something is wrong with scenario()")

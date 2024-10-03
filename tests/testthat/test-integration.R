@@ -167,7 +167,7 @@ test_that("Test simple non-spatial STSim example - assumes that SyncroSim is ins
   # See results
   #******************************
   sheetName <- "OutputStratumState"
-  mySQL <- sqlStatement(groupBy = c("ScenarioID", "Iteration", "Timestep", "StateLabelXID"), aggregate = c("Amount"))
+  mySQL <- sqlStatement(groupBy = c("ScenarioId", "Iteration", "Timestep", "StateLabelXID"), aggregate = c("Amount"))
   outStatesAllAges <- datasheet(myResults, name = sheetName, sqlStatement = mySQL)
   expect_equal(setdiff(unique(outStatesAllAges$Timestep), seq(from = 0, to = 10)), numeric(0))
   expect_equal(setdiff(unique(outStatesAllAges$Iteration), seq(from = 1, to = 2)), numeric(0))

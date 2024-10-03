@@ -9,11 +9,8 @@
 ssimLibrary(
   name = NULL,
   summary = NULL,
-  package = NULL,
+  packages = NULL,
   session = NULL,
-  addon = NULL,
-  template = NULL,
-  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -21,11 +18,8 @@ ssimLibrary(
 \S4method{ssimLibrary}{SsimObject}(
   name = NULL,
   summary = NULL,
-  package = NULL,
+  packages = NULL,
   session = NULL,
-  addon = NULL,
-  template = NULL,
-  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -33,11 +27,8 @@ ssimLibrary(
 \S4method{ssimLibrary}{missingOrNULLOrChar}(
   name = NULL,
   summary = NULL,
-  package = NULL,
+  packages = NULL,
   session = NULL,
-  addon = NULL,
-  template = NULL,
-  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -49,19 +40,11 @@ or SsimObject)}
 
 \item{summary}{logical. Default is \code{TRUE}}
 
-\item{package}{character. The package type. Default is "stsim"}
+\item{packages}{character or character vector. The SyncroSim Package(s) to
+add to the Library if creating a new Library (optional)}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
 will be used}
-
-\item{addon}{character or character vector. One or more addon packages. See
-\code{\link{addon}} for options (optional)}
-
-\item{template}{character. Creates the SsimLibrary with the specified template
-(optional)}
-
-\item{forceUpdate}{logical. If \code{FALSE} (default) user will be prompted to approve
-any required updates. If \code{TRUE}, required updates will be applied silently}
 
 \item{overwrite}{logical. If \code{TRUE} an existing SsimLibrary will be overwritten}
 
@@ -99,8 +82,7 @@ of package.
 \examples{
 \donttest{
 # Make sure packages are installed
-addPackage("stsim")
-addPackage("stsimsf")
+installPackage("stsim")
 
 # Create or open a SsimLibrary using the default Session
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
@@ -114,20 +96,13 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
 # Retrieve SsimLibrary properties
 session(myLibrary)
 
-# Load a SsimLibrary with addon package
-myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
-                         overwrite = TRUE, package = "stsim",
-                         addon = "stsimsf")
-
 # Create SsimLibrary from template
-addPackage("helloworldSpatial")
+installPackage("helloworldSpatial")
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,
-                         package = "helloworldSpatial",
-                         template = "example-library",
-                         overwrite = TRUE,
-                         forceUpdate = TRUE)
+                         packages = "helloworldSpatial",
+                         overwrite = TRUE)
                          
 }
 

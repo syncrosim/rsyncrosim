@@ -3,9 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-setMethod(f = "initialize", signature = "Project", definition = function(.Object, ssimLibrary, name = NULL, id = NULL, projects = NULL, sourceProject = NULL) {
+setMethod(f = "initialize", signature = "Project", 
+          definition = function(.Object, ssimLibrary, name = NULL, id = NULL, 
+                                projects = NULL, sourceProject = NULL) {
 
-  ProjectID <- NULL
+  ProjectId <- NULL
   Name <- NULL
   
   # This constructor is only called from projects and getFromXProjScn - assume that ssimLibrary really is an object, projects is defined, and the project is not redundant.
@@ -18,7 +20,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
   findPrj <- projects
 
   if (!is.null(id)) {
-    findPrj <- subset(findPrj, ProjectID == id)
+    findPrj <- subset(findPrj, ProjectId == id)
   }
   if (!is.null(name)) {
     pre <- findPrj
@@ -39,19 +41,19 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 
   if (nrow(findPrj) == 1) {
     if (!is.null(sourceProject)) {
-      warning("Project ", name, " (", findPrj$ProjectID, ") already exists, so sourceProject argument was ignored.")
+      warning("Project ", name, " (", findPrj$ProjectId, ") already exists, so sourceProject argument was ignored.")
     }
     # Go ahead and create the Projects object without issuing system commands to make sure it is ok
     .Object@session <- .session(x)
     .Object@filepath <- .filepath(x)
     .Object@datasheetNames <- .datasheets(x, scope = "all", refresh = TRUE)
-    .Object@projectId <- as.numeric(findPrj$ProjectID)
+    .Object@projectId <- as.numeric(findPrj$ProjectId)
     return(.Object)
   }
 
   # Now go ahead to handle odder cases
   if (nrow(findPrj) > 0) {
-    stop(paste0("The library contains more than one project called ", name, ". Specify a project id: ", paste(findPrj$ProjectID, collapse = ",")))
+    stop(paste0("The library contains more than one project called ", name, ". Specify a project id: ", paste(findPrj$ProjectId, collapse = ",")))
   }
 
   # If given an id for a project that does not yet exist, complain
@@ -68,7 +70,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
     sourcePID <- NA
     slib <- .filepath(x)
     if (is(sourceProject, "numeric")) {
-      if (!is.element(sourceProject, projects$ProjectID)) {
+      if (!is.element(sourceProject, projects$ProjectId)) {
         stop(paste0("sourceProject id ", sourceProject, " not found in the library."))
       }
       sourcePID <- sourceProject
@@ -77,7 +79,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
       if (!is.element(sourceProject, projects$Name)) {
         stop(paste0("sourceProject name ", sourceProject, " not found in the library."))
       }
-      sourcePID <- projects$ProjectID[projects$Name == sourceProject]
+      sourcePID <- projects$ProjectId[projects$Name == sourceProject]
     }
     if (is(sourceProject, "Project")) {
       slib <- .filepath(sourceProject)
@@ -89,7 +91,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
     }
 
     if (name == "GetSourceCopyCopyCopy") {
-      sourceProjectName <- subset(projects, ProjectID == sourcePID)$Name
+      sourceProjectName <- subset(projects, ProjectId == sourcePID)$Name
 
       copyName <- paste(sourceProjectName, "- Copy")
       if (!is.element(copyName, projects$Name)) {
@@ -107,12 +109,15 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
         }
       }
     }
-    tt <- command(list(copy = NULL, project = NULL, slib = slib, tlib = .filepath(x), pid = sourcePID, name = name), .session(x))
+    tt <- command(list(copy = NULL, project = NULL, slib = slib, 
+                       tlib = .filepath(x), pid = sourcePID, name = name), 
+                  .session(x))
   } else {
-    tt <- command(list(create = NULL, project = NULL, lib = .filepath(x), name = name), .session(x))
+    tt <- command(list(create = NULL, project = NULL, lib = .filepath(x), 
+                       name = name), .session(x))
   }
 
-  if (!grepl("Project ID is:", tt[1], fixed = TRUE)) {
+  if (!grepl("Project Id is:", tt[1], fixed = TRUE)) {
     stop(tt)
   }
 
@@ -130,11 +135,11 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' Creates or retrieves a \code{\link{Project}} or multiple Projects from a
 #' SsimLibrary.
 #'
-#' @param ssimObject \code{\link{Scenario}} or 
-#'     \code{\link{SsimLibrary}} object, or a character string (i.e. a filepath)
+#' @param ssimObject \code{\link{Scenario}}, \code{\link{SsimLibrary}}, or 
+#'     \code{\link{Chart}} object, or a character string (i.e. a filepath)
 #' @param project \code{\link{Project}} object, character, integer, or vector 
-#' of these. Names or ids of one or more Projects. Note that integer ids are 
-#' slightly faster (optional)
+#'     of these. Names or ids of one or more Projects. Note that integer ids are 
+#'     slightly faster (optional)
 #' @param sourceProject \code{\link{Project}} object, character, or integer. If 
 #'     not \code{NULL} (default), new Projects will be copies of the sourceProject
 #' @param summary logical. If \code{TRUE} then return the Project(s) in a data.frame with 
@@ -145,7 +150,7 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #'     list; otherwise returns a single project as a \code{\link{Project}} object. 
 #'     Applies only when \code{summary=FALSE} Default is \code{FALSE}
 #' @param overwrite logical. If \code{TRUE} an existing Project will be overwritten. 
-#' Default is \code{FALSE}
+#'     Default is \code{FALSE}
 #' 
 #' @details
 #' For each element of project:
@@ -195,10 +200,13 @@ setMethod(f = "initialize", signature = "Project", definition = function(.Object
 #' 
 #' @name project
 #' @export
-project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, summary = NULL, forceElements = FALSE, overwrite = FALSE) {
+project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, 
+                    summary = NULL, forceElements = FALSE, overwrite = FALSE) {
+  
   if ((is(ssimObject, "character")) && (is(ssimObject, SyncroSimNotFound(warn = FALSE)))) {
     return(SyncroSimNotFound())
   }
+  
   if (is.null(ssimObject)) {
     e <- ssimEnvironment()
     ssimObject <- ssimLibrary(e$LibraryFilePath)
@@ -206,7 +214,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   }
 
   # if ssimObject is a scenario or project, return the project
-  if (is.element(class(ssimObject), c("Scenario", "Project")) & is.null(project)) {
+  if (is.element(class(ssimObject), c("Scenario", "Project", "Chart")) & is.null(project)) {
     if (is.null(summary)) {
       summary <- FALSE
     }
@@ -235,7 +243,10 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     returnIds <- TRUE
   }
 
-  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = NULL, convertObject = convertObject, returnIds = returnIds, goal = "project", complainIfMissing = FALSE)
+  xProjScn <- .getFromXProjScn(ssimObject, project = project, scenario = NULL, 
+                               convertObject = convertObject, 
+                               returnIds = returnIds, goal = "project", 
+                               complainIfMissing = FALSE)
 
   if (is(xProjScn, "Project")) {
     if (!overwrite) {
@@ -246,9 +257,11 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
   if (!is(xProjScn, "list")) {
     stop("something is wrong")
   }
+  
   ssimObject <- xProjScn$ssimObject
   project <- xProjScn$project
   allProjects <- xProjScn$projectSet
+  
   if (is.element("order", names(allProjects))) {
     projectSet <- subset(allProjects, !is.na(order))
   } else {
@@ -257,6 +270,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     }
     projectSet <- allProjects
   }
+  
   if (nrow(projectSet) == 0) {
     if (summary) {
       projectSet$exists <- NULL
@@ -266,6 +280,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
       stop("Error in project(): No projects to get or make.")
     }
   }
+  
   # if all projects exist and summary, simply return summary
   if ((sum(is.na(projectSet$exists)) == 0) & summary) {
     projectSet <- subset(projectSet, !is.na(order))
@@ -295,7 +310,8 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
 
     if (projExists) {
       if (overwrite) {
-        command(list(delete = NULL, project = NULL, lib = .filepath(ssimObject), pid = cRow$ProjectID, force = NULL), .session(ssimObject))
+        command(list(delete = NULL, project = NULL, lib = .filepath(ssimObject), 
+                     pid = cRow$ProjectId, force = NULL), .session(ssimObject))
         allProjects[i, "exists"] <- NA
         projectsToMake[i, "exists"] <- NA
       }
@@ -307,7 +323,7 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     projExists <- !is.na(cRow$exists)
 
     if (projExists) {
-      projectList[[as.character(projectsToMake$ProjectID[i])]] <- new("Project", ssimObject, id = cRow$ProjectID, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
+      projectList[[as.character(projectsToMake$ProjectId[i])]] <- new("Project", ssimObject, id = cRow$ProjectId, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
     } else {
       obj <- new("Project", ssimObject, name = cRow$Name, projects = subset(allProjects, !is.na(exists)), sourceProject = sourceProject)
       projectList[[as.character(.projectId(obj))]] <- obj
@@ -320,14 +336,18 @@ project <- function(ssimObject = NULL, project = NULL, sourceProject = NULL, sum
     }
     return(projectList)
   }
+  
   projectSetOut <- getProjectSet(ssimObject)
   projectSetOut$exists <- NULL
   idList <- data.frame(id = as.numeric(names(projectList)), order = seq(1:length(projectList)))
   projectSetOut <- merge(idList, projectSetOut, all.x = TRUE)
+  
   if (sum(is.na(projectSetOut$name)) > 0) {
     stop("Something is wrong with project()")
   }
+  
   projectSetOut <- projectSetOut[order(projectSetOut$order), ]
   projectSetOut$order <- NULL
+  
   return(projectSetOut)
 }

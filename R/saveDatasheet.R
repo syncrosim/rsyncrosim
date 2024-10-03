@@ -66,7 +66,7 @@ NULL
 #' @examples 
 #' \dontrun{
 #' # Install helloworldSpatial package
-#' addPackage("helloworldSpatial")
+#' installPackage("helloworldSpatial")
 #' 
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib_saveDatasheet")
@@ -103,7 +103,7 @@ NULL
 #'               
 #' # Save a raster stack using fileData
 #' # Create a raster stack - add as many raster files as you want here
-#' map1 <- datasheetRaster(myScenario, datasheet = "InputDatasheet",
+#' map1 <- datasheetSpatRaster(myScenario, datasheet = "InputDatasheet",
 #'                         column = "InterceptRasterFile")
 #' inRasters <- terra::rast(map1)
 #' 
@@ -117,15 +117,24 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("saveDatasheet", function(ssimObject, data, name = NULL, fileData = NULL, append = NULL, forceElements = FALSE, force = FALSE, breakpoint = FALSE, import = TRUE, path = NULL) standardGeneric("saveDatasheet"))
+setGeneric("saveDatasheet", 
+           function(ssimObject, data, name = NULL, fileData = NULL, 
+                    append = NULL, forceElements = FALSE, force = FALSE, 
+                    breakpoint = FALSE, import = TRUE, 
+                    path = NULL) standardGeneric("saveDatasheet"))
 
 #' @rdname saveDatasheet
-setMethod("saveDatasheet", signature(ssimObject = "character"), function(ssimObject, data, name, fileData, append, forceElements, force, breakpoint, import, path) {
+setMethod("saveDatasheet", 
+          signature(ssimObject = "character"), 
+          function(ssimObject, data, name, fileData, append, forceElements, 
+                   force, breakpoint, import, path) {
   return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname saveDatasheet
-setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimObject, data, name, fileData, append, forceElements, force, breakpoint, import, path) {
+setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), 
+          function(ssimObject, data, name, fileData, append, forceElements, 
+                   force, breakpoint, import, path) {
 
   isFile <- NULL
   x <- ssimObject
@@ -157,15 +166,8 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       stop("If a vector of names is provided, then data must be a list.")
     }
 
-    if (!grepl("_", name, fixed = )) {
-      l = ssimLibrary(.filepath(ssimObject), summary=T)
-      p = l$value[l$property == "Package Name:"]
-      name <- paste0(p, "_", name)
-    }
-
-    if (grepl("STSim_", name, fixed = TRUE)) {
-      warning("An STSim_ prefix for a datasheet name is no longer required.")
-      name <- paste0("stsim_", gsub("STSim_", "", name, fixed = TRUE))
+    if (!grepl("_", name, fixed = T)) {
+      stop("The datasheet name requires a package prefix (e.g., 'stsim_RunControl')")
     }
 
     hdat <- data
@@ -233,17 +235,17 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     
     # Remove the Library/Project/Scenario ID from the datasheet
     if (scope == "library"){
-      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("LibraryID")]
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("LibraryId")]
     } else if (scope == "project"){
-      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ProjectID")]
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ProjectId")]
     } else if (scope == "scenario"){
-      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ScenarioID")]
+      colsToKeep <- sheetInfo$name[!sheetInfo$name %in% c("ScenarioId")]
     }
     
     # Remove the datasheet ID from the datasheet if it exists
     dsInfo <- sheetNames[sheetNames$name == cName,]
     dsName <- gsub(paste0(dsInfo$package, "_"), '', dsInfo$name)
-    dsNameID <- paste0(dsName, "ID")
+    dsNameID <- paste0(dsName, "Id")
     colsToKeep <- colsToKeep[!colsToKeep %in% c(dsNameID)]
     
     # Subset data by the valid columns
@@ -261,7 +263,6 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       }
       
       sheetInfo <- subset(sheetInfo, isFile)
-
       sheetInfo <- subset(sheetInfo, is.element(name, names(cDat)))
     }
 
@@ -274,11 +275,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     
       sheetInfo <- subset(datasheet(x, summary = TRUE, optional = TRUE), name == cName)
       fileDir <- .filepath(x)
-      if (sheetInfo$isOutput) {
-        fileDir <- paste0(fileDir, ".output")
-      } else {
-        fileDir <- paste0(fileDir, ".input")
-      }
+      fileDir <- paste0(fileDir, ".data")
       fileDir <- paste0(fileDir, "/Scenario-", .scenarioId(x), "/", cName)
 
       dir.create(fileDir, showWarnings = FALSE, recursive = TRUE)
@@ -286,14 +283,12 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       for (j in seq(length.out = length(itemNames))) {
         cFName <- itemNames[j]
         cItem <- fileData[[cFName]]
-        if (!is(cItem, "RasterLayer") & !is(cItem, "SpatRaster")){
-          stop("rsyncrosim currently only supports terra SpatRasters and Raster layers as elements of fileData.")
+        
+        if (!is(cItem, "SpatRaster")){
+          stop("rsyncrosim currently only supports terra SpatRasters as elements of fileData.")
         }
-        if (is(cItem, "RasterLayer")) {
-          warning("Raster Layer support in rsyncrosim is now deprecated and will be removed in a future version.")
-        }
-        # check for cName in datasheet
 
+        # check for cName in datasheet
         findName <- cDat == cFName
         findName[is.na(findName)] <- FALSE
         sumFind <- sum(findName == TRUE, na.rm = TRUE)
@@ -320,8 +315,9 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
         if (is(cItem, "SpatRaster")){
           terra::writeRaster(cItem, cOutName, overwrite = TRUE)
         }
+        
         if (is(cItem, "RasterLayer")) {
-          raster::writeRaster(cItem, cOutName, format = "GTiff", overwrite = TRUE)
+          stop("Functions from the raster package are no longer supported.")
         }
       }
     }
@@ -357,6 +353,13 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
       tempFile <- paste0(pathBit, "/", "SSIM_OVERWRITE-", cName, ".csv")
     }
 
+    if (nchar(tempFile) >= 260){
+      msg <- paste("path to temporary files generated at runtime is longer", 
+                   " than 260 characters. This may result in a connection ",
+                   "error if long paths are not enabled on Windows machines.")
+      updateRunLog(msg, type = "warning")
+    }
+    
     write.csv(cDat, file = tempFile, row.names = FALSE, quote = TRUE)
     if (breakpoint) {
       out[[cName]] <- "Saved"
@@ -366,21 +369,27 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), function(ssimOb
     if (import) {
       args <- list(import = NULL, lib = .filepath(x), sheet = cName, file = tempFile)
       tt <- "saved"
+      
       if (nrow(cDat) > 0) {
+        
         if (scope == "project") {
           args[["pid"]] <- .projectId(x)
           if (append) args <- c(args, list(append = NULL))
         }
+        
         if (scope == "scenario") {
           args[["sid"]] <- .scenarioId(x)
           if (append) args <- c(args, list(append = NULL))
         }
+        
         tt <- command(args, .session(x))
       }
+      
       if (tt[[1]] == "saved") {
         unlink(tempFile)
       }
       out[[cName]] <- tt
+      
     } else {
       out[[cName]] <- "Saved"
     }

@@ -1,0 +1,4 @@
+# Syncrosim Generated Transition Group (Harvest [Type]) Color Map (QGIS-compatible) Export File,,,,,
+INTERPOLATION:EXACT
+3,128,0,128,255,Harvest
+0,232,232,232,255,No Occurrence

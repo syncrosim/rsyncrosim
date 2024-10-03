@@ -226,7 +226,7 @@ connected to by running the <code><a href="../reference/version.html">version()<
 <pre><code><span><span class="co">## [1] "2.5.11"</span></span></code></pre>
 </div>
 <div class="section level3">
-<h3 id="installing-syncrosim-packages-using-addpackage">Installing SyncroSim packages using <code>addPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-addpackage"></a>
+<h3 id="installing-syncrosim-packages-using-installPackage">Installing SyncroSim packages using <code>installPackage()</code><a class="anchor" aria-label="anchor" href="#installing-syncrosim-packages-using-installPackage"></a>
 </h3>
 <p>Finally, check if the
 <a href="https://github.com/ApexRMS/helloworldTime" target="_blank" class="external-link">helloworldTime</a>
@@ -267,12 +267,12 @@ the <code>installed = FALSE</code> argument in the
 <span><span class="co">## 5  1.0.21                     N/A</span></span>
 <span><span class="co">## 6   2.3.4                     N/A</span></span></code></pre>
 <p>Install <code>helloworldTime</code> using the <code>rynscrosim</code>
-function <code><a href="../reference/addPackage.html">addPackage()</a></code>. This function takes a package name
+function <code><a href="../reference/installPackage.html">installPackage()</a></code>. This function takes a package name
 as input and then queries the SyncroSim package server for the specified
 package.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldTime</span></span>
-<span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"helloworldTime"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldTime"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Package &lt;helloworldTime&gt; installed</span></span></code></pre>
 <p>To install the package from a <code>.ssimpkg</code> file on your
 local computer rather than installing directly from the server, you can
@@ -281,7 +281,7 @@ use the <code><a href="../reference/addPackage.html">addPackage()</a></code> fun
 argument.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldTime using file path to ssimpkg file</span></span>
-<span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="st">"path/to/helloworldTime.ssimpkg"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"path/to/helloworldTime.ssimpkg"</span><span class="op">)</span></span></code></pre></div>
 <p>Now <code>helloworldTime</code> should be included in the package
 list:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -293,7 +293,7 @@ list:</p>
 <span><span class="co">## 1 C:\\Users\\sarah\\SyncroSim\\Packages\\helloworldTime     OK</span></span></code></pre>
 <p><em>Note:</em> you can also update installed packages using the
 <code><a href="../reference/updatePackage.html">updatePackage()</a></code> function or delete installed packages using
-the <code><a href="../reference/removePackage.html">removePackage()</a></code> function in
+the <code><a href="../reference/uninstallPackage.html">uninstallPackage()</a></code> function in
 <code>rsyncrosim</code>.</p>
 </div>
 </div>

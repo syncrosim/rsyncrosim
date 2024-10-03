@@ -2,8 +2,8 @@
 % Please edit documentation in R/rsyncrosim.R
 \docType{package}
 \name{rsyncrosim}
-\alias{rsyncrosim}
 \alias{rsyncrosim-package}
+\alias{rsyncrosim}
 \title{rsyncrosim: The R interface to SyncroSim: https://syncrosim.com/}
 \description{
 rsyncrosim provides an interface to SyncroSim, a generalized framework for
@@ -16,4 +16,32 @@ viewing charts and maps of outputs.
 \details{
 To learn more about rsyncrosim, start with the vignette tutorial:
 \code{browseVignettes("rsyncrosim")}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{<https://syncrosim.github.io/rsyncrosim/>}
+  \item Report bugs at \url{https://github.com/syncrosim/rsyncrosim/issues/}
+}
+
+}
+\author{
+\strong{Maintainer}: Katie Birchard \email{katie.birchard@apexrms.com}
+
+Authors:
+\itemize{
+  \item Colin Daniel \email{colin.daniel@apexrms.com}
+  \item Josie Hughes \email{josie.hughes@canada.ca}
+  \item Valentin Lucet
+  \item Alex Embrey
+  \item Leonardo Frid
+  \item Tabitha Kennedy
+  \item Shreeram Senthivasan
+}
+
+Other contributors:
+\itemize{
+  \item ApexRMS [copyright holder]
+}
+
 }

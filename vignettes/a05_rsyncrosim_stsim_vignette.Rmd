@@ -58,20 +58,20 @@ Use the `version()` function to ensure you are using the latest version of Syncr
 version(mySession)
 ```
 
-### Installing SyncroSim packages using `addPackage()`
+### Installing SyncroSim packages using `installPackage()`
 
-Install `stsim` using the `rsyncrosim` function `addPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
+Install `stsim` using the `rsyncrosim` function `installPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r remove package from server, warning=FALSE, include=FALSE}
 installedPackages <- package()
 if (is.element(
-  "stsim", installedPackages$name)) removePackage(
+  "stsim", installedPackages$name)) uninstallPackage(
     "stsim", force = TRUE)
 ```
 
 ```{r add package from server, warning=FALSE}
 # Install stsim
-addPackage("stsim")
+installPackage("stsim")
 ```
 
 `stsim` should now be included in the package list returned by the `package()` function in `rsyncrosim`:
@@ -507,9 +507,9 @@ The next step is to view the output Datasheets added to the Result Scenario when
 ```{r}
 # Retrieve Scenario IDs
 resultIDNoHarvest <- subset(myResultScenario, 
-                            ParentID == scenarioId(myScenario))$ScenarioID
+                            ParentId == scenarioId(myScenario))$ScenarioId
 resultIDHarvest <- subset(myResultScenario, 
-                          ParentID == scenarioId(myScenarioHarvest))$ScenarioID
+                          ParentId == scenarioId(myScenarioHarvest))$ScenarioId
 ```
 
 We can now retrieve tabular output regarding the projected State Class over time (for both scenarios combined) from the `stsim_OutputStratumState` Datasheet.
