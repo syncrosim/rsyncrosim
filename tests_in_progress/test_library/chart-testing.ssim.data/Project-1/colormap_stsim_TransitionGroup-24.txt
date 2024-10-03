@@ -1,0 +1,4 @@
+# Syncrosim Generated Transition Group (Wind [Type]) Color Map (QGIS-compatible) Export File,,,,,
+INTERPOLATION:EXACT
+1,255,128,64,255,Wind
+0,232,232,232,255,No Occurrence

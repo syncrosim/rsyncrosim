@@ -1,21 +1,41 @@
-myLibraryName <- file.path(tempdir(),"testlib")
-mySession <- session("C:/gitprojects/ssimbin3/")
+### ApexRMS
+### 2024-09-20
+### Below script tests the following functions:
+### * backup
+
+# Setup ----
+# load packages
+library(rsyncrosim)
+library(testthat)
+
+# set library path and session
+myLibraryName <- file.path(tempdir(), "testlib")
+mySession <- session("C:/Program Files/SyncroSim Studio")
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 myProject <- project(myLibrary, project = "My Project")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
+# Tests ----
+# backup library
 expected1 <- backup(myLibrary)
+
+# backup project
 expected2 <- backup(myProject)
+
+# backup scenario
 expected3 <- backup(myScenario)
 
+# check core_Backup datasheet
 ds <- datasheet(myScenario, name = "core_Backup")
 #ds <- (ds$IncludeInput = NA)
 
-vector <- c(1,2,3)
-list <- list(1,2,3)
+# make non-Ssim objects to test with
+vector <- c(1, 2, 3)
+list <- list(1, 2, 3)
 character <- "character"
 df <- data.frame(list(x = 1, y = 2, z  = 3))
 
+# test that all Ssim objects can be backed up
 test_that("can backup all SsimObjects", {
   expect_equal(expected1, TRUE)
   expect_equal(expected2, TRUE)
@@ -25,6 +45,7 @@ test_that("can backup all SsimObjects", {
   expect_type(expected3, "logical")
 })
 
+# test that non-Ssim objects will cause errors
 test_that("errors work", {
   expect_error(backup("myLibrary"))
   expect_error(backup(vector))
