@@ -101,7 +101,7 @@ test_that("argument types all work", {
   expect_s3_class(addRow(chardf, list(x = "sixteen", y = "seventeen", z = "eigteen")), "data.frame")
 })
 
-# test that 
+# test that the correct dimensions are created
 test_that("correct dataframe size", {
   expect_length(addRow((as.data.frame(mtcars)), list(mpg = 100, wt = 10)), 11)
   expect_length(addRow((as.data.frame(mtcars)), multipleRows), 11)
@@ -115,7 +115,7 @@ test_that("correct dataframe size", {
   expect_equal(dim(addRow(chardf, list(x = "sixteen", y = "seventeen", z = "eigteen"))), c(6, 3))
 })
 
-
+# test that the correct number of NA values are created
 test_that("number NAs", {
   expect_equal(sum(is.na(addRow(as.data.frame(mtcars), list(mpg = 100, wt = 10)))), 9)
   expect_equal(sum(is.na(addRow((as.data.frame(mtcars)), multipleRows))), 27)
@@ -125,6 +125,7 @@ test_that("number NAs", {
   expect_equal(sum(is.na(addRow(chardf, list(x = "sixteen", y = "seventeen", z = "eigteen")))), 0)
 })
 
+# test that using the incorrect object will cause an error
 test_that("errors work", {
   expect_error(addRow(as.data.frame(mtcars), wrongcolumnnames))
   expect_error(addRow(as.data.frame(mtcars), vector))

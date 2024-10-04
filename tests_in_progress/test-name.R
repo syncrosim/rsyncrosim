@@ -1,4 +1,18 @@
+### ApexRMS
+### 2024-10-04
+### Below script tests the following functions:
+### * name
 
+# load packages
+library(rsyncrosim)
+library(testthat)
+
+# Setup ----
+myLibraryName1 <- file.path(tempdir(), "testlib")
+myLibraryName2 <- file.path(tempdir(), "mylib")
+mySession <- session("C:/Program Files/SyncroSim Studio")
+
+# Tests ----
 test_that("can name all SsimObjects", {
   myLibraryName <- file.path(tempdir(), "lib")
   mySession <- session()
