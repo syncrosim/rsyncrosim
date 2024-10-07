@@ -8,46 +8,54 @@ library(rsyncrosim)
 library(testthat)
 
 # Setup ----
-myLibraryName1 <- file.path(tempdir(), "testlib")
-myLibraryName2 <- file.path(tempdir(), "mylib")
 mySession <- session("C:/Program Files/SyncroSim Studio")
 
 # Tests ----
+
+# test that all syncrosim objects can be named
 test_that("can name all SsimObjects", {
+
+  # set up library
   myLibraryName <- file.path(tempdir(), "lib")
-  mySession <- session()
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
   myProject <- project(myLibrary, project = "Definitions")
   myScenario <- scenario(myProject, scenario = "My Scenario")
 
+  # run tests on ssim scenario
   expect_equal(name(myScenario), "My Scenario")
   expect_type(name(myScenario), "character")
   expect_error(expect_error(name(myScenario) <- "scenario"))
   expect_equal(name(myScenario), "scenario")
 
+  # run tests on ssim library
   expect_equal(name(myLibrary), "lib")
   expect_type(name(myLibrary), "character")
   expect_error(expect_error(name(myLibrary) <- "Library"))
   expect_equal(name(myLibrary), "Library")
 
+  # run tests on ssim project
   expect_equal(name(myProject), "Definitions")
   expect_type(name(myProject), "character")
   expect_error(expect_error(name(myProject) <- "Project"))
   expect_equal(name(myProject), "Project")
 })
 
+# test that function creates errors when incorrect objects are used as arguments
 test_that("errors work", {
+
+  # set up library
   myLibraryName <- file.path(tempdir(), "lib")
-  mySession <- session()
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
   myProject <- project(myLibrary, project = "Definitions")
   myScenario <- scenario(myProject, scenario = "My Scenario")
 
-  vector <- c(1,2,3)
-  list <- list(1,2,3)
+  # create ojects to use as incorrect arguments
+  vector <- c(1, 2, 3)
+  list <- list(1, 2, 3)
   character <- "character"
   df <- data.frame(list(x = 1, y = 2, z  = 3))
 
+  # test that errors are created
   expect_error(name("myLibrary"))
   expect_error(name(vector))
   expect_error(name(list))
