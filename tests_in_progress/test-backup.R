@@ -3,12 +3,11 @@
 ### Below script tests the following functions:
 ### * backup
 
-# Setup ----
 # load packages
 library(rsyncrosim)
 library(testthat)
 
-# set library path and session
+# Setup ----
 myLibraryName <- file.path(tempdir(), "testlib")
 mySession <- session("C:/Program Files/SyncroSim Studio")
 myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
@@ -16,13 +15,10 @@ myProject <- project(myLibrary, project = "My Project")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 
 # Tests ----
-# backup library
+
+# backup library, project, and scenario
 expected1 <- backup(myLibrary)
-
-# backup project
 expected2 <- backup(myProject)
-
-# backup scenario
 expected3 <- backup(myScenario)
 
 # check core_Backup datasheet

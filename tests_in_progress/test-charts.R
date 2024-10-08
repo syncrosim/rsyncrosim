@@ -15,20 +15,15 @@
 ### * name
 ### * delete
 
-# Setup ----
+# load packages
 library(rsyncrosim)
 
-# set up library
+# Setup ----
 mySession <- session("C:/Program Files/SyncroSim Studio")
 libPath <- "tests_in_progress/test_library/spatial-example.ssim"
-
 myLibrary <- ssimLibrary(name = libPath,
                          session = mySession)
-
-# define project
-myProject <- rsyncrosim::project(myLibrary, project = 1)
-
-# define scenario
+myProject <- project(myLibrary, project = 1)
 scenario(myProject)
 myScenario <- scenario(myProject, scenario = 16)
 

@@ -12,8 +12,6 @@ myLibraryName1 <- file.path(tempdir(), "testlib")
 myLibraryName2 <- file.path(tempdir(), "mylib")
 mySession <- session("C:/Program Files/SyncroSim Studio")
 
-# Tests ----
-
 # generate dataframes, vectors, and lists
 multipleRows <- data.frame(mpg = c(40, 50, 75),
                            wt = c(4, 7, 6))
@@ -100,6 +98,8 @@ test_that("argument types all work", {
   expect_s3_class(addRow((as.data.frame(mtcars)), nozero), "data.frame")
   expect_s3_class(addRow(chardf, list(x = "sixteen", y = "seventeen", z = "eigteen")), "data.frame")
 })
+
+# Tests ----
 
 # test that the correct dimensions are created
 test_that("correct dataframe size", {

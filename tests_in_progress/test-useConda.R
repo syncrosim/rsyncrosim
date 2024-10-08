@@ -1,11 +1,21 @@
-test_that("useConda works", {
-  myLibraryName <- file.path(tempdir(),"testlib_sqlStatement")
-  mySession <- session()
-  myLibrary <- ssimLibrary(name = myLibraryName,
-                           session = mySession,
-                           package = "helloworldSpatial",
-                           template = "example-library")
+### ApexRMS
+### 2024-10-08
+### Below script tests the following functions:
+### * parentId
 
+# load packages
+library(rsyncrosim)
+library(testthat)
+
+# Setup ----
+mySession <- session("C:/Program Files/SyncroSim Studio")
+libPath <- "tests_in_progress/test_library/spatial-example.ssim"
+myLibrary <- ssimLibrary(name = libPath, session = mySession)
+myProject <- project(myLibrary, project = 1)
+myScenario <- scenario(myProject, scenario = 16)
+
+# Tests ----
+test_that("useConda works", {
   expect_error(useConda(myLibrary), NA)
   expect_type(useConda(myLibrary), "logical")
   expect_equal(useConda(myLibrary), FALSE)
@@ -13,19 +23,9 @@ test_that("useConda works", {
   expect_equal(useConda(myLibrary), TRUE)
   expect_error(useConda(myLibrary) <- "FALSE", NA)
   expect_equal(useConda(myLibrary), FALSE)
-
 })
 
 test_that("errors work", {
-  myLibraryName <- file.path(tempdir(),"testlib_sqlStatement")
-  mySession <- session()
-  myLibrary <- ssimLibrary(name = myLibraryName,
-                           session = mySession,
-                           package = "helloworldSpatial",
-                           template = "example-library")
-  myProject <- project(myLibrary, project = "Definitions")
-  myScenario <- scenario(myProject, scenario = "My Scenario")
-
   expect_error(useConda("myLibrary"))
   expect_error(useConda(mySession))
   expect_error(useConda(myProject))

@@ -9,17 +9,15 @@ library(testthat)
 
 # Setup ----
 mySession <- session("C:/Program Files/SyncroSim Studio")
+myLibraryName <- file.path(tempdir(), "lib")
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
+myProject <- project(myLibrary, project = "Definitions")
+myScenario <- scenario(myProject, scenario = "My Scenario")
 
 # Tests ----
 
 # test that all syncrosim objects can be named
 test_that("can name all SsimObjects", {
-
-  # set up library
-  myLibraryName <- file.path(tempdir(), "lib")
-  myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
-  myProject <- project(myLibrary, project = "Definitions")
-  myScenario <- scenario(myProject, scenario = "My Scenario")
 
   # run tests on ssim scenario
   expect_equal(name(myScenario), "My Scenario")
@@ -40,14 +38,8 @@ test_that("can name all SsimObjects", {
   expect_equal(name(myProject), "Project")
 })
 
-# test that function creates errors when incorrect objects are used as arguments
+# test that errors are thrown when incorrect objects are used as arguments
 test_that("errors work", {
-
-  # set up library
-  myLibraryName <- file.path(tempdir(), "lib")
-  myLibrary <- ssimLibrary(name = myLibraryName, session = mySession, package = "stsim")
-  myProject <- project(myLibrary, project = "Definitions")
-  myScenario <- scenario(myProject, scenario = "My Scenario")
 
   # create ojects to use as incorrect arguments
   vector <- c(1, 2, 3)
