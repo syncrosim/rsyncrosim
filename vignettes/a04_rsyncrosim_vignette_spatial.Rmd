@@ -107,43 +107,43 @@ When creating a new modeling workflow from scratch, we need to create objects of
 
 For more information on these scopes, see the [Introduction to `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_basic.html) vignette.
 
-### Set up Library, Project, and Scenario
+### Set up library, project, and scenario
 
 ```{r create Library, warning = FALSE}
-# Create a new Library
+# Create a new library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
                          package = "helloworldSpatial",
                          overwrite = TRUE)
 
-# Open the default Project
+# Open the default project
 myProject = rsyncrosim::project(ssimObject = myLibrary, project = "Definitions")
 
-# Create a new Scenario (associated with the default Project)
+# Create a new scenario (associated with the default project)
 myScenario = scenario(ssimObject = myProject, scenario = "My spatial scenario")
 ```
 
 ### View model inputs using `datasheet()`
   
-View the Datasheets associated with your new Scenario using the `datasheet()` function from `rsyncrosim`.
+View the datasheets associated with your new scenario using the `datasheet()` function from `rsyncrosim`.
 
 ```{r view datasheet list, warning = FALSE}
-# View all Datasheets associated with a Library, Project, or Scenario
+# View all datasheets associated with a library, project, or scenario
 datasheet(myScenario)
 ```
 
-From the list of Datasheets above, we can see that there are four Datasheets specific to the `helloworldSpatial` package, including an Input Datasheet, an Intermediate Datasheet, an Output Datasheet, and a Run Control Datasheet.
+From the list of datasheets above, we can see that there are four datasheets specific to the `helloworldSpatial` package, including an input datasheet, an intermediate datasheet, an output datasheet, and a run control datasheet.
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
-Currently our input Scenario Datasheets are empty! We need to add some values to our input Datasheet (`InputDatasheet`) and run control Datasheet (`RunControl`) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core `Pipeline` Datasheet to specify which models are run in which order. For more information on using pipelines, see the [`rsyncrosim`: introduction to pipelines](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html) vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
+Currently our input scenario datasheets are empty! We need to add some values to our input datasheet (`InputDatasheet`) and run control datasheet (`RunControl`) so we can run our model. Since this package also uses pipelines, we also need to add some information to the core `Pipeline` datasheet to specify which models are run in which order. For more information on using pipelines, see the [`rsyncrosim`: introduction to pipelines](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html) vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
 
-**Input Datasheet**
+**Input datasheet**
 
-First, assign the contents of the input Datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
+First, assign the contents of the input datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
 
 ```{r assign input data, warning = FALSE}
-# Load input Datasheet to a new R data frame
+# Load input datasheet to a new R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldSpatial_InputDatasheet")
 
@@ -151,7 +151,7 @@ myInputDataframe <- datasheet(myScenario,
 str(myInputDataframe)
 ```
 
-The input Datasheet requires three values:
+The input datasheet requires three values:
 
 * `mMean` : the mean of a normal distribution that will determine the slope of the linear equation.
 * `mSD` : the standard deviation of a normal distribution that will determine the slope of the linear equation.
@@ -180,26 +180,26 @@ myInputDataframe <- data.frame(
   InterceptRasterFile = "C:/gitprojects/rsyncrosim/vignettes/input-raster.tif")
 ```
 
-Finally, save the updated R data frame to a SyncroSim Datasheet using `saveDatasheet()`.
+Finally, save the updated R data frame to a SyncroSim datasheet using `saveDatasheet()`.
 
 ```{r save input data, warning = FALSE}
-# Save input R data frame as a SyncroSim Datasheet
+# Save input R data frame as a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
               name = "helloworldSpatial_InputDatasheet")
 ```
 
-**RunControl Datasheet**
+**RunControl datasheet**
 
-The `RunControl` Datasheet sets the number of iterations and the minimum and maximum time steps for our model. We'll assign the contents of this Datasheet to a new data frame variable as well and then add then update the information in the data frame using `addRow()`. We need to specify data for the following four columns:
+The `RunControl` datasheet sets the number of iterations and the minimum and maximum time steps for our model. We'll assign the contents of this datasheet to a new data frame variable as well and then add then update the information in the data frame using `addRow()`. We need to specify data for the following four columns:
 
 * `MaximumIteration` : total number of iterations to run the model for.
 * `MinimumTimestep` : the starting time point of the simulation.
 * `MaximumTimestep` : the end time point of the simulation.
 
-*Note:* A fourth hidden column, `MinimumIteration`, also exists in the RunControl Datasheet (default=1).
+*Note:* A fourth hidden column, `MinimumIteration`, also exists in the RunControl datasheet (default=1).
 
 ```{r modify run control}
-# Load RunControl Datasheet to an R data frame
+# Load RunControl datasheet to an R data frame
 runSettings <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 
 # Check the columns of the run control data frame
@@ -214,26 +214,26 @@ runSettings <- addRow(runSettings, runSettingsRow)
 # Check values
 runSettings
 
-# Save run control R data frame to a SyncroSim Datasheet
+# Save run control R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = runSettings,
               name = "helloworldSpatial_RunControl")
 ```
 
-**Pipeline Datasheet**
+**Pipeline datasheet**
 
 The `helloworldSpatial` package also makes use of pipelines to link the output of one model to the input of a second model. To learn more about pipelines, see the [`rsyncrosim`: introduction to pipelines](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html) vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
 
-To implement pipelines in our package, we need to specify the order in which to run the Transformers (i.e. models) in our pipeline by editing the `Pipeline` Datasheet. The `Pipeline` Datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` Datasheet we know that the `StageNameID` is a factor with two levels: "First Model" and "Second Model". We will set the data for this Datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
+To implement pipelines in our package, we need to specify the order in which to run the Transformers (i.e. models) in our pipeline by editing the `Pipeline` datasheet. The `Pipeline` datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` datasheet we know that the `StageNameId` is a factor with two levels: "First Model" and "Second Model". We will set the data for this datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
 
 ```{r modify pipeline}
-# Load Pipeline Datasheet to an R data frame
+# Load Pipeline datasheet to an R data frame
 myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
 
 # Check the columns of the Pipeline data frame
 str(myPipelineDataframe)
 
 # Create Pipeline data and add it to the Pipeline data frame
-myPipelineRow <- data.frame(StageNameID = c("First Model", "Second Model"),
+myPipelineRow <- data.frame(StageNameId = c("First Model", "Second Model"),
                             RunOrder = c(1, 2))
 
 myPipelineDataframe <- addRow(myPipelineDataframe, myPipelineRow)
@@ -241,32 +241,32 @@ myPipelineDataframe <- addRow(myPipelineDataframe, myPipelineRow)
 # Check values
 myPipelineDataframe
 
-# Save Pipeline R data frame to a SyncroSim Datasheet
+# Save Pipeline R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = myPipelineDataframe,
               name = "core_Pipeline")
 ```
 
 
-## Run Scenarios
+## Run scenarios
 
 ### Setting run parameters with `run()`
 
-We will now run our Scenario using the `run()` function in `rsyncrosim`. If we have a large modeling workflow and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than one.
+We will now run our scenario using the `run()` function in `rsyncrosim`. If we have a large modeling workflow and we want to parallelize the run using multiprocessing, we can set the `jobs` argument to be a value greater than one.
 
 ```{r run first Scenario, warning = FALSE}
-# Run the first Scenario we created
+# Run the first scenario we created
 myResultScenario <- run(myScenario, jobs = 5)
 ```
 
-After the Scenario has been run, a Results Scenario is created that contains results in the output Datasheets.
+After the scenario has been run, a results scenario is created that contains results in the output datasheets.
 
 ## View results
 
-The next step is to view the output Datasheets added to the Result Scenario when it was run.
+The next step is to view the output datasheets added to the result scenario when it was run.
 
 ### Viewing non-spatial results with `datasheet()`
 
-First, we will view the non-spatial results within the Results Scenarios. For each step in the pipeline, We can load the result tables using the `datasheet()` function.
+First, we will view the non-spatial results within the results scenarios. For each step in the pipeline, We can load the result tables using the `datasheet()` function.
 
 
 ```{r view results datasheets, warning = FALSE, eval = FALSE, results = FALSE}
@@ -279,7 +279,7 @@ head(resultsSummary)
 ```
 
 ```{r resultsSummary cleaned, echo = FALSE}
-# Results of first Scenario, first model of first model in Pipeline
+# Results of first scenario, first model of first model in Pipeline
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldSpatial_IntermediateDatasheet")
 
@@ -299,15 +299,15 @@ resultsSummary2 <- datasheet(myResultScenario,
 head(resultsSummary2)
 ```
 
-From viewing these Datasheets, we can see that the spatial output is contained within the `IntermediateDatasheet`, in the column called `OutputRasterFile`.
+From viewing these datasheets, we can see that the spatial output is contained within the `IntermediateDatasheet`, in the column called `OutputRasterFile`.
 
 
 ### Viewing spatial results with `datasheetSpatRaster()`
 
-For spatial results, we want to load the results as raster images. To do this, we will use the `datasheetSpatRaster()` function from `rsyncrosim`. The first argument is the result Scenario object. Next, we specify the name of the Datasheet containing raster images using the `datasheet` argument, and the column pertaining to the raster images using the `column` argument. The results contain many raster images, since we have a raster for each combination of iteration and time step. We can use the `iteration` and `timestep` arguments to specify a single raster image or a subset of raster images we want to view. 
+For spatial results, we want to load the results as raster images. To do this, we will use the `datasheetSpatRaster()` function from `rsyncrosim`. The first argument is the result scenario object. Next, we specify the name of the datasheet containing raster images using the `datasheet` argument, and the column pertaining to the raster images using the `column` argument. The results contain many raster images, since we have a raster for each combination of iteration and time step. We can use the `iteration` and `timestep` arguments to specify a single raster image or a subset of raster images we want to view. 
 
 ```{r view results raster, warning = FALSE}
-# Load raster files for first result Scenario with time step and iteration
+# Load raster files for first result scenario with time step and iteration
 rasterMaps <- datasheetSpatRaster(
   myResultScenario,
   datasheet = "helloworldSpatial_IntermediateDatasheet",
@@ -323,6 +323,6 @@ plot(rasterMaps[[1]])
 
 ### Viewing spatial results in the SyncroSim Windows User Interface
 
-To create maps using the Results Scenario we just generated, open the current Library in the User Interface and sync the updates from `rsyncrosim` using the "refresh" button in the upper toolbar. All the updates made in `rsyncrosim` should appear in the User Interface. We can now add the Results Scenario to the Results Viewer and create our maps. For more information on generating map in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_map_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_map_customize.html" target="_blank">customizing</a> maps
+To create maps using the results scenario we just generated, open the current library in the User Interface and sync the updates from `rsyncrosim` using the "refresh" button in the upper toolbar. All the updates made in `rsyncrosim` should appear in the User Interface. We can now add the results scenario to the Results Viewer and create our maps. For more information on generating map in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_map_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_map_customize.html" target="_blank">customizing</a> maps
 
 ![Using `rsyncrosim` with the SyncroSim Windows User Interface to map spatial data](./rsyncrosim-with-UI-spatial.png){width=600px}
