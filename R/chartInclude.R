@@ -74,7 +74,7 @@ setMethod("chartInclude", signature(chart = "Chart"),
     }
     
     # Retrieve value names and IDs for given variable and filter
-    valueDF <- chartInfo(chart, variable = variable, filter = filter)
+    valueDF <- chartCriteria(chart, variable = variable, filter = filter)
     
     # Include all values specified in addValue argument
     if (!is.null(addValue)){

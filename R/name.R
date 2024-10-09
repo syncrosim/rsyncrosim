@@ -148,7 +148,9 @@ setReplaceMethod(
   f = "name",
   signature = "Chart",
   definition = function(ssimObject, value) {
-    tt <- command(list(setprop = NULL, lib = .filepath(ssimObject), cid = .chartId(ssimObject), name = value), .session(ssimObject))
+    tt <- command(list(chart = NULL, set=NULL, lib = .filepath(ssimObject), 
+                       cid = .chartId(ssimObject), name = value), 
+                  .session(ssimObject), program = "SyncroSim.Console.exe")
     if (!identical(tt, "saved")) {
       stop(tt)
     }
