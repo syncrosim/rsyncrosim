@@ -223,7 +223,7 @@ saveDatasheet(ssimObject = myScenario, data = runSettings,
 
 The `helloworldSpatial` package also makes use of pipelines to link the output of one model to the input of a second model. To learn more about pipelines, see the [`rsyncrosim`: introduction to pipelines](https://syncrosim.github.io/rsyncrosim/rsyncrosim_vignette_pipelines.html) vignette and the SyncroSim <a href="https://docs.syncrosim.com/how_to_guides/package_create_pipelines.html" target="_blank">Enhancing a Package: Linking Models</a> tutorial.
 
-To implement pipelines in our package, we need to specify the order in which to run the Transformers (i.e. models) in our pipeline by editing the `Pipeline` datasheet. The `Pipeline` datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` datasheet we know that the `StageNameID` is a factor with two levels: "First Model" and "Second Model". We will set the data for this datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
+To implement pipelines in our package, we need to specify the order in which to run the Transformers (i.e. models) in our pipeline by editing the `Pipeline` datasheet. The `Pipeline` datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` datasheet we know that the `StageNameId` is a factor with two levels: "First Model" and "Second Model". We will set the data for this datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
 
 ```{r modify pipeline}
 # Load Pipeline datasheet to an R data frame
@@ -233,7 +233,7 @@ myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
 str(myPipelineDataframe)
 
 # Create Pipeline data and add it to the Pipeline data frame
-myPipelineRow <- data.frame(StageNameID = c("First Model", "Second Model"),
+myPipelineRow <- data.frame(StageNameId = c("First Model", "Second Model"),
                             RunOrder = c(1, 2))
 
 myPipelineDataframe <- addRow(myPipelineDataframe, myPipelineRow)

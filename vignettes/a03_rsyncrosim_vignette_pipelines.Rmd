@@ -217,7 +217,7 @@ saveDatasheet(ssimObject = myScenario, data = runSettings,
 
 **Pipeline Datasheet**
 
-We must modify a third datasheet to be able to use the output of one transformer as the input of a second transformer. To implement pipelines in our package, we need to specify the order in which to run the transformers in our pipeline by editing the `Pipeline` datasheet. The `Pipeline` datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` datasheet we know that the `StageNameID` is a factor with two levels: "First Model" and "Second Model". We will set the data for this datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
+We must modify a third datasheet to be able to use the output of one transformer as the input of a second transformer. To implement pipelines in our package, we need to specify the order in which to run the transformers in our pipeline by editing the `Pipeline` datasheet. The `Pipeline` datasheet is part of the built-in SyncroSim core, so we access it using the "core_" prefix with the `datasheet()` function. From viewing the structure of the `Pipeline` datasheet we know that the `StageNameId` is a factor with two levels: "First Model" and "Second Model". We will set the data for this datasheet such that "First Model" is run first, then "Second Model". This way, the output from "First Model" is used as the input for "Second Model".
 
 ```{r modify pipeline, eval = FALSE}
 # Load Pipeline datasheet to a new R data frame
@@ -227,7 +227,7 @@ myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
 str(myPipelineDataframe)
 
 # Create Pipeline data and add it to the Pipeline data frame
-myPipelineRow <- data.frame(StageNameID = c("First Model", "Second Model"),
+myPipelineRow <- data.frame(StageNameId = c("First Model", "Second Model"),
                             RunOrder = c(1, 2))
 
 myPipelineDataframe <- addRow(myPipelineDataframe, myPipelineRow)
