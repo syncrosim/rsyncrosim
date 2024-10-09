@@ -1,7 +1,7 @@
 ### ApexRMS
 ### 2024-10-08
 ### Below script tests the following functions:
-### * parentId
+### * projectId
 
 # load packages
 library(rsyncrosim)
