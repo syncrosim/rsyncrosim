@@ -70,7 +70,7 @@ version(mySession)
 Install `helloworldPipeline` using the `rynscrosim` function `installPackage()`. This function takes a package name as input and then queries the SyncroSim package server for the specified package.
 
 ```{r remove package from server run, warning=FALSE, include=FALSE}
-installedPackages <- package()
+installedPackages <- packages()
 if (is.element(
   "helloworldPipeline", installedPackages$name)) uninstallPackage(
     "helloworldPipeline", force = TRUE)
@@ -85,7 +85,7 @@ installPackage("helloworldPipeline")
 
 ```{r check packages 2, warning = FALSE, eval=FALSE}
 # Get list of installed packages
-package()
+packages()
 ```
 
 ```{r check packages run, warning=FALSE, echo=FALSE}
