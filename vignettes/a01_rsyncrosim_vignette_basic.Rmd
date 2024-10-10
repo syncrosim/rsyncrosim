@@ -274,7 +274,7 @@ If we want to see more information about each datasheet, such as the scope of th
 datasheet(myScenario, optional = TRUE)
 ```
 
-From this output we can see the the `Run Control` datasheet and `Inputs` only accept a single row of data (i.e. `isSingle = TRUE`). This is something to consider when we configure our model inputs.
+From this output we can see the the `Run Control` and `Inputs` datasheets only accept a single row of data (i.e. `isSingle = TRUE`). This is something to consider when we configure our model inputs.
 
 To view a specific datasheet rather than just a data frame of available datasheets, set the `name` parameter in the `datasheet()` function to the name of the datasheet you want to view. The general syntax of the name is: "\<name of package\>_\<name of Datasheet\>". From the list of datasheets above, we can see that there are 3 datasheets specific to the `helloworldTime` package.
 
@@ -287,39 +287,9 @@ Here, we are viewing the contents of a SyncroSim datasheet as an R data frame. A
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
-Currently our input scenario datasheets are empty! To run our scenario we will need to add some values to the Pipeline (`core_Pipeline`) and Input Datasheet (`InputDatasheet`) so we can run our model. 
+Currently our Inputs scenario datasheet is empty! We will need to add some values to the Inputs datasheet (`InputDatasheet`) so we can run our model. 
 
-First, we will add data to the Pipeline datasheet. The Pipeline datasheet determines which transformers the scenarios will run and in which order. Use the code below to assign the pipeline datasheet to a new data frame variable.
-
-```{r assign pipeline data, warning = FALSE}
-myPipeline <- datasheet(myScenario,
-                        name = "core_Pipeline")
-```
-
-Check the columns that need input values and the type of values these columns require (e.g. string, numeric, logical) using the `str()` base R function. This function will also let us know if certain columns are factors with specific acceptable values.
-
-```{r check pipeline data, warning = FALSE}
-str(myPipeline)
-```
-
-The Pipeline data frame requires 2 values:
-
-* `StageNameId` : the ID of the pipeline stage (transformer). This column is a factor that has only a single level: "Hello World Time (R)". 
-* `RunOrder` : the numerical order in which the stages will be run.
-
-Now, we will update the pipeline data frame. This can be done in many ways (e.g. using the `dplyr` package), but `rsyncrosim` also provides a helper function called `addRow()` for easily adding new rows to R data frames. The `addRow()` function takes the `targetDataframe` as the first value (in this case, our Pipeline data frame that we want to update), and the data frame of new rows to append to the input data frame as the second value.
-
-```{r add pipeline data, warning = FALSE}
-# Create pipeline data and add it to the pipeline data frame
-myPipelineRow <- data.frame(StageNameId = "Hello World Time (R)", RunOrder = 1)
-myPipeline <- addRow(myPipeline, myPipelineRow)
-
-# Check values
-myPipeline
-
-```
-
-Next, assign the Inputs datasheet to a new data frame variable.
+First, assign the Inputs datasheet to a new data frame variable.
 
 ```{r assign input data, warning = FALSE}
 # Assign contents of the Inputs datasheet to an R data frame
@@ -327,19 +297,19 @@ myInputDataframe <- datasheet(myScenario,
                               name = "helloworldTime_InputDatasheet")
 ```
 
-Check the columns that need input values and the type of values these columns require (e.g. string, numeric, logical) using the `str()` base R function.
+Check the columns that need input values and the type of values these columns require (e.g. string, numeric, logical) using the `str()` base R function. This function will also let us know if certain columns are factors with specific acceptable values.
 
 ```{r check input data, warning = FALSE}
 # Check the columns of the input data frame
 str(myInputDataframe)
 ```
 
-The input datasheet requires 2 values:
+The Inputs datasheet requires 2 values:
 
 * `m` : the slope of the linear equation.
 * `b` : the intercept of the linear equation.
 
-Now we will update the input data frame using the `addRow()` function. Note that in the previous section we discovered that the Inputs datasheet only accepts a single row of values, so we can only have one value each for our slope (*m*) and intercept (*b*).
+Now, we will update the Inputs data frame. This can be done in many ways (e.g. using the `dplyr` package), but `rsyncrosim` also provides a helper function called `addRow()` for easily adding new rows to R data frames. The `addRow()` function takes the `targetDataframe` as the first value (in this case, our Inputs data frame that we want to update), and the data frame of new rows to append to the input data frame as the second value.
 
 ```{r add input data, warning = FALSE}
 # Create input data and add it to the input data frame
@@ -352,17 +322,45 @@ myInputDataframe
 
 ### Saving modifications to datasheets using `saveDatasheet()`
 
-Now that we have complete data frames of the Pipeline and Inputs, we will save these data frames to their respective SyncroSim datasheets using the `saveDatasheet()` function. Since these datasheets are both scenario-scoped, we will save both of them at the scenario level by setting `ssimObject = myScenario`.
+Now that we have a complete data frame of the Inputs, we will save this data frame to its respective SyncroSim datasheets using the `saveDatasheet()` function. Since this datasheet is scenario-scoped, we will save it at the scenario level by setting `ssimObject = myScenario`.
 
 ```{r save input data, warning = FALSE}
-# Save Pipeline R data frame to a SyncroSim Datasheet
-saveDatasheet(ssimObject = myScenario, data = myPipeline,
-              name = "core_Pipeline")
-
-
 # Save Inputs R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
               name = "helloworldTime_InputDatasheet")
+```
+
+### Configuring the `Pipeline` datasheet
+
+Next, we need to add data to the Pipeline datasheet. The Pipeline datasheet determines which transformers the scenarios will run and in which order. Use the code below to assign the Pipeline datasheet to a new data frame variable and check the values required by the datasheet.
+
+```{r assign pipeline data, warning = FALSE}
+# Assign contents of the Pipeline datasheet to an R data frame
+myPipeline <- datasheet(myScenario,
+                        name = "core_Pipeline")
+
+# Check the columns of the Pipeline data frame
+str(myPipeline)
+```
+
+The Pipeline datasheet requires 2 values:
+
+* `StageNameId` : the pipeline stage (transformer). This column is a factor that has only a single level: "Hello World Time (R)". 
+* `RunOrder` : the numerical order in which the stages will be run.
+
+Below, we use the `addRow()` and `saveDatasheet()` functions to update the Pipeline datasheet with the transformer(s) we want to run and the order in which we want to run them. In this case, there is only a single transformer available from the `helloworldTime` package, called "Hello World Time (R)", so we will add this transformer to the data frame and set the `RunOrder` to `1`.
+
+```{r add pipeline data, warning = FALSE}
+# Create pipeline data and add it to the pipeline data frame
+myPipelineRow <- data.frame(StageNameId = "Hello World Time (R)", RunOrder = 1)
+myPipeline <- addRow(myPipeline, myPipelineRow)
+
+# Check values
+myPipeline
+
+# Save Pipeline R data frame to a SyncroSim Datasheet
+saveDatasheet(ssimObject = myScenario, data = myPipeline,
+              name = "core_Pipeline")
 ```
 
 ### Configuring the `Run Control` datasheet
