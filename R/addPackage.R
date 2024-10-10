@@ -101,7 +101,7 @@ setMethod("addPackage", signature(ssimLibrary = "SsimLibrary"),
     }
 
     tt <- command(list(add = NULL, package = NULL, lib = .filepath(ssimLibrary), 
-                       pkg = cPkg, version = cVer), .session(ssimLibrary))
+                       pkg = cPkg, ver = cVer), .session(ssimLibrary))
     
     if (tt[1] == "saved"){
       message(paste0("Package <", cPkg, " v", cVer, "> added"))

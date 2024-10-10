@@ -9,7 +9,7 @@ chartOptionsLegend(
   chart,
   show = NULL,
   showScenarioName = NULL,
-  showScenarioID = NULL,
+  showScenarioId = NULL,
   showStageName = NULL,
   showTimestamp = NULL
 )
@@ -18,7 +18,7 @@ chartOptionsLegend(
   chart,
   show = NULL,
   showScenarioName = NULL,
-  showScenarioID = NULL,
+  showScenarioId = NULL,
   showStageName = NULL,
   showTimestamp = NULL
 )
@@ -31,7 +31,7 @@ chartOptionsLegend(
 \item{showScenarioName}{logical. Whether to show the scenario name in the
 legend. Default is \code{NULL}.}
 
-\item{showScenarioID}{logical. Whether to show the scenario ID in the legend.
+\item{showScenarioId}{logical. Whether to show the scenario ID in the legend.
 Default is \code{NULL}.}
 
 \item{showStageName}{logical. Determines whether to show the stage name
@@ -54,7 +54,7 @@ Modifies the legend settings for a \code{\link{Chart}}.
 myChart <- chart(myProject, chart = "My Chart")
 
 # Remove the scenario ID and the timestamp from the chart
-myChart <- chartOptionsLegend(myChart, showScenarioID = FALSE, 
+myChart <- chartOptionsLegend(myChart, showScenarioId = FALSE, 
                               showTimestamp = FALSE)
 
 # Hide the chart legend

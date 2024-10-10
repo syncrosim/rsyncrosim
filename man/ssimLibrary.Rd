@@ -11,6 +11,7 @@ ssimLibrary(
   summary = NULL,
   packages = NULL,
   session = NULL,
+  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -20,6 +21,7 @@ ssimLibrary(
   summary = NULL,
   packages = NULL,
   session = NULL,
+  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -29,6 +31,7 @@ ssimLibrary(
   summary = NULL,
   packages = NULL,
   session = NULL,
+  forceUpdate = FALSE,
   overwrite = FALSE,
   useConda = NULL
 )
@@ -45,6 +48,9 @@ add to the Library if creating a new Library (optional)}
 
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
 will be used}
+
+\item{forceUpdate}{logical. If \code{FALSE} (default) user will be prompted to approve
+any required updates. If \code{TRUE}, required updates will be applied silently.}
 
 \item{overwrite}{logical. If \code{TRUE} an existing SsimLibrary will be overwritten}
 
@@ -101,6 +107,7 @@ installPackage("helloworldSpatial")
 mySession <- session()
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
                          session = mySession,
+                         forceUpdate = TRUE,
                          packages = "helloworldSpatial",
                          overwrite = TRUE)
                          

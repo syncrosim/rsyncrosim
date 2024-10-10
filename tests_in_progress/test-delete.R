@@ -9,24 +9,31 @@
 library(rsyncrosim)
 library(testthat)
 
+sessionName <- "C:/gitprojects/ssimbin3/"
+# sessionName <- "C:/Program Files/SyncroSim Studio"
+
 # test that all SsimObjects can be deleted
 test_that("can delete all SsimObjects", {
 
   # Setup ----
   myLibraryName <- file.path(tempdir(), "testlib")
-  mySession <- session("C:/Program Files/SyncroSim Studio")
+  mySession <- session(sessionName)
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
   myProject <- project(myLibrary, project = "My Project")
   myScenario <- scenario(myProject, scenario = "My Scenario")
 
   # add stsim package
-  addPackage(myLibrary, "stsim", version = "4.0.0")
+  installPackage(packages = "stsim", versions = "4.0.1", session = mySession)
+  addPackage(myLibrary, "stsim", versions = "4.0.1")
 
   # Tests ----
   # Delete using ssimObject argument
   expect_type(delete(myScenario, force = TRUE), "logical")
-  expect_type(delete(myProject, force = TRUE), "logical") # error
-  expect_type(delete(myLibrary, force = TRUE), "logical") # error
+  expect_type(delete(myProject, force = TRUE), "logical")
+  expect_error(delete(myLibrary, force = TRUE), 
+               regexp = "using the deleteLibrary() function.")
+  deleteLibrary(myLibrary, force = TRUE)
+  expect_false(file.exists(myLibraryName))
 
   # create library, project, and scenario
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
@@ -35,10 +42,10 @@ test_that("can delete all SsimObjects", {
 
   # Delete using project argument
   project(myLibrary, project = "To Delete")
-  expect_type(delete(myLibrary, project = "To Delete", force = TRUE), "logical") # error
+  expect_type(delete(myLibrary, project = "To Delete", force = TRUE), "logical")
   new <- project(myLibrary, project = "New")
   ID <- projectId(new)
-  expect_type(delete(myLibrary, project = c(1, ID), force = TRUE), "list") # error
+  expect_type(delete(myLibrary, project = c(1, ID), force = TRUE), "list")
 
   # create library, project, and scenarios
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
@@ -60,10 +67,13 @@ test_that("can delete all SsimObjects", {
   myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
   myProject <- project(myLibrary, project = "My Project")
   myScenario <- scenario(myProject, scenario = "My Scenario")
+  
+  # Add stsim
+  addPackage(myLibrary, "stsim", versions = "4.0.1")
 
   # Delete using datasheet argument
-  expect_equal(delete(myScenario, datasheet = "StateClass", force = TRUE), TRUE) # error
-  expect_type(delete(myProject, datasheet = "StateClass", force = TRUE), "logical") # error
+  expect_equal(delete(myScenario, datasheet = "stsim_StateClass", force = TRUE), TRUE)
+  expect_type(delete(myProject, datasheet = "stsim_StateClass", force = TRUE), "logical")
 
 })
 

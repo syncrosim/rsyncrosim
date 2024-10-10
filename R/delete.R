@@ -80,7 +80,7 @@ setGeneric("delete",
 setMethod("delete", signature(ssimObject = "character"), 
           function(ssimObject, project, scenario, folder, chart, datasheet, 
                    force, removeBackup, removePublish, removeCustom, session) {
-          
+  browser()        
   if (is.null(datasheet) && is.null(project) && is.null(scenario) && 
       is.null(folder) && is.null(chart)) {
     
@@ -103,7 +103,7 @@ setMethod("delete", signature(ssimObject = "character"),
 setMethod("delete", signature(ssimObject = "SsimObject"), 
           function(ssimObject, project, scenario, folder, chart, datasheet, 
                    force, session) {
-  
+  browser()
   ScenarioId <- NULL
   
   xProjScn <- .getFromXProjScn(ssimObject, project = project, 
@@ -172,25 +172,8 @@ setMethod("delete", signature(ssimObject = "SsimObject"),
   goal <- xProjScn$goal
   
   if (goal == "library") {
-    if (is.null(datasheet)) {
-      out <- deleteLibrary(ssimObject, force, removeBackup, removePublish, 
-                           removeCustom, session)
-    } else {
-      datasheets <- .datasheets(ssimObject)
-      out <- deleteDatasheet(datasheet, datasheets, cProj = NULL, 
-                             cScn = NULL, cProjName = NULL, 
-                             cScnName = NULL, force = force)
-    }
-    
-    if (out == "saved"){
-      message("Library deleted")
-      out <- TRUE
-    } else {
-      message(out)
-      out <- FALSE
-    }
-    
-    return(invisible(out))
+    stop(paste0("Error in delete: SyncroSim libraries must be deleted using ", 
+         "the deleteLibrary() function."))
   }
   
   if (goal == "project") {
@@ -199,12 +182,12 @@ setMethod("delete", signature(ssimObject = "SsimObject"),
       stop("Error in delete: project ids are not numeric.")
     }
     
+    allProjects <- xProjScn$projectSet
     if (!is.null(datasheet)) {
-      allProjects <- xProjScn$projectSet
       out <- deleteProjectDatasheet(x, datasheet, project, allProjects, 
                                     out = list(), force)
     } else {
-      out <- deleteProject(x, project, out = list(), force)
+      out <- deleteProject(x, project, allProjects, out = list(), force)
     }
     
     return(invisible(out))

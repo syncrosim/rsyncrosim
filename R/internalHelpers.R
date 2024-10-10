@@ -97,10 +97,10 @@ deleteDatasheet <- function(x, datasheet, datasheets, cProj = NULL, cScn = NULL,
 deleteProjectDatasheet <- function(x, datasheet, project, allProjects,
                                    out = list(), force){
   
-  if (is.element(class(ssimObject), c("Project", "Scenario"))) {
-    datasheets <- .datasheets(ssimObject, refresh = TRUE)
+  if (is.element(class(x), c("Project", "Scenario"))) {
+    datasheets <- .datasheets(x, refresh = TRUE)
   } else {
-    datasheets <- .datasheets(.project(ssimObject, project = project[1]))
+    datasheets <- .datasheets(.project(x, project = project[1]))
   }
   
   out <- list()
@@ -130,7 +130,7 @@ deleteProjectDatasheet <- function(x, datasheet, project, allProjects,
   return(out)
 }
 
-deleteProject <- function(x, project, out = list(), force){
+deleteProject <- function(x, project, allProjects, out = list(), force){
   
   out <- list()
   for (i in seq(length.out = length(project))) {
@@ -174,12 +174,12 @@ deleteScenarioDatasheet <- function(x, datasheet, scenario,
                                     allScenarios, out = list(), force){
   ScenarioId <- NULL
   
-  if (is.element(class(ssimObject), c("Scenario"))) {
-    datasheets <- .datasheets(ssimObject, refresh = TRUE)
-    scenarioSet <- scenario(.ssimLibrary(ssimObject), summary = TRUE)
+  if (is.element(class(x), c("Scenario"))) {
+    datasheets <- .datasheets(x, refresh = TRUE)
+    scenarioSet <- scenario(.ssimLibrary(x), summary = TRUE)
   } else {
-    datasheets <- .datasheets(.scenario(ssimObject, scenario = scenario[1]))
-    scenarioSet <- scenario(ssimObject, summary = TRUE)
+    datasheets <- .datasheets(.scenario(x, scenario = scenario[1]))
+    scenarioSet <- scenario(x, summary = TRUE)
   }
   
   out <- list()
@@ -1058,74 +1058,3 @@ datasheets <- function(x, project = NULL, scenario = NULL, scope = NULL, refresh
   
   stop(paste0("Could not identify a SsimLibrary, Project or Scenario from ssimObject, project, and scenario arguments."))
 }
-
-# Delete Library - internal helper function
-#
-# Deletes a SyncroSim library. Note this is irreversable.
-#
-# @param ssimLibrary SsimLibrary or path to a library
-# @param force Logical. If FALSE (default) prompt to confirm that the library should be deleted. This is irreversable.
-# @param removeBackup logical. If \code{TRUE}, will remove the backup folder when
-#'     deleting a library. Default is FALSE
-# @param removePublish logical. If TRUE, will remove the publish folder when
-#'     deleting a library. Default is FALSE
-# @param removeCustom logical. If TRUE and custom folders have been configured
-#'     for a library, then will remove the custom publish and/or backup folders when 
-#'     deleting a library. Note that the `removePublish` and `removeBackup` arguments 
-#'     must also be set to TRUE to remove the respective custom folders. Default
-#'     is FALSE
-# @param session Session
-# @return "saved" or failure message.
-# @export
-
-setGeneric("deleteLibrary", 
-           function(ssimLibrary, force = FALSE, removeBackup = FALSE,
-                    removePublish = FALSE, removeCustom = FALSE,
-                    session = NULL) standardGeneric("deleteLibrary"))
-
-setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), 
-          function(ssimLibrary, force, removeBackup, removePublish, removeCustom) {
-            
-  return(deleteLibrary(.filepath(ssimLibrary), force, removeBackup, 
-                       removePublish, removeCustom, .session(ssimLibrary)))
-})
-
-setMethod("deleteLibrary", signature(ssimLibrary = "character"), 
-          function(ssimLibrary, force, removeBackup, removePublish, 
-                   removeCustom, session) {
-            
-  if (!file.exists(ssimLibrary)) {
-    stop(paste0("Library not found: ", ssimLibrary))
-  }
-            
-  if (force) {
-    answer <- "y"
-  } else {
-    answer <- readline(prompt = paste0("Do you really want to delete library ", ssimLibrary, "? (y/n): "))
-  }
-            
-  if (answer == "y") {
-    
-    args <- list(delete = NULL, library = NULL, lib = ssimLibrary, force = NULL)
-    
-    if (removeBackup){
-      args <- c(args, list(delrelback = NULL))
-      if (removeCustom){
-        args <- c(args, list(delcustback = NULL))
-      }
-    }
-    
-    if (removePublish){
-      args <- c(args, list(delrelpub = NULL))
-      if (removeCustom){
-        args <- c(args, list(delcustpub = NULL))
-      }
-    }
-    
-    tt <- command(args = args, session = session)
-    
-    return("saved")
-  } else {
-    return("skipped")
-  }
-})
