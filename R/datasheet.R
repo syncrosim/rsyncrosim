@@ -898,6 +898,7 @@ setMethod("datasheet",
       }
     }
     
+    sheet <- sheet[rowSums(is.na(sheet)) != ncol(sheet), ]
     outSheetList[[cName]] <- sheet
     
     # return single row datasheets as named vectors (if not for multiple scenarios)
