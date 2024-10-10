@@ -80,7 +80,7 @@ setGeneric("delete",
 setMethod("delete", signature(ssimObject = "character"), 
           function(ssimObject, project, scenario, folder, chart, datasheet, 
                    force, removeBackup, removePublish, removeCustom, session) {
-  browser()        
+          
   if (is.null(datasheet) && is.null(project) && is.null(scenario) && 
       is.null(folder) && is.null(chart)) {
     
@@ -103,7 +103,7 @@ setMethod("delete", signature(ssimObject = "character"),
 setMethod("delete", signature(ssimObject = "SsimObject"), 
           function(ssimObject, project, scenario, folder, chart, datasheet, 
                    force, session) {
-  browser()
+  
   ScenarioId <- NULL
   
   xProjScn <- .getFromXProjScn(ssimObject, project = project, 
