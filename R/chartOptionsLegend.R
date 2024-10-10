@@ -11,7 +11,7 @@ NULL
 #' @param show logical. Whether to show the chart legend. Default is \code{NULL}.
 #' @param showScenarioName logical. Whether to show the scenario name in the 
 #'    legend. Default is \code{NULL}.
-#' @param showScenarioID logical. Whether to show the scenario ID in the legend.
+#' @param showScenarioId logical. Whether to show the scenario ID in the legend.
 #'    Default is \code{NULL}.
 #' @param showStageName logical. Determines whether to show the stage name 
 #'    (i.e., transformer name) in the legend. Default is \code{NULL}.
@@ -29,7 +29,7 @@ NULL
 #' myChart <- chart(myProject, chart = "My Chart")
 #' 
 #' # Remove the scenario ID and the timestamp from the chart
-#' myChart <- chartOptionsLegend(myChart, showScenarioID = FALSE, 
+#' myChart <- chartOptionsLegend(myChart, showScenarioId = FALSE, 
 #'                               showTimestamp = FALSE)
 #' 
 #' # Hide the chart legend
@@ -38,12 +38,12 @@ NULL
 #' 
 #' @export
 setGeneric("chartOptionsLegend", function(
-    chart, show = NULL, showScenarioName = NULL, showScenarioID = NULL, 
+    chart, show = NULL, showScenarioName = NULL, showScenarioId = NULL, 
     showStageName = NULL, showTimestamp = NULL) standardGeneric("chartOptionsLegend"))
 
 #' @rdname chartOptionsLegend
 setMethod("chartOptionsLegend", signature(chart = "Chart"), 
-          function(chart, show, showScenarioName, showScenarioID, 
+          function(chart, show, showScenarioName, showScenarioId, 
                    showStageName, showTimestamp) {
   
   # Grab project and chart ID from chart
@@ -77,12 +77,12 @@ setMethod("chartOptionsLegend", signature(chart = "Chart"),
     }
   }
   
-  if (!is.null(showScenarioID)){
+  if (!is.null(showScenarioId)){
     allNULL <- FALSE
-    if (is.logical(showScenarioID)){
-      ds[ds$ChartId == chartCID,]$ChartLegendShowScenarioId <- showScenarioID
+    if (is.logical(showScenarioId)){
+      ds[ds$ChartId == chartCID,]$ChartLegendshowScenarioId <- showScenarioId
     } else {
-      stop("showScenarioID should be logical.")
+      stop("showScenarioId should be logical.")
     }
   }
   
@@ -108,7 +108,7 @@ setMethod("chartOptionsLegend", signature(chart = "Chart"),
     ds <- ds[ds$ChartId == chartCID,]
     legendOptions <- data.frame(show = ds$ChartShowLegend,
                                 showScenarioName = ds$ChartLegendShowScenarioName,
-                                showScenarioID = ds$ChartLegendShowScenarioId,
+                                showScenarioId = ds$ChartLegendshowScenarioId,
                                 showStageName = ds$ChartLegendShowStageName,
                                 showTimestamp = ds$ChartLegendShowTimestamp)
     

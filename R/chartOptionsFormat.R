@@ -18,8 +18,8 @@ NULL
 #' panel. Default is \code{NULL}.
 #' @param showToolTips logical. Determines whether to show the tool tip when 
 #' hovering the cursor over a data point. Default is \code{NULL}. 
-#' @param showNoDataPanels logical. Sets the font size for the chart panels. 
-#' Default is \code{NULL}.
+#' @param showNoDataPanels logical. Determines whether to show chart panels
+#' with no data. Default is \code{NULL}.
 #' @param lineWidth integer. Sets the charts' line thickness. Default 
 #' is \code{NULL}.
 #' 
