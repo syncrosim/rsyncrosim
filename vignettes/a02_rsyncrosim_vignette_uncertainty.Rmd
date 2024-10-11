@@ -111,7 +111,7 @@ For more information on these scopes, see the [Introduction to `rsyncrosim`](htt
 
 ### Set up library, project, and scenario
 
-```{r delete library if it exists, echo = FALSE, results = 'hide'}
+```{r delete library if it exists, echo = FALSE, message=FALSE}
 if (file.exists("helloworldLibrary.ssim")){
   deleteLibrary("helloworldLibrary.ssim", force = TRUE)
 }
@@ -140,7 +140,7 @@ View the datasheets associated with your new scenario using the `datasheet()` fu
 datasheet(myScenario)
 ```
 
-From the list of datasheets above, we can see that there are three datasheets specific to the `helloworldUncertainty` package. Let's view the contents of the input datasheet as an R data frame.
+From the list of datasheets above, we can see that there are three datasheets specific to the `helloworldUncertainty` package. Let's view the contents of the Inputs datasheet as an R data frame.
 
 ```{r view specific datasheet, warning = FALSE}
 # View the contents of the Inputs datasheet for the scenario
@@ -149,12 +149,12 @@ datasheet(myScenario, name = "helloworldUncertainty_InputDatasheet")
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
-**Input Datasheet**
+**Inputs Datasheet**
 
-Currently our input scenario datasheet is empty! We need to add some values to our Inputs datasheet (`InputDatasheet`) so we can run our model. First, assign the contents of the input datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
+Currently our input scenario datasheet is empty! We need to add some values to our Inputs datasheet (`InputDatasheet`) so we can run our model. First, assign the contents of the Inputs datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
 
 ```{r assign input data, warning = FALSE}
-# Load the input datasheet to an R data frame
+# Load the Inputs datasheet to an R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldUncertainty_InputDatasheet")
 
@@ -162,7 +162,7 @@ myInputDataframe <- datasheet(myScenario,
 str(myInputDataframe)
 ```
 
-The input datasheet requires three values:
+The Inputs datasheet requires three values:
 
 * `mMean` : the mean of the slope normal distribution.
 * `mSD` : the standard deviation of the slope normal distribution.
@@ -202,14 +202,14 @@ str(myPipeline)
 
 The Pipeline datasheet requires 2 values:
 
-* `StageNameId` : the pipeline stage (transformer). This column is a factor that has only a single level: "Hello World Uncertainty". 
+* `StageNameId` : the pipeline stage (transformer). This column is a factor that has only a single level: "Hello World Uncertainty (R)". 
 * `RunOrder` : the numerical order in which the stages will be run.
 
-Below, we use the `addRow()` and `saveDatasheet()` functions to update the Pipeline datasheet with the transformer(s) we want to run and the order in which we want to run them. In this case, there is only a single transformer available from the `helloworldTime` package, called "Hello World Uncertainty", so we will add this transformer to the data frame and set the `RunOrder` to `1`.
+Below, we use the `addRow()` and `saveDatasheet()` functions to update the Pipeline datasheet with the transformer(s) we want to run and the order in which we want to run them. In this case, there is only a single transformer available from the `helloworldUncertainty` package, called "Hello World Uncertainty (R)", so we will add this transformer to the data frame and set the `RunOrder` to `1`.
 
 ```{r add pipeline data, warning = FALSE}
 # Create pipeline data and add it to the pipeline data frame
-myPipelineRow <- data.frame(StageNameId = "Hello World Uncertainty", RunOrder = 1)
+myPipelineRow <- data.frame(StageNameId = "Hello World Uncertainty (R)", RunOrder = 1)
 myPipeline <- addRow(myPipeline, myPipelineRow)
 
 # Check values
@@ -257,7 +257,8 @@ Finally, save the R data frame to a SyncroSim datasheet using `saveDatasheet()`.
 
 ```{r}
 # Save RunControl R data frame to a SyncroSim datasheet
-saveDatasheet(ssimObject = myScenario, data = runSettings,
+saveDatasheet(ssimObject = myScenario, 
+              data = runSettings,
               name = "helloworldUncertainty_RunControl")
 ```
 
@@ -297,10 +298,10 @@ Now, when we run our scenario, it will use the desired multiprocessing configura
 myResultScenario <- run(myScenario)
 ```
 
-Running the original scenario creates a new scenario object, known as a Results scenario, that contains a read-only snapshot of the input datasheets, as well as the output datasheets filled with result data. We can view which scenarios are Results scenarios using the `scenario()` function from `rsyncrosim`.
+Running the original scenario creates a new scenario object, known as a result scenario, that contains a read-only snapshot of the Inputs datasheets, as well as the Outputs datasheets filled with result data. We can view which scenarios are result scenarios using the `scenario()` function from `rsyncrosim`.
 
 ```{r}
-# Check that we have two scenarios, and one is a Results scenario
+# Check that we have two scenarios, and one is a result scenario
 scenario(myLibrary)
 ```
 
@@ -310,7 +311,7 @@ scenario(myLibrary)
 
 ### Viewing results with `datasheet()`
 
-The next step is to view the output datasheets added to the Result scenario when it was run. We can load the result tables using the `datasheet()` function. In this package, the datasheet containing the results is called "OutputDatasheet".
+The next step is to view the Outputs datasheets added to the result scenario when it was run. We can load the result tables using the `datasheet()` function. In this package, the datasheet containing the results is called "OutputDatasheet".
 
 
 ```{r view results datasheets, warning = FALSE}
@@ -322,11 +323,11 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-### Plotting uncertainty in the SyncroSim Windows User Interface
+### Plotting uncertainty in SyncroSim Studio
 
 Now that we have run multiple iterations, we can visualize the uncertainty in our results. For this plot, we will plot the average *y* values over time, while showing the 20th and 80th percentiles.
 
-To create a plot using the Results scenario we just generated, open the current library in the User Interface and sync the updates from `rsyncrosim` using the "refresh" button in the upper toolbar (circled in red below). All the updates made in `rsyncrosim` should appear in the User Interface. We can now add the Results scenario to the Results Viewer and create our plot. For more information on generating plots in the User Interface, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_chart_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_chart_customize.html" target="_blank">customizing</a> charts.
+To create a plot using the result scenario we just generated, open the current library in SyncroSim Studio and sync the updates from `rsyncrosim` using the "refresh" button in the upper toolbar (circled in red below). All the updates made in `rsyncrosim` should appear in SyncroSim Studio. We can now add the result scenario to the Results Viewer and create our plot. For more information on generating plots in SyncroSim Studio, see the SyncroSim tutorials on <a href="http://docs.syncrosim.com/how_to_guides/results_chart_create.html" target="_blank">creating</a> and <a href="http://docs.syncrosim.com/how_to_guides/results_chart_customize.html" target="_blank">customizing</a> charts.
 
-![Using `rsyncrosim` with the SyncroSim Windows User Interface to plot uncertainty](./rsyncrosim-with-UI-uncertainty.png){width=600px}
+![Using `rsyncrosim` with SyncroSim Studio to plot uncertainty](./rsyncrosim-with-UI-uncertainty.png){width=600px}
 

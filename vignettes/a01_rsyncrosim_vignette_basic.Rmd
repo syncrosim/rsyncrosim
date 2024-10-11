@@ -172,7 +172,7 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
 myLibrary
 ```
 
-```{r delete library if it exists, echo = FALSE, results = 'hide'}
+```{r delete library if it exists, echo = FALSE, message=FALSE}
 if (file.exists("helloworldLibrary.ssim")){
   deleteLibrary("helloworldLibrary.ssim", force = TRUE)
 }
@@ -281,7 +281,7 @@ From this output we can see the the `Run Control` and `Inputs` datasheets only a
 To view a specific datasheet rather than just a data frame of available datasheets, set the `name` parameter in the `datasheet()` function to the name of the datasheet you want to view. The general syntax of the name is: "\<name of package\>_\<name of Datasheet\>". From the list of datasheets above, we can see that there are 3 datasheets specific to the `helloworldTime` package.
 
 ```{r view specific datasheet, warning = FALSE}
-# View the input datasheet for the scenario
+# View the Inputs datasheet for the scenario
 datasheet(myScenario, name = "helloworldTime_InputDatasheet")
 ```
 
@@ -413,13 +413,13 @@ For more information use the `runLog()` function, in which the only argument is 
 # Get run details for the first result scenario
 runLog(myResultScenario)
 ```
-*Note*: if your scenario fails to run, it will still produce a *results scenario* that you can use the `runLog()` function on to see more information about why the run failed. 
+*Note*: if your scenario fails to run, it will still produce a *result scenario* that you can use the `runLog()` function on to see more information about why the run failed. 
 
 ## View results
 
-### Results scenarios
+### Result scenarios
 
-A *results scenario* is generated when a scenario is run, and is an exact copy of the original scenario (i.e. it contains the original scenario's values for all input datasheets). The results scenario is passed to the transformer in order to generate model output, with the results of the transformer's calculations then being added to the results scenario as output datasheets. In this way the results scenario contains both the output of the run and a snapshot record of all the model inputs.
+A *result scenario* is generated when a scenario is run, and is an exact copy of the original scenario (i.e. it contains the original scenario's values for all Inputs datasheets). The result scenario is passed to the transformer in order to generate model output, with the results of the transformer's calculations then being added to the result scenario as output datasheets. In this way the result scenario contains both the output of the run and a snapshot record of all the model inputs.
 
 Check out the current scenarios in your library using the `scenario()` function.
 
@@ -428,19 +428,19 @@ Check out the current scenarios in your library using the `scenario()` function.
 scenario(myLibrary)
 ```
 
-The first scenario is our original scenario, and the second is the results scenario with a time and date stamp of when it was run. We can also see some other information about these scenarios, such as whether or not the scenario is a result or not (i.e. `isResult` column).
+The first scenario is our original scenario, and the second is the result scenario with a time and date stamp of when it was run. We can also see some other information about these scenarios, such as whether or not the scenario is a result or not (i.e. `isResult` column).
 
-We can also look at how the datasheets differ between the results scenario and the original scenario using the `datasheet()` function.
+We can also look at how the datasheets differ between the result scenario and the original scenario using the `datasheet()` function.
 
 ```{r}
 # Take a look at original scenario datasheets
 datasheet(myScenario, optional = TRUE)
 
-# Take a look at Results scenario datasheets
+# Take a look at result scenario datasheets
 datasheet(myResultScenario, optional = TRUE)
 ```
 
-Looking at the `data` column, the `Outputs` does not contain any data in the original scenario, but does in the results scenario.
+Looking at the `data` column, the `Outputs` does not contain any data in the original scenario, but does in the result scenario.
 
 
 ### Viewing results with `datasheet()`
@@ -527,9 +527,9 @@ The output that is returned from running many scenarios at once is actually a li
 datasheet(myResultScenarioAll[2], name = "helloworldTime_OutputDatasheet")
 ```
 
-### Identifying the parent scenario of a results scenario using `parentId()`
+### Identifying the parent scenario of a result scenario using `parentId()`
 
-If you have many alternative scenarios and many results scenarios, you can always find the parent scenario that was run in order to generate the Rrsults scenario using the `rsyncrosim` function `parentId()`.
+If you have many alternative scenarios and many result scenarios, you can always find the parent scenario that was run in order to generate the Rrsults scenario using the `rsyncrosim` function `parentId()`.
 
 ```{r get parent ID, warning = FALSE}
 parentId(myResultScenarioAll[[1]])
@@ -600,10 +600,10 @@ Now, you can use the `backup()` function from `rsyncrosim` to backup a library, 
 backup(myLibrary)
 ```
 
-## `rsyncrosim` and the SyncroSim Windows User Interface
+## `rsyncrosim` and SyncroSim Studio
 
-It can be useful to work in both `rsyncrosim` and the SyncroSim Windows User Interface at the same time. You can easily modify datasheets and run scenarios in `rsyncrosim`, while simultaneously refreshing the library and plotting outputs in the User Interface as you go. To sync the library in the User Interface with the latest changes from the `rsyncrosim` code, click the refresh icon (circled in red below) in the upper tool bar of the User Interface.
+It can be useful to work in both `rsyncrosim` and SyncroSim Studio at the same time. You can easily modify datasheets and run scenarios in `rsyncrosim`, while simultaneously refreshing the library and plotting outputs in SyncroSim Studio as you go. To sync the library in SyncroSim Studio with the latest changes from the `rsyncrosim` code, click the refresh icon (circled in red below) in the upper tool bar of SyncroSim Studio.
 
-![Using `rsyncrosim` with the SyncroSim Windows User Interface](./rsyncrosim-with-UI.PNG){width=600px}
+![Using `rsyncrosim` with SyncroSim Studio](./rsyncrosim-with-UI.PNG){width=600px}
 
 
