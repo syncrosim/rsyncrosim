@@ -46,7 +46,9 @@ For more details on the different features of the `helloworldTime` SyncroSim pac
 
 ### Install SyncroSim
 
-Before using `rsyncrosim` you will first need to <a href="https://syncrosim.com/download/" target="_blank">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux.
+Before using `rsyncrosim` you will first need to <a href="https://syncrosim.com/download/" target="_blank">download and install</a> the SyncroSim software. Versions of SyncroSim exist for both Windows and Linux. 
+
+*Note*: this tutorial was developed using `rsyncrosim` version 2.0. To use `rsyncrosim` version 2.0 or greater, SyncroSim version 3.0 or greater is required.
 
 ### Installing and loading R packages
 
@@ -411,7 +413,7 @@ For more information use the `runLog()` function, in which the only argument is 
 # Get run details for the first result scenario
 runLog(myResultScenario)
 ```
-
+*Note*: if your scenario fails to run, it will still produce a *results scenario* that you can use the `runLog()` function on to see more information about why the run failed. 
 
 ## View results
 

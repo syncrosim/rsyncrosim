@@ -91,7 +91,7 @@ setMethod("run", signature(ssimObject = "list"),
 setMethod("run", signature(ssimObject = "SsimObject"), 
           function(ssimObject, scenario, summary, copyExternalInputs, 
                    transformerName) {
-            
+           
   xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, 
                                convertObject = TRUE, returnIds = TRUE, 
                                goal = "scenario", complainIfMissing = TRUE)
@@ -126,7 +126,7 @@ setMethod("run", signature(ssimObject = "SsimObject"),
     tt <- command(args, .session(x))
 
     if (tt[1] != "saved") {
-      stop(tt)
+      message(tt)
     }
   }
   
