@@ -140,7 +140,7 @@ View the datasheets associated with your new scenario using the `datasheet()` fu
 datasheet(myScenario)
 ```
 
-From the list of datasheets above, we can see that there are three datasheets specific to the `helloworldUncertainty` package. Let's view the contents of the Inputs datasheet as an R data frame.
+From the list of datasheets above, we can see that there are three datasheets specific to the `helloworldUncertainty` package. Let's view the contents of the `Inputs` datasheet as an R data frame.
 
 ```{r view specific datasheet, warning = FALSE}
 # View the contents of the Inputs datasheet for the scenario
@@ -151,7 +151,7 @@ datasheet(myScenario, name = "helloworldUncertainty_InputDatasheet")
 
 **Inputs Datasheet**
 
-Currently our input scenario datasheet is empty! We need to add some values to our Inputs datasheet (`InputDatasheet`) so we can run our model. First, assign the contents of the Inputs datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
+Currently our input scenario datasheet is empty! We need to add some values to our `Inputs` datasheet (`InputDatasheet`) so we can run our model. First, assign the contents of the `Inputs` datasheet to a new data frame variable using `datasheet()`, then check the columns that need input values.
 
 ```{r assign input data, warning = FALSE}
 # Load the Inputs datasheet to an R data frame
@@ -162,7 +162,7 @@ myInputDataframe <- datasheet(myScenario,
 str(myInputDataframe)
 ```
 
-The Inputs datasheet requires three values:
+The `Inputs` datasheet requires three values:
 
 * `mMean` : the mean of the slope normal distribution.
 * `mSD` : the standard deviation of the slope normal distribution.
@@ -220,30 +220,30 @@ saveDatasheet(ssimObject = myScenario, data = myPipeline,
               name = "core_Pipeline")
 ```
 
-**RunControl Datasheet**
+**Run Control Datasheet**
 
-The `RunControl` datasheet provides information about how many time steps and iterations to use in the model. Here, we set the *number of iterations*, as well as the minimum and maximum time steps for our model. The number of iterations we set is equivalent to the number of Monte Carlo realizations, so the greater the number of iterations, the more accurate the range of output values we will obtain. Let's take a look at the columns that need input values. 
+The `Run Control` datasheet provides information about how many time steps and iterations to use in the model. Here, we set the *number of iterations*, as well as the minimum and maximum time steps for our model. The number of iterations we set is equivalent to the number of Monte Carlo realizations, so the greater the number of iterations, the more accurate the range of output values we will obtain. Let's take a look at the columns that need input values. 
 
 ```{r modify run control}
-# Load RunControl datasheet to a new R data frame
+# Load Run Control datasheet to a new R data frame
 runSettings <- datasheet(myScenario, name = "helloworldUncertainty_RunControl")
 
-# Check the columns of the RunControl data frame
+# Check the columns of the Run Control data frame
 str(runSettings)
 ```
 
-The RunControl datasheet requires the following 3 columns:
+The `Run Control` datasheet requires the following 3 columns:
 
 * `MaximumIteration` : total number of iterations to run the model for.
 * `MinimumTimestep` : the starting time point of the simulation.
 * `MaximumTimestep` : the end time point of the simulation.
 
-*Note:* A fourth hidden column, `MinimumIteration`, also exists in the RunControl datasheet (default=1).
+*Note:* A fourth hidden column, `MinimumIteration`, also exists in the `Run Control` datasheet (default=1).
 
-We'll add this information to an R data frame and then add it to the Run Control data frame using `addRow()`. For this example, we will use only five iterations.
+We'll add this information to an R data frame and then add it to the `Run Control` data frame using `addRow()`. For this example, we will use only five iterations.
 
 ```{r}
-# Create run control data and add it to the run control data frame
+# Create Run Control data and add it to the Run Control data frame
 runSettingsRow <- data.frame(MaximumIteration = 5,
                              MinimumTimestep = 1,
                              MaximumTimestep = 10)
@@ -256,7 +256,7 @@ runSettings
 Finally, save the R data frame to a SyncroSim datasheet using `saveDatasheet()`.
 
 ```{r}
-# Save RunControl R data frame to a SyncroSim datasheet
+# Save Run Control R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, 
               data = runSettings,
               name = "helloworldUncertainty_RunControl")
@@ -267,7 +267,9 @@ saveDatasheet(ssimObject = myScenario,
 
 ### Setting run parameters with `run()`
 
-We will now run our scenario using the `run()` function in `rsyncrosim`. If we have a large model and we want to parallelize the run using multiprocessing, we can modify the library-scoped "core_Multiprocessing" datasheet. Since we are using five iterations in our model, we will set the number of jobs to five so each multiprocessing core will run a single iteration.
+We will now run our scenario using the `run()` function in `rsyncrosim`. 
+
+If we have a large model and we want to parallelize the run using multiprocessing, we can modify the library-scoped "core_Multiprocessing" datasheet. Since we are using five iterations in our model, we will set the number of jobs to five so each multiprocessing core will run a single iteration.
 
 ```{r}
 # Load list of available library-scoped datasheets
@@ -298,7 +300,7 @@ Now, when we run our scenario, it will use the desired multiprocessing configura
 myResultScenario <- run(myScenario)
 ```
 
-Running the original scenario creates a new scenario object, known as a result scenario, that contains a read-only snapshot of the Inputs datasheets, as well as the Outputs datasheets filled with result data. We can view which scenarios are result scenarios using the `scenario()` function from `rsyncrosim`.
+Running the original scenario creates a new scenario object, known as a result scenario, that contains a read-only snapshot of the `Inputs` datasheets, as well as the `Outputs` datasheets filled with result data. We can view which scenarios are result scenarios using the `scenario()` function from `rsyncrosim`.
 
 ```{r}
 # Check that we have two scenarios, and one is a result scenario
@@ -311,7 +313,7 @@ scenario(myLibrary)
 
 ### Viewing results with `datasheet()`
 
-The next step is to view the Outputs datasheets added to the result scenario when it was run. We can load the result tables using the `datasheet()` function. In this package, the datasheet containing the results is called "OutputDatasheet".
+The next step is to view the `Outputs` datasheets added to the result scenario when it was run. We can load the result tables using the `datasheet()` function. In this package, the datasheet containing the results is called "OutputDatasheet".
 
 
 ```{r view results datasheets, warning = FALSE}

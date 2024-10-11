@@ -289,9 +289,9 @@ Here, we are viewing the contents of a SyncroSim datasheet as an R data frame. A
 
 ### Configure model inputs using `datasheet()` and `addRow()`
 
-Currently our Inputs scenario datasheet is empty! We will need to add some values to the Inputs datasheet (`InputDatasheet`) so we can run our model. 
+Currently our `Inputs` scenario datasheet is empty! We will need to add some values to the `Inputs` datasheet (`InputDatasheet`) so we can run our model. 
 
-First, assign the Inputs datasheet to a new data frame variable.
+First, assign the `Inputs` datasheet to a new data frame variable.
 
 ```{r assign input data, warning = FALSE}
 # Assign contents of the Inputs datasheet to an R data frame
@@ -306,12 +306,12 @@ Check the columns that need input values and the type of values these columns re
 str(myInputDataframe)
 ```
 
-The Inputs datasheet requires 2 values:
+The `Inputs` datasheet requires 2 values:
 
 * `m` : the slope of the linear equation.
 * `b` : the intercept of the linear equation.
 
-Now, we will update the Inputs data frame. This can be done in many ways (e.g. using the `dplyr` package), but `rsyncrosim` also provides a helper function called `addRow()` for easily adding new rows to R data frames. The `addRow()` function takes the `targetDataframe` as the first value (in this case, our Inputs data frame that we want to update), and the data frame of new rows to append to the input data frame as the second value.
+Now, we will update the `Inputs` data frame. This can be done in many ways (e.g. using the `dplyr` package), but `rsyncrosim` also provides a helper function called `addRow()` for easily adding new rows to R data frames. The `addRow()` function takes the `targetDataframe` as the first value (in this case, our `Inputs` data frame that we want to update), and the data frame of new rows to append to the input data frame as the second value.
 
 ```{r add input data, warning = FALSE}
 # Create input data and add it to the input data frame
@@ -324,7 +324,7 @@ myInputDataframe
 
 ### Saving modifications to datasheets using `saveDatasheet()`
 
-Now that we have a complete data frame of the Inputs, we will save this data frame to its respective SyncroSim datasheets using the `saveDatasheet()` function. Since this datasheet is scenario-scoped, we will save it at the scenario level by setting `ssimObject = myScenario`.
+Now that we have a complete data frame of the `Inputs`, we will save this data frame to its respective SyncroSim datasheets using the `saveDatasheet()` function. Since this datasheet is scenario-scoped, we will save it at the scenario level by setting `ssimObject = myScenario`.
 
 ```{r save input data, warning = FALSE}
 # Save Inputs R data frame to a SyncroSim datasheet
@@ -334,9 +334,9 @@ saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
 
 ### Configuring the `Pipeline` datasheet
 
-Next, we need to add data to the Pipeline datasheet. The Pipeline datasheet determines which transformers the scenarios will run and in which order. Use the code below to assign the Pipeline datasheet to a new data frame variable and check the values required by the datasheet.
+Next, we need to add data to the `Pipeline` datasheet. The `Pipeline` datasheet is a built-in SyncroSim datasheet, meaning that it comes with every SyncroSim library regardless of which packages that library uses.The `Pipeline` datasheet determines which transformer stage the scenarios will run and in which order. We use the term "transformers" because these constitute scripts that *transform* input data into output data. Use the code below to assign the `Pipeline` datasheet to a new data frame variable and check the values required by the datasheet.
 
-```{r assign pipeline data, warning = FALSE}
+```{r assign Pipeline data, warning = FALSE}
 # Assign contents of the Pipeline datasheet to an R data frame
 myPipeline <- datasheet(myScenario,
                         name = "core_Pipeline")
@@ -347,13 +347,13 @@ str(myPipeline)
 
 The Pipeline datasheet requires 2 values:
 
-* `StageNameId` : the pipeline stage (transformer). This column is a factor that has only a single level: "Hello World Time (R)". 
+* `StageNameId` : the pipeline transformer stage. This column is a factor that has only a single level: "Hello World Time (R)". 
 * `RunOrder` : the numerical order in which the stages will be run.
 
-Below, we use the `addRow()` and `saveDatasheet()` functions to update the Pipeline datasheet with the transformer(s) we want to run and the order in which we want to run them. In this case, there is only a single transformer available from the `helloworldTime` package, called "Hello World Time (R)", so we will add this transformer to the data frame and set the `RunOrder` to `1`.
+Below, we use the `addRow()` and `saveDatasheet()` functions to update the `Pipeline` datasheet with the transformer(s) we want to run and the order in which we want to run them. In this case, there is only a single transformer available from the `helloworldTime` package, called "Hello World Time (R)", so we will add this transformer to the data frame and set the `RunOrder` to `1`.
 
-```{r add pipeline data, warning = FALSE}
-# Create pipeline data and add it to the pipeline data frame
+```{r add Pipeline data, warning = FALSE}
+# Create Pipeline data and add it to the Pipeline data frame
 myPipelineRow <- data.frame(StageNameId = "Hello World Time (R)", RunOrder = 1)
 myPipeline <- addRow(myPipeline, myPipelineRow)
 
@@ -419,7 +419,7 @@ runLog(myResultScenario)
 
 ### Result scenarios
 
-A *result scenario* is generated when a scenario is run, and is an exact copy of the original scenario (i.e. it contains the original scenario's values for all Inputs datasheets). The result scenario is passed to the transformer in order to generate model output, with the results of the transformer's calculations then being added to the result scenario as output datasheets. In this way the result scenario contains both the output of the run and a snapshot record of all the model inputs.
+A *result scenario* is generated when a scenario is run, and is an exact copy of the original scenario (i.e. it contains the original scenario's values for all `Inputs` datasheets). The result scenario is passed to the transformer in order to generate model output, with the results of the transformer's calculations then being added to the result scenario as output datasheets. In this way the result scenario contains both the output of the run and a snapshot record of all the model inputs.
 
 Check out the current scenarios in your library using the `scenario()` function.
 
@@ -445,7 +445,7 @@ Looking at the `data` column, the `Outputs` does not contain any data in the ori
 
 ### Viewing results with `datasheet()`
 
-The next step is to view the Outputs datasheet in the result scenario that was populated from running the original scenario. We can load the result table using the `datasheet()` function and setting the `name` parameter to the Outputs datasheet.
+The next step is to view the `Outputs` datasheet in the result scenario that was populated from running the original scenario. We can load the result table using the `datasheet()` function and setting the `name` parameter to the `Outputs` datasheet.
 
 
 ```{r view results datasheets, warning = FALSE}
@@ -474,7 +474,7 @@ myNewScenario <- scenario(ssimObject = myProject,
 scenario(myLibrary)['Name']
 ```
 
-To edit the new scenario, we must first load the contents of the Inputs datasheet and assign it to a new R data frame using the `datasheet()` function. We will set the `empty` argument to `TRUE` so that instead of getting the values from the existing scenario, we can start with an empty data frame again.
+To edit the new scenario, we must first load the contents of the `Inputs` datasheet and assign it to a new R data frame using the `datasheet()` function. We will set the `empty` argument to `TRUE` so that instead of getting the values from the existing scenario, we can start with an empty data frame again.
 
 ```{r load input data from new Scenario, warning = FALSE}
 # Load empty Inputs datasheets as an R data frame
