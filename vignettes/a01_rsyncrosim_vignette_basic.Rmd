@@ -361,7 +361,8 @@ myPipeline <- addRow(myPipeline, myPipelineRow)
 myPipeline
 
 # Save Pipeline R data frame to a SyncroSim Datasheet
-saveDatasheet(ssimObject = myScenario, data = myPipeline,
+saveDatasheet(ssimObject = myScenario, 
+              data = myPipeline,
               name = "core_Pipeline")
 ```
 

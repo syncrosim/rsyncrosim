@@ -91,7 +91,7 @@ setMethod("run", signature(ssimObject = "list"),
 setMethod("run", signature(ssimObject = "SsimObject"), 
           function(ssimObject, scenario, summary, copyExternalInputs, 
                    transformerName) {
-           
+          
   xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, 
                                convertObject = TRUE, returnIds = TRUE, 
                                goal = "scenario", complainIfMissing = TRUE)
@@ -134,7 +134,7 @@ setMethod("run", signature(ssimObject = "SsimObject"),
   newScnIds <- setdiff(finalScns$ScenarioId, originalScns$ScenarioId)
   
   if (summary == TRUE){
-    out <- subset(finalScns, ScenarioId == newScnIds)
+    out <- subset(finalScns, subset = ScenarioId %in% newScnIds)
   } else {
     if (length(newScnIds) > 1){
       out <- list()
