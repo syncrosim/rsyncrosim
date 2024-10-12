@@ -83,7 +83,7 @@ if (is.element(
 installPackage("helloworldPipeline")
 ```
 
-`helloworldPipeline` should now be included in the package list returned by the `package()` function in `rsyncrosim`:
+`helloworldPipeline` should now be included in the package list returned by the `packages()` function in `rsyncrosim`:
 
 ```{r check packages 2, warning = FALSE, eval=FALSE}
 # Get list of installed packages

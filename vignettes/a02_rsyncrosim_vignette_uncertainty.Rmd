@@ -83,7 +83,7 @@ if (is.element(
 installPackage("helloworldUncertainty")
 ```
 
-`helloworldUncertainty` should now be included in the package list when we call the `package()` function:
+`helloworldUncertainty` should now be included in the package list when we call the `packages()` function:
 
 ```{r check packages 2, warning = FALSE, eval=FALSE}
 # Get list of installed packages
