@@ -17,7 +17,7 @@ Version](https://img.shields.io/cran/v/rsyncrosim?label=CRAN%20Version)](https:/
 [![GitHub
 Version](https://img.shields.io/github/r-package/v/syncrosim/rsyncrosim?label=GitHub%20Version)](https://github.com/syncrosim/rsyncrosim/blob/dev/DESCRIPTION)
 
-You are currently viewing the **rsyncrosim version 2** documentation. Click [here](https://syncrosim.github.io/rsyncrosim-v1/) to view the **rsyncrosim version 1** documentation.
+*Click [here](https://syncrosim.github.io/rsyncrosim-v1/) to view the **rsyncrosim version 1** documentation.*
 
 ## About SyncroSim
 
