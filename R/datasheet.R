@@ -113,9 +113,7 @@ NULL
 #' # Create a new SsimLibrary with the example template from helloworldSpatial
 #' myLibrary <- ssimLibrary(name = myLibraryName,
 #'                          session = mySession, 
-#'                          package = "helloworldSpatial",
-#'                          template = "example-library",
-#'                          forceUpdate = TRUE)
+#'                          packages = "helloworldSpatial")
 #'                          
 #' # Set the Project and Scenario
 #' myProject <- project(myLibrary, project = "Definitions")
@@ -129,28 +127,33 @@ NULL
 #' myDatasheetList <- datasheet(myScenario, summary = FALSE)
 #' 
 #' # Get a specific Datasheet
-#' myDatasheet <- datasheet(myScenario, name = "RunControl")
+#' myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 #' 
 #' # Include primary key when retrieving a Datasheet
-#' myDatasheet <- datasheet(myScenario, name = "RunControl", includeKey = TRUE)
+#' myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+#'                          includeKey = TRUE)
 #' 
 #' # Return all columns, including optional ones
-#' myDatasheet <- datasheet(myScenario, name = "RunControl", summary = TRUE, 
-#'                          optional = TRUE)
+#' myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+#'                          summary = TRUE, optional = TRUE)
 #' 
 #' # Return Datasheet as an element
-#' myDatasheet <- datasheet(myScenario, name = "RunControl", forceElements = TRUE)
+#' myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+#'                          forceElements = TRUE)
 #' myDatasheet$helloworldSpatial_RunControl
 #' 
 #' # Get a Datasheet without pre-specified values
 #' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)
 #' 
 #' # If Datasheet is empty, do not return dependencies as factors
-#' myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE,
+#' myDatasheetEmpty <- datasheet(myScenario, 
+#'                               name = "helloworldSpatial_RunControl", 
+#'                               empty = TRUE,
 #'                               lookupsAsFactors = FALSE)
 #'                               
 #' # Optimize query
-#' myDatasheet <- datasheet(myScenario, name = "RunControl", fastQuery = TRUE)
+#' myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+#'                          fastQuery = TRUE)
 #' 
 #' # Get specific SsimLibrary core Datasheet
 #' myDatasheet <- datasheet(myLibrary, name = "core_Backup")
@@ -161,7 +164,8 @@ NULL
 #'   aggregate = c("MinimumTimestep"),
 #'   where = list(MinimumTimestep = c(1))
 #' )
-#' myAggregatedDatasheet <- datasheet(myScenario, name = "RunControl",
+#' myAggregatedDatasheet <- datasheet(myScenario, 
+#'                                    name = "helloworldSpatial_RunControl",
 #'                                    sqlStatement = mySQL)
 #' }
 #' 

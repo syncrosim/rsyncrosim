@@ -31,9 +31,6 @@ NULL
 #' # List all installed packages
 #' packages(mySession)
 #' 
-#' # List all the installed base packages
-#' packages(installed = "BASE")
-#' 
 #' # List all available packages on the server (including currently installed)
 #' packages(installed = FALSE)
 #'  

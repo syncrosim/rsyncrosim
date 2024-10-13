@@ -39,21 +39,17 @@ NULL
 #'   where = list(Timestep = c(0, 1, 2), Iteration = c(3, 4))
 #' )
 #' mySQL
-#' 
+#' }
+#' \dontrun{
 #' # The SQL statement can then be used in the datasheet function
-#' # Install helloworldSpatial package
-#' installPackage("helloworldSpatial")
 #' 
-#' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib_sqlStatement")
+#' # Set the file path and name of an existing SsimLibrary
+#' myLibraryName <- file.path("MyLibrary.ssim")
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName,
-#'                          session = mySession, 
-#'                          package = "helloworldSpatial",
-#'                          template = "example-library",
-#'                          forceUpdate = TRUE)
+#'                          session = mySession)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
@@ -61,7 +57,8 @@ NULL
 #' resultScenario <- run(myScenario)
 #' 
 #' # Use the SQL statement when loading the Datasheet
-#' myAggregatedDataFrame <- datasheet(resultScenario, name = "OutputDatasheet",
+#' myAggregatedDataFrame <- datasheet(resultScenario, 
+#'                                    name = "helloworldSpatial_OutputDatasheet",
 #'                                    sqlStatement = mySQL)
 #'                                    
 #' # View aggregated DataFrame

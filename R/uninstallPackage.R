@@ -19,12 +19,17 @@ NULL
 #' 
 #' @examples 
 #' \donttest{
-#' # Set SyncroSim Session
+#' # Set SyncroSim session
 #' mySession <- session()
 #' 
-#' # Uninstalls package from SyncroSim Session
+#' # Install packages to SyncroSim session
+#' installPackages(packages = c("stsim", "stsim"),
+#'                 versions = c("4.0.0", "4.0.1"))
+#' 
+#' # Uninstalls specific version of package from SyncroSim session
 #' uninstallPackage(packages = "stsim", versions = "4.0.0", session = mySession)
 #' 
+#' # Uninstalls all instances ofa package from SyncroSim session
 #' uninstallPackage(packages = "stsim", session = mySession)
 #' }
 #' 

@@ -36,7 +36,7 @@ setMethod(
       
       charts <- subset(charts, ChartId == chart)
       
-      # If no folders retrieved, then ID does not yet exist
+      # If no charts retrieved, then ID does not yet exist
       if (nrow(charts) == 0){
         stop(paste0("The project does not contain the given chart ID ", 
                     chart,
@@ -46,7 +46,7 @@ setMethod(
       
       if (create == TRUE) {
         stop(paste0("Cannot create a new chart from a chart ID. Please provide",
-                    " a name for the new folder and the ID will be assigned",
+                    " a name for the new chart and the ID will be assigned",
                     " automatically."))
       }
       
@@ -123,14 +123,16 @@ setMethod(
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession) 
+#' myLibrary <- ssimLibrary(name = myLibraryName, 
+#'                          session = mySession,
+#'                          packages = "stsim") 
 #' myProject <- project(myLibrary, project = "My Project")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
 #' # Create a new chart
 #' myChart <- chart(myProject, chart = "New Chart")
 #' }
-#' @name folder
+#' @name chart
 #' @export
 chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE){
   
@@ -140,7 +142,7 @@ chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FAL
   
   # if ssimObject is a library throw an error
   if (is.element(class(ssimObject), c("SsimLibrary"))) {
-    stop("Cannot create a folder at the Library-level.")
+    stop("Cannot create a chart at the Library-level.")
   }
   
   # Return chart data if no chart argument is specified

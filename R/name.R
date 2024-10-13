@@ -22,7 +22,9 @@ NULL
 #' 
 #' # Set up a SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
-#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName, 
+#'                          session = mySession,
+#'                          packages = "stsim")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' myFolder <- folder(myProject, folder = "New Folder")

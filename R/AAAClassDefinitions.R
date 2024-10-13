@@ -78,7 +78,6 @@ SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject",
 #' Scenario. 0 indicates this is not a result Scenario
 #' @slot folderId integer. The folder in which the Scenario exists. If the Scenario
 #' exists at the root of the project, then this value is NULL.
-#' @slot breakpoints list of Breakpoint objects (optional)
 #' @name Scenario-class
 #' @rdname Scenario-class
 #' @export Scenario
@@ -86,8 +85,7 @@ Scenario <- setClass("Scenario", contains = "SsimObject",
                      representation(projectId = "numeric", 
                                     scenarioId = "numeric", 
                                     parentId = "numeric", 
-                                    folderId = "numeric", 
-                                    breakpoints = "list"))
+                                    folderId = "numeric"))
 
 #' SyncroSim Project class
 #'

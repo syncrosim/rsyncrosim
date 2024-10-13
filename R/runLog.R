@@ -14,19 +14,13 @@ NULL
 #' 
 #' @examples 
 #' \dontrun{
-#' # Install helloworldSpatial package
-#' installPackage("helloworldSpatial")
-#' 
-#' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib")
+#' # Set the file path and name of an existing SsimLibrary
+#' myLibraryName <- file.path("MyLibrary.ssim")
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName,
-#'                          session = mySession, 
-#'                          package = "helloworldSpatial",
-#'                          template = "example-library",
-#'                          forceUpdate = TRUE)
+#'                          session = mySession)
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 

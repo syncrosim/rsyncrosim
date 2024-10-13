@@ -65,19 +65,14 @@ NULL
 #' 
 #' @examples 
 #' \dontrun{
-#' # Install helloworldSpatial package
-#' installPackage("helloworldSpatial")
-#' 
-#' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib_saveDatasheet")
+#' # Specify file path and name of new SsimLibrary
+#' myLibraryName <- file.path(tempdir(), "testlib")
 #' 
 #' # Set the SyncroSim Session, SsimLibrary, Project, and Scenario
 #' mySession <- session()
 #' myLibrary <- ssimLibrary(name = myLibraryName,
-#'                          session = mySession, 
-#'                          package = "helloworldSpatial",
-#'                          template = "example-library",
-#'                          forceUpdate = TRUE)
+#'                          session = mySession,
+#'                          packages = "helloworldSpatial")
 #' myProject <- project(myLibrary, project = "Definitions")
 #' myScenario <- scenario(myProject, scenario = "My Scenario")
 #' 
@@ -85,35 +80,43 @@ NULL
 #' myDatasheets <- datasheet(myScenario)
 #' 
 #' # Get a specific Datasheet
-#' myDatasheet <- datasheet(myScenario, name = "RunControl")
+#' myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 #' 
 #' # Modify Datasheet
 #' myDatasheet$MaximumTimestep <- 10
 #' 
 #' # Save Datasheet
-#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl")
+#' saveDatasheet(ssimObject = myScenario, 
+#'               data = myDatasheet, 
+#'               name = "helloworldSpatial_RunControl")
 #'           
 #' # Import data after saving
-#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#' saveDatasheet(ssimObject = myScenario, 
+#'               data = myDatasheet, 
+#'               name = "helloworldSpatial_RunControl",
 #'               import = TRUE)
 #'         
 #' # Save the new Datasheet to a specified output path
-#' saveDatasheet(ssimObject = myScenario, data = myDatasheet, name = "RunControl",
+#' saveDatasheet(ssimObject = myScenario, 
+#'               data = myDatasheet, 
+#'               name = "helloworldSpatial_RunControl",
 #'               path = tempdir())
 #'               
 #' # Save a raster stack using fileData
 #' # Create a raster stack - add as many raster files as you want here
-#' map1 <- datasheetSpatRaster(myScenario, datasheet = "InputDatasheet",
-#'                         column = "InterceptRasterFile")
+#' map1 <- datasheetSpatRaster(myScenario, 
+#'                             datasheet = "helloworldSpatial_InputDatasheet",
+#'                             column = "InterceptRasterFile")
 #' inRasters <- terra::rast(map1)
 #' 
 #' # Change the name of the rasters in the input Datasheets to match the stack
-#' inSheet <- datasheet(myScenario, name="InputDatasheet")
+#' inSheet <- datasheet(myScenario, name = "helloworldSpatial_InputDatasheet")
 #' inSheet[1,"InterceptRasterFile"] <- names(inRasters)[1]
 #' 
 #' # Save the raster stack to the input Datasheet
-#' saveDatasheet(myScenario, data=inSheet, name="InputDatasheet", 
-#'               fileData=inRasters)
+#' saveDatasheet(myScenario, data = inSheet, 
+#'               name = "helloworldSpatial_InputDatasheet", 
+#'               fileData = inRasters)
 #' }
 #' 
 #' @export

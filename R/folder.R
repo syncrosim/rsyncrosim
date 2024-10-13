@@ -33,7 +33,7 @@ setMethod(
 
     } else if (is.numeric(folder)){
       
-      folders <- subset(folders, Id == folder)
+      folders <- subset(folders, FolderId == folder)
       
       # If no folders retrieved, then ID does not yet exist
       if (nrow(folders) == 0){
@@ -54,8 +54,8 @@ setMethod(
 
     # If one folder retrieved, then open folder
     if ((nrow(folders) == 1) & (create == FALSE)) {
-      .Object@folderId <- folders$Id
-      .Object@parentId <- getParentFolderId(x, folders$Id)
+      .Object@folderId <- folders$FolderId
+      .Object@parentId <- getParentFolderId(x, folders$FolderId)
       .Object@session <- .session(x)
       .Object@filepath <- .filepath(x)
       .Object@projectId <- x@projectId
@@ -78,10 +78,10 @@ setMethod(
                       ". Please provide a valid parent folder name."))
         }
         
-        ParentId <- parentFolderData$Id
+        ParentId <- parentFolderData$FolderId
         
       } else if (is.numeric(parentFolder)) {
-        parentFolderData <- subset(allFolders, Id == parentFolder)
+        parentFolderData <- subset(allFolders, FolderId == parentFolder)
         
         if (nrow(parentFolderData) == 0) {
           stop(paste0("The library does not contain a folder with the ID ", 
@@ -89,7 +89,7 @@ setMethod(
                       ". Please provide a valid parent folder ID"))
         }
         
-        ParentId <- parentFolderData$Id
+        ParentId <- parentFolderData$FolderId
         
       } else {
         stop("The parentFolder argument must be a character, integer, or SyncroSim folder object.")
@@ -220,15 +220,15 @@ folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL,
         }
       }
       
-      folders <- folders[which(folders$Id %in% ids), ]
+      folders <- folders[which(folders$FolderId %in% ids), ]
     }
     
     # Subset dataframe by specified folder if summary == TRUE
     if (is(ssimObject, "Folder") & (summary == TRUE)){
-      folders <- subset(folders, Id == .folderId(ssimObject))
+      folders <- subset(folders, FolderId == .folderId(ssimObject))
     } else if (!is.null(folder) & (summary == TRUE)){
       if (is.numeric(folder)) {
-        folders <- subset(folders, Id == folder)
+        folders <- subset(folders, FolderId == folder)
       } else {
         folders <- subset(folders, Name == folder)
       }

@@ -25,7 +25,8 @@ NULL
 #' @examples
 #' \donttest{
 #' # Install "stsim" and "stsimecodep" SyncroSim packages
-#' installPackage("stsim")
+#' installPackage(packages = c("stsim", "stsim"),
+#'                versions = c("4.0.0", "4.0.1"))
 #' installPackage("stsimecodep")
 #' 
 #' # Specify file path and name of new SsimLibrary
