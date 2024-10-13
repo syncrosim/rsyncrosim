@@ -24,12 +24,13 @@ Retrieves the Chart Id of a SyncroSim \code{\link{Chart}}.
 \examples{
 \donttest{
 # Set the file path and name of the new SsimLibrary
-myLibraryName <- file.path(tempdir(),"testlib")
+myLibraryName <- file.path(tempdir(), "testlib")
 
 # Set the SyncroSim Session, SsimLibrary, and Project
 mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, 
                          session = mySession, 
+                         packages = "stsim",
                          overwrite = TRUE) 
 myProject <- project(myLibrary, project = "Definitions")
 

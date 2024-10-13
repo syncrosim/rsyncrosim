@@ -55,8 +55,8 @@ myLibraryName <- file.path(tempdir(),"testlib.ssim")
 
 # Specify the command line arguments for creating a new stsim SsimLibrary
 args <- list(create = NULL, library = NULL, 
-        name = myLibraryName, 
-        package = "stsim")
+             name = myLibraryName, 
+             package = "stsim")
         
 # Use a default session to create a new SsimLibrary in the current working directory
 output <- command(args, session = session(printCmd = TRUE))

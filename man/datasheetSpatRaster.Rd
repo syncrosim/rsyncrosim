@@ -151,10 +151,7 @@ mySession <- session()
 # Use the example template library from helloworldSpatial
 myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession,
-                         package = "helloworldSpatial",
-                         template = "example-library",
-                         forceUpdate = TRUE,
-                         overwrite=TRUE)
+                         packages = "helloworldSpatial")
 
 # Set up Project and Scenario
 myProject <- project(myLibrary, project = "Definitions")
@@ -165,18 +162,19 @@ resultScenario <- run(myScenario)
 
 # Extract specific Datasheet rasters by iteration and timestep
 resultRaster <- datasheetSpatRaster(resultScenario,
-                  datasheet = "IntermediateDatasheet",
+                  datasheet = "helloworldSpatial_IntermediateDatasheet",
                   column = "OutputRasterFile",
                   iteration = 3,
                   timestep = 2
 )
 
 # Extract specific Datasheet SpatRasters using pattern matching
-resultDatasheet <- datasheet(resultScenario, name = "IntermediateDatasheet")
+resultDatasheet <- datasheet(resultScenario, 
+                             name = "helloworldSpatial_IntermediateDatasheet")
 colnames(resultDatasheet)
 outputRasterPaths <- resultDatasheet$OutputRasterFile
 resultRaster <- datasheetSpatRaster(resultScenario, 
-                  datasheet = "IntermediateDatasheet",
+                  datasheet = "helloworldSpatial_IntermediateDatasheet",
                   column = "OutputRasterFile",
                   subset = expression(grepl("ts20", 
                                              outputRasterPaths,
@@ -185,10 +183,9 @@ resultRaster <- datasheetSpatRaster(resultScenario,
 
 # Return the raster Datasheets as a SpatRaster list
 resultRaster <- datasheetSpatRaster(resultScenario, 
-                 datasheet = "IntermediateDatasheet",
+                 datasheet = "helloworldSpatial_IntermediateDatasheet",
                  column = "OutputRasterFile",
-                 forceElements = TRUE
-                 )
+                 forceElements = TRUE)
                  
 # Filter for only rasters that fit specific criteria
 # Load the ST-Sim spatial example library
@@ -203,9 +200,7 @@ mySession <- session()
 # Create a new SsimLibrary with the example template from ST-Sim
 myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession, 
-                         package = "stsim",
-                         template = "spatial-example",
-                         forceUpdate = TRUE)
+                         packages = "stsim")
                          
 myScenario <- scenario(myLibrary, scenario = 16)
 

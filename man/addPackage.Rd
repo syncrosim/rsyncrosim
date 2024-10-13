@@ -6,11 +6,11 @@
 \alias{addPackage,SsimLibrary-method}
 \title{Add SyncroSim package(s)}
 \usage{
-addPackage(ssimLibrary, packages, versions = NULL)
+addPackage(ssimLibrary, packages, versions = NULL, forceUpdate = FALSE)
 
-\S4method{addPackage}{character}(ssimLibrary, packages, versions = NULL)
+\S4method{addPackage}{character}(ssimLibrary, packages, versions = NULL, forceUpdate = FALSE)
 
-\S4method{addPackage}{SsimLibrary}(ssimLibrary, packages, versions = NULL)
+\S4method{addPackage}{SsimLibrary}(ssimLibrary, packages, versions = NULL, forceUpdate = FALSE)
 }
 \arguments{
 \item{ssimLibrary}{\code{\link{SsimLibrary}} object}
@@ -19,6 +19,10 @@ addPackage(ssimLibrary, packages, versions = NULL)
 
 \item{versions}{character string or vector of package version(s). If
 \code{NULL} then uses the latest installed version of the package}
+
+\item{forceUpdate}{logical. If \code{FALSE} (default) user will be prompted
+to approve any required updates. If \code{TRUE}, required updates will
+be applied silently.}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful addition
@@ -30,7 +34,8 @@ Adds package(s) to a \code{\link{SsimLibrary}}.
 \examples{
 \donttest{
 # Install "stsim" and "stsimecodep" SyncroSim packages
-installPackage("stsim")
+installPackage(packages = c("stsim", "stsim"),
+               versions = c("4.0.0", "4.0.1"))
 installPackage("stsimecodep")
 
 # Specify file path and name of new SsimLibrary
@@ -44,6 +49,10 @@ myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 addPackage(myLibrary, packages = "stsim", versions = "4.0.1")
 addPackage(myLibrary, packages = "stsimecodep")
 packages(myLibrary)
+
+# Change package version
+addPackage(myLibrary, packages = "stsim", versions = "4.0.0")
+addPackage(myLibrary, packages = "stsim", versions = "4.0.1")
 
 # Remove package
 removePackage(myLibrary, packages = c("stsim", "stsimecodep"))

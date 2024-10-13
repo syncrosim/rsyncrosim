@@ -35,6 +35,25 @@ is FALSE.}
 }
 \value{
 "saved" or failure message.
+
+#' @examples
+\donttest{
+# Specify file path and name of new SsimLibrary
+myLibraryName <- file.path(tempdir(), "testlib")
+
+# Set up a SyncroSim Session and create SsimLibrary
+mySession <- session()
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+ 
+# Delete library from SsimObject
+deleteLibrary(myLibrary, force = TRUE, removeBackup = TRUE)
+
+# Create another library
+myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+
+# Delete library from path
+deleteLibrary(myLibraryName)
+}
 }
 \description{
 Deletes a SyncroSim library. Note this is irreversable.

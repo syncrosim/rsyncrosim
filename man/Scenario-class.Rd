@@ -30,8 +30,6 @@ Scenario. 0 indicates this is not a result Scenario}
 
 \item{\code{folderId}}{integer. The folder in which the Scenario exists. If the Scenario
 exists at the root of the project, then this value is NULL.}
-
-\item{\code{breakpoints}}{list of Breakpoint objects (optional)}
 }}
 
 \seealso{
