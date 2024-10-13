@@ -17,7 +17,7 @@
 #' @param session Session
 #' @return "saved" or failure message.
 #' 
-#' #' @examples
+#' @examples
 #' \donttest{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")

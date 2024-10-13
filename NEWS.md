@@ -1,28 +1,26 @@
-# rsyncrosim 2.0.0
+# rsyncrosim 2.0.1
 
 ## Breaking changes
 
-* Updates to make compatible with SyncroSim v3.0.0
-* Libraries no longer require a package on creation
-* `ssimLibrary()` `package` argument has been replaced with `packages`
-* The `forceUpdate`, `addons`, and `template` arguments have been removed from `ssimLibrary()`
-* `addPackage()` adds a package to a library (instead of installing from server)
-* `removePackage()` removes a package from a library (instead of installing from server)
-* Replaced the `package()` function with the `packages()` function
-* The `run()` function no longer has a `jobs` argument. The number of multiprocessing jobs is determined using the `core_Multiprocessing` datasheet
-* When calling `datasheet()` with `summary=TRUE`, the scope of the `ssimObject` specified is respected
-* Removed the all deprecated functions, as well as the following functions: `datasheetRaster()`, `disableAddon()`, `enableAddon()`
-
 ## Bug fixes:
 
-* Multiple bug fixes to `Folder` class
+* Bug fix to `run()` when running multiple scenarios at a time
+* Fix bug with empty datasheets returning NA values
+* Update `addPackage()` to properly update package version in a library and fix bug caused by change in SyncroSim 3 console
+* Fix `delete()` function
+* Fix `backup` command
+* Fix bug with internal folder code having wrong "ID"" case
 
 ## New features:
 
-* Efficiency improvements for setting scenario dependencies
-* `installPackage()` installs package(s) from the server or from a local file or folder and takes a `version` argument
-* `removePackage()` uninstalls a package and takes a `version` argument
-* New `createCondaEnv()` function for creating package conda environments using rsyncrosim
-* Removed all references to deprecated `raster` package
+* Updates to vignettes and documentation for version 2
+* Add `deleteLibrary()` function specifically for deleting library objects
+* Added suite of charting functions for creating SyncroSim charts from R
 
 ## Minor improvements and fixes
+
+* Add warning for when library packages are not properly installed
+* Add `forceUpdate` argument back to `ssimLibrary()`
+* Change default `session()` path to "SyncroSim Studio"
+* Ensure that a result scenario is output by `run()` even on run failure
+* Add long path warning message
