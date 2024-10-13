@@ -18,7 +18,7 @@ NULL
 #' \code{\link{packages}}
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Install "stsim" and "stsimecodep" SyncroSim packages
 #' installPackage("stsim")
 #' installPackage("stsimecodep")

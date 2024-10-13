@@ -46,7 +46,7 @@ NULL
 #' input: \code{TRUE} upon success (i.e.successful deletion) and \code{FALSE} upon failure.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

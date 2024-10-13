@@ -18,7 +18,7 @@
 #' @return "saved" or failure message.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 
