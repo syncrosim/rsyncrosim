@@ -246,7 +246,9 @@ myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
 myDatasheet$helloworldSpatial_RunControl
 
 # Get a Datasheet without pre-specified values
-myDatasheetEmpty <- datasheet(myScenario, name = "RunControl", empty = TRUE)
+myDatasheetEmpty <- datasheet(myScenario, 
+                              name = "helloworldSpatial_RunControl", 
+                              empty = TRUE)
 
 # If Datasheet is empty, do not return dependencies as factors
 myDatasheetEmpty <- datasheet(myScenario, 

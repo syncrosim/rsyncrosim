@@ -20,7 +20,7 @@ To learn more about rsyncrosim, start with the vignette tutorial:
 \seealso{
 Useful links:
 \itemize{
-  \item \url{<https://syncrosim.github.io/rsyncrosim/>}
+  \item \url{https://syncrosim.github.io/rsyncrosim/}
   \item Report bugs at \url{https://github.com/syncrosim/rsyncrosim/issues/}
 }
 

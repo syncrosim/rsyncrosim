@@ -2,9 +2,22 @@
 % Please edit documentation in R/deleteLibrary.R
 \name{deleteLibrary}
 \alias{deleteLibrary}
+\alias{deleteLibrary,SsimLibrary-method}
+\alias{deleteLibrary,character-method}
 \title{Delete Library}
 \usage{
 deleteLibrary(
+  ssimLibrary,
+  force = FALSE,
+  removeBackup = FALSE,
+  removePublish = FALSE,
+  removeCustom = FALSE,
+  session = NULL
+)
+
+\S4method{deleteLibrary}{SsimLibrary}(ssimLibrary, force, removeBackup, removePublish, removeCustom)
+
+\S4method{deleteLibrary}{character}(
   ssimLibrary,
   force = FALSE,
   removeBackup = FALSE,
@@ -35,9 +48,12 @@ is FALSE.}
 }
 \value{
 "saved" or failure message.
-
-#' @examples
-\donttest{
+}
+\description{
+Deletes a SyncroSim library. Note this is irreversable.
+}
+\examples{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 
@@ -54,7 +70,5 @@ myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
 # Delete library from path
 deleteLibrary(myLibraryName)
 }
-}
-\description{
-Deletes a SyncroSim library. Note this is irreversable.
+
 }

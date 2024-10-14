@@ -34,7 +34,7 @@ Create or open a \code{\link{Chart}} from a SyncroSim
 \code{\link{Project}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

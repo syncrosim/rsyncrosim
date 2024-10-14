@@ -7,7 +7,7 @@ NULL
 #'
 #' Retrieves the Chart Id of a SyncroSim \code{\link{Chart}}.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param ssimObject \code{\link{Chart}} object
 #' 
 #' @return 
 #' An integer: chart id.

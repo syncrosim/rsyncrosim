@@ -10,6 +10,7 @@ setMethod(
     
     Name <- NULL
     FolderId <- NULL
+    ProjectId <- NULL
     x <- ssimObject
     
     # Set default parent ID
@@ -183,6 +184,9 @@ folder <- function(ssimObject = NULL, folder = NULL, parentFolder = NULL,
   if (is.element(class(ssimObject), c("Scenario"))) {
     stop("Cannot create a folder at the Scenario-level.")
   }
+  
+  FolderId <- NULL
+  Name <- NULL
   
   x <- ssimObject
   

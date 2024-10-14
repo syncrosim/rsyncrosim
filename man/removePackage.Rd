@@ -25,7 +25,7 @@ removal of the package) or \code{FALSE} upon failure.
 Removes package(s) from a \code{\link{SsimLibrary}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Install "stsim" and "stsimecodep" SyncroSim packages
 installPackage("stsim")
 installPackage("stsimecodep")

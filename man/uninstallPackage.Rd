@@ -34,7 +34,7 @@ removal) and \code{FALSE} upon failure.
 Removes a package from SyncroSim installation
 }
 \examples{
-\donttest{
+\dontrun{
 # Set SyncroSim session
 mySession <- session()
 

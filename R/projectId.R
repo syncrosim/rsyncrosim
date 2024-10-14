@@ -9,7 +9,7 @@ NULL
 #' \code{\link{Scenario}}, \code{\link{Folder}} or \code{\link{Chart}}.
 #'
 #' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{Folder}}, or \code{\link{{Chart}}} object
+#' \code{\link{Folder}}, or \code{\link{Chart}} object
 #' 
 #' @return 
 #' An integer: project id.

@@ -251,7 +251,8 @@ setMethod("datasheet",
   ParentId <- NULL
   ParentName <- NULL
   Name <- NULL
-  xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, convertObject = FALSE, complainIfMissing = TRUE)
+  xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, 
+                               convertObject = FALSE, complainIfMissing = TRUE)
   IDColumns <- c("ScenarioId", "ProjectId")
   
   if (is(ssimObject, "SsimLibrary")){
@@ -341,7 +342,7 @@ setMethod("datasheet",
     sumInfo <- subset(sumInfo, select = c("scope", "name", "displayName", "order"))
     sumInfo[order(sumInfo$order), ]
     sumInfo$order <- NULL
-    sumInfo <- subset(sumInfo, scope == scopeDS)
+    sumInfo <- sumInfo[sumInfo$scope == scopeDS,]
     
     return(sumInfo)
   }
@@ -356,7 +357,7 @@ setMethod("datasheet",
       
       sumInfo[order(sumInfo$order), ]
       sumInfo$order <- NULL
-      sumInfo <- subset(sumInfo, scope == scopeDS)
+      sumInfo <- sumInfo[sumInfo$scope == scopeDS,]
       
       return(sumInfo)
     }
@@ -398,7 +399,7 @@ setMethod("datasheet",
     sumInfo <- subset(sumInfo, select = c(prevNames, setdiff(names(sumInfo), prevNames)))
     sumInfo <- sumInfo[order(sumInfo$order, sumInfo$scenario), ]
     sumInfo$order <- NULL
-    sumInfo <- subset(sumInfo, scope == scopeDS)
+    sumInfo <- sumInfo[sumInfo$scope == scopeDS,]
     
     return(sumInfo)
   }

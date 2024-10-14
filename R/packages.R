@@ -59,6 +59,8 @@ setMethod("packages", signature(ssimObject = "missingOrNULL"),
 setMethod("packages", signature(ssimObject = "Session"), 
           function(ssimObject, installed = TRUE) {
             
+    Name <- NULL 
+    
     if (installed == FALSE) {
       arg <- "available"
     } else {

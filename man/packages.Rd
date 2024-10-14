@@ -36,7 +36,7 @@ called on a \code{\link{Session}} object, or the packages added to a
 SyncroSim Library if called on a \code{\link{SsimLibrary}} object.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

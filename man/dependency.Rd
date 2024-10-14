@@ -8,21 +8,25 @@
 \alias{dependency<-,Scenario-method}
 \title{Get, set or remove Scenario dependency(s)}
 \usage{
-dependency(scenario)
+dependency(ssimObject)
 
-\S4method{dependency}{character}(scenario)
+\S4method{dependency}{character}(ssimObject)
 
-\S4method{dependency}{Scenario}(scenario)
+\S4method{dependency}{Scenario}(ssimObject)
 
 dependency(ssimObject) <- value
 
 \S4method{dependency}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{scenario}{\code{\link{Scenario}} object, character string, integer, or
+\item{ssimObject}{\code{\link{Scenario}} object, character string, integer, or
 vector of these. The Scenario object, name, or ID to which a dependency is to
 be added (or has already been added if \code{remove=TRUE}). Note that integer ids
-are slightly faster}
+are slightly faster.}
+
+\item{value}{\code{\link{Scenario}} object, character string, integer, or
+vector of these. The Scenario object, name, or ID to be used as the
+dependency. If an empty vector is provided, all dependencies are removed.}
 }
 \value{
 A data.frame: all dependencies for a given Scenario
@@ -46,7 +50,7 @@ If the dependency argument includes more than one element, elements are ordered
 from lowest to highest precedence.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

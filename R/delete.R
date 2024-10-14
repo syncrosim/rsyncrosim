@@ -105,6 +105,9 @@ setMethod("delete", signature(ssimObject = "SsimObject"),
                    force, session) {
   
   ScenarioId <- NULL
+  Name <- NULL
+  FolderId <- NULL
+  ChartId <- NULL
   
   xProjScn <- .getFromXProjScn(ssimObject, project = project, 
                                scenario = scenario, folder = folder,
@@ -115,7 +118,7 @@ setMethod("delete", signature(ssimObject = "SsimObject"),
     
     if (is.null(folder)) {
       folderId <- .folderId(ssimObject)
-      folderName <- .name(ssimobject)
+      folderName <- .name(ssimObject)
     } else {
       allFolders <- getFolderData(ssimObject)
       

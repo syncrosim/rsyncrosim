@@ -73,6 +73,13 @@ setMethod("chartCriteria", signature(ssimObject = "SsimObject"),
     returnSingleChart <- (is(ssimObject, "Chart") || !is.null(chart)) && 
       (is.null(variable))
     returnAllChart <- (is(ssimObject, "Project") || !is.null(variable))
+    
+    # Grab list of chart information for project to match names
+    if (is(ssimObject, "Project")){
+      ssimProj <- ssimObject
+    } else {
+      ssimProj <- .project(ssimObject)
+    }
             
     if (returnSingleChart){
       
@@ -109,13 +116,6 @@ setMethod("chartCriteria", signature(ssimObject = "SsimObject"),
         missingCol <- setdiff(names(yResult), names(xResult))
         xResult[missingCol] <- "N/A" 
         df <- rbind(df, xResult)
-      }
-      
-      # Grab list of chart information for project to match names
-      if (is(ssimObject, "Project")){
-        ssimProj <- ssimObject
-      } else {
-        ssimProj <- .project(ssimObject)
       }
       
       # dissagregateBy should match filter values in projectchartCriteria
@@ -189,7 +189,7 @@ setMethod("chartCriteria", signature(ssimObject = "SsimObject"),
           chartDS <- subsetInfo$datasheet
           args <- list(list = NULL, columns = NULL, lib=libPath, allprops = NULL, 
                        sheet = chartDS, csv = NULL)
-          tt <- command(args, mySession)
+          tt <- command(args, chartSession)
           df <- .dataframeFromSSim(tt)
           df_filtered <- df[df$name %in% filter, ]
           
@@ -198,7 +198,7 @@ setMethod("chartCriteria", signature(ssimObject = "SsimObject"),
           }
           
           displayNameDS <- gsub(".*formula1\\^(.+)\\!formula2.*", "\\1", df_filtered$properties)
-          valuesDS <- .datasheet(myProject, name = displayNameDS, rawValues = T, includeKey = T)
+          valuesDS <- .datasheet(ssimProj, name = displayNameDS, rawValues = T, includeKey = T)
           names(valuesDS) <- c("ID", "Name")
           return(valuesDS[1:2])
         }
