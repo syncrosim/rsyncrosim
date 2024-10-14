@@ -91,7 +91,8 @@ setMethod("run", signature(ssimObject = "list"),
 setMethod("run", signature(ssimObject = "SsimObject"), 
           function(ssimObject, scenario, summary, copyExternalInputs, 
                    transformerName) {
-          
+     
+  ScenarioId <- NULL     
   xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, 
                                convertObject = TRUE, returnIds = TRUE, 
                                goal = "scenario", complainIfMissing = TRUE)

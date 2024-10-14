@@ -26,7 +26,7 @@ Retrieves a printCmd setting of a \code{\link{Session}} object. The printCmd
 setting configures a Session for printing commands sent to the console.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set SyncroSim Session
 mySession <- session()
 

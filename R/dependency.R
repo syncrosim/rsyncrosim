@@ -23,10 +23,13 @@ NULL
 #' If the dependency argument includes more than one element, elements are ordered 
 #' from lowest to highest precedence.
 #'
-#' @param scenario \code{\link{Scenario}} object, character string, integer, or 
+#' @param ssimObject \code{\link{Scenario}} object, character string, integer, or 
 #' vector of these. The Scenario object, name, or ID to which a dependency is to 
 #' be added (or has already been added if \code{remove=TRUE}). Note that integer ids 
-#' are slightly faster
+#' are slightly faster.
+#' @param value \code{\link{Scenario}} object, character string, integer, or 
+#' vector of these. The Scenario object, name, or ID to be used as the 
+#' dependency. If an empty vector is provided, all dependencies are removed.
 #' 
 #' @return 
 #' A data.frame: all dependencies for a given Scenario
@@ -55,18 +58,18 @@ NULL
 #' }
 #' 
 #' @export
-setGeneric("dependency", function(scenario) standardGeneric("dependency"))
+setGeneric("dependency", function(ssimObject) standardGeneric("dependency"))
 
 #' @rdname dependency
-setMethod("dependency", signature(scenario = "character"), function(scenario) {
-  return(SyncroSimNotFound(scenario))
+setMethod("dependency", signature(ssimObject = "character"), function(ssimObject) {
+  return(SyncroSimNotFound(ssimObject))
 })
 
 #' @rdname dependency
-setMethod("dependency", signature(scenario = "Scenario"), function(scenario) {
+setMethod("dependency", signature(ssimObject = "Scenario"), function(ssimObject) {
   
-  # Rename variable so it's not the same as the rsyncrosim::scenario() function
-  s <- scenario
+  # Rename variable
+  s <- ssimObject
   
   # get set of existing dependencies
   args <- list(list = NULL, dependencies = NULL, lib = .filepath(s), 
@@ -121,9 +124,11 @@ setReplaceMethod(
           cDep <- allScns$ScenarioId[allScns$Name == v]
           
           if (length(cDep) == 0) {
-            stop("Could not find dependency scenario ", cDepRaw)
+            stop("Could not find dependency scenario ", v)
           } else if (length(cDep) > 1) {
-            stop("Found more than one scenario named ", v, ". Please specify a dependency scenario id:", paste0(v, collapse = ","))
+            stop("Found more than one scenario named ", v, 
+                 ". Please specify a dependency scenario id:", 
+                 paste0(v, collapse = ","))
           } else {
             valueList <- c(valueList, cDep)
           }

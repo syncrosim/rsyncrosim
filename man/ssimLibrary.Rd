@@ -86,7 +86,7 @@ of package.
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # Make sure packages are installed
 installPackage("stsim")
 

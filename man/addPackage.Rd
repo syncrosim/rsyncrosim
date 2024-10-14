@@ -32,7 +32,7 @@ of the package) or \code{FALSE} upon failure.
 Adds package(s) to a \code{\link{SsimLibrary}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Install "stsim" and "stsimecodep" SyncroSim packages
 installPackage(packages = c("stsim", "stsim"),
                versions = c("4.0.0", "4.0.1"))

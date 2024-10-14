@@ -55,7 +55,7 @@ have updated the SyncroSim software and want to update an existing SsimObject
 to use the new software.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

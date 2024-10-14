@@ -211,6 +211,8 @@ deleteScenarioDatasheet <- function(x, datasheet, scenario,
 
 deleteScenario <- function(x, scenario, allScenarios, out = list(), force){
   
+  ScenarioId <- NULL
+  
   for (i in seq(length.out = length(scenario))) {
     cScn <- scenario[i]
     name <- allScenarios$Name[allScenarios$ScenarioId == cScn]

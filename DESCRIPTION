@@ -34,8 +34,7 @@ Imports:
     DBI,
     RSQLite,
     terra,
-    gtools,
-    lifecycle
+    gtools
 Suggests:
     knitr,
     testthat (>= 3.0.0),

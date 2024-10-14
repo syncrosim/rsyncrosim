@@ -1,3 +1,8 @@
+# Copyright (c) 2024 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# MIT License
+#' @include AAAClassDefinitions.R
+NULL
+
 #' Delete Library
 #'
 #' Deletes a SyncroSim library. Note this is irreversable.
@@ -38,11 +43,13 @@
 #' 
 #' @export
 
+#' @rdname deleteLibrary
 setGeneric("deleteLibrary", 
            function(ssimLibrary, force = FALSE, removeBackup = FALSE,
                     removePublish = FALSE, removeCustom = FALSE,
                     session = NULL) standardGeneric("deleteLibrary"))
 
+#' @rdname deleteLibrary
 setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"), 
           function(ssimLibrary, force, removeBackup, removePublish, removeCustom) {
             
@@ -50,6 +57,7 @@ setMethod("deleteLibrary", signature(ssimLibrary = "SsimLibrary"),
                                  removePublish, removeCustom, .session(ssimLibrary)))
           })
 
+#' @rdname deleteLibrary
 setMethod("deleteLibrary", signature(ssimLibrary = "character"), 
           function(ssimLibrary, force, removeBackup, removePublish, 
                    removeCustom, session) {

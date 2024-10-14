@@ -43,7 +43,7 @@ Create or open a \code{\link{Folder}} from a SyncroSim
 \code{\link{Project}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 
