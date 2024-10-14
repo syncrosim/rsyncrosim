@@ -6,7 +6,7 @@
 ## The R interface to SyncroSim
 
 [![License:
-MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit)
 [![Downloads](https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://CRAN.R-project.org/package=rsyncrosim/)
 <!-- [![Codecov test coverage](https://codecov.io/gh/syncrosim/rsyncrosim/branch/dev/graph/badge.svg)](https://codecov.io/gh/syncrosim/rsyncrosim?branch=dev) -->
 
