@@ -26,3 +26,4 @@ binaries/
 # Don't build R-CMD-check (broken)
 **/R-CMD-check.yml
 # tests_in_progress/
+CRAN-SUBMISSION
