@@ -1,9 +1,9 @@
 ---
-title: "Introduction to `rsyncrosim`"
+title: "Introduction to rsyncrosim"
 output: rmarkdown::html_vignette
 # output: pdf_document
 vignette: >
-  %\VignetteIndexEntry{Introduction to `rsyncrosim`}
+  %\VignetteIndexEntry{Introduction to rsyncrosim}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 params:

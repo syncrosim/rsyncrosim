@@ -8,25 +8,21 @@
 \alias{dependency<-,Scenario-method}
 \title{Get, set or remove Scenario dependency(s)}
 \usage{
-dependency(ssimObject)
+dependency(scenario)
 
-\S4method{dependency}{character}(ssimObject)
+\S4method{dependency}{character}(scenario)
 
-\S4method{dependency}{Scenario}(ssimObject)
+\S4method{dependency}{Scenario}(scenario)
 
 dependency(ssimObject) <- value
 
 \S4method{dependency}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}} object, character string, integer, or
+\item{scenario}{\code{\link{Scenario}} object, character string, integer, or
 vector of these. The Scenario object, name, or ID to which a dependency is to
 be added (or has already been added if \code{remove=TRUE}). Note that integer ids
-are slightly faster.}
-
-\item{value}{\code{\link{Scenario}} object, character string, integer, or
-vector of these. The Scenario object, name, or ID to be used as the
-dependency. If an empty vector is provided, all dependencies are removed.}
+are slightly faster}
 }
 \value{
 A data.frame: all dependencies for a given Scenario
@@ -43,14 +39,11 @@ is returned in order of precedence (from highest to lowest precedence).
 Otherwise, returns list of saved or error messages for each dependency of each
 scenario.
 
-Note that the order of dependencies can be important - dependencies added most
-recently take precedence over existing dependencies. So, dependencies included
-in the dependency argument take precedence over any other existing dependencies.
-If the dependency argument includes more than one element, elements are ordered
-from lowest to highest precedence.
+Note that the order of dependencies can be important. If the dependency argument
+includes more than one element, elements are ordered from highest to lowest precedence.
 }
 \examples{
-\dontrun{
+\donttest{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

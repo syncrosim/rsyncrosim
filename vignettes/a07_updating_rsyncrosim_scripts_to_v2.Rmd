@@ -1,0 +1,106 @@
+---
+title: "Updating rsyncrosim scripts to version 2"
+
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Updating rsyncrosim scripts to version 2}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
+---
+
+The introduction of <a href="https://syncrosim.com/studio/" target="_blank">SyncroSim Studio</a> brought some structural changes and new functionalities, which get reflected in the `rsyncrosim` package. Use the guide below to update your `rsyncrosim v1` scripts to `rsyncrosim v2`.
+
+*Note*: <a href="https://syncrosim.com/studio-download/" target="_blank">SyncroSim v3.0.9</a> or higher is required to use `rsyncrosim v2.0.1` or higher. 
+
+## Updated functions
+
+To install and uninstall packages from your SyncroSim installation, use:
+
+```{r install packages, eval=FALSE}
+installPackage() # Installs the selected package(s) to SyncroSim
+uninstallPackage() # Uninstalls the selected package(s)
+```
+
+Now you can use multiple SyncroSim packages in a single library. To add and remove packages from your library, use:
+
+```{r add package, eval=FALSE}
+addPackage() # Adds package(s) to the library
+removePackage() # Removes package(s) from the library. Note that any associated datasheets will be removed as well.
+```
+
+And also for that reason, the package addons have been converted to standalone packages, or incorporated into the base packages. Therefore, the following functions no longer exist:
+
+```{r deprecated, eval=FALSE}
+addon()
+disableAddon()
+enableAddon()
+```
+
+## Library
+
+`info(ssimLibrary)` no longer shows the *Package name*, *Current package version* and *Minimum package version*, and the Input and Output folder paths have been combined into the *Data folder*.
+
+the `package` argument in the `ssimLibrary(package)` function has been renamed to `packages`
+
+```{r library, eval=FALSE}
+myLibrary <- ssimLibrary(packages = c())
+```
+
+The `addon` and `template` arguments have also been removed.
+
+## Dependencies
+
+To view the existing dependencies for a scenario, use:
+
+```{r view dependencies, eval=FALSE}
+dependency(myScenario)
+```
+
+To set dependedncies for a scenario, use:
+
+```{r set dependencies, eval=FALSE}
+dependency(myScenario) <- c("Scenario 1", "Scenario 2")
+```
+
+Note that this will remove any previously set dependencies.
+Also, the order in which the dependencies are listed can be important. In this example, `Scenario 1` takes precedence over `Scenario 2`.
+
+
+## Multiprocessing
+
+The `run()` function no longer has the `jobs` argument. Use the `core_Multiprocessing` datasheet to set the number of cores to use. Note that this will affect every scenario run.
+
+
+## Variable naming
+
+The **ID** in variable names have been changed to **Id**. It is generally safe to substitute `ID` for `Id` throughout your script, unless that affects any variables not related to SyncroSim.
+
+## stsimsf
+
+The ST-Sim Stock & Flow package, `stsimsf` have been incorporated into ST-Sim. Substitute all `stsimsf_` datasheets throghout your script for `stsim_`.
+The only exception is the `stsimsf_OutputOptions` that is now called `stsim_OutputOptionsStockFlow`.
+
+## Other removed functions
+
+```{r other removed, eval=FALSE}
+datasheetRaster() # previously deprecated function. Use datasheetSpatRaster() instead.
+
+addBreakpoint()
+breakpoint()
+deleteBreakpoint()
+
+ssimUpdate()
+updatePackage()
+```
+
+## Other NEW functions
+```{r new functions, eval=FALSE}
+createCondaEnv(pkgs = c()) # creates the conda environment for the selecte package(s)
+
+deleteLibrary() # Note this is irreversible
+
+chart() # Create or load a SyncroSim chart. Explore other charting functions with ?chart
+```
+

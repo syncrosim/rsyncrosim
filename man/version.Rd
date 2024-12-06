@@ -25,7 +25,7 @@ A character string e.g. "2.2.13".
 Retrieves the version of a SyncroSim Session.
 }
 \examples{
-\dontrun{
+\donttest{
 # Set SyncroSim Session
 mySession <- session()
 
