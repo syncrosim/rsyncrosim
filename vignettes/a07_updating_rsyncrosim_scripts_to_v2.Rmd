@@ -10,27 +10,34 @@ params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
-The introduction of <a href="https://syncrosim.com/studio/" target="_blank">SyncroSim Studio</a> brought some structural changes and new functionalities, which get reflected in the `rsyncrosim` package. Use the guide below to update your `rsyncrosim v1` scripts to `rsyncrosim v2`.
+The introduction of <a href="https://syncrosim.com/studio/" target="_blank">SyncroSim Studio</a> brought some structural changes and new functionalities, which are reflected in the `rsyncrosim` package. Use the guide below to update your `rsyncrosim` version 1 scripts to be compatible with version 2.
 
-*Note*: <a href="https://syncrosim.com/studio-download/" target="_blank">SyncroSim v3.0.9</a> or higher is required to use `rsyncrosim v2.0.1` or higher. 
+*Note*: <a href="https://syncrosim.com/studio-download/" target="_blank">SyncroSim v3.0.9</a> or higher is required to use `rsyncrosim v2.0.0` or higher. 
 
 ## Updated functions
 
-To install and uninstall packages from your SyncroSim installation, use:
+### Installing/uninstalling packages
+
+Previously, the `addPackage` and `removePackage` functions were used to install and uninstall packages from SyncroSim. Now to install and uninstall packages from SyncroSim, use:
 
 ```{r install packages, eval=FALSE}
-installPackage() # Installs the selected package(s) to SyncroSim
-uninstallPackage() # Uninstalls the selected package(s)
+installPackage()   # Installs the selected package(s) to SyncroSim
+uninstallPackage() # Uninstalls the selected package(s) from SyncroSim
 ```
+
+### Adding/removing packages
 
 Now you can use multiple SyncroSim packages in a single library. To add and remove packages from your library, use:
 
 ```{r add package, eval=FALSE}
-addPackage() # Adds package(s) to the library
-removePackage() # Removes package(s) from the library. Note that any associated datasheets will be removed as well.
+addPackage()    # Adds package(s) to the library
+removePackage() # Removes package(s) from the library.
 ```
+Note that when you remove a package from your library any associated datasheets will be removed as well.
 
-And also for that reason, the package addons have been converted to standalone packages, or incorporated into the base packages. Therefore, the following functions no longer exist:
+## Deprecated functions
+
+In SyncroSim 3, the concept of addon packages no longer exists. All addon packages have either been converted to standalone packages (e.g., `burnP3PlusPrometheus`) and can be added to a library without having to load a base package first, or incorporated directly into the base packages (e.g., `stsimsf` is now part of `stsim`). Therefore, the following functions have been removed:
 
 ```{r deprecated, eval=FALSE}
 addon()
@@ -42,7 +49,7 @@ enableAddon()
 
 `info(ssimLibrary)` no longer shows the *Package name*, *Current package version* and *Minimum package version*, and the Input and Output folder paths have been combined into the *Data folder*.
 
-the `package` argument in the `ssimLibrary(package)` function has been renamed to `packages`
+The `package` argument in the `ssimLibrary(package)` function has been renamed to `packages`
 
 ```{r library, eval=FALSE}
 myLibrary <- ssimLibrary(packages = c())
@@ -58,7 +65,7 @@ To view the existing dependencies for a scenario, use:
 dependency(myScenario)
 ```
 
-To set dependedncies for a scenario, use:
+To set dependencies for a scenario, use:
 
 ```{r set dependencies, eval=FALSE}
 dependency(myScenario) <- c("Scenario 1", "Scenario 2")
