@@ -10,7 +10,7 @@ params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
-The introduction of <a href="https://syncrosim.com/studio/" target="_blank">SyncroSim Studio</a> brought some structural changes and new functionalities, which are reflected in the `rsyncrosim` package. Use the guide below to update your `rsyncrosim` version 1 scripts to be compatible with version 2.
+The introduction of <a href="https://syncrosim.com/studio/" target="_blank">SyncroSim Studio</a> brought some structural changes and new features, which are reflected in the `rsyncrosim` package. Use the guide below to update your `rsyncrosim` version 1 scripts to be compatible with version 2.
 
 *Note*: <a href="https://syncrosim.com/studio-download/" target="_blank">SyncroSim v3.0.9</a> or higher is required to use `rsyncrosim v2.0.0` or higher. 
 
@@ -37,65 +37,13 @@ Note that when you remove a package from your library any associated datasheets 
 
 ## Deprecated functions
 
-In SyncroSim 3, the concept of addon packages no longer exists. All addon packages have either been converted to standalone packages (e.g., `burnP3PlusPrometheus`) and can be added to a library without having to load a base package first, or incorporated directly into the base packages (e.g., `stsimsf` is now part of `stsim`). Therefore, the following functions have been removed:
+In SyncroSim 3, the concept of addon packages no longer exists. All addon packages have either been converted to standalone packages (e.g., `burnP3PlusPrometheus`), and can be added to a library without having to load a base package first, or incorporated directly into the base packages (e.g., `stsimsf` is now part of `stsim`). Therefore, the following functions have been removed:
 
 ```{r deprecated, eval=FALSE}
 addon()
 disableAddon()
 enableAddon()
-```
 
-## Library
-
-`info(ssimLibrary)` no longer shows the *Package name*, *Current package version* and *Minimum package version*, and the Input and Output folder paths have been combined into the *Data folder*.
-
-The `package` argument in the `ssimLibrary(package)` function has been renamed to `packages`
-
-```{r library, eval=FALSE}
-myLibrary <- ssimLibrary(packages = c())
-```
-
-The `addon` and `template` arguments have also been removed.
-
-## Dependencies
-
-To view the existing dependencies for a scenario, use:
-
-```{r view dependencies, eval=FALSE}
-dependency(myScenario)
-```
-
-To set dependencies for a scenario, use:
-
-```{r set dependencies, eval=FALSE}
-dependency(myScenario) <- c("Scenario 1", "Scenario 2")
-```
-
-Note that this will remove any previously set dependencies.
-Also, the order in which the dependencies are listed can be important. In this example, `Scenario 1` takes precedence over `Scenario 2`.
-
-
-## Multiprocessing
-
-The `run()` function no longer has the `jobs` argument. Use the `core_Multiprocessing` datasheet to set the number of cores to use. Note that this will affect every scenario run.
-
-
-## Variable naming
-
-The **ID** in variable names have been changed to **Id**. It is generally safe to substitute `ID` for `Id` throughout your script, unless that affects any variables not related to SyncroSim.
-
-## Core datasheets
-
-The `corestime_` datasheets are now simply called `core_`.
-
-## stsimsf
-
-The ST-Sim Stock & Flow package, `stsimsf` have been incorporated into ST-Sim. Substitute all `stsimsf_` datasheets throghout your script for `stsim_`.
-The only exception is the `stsimsf_OutputOptions` that is now called `stsim_OutputOptionsStockFlow`.
-
-## Other removed functions
-
-```{r other removed, eval=FALSE}
 datasheetRaster() # previously deprecated function. Use datasheetSpatRaster() instead.
 
 addBreakpoint()
@@ -106,9 +54,90 @@ ssimUpdate()
 updatePackage()
 ```
 
+## Library
+
+Given this added flexibility, the `addon` argument has been removed from the `ssimLibrary()` function, and the `package` argument has been renamed to `packages`.
+
+```{r library, eval=FALSE}
+# instead of using
+myLibrary <- ssimLibrary(package = "PackageName", addon = "AddonName")
+
+# use
+myLibrary <- ssimLibrary(packages = c("stsim", "helloworldSpatial"))
+```
+```{r load session run, warning = FALSE, echo = FALSE}
+# results for the section above
+library(rsyncrosim)
+mySession <- session()
+myLibrary <- ssimLibrary("Changes to rsyncrosim v2.ssim", packages=c("stsim", "helloworldSpatial"))
+scenario1 <- scenario(myLibrary, scenario = "Scenario 1")
+scenario2 <- scenario(myLibrary, scenario = "Scenario 2")
+scenario3 <- scenario(myLibrary, scenario = "Scenario 3")
+myScenario <- scenario(myLibrary, "my Scenario")
+dependency(myScenario) <- "Scenario 1"
+```
+
+`info(ssimLibrary)` no longer shows the *Package name*, *Current package version* and *Minimum package version*, and the Input and Output folder paths have been combined into the *Data folder*. See the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#access-model-metadata" taret="_blank">Introduction to rsyncrosim</a> for details.
+
+The `template` and `addon` arguments have also been removed. You can download template libraries from <a href="https://cloud.syncrosim.com/" target="_blank">SyncroSim Cloud</a>.
+
+## Dependencies
+
+To view the existing dependencies for a scenario, use:
+
+```{r view dependencies}
+dependency(myScenario)
+```
+
+To set dependencies for a scenario:
+
+```{r set dependencies, eval=FALSE}
+# Change from:
+dependency(myScenario, dependency = c("Scenario 2", "Scenario 3"))
+
+```
+```{r dependencies, warning=FALSE}
+# To:
+dependency(myScenario) <- c("Scenario 2", "Scenario 3")
+
+dependency(myScenario)
+
+```
+
+Note that this will remove any previously set dependencies unless the existing dependencies are also included in the vector.
+Also, the order in which the dependencies are listed can be important. In this example, `Scenario 2` takes precedence over `Scenario 3`.
+
+
+## Multiprocessing
+
+The `run()` function no longer has the `jobs` argument. Use the `core_Multiprocessing` library datasheet to set the number of cores to use. Note that this will affect every scenario run.
+
+```{r multiprocessing, eval=FALSE}
+multiprocessing <-
+    data.frame(EnableMultiprocessing = TRUE,
+               MaximumJobs = 6,
+               EnableMultiScenario = TRUE) # optional, to run multiple scenarios in parallel
+  
+saveDatasheet(myLibrary, multiprocessing, "core_Multiprocessing")
+```
+
+
+## Variable naming
+
+The **ID** in the primary key changed to **Id** for all datasheets. That also means that the column names for variables depending on higher-level datasheets also changed their suffixes to **Id**. It is generally safe to substitute `ID` for `Id` throughout your script, but it's recommended to check the datasheet's variable names.
+
+```{r IDs, warning=FALSE}
+datasheet(myScenario, "stsim_FlowPathway", includeKey = TRUE, optional = TRUE, empty = TRUE)
+```
+
+## Core datasheets
+
+The <a href="https://docs.syncrosim.com/reference/ds_overview.html" target="_blank">system datasheets</a>, previously identified by `corestime_`, are now simply called `core_`.
+
+
 ## Other NEW functions
 ```{r new functions, eval=FALSE}
-createCondaEnv(pkgs = c()) # creates the conda environment for the selecte package(s)
+createCondaEnv(pkgs = c()) # creates the conda environment for the selected package(s)
 
 deleteLibrary() # Note this is irreversible
 

@@ -78,100 +78,56 @@
     
 <p>The introduction of
 <a href="https://syncrosim.com/studio/" target="_blank" class="external-link">SyncroSim
-Studio</a> brought some structural changes and new functionalities,
-which get reflected in the <code>rsyncrosim</code> package. Use the
-guide below to update your <code>rsyncrosim v1</code> scripts to
-<code>rsyncrosim v2</code>.</p>
+Studio</a> brought some structural changes and new features, which are
+reflected in the <code>rsyncrosim</code> package. Use the guide below to
+update your <code>rsyncrosim</code> version 1 scripts to be compatible
+with version 2.</p>
 <p><em>Note</em>:
 <a href="https://syncrosim.com/studio-download/" target="_blank" class="external-link">SyncroSim
-v3.0.9</a> or higher is required to use <code>rsyncrosim v2.0.1</code>
+v3.0.9</a> or higher is required to use <code>rsyncrosim v2.0.0</code>
 or higher.</p>
 <div class="section level2">
 <h2 id="updated-functions">Updated functions<a class="anchor" aria-label="anchor" href="#updated-functions"></a>
 </h2>
-<p>To install and uninstall packages from your SyncroSim installation,
-use:</p>
+<div class="section level3">
+<h3 id="installinguninstalling-packages">Installing/uninstalling packages<a class="anchor" aria-label="anchor" href="#installinguninstalling-packages"></a>
+</h3>
+<p>Previously, the <code>addPackage</code> and
+<code>removePackage</code> functions were used to install and uninstall
+packages from SyncroSim. Now to install and uninstall packages from
+SyncroSim, use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Installs the selected package(s) to SyncroSim</span></span>
-<span><span class="fu"><a href="../reference/uninstallPackage.html">uninstallPackage</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Uninstalls the selected package(s)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="op">)</span>   <span class="co"># Installs the selected package(s) to SyncroSim</span></span>
+<span><span class="fu"><a href="../reference/uninstallPackage.html">uninstallPackage</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Uninstalls the selected package(s) from SyncroSim</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="addingremoving-packages">Adding/removing packages<a class="anchor" aria-label="anchor" href="#addingremoving-packages"></a>
+</h3>
 <p>Now you can use multiple SyncroSim packages in a single library. To
 add and remove packages from your library, use:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Adds package(s) to the library</span></span>
-<span><span class="fu"><a href="../reference/removePackage.html">removePackage</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Removes package(s) from the library. Note that any associated datasheets will be removed as well.</span></span></code></pre></div>
-<p>And also for that reason, the package addons have been converted to
-standalone packages, or incorporated into the base packages. Therefore,
-the following functions no longer exist:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/addPackage.html">addPackage</a></span><span class="op">(</span><span class="op">)</span>    <span class="co"># Adds package(s) to the library</span></span>
+<span><span class="fu"><a href="../reference/removePackage.html">removePackage</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Removes package(s) from the library.</span></span></code></pre></div>
+<p>Note that when you remove a package from your library any associated
+datasheets will be removed as well.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="deprecated-functions">Deprecated functions<a class="anchor" aria-label="anchor" href="#deprecated-functions"></a>
+</h2>
+<p>In SyncroSim 3, the concept of addon packages no longer exists. All
+addon packages have either been converted to standalone packages (e.g.,
+<code>burnP3PlusPrometheus</code>), and can be added to a library
+without having to load a base package first, or incorporated directly
+into the base packages (e.g., <code>stsimsf</code> is now part of
+<code>stsim</code>). Therefore, the following functions have been
+removed:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">addon</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">disableAddon</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">enableAddon</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="library">Library<a class="anchor" aria-label="anchor" href="#library"></a>
-</h2>
-<p><code>info(ssimLibrary)</code> no longer shows the <em>Package
-name</em>, <em>Current package version</em> and <em>Minimum package
-version</em>, and the Input and Output folder paths have been combined
-into the <em>Data folder</em>.</p>
-<p>the <code>package</code> argument in the
-<code>ssimLibrary(package)</code> function has been renamed to
-<code>packages</code></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The <code>addon</code> and <code>template</code> arguments have also
-been removed.</p>
-</div>
-<div class="section level2">
-<h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
-</h2>
-<p>To view the existing dependencies for a scenario, use:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/dependency.html">dependency</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
-<p>To set dependedncies for a scenario, use:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/dependency.html">dependency</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Scenario 1"</span>, <span class="st">"Scenario 2"</span><span class="op">)</span></span></code></pre></div>
-<p>Note that this will remove any previously set dependencies. Also, the
-order in which the dependencies are listed can be important. In this
-example, <code>Scenario 1</code> takes precedence over
-<code>Scenario 2</code>.</p>
-</div>
-<div class="section level2">
-<h2 id="multiprocessing">Multiprocessing<a class="anchor" aria-label="anchor" href="#multiprocessing"></a>
-</h2>
-<p>The <code><a href="../reference/run.html">run()</a></code> function no longer has the <code>jobs</code>
-argument. Use the <code>core_Multiprocessing</code> datasheet to set the
-number of cores to use. Note that this will affect every scenario
-run.</p>
-</div>
-<div class="section level2">
-<h2 id="variable-naming">Variable naming<a class="anchor" aria-label="anchor" href="#variable-naming"></a>
-</h2>
-<p>The <strong>ID</strong> in variable names have been changed to
-<strong>Id</strong>. It is generally safe to substitute <code>ID</code>
-for <code>Id</code> throughout your script, unless that affects any
-variables not related to SyncroSim.</p>
-</div>
-<div class="section level2">
-<h2 id="core-datasheets">Core datasheets<a class="anchor" aria-label="anchor" href="#core-datasheets"></a>
-</h2>
-<p>The <code>corestime_</code> datasheets are now simply called
-<code>core_</code>.</p>
-</div>
-<div class="section level2">
-<h2 id="stsimsf">stsimsf<a class="anchor" aria-label="anchor" href="#stsimsf"></a>
-</h2>
-<p>The ST-Sim Stock &amp; Flow package, <code>stsimsf</code> have been
-incorporated into ST-Sim. Substitute all <code>stsimsf_</code>
-datasheets throghout your script for <code>stsim_</code>. The only
-exception is the <code>stsimsf_OutputOptions</code> that is now called
-<code>stsim_OutputOptionsStockFlow</code>.</p>
-</div>
-<div class="section level2">
-<h2 id="other-removed-functions">Other removed functions<a class="anchor" aria-label="anchor" href="#other-removed-functions"></a>
-</h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">datasheetRaster</span><span class="op">(</span><span class="op">)</span> <span class="co"># previously deprecated function. Use datasheetSpatRaster() instead.</span></span>
+<span><span class="fu">enableAddon</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">datasheetRaster</span><span class="op">(</span><span class="op">)</span> <span class="co"># previously deprecated function. Use datasheetSpatRaster() instead.</span></span>
 <span></span>
 <span><span class="fu">addBreakpoint</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">breakpoint</span><span class="op">(</span><span class="op">)</span></span>
@@ -181,10 +137,110 @@ exception is the <code>stsimsf_OutputOptions</code> that is now called
 <span><span class="fu">updatePackage</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="library">Library<a class="anchor" aria-label="anchor" href="#library"></a>
+</h2>
+<p>Given this added flexibility, the <code>addon</code> argument has
+been removed from the <code><a href="../reference/ssimLibrary.html">ssimLibrary()</a></code> function, and the
+<code>package</code> argument has been renamed to
+<code>packages</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># instead of using</span></span>
+<span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PackageName"</span>, addon <span class="op">=</span> <span class="st">"AddonName"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># use</span></span>
+<span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"stsim"</span>, <span class="st">"helloworldSpatial"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Package &lt;stsim v4.0.1&gt; added</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;helloworldSpatial v2.0.0&gt; added</span></span></code></pre>
+<p><code>info(ssimLibrary)</code> no longer shows the <em>Package
+name</em>, <em>Current package version</em> and <em>Minimum package
+version</em>, and the Input and Output folder paths have been combined
+into the <em>Data folder</em>. See the
+<a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#access-model-metadata" taret="_blank">Introduction
+to rsyncrosim</a> for details.</p>
+<p>The <code>template</code> and <code>addon</code> arguments have also
+been removed. You can download template libraries from
+<a href="https://cloud.syncrosim.com/" target="_blank" class="external-link">SyncroSim
+Cloud</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
+</h2>
+<p>To view the existing dependencies for a scenario, use:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dependency.html">dependency</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   ScenarioId       Name Priority</span></span>
+<span><span class="co">## 1          1 Scenario 1        1</span></span></code></pre>
+<p>To set dependencies for a scenario:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Change from:</span></span>
+<span><span class="fu"><a href="../reference/dependency.html">dependency</a></span><span class="op">(</span><span class="va">myScenario</span>, dependency <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Scenario 2"</span>, <span class="st">"Scenario 3"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># To:</span></span>
+<span><span class="fu"><a href="../reference/dependency.html">dependency</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Scenario 2"</span>, <span class="st">"Scenario 3"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/dependency.html">dependency</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   ScenarioId       Name Priority</span></span>
+<span><span class="co">## 1          2 Scenario 2        1</span></span>
+<span><span class="co">## 2          3 Scenario 3        2</span></span></code></pre>
+<p>Note that this will remove any previously set dependencies unless the
+existing dependencies are also included in the vector. Also, the order
+in which the dependencies are listed can be important. In this example,
+<code>Scenario 2</code> takes precedence over
+<code>Scenario 3</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="multiprocessing">Multiprocessing<a class="anchor" aria-label="anchor" href="#multiprocessing"></a>
+</h2>
+<p>The <code><a href="../reference/run.html">run()</a></code> function no longer has the <code>jobs</code>
+argument. Use the <code>core_Multiprocessing</code> library datasheet to
+set the number of cores to use. Note that this will affect every
+scenario run.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">multiprocessing</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>EnableMultiprocessing <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>               MaximumJobs <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>               EnableMultiScenario <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># optional, to run multiple scenarios in parallel</span></span>
+<span>  </span>
+<span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, <span class="va">multiprocessing</span>, <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="variable-naming">Variable naming<a class="anchor" aria-label="anchor" href="#variable-naming"></a>
+</h2>
+<p>The <strong>ID</strong> in the primary key changed to
+<strong>Id</strong> for all datasheets. That also means that the column
+names for variables depending on higher-level datasheets also changed
+their suffixes to <strong>Id</strong>. It is generally safe to
+substitute <code>ID</code> for <code>Id</code> throughout your script,
+but it’s recommended to check the datasheet’s variable names.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, <span class="st">"stsim_FlowPathway"</span>, includeKey <span class="op">=</span> <span class="cn">TRUE</span>, optional <span class="op">=</span> <span class="cn">TRUE</span>, empty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] FlowPathwayId                Iteration                   </span></span>
+<span><span class="co">##  [3] Timestep                     FromStratumId               </span></span>
+<span><span class="co">##  [5] FromSecondaryStratumId       FromTertiaryStratumId       </span></span>
+<span><span class="co">##  [7] FromStateClassId             FromAgeMin                  </span></span>
+<span><span class="co">##  [9] FromStockTypeId              ToStratumId                 </span></span>
+<span><span class="co">## [11] ToStateClassId               ToAgeMin                    </span></span>
+<span><span class="co">## [13] ToStockTypeId                TransitionGroupId           </span></span>
+<span><span class="co">## [15] StateAttributeTypeId         FlowTypeId                  </span></span>
+<span><span class="co">## [17] TargetType                   Multiplier                  </span></span>
+<span><span class="co">## [19] TransferToStratumId          TransferToSecondaryStratumId</span></span>
+<span><span class="co">## [21] TransferToTertiaryStratumId  TransferToStateClassId      </span></span>
+<span><span class="co">## [23] TransferToAgeMin            </span></span>
+<span><span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="core-datasheets">Core datasheets<a class="anchor" aria-label="anchor" href="#core-datasheets"></a>
+</h2>
+<p>The
+<a href="https://docs.syncrosim.com/reference/ds_overview.html" target="_blank" class="external-link">system
+datasheets</a>, previously identified by <code>corestime_</code>, are
+now simply called <code>core_</code>.</p>
+</div>
+<div class="section level2">
 <h2 id="other-new-functions">Other NEW functions<a class="anchor" aria-label="anchor" href="#other-new-functions"></a>
 </h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/createCondaEnv.html">createCondaEnv</a></span><span class="op">(</span>pkgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="co"># creates the conda environment for the selecte package(s)</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/createCondaEnv.html">createCondaEnv</a></span><span class="op">(</span>pkgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="co"># creates the conda environment for the selected package(s)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/deleteLibrary.html">deleteLibrary</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Note this is irreversible</span></span>
 <span></span>
