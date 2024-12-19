@@ -35,6 +35,8 @@ removePackage() # Removes package(s) from the library.
 ```
 Note that when you remove a package from your library any associated datasheets will be removed as well.
 
+You can also have multiple versions of a package installed, and choose which package version to use within a library. Use the `versions` argument in the `installPackage()` and `addPackage()` functions.
+
 ## Deprecated functions
 
 In SyncroSim 3, the concept of addon packages no longer exists. All addon packages have either been converted to standalone packages (e.g., `burnP3PlusPrometheus`), and can be added to a library without having to load a base package first, or incorporated directly into the base packages (e.g., `stsimsf` is now part of `stsim`). Therefore, the following functions have been removed:
@@ -43,30 +45,44 @@ In SyncroSim 3, the concept of addon packages no longer exists. All addon packag
 addon()
 disableAddon()
 enableAddon()
+```
 
-datasheetRaster() # previously deprecated function. Use datasheetSpatRaster() instead.
+Since you can install multiple versions of a package, the `updatePackage()` function has been removed. To update (or downgrade) the package version on a library, use the `versions` argument in the `addPackages()` function:
+```{r changeVersion, eval=FALSE}
+# Change package version
+addPackage(myLibrary, packages = "stsim", versions = "4.0.0")
+addPackage(myLibrary, packages = "stsim", versions = "4.0.1")
+```
 
+Any functions depending on the deprecated `raster` package have been removed, including the `datasheetRaster()` function. Use `datasheetSpatRaster()` instead.
+
+Other deprecated functions include:
+
+```{r otherDeprecated, eval=FALSE}
 addBreakpoint()
 breakpoint()
 deleteBreakpoint()
 
 ssimUpdate()
-updatePackage()
 ```
 
 ## Library
 
-Given this added flexibility, the `addon` argument has been removed from the `ssimLibrary()` function, and the `package` argument has been renamed to `packages`.
+Now that addon packages no longer exist and SyncroSim libraries can support multiple packages, the following changes have been made to the `ssimLibrary()` function:
+
+* The `addon` argument has been removed.
+* The `template` argument has been removed. This is a temporary change, but in the meantime you can download template libraries from <a href="https://cloud.syncrosim.com/" target="_blank">SyncroSim Cloud</a>.
+* The `package` argument has been renamed to `packages` (plural).
 
 ```{r library, eval=FALSE}
-# instead of using
+# rsyncrosim version 1:
 myLibrary <- ssimLibrary(package = "PackageName", addon = "AddonName")
 
-# use
+# rsyncrosim version 2:
 myLibrary <- ssimLibrary(packages = c("stsim", "helloworldSpatial"))
 ```
 ```{r load session run, warning = FALSE, echo = FALSE}
-# results for the section above
+# to show the packages added, plus create scenarios to show below
 library(rsyncrosim)
 mySession <- session()
 myLibrary <- ssimLibrary("Changes to rsyncrosim v2.ssim", packages=c("stsim", "helloworldSpatial"))
@@ -79,9 +95,10 @@ dependency(myScenario) <- "Scenario 1"
 
 `info(ssimLibrary)` no longer shows the *Package name*, *Current package version* and *Minimum package version*, and the Input and Output folder paths have been combined into the *Data folder*. See the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#access-model-metadata" taret="_blank">Introduction to rsyncrosim</a> for details.
 
-The `template` and `addon` arguments have also been removed. You can download template libraries from <a href="https://cloud.syncrosim.com/" target="_blank">SyncroSim Cloud</a>.
 
 ## Dependencies
+
+Scenario dependencies are now set using the `<-` operator in `rsyncrosim`. See below for examples on how the usage of the `dependency()` function has changed.
 
 To view the existing dependencies for a scenario, use:
 
@@ -92,12 +109,12 @@ dependency(myScenario)
 To set dependencies for a scenario:
 
 ```{r set dependencies, eval=FALSE}
-# Change from:
+# rsyncrosim version 1:
 dependency(myScenario, dependency = c("Scenario 2", "Scenario 3"))
 
 ```
 ```{r dependencies, warning=FALSE}
-# To:
+# rsyncrosim version 2:
 dependency(myScenario) <- c("Scenario 2", "Scenario 3")
 
 dependency(myScenario)
@@ -115,8 +132,7 @@ The `run()` function no longer has the `jobs` argument. Use the `core_Multiproce
 ```{r multiprocessing, eval=FALSE}
 multiprocessing <-
     data.frame(EnableMultiprocessing = TRUE,
-               MaximumJobs = 6,
-               EnableMultiScenario = TRUE) # optional, to run multiple scenarios in parallel
+               MaximumJobs = 6)
   
 saveDatasheet(myLibrary, multiprocessing, "core_Multiprocessing")
 ```
