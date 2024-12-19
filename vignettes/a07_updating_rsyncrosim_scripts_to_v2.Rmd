@@ -10,9 +10,23 @@ params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
-The introduction of <a href="https://syncrosim.com/studio/" target="_blank">SyncroSim Studio</a> brought some structural changes and new features, which are reflected in the `rsyncrosim` package. Use the guide below to update your `rsyncrosim` version 1 scripts to be compatible with version 2.
+```{r setup, warning = FALSE, echo = FALSE, results = 'hide'}
+# to show the packages added, plus create scenarios to show below
+library(rsyncrosim)
+mySession <- session()
+myLibrary <- ssimLibrary("Changes to rsyncrosim v2.ssim")
+addPackage(myLibrary, packages = c("stsim", "helloworldSpatial"),
+            versions = c("4.0.1", "2.0.0"))
+scenario1 <- scenario(myLibrary, scenario = "Scenario 1")
+scenario2 <- scenario(myLibrary, scenario = "Scenario 2")
+scenario3 <- scenario(myLibrary, scenario = "Scenario 3")
+myScenario <- scenario(myLibrary, "my Scenario")
+dependency(myScenario) <- "Scenario 1"
+```
 
-*Note*: <a href="https://syncrosim.com/studio-download/" target="_blank">SyncroSim v3.0.9</a> or higher is required to use `rsyncrosim v2.0.0` or higher. 
+The introduction of <a href="https://syncrosim.com/studio/" target="_blank">SyncroSim Studio</a> brought some structural changes and new features, which are reflected in the `rsyncrosim` package. Use the guide below to update your `rsyncrosim v1` scripts to be compatible with `rsyncrosim v2`.
+
+**Note:** <a href="https://syncrosim.com/studio-download/" target="_blank">SyncroSim v3.0.9</a> or higher is required to use `rsyncrosim v2.0.0` or higher. 
 
 ## Updated functions
 
@@ -21,8 +35,31 @@ The introduction of <a href="https://syncrosim.com/studio/" target="_blank">Sync
 Previously, the `addPackage` and `removePackage` functions were used to install and uninstall packages from SyncroSim. Now to install and uninstall packages from SyncroSim, use:
 
 ```{r install packages, eval=FALSE}
-installPackage()   # Installs the selected package(s) to SyncroSim
-uninstallPackage() # Uninstalls the selected package(s) from SyncroSim
+# Installs the selected package(s) to SyncroSim
+installPackage()  
+
+# Uninstalls the selected package(s) from SyncroSim
+uninstallPackage() 
+```
+
+You can also have multiple versions of a package installed. Use the `versions` argument in the `installPackage()` function to specify which version of the package you would like to install. If you do not specify a version, then the latest version of the package will be installed.
+
+```{r install package version, eval=FALSE}
+# Install ST-Sim version 4.0.0
+installPackage(myLibrary, packages = "stsim", versions = "4.0.0")
+
+# Install the latest version of ST-Sim on the package server
+installPackage(myLibrary, packages = "stsim")
+```
+
+You can also use the `versions` argument in the `uninstallPackage()` function to specify which version you would like to uninstall. If you do not specify a version, then all versions of that package will be uninstalled.
+
+```{r uninstall package version, eval=FALSE}
+# Uninstall ST-Sim version 4.0.0
+uninstallPackage(myLibrary, packages = "stsim", versions = "4.0.0")
+
+# Uninstall all installed versions of ST-Sim
+uninstallPackage(myLibrary, packages = "stsim")
 ```
 
 ### Adding/removing packages
@@ -30,43 +67,27 @@ uninstallPackage() # Uninstalls the selected package(s) from SyncroSim
 Now you can use multiple SyncroSim packages in a single library. To add and remove packages from your library, use:
 
 ```{r add package, eval=FALSE}
-addPackage()    # Adds package(s) to the library
-removePackage() # Removes package(s) from the library.
+# Adds package(s) to the library
+addPackage()    
+
+# Removes package(s) from the library
+removePackage() 
 ```
-Note that when you remove a package from your library any associated datasheets will be removed as well.
+**Note:** when you remove a package from your library any associated datasheets will be removed as well.
 
-You can also have multiple versions of a package installed, and choose which package version to use within a library. Use the `versions` argument in the `installPackage()` and `addPackage()` functions.
+You can also choose which package version to use within a library. Use the `versions` argument in the `addPackage()` function to load a specific version of a package in a library, or to change the version of a package that the library uses.
 
-## Deprecated functions
-
-In SyncroSim 3, the concept of addon packages no longer exists. All addon packages have either been converted to standalone packages (e.g., `burnP3PlusPrometheus`), and can be added to a library without having to load a base package first, or incorporated directly into the base packages (e.g., `stsimsf` is now part of `stsim`). Therefore, the following functions have been removed:
-
-```{r deprecated, eval=FALSE}
-addon()
-disableAddon()
-enableAddon()
-```
-
-Since you can install multiple versions of a package, the `updatePackage()` function has been removed. To update (or downgrade) the package version on a library, use the `versions` argument in the `addPackages()` function:
 ```{r changeVersion, eval=FALSE}
-# Change package version
+# Add ST-Sim version 4.0.0 to your library
 addPackage(myLibrary, packages = "stsim", versions = "4.0.0")
+
+# Update the version of ST-Sim that your library uses
 addPackage(myLibrary, packages = "stsim", versions = "4.0.1")
 ```
 
-Any functions depending on the deprecated `raster` package have been removed, including the `datasheetRaster()` function. Use `datasheetSpatRaster()` instead.
+You do not need to specify a version when removing a package using `removePackage()` because only one version of a package can be loaded in a library at a time.
 
-Other deprecated functions include:
-
-```{r otherDeprecated, eval=FALSE}
-addBreakpoint()
-breakpoint()
-deleteBreakpoint()
-
-ssimUpdate()
-```
-
-## Library
+### Creating libraries
 
 Now that addon packages no longer exist and SyncroSim libraries can support multiple packages, the following changes have been made to the `ssimLibrary()` function:
 
@@ -81,26 +102,23 @@ myLibrary <- ssimLibrary(package = "PackageName", addon = "AddonName")
 # rsyncrosim version 2:
 myLibrary <- ssimLibrary(packages = c("stsim", "helloworldSpatial"))
 ```
-```{r load session run, warning = FALSE, echo = FALSE}
-# to show the packages added, plus create scenarios to show below
-library(rsyncrosim)
-mySession <- session()
-myLibrary <- ssimLibrary("Changes to rsyncrosim v2.ssim", packages=c("stsim", "helloworldSpatial"))
-scenario1 <- scenario(myLibrary, scenario = "Scenario 1")
-scenario2 <- scenario(myLibrary, scenario = "Scenario 2")
-scenario3 <- scenario(myLibrary, scenario = "Scenario 3")
-myScenario <- scenario(myLibrary, "my Scenario")
-dependency(myScenario) <- "Scenario 1"
-```
 
-`info(ssimLibrary)` no longer shows the *Package name*, *Current package version* and *Minimum package version*, and the Input and Output folder paths have been combined into the *Data folder*. See the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#access-model-metadata" taret="_blank">Introduction to rsyncrosim</a> for details.
+### Library information
+
+Since multiple packages can be loaded in a library, the `info(ssimLibrary)` no longer returns the following library attributes:
+
+* *Package name*
+* *Current package version* 
+* *Minimum package version*
+
+In addition, now that you can link models from various packages in a pipeline, and outputs from one transformer can be inputs to the next transformer in a pipeline, the *Input* and *Output* folders have been combined into a single *Data* folder. See the <a href="https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html#access-model-metadata" taret="_blank">Introduction to rsyncrosim</a> for details.
 
 
-## Dependencies
+### Dependencies
 
 Scenario dependencies are now set using the `<-` operator in `rsyncrosim`. See below for examples on how the usage of the `dependency()` function has changed.
 
-To view the existing dependencies for a scenario, use:
+To view the existing dependencies for a scenario:
 
 ```{r view dependencies}
 dependency(myScenario)
@@ -121,42 +139,82 @@ dependency(myScenario)
 
 ```
 
-Note that this will remove any previously set dependencies unless the existing dependencies are also included in the vector.
-Also, the order in which the dependencies are listed can be important. In this example, `Scenario 2` takes precedence over `Scenario 3`.
+**Note:** this will remove any previously set dependencies unless the existing dependencies are also included in the vector.
 
 
-## Multiprocessing
+### Multiprocessing
 
-The `run()` function no longer has the `jobs` argument. Use the `core_Multiprocessing` library datasheet to set the number of cores to use. Note that this will affect every scenario run.
+The `run()` function no longer contains the `jobs` argument for setting the number of cores to use during a multiprocessing run. Instead, use the `core_Multiprocessing` library datasheet to set the number of cores.
 
 ```{r multiprocessing, eval=FALSE}
-multiprocessing <-
-    data.frame(EnableMultiprocessing = TRUE,
-               MaximumJobs = 6)
+multiprocessing <- data.frame(EnableMultiprocessing = TRUE,
+                              MaximumJobs = 6)
   
 saveDatasheet(myLibrary, multiprocessing, "core_Multiprocessing")
 ```
 
+**Note:** because the `core_Multiprocessing` datasheet is library-scoped, modifying this datasheet will affect every scenario run.
+
+## Deprecated functions
+
+### Addon functions
+In SyncroSim 3, the concept of *addon* packages no longer exists. All addon packages have either been converted to standalone packages (e.g., `burnP3PlusPrometheus`), and can be added to a library without having to load a base package first, or incorporated directly into its base package (e.g., `stsimsf` is now part of `stsim`). Therefore, the following functions have been removed:
+
+* `addon()`
+* `disableAddon()`
+* `enableAddon()`
+
+### Update functions
+
+The following update functions have been removed:
+
+* `updatePackage()`: You no longer need to update the installed versions of packages in your SyncroSim session because you can have multiple versions installed at the same time. To install or uninstall versions of a package from your SyncroSim session, use the `versions` argument in the `installPackage()` function instead.
+* `ssimUpdate()`: To update (or downgrade) the package version on a library, use the `versions` argument in the `addPackages()` function instead.
+
+
+### Raster functions
+
+The following deprecated raster function has been removed:
+
+* `datasheetRaster()`: This function depended on the deprecated `raster` package and has now been completely removed from `rsyncrosim`. Use `datasheetSpatRaster()` instead.
+
+
+### Breakpoint functions
+
+Setting, catching, and removing breakpoints in `rsyncrosim` scripts in no longer supported, so the following breakpoint functions have been removed:
+
+* `addBreakpoint()`
+* `breakpoint()`
+* `deleteBreakpoint()`
+
 
 ## Variable naming
 
-The **ID** in the primary key changed to **Id** for all datasheets. That also means that the column names for variables depending on higher-level datasheets also changed their suffixes to **Id**. It is generally safe to substitute `ID` for `Id` throughout your script, but it's recommended to check the datasheet's variable names.
+The primary key column for all SyncroSim datasheets has been modified slightly. The **ID** in the primary key is now **Id** for all datasheets. This also applies to column names in scenario-scoped datasheets that reference values taken from project-scoped datasheets. It is generally safe to substitute `ID` for `Id` throughout your script, but it's recommended to check the datasheet's variable names.
+
+Below is an example of a datasheet with the new naming convention for primary keys:
 
 ```{r IDs, warning=FALSE}
-datasheet(myScenario, "stsim_FlowPathway", includeKey = TRUE, optional = TRUE, empty = TRUE)
+datasheet(myScenario, "stsim_FlowPathway", includeKey = TRUE)
 ```
 
 ## Core datasheets
 
-The <a href="https://docs.syncrosim.com/reference/ds_overview.html" target="_blank">system datasheets</a>, previously identified by `corestime_`, are now simply called `core_`.
+The <a href="https://docs.syncrosim.com/reference/ds_overview.html" target="_blank">system datasheets</a>, previously identified by the prefix `corestime_`, are now prefixed by `core_`.
 
 
 ## Other NEW functions
+
+Below is a list of other new functions that have been added to `rsyncrosim v2`. For more information, on these new functions, refer to the <a href="https://syncrosim.github.io/rsyncrosim/reference/index.html" target="_blank">reference guide</a>. 
+
 ```{r new functions, eval=FALSE}
-createCondaEnv(pkgs = c()) # creates the conda environment for the selected package(s)
+# creates the conda environment for the selected package(s)
+createCondaEnv()
 
-deleteLibrary() # Note this is irreversible
+# deletes a SyncroSim library (IRREVERSIBLE)
+deleteLibrary() 
 
-chart() # Create or load a SyncroSim chart. Explore other charting functions with ?chart
+# Create, load, or modify SyncroSim charts using the new Chart class
+chart() 
 ```
 
