@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Introduction to `rsyncrosim` • rsyncrosim</title>
+<title>Introduction to rsyncrosim • rsyncrosim</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to `rsyncrosim`">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to rsyncrosim">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,13 +39,13 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/a01_rsyncrosim_vignette_basic.html">Introduction to `rsyncrosim`</a></li>
-    <li><a class="dropdown-item" href="../articles/a02_rsyncrosim_vignette_uncertainty.html">`rsyncrosim`: introduction to uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/a03_rsyncrosim_vignette_pipelines.html">`rsyncrosim`: introduction to pipelines</a></li>
-    <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a></li>
-    <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a></li>
+<li><a class="dropdown-item" href="../articles/a01_rsyncrosim_vignette_basic.html">Introduction to rsyncrosim</a></li>
+    <li><a class="dropdown-item" href="../articles/a02_rsyncrosim_vignette_uncertainty.html">rsyncrosim: introduction to uncertainty</a></li>
+    <li><a class="dropdown-item" href="../articles/a03_rsyncrosim_vignette_pipelines.html">rsyncrosim: introduction to pipelines</a></li>
+    <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">rsyncrosim: introduction to spatial data</a></li>
+    <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">rsyncrosim: introduction to ST-Sim</a></li>
     <li><a class="dropdown-item" href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="../articles/using-conda-with-rsyncrosim.html">Conda Demo</a></li>
+    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating rsyncrosim scripts to version 2</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -67,7 +67,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Introduction to `rsyncrosim`</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Introduction to rsyncrosim</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/syncrosim/rsyncrosim/blob/HEAD/vignettes/a01_rsyncrosim_vignette_basic.Rmd" class="external-link"><code>vignettes/a01_rsyncrosim_vignette_basic.Rmd</code></a></small>
@@ -165,7 +165,7 @@ both Windows and Linux.</p>
 <p>In a new R script, load the <code>rsyncrosim</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load R package for working with SyncroSim</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rsyncrosim</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://syncrosim.github.io/rsyncrosim/">rsyncrosim</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="connecting-r-to-syncrosim-using-session">Connecting R to SyncroSim using <code>session()</code><a class="anchor" aria-label="anchor" href="#connecting-r-to-syncrosim-using-session"></a>
@@ -214,27 +214,20 @@ the <code>installed = FALSE</code> argument in the
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">availablePackages</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/packages.html">packages</a></span><span class="op">(</span>installed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">availablePackages</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                   name version</span></span>
-<span><span class="co">## 1           burnP3Plus   2.0.0</span></span>
-<span><span class="co">## 2  burnP3PlusCell2Fire   2.0.0</span></span>
-<span><span class="co">## 3 burnP3PlusPrometheus   2.0.0</span></span>
-<span><span class="co">## 4            demosales   2.0.0</span></span>
-<span><span class="co">## 5                dgsim   3.0.0</span></span>
-<span><span class="co">## 6           helloworld   2.0.0</span></span>
-<span><span class="co">##                                               description</span></span>
-<span><span class="co">## 1          Burn-P3+ package for burn probability modeling</span></span>
-<span><span class="co">## 2         Cell2Fire fire growth model package for BurnP3+</span></span>
-<span><span class="co">## 3        Prometheus fire growth model package for BurnP3+</span></span>
-<span><span class="co">## 4                            Demo Sales SyncroSim Package</span></span>
-<span><span class="co">## 5          Simulates demographics of wildlife populations</span></span>
-<span><span class="co">## 6 Example demonstrating how to create a SyncroSim package</span></span>
-<span><span class="co">##                                     url</span></span>
-<span><span class="co">## 1  https://burnp3.github.io/BurnP3Plus/</span></span>
-<span><span class="co">## 2  https://burnp3.github.io/BurnP3Plus/</span></span>
-<span><span class="co">## 3  https://burnp3.github.io/BurnP3Plus/</span></span>
-<span><span class="co">## 4  https://apexrms.github.io/demosales/</span></span>
-<span><span class="co">## 5      https://apexrms.github.io/dgsim/</span></span>
-<span><span class="co">## 6 https://apexrms.github.io/helloworld/</span></span></code></pre>
+<pre><code><span><span class="co">##                   name version                                      description</span></span>
+<span><span class="co">## 1           burnP3Plus   2.0.0   Burn-P3+ package for burn probability modeling</span></span>
+<span><span class="co">## 2  burnP3PlusCell2Fire   2.0.0  Cell2Fire fire growth model package for BurnP3+</span></span>
+<span><span class="co">## 3 burnP3PlusPrometheus   2.0.0 Prometheus fire growth model package for BurnP3+</span></span>
+<span><span class="co">## 4            demosales   2.0.0                     Demo Sales SyncroSim Package</span></span>
+<span><span class="co">## 5                dgsim   3.0.0   Simulates demographics of wildlife populations</span></span>
+<span><span class="co">## 6          ecoClassify   1.0.1     ecoClassify package for image classification</span></span>
+<span><span class="co">##                                      url</span></span>
+<span><span class="co">## 1   https://burnp3.github.io/BurnP3Plus/</span></span>
+<span><span class="co">## 2   https://burnp3.github.io/BurnP3Plus/</span></span>
+<span><span class="co">## 3   https://burnp3.github.io/BurnP3Plus/</span></span>
+<span><span class="co">## 4   https://apexrms.github.io/demosales/</span></span>
+<span><span class="co">## 5       https://apexrms.github.io/dgsim/</span></span>
+<span><span class="co">## 6 https://apexrms.github.io/ecoClassify/</span></span></code></pre>
 <p>Install <code>helloworldTime</code> using the <code>rynscrosim</code>
 function <code><a href="../reference/installPackage.html">installPackage()</a></code>. This function takes a package
 name as input and then queries the SyncroSim package server for the
@@ -260,8 +253,8 @@ list:</p>
 <span><span class="co">## 1 helloworldTime   2.0.0</span></span>
 <span><span class="co">##                                                  description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use timesteps with an R model</span></span>
-<span><span class="co">##                                                                              location</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldTime\\2.0.0</span></span>
+<span><span class="co">##                                                                                    location</span></span>
+<span><span class="co">## 1 C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldTime\\2.0.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 <p><em>Note:</em> you can install multiple versions of the same package
@@ -387,7 +380,6 @@ project.</p>
 <span><span class="co">## scenarioId [numeric]       : 1</span></span>
 <span><span class="co">## parentId [numeric]         : 0</span></span>
 <span><span class="co">## folderId [numeric]         : 0</span></span>
-<span><span class="co">## breakpoints [list]         : </span></span>
 <span><span class="co">## session [Session]          : C:/Program Files/SyncroSim Studio, printCmd=FALSE</span></span>
 <span><span class="co">## filepath [character]       : path/to/helloworldLibrary.ssim</span></span>
 <span><span class="co">## datasheetNames [data.frame]: scope,package,name,displayName,isSingle,displayMember</span></span></code></pre>
@@ -650,7 +642,7 @@ the only argument is the result scenario variable.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get run details for the first result scenario</span></span>
 <span><span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </span></span>
+<pre><code><span><span class="co">## RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </span></span>
 <span><span class="co">## SyncroSim Version: 3.0.9.0</span></span>
 <span><span class="co">## Operating System: Microsoft Windows NT 6.2.9200.0</span></span>
 <span><span class="co">## </span></span>
@@ -659,19 +651,19 @@ the only argument is the result scenario variable.</p>
 <span><span class="co">## helloworldTime -&gt; 2.0.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Parent Scenario is: [1] My first scenario</span></span>
-<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 13-Oct-2024 10:00 AM)</span></span>
+<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## --------------------------------------------</span></span>
-<span><span class="co">## STARTING SIMULATION: 2024-10-13 : 10:00:59 AM</span></span>
+<span><span class="co">## STARTING SIMULATION: 2024-12-06 : 1:47:00 PM</span></span>
 <span><span class="co">## --------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Hello World Time (R) =&gt; Total time: 00:00:09</span></span>
+<span><span class="co">## Hello World Time (R) =&gt; Total time: 00:00:17</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## --------------------------------------------</span></span>
-<span><span class="co">## SIMULATION COMPLETE: 2024-10-13 : 10:01:08 AM</span></span>
+<span><span class="co">## SIMULATION COMPLETE: 2024-12-06 : 1:47:17 PM</span></span>
 <span><span class="co">## --------------------------------------------</span></span>
-<span><span class="co">## Total simulation time: 00:00:09</span></span></code></pre>
-<pre><code><span><span class="co">## [1] "RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  \nSyncroSim Version: 3.0.9.0\nOperating System: Microsoft Windows NT 6.2.9200.0\n\nPackages:\ncore -&gt; 3.0.9\nhelloworldTime -&gt; 2.0.0\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 13-Oct-2024 10:00 AM)\n\n--------------------------------------------\nSTARTING SIMULATION: 2024-10-13 : 10:00:59 AM\n--------------------------------------------\n\nHello World Time (R) =&gt; Total time: 00:00:09\n\n--------------------------------------------\nSIMULATION COMPLETE: 2024-10-13 : 10:01:08 AM\n--------------------------------------------\nTotal simulation time: 00:00:09      "</span></span></code></pre>
+<span><span class="co">## Total simulation time: 00:00:17</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \nSyncroSim Version: 3.0.9.0\nOperating System: Microsoft Windows NT 6.2.9200.0\n\nPackages:\ncore -&gt; 3.0.9\nhelloworldTime -&gt; 2.0.0\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 06-Dec-2024 1:46 PM)\n\n--------------------------------------------\nSTARTING SIMULATION: 2024-12-06 : 1:47:00 PM\n--------------------------------------------\n\nHello World Time (R) =&gt; Total time: 00:00:17\n\n--------------------------------------------\nSIMULATION COMPLETE: 2024-12-06 : 1:47:17 PM\n--------------------------------------------\nTotal simulation time: 00:00:17      "</span></span></code></pre>
 <p><em>Note</em>: if your scenario fails to run, it will still produce a
 <em>result scenario</em> that you can use the <code><a href="../reference/runLog.html">runLog()</a></code>
 function on to see more information about why the run failed.</p>
@@ -696,15 +688,15 @@ all the model inputs.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check scenarios that currently exist in your library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   ScenarioId ProjectId ParentId                                           Name</span></span>
-<span><span class="co">## 1          1         1       NA                              My first scenario</span></span>
-<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 13-Oct-2024 10:00 AM)</span></span>
+<pre><code><span><span class="co">##   ScenarioId ProjectId ParentId                                          Name</span></span>
+<span><span class="co">## 1          1         1       NA                             My first scenario</span></span>
+<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span>
 <span><span class="co">##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly</span></span>
 <span><span class="co">## 1   N/A                No                 NA       No         No</span></span>
 <span><span class="co">## 2   N/A                No                 NA      Yes         No</span></span>
-<span><span class="co">##         DateLastModified</span></span>
-<span><span class="co">## 1 2024-10-13 at 10:00 AM</span></span>
-<span><span class="co">## 2 2024-10-13 at 10:01 AM</span></span></code></pre>
+<span><span class="co">##        DateLastModified</span></span>
+<span><span class="co">## 1 2024-12-06 at 1:46 PM</span></span>
+<span><span class="co">## 2 2024-12-06 at 1:47 PM</span></span></code></pre>
 <p>The first scenario is our original scenario, and the second is the
 result scenario with a time and date stamp of when it was run. We can
 also see some other information about these scenarios, such as whether
@@ -791,9 +783,9 @@ you want to copy.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check which scenarios you currently have in your library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                             Name</span></span>
-<span><span class="co">## 1                              My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 13-Oct-2024 10:00 AM)</span></span></code></pre>
+<pre><code><span><span class="co">##                                            Name</span></span>
+<span><span class="co">## 1                             My first scenario</span></span>
+<span><span class="co">## 2 My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span></code></pre>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new scenario as a copy of an existing scenario</span></span>
 <span><span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,</span>
@@ -802,10 +794,10 @@ you want to copy.</p>
 <span></span>
 <span><span class="co"># Make sure this new scenario has been added to the library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                             Name</span></span>
-<span><span class="co">## 1                              My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 13-Oct-2024 10:00 AM)</span></span>
-<span><span class="co">## 3                             My second scenario</span></span></code></pre>
+<pre><code><span><span class="co">##                                            Name</span></span>
+<span><span class="co">## 1                             My first scenario</span></span>
+<span><span class="co">## 2 My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span>
+<span><span class="co">## 3                            My second scenario</span></span></code></pre>
 <p>To edit the new scenario, we must first load the contents of the
 <code>Inputs</code> datasheet and assign it to a new R data frame using
 the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the
@@ -909,7 +901,7 @@ the Rrsults scenario using the <code>rsyncrosim</code> function
 <span><span class="co">## 1             Name:              helloworldLibrary</span></span>
 <span><span class="co">## 2            Owner:                            N/A</span></span>
 <span><span class="co">## 3        Read Only:                             No</span></span>
-<span><span class="co">## 4    Last Modified:         2024-10-13 at 10:01 AM</span></span>
+<span><span class="co">## 4    Last Modified:          2024-12-06 at 1:48 PM</span></span>
 <span><span class="co">## 5             Size:            204 KB  (208,896 B)</span></span>
 <span><span class="co">## 6       Data files:    helloworldLibrary.ssim.data</span></span>
 <span><span class="co">## 7    Publish files: helloworldLibrary.ssim.publish</span></span>
@@ -1026,7 +1018,7 @@ Studio</div>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

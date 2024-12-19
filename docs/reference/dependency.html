@@ -13,7 +13,7 @@ dependency will update the dependent Scenario as well."><meta property="og:image
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ dependency will update the dependent Scenario as well."><meta property="og:image
     <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a></li>
     <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a></li>
     <li><a class="dropdown-item" href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="../articles/using-conda-with-rsyncrosim.html">Conda Demo</a></li>
+    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating `rsyncrosim` scripts to version 2</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -92,11 +92,8 @@ are slightly faster</p></dd>
 is returned in order of precedence (from highest to lowest precedence).
 Otherwise, returns list of saved or error messages for each dependency of each
 scenario.</p>
-<p>Note that the order of dependencies can be important - dependencies added most
-recently take precedence over existing dependencies. So, dependencies included
-in the dependency argument take precedence over any other existing dependencies.
-If the dependency argument includes more than one element, elements are ordered
-from lowest to highest precedence.</p>
+<p>Note that the order of dependencies can be important. If the dependency argument
+includes more than one element, elements are ordered from highest to lowest precedence.</p>
     </div>
 
     <div class="section level2">
@@ -136,7 +133,7 @@ from lowest to highest precedence.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

@@ -75,7 +75,7 @@ a copy of sourceScenario.
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 
