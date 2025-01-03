@@ -117,7 +117,6 @@ if (file.exists("stsimLibrary.ssim")){
 myLibrary <- ssimLibrary(name = "stsimLibrary.ssim",
                          session = mySession,
                          packages = "stsim")
-                         # overwrite = TRUE)
 
 # Open the default project
 myProject <- rsyncrosim::project(ssimObject = myLibrary, project = "Definitions")

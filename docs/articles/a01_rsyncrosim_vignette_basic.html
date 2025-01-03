@@ -45,7 +45,7 @@
     <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">rsyncrosim: introduction to spatial data</a></li>
     <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">rsyncrosim: introduction to ST-Sim</a></li>
     <li><a class="dropdown-item" href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating rsyncrosim scripts to version 2</a></li>
+    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating scripts to rsyncrosim v2</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -191,7 +191,7 @@ used (Windows only).</p>
 connected to by running the <code><a href="../reference/version.html">version()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.0.9"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.0.21"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -253,8 +253,8 @@ list:</p>
 <span><span class="co">## 1 helloworldTime   2.0.0</span></span>
 <span><span class="co">##                                                  description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use timesteps with an R model</span></span>
-<span><span class="co">##                                                                                    location</span></span>
-<span><span class="co">## 1 C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldTime\\2.0.0</span></span>
+<span><span class="co">##                                                                              location</span></span>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldTime\\2.0.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 <p><em>Note:</em> you can install multiple versions of the same package
@@ -407,13 +407,13 @@ from <code>rsyncrosim</code>.</p>
 <code class="sourceCode R"><span><span class="co"># View all Datasheets associated with a library, project, or scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                           name             displayName</span></span>
-<span><span class="co">## 23 scenario         core_DistributionValue           Distributions</span></span>
-<span><span class="co">## 24 scenario     core_ExternalVariableValue      External Variables</span></span>
-<span><span class="co">## 25 scenario                  core_Pipeline                Pipeline</span></span>
-<span><span class="co">## 26 scenario    core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
-<span><span class="co">## 27 scenario  helloworldTime_InputDatasheet                  Inputs</span></span>
-<span><span class="co">## 28 scenario helloworldTime_OutputDatasheet                 Outputs</span></span>
-<span><span class="co">## 29 scenario      helloworldTime_RunControl             Run Control</span></span></code></pre>
+<span><span class="co">## 24 scenario         core_DistributionValue           Distributions</span></span>
+<span><span class="co">## 25 scenario     core_ExternalVariableValue      External Variables</span></span>
+<span><span class="co">## 26 scenario                  core_Pipeline                Pipeline</span></span>
+<span><span class="co">## 27 scenario    core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
+<span><span class="co">## 28 scenario  helloworldTime_InputDatasheet                  Inputs</span></span>
+<span><span class="co">## 29 scenario helloworldTime_OutputDatasheet                 Outputs</span></span>
+<span><span class="co">## 30 scenario      helloworldTime_RunControl             Run Control</span></span></code></pre>
 <p>If we want to see more information about each datasheet, such as the
 scope of the datasheet or if it only accepts a single row of data, we
 can set the <code>optional</code> argument to <code>TRUE</code>.</p>
@@ -424,17 +424,17 @@ can set the <code>optional</code> argument to <code>TRUE</code>.</p>
 <span><span class="co">## 7  scenario           core     core_ExternalVariableValue</span></span>
 <span><span class="co">## 15 scenario           core                  core_Pipeline</span></span>
 <span><span class="co">## 21 scenario           core    core_SpatialMultiprocessing</span></span>
-<span><span class="co">## 27 scenario helloworldTime  helloworldTime_InputDatasheet</span></span>
-<span><span class="co">## 28 scenario helloworldTime helloworldTime_OutputDatasheet</span></span>
-<span><span class="co">## 29 scenario helloworldTime      helloworldTime_RunControl</span></span>
+<span><span class="co">## 28 scenario helloworldTime  helloworldTime_InputDatasheet</span></span>
+<span><span class="co">## 29 scenario helloworldTime helloworldTime_OutputDatasheet</span></span>
+<span><span class="co">## 30 scenario helloworldTime      helloworldTime_RunControl</span></span>
 <span><span class="co">##                displayName isSingle displayMember  data scenario</span></span>
 <span><span class="co">## 5            Distributions    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 7       External Variables    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 15                Pipeline    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
-<span><span class="co">## 27                  Inputs     TRUE           N/A FALSE        1</span></span>
-<span><span class="co">## 28                 Outputs    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 29             Run Control     TRUE           N/A FALSE        1</span></span></code></pre>
+<span><span class="co">## 28                  Inputs     TRUE           N/A FALSE        1</span></span>
+<span><span class="co">## 29                 Outputs    FALSE           N/A FALSE        1</span></span>
+<span><span class="co">## 30             Run Control     TRUE           N/A FALSE        1</span></span></code></pre>
 <p>From this output we can see the the <code>Run Control</code> and
 <code>Inputs</code> datasheets only accept a single row of data
 (i.e. <code>isSingle = TRUE</code>). This is something to consider when
@@ -642,28 +642,28 @@ the only argument is the result scenario variable.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get run details for the first result scenario</span></span>
 <span><span class="fu"><a href="../reference/runLog.html">runLog</a></span><span class="op">(</span><span class="va">myResultScenario</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </span></span>
-<span><span class="co">## SyncroSim Version: 3.0.9.0</span></span>
+<pre><code><span><span class="co">## RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </span></span>
+<span><span class="co">## SyncroSim Version: 3.0.21.0</span></span>
 <span><span class="co">## Operating System: Microsoft Windows NT 6.2.9200.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Packages:</span></span>
-<span><span class="co">## core -&gt; 3.0.9</span></span>
+<span><span class="co">## core -&gt; 3.0.21</span></span>
 <span><span class="co">## helloworldTime -&gt; 2.0.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Parent Scenario is: [1] My first scenario</span></span>
-<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span>
+<span><span class="co">## Result scenario is: [2] My first scenario ([1] @ 03-Jan-2025 10:06 AM)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## --------------------------------------------</span></span>
-<span><span class="co">## STARTING SIMULATION: 2024-12-06 : 1:47:00 PM</span></span>
+<span><span class="co">## STARTING SIMULATION: 2025-01-03 : 10:06:45 AM</span></span>
 <span><span class="co">## --------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Hello World Time (R) =&gt; Total time: 00:00:17</span></span>
+<span><span class="co">## Hello World Time (R) =&gt; Total time: 00:00:11</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## --------------------------------------------</span></span>
-<span><span class="co">## SIMULATION COMPLETE: 2024-12-06 : 1:47:17 PM</span></span>
+<span><span class="co">## SIMULATION COMPLETE: 2025-01-03 : 10:06:56 AM</span></span>
 <span><span class="co">## --------------------------------------------</span></span>
-<span><span class="co">## Total simulation time: 00:00:17</span></span></code></pre>
-<pre><code><span><span class="co">## [1] "RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \nSyncroSim Version: 3.0.9.0\nOperating System: Microsoft Windows NT 6.2.9200.0\n\nPackages:\ncore -&gt; 3.0.9\nhelloworldTime -&gt; 2.0.0\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 06-Dec-2024 1:46 PM)\n\n--------------------------------------------\nSTARTING SIMULATION: 2024-12-06 : 1:47:00 PM\n--------------------------------------------\n\nHello World Time (R) =&gt; Total time: 00:00:17\n\n--------------------------------------------\nSIMULATION COMPLETE: 2024-12-06 : 1:47:17 PM\n--------------------------------------------\nTotal simulation time: 00:00:17      "</span></span></code></pre>
+<span><span class="co">## Total simulation time: 00:00:11</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \nSyncroSim Version: 3.0.21.0\nOperating System: Microsoft Windows NT 6.2.9200.0\n\nPackages:\ncore -&gt; 3.0.21\nhelloworldTime -&gt; 2.0.0\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 03-Jan-2025 10:06 AM)\n\n--------------------------------------------\nSTARTING SIMULATION: 2025-01-03 : 10:06:45 AM\n--------------------------------------------\n\nHello World Time (R) =&gt; Total time: 00:00:11\n\n--------------------------------------------\nSIMULATION COMPLETE: 2025-01-03 : 10:06:56 AM\n--------------------------------------------\nTotal simulation time: 00:00:11      "</span></span></code></pre>
 <p><em>Note</em>: if your scenario fails to run, it will still produce a
 <em>result scenario</em> that you can use the <code><a href="../reference/runLog.html">runLog()</a></code>
 function on to see more information about why the run failed.</p>
@@ -688,15 +688,15 @@ all the model inputs.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check scenarios that currently exist in your library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   ScenarioId ProjectId ParentId                                          Name</span></span>
-<span><span class="co">## 1          1         1       NA                             My first scenario</span></span>
-<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span>
+<pre><code><span><span class="co">##   ScenarioId ProjectId ParentId                                           Name</span></span>
+<span><span class="co">## 1          1         1       NA                              My first scenario</span></span>
+<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 03-Jan-2025 10:06 AM)</span></span>
 <span><span class="co">##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly</span></span>
 <span><span class="co">## 1   N/A                No                 NA       No         No</span></span>
 <span><span class="co">## 2   N/A                No                 NA      Yes         No</span></span>
-<span><span class="co">##        DateLastModified</span></span>
-<span><span class="co">## 1 2024-12-06 at 1:46 PM</span></span>
-<span><span class="co">## 2 2024-12-06 at 1:47 PM</span></span></code></pre>
+<span><span class="co">##         DateLastModified</span></span>
+<span><span class="co">## 1 2025-01-03 at 10:06 AM</span></span>
+<span><span class="co">## 2 2025-01-03 at 10:06 AM</span></span></code></pre>
 <p>The first scenario is our original scenario, and the second is the
 result scenario with a time and date stamp of when it was run. We can
 also see some other information about these scenarios, such as whether
@@ -713,17 +713,17 @@ function.</p>
 <span><span class="co">## 7  scenario           core     core_ExternalVariableValue</span></span>
 <span><span class="co">## 15 scenario           core                  core_Pipeline</span></span>
 <span><span class="co">## 21 scenario           core    core_SpatialMultiprocessing</span></span>
-<span><span class="co">## 27 scenario helloworldTime  helloworldTime_InputDatasheet</span></span>
-<span><span class="co">## 28 scenario helloworldTime helloworldTime_OutputDatasheet</span></span>
-<span><span class="co">## 29 scenario helloworldTime      helloworldTime_RunControl</span></span>
+<span><span class="co">## 28 scenario helloworldTime  helloworldTime_InputDatasheet</span></span>
+<span><span class="co">## 29 scenario helloworldTime helloworldTime_OutputDatasheet</span></span>
+<span><span class="co">## 30 scenario helloworldTime      helloworldTime_RunControl</span></span>
 <span><span class="co">##                displayName isSingle displayMember  data scenario</span></span>
 <span><span class="co">## 5            Distributions    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 7       External Variables    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 15                Pipeline    FALSE           N/A  TRUE        1</span></span>
 <span><span class="co">## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
-<span><span class="co">## 27                  Inputs     TRUE           N/A  TRUE        1</span></span>
-<span><span class="co">## 28                 Outputs    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 29             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
+<span><span class="co">## 28                  Inputs     TRUE           N/A  TRUE        1</span></span>
+<span><span class="co">## 29                 Outputs    FALSE           N/A FALSE        1</span></span>
+<span><span class="co">## 30             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Take a look at result scenario datasheets</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -732,17 +732,17 @@ function.</p>
 <span><span class="co">## 7  scenario           core     core_ExternalVariableValue</span></span>
 <span><span class="co">## 15 scenario           core                  core_Pipeline</span></span>
 <span><span class="co">## 21 scenario           core    core_SpatialMultiprocessing</span></span>
-<span><span class="co">## 27 scenario helloworldTime  helloworldTime_InputDatasheet</span></span>
-<span><span class="co">## 28 scenario helloworldTime helloworldTime_OutputDatasheet</span></span>
-<span><span class="co">## 29 scenario helloworldTime      helloworldTime_RunControl</span></span>
+<span><span class="co">## 28 scenario helloworldTime  helloworldTime_InputDatasheet</span></span>
+<span><span class="co">## 29 scenario helloworldTime helloworldTime_OutputDatasheet</span></span>
+<span><span class="co">## 30 scenario helloworldTime      helloworldTime_RunControl</span></span>
 <span><span class="co">##                displayName isSingle displayMember  data scenario</span></span>
 <span><span class="co">## 5            Distributions    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 7       External Variables    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 15                Pipeline    FALSE           N/A  TRUE        1</span></span>
 <span><span class="co">## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
-<span><span class="co">## 27                  Inputs     TRUE           N/A  TRUE        1</span></span>
-<span><span class="co">## 28                 Outputs    FALSE           N/A  TRUE        1</span></span>
-<span><span class="co">## 29             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
+<span><span class="co">## 28                  Inputs     TRUE           N/A  TRUE        1</span></span>
+<span><span class="co">## 29                 Outputs    FALSE           N/A  TRUE        1</span></span>
+<span><span class="co">## 30             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
 <p>Looking at the <code>data</code> column, the <code>Outputs</code>
 does not contain any data in the original scenario, but does in the
 result scenario.</p>
@@ -783,9 +783,9 @@ you want to copy.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check which scenarios you currently have in your library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                            Name</span></span>
-<span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span></code></pre>
+<pre><code><span><span class="co">##                                             Name</span></span>
+<span><span class="co">## 1                              My first scenario</span></span>
+<span><span class="co">## 2 My first scenario ([1] @ 03-Jan-2025 10:06 AM)</span></span></code></pre>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a new scenario as a copy of an existing scenario</span></span>
 <span><span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myProject</span>,</span>
@@ -794,10 +794,10 @@ you want to copy.</p>
 <span></span>
 <span><span class="co"># Make sure this new scenario has been added to the library</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span><span class="op">[</span><span class="st">'Name'</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                            Name</span></span>
-<span><span class="co">## 1                             My first scenario</span></span>
-<span><span class="co">## 2 My first scenario ([1] @ 06-Dec-2024 1:46 PM)</span></span>
-<span><span class="co">## 3                            My second scenario</span></span></code></pre>
+<pre><code><span><span class="co">##                                             Name</span></span>
+<span><span class="co">## 1                              My first scenario</span></span>
+<span><span class="co">## 2 My first scenario ([1] @ 03-Jan-2025 10:06 AM)</span></span>
+<span><span class="co">## 3                             My second scenario</span></span></code></pre>
 <p>To edit the new scenario, we must first load the contents of the
 <code>Inputs</code> datasheet and assign it to a new R data frame using
 the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. We will set the
@@ -901,8 +901,8 @@ the Rrsults scenario using the <code>rsyncrosim</code> function
 <span><span class="co">## 1             Name:              helloworldLibrary</span></span>
 <span><span class="co">## 2            Owner:                            N/A</span></span>
 <span><span class="co">## 3        Read Only:                             No</span></span>
-<span><span class="co">## 4    Last Modified:          2024-12-06 at 1:48 PM</span></span>
-<span><span class="co">## 5             Size:            204 KB  (208,896 B)</span></span>
+<span><span class="co">## 4    Last Modified:         2025-01-03 at 10:07 AM</span></span>
+<span><span class="co">## 5             Size:            208 KB  (212,992 B)</span></span>
 <span><span class="co">## 6       Data files:    helloworldLibrary.ssim.data</span></span>
 <span><span class="co">## 7    Publish files: helloworldLibrary.ssim.publish</span></span>
 <span><span class="co">## 8  Temporary files:    helloworldLibrary.ssim.temp</span></span>
@@ -955,18 +955,19 @@ get a list of all the datasheets with a library scope using the
 <div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find all library-scoped datasheets</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      scope                      name             displayName</span></span>
-<span><span class="co">## 1  library               core_Backup                  Backup</span></span>
-<span><span class="co">## 2  library             core_JlConfig                   Julia</span></span>
-<span><span class="co">## 3  library      core_Multiprocessing         Multiprocessing</span></span>
-<span><span class="co">## 4  library               core_Option                 Options</span></span>
-<span><span class="co">## 5  library core_ProcessorGroupOption Processor Group Options</span></span>
-<span><span class="co">## 6  library  core_ProcessorGroupValue  Processor Group Values</span></span>
-<span><span class="co">## 7  library             core_PyConfig                  Python</span></span>
-<span><span class="co">## 8  library              core_RConfig                       R</span></span>
-<span><span class="co">## 9  library              core_Setting                Settings</span></span>
-<span><span class="co">## 10 library        core_SpatialOption         Spatial Options</span></span>
-<span><span class="co">## 11 library            core_SysFolder                 Folders</span></span></code></pre>
+<pre><code><span><span class="co">##      scope                              name                    displayName</span></span>
+<span><span class="co">## 1  library                       core_Backup                         Backup</span></span>
+<span><span class="co">## 2  library                     core_JlConfig                          Julia</span></span>
+<span><span class="co">## 3  library              core_Multiprocessing                Multiprocessing</span></span>
+<span><span class="co">## 4  library                       core_Option                        Options</span></span>
+<span><span class="co">## 5  library         core_ProcessorGroupOption        Processor Group Options</span></span>
+<span><span class="co">## 6  library          core_ProcessorGroupValue         Processor Group Values</span></span>
+<span><span class="co">## 7  library                     core_PyConfig                         Python</span></span>
+<span><span class="co">## 8  library                      core_RConfig                              R</span></span>
+<span><span class="co">## 9  library                      core_Setting                       Settings</span></span>
+<span><span class="co">## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option</span></span>
+<span><span class="co">## 11 library                core_SpatialOption                Spatial Options</span></span>
+<span><span class="co">## 12 library                    core_SysFolder                        Folders</span></span></code></pre>
 <div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get the current values for the library's Backup datasheet</span></span>
 <span><span class="va">myDataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Backup"</span><span class="op">)</span>   </span>
@@ -1018,7 +1019,7 @@ Studio</div>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>

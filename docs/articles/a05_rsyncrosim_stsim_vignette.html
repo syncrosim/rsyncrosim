@@ -45,7 +45,7 @@
     <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">rsyncrosim: introduction to spatial data</a></li>
     <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">rsyncrosim: introduction to ST-Sim</a></li>
     <li><a class="dropdown-item" href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating rsyncrosim scripts to version 2</a></li>
+    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating scripts to rsyncrosim v2</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -164,7 +164,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.0.9"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.0.21"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -177,7 +177,7 @@ package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install stsim</span></span>
 <span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;stsim v4.0.1&gt; installed</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;stsim v4.3.5&gt; installed</span></span></code></pre>
 <p><code>stsim</code> should now be included in the package list
 returned by the <code><a href="../reference/packages.html">packages()</a></code> function in
 <code>rsyncrosim</code>:</p>
@@ -185,9 +185,9 @@ returned by the <code><a href="../reference/packages.html">packages()</a></code>
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/packages.html">packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    name version                                      description</span></span>
-<span><span class="co">## 1 stsim   4.0.1 The ST-Sim state-and-transition simulation model</span></span>
-<span><span class="co">##                                                                           location</span></span>
-<span><span class="co">## 1 C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\stsim\\4.0.1</span></span>
+<span><span class="co">## 1 stsim   4.3.5 The ST-Sim state-and-transition simulation model</span></span>
+<span><span class="co">##                                                                     location</span></span>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\stsim\\4.3.5</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -213,11 +213,9 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"stsimLibrary.ssim"</span>,</span>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
 <span>                         packages <span class="op">=</span> <span class="st">"stsim"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;stsim v4.0.1&gt; added</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;stsim v4.3.5&gt; added</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>                         <span class="co"># overwrite = TRUE)</span></span>
-<span></span>
-<span><span class="co"># Open the default project</span></span>
+<code class="sourceCode R"><span><span class="co"># Open the default project</span></span>
 <span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu">rsyncrosim</span><span class="fu">::</span><span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a new scenario (associated with the default project)</span></span>
@@ -234,28 +232,28 @@ using the <code><a href="../reference/datasheet.html">datasheet()</a></code> fun
 <span><span class="va">datasheet_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datasheet_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                          name             displayName</span></span>
-<span><span class="co">## 49 scenario        core_DistributionValue           Distributions</span></span>
-<span><span class="co">## 50 scenario    core_ExternalVariableValue      External Variables</span></span>
-<span><span class="co">## 51 scenario                 core_Pipeline                Pipeline</span></span>
-<span><span class="co">## 52 scenario   core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
-<span><span class="co">## 53 scenario stsim_DeterministicTransition                  States</span></span>
-<span><span class="co">## 54 scenario   stsim_DigitalElevationModel Digital Elevation Model</span></span></code></pre>
+<span><span class="co">## 51 scenario        core_DistributionValue           Distributions</span></span>
+<span><span class="co">## 52 scenario    core_ExternalVariableValue      External Variables</span></span>
+<span><span class="co">## 53 scenario                 core_Pipeline                Pipeline</span></span>
+<span><span class="co">## 54 scenario   core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
+<span><span class="co">## 55 scenario stsim_DeterministicTransition                  States</span></span>
+<span><span class="co">## 56 scenario   stsim_DigitalElevationModel Digital Elevation Model</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">datasheet_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##        scope                                        name</span></span>
-<span><span class="co">## 133 scenario             stsim_TransitionSlopeMultiplier</span></span>
-<span><span class="co">## 134 scenario stsim_TransitionSpatialInitiationMultiplier</span></span>
-<span><span class="co">## 135 scenario           stsim_TransitionSpatialMultiplier</span></span>
-<span><span class="co">## 136 scenario          stsim_TransitionSpreadDistribution</span></span>
-<span><span class="co">## 137 scenario                      stsim_TransitionTarget</span></span>
-<span><span class="co">## 138 scenario        stsim_TransitionTargetPrioritization</span></span>
+<pre><code><span><span class="co">##        scope                                               name</span></span>
+<span><span class="co">## 142 scenario stsim_TransitionSpatialInitiationMultiplierFineRes</span></span>
+<span><span class="co">## 143 scenario                  stsim_TransitionSpatialMultiplier</span></span>
+<span><span class="co">## 144 scenario           stsim_TransitionSpatialMultiplierFineRes</span></span>
+<span><span class="co">## 145 scenario                 stsim_TransitionSpreadDistribution</span></span>
+<span><span class="co">## 146 scenario                             stsim_TransitionTarget</span></span>
+<span><span class="co">## 147 scenario               stsim_TransitionTargetPrioritization</span></span>
 <span><span class="co">##                                   displayName</span></span>
-<span><span class="co">## 133              Transition Slope Multipliers</span></span>
-<span><span class="co">## 134 Transition Spatial Initiation Multipliers</span></span>
-<span><span class="co">## 135            Transition Spatial Multipliers</span></span>
-<span><span class="co">## 136            Transition Spread Distribution</span></span>
-<span><span class="co">## 137                        Transition Targets</span></span>
-<span><span class="co">## 138          Transition Target Prioritization</span></span></code></pre>
+<span><span class="co">## 142 Transition Spatial Initiation Multipliers</span></span>
+<span><span class="co">## 143            Transition Spatial Multipliers</span></span>
+<span><span class="co">## 144            Transition Spatial Multipliers</span></span>
+<span><span class="co">## 145            Transition Spread Distribution</span></span>
+<span><span class="co">## 146                        Transition Targets</span></span>
+<span><span class="co">## 147          Transition Target Prioritization</span></span></code></pre>
 <p>From this list of datasheets, we can check which datasheets specific
 to the <code>stsim</code> package we would like to modify. This will
 include a number of Initial Conditions datasheets, Output datasheets,
@@ -439,28 +437,28 @@ datasheets.</p>
 <span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scenario_datasheet_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                          name             displayName</span></span>
-<span><span class="co">## 49 scenario        core_DistributionValue           Distributions</span></span>
-<span><span class="co">## 50 scenario    core_ExternalVariableValue      External Variables</span></span>
-<span><span class="co">## 51 scenario                 core_Pipeline                Pipeline</span></span>
-<span><span class="co">## 52 scenario   core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
-<span><span class="co">## 53 scenario stsim_DeterministicTransition                  States</span></span>
-<span><span class="co">## 54 scenario   stsim_DigitalElevationModel Digital Elevation Model</span></span></code></pre>
+<span><span class="co">## 51 scenario        core_DistributionValue           Distributions</span></span>
+<span><span class="co">## 52 scenario    core_ExternalVariableValue      External Variables</span></span>
+<span><span class="co">## 53 scenario                 core_Pipeline                Pipeline</span></span>
+<span><span class="co">## 54 scenario   core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
+<span><span class="co">## 55 scenario stsim_DeterministicTransition                  States</span></span>
+<span><span class="co">## 56 scenario   stsim_DigitalElevationModel Digital Elevation Model</span></span></code></pre>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">scenario_datasheet_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##        scope                                        name</span></span>
-<span><span class="co">## 133 scenario             stsim_TransitionSlopeMultiplier</span></span>
-<span><span class="co">## 134 scenario stsim_TransitionSpatialInitiationMultiplier</span></span>
-<span><span class="co">## 135 scenario           stsim_TransitionSpatialMultiplier</span></span>
-<span><span class="co">## 136 scenario          stsim_TransitionSpreadDistribution</span></span>
-<span><span class="co">## 137 scenario                      stsim_TransitionTarget</span></span>
-<span><span class="co">## 138 scenario        stsim_TransitionTargetPrioritization</span></span>
+<pre><code><span><span class="co">##        scope                                               name</span></span>
+<span><span class="co">## 142 scenario stsim_TransitionSpatialInitiationMultiplierFineRes</span></span>
+<span><span class="co">## 143 scenario                  stsim_TransitionSpatialMultiplier</span></span>
+<span><span class="co">## 144 scenario           stsim_TransitionSpatialMultiplierFineRes</span></span>
+<span><span class="co">## 145 scenario                 stsim_TransitionSpreadDistribution</span></span>
+<span><span class="co">## 146 scenario                             stsim_TransitionTarget</span></span>
+<span><span class="co">## 147 scenario               stsim_TransitionTargetPrioritization</span></span>
 <span><span class="co">##                                   displayName</span></span>
-<span><span class="co">## 133              Transition Slope Multipliers</span></span>
-<span><span class="co">## 134 Transition Spatial Initiation Multipliers</span></span>
-<span><span class="co">## 135            Transition Spatial Multipliers</span></span>
-<span><span class="co">## 136            Transition Spread Distribution</span></span>
-<span><span class="co">## 137                        Transition Targets</span></span>
-<span><span class="co">## 138          Transition Target Prioritization</span></span></code></pre>
+<span><span class="co">## 142 Transition Spatial Initiation Multipliers</span></span>
+<span><span class="co">## 143            Transition Spatial Multipliers</span></span>
+<span><span class="co">## 144            Transition Spatial Multipliers</span></span>
+<span><span class="co">## 145            Transition Spread Distribution</span></span>
+<span><span class="co">## 146                        Transition Targets</span></span>
+<span><span class="co">## 147          Transition Target Prioritization</span></span></code></pre>
 <p>We can now use the <code><a href="../reference/datasheet.html">datasheet()</a></code> function to retrieve, one
 at a time, each of our scenario-scoped datasheets from our library.</p>
 <p><strong>Run Control</strong>: Define the length of the run and
@@ -747,18 +745,19 @@ single iteration.</p>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load list of available library-scoped datasheets</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      scope                      name             displayName</span></span>
-<span><span class="co">## 1  library               core_Backup                  Backup</span></span>
-<span><span class="co">## 2  library             core_JlConfig                   Julia</span></span>
-<span><span class="co">## 3  library      core_Multiprocessing         Multiprocessing</span></span>
-<span><span class="co">## 4  library               core_Option                 Options</span></span>
-<span><span class="co">## 5  library core_ProcessorGroupOption Processor Group Options</span></span>
-<span><span class="co">## 6  library  core_ProcessorGroupValue  Processor Group Values</span></span>
-<span><span class="co">## 7  library             core_PyConfig                  Python</span></span>
-<span><span class="co">## 8  library              core_RConfig                       R</span></span>
-<span><span class="co">## 9  library              core_Setting                Settings</span></span>
-<span><span class="co">## 10 library        core_SpatialOption         Spatial Options</span></span>
-<span><span class="co">## 11 library            core_SysFolder                 Folders</span></span></code></pre>
+<pre><code><span><span class="co">##      scope                              name                    displayName</span></span>
+<span><span class="co">## 1  library                       core_Backup                         Backup</span></span>
+<span><span class="co">## 2  library                     core_JlConfig                          Julia</span></span>
+<span><span class="co">## 3  library              core_Multiprocessing                Multiprocessing</span></span>
+<span><span class="co">## 4  library                       core_Option                        Options</span></span>
+<span><span class="co">## 5  library         core_ProcessorGroupOption        Processor Group Options</span></span>
+<span><span class="co">## 6  library          core_ProcessorGroupValue         Processor Group Values</span></span>
+<span><span class="co">## 7  library                     core_PyConfig                         Python</span></span>
+<span><span class="co">## 8  library                      core_RConfig                              R</span></span>
+<span><span class="co">## 9  library                      core_Setting                       Settings</span></span>
+<span><span class="co">## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option</span></span>
+<span><span class="co">## 11 library                core_SpatialOption                Spatial Options</span></span>
+<span><span class="co">## 12 library                    core_SysFolder                        Folders</span></span></code></pre>
 <div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the library-scoped multiprocessing datasheet</span></span>
 <span><span class="va">multiprocess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span>
@@ -767,7 +766,7 @@ single iteration.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">multiprocess</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    1 obs. of  4 variables:</span></span>
 <span><span class="co">##  $ EnableMultiprocessing  : logi FALSE</span></span>
-<span><span class="co">##  $ MaximumJobs            : num 15</span></span>
+<span><span class="co">##  $ MaximumJobs            : num 7</span></span>
 <span><span class="co">##  $ EnableMultiScenario    : logi FALSE</span></span>
 <span><span class="co">##  $ EnableCopyExternalFiles: logi NA</span></span></code></pre>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
@@ -854,7 +853,7 @@ only).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>

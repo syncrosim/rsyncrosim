@@ -18,13 +18,13 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a01_rsyncrosim_vignette_basic.html">Introduction to `rsyncrosim`</a></li>
-    <li><a class="dropdown-item" href="../articles/a02_rsyncrosim_vignette_uncertainty.html">`rsyncrosim`: introduction to uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/a03_rsyncrosim_vignette_pipelines.html">`rsyncrosim`: introduction to pipelines</a></li>
-    <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a></li>
-    <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a01_rsyncrosim_vignette_basic.html">Introduction to rsyncrosim</a></li>
+    <li><a class="dropdown-item" href="../articles/a02_rsyncrosim_vignette_uncertainty.html">rsyncrosim: introduction to uncertainty</a></li>
+    <li><a class="dropdown-item" href="../articles/a03_rsyncrosim_vignette_pipelines.html">rsyncrosim: introduction to pipelines</a></li>
+    <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">rsyncrosim: introduction to spatial data</a></li>
+    <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">rsyncrosim: introduction to ST-Sim</a></li>
     <li><a class="dropdown-item" href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating `rsyncrosim` scripts to version 2</a></li>
+    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating scripts to rsyncrosim v2</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -100,11 +100,12 @@ removal) and <code>FALSE</code> upon failure.</p>
 <span class="r-in"><span><span class="co"># Uninstalls specific version of package from SyncroSim session</span></span></span>
 <span class="r-in"><span><span class="fu">uninstallPackage</span><span class="op">(</span>packages <span class="op">=</span> <span class="st">"stsim"</span>, versions <span class="op">=</span> <span class="st">"4.0.0"</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The package &lt;stsim v4.0.0&gt; is not installed.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The package is not installed.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (tt[1] == "saved") {    message(paste0("Package &lt;", cPkg, " v", v, "&gt; removed"))    retList[[cPkg]] &lt;- TRUE} else {    message(tt)    retList[[cPkg]] &lt;- FALSE}:</span> missing value where TRUE/FALSE needed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Uninstalls all instances ofa package from SyncroSim session</span></span></span>
 <span class="r-in"><span><span class="fu">uninstallPackage</span><span class="op">(</span>packages <span class="op">=</span> <span class="st">"stsim"</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;stsim v4.0.1&gt; removed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;stsim v4.3.5&gt; removed</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -118,7 +119,7 @@ removal) and <code>FALSE</code> upon failure.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer></div>

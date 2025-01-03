@@ -658,7 +658,9 @@ setMethod("datasheet",
       }
       
       if (empty) {
-        sheet <- sheet[0,]
+        if (nrow(sheet) > 0){
+          sheet <- sheet[0,]
+        }
       }
     } else {
       # If empty set

@@ -22,13 +22,13 @@ SyncroSim Library if called on a SsimLibrary object."><meta property="og:image" 
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a01_rsyncrosim_vignette_basic.html">Introduction to `rsyncrosim`</a></li>
-    <li><a class="dropdown-item" href="../articles/a02_rsyncrosim_vignette_uncertainty.html">`rsyncrosim`: introduction to uncertainty</a></li>
-    <li><a class="dropdown-item" href="../articles/a03_rsyncrosim_vignette_pipelines.html">`rsyncrosim`: introduction to pipelines</a></li>
-    <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a></li>
-    <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a01_rsyncrosim_vignette_basic.html">Introduction to rsyncrosim</a></li>
+    <li><a class="dropdown-item" href="../articles/a02_rsyncrosim_vignette_uncertainty.html">rsyncrosim: introduction to uncertainty</a></li>
+    <li><a class="dropdown-item" href="../articles/a03_rsyncrosim_vignette_pipelines.html">rsyncrosim: introduction to pipelines</a></li>
+    <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">rsyncrosim: introduction to spatial data</a></li>
+    <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">rsyncrosim: introduction to ST-Sim</a></li>
     <li><a class="dropdown-item" href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating `rsyncrosim` scripts to version 2</a></li>
+    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating scripts to rsyncrosim v2</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -102,42 +102,84 @@ for a specified package.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># List all installed packages</span></span></span>
 <span class="r-in"><span><span class="fu">packages</span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   name version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                dgsim   3.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              foresce   2.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         gglanalytics   1.1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              harvest   1.1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       harvestreports   1.1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     helloworldTimePy   2.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                lftfc   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                stsim   4.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9          stsimecodep   4.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 stsimLftfcConnector   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11           stsimpfvc   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     name version</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             burnP3Plus   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             burnP3Plus   2.1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    burnP3PlusCell2Fire   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  burnP3PlusPostProcess   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   burnP3PlusPrometheus   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   burnP3PlusPrometheus   2.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                  dgsim   3.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8             helloworld   2.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     helloworldPipeline   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10     helloworldSpatial   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11        helloworldTime   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12      helloworldTimePy   2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 helloworldUncertainty   2.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14             omniscape   2.1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15             omniscape   2.1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16            prioritizr   2.1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                 stsim   4.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                 stsim   4.3.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19           stsimecodep   4.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                 wisdm   2.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                 wisdm   2.1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                 wisdm   2.1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                 wisdm   2.1.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                 wisdm   2.1.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25   wisdmStsimConnector   1.0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                          description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                     Simulates demographics of wildlife populations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                         Forecasting scenarios of future land cover</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                           Analytics APIs interface</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                Harvest backup tool</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                            ApexRMS Harvest reports</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                     Example demonstrating how to use timesteps with a python model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                    LANDFIRE Total Fuel Change Tool</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                   The ST-Sim state-and-transition simulation model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Calculates TNC's unified ecological departure from reference conditions in ST-Sim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                        Connector package between ST-Sim and LFTFC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                          Projected Fuel and Vegetation Change (PFVC) for LANDFIRE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                       location</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\dgsim\\3.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                   C:\\gitprojects\\foresce\\syncrosim-3\\src</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                        C:\\gitprojects\\GoogleAnalytics\\src</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                C:\\gitprojects\\Harvest\\src</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                        C:\\gitprojects\\harvest-reports\\src</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldTimePy\\2.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                  C:\\gitprojects\\lftfc\\src</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8             C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\stsim\\4.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9       C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\stsimecodep\\4.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                   C:\\gitprojects\\stsimLftfcConnector\\src</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                                                C:\\gitprojects\\stsimpvfc\\syncrosim-3\\src</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                          Burn probability modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                          Burn probability modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                            Cell2Fire fire growth model for BurnP3+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                 Post-process BurnP3+ model results</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                           Prometheus fire growth model for BurnP3+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                           Prometheus fire growth model for BurnP3+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                     Simulates demographics of wildlife populations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                      Example demonstrating how to create a package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                         Example demonstrating how to use pipelines with an R model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                     Example demonstrating how to use spatial data with an R model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        Example demonstrating how to use timesteps with an R model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                    Example demonstrating how to use timesteps with a python model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                       Example demonstrating how to use iterations with an R model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                     Omni-directional habitat connectivity based on circuit theory</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                     Omni-directional habitat connectivity based on circuit theory</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                  Systematic conservation planning</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                  The ST-Sim state-and-transition simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                  The ST-Sim state-and-transition simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Calculates TNC's unified ecological departure from reference conditions in ST-Sim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                            Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                            Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                            Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                            Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                            Workbench for Integrated Species Distribution Modeling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                        Connector package between WISDM and ST-Sim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                      location</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\burnP3Plus\\2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                            C:\\gitprojects\\BurnP3Plus\\src</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\burnP3PlusCell2Fire\\2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\burnP3PlusPostProcess\\1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\burnP3PlusPrometheus\\2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                  C:\\gitprojects\\BurnP3PlusPrometheus\\src</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                  C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\dgsim\\3.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8             C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworld\\2.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldPipeline\\2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10     C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldSpatial\\2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11        C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldTime\\2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12      C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldTimePy\\2.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldUncertainty\\2.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14             C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\omniscape\\2.1.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                            C:\\gitprojects\\omniscape\\src</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16            C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\prioritizr\\2.1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\stsim\\4.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\stsim\\4.3.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19           C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\stsimecodep\\4.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\wisdm\\2.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\wisdm\\2.1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\wisdm\\2.1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\wisdm\\2.1.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\wisdm\\2.1.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25   C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\wisdmStsimConnector\\1.0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    status</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      OK</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      OK</span>
@@ -150,6 +192,20 @@ for a specified package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9      OK</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10     OK</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25     OK</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># List all available packages on the server (including currently installed)</span></span></span>
 <span class="r-in"><span><span class="fu">packages</span><span class="op">(</span>installed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
@@ -169,10 +225,11 @@ for a specified package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13 helloworldUncertainty   2.0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14             omniscape   2.1.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15                 stsim   4.0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16           stsimecodep   4.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                 wisdm   2.1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18   wisdmStsimConnector   1.0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19   wisdmStsimConnector   1.0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                 stsim   4.3.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17           stsimecodep   4.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                 wisdm   2.1.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19   wisdmStsimConnector   1.0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20   wisdmStsimConnector   1.0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                          description</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                     Burn-P3+ package for burn probability modeling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                    Cell2Fire fire growth model package for BurnP3+</span>
@@ -189,10 +246,11 @@ for a specified package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13                       Example demonstrating how to use iterations with an R model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14                     Omni-directional habitat connectivity based on circuit theory</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15                                  The ST-Sim state-and-transition simulation model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Calculates TNC's unified ecological departure from reference conditions in ST-Sim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                            Workbench for Integrated Species Distribution Modeling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                        Connector package between WISDM and ST-Sim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                  The ST-Sim state-and-transition simulation model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Calculates TNC's unified ecological departure from reference conditions in ST-Sim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                            Workbench for Integrated Species Distribution Modeling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19                                        Connector package between WISDM and ST-Sim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                        Connector package between WISDM and ST-Sim</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                              url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           https://burnp3.github.io/BurnP3Plus/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           https://burnp3.github.io/BurnP3Plus/</span>
@@ -210,15 +268,16 @@ for a specified package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14          https://apexrms.github.io/omniscape/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15                       https://docs.stsim.net/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16                       https://docs.stsim.net/</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17              https://apexrms.github.io/wisdm/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                       https://docs.stsim.net/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18              https://apexrms.github.io/wisdm/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19              https://apexrms.github.io/wisdm/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20              https://apexrms.github.io/wisdm/</span>
 <span class="r-in"><span> </span></span>
 <span class="r-in"><span><span class="co"># Check the package(s) in your SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="fu">packages</span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name                                      description version schema status</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  core                           SyncroSim Core Package   3.0.9      3     OK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 stsim The ST-Sim state-and-transition simulation model   4.0.1      4     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  core                           SyncroSim Core Package  3.0.21    3.0     OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 stsim The ST-Sim state-and-transition simulation model   4.3.5    4.3     OK</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -232,7 +291,7 @@ for a specified package.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer></div>

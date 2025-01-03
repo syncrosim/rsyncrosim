@@ -1,22 +1,22 @@
 ---
-title: "Updating rsyncrosim scripts to version 2"
+title: "Updating scripts to rsyncrosim v2"
 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Updating rsyncrosim scripts to version 2}
+  %\VignetteIndexEntry{Updating scripts to rsyncrosim v2}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 params:
   EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
-```{r setup, warning = FALSE, echo = FALSE, results = 'hide'}
+```{r setup, warning = FALSE, echo = FALSE, results = 'hide', message = FALSE}
 # to show the packages added, plus create scenarios to show below
 library(rsyncrosim)
 mySession <- session()
-myLibrary <- ssimLibrary("Changes to rsyncrosim v2.ssim")
+myLibrary <- ssimLibrary("Changes to rsyncrosim v2.ssim", overwrite = T)
 addPackage(myLibrary, packages = c("stsim", "helloworldSpatial"),
-            versions = c("4.0.1", "2.0.0"))
+            versions = c("4.3.5", "2.0.0"))
 scenario1 <- scenario(myLibrary, scenario = "Scenario 1")
 scenario2 <- scenario(myLibrary, scenario = "Scenario 2")
 scenario3 <- scenario(myLibrary, scenario = "Scenario 3")
