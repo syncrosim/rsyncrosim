@@ -45,7 +45,7 @@
     <li><a class="dropdown-item" href="../articles/a04_rsyncrosim_vignette_spatial.html">rsyncrosim: introduction to spatial data</a></li>
     <li><a class="dropdown-item" href="../articles/a05_rsyncrosim_stsim_vignette.html">rsyncrosim: introduction to ST-Sim</a></li>
     <li><a class="dropdown-item" href="../articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating rsyncrosim scripts to version 2</a></li>
+    <li><a class="dropdown-item" href="../articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating scripts to rsyncrosim v2</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -167,7 +167,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.0.9"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.0.21"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -191,8 +191,8 @@ list returned by the <code><a href="../reference/packages.html">packages()</a></
 <span><span class="co">## 1 helloworldSpatial   2.0.0</span></span>
 <span><span class="co">##                                                     description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use spatial data with an R model</span></span>
-<span><span class="co">##                                                                                       location</span></span>
-<span><span class="co">## 1 C:\\Users\\DiegoBilski\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldSpatial\\2.0.0</span></span>
+<span><span class="co">##                                                                                 location</span></span>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldSpatial\\2.0.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -235,14 +235,14 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <code class="sourceCode R"><span><span class="co"># View all datasheets associated with a library, project, or scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                                    name             displayName</span></span>
-<span><span class="co">## 23 scenario                  core_DistributionValue           Distributions</span></span>
-<span><span class="co">## 24 scenario              core_ExternalVariableValue      External Variables</span></span>
-<span><span class="co">## 25 scenario                           core_Pipeline                Pipeline</span></span>
-<span><span class="co">## 26 scenario             core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
-<span><span class="co">## 27 scenario        helloworldSpatial_InputDatasheet                  Inputs</span></span>
-<span><span class="co">## 28 scenario helloworldSpatial_IntermediateDatasheet    Intermediate Outputs</span></span>
-<span><span class="co">## 29 scenario       helloworldSpatial_OutputDatasheet                 Outputs</span></span>
-<span><span class="co">## 30 scenario            helloworldSpatial_RunControl             Run Control</span></span></code></pre>
+<span><span class="co">## 24 scenario                  core_DistributionValue           Distributions</span></span>
+<span><span class="co">## 25 scenario              core_ExternalVariableValue      External Variables</span></span>
+<span><span class="co">## 26 scenario                           core_Pipeline                Pipeline</span></span>
+<span><span class="co">## 27 scenario             core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
+<span><span class="co">## 28 scenario        helloworldSpatial_InputDatasheet                  Inputs</span></span>
+<span><span class="co">## 29 scenario helloworldSpatial_IntermediateDatasheet    Intermediate Outputs</span></span>
+<span><span class="co">## 30 scenario       helloworldSpatial_OutputDatasheet                 Outputs</span></span>
+<span><span class="co">## 31 scenario            helloworldSpatial_RunControl             Run Control</span></span></code></pre>
 <p>From the list of datasheets above, we can see that there are four
 datasheets specific to the <code>helloworldSpatial</code> package,
 including an <code>Inputs</code> datasheet, an
@@ -431,18 +431,19 @@ single iteration.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load list of available library-scoped datasheets</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      scope                      name             displayName</span></span>
-<span><span class="co">## 1  library               core_Backup                  Backup</span></span>
-<span><span class="co">## 2  library             core_JlConfig                   Julia</span></span>
-<span><span class="co">## 3  library      core_Multiprocessing         Multiprocessing</span></span>
-<span><span class="co">## 4  library               core_Option                 Options</span></span>
-<span><span class="co">## 5  library core_ProcessorGroupOption Processor Group Options</span></span>
-<span><span class="co">## 6  library  core_ProcessorGroupValue  Processor Group Values</span></span>
-<span><span class="co">## 7  library             core_PyConfig                  Python</span></span>
-<span><span class="co">## 8  library              core_RConfig                       R</span></span>
-<span><span class="co">## 9  library              core_Setting                Settings</span></span>
-<span><span class="co">## 10 library        core_SpatialOption         Spatial Options</span></span>
-<span><span class="co">## 11 library            core_SysFolder                 Folders</span></span></code></pre>
+<pre><code><span><span class="co">##      scope                              name                    displayName</span></span>
+<span><span class="co">## 1  library                       core_Backup                         Backup</span></span>
+<span><span class="co">## 2  library                     core_JlConfig                          Julia</span></span>
+<span><span class="co">## 3  library              core_Multiprocessing                Multiprocessing</span></span>
+<span><span class="co">## 4  library                       core_Option                        Options</span></span>
+<span><span class="co">## 5  library         core_ProcessorGroupOption        Processor Group Options</span></span>
+<span><span class="co">## 6  library          core_ProcessorGroupValue         Processor Group Values</span></span>
+<span><span class="co">## 7  library                     core_PyConfig                         Python</span></span>
+<span><span class="co">## 8  library                      core_RConfig                              R</span></span>
+<span><span class="co">## 9  library                      core_Setting                       Settings</span></span>
+<span><span class="co">## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option</span></span>
+<span><span class="co">## 11 library                core_SpatialOption                Spatial Options</span></span>
+<span><span class="co">## 12 library                    core_SysFolder                        Folders</span></span></code></pre>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the library-scoped multiprocessing datasheet</span></span>
 <span><span class="va">multiprocess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span>
@@ -451,7 +452,7 @@ single iteration.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">multiprocess</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    1 obs. of  4 variables:</span></span>
 <span><span class="co">##  $ EnableMultiprocessing  : logi FALSE</span></span>
-<span><span class="co">##  $ MaximumJobs            : num 15</span></span>
+<span><span class="co">##  $ MaximumJobs            : num 7</span></span>
 <span><span class="co">##  $ EnableMultiScenario    : logi FALSE</span></span>
 <span><span class="co">##  $ EnableCopyExternalFiles: logi NA</span></span></code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
@@ -494,13 +495,13 @@ using the <code><a href="../reference/datasheet.html">datasheet()</a></code> fun
 <span></span>
 <span><span class="co"># View results table of first transformer in the pipeline</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep         y        OutputRasterFile</span></span>
-<span><span class="co">## 1         1        1 -18.39475 rasterMap_iter1_ts1.tif</span></span>
-<span><span class="co">## 2         1        2 -32.45549 rasterMap_iter1_ts2.tif</span></span>
-<span><span class="co">## 3         1        3 -46.51624 rasterMap_iter1_ts3.tif</span></span>
-<span><span class="co">## 4         1        4 -60.57699 rasterMap_iter1_ts4.tif</span></span>
-<span><span class="co">## 5         1        5 -74.63774 rasterMap_iter1_ts5.tif</span></span>
-<span><span class="co">## 6         1        6 -88.69849 rasterMap_iter1_ts6.tif</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep          y        OutputRasterFile</span></span>
+<span><span class="co">## 1         1        1  -74.95123 rasterMap_iter1_ts1.tif</span></span>
+<span><span class="co">## 2         1        2 -145.56847 rasterMap_iter1_ts2.tif</span></span>
+<span><span class="co">## 3         1        3 -216.18570 rasterMap_iter1_ts3.tif</span></span>
+<span><span class="co">## 4         1        4 -286.80294 rasterMap_iter1_ts4.tif</span></span>
+<span><span class="co">## 5         1        5 -357.42018 rasterMap_iter1_ts5.tif</span></span>
+<span><span class="co">## 6         1        6 -428.03741 rasterMap_iter1_ts6.tif</span></span></code></pre>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load results of second transformer in the pipeline</span></span>
 <span><span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
@@ -508,13 +509,13 @@ using the <code><a href="../reference/datasheet.html">datasheet()</a></code> fun
 <span></span>
 <span><span class="co"># View results table of second transformer in the pipeline</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep       yCum</span></span>
-<span><span class="co">## 1         1        1  -18.39475</span></span>
-<span><span class="co">## 2         1        2  -50.85024</span></span>
-<span><span class="co">## 3         1        3  -97.36648</span></span>
-<span><span class="co">## 4         1        4 -157.94348</span></span>
-<span><span class="co">## 5         1        5 -232.58122</span></span>
-<span><span class="co">## 6         1        6 -321.27971</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep        yCum</span></span>
+<span><span class="co">## 1         1        1   -74.95123</span></span>
+<span><span class="co">## 2         1        2  -220.51970</span></span>
+<span><span class="co">## 3         1        3  -436.70540</span></span>
+<span><span class="co">## 4         1        4  -723.50834</span></span>
+<span><span class="co">## 5         1        5 -1080.92852</span></span>
+<span><span class="co">## 6         1        6 -1508.96593</span></span></code></pre>
 <p>From viewing these datasheets, we can see that the spatial output is
 contained within the <code>IntermediateDatasheet</code>, in the column
 called <code>OutputRasterFile</code>.</p>
@@ -551,8 +552,8 @@ single raster image or a subset of raster images we want to view.</p>
 <span><span class="co">## coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
 <span><span class="co">## source      : rasterMap_iter1_ts5.tif </span></span>
 <span><span class="co">## name        : rasterMap_iter1_ts5 </span></span>
-<span><span class="co">## min value   :          -5.4379683 </span></span>
-<span><span class="co">## max value   :          -0.6937107</span></span></code></pre>
+<span><span class="co">## min value   :           -16.74927 </span></span>
+<span><span class="co">## max value   :           -12.00501</span></span></code></pre>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>
@@ -588,7 +589,7 @@ Studio to map spatial data</div>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>

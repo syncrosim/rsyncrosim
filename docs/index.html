@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,13 +42,13 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/a01_rsyncrosim_vignette_basic.html">Introduction to `rsyncrosim`</a></li>
-    <li><a class="dropdown-item" href="articles/a02_rsyncrosim_vignette_uncertainty.html">`rsyncrosim`: introduction to uncertainty</a></li>
-    <li><a class="dropdown-item" href="articles/a03_rsyncrosim_vignette_pipelines.html">`rsyncrosim`: introduction to pipelines</a></li>
-    <li><a class="dropdown-item" href="articles/a04_rsyncrosim_vignette_spatial.html">`rsyncrosim`: introduction to spatial data</a></li>
-    <li><a class="dropdown-item" href="articles/a05_rsyncrosim_stsim_vignette.html">`rsyncrosim`: introduction to `ST-Sim`</a></li>
+<li><a class="dropdown-item" href="articles/a01_rsyncrosim_vignette_basic.html">Introduction to rsyncrosim</a></li>
+    <li><a class="dropdown-item" href="articles/a02_rsyncrosim_vignette_uncertainty.html">rsyncrosim: introduction to uncertainty</a></li>
+    <li><a class="dropdown-item" href="articles/a03_rsyncrosim_vignette_pipelines.html">rsyncrosim: introduction to pipelines</a></li>
+    <li><a class="dropdown-item" href="articles/a04_rsyncrosim_vignette_spatial.html">rsyncrosim: introduction to spatial data</a></li>
+    <li><a class="dropdown-item" href="articles/a05_rsyncrosim_stsim_vignette.html">rsyncrosim: introduction to ST-Sim</a></li>
     <li><a class="dropdown-item" href="articles/a06_rsyncrosim_install_github.html">Installing GitHub release</a></li>
-    <li><a class="dropdown-item" href="articles/using-conda-with-rsyncrosim.html">Conda Demo</a></li>
+    <li><a class="dropdown-item" href="articles/a07_updating_rsyncrosim_scripts_to_v2.html">Updating scripts to rsyncrosim v2</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -73,22 +73,21 @@
 <div class="section level2">
 <h2 id="the-r-interface-to-syncrosim">The R interface to SyncroSim<a class="anchor" aria-label="anchor" href="#the-r-interface-to-syncrosim"></a>
 </h2>
-<p><a href="https://opensource.org/license/mit/" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://CRAN.R-project.org/package=rsyncrosim/" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen" alt="Downloads"></a> <!-- [![Codecov test coverage](https://codecov.io/gh/syncrosim/rsyncrosim/branch/dev/graph/badge.svg)](https://codecov.io/gh/syncrosim/rsyncrosim?branch=dev) --></p>
+<p><a href="https://opensource.org/licenses/MIT/" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://CRAN.R-project.org/package=rsyncrosim/" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen" alt="Downloads"></a> <!-- [![Codecov test coverage](https://codecov.io/gh/syncrosim/rsyncrosim/branch/dev/graph/badge.svg)](https://codecov.io/gh/syncrosim/rsyncrosim?branch=dev) --></p>
 <p><a href="https://github.com/syncrosim/rsyncrosim/releases/latest" class="external-link"><img src="https://img.shields.io/github/v/release/syncrosim/rsyncrosim?label=Latest%20Release" alt="Latest Release"></a> <a href="https://CRAN.R-project.org/package=rsyncrosim" class="external-link"><img src="https://img.shields.io/cran/v/rsyncrosim?label=CRAN%20Version" alt="CRAN Version"></a> <a href="https://github.com/syncrosim/rsyncrosim/blob/dev/DESCRIPTION" class="external-link"><img src="https://img.shields.io/github/r-package/v/syncrosim/rsyncrosim?label=GitHub%20Version" alt="GitHub Version"></a></p>
-<p><em>Click <a href="https://syncrosim.github.io/rsyncrosim-v1/">here</a> to view the <strong>rsyncrosim version 1</strong> documentation.</em></p>
 </div>
 <div class="section level2">
 <h2 id="about-syncrosim">About SyncroSim<a class="anchor" aria-label="anchor" href="#about-syncrosim"></a>
 </h2>
-<p><a href="https://syncrosim.com/" target="_blank" class="external-link">SyncroSim</a> is a software platform that helps you turn your <em>data</em> into <em>forecasts</em>. At the core of SyncroSim is an engine that automatically structures your existing data, regardless of its original format. <strong>SyncroSim</strong> transforms this structured data into forecasts by running it through a Pipeline of calculations (i.e. a suite of <em>models</em>). Finally, <strong>SyncroSim</strong> provides a rich interface to interact with your data and models, allowing you to explore and track the consequences of alternative “what-if” forecasting Scenarios. Within this software framework is the ability to use and create <a href="https://docs.syncrosim.com/how_to_guides/package_overview.html" target="_blank" class="external-link">SyncroSim packages</a>.</p>
-<p>For more details consult the <strong>SyncroSim</strong> <a href="https://docs.syncrosim.com/" target="_blank" class="external-link">online documentation</a>.</p>
+<p><a href="https://syncrosim.com/" target="_blank" class="external-link"><strong>SyncroSim</strong></a> is an open science tool for organizing tabular and spatial data, running geospatial simulation code, and visualizing model results. Its flexible framework supports the integration of code across multiple scripting languages and the use and creation of customizable <strong>SyncroSim</strong> <a href="https://docs.syncrosim.com/how_to_guides/package_overview.html" target="_blank" class="external-link">packages</a>, allowing you to tailor the platform to your specific needs.</p>
+<p>For more details, please consult the <strong>SyncroSim</strong> <a href="https://docs.syncrosim.com/" target="_blank" class="external-link">online documentation</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="about-rsyncrosim">About <code>rsyncrosim</code>
 <a class="anchor" aria-label="anchor" href="#about-rsyncrosim"></a>
 </h2>
-<p>The simplest way to run <strong>SyncroSim</strong> from the command-line is to use the R programming language, in conjunction with the open-source <strong>rsyncrosim</strong> R package. This R package is designed to make it simple to script modeling workflows for <strong>SyncroSim</strong> in R, by providing functions that allow users to create models from scratch, populate those models with inputs, run the models for multiple scenarios, and access both spatial and tabular model output. The package is designed to work with any <strong>SyncroSim</strong> Package.</p>
-<p>A key feature of the <strong>rsyncrosim</strong> package is its ability to work seamlessly with the <strong>SyncroSim</strong> user interface. By integrating model scripting and visualization, users can interactively explore and validate their models in the user interface as they step through their R code, and at the same time generate a permanent, repeatable record of their entire modeling workflow – including both pre- and post-processing of model inputs and outputs – in an R script.</p>
+<p><strong>rsyncrosim</strong> is an open-source R package that leverages the <strong>SyncroSim</strong> command-line interface to simplify scripting model workflows for <strong>SyncroSim</strong> in R. This R package provides functions for building models from scratch, running those models, and accessing both spatial and tabular model outputs. The <strong>rsyncrosim</strong> package is designed to work with any <strong>SyncroSim</strong> package.</p>
+<p>A key feature of the <strong>rsyncrosim</strong> package is its seamless integration with <a href="https://syncrosim.com/studio/" target="_blank" class="external-link"><strong>SyncroSim Studio</strong></a>, allowing you to interactively explore and validate your models in the user interface as you step through your R code. Additionally, <strong>rsyncrosim</strong> facilitates the creation of a permanent, reproducible record of the entire modeling workflow – including pre- and post-processing of model inputs and outputs – in an R script.</p>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
