@@ -18,9 +18,10 @@ NULL
 #' \code{\link{packages}}
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Install "stsim" and "stsimecodep" SyncroSim packages
-#' installPackage("stsim")
+#' installPackage(packages = c("stsim", "stsim"),
+#'                versions = c("4.0.1", "4.3.5"))
 #' installPackage("stsimecodep")
 #' 
 #' # Specify file path and name of new SsimLibrary

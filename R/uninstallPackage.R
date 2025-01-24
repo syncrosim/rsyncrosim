@@ -18,16 +18,16 @@ NULL
 #' removal) and \code{FALSE} upon failure.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set SyncroSim session
 #' mySession <- session()
 #' 
 #' # Install packages to SyncroSim session
 #' installPackages(packages = c("stsim", "stsim"),
-#'                 versions = c("4.0.0", "4.0.1"))
+#'                 versions = c("4.0.1", "4.3.5"))
 #' 
 #' # Uninstalls specific version of package from SyncroSim session
-#' uninstallPackage(packages = "stsim", versions = "4.0.0", session = mySession)
+#' uninstallPackage(packages = "stsim", versions = "4.0.1", session = mySession)
 #' 
 #' # Uninstalls all instances ofa package from SyncroSim session
 #' uninstallPackage(packages = "stsim", session = mySession)

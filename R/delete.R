@@ -3,13 +3,15 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Delete SsimLibrary, Project, Scenario, Folder, Chart or Datasheet
+#' Delete Project, Scenario, Folder, Chart or Datasheet
 #'
-#' Deletes one or more items. Note that this is irreversible.
+#' @details
+#' Deletes one or more items. Note that this is irreversible. To delete
+#' a library, you must use the \code{\link{deleteLibrary}} function instead.
 #'
 #' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}},
 #'     \code{\link{Scenario}}, \code{\link{Folder}}, or \code{\link{Chart}} 
-#'     object, or character (i.e. path to a SsimLibrary)
+#'     object
 #' @param project character string, numeric, or vector of these. One or more 
 #'     \code{\link{Project}} names or ids. Note that project argument is ignored 
 #'     if ssimObject is a list. Note that integer ids are slightly faster (optional)
@@ -29,15 +31,6 @@ NULL
 #' names (optional)
 #' @param force logical. If \code{FALSE} (default), user will be prompted to approve 
 #'     removal of each item
-#' @param removeBackup logical. If \code{TRUE}, will remove the backup folder when
-#'     deleting a library. Default is \code{FALSE}
-#' @param removePublish logical. If \code{TRUE}, will remove the publish folder when
-#'     deleting a library. Default is \code{FALSE}
-#' @param removeCustom logical. If \code{TRUE} and custom folders have been configured
-#'     for a library, then will remove the custom publish and/or backup folders when 
-#'     deleting a library. Note that the `removePublish` and `removeBackup` arguments 
-#'     must also be set to \code{TRUE} to remove the respective custom folders. Default
-#'     is \code{FALSE}
 #' @param session \code{\link{Session}} object. If \code{NULL} (default), session()
 #'     will be used. Only applicable when `ssimObject` argument is a character
 #' 
@@ -66,38 +59,13 @@ NULL
 #' }
 #' 
 #' @export
-# Note delete supports character paths because sometimes we want to delete a 
-# library without updating it.
+# Note delete no long supports character paths as the ssimObject.
 # Note delete supports project/scenario/folder/chart arguments because sometimes 
 # we want to delete objects without creating them.
 setGeneric("delete", 
            function(ssimObject, project = NULL, scenario = NULL, 
                     folder = NULL, chart = NULL, datasheet = NULL, 
-                    force = FALSE, removeBackup = FALSE, removePublish = FALSE,
-                    removeCustom = FALSE, session = NULL) standardGeneric("delete"))
-
-#' @rdname delete
-setMethod("delete", signature(ssimObject = "character"), 
-          function(ssimObject, project, scenario, folder, chart, datasheet, 
-                   force, removeBackup, removePublish, removeCustom, session) {
-          
-  if (is.null(datasheet) && is.null(project) && is.null(scenario) && 
-      is.null(folder) && is.null(chart)) {
-    
-    return(deleteLibrary(ssimObject, force, removeBackup, removePublish, 
-                         removeCustom, session))
-  } else {
-    
-    if (ssimObject == SyncroSimNotFound(warn = FALSE)) {
-      
-      return(SyncroSimNotFound())
-    }
-    
-    ssimObject <- .ssimLibrary(ssimObject)
-    return(delete(ssimObject, project, scenario, folder, chart, datasheet, 
-                  force, session))
-  }
-})
+                    force = FALSE, session = NULL) standardGeneric("delete"))
 
 #' @rdname delete
 setMethod("delete", signature(ssimObject = "SsimObject"), 

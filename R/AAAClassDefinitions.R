@@ -23,7 +23,7 @@ setClassUnion("NULLOrChar", c("NULL", "character"))
 #' @slot condaFilepath The path to the Conda installation. Default is \code{"default"}
 #' @name Session-class
 #' @rdname Session-class
-#' @export Session
+#' @export
 Session <- setClass("Session", representation(filepath = "character", 
                                               silent = "logical", 
                                               printCmd = "logical", 
@@ -55,7 +55,7 @@ SsimObject <- setClass("SsimObject",
 #'  in the SsimLibrary.
 #' @name SsimLibrary-class
 #' @rdname SsimLibrary-class
-#' @export SsimLibrary
+#' @export
 SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", 
                         representation())
 
@@ -80,7 +80,7 @@ SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject",
 #' exists at the root of the project, then this value is NULL.
 #' @name Scenario-class
 #' @rdname Scenario-class
-#' @export Scenario
+#' @export
 Scenario <- setClass("Scenario", contains = "SsimObject", 
                      representation(projectId = "numeric", 
                                     scenarioId = "numeric", 
@@ -103,7 +103,7 @@ Scenario <- setClass("Scenario", contains = "SsimObject",
 #' @slot projectId integer. The Project id
 #' @name Project-class
 #' @rdname Project-class
-#' @export Project
+#' @export
 Project <- setClass("Project", contains = "SsimObject", 
                     representation(projectId = "numeric"))
 
@@ -124,7 +124,7 @@ Project <- setClass("Project", contains = "SsimObject",
 #' @slot projectId integer. The Project id
 #' @name Folder-class
 #' @rdname Folder-class
-#' @export Folder
+#' @export
 Folder <- setClass("Folder", contains = "SsimObject",
                    representation(folderId = "numeric", 
                                   parentId = "numeric", 
@@ -145,7 +145,7 @@ Folder <- setClass("Folder", contains = "SsimObject",
 #' @slot projectId integer. The Project id
 #' @name Chart-class
 #' @rdname Chart-class
-#' @export Chart
+#' @export
 Chart <- setClass("Chart", contains = "SsimObject", 
                   representation(chartId = "numeric",
                                  projectId = "numeric"))

@@ -7,37 +7,13 @@
 \alias{run,SsimObject-method}
 \title{Run scenarios}
 \usage{
-run(
-  ssimObject,
-  scenario = NULL,
-  summary = FALSE,
-  copyExternalInputs = FALSE,
-  transformerName = NULL
-)
+run(ssimObject, scenario = NULL, summary = FALSE, transformerName = NULL)
 
-\S4method{run}{character}(
-  ssimObject,
-  scenario = NULL,
-  summary = FALSE,
-  copyExternalInputs = FALSE,
-  transformerName = NULL
-)
+\S4method{run}{character}(ssimObject, scenario = NULL, summary = FALSE, transformerName = NULL)
 
-\S4method{run}{list}(
-  ssimObject,
-  scenario = NULL,
-  summary = FALSE,
-  copyExternalInputs = FALSE,
-  transformerName = NULL
-)
+\S4method{run}{list}(ssimObject, scenario = NULL, summary = FALSE, transformerName = NULL)
 
-\S4method{run}{SsimObject}(
-  ssimObject,
-  scenario = NULL,
-  summary = FALSE,
-  copyExternalInputs = FALSE,
-  transformerName = NULL
-)
+\S4method{run}{SsimObject}(ssimObject, scenario = NULL, summary = FALSE, transformerName = NULL)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or
@@ -50,11 +26,6 @@ that integer ids are slightly faster}
 
 \item{summary}{logical. If \code{FALSE} (default) result Scenario objects are returned.
 If \code{TRUE} (faster) result Scenario ids are returned}
-
-\item{copyExternalInputs}{logical. If \code{FALSE} (default) then a copy of external
-input files (e.g. GeoTIFF files) is not created for each multiprocessing job. Otherwise, a
-copy of external inputs is created for each multiprocessing job. Applies only when
-the number of jobs is set to >1 in the core_Multiprocessing datasheet.}
 
 \item{transformerName}{character.  The name of the transformer to run (optional)}
 }
