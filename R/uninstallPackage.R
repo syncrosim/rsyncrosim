@@ -18,7 +18,7 @@ NULL
 #' removal) and \code{FALSE} upon failure.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set SyncroSim session
 #' mySession <- session()
 #' 

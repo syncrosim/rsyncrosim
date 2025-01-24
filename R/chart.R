@@ -134,7 +134,18 @@ setMethod(
 #' }
 #' @name chart
 #' @export
-chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE){
+setGeneric("chart", function(ssimObject = NULL, chart = NULL, 
+                             create = FALSE, summary = FALSE) standardGeneric("chart"))
+
+#' @rdname chart
+setMethod("chart", signature(ssimObject = "character"), 
+          function(ssimObject, chart, create, summary) {
+  return(SyncroSimNotFound(ssimObject))
+})
+
+#' @rdname chart
+setMethod("chart", signature(ssimObject = "SsimObject"), 
+          function(ssimObject, chart, create, summary) {
   
   if (is.character(ssimObject) && (ssimObject == SyncroSimNotFound(warn = FALSE))) {
     return(SyncroSimNotFound())
@@ -155,4 +166,4 @@ chart <- function(ssimObject = NULL, chart = NULL, create = FALSE, summary = FAL
   obj <- new("Chart", ssimObject, chart = chart, create = create)
   
   return(obj)
-}
+})

@@ -2,9 +2,15 @@
 % Please edit documentation in R/chart.R
 \name{chart}
 \alias{chart}
+\alias{chart,character-method}
+\alias{chart,SsimObject-method}
 \title{Create or open a chart}
 \usage{
 chart(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
+
+\S4method{chart}{character}(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
+
+\S4method{chart}{SsimObject}(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
 }
 \arguments{
 \item{ssimObject}{\code{\link{Project}} or \code{\link{Scenario}} object}

@@ -7,7 +7,7 @@ NULL
 #'
 #' @details
 #' Deletes one or more items. Note that this is irreversible. To delete
-#' a library, you must use the \code\link{{deleteLibrary}} function instead.
+#' a library, you must use the \code{\link{deleteLibrary}} function instead.
 #'
 #' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}},
 #'     \code{\link{Scenario}}, \code{\link{Folder}}, or \code{\link{Chart}} 

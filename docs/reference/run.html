@@ -48,40 +48,16 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run</span><span class="op">(</span></span>
-<span>  <span class="va">ssimObject</span>,</span>
-<span>  scenario <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  summary <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  copyExternalInputs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  transformerName <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run</span><span class="op">(</span><span class="va">ssimObject</span>, scenario <span class="op">=</span> <span class="cn">NULL</span>, summary <span class="op">=</span> <span class="cn">FALSE</span>, transformerName <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'character'</span></span>
-<span><span class="fu">run</span><span class="op">(</span></span>
-<span>  <span class="va">ssimObject</span>,</span>
-<span>  scenario <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  summary <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  copyExternalInputs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  transformerName <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
+<span><span class="fu">run</span><span class="op">(</span><span class="va">ssimObject</span>, scenario <span class="op">=</span> <span class="cn">NULL</span>, summary <span class="op">=</span> <span class="cn">FALSE</span>, transformerName <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'list'</span></span>
-<span><span class="fu">run</span><span class="op">(</span></span>
-<span>  <span class="va">ssimObject</span>,</span>
-<span>  scenario <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  summary <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  copyExternalInputs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  transformerName <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
+<span><span class="fu">run</span><span class="op">(</span><span class="va">ssimObject</span>, scenario <span class="op">=</span> <span class="cn">NULL</span>, summary <span class="op">=</span> <span class="cn">FALSE</span>, transformerName <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'SsimObject'</span></span>
-<span><span class="fu">run</span><span class="op">(</span></span>
-<span>  <span class="va">ssimObject</span>,</span>
-<span>  scenario <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  summary <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  copyExternalInputs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  transformerName <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">run</span><span class="op">(</span><span class="va">ssimObject</span>, scenario <span class="op">=</span> <span class="cn">NULL</span>, summary <span class="op">=</span> <span class="cn">FALSE</span>, transformerName <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -103,13 +79,6 @@ that integer ids are slightly faster</p></dd>
 <dt id="arg-summary">summary<a class="anchor" aria-label="anchor" href="#arg-summary"></a></dt>
 <dd><p>logical. If <code>FALSE</code> (default) result Scenario objects are returned.
 If <code>TRUE</code> (faster) result Scenario ids are returned</p></dd>
-
-
-<dt id="arg-copyexternalinputs">copyExternalInputs<a class="anchor" aria-label="anchor" href="#arg-copyexternalinputs"></a></dt>
-<dd><p>logical. If <code>FALSE</code> (default) then a copy of external
-input files (e.g. GeoTIFF files) is not created for each multiprocessing job. Otherwise, a
-copy of external inputs is created for each multiprocessing job. Applies only when
-the number of jobs is set to &gt;1 in the core_Multiprocessing datasheet.</p></dd>
 
 
 <dt id="arg-transformername">transformerName<a class="anchor" aria-label="anchor" href="#arg-transformername"></a></dt>
