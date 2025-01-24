@@ -53,7 +53,7 @@ is FALSE.}
 Deletes a SyncroSim library. Note this is irreversable.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 myLibraryName2 <- file.path(tempdir(), "testlib2")
