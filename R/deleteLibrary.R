@@ -23,9 +23,10 @@ NULL
 #' @return "saved" or failure message.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
+#' myLibraryName2 <- file.path(tempdir(), "testlib2")
 #' 
 #' # Set up a SyncroSim Session and create SsimLibrary
 #' mySession <- session()
@@ -35,10 +36,10 @@ NULL
 #' deleteLibrary(myLibrary, force = TRUE, removeBackup = TRUE)
 #' 
 #' # Create another library
-#' myLibrary <- ssimLibrary(name = myLibraryName, session = mySession)
+#' myLibrary <- ssimLibrary(name = myLibraryName2, session = mySession)
 #' 
 #' # Delete library from path
-#' deleteLibrary(myLibraryName)
+#' deleteLibrary(myLibraryName2)
 #' }
 #' 
 #' @export

@@ -9,7 +9,7 @@ articles:
   a05_rsyncrosim_stsim_vignette: a05_rsyncrosim_stsim_vignette.html
   a06_rsyncrosim_install_github: a06_rsyncrosim_install_github.html
   a07_updating_rsyncrosim_scripts_to_v2: a07_updating_rsyncrosim_scripts_to_v2.html
-last_built: 2025-01-03T18:01Z
+last_built: 2025-01-23T00:33Z
 urls:
   reference: https://syncrosim.github.io/rsyncrosim/reference
   article: https://syncrosim.github.io/rsyncrosim/articles

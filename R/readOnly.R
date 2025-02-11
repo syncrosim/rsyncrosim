@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Read-only status of a SsimLibrary, Project, Scenario or Folder
+#' Read-only status of a SsimLibrary, Project, Scenario, Folder or Chart
 #'
 #' Retrieves or sets whether or not a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}} is
-#' read-only.
+#' \code{\link{Project}}, \code{\link{Scenario}}, \code{\link{Folder}},
+#' or \code{\link{Chart}} is read-only.
 #'
 #' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
 #' \code{\link{SsimLibrary}}, or \code{\link{Folder}} object
