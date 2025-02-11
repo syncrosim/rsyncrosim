@@ -9,7 +9,7 @@ setMethod(
                         id = NULL, sourceScenario = NULL, scenarios = NULL, 
                         folder = NULL) {
     
-    browser()
+
     ProjectId <- NULL
     ScenarioId <- NULL
     Name <- NULL
