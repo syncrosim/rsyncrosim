@@ -2,9 +2,8 @@
 % Please edit documentation in R/delete.R
 \name{delete}
 \alias{delete}
-\alias{delete,character-method}
 \alias{delete,SsimObject-method}
-\title{Delete SsimLibrary, Project, Scenario, Folder, Chart or Datasheet}
+\title{Delete Project, Scenario, Folder, Chart or Datasheet}
 \usage{
 delete(
   ssimObject,
@@ -14,13 +13,10 @@ delete(
   chart = NULL,
   datasheet = NULL,
   force = FALSE,
-  removeBackup = FALSE,
-  removePublish = FALSE,
-  removeCustom = FALSE,
   session = NULL
 )
 
-\S4method{delete}{character}(
+\S4method{delete}{SsimObject}(
   ssimObject,
   project = NULL,
   scenario = NULL,
@@ -28,18 +24,13 @@ delete(
   chart = NULL,
   datasheet = NULL,
   force = FALSE,
-  removeBackup = FALSE,
-  removePublish = FALSE,
-  removeCustom = FALSE,
   session = NULL
 )
-
-\S4method{delete}{SsimObject}(ssimObject, project, scenario, folder, chart, datasheet, force, session)
 }
 \arguments{
 \item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
 \code{\link{Scenario}}, \code{\link{Folder}}, or \code{\link{Chart}}
-object, or character (i.e. path to a SsimLibrary)}
+object}
 
 \item{project}{character string, numeric, or vector of these. One or more
 \code{\link{Project}} names or ids. Note that project argument is ignored
@@ -66,18 +57,6 @@ names (optional)}
 \item{force}{logical. If \code{FALSE} (default), user will be prompted to approve
 removal of each item}
 
-\item{removeBackup}{logical. If \code{TRUE}, will remove the backup folder when
-deleting a library. Default is \code{FALSE}}
-
-\item{removePublish}{logical. If \code{TRUE}, will remove the publish folder when
-deleting a library. Default is \code{FALSE}}
-
-\item{removeCustom}{logical. If \code{TRUE} and custom folders have been configured
-for a library, then will remove the custom publish and/or backup folders when
-deleting a library. Note that the \code{removePublish} and \code{removeBackup} arguments
-must also be set to \code{TRUE} to remove the respective custom folders. Default
-is \code{FALSE}}
-
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
 will be used. Only applicable when \code{ssimObject} argument is a character}
 }
@@ -86,7 +65,11 @@ Invisibly returns a list of boolean values corresponding to each
 input: \code{TRUE} upon success (i.e.successful deletion) and \code{FALSE} upon failure.
 }
 \description{
-Deletes one or more items. Note that this is irreversible.
+Delete Project, Scenario, Folder, Chart or Datasheet
+}
+\details{
+Deletes one or more items. Note that this is irreversible. To delete
+a library, you must use the \code{\link{deleteLibrary}} function instead.
 }
 \examples{
 \donttest{

@@ -13,7 +13,7 @@
 \alias{readOnly<-,SsimObject-method}
 \alias{readOnly<-,Folder-method}
 \alias{readOnly<-,Chart-method}
-\title{Read-only status of a SsimLibrary, Project, Scenario or Folder}
+\title{Read-only status of a SsimLibrary, Project, Scenario, Folder or Chart}
 \usage{
 readOnly(ssimObject)
 
@@ -52,8 +52,8 @@ otherwise.
 }
 \description{
 Retrieves or sets whether or not a \code{\link{SsimLibrary}},
-\code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}} is
-read-only.
+\code{\link{Project}}, \code{\link{Scenario}}, \code{\link{Folder}},
+or \code{\link{Chart}} is read-only.
 }
 \examples{
 \donttest{

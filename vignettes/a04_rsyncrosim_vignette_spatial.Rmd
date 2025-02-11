@@ -122,7 +122,7 @@ if (file.exists("helloworldLibrary.ssim")){
 # Create a new library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
-                         package = "helloworldSpatial",
+                         packages = "helloworldSpatial",
                          overwrite = TRUE)
 
 # Open the default project
