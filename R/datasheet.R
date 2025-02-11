@@ -441,7 +441,7 @@ setMethod("datasheet",
         if (!(filterColumn %in% datasheetCols$name)) {
           filterColumn <- NULL
         }
-        #TODO: remove isOutput here and test
+        
         else if (is.na(suppressWarnings(as.integer(filterValue)))) {
           
           inputDatasheetName <- subset(datasheetCols, 
