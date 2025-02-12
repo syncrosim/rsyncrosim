@@ -9,7 +9,7 @@ Scenario Datasheets."><meta property="og:image" content="https://syncrosim.githu
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -209,27 +209,6 @@ For Datasheets without Filename this is:</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Install the helloworldSpatial package from the server</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Specify file path and name of new SsimLibrary</span></span></span>
-<span class="r-in"><span><span class="va">myLibraryName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"testlib_datasheetSpatRaster"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Set up a SyncroSim Session</span></span></span>
-<span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Use the example template library from helloworldSpatial</span></span></span>
-<span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>,</span></span>
-<span class="r-in"><span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span></span>
-<span class="r-in"><span>                         packages <span class="op">=</span> <span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Set up Project and Scenario</span></span></span>
-<span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">myScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="scenario.html">scenario</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My Scenario"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Run Scenario to generate results</span></span></span>
-<span class="r-in"><span><span class="va">resultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Extract specific Datasheet rasters by iteration and timestep</span></span></span>
 <span class="r-in"><span><span class="va">resultRaster</span> <span class="op">&lt;-</span> <span class="fu">datasheetSpatRaster</span><span class="op">(</span><span class="va">resultScenario</span>,</span></span>
 <span class="r-in"><span>                  datasheet <span class="op">=</span> <span class="st">"helloworldSpatial_IntermediateDatasheet"</span>,</span></span>
@@ -241,7 +220,6 @@ For Datasheets without Filename this is:</p>
 <span class="r-in"><span><span class="co"># Extract specific Datasheet SpatRasters using pattern matching</span></span></span>
 <span class="r-in"><span><span class="va">resultDatasheet</span> <span class="op">&lt;-</span> <span class="fu"><a href="datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">resultScenario</span>, </span></span>
 <span class="r-in"><span>                             name <span class="op">=</span> <span class="st">"helloworldSpatial_IntermediateDatasheet"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">resultDatasheet</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">outputRasterPaths</span> <span class="op">&lt;-</span> <span class="va">resultDatasheet</span><span class="op">$</span><span class="va">OutputRasterFile</span></span></span>
 <span class="r-in"><span><span class="va">resultRaster</span> <span class="op">&lt;-</span> <span class="fu">datasheetSpatRaster</span><span class="op">(</span><span class="va">resultScenario</span>, </span></span>
 <span class="r-in"><span>                  datasheet <span class="op">=</span> <span class="st">"helloworldSpatial_IntermediateDatasheet"</span>,</span></span>
@@ -257,29 +235,9 @@ For Datasheets without Filename this is:</p>
 <span class="r-in"><span>                 column <span class="op">=</span> <span class="st">"OutputRasterFile"</span>,</span></span>
 <span class="r-in"><span>                 forceElements <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                 </span></span>
-<span class="r-in"><span><span class="co"># Filter for only rasters that fit specific criteria</span></span></span>
-<span class="r-in"><span><span class="co"># Load the ST-Sim spatial example library</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Set the file path and name of the new SsimLibrary</span></span></span>
-<span class="r-in"><span><span class="va">myLibraryName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"testlib_stsim_datasheet"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Set the SyncroSim Session</span></span></span>
-<span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create a new SsimLibrary with the example template from ST-Sim</span></span></span>
-<span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>,</span></span>
-<span class="r-in"><span>                         session <span class="op">=</span> <span class="va">mySession</span>, </span></span>
-<span class="r-in"><span>                         packages <span class="op">=</span> <span class="st">"stsim"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>                         </span></span>
-<span class="r-in"><span><span class="va">myScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span>, scenario <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Run Scenario to generate results</span></span></span>
-<span class="r-in"><span><span class="va">resultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Filter for only rasters that fit specific criteria (ST-Sim example)</span></span></span>
 <span class="r-in"><span><span class="va">resultRaster</span> <span class="op">&lt;-</span> <span class="fu">datasheetSpatRaster</span><span class="op">(</span><span class="va">resultScenario</span>,</span></span>
-<span class="r-in"><span>                 datasheet <span class="op">=</span> <span class="st">"stsim_OutputSpatialState"</span>,</span></span>
+<span class="r-in"><span>                 datasheet <span class="op">=</span> <span class="st">"stsim_OutputSpatialTransition"</span>,</span></span>
 <span class="r-in"><span>                 timestep <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>                 iteration <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>                 filterColumn <span class="op">=</span> <span class="st">"TransitionTypeID"</span>,</span></span>

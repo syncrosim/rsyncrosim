@@ -1,10 +1,10 @@
-# rsyncrosim 2.0.2
+# rsyncrosim 2.0.3
 
 ## Breaking changes
 
 ## Bug fixes:
 
-* Fix bug in factor lookups when `empty=TRUE` argument is used in the `datasheet()` function 
+* Fix bug in `filterColumn` and `filterValue` arguments for `datasheet()` and `datasheetSpatRaster()` functions
 
 ## New features:
 
