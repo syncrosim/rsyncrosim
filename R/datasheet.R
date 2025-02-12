@@ -441,18 +441,16 @@ setMethod("datasheet",
         if (!(filterColumn %in% datasheetCols$name)) {
           filterColumn <- NULL
         }
-        #TODO: remove isOutput here and test
+        
         else if (is.na(suppressWarnings(as.integer(filterValue)))) {
-          if (sheetNames$isOutput){
-            inputDatasheetName <- subset(datasheetCols, name == filterColumn)$formula1
-            
-            if (inputDatasheetName == "N/A") {
-              inputDatasheetName <- name
-            }
-            
-          } else {
+          
+          inputDatasheetName <- subset(datasheetCols, 
+                                       name == filterColumn)$formula1
+          
+          if (inputDatasheetName == "N/A") {
             inputDatasheetName <- name
           }
+            
           tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
           unlink(tempFile)
           args <- list(export = NULL, lib = .filepath(x), sheet = inputDatasheetName,

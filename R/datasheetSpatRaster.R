@@ -54,27 +54,6 @@ NULL
 #' 
 #' @examples
 #' \dontrun{
-#' # Install the helloworldSpatial package from the server
-#' installPackage("helloworldSpatial")
-#' 
-#' # Specify file path and name of new SsimLibrary
-#' myLibraryName <- file.path(tempdir(), "testlib_datasheetSpatRaster")
-#' 
-#' # Set up a SyncroSim Session
-#' mySession <- session()
-#' 
-#' # Use the example template library from helloworldSpatial
-#' myLibrary <- ssimLibrary(name = myLibraryName,
-#'                          session = mySession,
-#'                          packages = "helloworldSpatial")
-#' 
-#' # Set up Project and Scenario
-#' myProject <- project(myLibrary, project = "Definitions")
-#' myScenario <- scenario(myProject, scenario = "My Scenario")
-#' 
-#' # Run Scenario to generate results
-#' resultScenario <- run(myScenario)
-#' 
 #' # Extract specific Datasheet rasters by iteration and timestep
 #' resultRaster <- datasheetSpatRaster(resultScenario,
 #'                   datasheet = "helloworldSpatial_IntermediateDatasheet",
@@ -86,7 +65,6 @@ NULL
 #' # Extract specific Datasheet SpatRasters using pattern matching
 #' resultDatasheet <- datasheet(resultScenario, 
 #'                              name = "helloworldSpatial_IntermediateDatasheet")
-#' colnames(resultDatasheet)
 #' outputRasterPaths <- resultDatasheet$OutputRasterFile
 #' resultRaster <- datasheetSpatRaster(resultScenario, 
 #'                   datasheet = "helloworldSpatial_IntermediateDatasheet",
@@ -102,29 +80,9 @@ NULL
 #'                  column = "OutputRasterFile",
 #'                  forceElements = TRUE)
 #'                  
-#' # Filter for only rasters that fit specific criteria
-#' # Load the ST-Sim spatial example library
-#' installPackage("stsim")
-#' 
-#' # Set the file path and name of the new SsimLibrary
-#' myLibraryName <- file.path(tempdir(),"testlib_stsim_datasheet")
-#' 
-#' # Set the SyncroSim Session
-#' mySession <- session()
-#' 
-#' # Create a new SsimLibrary with the example template from ST-Sim
-#' myLibrary <- ssimLibrary(name = myLibraryName,
-#'                          session = mySession, 
-#'                          packages = "stsim")
-#'                          
-#' myScenario <- scenario(myLibrary, scenario = 16)
-#' 
-#' # Run Scenario to generate results
-#' resultScenario <- run(myScenario)
-#' 
-#' 
+#' # Filter for only rasters that fit specific criteria (ST-Sim example)
 #' resultRaster <- datasheetSpatRaster(resultScenario,
-#'                  datasheet = "stsim_OutputSpatialState",
+#'                  datasheet = "stsim_OutputSpatialTransition",
 #'                  timestep = 5,
 #'                  iteration = 5,
 #'                  filterColumn = "TransitionTypeID",

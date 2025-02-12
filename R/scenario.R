@@ -9,6 +9,7 @@ setMethod(
                         id = NULL, sourceScenario = NULL, scenarios = NULL, 
                         folder = NULL) {
     
+
     ProjectId <- NULL
     ScenarioId <- NULL
     Name <- NULL
@@ -51,10 +52,7 @@ setMethod(
         stop("Scenario ", name, " already exists. Delete the scenario before replacing it.")
       }
       if (findScn$IsResult == "Yes") {
-        scnNameList <- strsplit(findScn$Name, "[", fixed=TRUE)[[1]]
-        parentBit <- scnNameList[length(scnNameList)]
-        parent <- strsplit(parentBit, "]", fixed = TRUE)[[1]][1]
-        .Object@parentId <- as.numeric(parent)
+        .Object@parentId <- as.numeric(findScn$ParentId)
       }
       
       pid <- as.numeric(findScn$ProjectId)
@@ -73,7 +71,8 @@ setMethod(
 
     # If given an id for a scenario that does not yet exist, complain
     if (is.null(name)) {
-      stop(paste0("The library does not contain scenario id ", id, ". Please provide a name for the new scenario - the id will be assigned automatically by SyncroSim."))
+      stop(paste0("The library does not contain scenario id ", id, 
+                  ". Please provide a name for the new scenario - the id will be assigned automatically by SyncroSim."))
     }
 
     # Now go ahead to handle odder cases
@@ -83,7 +82,8 @@ setMethod(
 
     # Create a new scenario
     if (is.null(sourceScenario)) {
-      tt <- command(list(create = NULL, scenario = NULL, lib = .filepath(x), name = name, pid = pid), .session(x))
+      tt <- command(list(create = NULL, scenario = NULL, lib = .filepath(x), 
+                         name = name, pid = pid), .session(x))
     } else {
       sid <- sourceScenario
       slib <- .filepath(x)
@@ -98,7 +98,9 @@ setMethod(
           stop(paste0("Source scenario name ", sourceScenario, " not found in SsimLibrary."))
         }
         if (nrow(sourceOptions) > 1) {
-          stop(paste0("There is more than one scenario called ", sourceScenario, " in the SsimLibrary. Please provide a sourceScenario id: ", paste(sourceOptions$scenarioId, collapse = ",")))
+          stop(paste0("There is more than one scenario called ", sourceScenario, 
+                      " in the SsimLibrary. Please provide a sourceScenario id: ", 
+                      paste(sourceOptions$scenarioId, collapse = ",")))
         }
         sid <- sourceOptions$ScenarioId
       }

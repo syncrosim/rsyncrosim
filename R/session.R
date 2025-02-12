@@ -6,14 +6,15 @@ NULL
 # @importFrom utils packageVersion
 # @name Session
 # @rdname Session-class
-setMethod(f = "initialize", signature = "Session", definition = function(.Object, path, silent = FALSE, printCmd = FALSE) {
+setMethod(f = "initialize", signature = "Session", 
+          definition = function(.Object, path, silent = FALSE, printCmd = FALSE) {
   
   .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), fixed = TRUE)
   .Object@silent <- silent
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- NULL
 
-  ssimRequiredVersion <- "3.0.0"
+  ssimRequiredVersion <- "3.0.22"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
