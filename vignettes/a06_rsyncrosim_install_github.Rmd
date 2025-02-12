@@ -29,7 +29,7 @@ rsyncrosimVersion = "X.X.X"
 install.packages(
   paste0("https://github.com/syncrosim/rsyncrosim/releases/download/", 
          rsyncrosimVersion, 
-         "/rsyncrosim_, ", 
+         "/rsyncrosim_", 
          rsyncrosimVersion, 
          ".tar.gz"), repo=NULL)
 ```
