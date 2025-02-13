@@ -49,6 +49,10 @@ setMethod("installConda", signature(session = "missingOrNULL"),
 #' @rdname installConda
 setMethod("installConda", signature(session = "Session"), 
           function(session, software) {
+            
+  if (software != "Miniforge" && software != "Miniconda"){
+    stop("software must be 'Miniforge' or 'Miniconda'")
+  }
   
   success <- FALSE
   message("Setting conda filepath to the default installation.")
