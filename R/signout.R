@@ -3,25 +3,25 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Signs in to SyncroSim
+#' Signs out of SyncroSim
 #'
-#' Signs in to syncrosim.com to authenticate user credentials.
+#' Signs out of syncrosim.com.
 #'
 #' @param session \code{\link{Session}} object. If \code{NULL}(default), the 
 #' default session will be used
 #' 
 #' @return 
-#' Character string: whether sign in was successful or not.
+#' Character string: whether sign out was successful or not.
 #' 
 #' @examples
 #' \dontrun{
-#' # Sign in to SyncroSim session
+#' # Sign out of SyncroSim session
 #' mySession <- session()
-#' signin(mySession)
+#' signout(mySession)
 #' }
 #' 
 #' @export
-signin <- function(session = NULL) {
+signout <- function(session = NULL) {
   
   # if a SyncroSim session is not provided, make one
   if (is.null(session)) {
@@ -35,14 +35,9 @@ signin <- function(session = NULL) {
   profileInfo <- capture.output(.viewProfile(session))
   isSignedIn <- !grepl("You must sign in", profileInfo[1])
   
-  if (isSignedIn){
+  if (!isSignedIn){
     
-    cat("You are already signed in to the following SyncroSim account:\n")
-    cat(paste0(profileInfo[1], "\n"))
-    cat(paste0(profileInfo[2], "\n"))
-    cat(paste0(profileInfo[3], "\n"))
-    cat(paste0(profileInfo[4], "\n"))
-    cat("\nUse signout() to sign out of the current SyncroSim account.")
+    cat("You are not currently signed in.")
     
     return(invisible(TRUE))
   }
@@ -52,39 +47,34 @@ signin <- function(session = NULL) {
   consolePath <- file.path(sessionPath, consoleName)
   
   p <- processx::process$new("cmd.exe", 
-                   c("/k", paste0(consolePath, " --signin & pause")), 
-                   stdin = "|", stdout = "|", stderr = "|",
-                   cleanup = FALSE)
-  
+                             c("/k", paste0(consolePath, " --signout & pause")), 
+                             stdin = "|", stdout = "|", stderr = "|",
+                             cleanup = FALSE)
   counter <- 1
   success <- F
   while (p$is_alive() && counter < 120 && success == FALSE){
     Sys.sleep(1)
     profileInfo <- capture.output(.viewProfile(session))
-    success <- grepl("Username", profileInfo[1])
+    success <- grepl("You must sign in", profileInfo[1])
     counter <- counter + 1
   }
   p$kill()
   
   if (success){
     
-    cat("Successfully signed into SyncroSim account.\n")
-    cat(paste0(profileInfo[1], "\n"))
-    cat(paste0(profileInfo[2], "\n"))
-    cat(paste0(profileInfo[3], "\n"))
-    cat(paste0(profileInfo[4], "\n"))
+    cat("Successfully signed out of SyncroSim account.\n")
     
     return(invisible(TRUE))
     
   } else if (counter == 120){
     
-    cat("Sign in timed out.")
+    cat("Sign out timed out.")
     
     return(invisible(FALSE))
     
   } else {
     
-    cat("Sign in failed.")
+    cat("Sign out failed.")
     
     return(invisible(FALSE))
   }
