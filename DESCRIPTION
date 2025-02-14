@@ -34,7 +34,8 @@ Imports:
     DBI,
     RSQLite,
     terra,
-    gtools
+    gtools,
+    processx
 Suggests:
     knitr,
     testthat (>= 3.0.0),
@@ -92,12 +93,15 @@ Collate:
     'parentId.R'
     'print.R'
     'printCmd.R'
+    'profile.R'
     'readOnly.R'
     'removePackage.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'
     'saveDatasheet.R'
+    'signin.R'
+    'signout.R'
     'silent.R'
     'ssimEnvironment.R'
     'uninstallPackage.R'
