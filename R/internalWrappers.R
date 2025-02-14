@@ -21,6 +21,7 @@ NULL
 #' @include internalHelpers.R
 #' @include name.R
 #' @include packages.R
+#' @include viewProfile.R
 NULL
 # @export
 .projectId <- projectId
@@ -56,3 +57,5 @@ NULL
 .sqlStatement <- sqlStatement
 # @export
 .packages <- packages
+# @export
+.viewProfile <- viewProfile

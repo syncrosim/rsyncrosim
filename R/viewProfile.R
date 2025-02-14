@@ -11,18 +11,15 @@ NULL
 #' @param session \code{\link{Session}} object. If \code{NULL}(default), the 
 #' default session will be used
 #' 
-#' @return 
-#' Character string: SyncroSim profile information.
-#' 
 #' @examples
 #' \dontrun{
 #' # Retrieve profile information for a SyncroSim session
 #' mySession <- session()
-#' profile(mySession)
+#' viewProfile(mySession)
 #' }
 #' 
 #' @export
-profile <- function(session = NULL) {
+viewProfile <- function(session = NULL) {
   
   # if a SyncroSim session is not provided, make one
   if (is.null(session)) {
