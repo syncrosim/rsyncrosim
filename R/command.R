@@ -64,7 +64,7 @@ NULL
 #' @export
 command <- function(args, session = NULL, program = "SyncroSim.Console.exe", 
                     wait = TRUE, progName = NULL) {
-
+  
   # if a SyncroSim session is not provided, make one
   if (is.null(session) && is.null(progName)) {
     session <- .session()
