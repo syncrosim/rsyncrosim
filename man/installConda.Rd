@@ -5,34 +5,41 @@
 \alias{installConda,character-method}
 \alias{installConda,missingOrNULL-method}
 \alias{installConda,Session-method}
-\title{Installs Miniconda}
+\title{Installs Miniforge or Miniconda}
 \usage{
-installConda(session)
+installConda(session, software = "Miniforge")
 
-\S4method{installConda}{character}(session)
+\S4method{installConda}{character}(session, software = "Miniforge")
 
-\S4method{installConda}{missingOrNULL}(session)
+\S4method{installConda}{missingOrNULL}(session, software = "Miniforge")
 
-\S4method{installConda}{Session}(session)
+\S4method{installConda}{Session}(session, software = "Miniforge")
 }
 \arguments{
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
+
+\item{software}{character. Whether to install the latest release of
+"Miniforge" (Default) or "Miniconda".}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful
 install) and \code{FALSE} upon failure.
 }
 \description{
-This function installs Miniconda to the default installation path
-within the SyncroSim installation folder. If you already have Conda
-installed in the non-default location, you can point SyncroSim towards
-that installation using the \code{\link{condaFilepath}} function.
+This function installs the Miniforge or Miniconda package manager software
+to the default installation path within the SyncroSim installation folder.
+If you already have conda installed in the non-default location, you can
+point SyncroSim towards that installation using the
+\code{\link{condaFilepath}} function.
 }
 \examples{
 \dontrun{
-# Install Conda for the default SyncroSim session
+# Install Miniforge for the default SyncroSim session
 installConda()
+
+# Install Miniconda for the default SyncroSim session
+installConda(software = "Miniconda")
 }
 
 }
