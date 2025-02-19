@@ -17,11 +17,11 @@ NULL
 #' \dontrun{
 #' # Sign in to SyncroSim session
 #' mySession <- session()
-#' signin(mySession)
+#' signIn(mySession)
 #' }
 #' 
 #' @export
-signin <- function(session = NULL) {
+signIn <- function(session = NULL) {
   
   # if a SyncroSim session is not provided, make one
   if (is.null(session)) {
