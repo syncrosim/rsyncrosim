@@ -14,7 +14,7 @@ NULL
 #' @param session \code{\link{Session}} object. If \code{NULL} (default),
 #' \code{session()} will be used
 #' @param software character. Whether to install the latest release of
-#' "Miniforge" (Default) or "Miniconda".
+#' "miniforge" (Default) or "miniconda".
 #' 
 #' @return 
 #' Invisibly returns \code{TRUE} upon success (i.e.successful 
@@ -22,16 +22,16 @@ NULL
 #' 
 #' @examples
 #' \dontrun{
-#' # Install Miniforge for the default SyncroSim session
+#' # Install miniforge for the default SyncroSim session
 #' installConda()
 #' 
-#' # Install Miniconda for the default SyncroSim session
-#' installConda(software = "Miniconda")
+#' # Install miniconda for the default SyncroSim session
+#' installConda(software = "miniconda")
 #' }
 #' 
 #' @export
 setGeneric("installConda", 
-           function(session, software="Miniforge") standardGeneric("installConda"))
+           function(session, software="miniforge") standardGeneric("installConda"))
 
 #' @rdname installConda
 setMethod("installConda", signature(session = "character"), 
@@ -50,8 +50,8 @@ setMethod("installConda", signature(session = "missingOrNULL"),
 setMethod("installConda", signature(session = "Session"), 
           function(session, software) {
             
-  if (software != "Miniforge" && software != "Miniconda"){
-    stop("software must be 'Miniforge' or 'Miniconda'")
+  if (software != "miniforge" && software != "miniconda"){
+    stop("software must be 'miniforge' or 'miniconda'")
   }
   
   success <- FALSE
