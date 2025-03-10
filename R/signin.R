@@ -42,7 +42,7 @@ signIn <- function(session = NULL) {
     cat(paste0(profileInfo[2], "\n"))
     cat(paste0(profileInfo[3], "\n"))
     cat(paste0(profileInfo[4], "\n"))
-    cat("\nUse signout() to sign out of the current SyncroSim account.")
+    cat("\nUse signOut() to sign out of the current SyncroSim account.")
     
     return(invisible(TRUE))
   }
@@ -50,7 +50,7 @@ signIn <- function(session = NULL) {
   consoleName <- "SyncroSim.Console.exe"
   sessionPath <- filepath(session)
   consolePath <- file.path(sessionPath, consoleName)
-  
+
   p <- processx::process$new("cmd.exe", 
                    c("/k", paste0(consolePath, " --signin & pause")), 
                    stdin = "|", stdout = "|", stderr = "|",
