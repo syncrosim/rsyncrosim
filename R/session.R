@@ -14,15 +14,15 @@ setMethod(f = "initialize", signature = "Session",
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- NULL
 
-  ssimRequiredVersion <- "3.0.27"
-  ssimCurrentVersion <- command(list(version = NULL), .Object)
+  ssimRequiredVersion <- "3.1.0"
+  ssimCurrentVersion <- command(list(version = NULL), .Object)[1]
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
-  if (!grepl("Version is:", ssimCurrentVersion)) {
-    stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 2.1.0 is required.")
+  if (!grepl("SyncroSim System Console Version", ssimCurrentVersion)) {
+    stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 3.1.0 is required.")
   }
   
-  ssimCurrentVersion <- gsub("Version is: ", "", ssimCurrentVersion, fixed = TRUE)
+  ssimCurrentVersion <- gsub("SyncroSim System Console Version ", "", ssimCurrentVersion, fixed = TRUE)
   ssimCurrentVersionBits <- as.numeric(strsplit(ssimCurrentVersion, ".", fixed = TRUE)[[1]])
   ssimRequiredVersionBits <- as.numeric(strsplit(ssimRequiredVersion, ".", fixed = TRUE)[[1]])
   

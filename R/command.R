@@ -139,9 +139,10 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
   }
 
   if (wait) {
-    out <- suppressWarnings(system(tempCmd, intern = TRUE))
+    out <- suppressWarnings(system2("sh", args = c("-c", tempCmd), 
+                                    stdout = TRUE, stderr = TRUE))
   } else {
-    out <- suppressWarnings(system(tempCmd, wait = FALSE))
+    out <- suppressWarnings(system2("sh", args = c("-c", tempCmd), wait = FALSE))
     Sys.sleep(5)
   }
 
