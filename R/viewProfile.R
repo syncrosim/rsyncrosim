@@ -33,7 +33,7 @@ viewProfile <- function(session = NULL) {
   sessionPath <- filepath(session)
   
   p <- processx::process$new(file.path(sessionPath, consoleName),
-                   args = c("--signin", "--profile"),
+                   args = c("--profile"),
                    stdin = "|", stdout = "|", stderr = "|")
   Sys.sleep(1)
   out <- p$read_output()
