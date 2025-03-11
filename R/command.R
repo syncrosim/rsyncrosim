@@ -137,12 +137,11 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
   } else {
     tempCmd <- paste(c("mono", progName, sysArgs), collapse = " ")
   }
-
+  
   if (wait) {
-    out <- suppressWarnings(system2("sh", args = c("-c", tempCmd), 
-                                    stdout = TRUE, stderr = TRUE))
+    out <- suppressWarnings(system(tempCmd, intern = TRUE))
   } else {
-    out <- suppressWarnings(system2("sh", args = c("-c", tempCmd), wait = FALSE))
+    out <- suppressWarnings(system(tempCmd, wait = FALSE))
     Sys.sleep(5)
   }
 
