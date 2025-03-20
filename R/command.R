@@ -134,15 +134,23 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
   
   if (.Platform$OS.type == "windows") {
     tempCmd <- paste(c(progName, sysArgs), collapse = " ")
+    
+    if (wait) {
+      out <- suppressWarnings(shell(tempCmd, intern = TRUE))
+    } else {
+      out <- suppressWarnings(shell(tempCmd, wait = FALSE))
+      Sys.sleep(5)
+    }
+    
   } else {
     tempCmd <- paste(c("mono", progName, sysArgs), collapse = " ")
-  }
-  
-  if (wait) {
-    out <- suppressWarnings(system(tempCmd, intern = TRUE))
-  } else {
-    out <- suppressWarnings(system(tempCmd, wait = FALSE))
-    Sys.sleep(5)
+    
+    if (wait) {
+      out <- suppressWarnings(system(tempCmd, intern = TRUE))
+    } else {
+      out <- suppressWarnings(system(tempCmd, wait = FALSE))
+      Sys.sleep(5)
+    }
   }
 
   if (identical(out, character(0))) {
