@@ -105,7 +105,7 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
           a <- "False"
         }
       }
-      sysArgs[i] <- paste0(sysArgs[i], '="', a, '"')
+      sysArgs[i] <- paste0(sysArgs[i], '=\"', a, '\"')
     }
   } else {
     args <- gsub(" --", "---", args, fixed = TRUE)
@@ -125,9 +125,12 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
       outCmd <- gsub("\"", "", paste(sysArgs, collapse = " "), fixed = TRUE)
       print(outCmd)
     }
-    progName <- paste0('\"', .filepath(session), "/", program, '\"')
+    progName <- paste0(.filepath(session), "/", program)
+    # progName <- paste0('\"', .filepath(session), "/", program, '\"')
   } else {
-    progName <- paste0('\"', progName, "/", program, '\"')
+    progName <- paste0(progName, "/", program)
+    # progName <- paste0('\"', progName, "/", program, '\"')
+    
   }
 
   tempCmd <- NULL
