@@ -32,7 +32,7 @@ signIn <- function(session = NULL) {
     return(SyncroSimNotFound())
   }
   
-  profileInfo <- capture.output(.viewProfile(session))
+  profileInfo <- .viewProfile(session, internal = TRUE)
   isSignedIn <- !grepl("You must sign in", profileInfo[1])
   
   if (isSignedIn){
@@ -60,7 +60,7 @@ signIn <- function(session = NULL) {
   success <- F
   while (p$is_alive() && counter < 120 && success == FALSE){
     Sys.sleep(1)
-    profileInfo <- capture.output(.viewProfile(session))
+    profileInfo <- .viewProfile(session, internal = TRUE)
     success <- grepl("Username", profileInfo[1])
     counter <- counter + 1
   }

@@ -19,8 +19,10 @@ NULL
 #' }
 #' 
 #' @export
-viewProfile <- function(session = NULL) {
+viewProfile <- function(session = NULL, ...) {
   
+  get <- function(internal = FALSE) internal
+
   # if a SyncroSim session is not provided, make one
   if (is.null(session)) {
     session <- .session()
@@ -29,13 +31,17 @@ viewProfile <- function(session = NULL) {
     return(SyncroSimNotFound())
   }
   
-  consoleName <- "SyncroSim.Console.exe"
-  sessionPath <- filepath(session)
+  p <- command("--profile", session = session, program = "SyncroSim.Console.exe")
+
+  if (grepl("Username", p[1]) & !get(...)){
+    
+    cat(paste0(p[1], "\n"))
+    cat(paste0(p[2], "\n"))
+    cat(paste0(p[3], "\n"))
+    cat(paste0(p[4], "\n"))
+    
+    return(invisible(p))
+  }
   
-  p <- processx::process$new(file.path(sessionPath, consoleName),
-                   args = c("--profile"),
-                   stdin = "|", stdout = "|", stderr = "|")
-  Sys.sleep(1)
-  out <- p$read_output()
-  cat(out)
+  return(p)
 }
