@@ -82,7 +82,7 @@ setMethod("run", signature(ssimObject = "list"),
 #' @rdname run
 setMethod("run", signature(ssimObject = "SsimObject"), 
           function(ssimObject, scenario, summary, transformerName) {
-     
+  
   ScenarioId <- NULL     
   xProjScn <- .getFromXProjScn(ssimObject, scenario = scenario, 
                                convertObject = TRUE, returnIds = TRUE, 
@@ -112,6 +112,10 @@ setMethod("run", signature(ssimObject = "SsimObject"),
     }
 
     tt <- command(args, .session(x))
+    
+    if (grepl("You must be signed in", tt[1])) {
+      stop(tt[1])
+    }
 
     if (tt[1] != "saved") {
       message(tt)
