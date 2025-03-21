@@ -130,7 +130,14 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
   } else {
     progName <- paste0(progName, "/", program)
     # progName <- paste0('\"', progName, "/", program, '\"')
-    
+  }
+  
+  # Check that path to exe does not contain spaces - throw error if it does
+  if (grepl("\\s", progName)) {
+    errorMsg = paste0(
+      "The path to the SyncroSim installation cannot contain spaces.\n",
+      "Current path is: ", progName)
+    stop(errorMsg)
   }
 
   tempCmd <- NULL
