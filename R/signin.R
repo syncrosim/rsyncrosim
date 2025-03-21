@@ -57,8 +57,9 @@ signIn <- function(session = NULL) {
                    cleanup = FALSE)
   
   counter <- 1
+  counterMax <- 30
   success <- F
-  while (p$is_alive() && counter < 120 && success == FALSE){
+  while (p$is_alive() && counter < counterMax && success == FALSE){
     Sys.sleep(1)
     profileInfo <- .viewProfile(session, internal = TRUE)
     success <- grepl("Username", profileInfo[1])
@@ -76,7 +77,7 @@ signIn <- function(session = NULL) {
     
     return(invisible(TRUE))
     
-  } else if (counter == 120){
+  } else if (counter == counterMax){
     
     cat("Sign in timed out.")
     

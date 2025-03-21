@@ -51,8 +51,9 @@ signOut <- function(session = NULL) {
                              stdin = "|", stdout = "|", stderr = "|",
                              cleanup = FALSE)
   counter <- 1
+  counterMax <- 30
   success <- F
-  while (p$is_alive() && counter < 120 && success == FALSE){
+  while (p$is_alive() && counter < counterMax && success == FALSE){
     Sys.sleep(1)
     profileInfo <- .viewProfile(session, internal = TRUE)
     success <- grepl("You must sign in", profileInfo[1])
@@ -66,7 +67,7 @@ signOut <- function(session = NULL) {
     
     return(invisible(TRUE))
     
-  } else if (counter == 120){
+  } else if (counter == counterMax){
     
     cat("Sign out timed out.")
     
