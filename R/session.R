@@ -9,7 +9,9 @@ NULL
 setMethod(f = "initialize", signature = "Session", 
           definition = function(.Object, path, silent = FALSE, printCmd = FALSE) {
   
-  .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), fixed = TRUE)
+  .Object@filepath <- shortPathName(
+    gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), 
+         fixed = TRUE))
   .Object@silent <- silent
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- NULL
