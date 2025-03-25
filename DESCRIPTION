@@ -34,7 +34,8 @@ Imports:
     DBI,
     RSQLite,
     terra,
-    gtools
+    gtools,
+    processx
 Suggests:
     knitr,
     testthat (>= 3.0.0),
@@ -77,6 +78,7 @@ Collate:
     'installConda.R'
     'installPackage.R'
     'internalHelpers.R'
+    'viewProfile.R'
     'packages.R'
     'name.R'
     'scenarioId.R'
@@ -98,6 +100,8 @@ Collate:
     'run.R'
     'runLog.R'
     'saveDatasheet.R'
+    'signIn.R'
+    'signOut.R'
     'silent.R'
     'ssimEnvironment.R'
     'uninstallPackage.R'

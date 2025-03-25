@@ -9,17 +9,22 @@ NULL
 setMethod(f = "initialize", signature = "Session", 
           definition = function(.Object, path, silent = FALSE, printCmd = FALSE) {
   
-  .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), fixed = TRUE)
+  .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, 
+                                           fixed = TRUE), fixed = TRUE)
   .Object@silent <- silent
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- NULL
-
-  ssimRequiredVersion <- "3.0.22"
+  
+  if (.Platform$OS.type == "windows") {
+    .Object@filepath <- shortPathName(.Object@filepath)
+  }
+  
+  ssimRequiredVersion <- "3.1.0"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
-  if (!grepl("Version is:", ssimCurrentVersion)) {
-    stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 2.1.0 is required.")
+  if (!grepl("Version is: ", ssimCurrentVersion)) {
+    stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 3.1.0 is required.")
   }
   
   ssimCurrentVersion <- gsub("Version is: ", "", ssimCurrentVersion, fixed = TRUE)
@@ -129,7 +134,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
         envVars <- envVars[envVars != ""]
 
         for (i in seq(length.out = length(envVars))) {
-          cPath <- paste0(envVars[i], "\\SyncroSim Studio")
+          cPath <- paste0(shortPathName(envVars[i]), "\\SyncroSim")
           if (file.exists(paste0(cPath, "\\SyncroSim.Console.exe"))) {
             path <- cPath
             break

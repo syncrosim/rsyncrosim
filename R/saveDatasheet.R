@@ -138,7 +138,7 @@ setMethod("saveDatasheet",
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), 
           function(ssimObject, data, name, fileData, append, forceElements, 
                    force, breakpoint, import, path) {
-
+  
   isFile <- NULL
   x <- ssimObject
   if (is.null(append)) {
@@ -250,6 +250,14 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     dsName <- gsub(paste0(dsInfo$package, "_"), '', dsInfo$name)
     dsNameID <- paste0(dsName, "Id")
     colsToKeep <- colsToKeep[!colsToKeep %in% c(dsNameID)]
+    
+    # Determine if any columns in incoming data do not exist in datasheet
+    unknownCols <- !colnames(cDat) %in% colsToKeep
+    if (any(unknownCols)) {
+      unknownCols <- colnames(cDat)[unknownCols]
+      stop(paste0("The following column does not exist in the datasheet: ", 
+                  unknownCols))
+    }
     
     # Subset data by the valid columns
     colsToKeep <- colnames(cDat)[colnames(cDat) %in% colsToKeep]

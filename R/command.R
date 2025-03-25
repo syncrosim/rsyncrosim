@@ -64,7 +64,7 @@ NULL
 #' @export
 command <- function(args, session = NULL, program = "SyncroSim.Console.exe", 
                     wait = TRUE, progName = NULL) {
-
+  
   # if a SyncroSim session is not provided, make one
   if (is.null(session) && is.null(progName)) {
     session <- .session()
@@ -105,7 +105,7 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
           a <- "False"
         }
       }
-      sysArgs[i] <- paste0(sysArgs[i], '="', a, '"')
+      sysArgs[i] <- paste0(sysArgs[i], '=\"', a, '\"')
     }
   } else {
     args <- gsub(" --", "---", args, fixed = TRUE)
@@ -125,24 +125,42 @@ command <- function(args, session = NULL, program = "SyncroSim.Console.exe",
       outCmd <- gsub("\"", "", paste(sysArgs, collapse = " "), fixed = TRUE)
       print(outCmd)
     }
-    progName <- paste0('\"', .filepath(session), "/", program, '\"')
+    progName <- paste0(.filepath(session), "/", program)
+    # progName <- paste0('\"', .filepath(session), "/", program, '\"')
   } else {
-    progName <- paste0('\"', progName, "/", program, '\"')
+    progName <- paste0(progName, "/", program)
+    # progName <- paste0('\"', progName, "/", program, '\"')
+  }
+  
+  # Check that path to exe does not contain spaces - throw error if it does
+  if (grepl("\\s", progName)) {
+    errorMsg = paste0(
+      "The path to the SyncroSim installation cannot contain spaces.\n",
+      "Current path is: ", progName)
+    stop(errorMsg)
   }
 
   tempCmd <- NULL
   
   if (.Platform$OS.type == "windows") {
     tempCmd <- paste(c(progName, sysArgs), collapse = " ")
+    
+    if (wait) {
+      out <- suppressWarnings(shell(tempCmd, intern = TRUE))
+    } else {
+      out <- suppressWarnings(shell(tempCmd, wait = FALSE))
+      Sys.sleep(5)
+    }
+    
   } else {
     tempCmd <- paste(c("mono", progName, sysArgs), collapse = " ")
-  }
-
-  if (wait) {
-    out <- suppressWarnings(system(tempCmd, intern = TRUE))
-  } else {
-    out <- suppressWarnings(system(tempCmd, wait = FALSE))
-    Sys.sleep(5)
+    
+    if (wait) {
+      out <- suppressWarnings(system(tempCmd, intern = TRUE))
+    } else {
+      out <- suppressWarnings(system(tempCmd, wait = FALSE))
+      Sys.sleep(5)
+    }
   }
 
   if (identical(out, character(0))) {
