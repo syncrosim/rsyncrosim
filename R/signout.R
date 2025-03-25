@@ -46,37 +46,46 @@ signOut <- function(session = NULL) {
   sessionPath <- filepath(session)
   consolePath <- file.path(sessionPath, consoleName)
   
-  p <- processx::process$new("cmd.exe", 
-                             c("/k", paste0(consolePath, " --signout & pause")), 
-                             stdin = "|", stdout = "|", stderr = "|",
-                             cleanup = FALSE)
-  counter <- 1
-  counterMax <- 30
-  success <- F
-  while (p$is_alive() && counter < counterMax && success == FALSE){
-    Sys.sleep(1)
-    profileInfo <- .viewProfile(session, internal = TRUE)
-    success <- grepl("You must sign in", profileInfo[1])
-    counter <- counter + 1
-  }
-  p$kill()
-  
-  if (success){
+  if (.Platform$OS.type == "windows") {
+    p <- processx::process$new("cmd.exe", 
+                               c("/k", paste0(consolePath, " --signout & pause")), 
+                               stdin = "|", stdout = "|", stderr = "|",
+                               cleanup = FALSE)
     
-    cat("Successfully signed out of SyncroSim account.\n")
+    counter <- 1
+    counterMax <- 30
+    success <- F
     
-    return(invisible(TRUE))
+    while (p$is_alive() && counter < counterMax && success == FALSE){
+      Sys.sleep(1)
+      profileInfo <- .viewProfile(session, internal = TRUE)
+      success <- grepl("You must sign in", profileInfo[1])
+      counter <- counter + 1
+    }
     
-  } else if (counter == counterMax){
+    p$kill()
     
-    cat("Sign out timed out.")
-    
-    return(invisible(FALSE))
-    
+    if (success){
+      
+      cat("Successfully signed out of SyncroSim account.\n")
+      
+      return(invisible(TRUE))
+      
+    } else if (counter == counterMax){
+      
+      cat("Sign out timed out.")
+      
+      return(invisible(FALSE))
+      
+    } else {
+      
+      cat("Sign out failed.")
+      
+      return(invisible(FALSE))
+    }
   } else {
-    
-    cat("Sign out failed.")
-    
-    return(invisible(FALSE))
+    # If linux, then will return a link to the SyncroSim browser
+    tempCmd <- paste(c("mono", consolePath, "--signout --force"), collapse = " ")
+    suppressWarnings(system(tempCmd, wait = FALSE))
   }
 }

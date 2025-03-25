@@ -51,42 +51,51 @@ signIn <- function(session = NULL) {
   sessionPath <- filepath(session)
   consolePath <- file.path(sessionPath, consoleName)
 
-  p <- processx::process$new("cmd.exe", 
-                   c("/k", paste0(consolePath, " --signin & pause")), 
-                   stdin = "|", stdout = "|", stderr = "|",
-                   cleanup = FALSE)
-  
-  counter <- 1
-  counterMax <- 30
-  success <- F
-  while (p$is_alive() && counter < counterMax && success == FALSE){
-    Sys.sleep(1)
-    profileInfo <- .viewProfile(session, internal = TRUE)
-    success <- grepl("Username", profileInfo[1])
-    counter <- counter + 1
-  }
-  p$kill()
-  
-  if (success){
+  if (.Platform$OS.type == "windows") {
+    p <- processx::process$new("cmd.exe", 
+                     c("/k", paste0(consolePath, " --signin & pause")), 
+                     stdin = "|", stdout = "|", stderr = "|",
+                     cleanup = FALSE)
     
-    cat("Successfully signed into SyncroSim account.\n")
-    cat(paste0(profileInfo[1], "\n"))
-    cat(paste0(profileInfo[2], "\n"))
-    cat(paste0(profileInfo[3], "\n"))
-    cat(paste0(profileInfo[4], "\n"))
+    counter <- 1
+    counterMax <- 30
+    success <- F
     
-    return(invisible(TRUE))
+    while (p$is_alive() && counter < counterMax && success == FALSE){
+      Sys.sleep(1)
+      profileInfo <- .viewProfile(session, internal = TRUE)
+      success <- grepl("Username", profileInfo[1])
+      counter <- counter + 1
+    }
     
-  } else if (counter == counterMax){
+    p$kill()
     
-    cat("Sign in timed out.")
-    
-    return(invisible(FALSE))
+    if (success){
+      
+      cat("Successfully signed into SyncroSim account.\n")
+      cat(paste0(profileInfo[1], "\n"))
+      cat(paste0(profileInfo[2], "\n"))
+      cat(paste0(profileInfo[3], "\n"))
+      cat(paste0(profileInfo[4], "\n"))
+      
+      return(invisible(TRUE))
+      
+    } else if (counter == counterMax){
+      
+      cat("Sign in timed out.")
+      
+      return(invisible(FALSE))
+      
+    } else {
+      
+      cat("Sign in failed.")
+      
+      return(invisible(FALSE))
+    }
     
   } else {
-    
-    cat("Sign in failed.")
-    
-    return(invisible(FALSE))
+    # If linux, then will return a code and a link to the SyncroSim browser
+    tempCmd <- paste(c("mono", consolePath, "--signin --force"), collapse = " ")
+    suppressWarnings(system(tempCmd, wait = FALSE))
   }
 }

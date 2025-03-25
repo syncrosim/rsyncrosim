@@ -9,12 +9,15 @@ NULL
 setMethod(f = "initialize", signature = "Session", 
           definition = function(.Object, path, silent = FALSE, printCmd = FALSE) {
   
-  .Object@filepath <- shortPathName(
-    gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, fixed = TRUE), 
-         fixed = TRUE))
+  .Object@filepath <- gsub("\\", "/", gsub("/SyncroSim.Console.exe", "", path, 
+                                           fixed = TRUE), fixed = TRUE)
   .Object@silent <- silent
   .Object@printCmd <- printCmd
   .Object@condaFilepath <- NULL
+  
+  if (.Platform$OS.type == "windows") {
+    .Object@filepath <- shortPathName(.Object@filepath)
+  }
   
   ssimRequiredVersion <- "3.1.0"
   ssimCurrentVersion <- command(list(version = NULL), .Object)
