@@ -4,7 +4,7 @@
 \alias{viewProfile}
 \title{Display SyncroSim profile}
 \usage{
-viewProfile(session = NULL)
+viewProfile(session = NULL, ...)
 }
 \arguments{
 \item{session}{\code{\link{Session}} object. If \code{NULL}(default), the

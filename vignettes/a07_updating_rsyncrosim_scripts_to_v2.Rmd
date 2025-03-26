@@ -15,8 +15,7 @@ params:
 library(rsyncrosim)
 mySession <- session()
 myLibrary <- ssimLibrary("Changes to rsyncrosim v2.ssim", overwrite = T)
-addPackage(myLibrary, packages = c("stsim", "helloworldSpatial"),
-            versions = c("4.3.5", "2.0.0"))
+addPackage(myLibrary, packages = c("stsim", "helloworldSpatial"))
 scenario1 <- scenario(myLibrary, scenario = "Scenario 1")
 scenario2 <- scenario(myLibrary, scenario = "Scenario 2")
 scenario3 <- scenario(myLibrary, scenario = "Scenario 3")

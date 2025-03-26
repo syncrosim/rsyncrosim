@@ -7,7 +7,11 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
+<<<<<<< HEAD
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
+=======
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
+>>>>>>> fb34e39bea17a5f1fc157077bb2f2ea48013f3bc
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,12 +149,31 @@ a library, you must use the <code><a href="deleteLibrary.html">deleteLibrary</a>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .local(.Object, ...):</span> SyncroSim v3.0.22 is required to run rsyncrosim v2.0.2 but you have SyncroSim v3.0.21 installed.</span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
+<<<<<<< HEAD
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following package associated with this library is not properly installed: stsim v4.3.5</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> 	Use installPackage(packages = 'stsim', versions = '4.3.5') to install.</span>
+=======
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'mySession' not found</span>
+>>>>>>> fb34e39bea17a5f1fc157077bb2f2ea48013f3bc
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"a project"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check the Projects associated with this SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
+<<<<<<< HEAD
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ProjectId        Name Owner IsReadOnly IsActive      DateLastModified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        16   a project   N/A         No       No 2025-03-25 at 4:31 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         1 Definitions   N/A         No       No 2025-03-25 at 4:31 PM</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Delete Project</span></span></span>
+<span class="r-in"><span><span class="fu">delete</span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"a project"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Project 16 deleted</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check that Project was successfully deleted from SsimLibrary</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ProjectId        Name Owner IsReadOnly IsActive      DateLastModified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         1 Definitions   N/A         No       No 2025-03-25 at 4:31 PM</span>
+=======
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'myLibrary' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Delete Project</span></span></span>
@@ -160,6 +183,7 @@ a library, you must use the <code><a href="deleteLibrary.html">deleteLibrary</a>
 <span class="r-in"><span><span class="co"># Check that Project was successfully deleted from SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'myLibrary' not found</span>
+>>>>>>> fb34e39bea17a5f1fc157077bb2f2ea48013f3bc
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

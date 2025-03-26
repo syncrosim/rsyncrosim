@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -160,7 +160,7 @@ the SyncroSim software.</p>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
 <pre><code><span><span class="co">## class               : Session</span></span>
-<span><span class="co">## filepath [character]: C:/Program Files/SyncroSim Studio</span></span>
+<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~1</span></span>
 <span><span class="co">## silent [logical]    : TRUE</span></span>
 <span><span class="co">## printCmd [logical]  : FALSE</span></span>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
@@ -168,7 +168,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.0.25"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.3"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -192,8 +192,8 @@ list returned by the <code><a href="../reference/packages.html">packages()</a></
 <span><span class="co">## 1 helloworldPipeline   2.0.0</span></span>
 <span><span class="co">##                                                  description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use pipelines with an R model</span></span>
-<span><span class="co">##                                                                                  location</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldPipeline\\2.0.0</span></span>
+<span><span class="co">##                                                                           location</span></span>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.0.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -442,16 +442,17 @@ single iteration.</p>
 <span><span class="co">## 13 library                  core_Terminology                    Terminology</span></span></code></pre>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the library-scoped multiprocessing datasheet</span></span>
-<span><span class="va">multiprocess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Check required inputs</span></span>
+<span><span class="va">multiprocess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Note: MaximumJobs should be between 1 and 9999"</span></span></code></pre>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Check required inputs</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">multiprocess</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    1 obs. of  4 variables:</span></span>
 <span><span class="co">##  $ EnableMultiprocessing  : logi FALSE</span></span>
 <span><span class="co">##  $ MaximumJobs            : num 7</span></span>
 <span><span class="co">##  $ EnableMultiScenario    : logi FALSE</span></span>
 <span><span class="co">##  $ EnableCopyExternalFiles: logi NA</span></span></code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Enable multiprocessing</span></span>
 <span><span class="va">multiprocess</span><span class="op">$</span><span class="va">EnableMultiprocessing</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span></span>
@@ -465,7 +466,7 @@ single iteration.</p>
 <pre><code><span><span class="co">## Datasheet &lt;core_Multiprocessing&gt; saved</span></span></code></pre>
 <p>Now, when we run our scenario, it will use the desired
 multiprocessing configuration.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run the first scenario we created</span></span>
 <span><span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Running scenario [1] My first scenario"</span></span></code></pre>
@@ -476,7 +477,7 @@ argument set to <code>TRUE</code>, we see that data has been added to
 both the <code>Intermediate Outputs</code> and <code>Outputs</code>
 datasheets after running the scenario (see <code>data</code> column
 below).</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Datasheets for original scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope            package                                     name</span></span>
@@ -497,7 +498,7 @@ below).</p>
 <span><span class="co">## 30    Intermediate Outputs    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 31                 Outputs    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 32             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Datasheets for result scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope            package                                     name</span></span>
@@ -533,20 +534,20 @@ from the result scenario. We can load the result tables using the
 <code><a href="../reference/datasheet.html">datasheet()</a></code> function. The <code>Intermediate Outputs</code>
 datasheet corresponds to the results from the
 <code>Hello World Pipeline 1</code> transformer stage.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Results of first scenario</span></span>
 <span><span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                            name <span class="op">=</span> <span class="st">"helloworldPipeline_IntermediateDatasheet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep        y</span></span>
-<span><span class="co">## 1         1        1 3.514867</span></span>
-<span><span class="co">## 2         1        2 4.029735</span></span>
-<span><span class="co">## 3         1        3 4.544602</span></span>
-<span><span class="co">## 4         1        4 5.059470</span></span>
-<span><span class="co">## 5         1        5 5.574337</span></span>
-<span><span class="co">## 6         1        6 6.089205</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep         y</span></span>
+<span><span class="co">## 1         1        1  9.114233</span></span>
+<span><span class="co">## 2         1        2 15.228466</span></span>
+<span><span class="co">## 3         1        3 21.342700</span></span>
+<span><span class="co">## 4         1        4 27.456933</span></span>
+<span><span class="co">## 5         1        5 33.571166</span></span>
+<span><span class="co">## 6         1        6 39.685399</span></span></code></pre>
 <p>We can see that for every timestep in an iteration we have a new
 value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
@@ -557,20 +558,20 @@ value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 scenario. Again, we will use <code><a href="../reference/datasheet.html">datasheet()</a></code> to load the result
 table. The <code>Outputs</code> datasheet corresponds to the results
 from the <code>Hello World Pipeline 2</code> transformer stage.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Results of first scenario</span></span>
 <span><span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                            name <span class="op">=</span> <span class="st">"helloworldPipeline_OutputDatasheet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep      yCum</span></span>
-<span><span class="co">## 1         1        1  3.514867</span></span>
-<span><span class="co">## 2         1        2  7.544602</span></span>
-<span><span class="co">## 3         1        3 12.089205</span></span>
-<span><span class="co">## 4         1        4 17.148674</span></span>
-<span><span class="co">## 5         1        5 22.723011</span></span>
-<span><span class="co">## 6         1        6 28.812216</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep       yCum</span></span>
+<span><span class="co">## 1         1        1   9.114233</span></span>
+<span><span class="co">## 2         1        2  24.342700</span></span>
+<span><span class="co">## 3         1        3  45.685399</span></span>
+<span><span class="co">## 4         1        4  73.142332</span></span>
+<span><span class="co">## 5         1        5 106.713498</span></span>
+<span><span class="co">## 6         1        6 146.398897</span></span></code></pre>
 <p>We can see for each timestep in an iteration, we have a new value of
 <em>yCum</em>, representing the cumulative value of <em>y</em> over
 time.</p>

@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,7 +155,7 @@ the SyncroSim software.</p>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
 <pre><code><span><span class="co">## class               : Session</span></span>
-<span><span class="co">## filepath [character]: C:/Program Files/SyncroSim Studio</span></span>
+<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~1</span></span>
 <span><span class="co">## silent [logical]    : TRUE</span></span>
 <span><span class="co">## printCmd [logical]  : FALSE</span></span>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
@@ -163,7 +163,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.0.21"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.3"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -186,8 +186,8 @@ package list when we call the <code><a href="../reference/packages.html">package
 <span><span class="co">## 1 helloworldUncertainty   2.0.1</span></span>
 <span><span class="co">##                                                   description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use iterations with an R model</span></span>
-<span><span class="co">##                                                                                     location</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim Studio\\Packages\\helloworldUncertainty\\2.0.1</span></span>
+<span><span class="co">##                                                                              location</span></span>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.0.1</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -230,13 +230,13 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <code class="sourceCode R"><span><span class="co"># View all datasheets associated with a library, project, or scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                                  name             displayName</span></span>
-<span><span class="co">## 24 scenario                core_DistributionValue           Distributions</span></span>
-<span><span class="co">## 25 scenario            core_ExternalVariableValue      External Variables</span></span>
-<span><span class="co">## 26 scenario                         core_Pipeline                Pipeline</span></span>
-<span><span class="co">## 27 scenario           core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
-<span><span class="co">## 28 scenario  helloworldUncertainty_InputDatasheet                  Inputs</span></span>
-<span><span class="co">## 29 scenario helloworldUncertainty_OutputDatasheet                 Outputs</span></span>
-<span><span class="co">## 30 scenario      helloworldUncertainty_RunControl             Run Control</span></span></code></pre>
+<span><span class="co">## 25 scenario                core_DistributionValue           Distributions</span></span>
+<span><span class="co">## 26 scenario            core_ExternalVariableValue      External Variables</span></span>
+<span><span class="co">## 27 scenario                         core_Pipeline                Pipeline</span></span>
+<span><span class="co">## 28 scenario           core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
+<span><span class="co">## 29 scenario  helloworldUncertainty_InputDatasheet                  Inputs</span></span>
+<span><span class="co">## 30 scenario helloworldUncertainty_OutputDatasheet                 Outputs</span></span>
+<span><span class="co">## 31 scenario      helloworldUncertainty_RunControl             Run Control</span></span></code></pre>
 <p>From the list of datasheets above, we can see that there are three
 datasheets specific to the <code>helloworldUncertainty</code> package.
 Let’s view the contents of the <code>Inputs</code> datasheet as an R
@@ -430,19 +430,21 @@ single iteration.</p>
 <span><span class="co">## 9  library                      core_Setting                       Settings</span></span>
 <span><span class="co">## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option</span></span>
 <span><span class="co">## 11 library                core_SpatialOption                Spatial Options</span></span>
-<span><span class="co">## 12 library                    core_SysFolder                        Folders</span></span></code></pre>
+<span><span class="co">## 12 library                    core_SysFolder                        Folders</span></span>
+<span><span class="co">## 13 library                  core_Terminology                    Terminology</span></span></code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the library-scoped multiprocessing datasheet</span></span>
-<span><span class="va">multiprocess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Check required inputs</span></span>
+<span><span class="va">multiprocess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Note: MaximumJobs should be between 1 and 9999"</span></span></code></pre>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Check required inputs</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">multiprocess</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    1 obs. of  4 variables:</span></span>
 <span><span class="co">##  $ EnableMultiprocessing  : logi FALSE</span></span>
 <span><span class="co">##  $ MaximumJobs            : num 7</span></span>
 <span><span class="co">##  $ EnableMultiScenario    : logi FALSE</span></span>
 <span><span class="co">##  $ EnableCopyExternalFiles: logi NA</span></span></code></pre>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Enable multiprocessing</span></span>
 <span><span class="va">multiprocess</span><span class="op">$</span><span class="va">EnableMultiprocessing</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span></span>
@@ -456,7 +458,7 @@ single iteration.</p>
 <pre><code><span><span class="co">## Datasheet &lt;core_Multiprocessing&gt; saved</span></span></code></pre>
 <p>Now, when we run our scenario, it will use the desired
 multiprocessing configuration.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run the first scenario we created</span></span>
 <span><span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Running scenario [1] My first scenario"</span></span></code></pre>
@@ -466,18 +468,18 @@ a result scenario, that contains a read-only snapshot of the
 datasheets filled with result data. We can view which scenarios are
 result scenarios using the <code><a href="../reference/scenario.html">scenario()</a></code> function from
 <code>rsyncrosim</code>.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check that we have two scenarios, and one is a result scenario</span></span>
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioId ProjectId ParentId                                          Name</span></span>
 <span><span class="co">## 1          1         1       NA                             My first scenario</span></span>
-<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 22-Jan-2025 4:39 PM)</span></span>
+<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 25-Mar-2025 4:37 PM)</span></span>
 <span><span class="co">##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly</span></span>
 <span><span class="co">## 1   N/A                No                 NA       No         No</span></span>
 <span><span class="co">## 2   N/A                No                 NA      Yes         No</span></span>
 <span><span class="co">##        DateLastModified</span></span>
-<span><span class="co">## 1 2025-01-22 at 4:39 PM</span></span>
-<span><span class="co">## 2 2025-01-22 at 4:39 PM</span></span></code></pre>
+<span><span class="co">## 1 2025-03-25 at 4:37 PM</span></span>
+<span><span class="co">## 2 2025-03-25 at 4:37 PM</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -490,7 +492,7 @@ result scenarios using the <code><a href="../reference/scenario.html">scenario()
 the result scenario when it was run. We can load the result tables using
 the <code><a href="../reference/datasheet.html">datasheet()</a></code> function. In this package, the datasheet
 containing the results is called “OutputDatasheet”.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Results of first scenario</span></span>
 <span><span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                            name <span class="op">=</span> <span class="st">"helloworldUncertainty_OutputDatasheet"</span><span class="op">)</span></span>
@@ -498,12 +500,12 @@ containing the results is called “OutputDatasheet”.</p>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   Iteration Timestep        y</span></span>
-<span><span class="co">## 1         1        1 3.711775</span></span>
-<span><span class="co">## 2         1        2 4.423550</span></span>
-<span><span class="co">## 3         1        3 5.135326</span></span>
-<span><span class="co">## 4         1        4 5.847101</span></span>
-<span><span class="co">## 5         1        5 6.558876</span></span>
-<span><span class="co">## 6         1        6 7.270651</span></span></code></pre>
+<span><span class="co">## 1         1        1 4.139545</span></span>
+<span><span class="co">## 2         1        2 5.279091</span></span>
+<span><span class="co">## 3         1        3 6.418636</span></span>
+<span><span class="co">## 4         1        4 7.558181</span></span>
+<span><span class="co">## 5         1        5 8.697727</span></span>
+<span><span class="co">## 6         1        6 9.837272</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="plotting-uncertainty-in-syncrosim-studio">Plotting uncertainty in SyncroSim Studio<a class="anchor" aria-label="anchor" href="#plotting-uncertainty-in-syncrosim-studio"></a>
