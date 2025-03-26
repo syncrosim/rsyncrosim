@@ -13,7 +13,7 @@ SsimLibrary object otherwise."><meta property="og:image" content="https://syncro
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,7 +155,7 @@ of package.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Make sure packages are installed</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Package stsim v4.3.5 is already installed."</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;stsim v4.3.6&gt; installed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create or open a SsimLibrary using the default Session</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu">ssimLibrary</span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mylib"</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -169,21 +169,21 @@ of package.</p></li>
 <span class="r-in"><span><span class="co"># Retrieve SsimLibrary properties</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class               : Session</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> filepath [character]: C:/Program Files/SyncroSim Studio</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> filepath [character]: C:\PROGRA~1\SYNCRO~1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> silent [logical]    : TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> printCmd [logical]  : FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> condaFilepath [NULL]: </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create SsimLibrary from template</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Package helloworldSpatial v2.0.0 is already installed."</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;helloworldSpatial v2.0.0&gt; installed</span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu">ssimLibrary</span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mylib"</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span></span>
 <span class="r-in"><span>                         forceUpdate <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                         packages <span class="op">=</span> <span class="st">"helloworldSpatial"</span>,</span></span>
 <span class="r-in"><span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Library C:\Users\birch\AppData\Local\Temp\RtmpSWiX3F/mylib.ssim deleted</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Library C:\Users\birch\AppData\Local\Temp\RtmpwxejBy/mylib.ssim deleted</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package &lt;helloworldSpatial v2.0.0&gt; added</span>
 <span class="r-in"><span>                         </span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

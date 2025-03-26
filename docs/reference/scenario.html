@@ -9,7 +9,7 @@ SsimLibrary."><meta property="og:image" content="https://syncrosim.github.io/rsy
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,6 +146,8 @@ a copy of sourceScenario.</p></li>
 <span class="r-in"><span><span class="co"># Set the SyncroSim Session, SsimLibrary, and Project</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span> </span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following package associated with this library is not properly installed: stsim v4.3.5</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> 	Use installPackage(packages = 'stsim', versions = '4.3.5') to install.</span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"My Project"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a new Scenario</span></span></span>
@@ -155,22 +157,24 @@ a copy of sourceScenario.</p></li>
 <span class="r-in"><span><span class="co"># Create a new Scenario from an existing Scenario</span></span></span>
 <span class="r-in"><span><span class="va">myScenarioCopy</span> <span class="op">&lt;-</span> <span class="fu">scenario</span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My Scenario Copy"</span>,</span></span>
 <span class="r-in"><span>                           sourceScenario <span class="op">=</span> <span class="va">myScenario</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>sourceScenario was ignored because scenario already exists.</span>
 <span class="r-in"><span>                          </span></span>
 <span class="r-in"><span><span class="co"># Find all the Scenarios in a SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="fu">scenario</span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ScenarioId ProjectId ParentId             Name Owner MergeDependencies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1          1         1       NA My Scenario Name   N/A               Yes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2          2         1       NA      My Scenario   N/A                No</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          3        24       NA      My Scenario   N/A                No</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4          4        24       NA My Scenario Copy   N/A                No</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5          9        24       NA  My New Scenario   N/A                No</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   IgnoreDependencies IsResult IsReadOnly      DateLastModified</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 NA       No         No 2025-01-22 at 3:08 PM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 NA       No        Yes 2025-01-22 at 3:09 PM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 NA       No         No 2025-01-22 at 3:09 PM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 NA       No         No 2025-01-22 at 3:09 PM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 NA       No         No 2025-01-22 at 4:32 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          3        18       NA      My Scenario   N/A                No</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          4        18       NA My Scenario Copy   N/A                No</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                        IgnoreDependencies IsResult IsReadOnly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 stsim_RunControl,stsim_TransitionTarget       No         No</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                               No        Yes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                               No         No</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                               No         No</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        DateLastModified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2025-03-25 at 4:32 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2025-03-25 at 4:33 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2025-03-25 at 4:33 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2025-03-25 at 4:33 PM</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Only return the results Scenarios for a SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="fu">scenario</span><span class="op">(</span><span class="va">myLibrary</span>, results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -182,7 +186,6 @@ a copy of sourceScenario.</p></li>
 <span class="r-in"><span><span class="co"># Overwrite an existing Scenario</span></span></span>
 <span class="r-in"><span><span class="va">myNewScenario</span> <span class="op">&lt;-</span> <span class="fu">scenario</span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My New Scenario"</span>, </span></span>
 <span class="r-in"><span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scenario 9 deleted</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
