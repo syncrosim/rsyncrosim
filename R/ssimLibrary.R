@@ -275,10 +275,7 @@ setMethod("ssimLibrary", signature(name = "missingOrNULLOrChar"),
   for (i in 1:nrow(addedPackages)){
     pkgRow <- addedPackages[i,]
     if (pkgRow$status != "OK"){
-      warning(paste0(
-        "The following package associated with this library is not properly installed: ", 
-        pkgRow$name, " v", pkgRow$version, "\n\tUse installPackage(packages = '", 
-        pkgRow$name, "', versions = '", pkgRow$version, "') to install."))
+      warning(pkgRow$status)
     }
   }
   
