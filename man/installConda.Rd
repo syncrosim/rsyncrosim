@@ -7,20 +7,20 @@
 \alias{installConda,Session-method}
 \title{Installs Miniforge or Miniconda}
 \usage{
-installConda(session, software = "Miniforge")
+installConda(session, software = "miniforge")
 
-\S4method{installConda}{character}(session, software = "Miniforge")
+\S4method{installConda}{character}(session, software = "miniforge")
 
-\S4method{installConda}{missingOrNULL}(session, software = "Miniforge")
+\S4method{installConda}{missingOrNULL}(session, software = "miniforge")
 
-\S4method{installConda}{Session}(session, software = "Miniforge")
+\S4method{installConda}{Session}(session, software = "miniforge")
 }
 \arguments{
 \item{session}{\code{\link{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
 
 \item{software}{character. Whether to install the latest release of
-"Miniforge" (Default) or "Miniconda".}
+"miniforge" (Default) or "miniconda".}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful
@@ -35,11 +35,11 @@ point SyncroSim towards that installation using the
 }
 \examples{
 \dontrun{
-# Install Miniforge for the default SyncroSim session
+# Install miniforge for the default SyncroSim session
 installConda()
 
-# Install Miniconda for the default SyncroSim session
-installConda(software = "Miniconda")
+# Install miniconda for the default SyncroSim session
+installConda(software = "miniconda")
 }
 
 }
