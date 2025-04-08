@@ -99,7 +99,7 @@ setMethod("run", signature(ssimObject = "SsimObject"),
   }
   
   for (i in seq(length.out = length(scenario))) {
-    
+
     cScn <- scenario[i]
     name <- scenarioSet$Name[scenarioSet$ScenarioId == cScn][1]
 
@@ -113,8 +113,13 @@ setMethod("run", signature(ssimObject = "SsimObject"),
 
     tt <- command(args, .session(x))
     
-    if (grepl("You must be signed in", tt[1])) {
-      stop(tt[1])
+    if (grepl("You must be signed in", tt[1]) | grepl("There has been an issue with your SyncroSim license file", tt[1])) {
+      msg <- paste(tt[1], 
+                   "\r\n",
+                   " Use the signIn() function if you are not currently signed",
+                   "in to your online SyncroSim account and do not have a",
+                   "server license.")
+      stop(msg)
     }
 
     if (tt[1] != "saved") {
