@@ -116,9 +116,9 @@ setMethod("run", signature(ssimObject = "SsimObject"),
     if (grepl("You must be signed in", tt[1]) | grepl("There has been an issue with your SyncroSim license file", tt[1])) {
       msg <- paste(tt[1], 
                    "\r\n",
-                   " Use the signIn() function if you are not currently signed",
-                   "in to your online SyncroSim account and do not have a",
-                   "server license.")
+                   "\r\n",
+                   " Use the signIn() function to sign in to your SyncroSim",
+                   "account from rsyncrosim.")
       stop(msg)
     }
 
