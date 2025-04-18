@@ -108,6 +108,8 @@
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/scenarioId.html</loc></url>
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/Session-class.html</loc></url>
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/session.html</loc></url>
+<url><loc>https://syncrosim.github.io/rsyncrosim/reference/signIn.html</loc></url>
+<url><loc>https://syncrosim.github.io/rsyncrosim/reference/signOut.html</loc></url>
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/silent.html</loc></url>
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/sqlStatement.html</loc></url>
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/ssimEnvironment.html</loc></url>
@@ -120,5 +122,6 @@
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/updateRunLog.html</loc></url>
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/useConda.html</loc></url>
 <url><loc>https://syncrosim.github.io/rsyncrosim/reference/version.html</loc></url>
+<url><loc>https://syncrosim.github.io/rsyncrosim/reference/viewProfile.html</loc></url>
 </urlset>
 
