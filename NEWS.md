@@ -1,15 +1,13 @@
-# rsyncrosim 2.1.0
+# rsyncrosim 2.1.1
 
 ## Breaking changes
-
-* Updates for compatibility with the new Authentication in SyncroSim 3.1
-* Can no longer have spaces in the path to the SyncroSim installation
-* Can no longer run scenarios without having a valid SyncroSim license
 
 ## Bug fixes:
 
 ## New features:
 
-* Added new functions for online authentication: `signIn()`, `signOut()`, `viewProfile()`
 
 ## Minor improvements and fixes
+
+* Fix issue when loading a library where rsyncrosim always throws a warning that the package has not been installed properly if the package was built against SyncroSim 3.0
+* Update message when invalid SyncroSim license found at runtime
