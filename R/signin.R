@@ -58,7 +58,7 @@ signIn <- function(session = NULL) {
                      cleanup = FALSE)
     
     counter <- 1
-    counterMax <- 30
+    counterMax <- 90
     success <- F
     
     while (p$is_alive() && counter < counterMax && success == FALSE){
