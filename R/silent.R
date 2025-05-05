@@ -17,7 +17,7 @@ NULL
 #' A logical: \code{TRUE} if the session is silent and \code{FALSE} otherwise.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set up a SyncroSim Session
 #' mySession <- session()
 #' 

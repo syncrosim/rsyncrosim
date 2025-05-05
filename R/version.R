@@ -13,7 +13,7 @@ NULL
 #' A character string e.g. "2.2.13".
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set SyncroSim Session
 #' mySession <- session()
 #' 

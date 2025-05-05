@@ -15,7 +15,7 @@ NULL
 #' A character string: Scenario Datafeeds that will be ignored.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

@@ -195,7 +195,7 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"),
 #' }
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Make sure packages are installed
 #' installPackage("stsim")
 #' 

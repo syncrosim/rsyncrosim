@@ -17,7 +17,7 @@ NULL
 #' \code{FALSE} if it is not.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set SyncroSim Session
 #' mySession <- session()
 #' 
