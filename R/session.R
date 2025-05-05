@@ -4,6 +4,7 @@
 NULL
 
 # @importFrom utils packageVersion
+# @importFrom utils shortPathName
 # @name Session
 # @rdname Session-class
 setMethod(f = "initialize", signature = "Session", 

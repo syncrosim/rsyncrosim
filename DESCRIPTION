@@ -98,7 +98,6 @@ Collate:
     'printCmd.R'
     'readOnly.R'
     'removePackage.R'
-    'rsyncrosim-package.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'

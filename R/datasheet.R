@@ -172,6 +172,7 @@ NULL
 #' }
 #' 
 #' @export
+#' @importFrom stats setNames
 #' @import RSQLite
 setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenario = NULL, 
                                  summary = NULL, optional = FALSE, empty = FALSE, 

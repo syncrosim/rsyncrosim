@@ -1,6 +1,6 @@
 ## Test environments
-* Windows Server 2019 (CI (GitHub actions): release 4.3.2 and devel)
-* Ubuntu 20.04 (CI (GitHub actions), release 4.3.2 and devel)
+* Windows Server 2025 (CI (GitHub actions): release and devel)
+* Ubuntu 24.04 (CI (GitHub actions), release and devel)
 
 ## New release 2.1.2
 
