@@ -2,7 +2,6 @@
 % Please edit documentation in R/rsyncrosim.R
 \docType{package}
 \name{rsyncrosim}
-\alias{rsyncrosim-package}
 \alias{rsyncrosim}
 \title{rsyncrosim: The R interface to SyncroSim: https://syncrosim.com/}
 \description{

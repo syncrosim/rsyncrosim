@@ -40,7 +40,7 @@ Note that it is not possible to construct a complete SQL query at this stage,
 because the \code{\link{datasheet}} function may add ScenarioId and/or ProjectId to the query.
 }
 \examples{
-\donttest{
+\dontrun{
 # Query total Amount for each combination of ScenarioId, Iteration, Timestep and StateLabelXID,
 # including only Timesteps 0,1 and 2, and Iterations 3 and 4.
 mySQL <- sqlStatement(

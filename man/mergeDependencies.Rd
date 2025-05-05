@@ -36,7 +36,7 @@ Retrieves or sets whether or not a \code{\link{Scenario}} is configured to
 merge dependencies at run time.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

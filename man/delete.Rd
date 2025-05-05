@@ -72,7 +72,7 @@ Deletes one or more items. Note that this is irreversible. To delete
 a library, you must use the \code{\link{deleteLibrary}} function instead.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

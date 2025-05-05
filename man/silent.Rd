@@ -36,7 +36,7 @@ Checks or sets whether a SyncroSim \code{\link{Session}} is silent or not. In
 a silent session, warnings from the console are ignored.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set up a SyncroSim Session
 mySession <- session()
 

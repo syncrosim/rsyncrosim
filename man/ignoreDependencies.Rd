@@ -34,7 +34,7 @@ A character string: Scenario Datafeeds that will be ignored.
 Retrieves or sets the Datafeeds to ignore for a \code{\link{Scenario}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

@@ -6,10 +6,11 @@ NULL
 #' Display SyncroSim profile
 #'
 #' Displays the currently signed in SyncroSim profile information. To sign in
-#' to SyncroSim use the \code{\link{signin}} function.
+#' to SyncroSim use the \code{\link{signIn}} function.
 #'
 #' @param session \code{\link{Session}} object. If \code{NULL}(default), the 
 #' default session will be used
+#' @param ... other internal parameters
 #' 
 #' @examples
 #' \dontrun{

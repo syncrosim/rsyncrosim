@@ -1,7 +1,7 @@
 Package: rsyncrosim
 Type: Package
 Title: The R Interface to 'SyncroSim'
-Version: 2.1.1
+Version: 2.1.2
 Authors@R: c(
     person("Colin", "Daniel", email = "colin.daniel@apexrms.com",
            role = "aut"),
@@ -35,7 +35,9 @@ Imports:
     RSQLite,
     terra,
     gtools,
-    processx
+    processx,
+    stats,
+    utils
 Suggests:
     knitr,
     testthat (>= 3.0.0),
@@ -96,6 +98,7 @@ Collate:
     'printCmd.R'
     'readOnly.R'
     'removePackage.R'
+    'rsyncrosim-package.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'

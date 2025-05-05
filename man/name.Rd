@@ -59,7 +59,7 @@ Retrieves or sets the name of a \code{\link{SsimLibrary}},
 \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 
