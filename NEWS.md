@@ -8,6 +8,7 @@
 
 * Fix `filterValue` and `filterColumn` arguments in `datasheet()` and `datasheetSpatRaster()` 
 * Fix issues with factor lookups not working in `datasheet()` function
+* Fix bug in `installPackage()` and `uninstallPackage()` preventing package install when no packages installed yet
 
 ## New features:
 
