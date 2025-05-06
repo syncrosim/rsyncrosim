@@ -115,13 +115,15 @@ setMethod("installPackage", signature(session = "Session"),
       cVer <- versions[i]
     }
     
-    sessPkgRow <- installedSessionPkgs[
-      ((installedSessionPkgs$name == cPkg) & (installedSessionPkgs$version == cVer)),]
-    
-    if (nrow(sessPkgRow) > 0) {
-      print(paste0("Package ", cPkg, " v", cVer, " is already installed."))
-      retList[[cPkg]] <- FALSE
-      next
+    if (is.data.frame(installedSessionPkgs)) {
+      sessPkgRow <- installedSessionPkgs[
+        ((installedSessionPkgs$name == cPkg) & (installedSessionPkgs$version == cVer)),]
+      
+      if (nrow(sessPkgRow) > 0) {
+        print(paste0("Package ", cPkg, " v", cVer, " is already installed."))
+        retList[[cPkg]] <- FALSE
+        next
+      } 
     }
   
     sessPkgRow <- availSessionPkgs[
@@ -143,6 +145,7 @@ setMethod("installPackage", signature(session = "Session"),
       retList[[cPkg]] <- FALSE
     }
     
-    return(invisible(retList))
   }
+  
+  return(invisible(retList))
 })

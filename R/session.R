@@ -3,9 +3,9 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' @importFrom utils packageVersion
-#' @name Session
-#' @rdname Session-class
+# @importFrom utils packageVersion
+# @name Session
+# @rdname Session-class
 setMethod(f = "initialize", signature = "Session", 
           definition = function(.Object, path, silent = FALSE, printCmd = FALSE) {
   

@@ -15,7 +15,7 @@ mySession <- session("C:/gitprojects/ssimbin3/")
 # Test ----
 # Test multi-install 
 installPackage(session = mySession, packages = c("stsim", "demosales"), 
-               versions = c("4.0.1", "2.0.0"))
+               versions = c("4.3.8", "2.1.0"))
 
 # Expect stsim v4.0.1 and demosales v2.0.0 to be in installed packages
 packages(mySession, installed = T)
@@ -37,9 +37,9 @@ addPackage(myLibrary1, packages = "stsimecodep")
 packages(myLibrary1)
 
 # Test add package with version specified to existing library
-addPackage(myLibrary1, packages = "demosales", versions = "2.0.0")
+addPackage(myLibrary1, packages = "demosales", versions = "2.1.0")
 
-# Expect demosales v2.0.0 to be in packages list
+# Expect demosales v2.1.0 to be in packages list
 packages(myLibrary1)
 
 # Test remove stsim from existing library
@@ -100,27 +100,4 @@ uninstallPackage(packages = "stsim", session = mySession)
 packages(mySession)
 
 # What happens if you try to add package that is on server, but not local?
-addPackage(myLibrary2, packages = "stsim", versions = "4.0.0") # have to install first
-
-# Old code below ----
-# test_that("package added", {
-#   skip_on_cran()
-#   expect_equal(installPackage(session = mySession, name = "burnP3Plus"), TRUE)
-#   expect_equal(installPackage(session = mySession, name = "helloworld"), FALSE)
-#   expect_equal(installPackage(session = mySession, name = "C:/Users/GabrielleEdnie/Documents/SyncroSim/Designer/helloworldPipeline.ssimpkg"), TRUE)
-#   expect_equal(installPackage(name = "burnP3Plus"), FALSE)
-# })
-# 
-# test_that("test errors", {
-#   skip_on_cran()
-#   expect_error(installPackage(session = mySession))
-#   expect_error(installPackage(session = "mySession"))
-#   expect_error(installPackage(name = "helloworld", session = "mySession"))
-#   #expect_message(installPackage(name = "test"), "The package 'test' was not found in the package index.")
-#   expect_message(installPackage(session = mySession, name = "C:/Users/GabrielleEdnie/Documents/SyncroSim/Designer/hdPipeline.ssimpkg"), "Cannot find file: C:/Users/GabrielleEdnie/Documents/SyncroSim/Designer/hdPipeline.ssimpkg")
-#   expect_error(expect_equal(installPackage(session = mySession, name = "helloworld"), TRUE))
-# })
-
-#capture.output(installPackage(session = mySession, name = "C:/Users/GabrielleEdnie/Documents/SyncroSim/Designer/hdPipeline.ssimpkg"))
-#value((installPackage(session = mySession, name = "C:/Users/GabrielleEdnie/Documents/SyncroSim/Designer/helloworldPipeline.ssimpkg"))) #uses future package
-#expect_output((installPackage(session = mySession, name = "C:/Users/GabrielleEdnie/Documents/SyncroSim/Designer/helloworldPipeline.ssimpkg")), "Package installed from file <", name, ">")
+addPackage(myLibrary2, packages = "stsim", versions = "4.3.8") # have to install first

@@ -55,6 +55,12 @@ setMethod("uninstallPackage", signature(session = "Session"),
           function(packages, versions, session) {
             
   installed <- .packages(session, installed = T)
+  
+  if (!is.data.frame(installed)) {
+    message("No packages currently installed.")
+    return()
+  }
+  
   retList <- list()
   
   for (i in length(packages)){
