@@ -82,8 +82,6 @@ setMethod("packages", signature(ssimObject = "Session"),
       drops <- c("x")
       out <- out[ , !(names(out) %in% drops)]
       
-      return(out)
-      
     } else {
       
       tt <- command(c("list", arg, "csv"), ssimObject)
@@ -91,8 +89,14 @@ setMethod("packages", signature(ssimObject = "Session"),
       drops <- c("x")
       out <- out[ , !(names(out) %in% drops)]
       
-      return(out)
     }
+    
+    if (!is.data.frame(out)) {
+      message("No packages currently installed.")
+      return(invisible(out))
+    }
+    
+    return(out)
 })
 
 #' @rdname packages

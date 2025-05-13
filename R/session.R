@@ -16,7 +16,7 @@ setMethod(f = "initialize", signature = "Session",
   .Object@condaFilepath <- NULL
   
   if (.Platform$OS.type == "windows") {
-    .Object@filepath <- shortPathName(.Object@filepath)
+    .Object@filepath <- utils::shortPathName(.Object@filepath)
   }
   
   ssimRequiredVersion <- "3.1.0"
@@ -134,7 +134,7 @@ setMethod("session", signature(x = "missingOrNULLOrChar"), function(x, silent, p
         envVars <- envVars[envVars != ""]
 
         for (i in seq(length.out = length(envVars))) {
-          cPath <- paste0(shortPathName(envVars[i]), "\\SyncroSim")
+          cPath <- paste0(utils::shortPathName(envVars[i]), "\\SyncroSim")
           if (file.exists(paste0(cPath, "\\SyncroSim.Console.exe"))) {
             path <- cPath
             break
