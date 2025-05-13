@@ -92,6 +92,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     path <- e$TransferDirectory
   } else {
     import <- TRUE
+    path <- .tempfilepath(ssimObject)
   }
   
   # Set the append argument default
@@ -177,6 +178,24 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
 
   # Convert NAs to empty strings
   data[is.na(data)] <- ""
+  
+  # Save temporary datasheet CSV file
+  dir.create(path, showWarnings = FALSE, recursive = TRUE)
+  
+  if (append) {
+    tempFile <- paste0(path, "/", "SSIM_APPEND-", name, ".csv")
+  } else {
+    tempFile <- paste0(path, "/", "SSIM_OVERWRITE-", name, ".csv")
+  }
+  
+  if (nchar(tempFile) >= 260){
+    msg <- paste("path to temporary files generated at runtime is longer", 
+                 " than 260 characters. This may result in a connection ",
+                 "error if long paths are not enabled on Windows machines.")
+    updateRunLog(msg, type = "warning")
+  }
+  
+  write.csv(data, file = tempFile, row.names = FALSE, quote = TRUE)
 
   # If not running in SyncroSim env then import changes to ssim database
   if (import) {
@@ -206,27 +225,6 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     
   } else {
     
-    # Set path to save temporary datasheet CSV files
-    if (is.null(path)) {
-      path <- .tempfilepath(ssimObject)
-    }
-    
-    dir.create(path, showWarnings = FALSE, recursive = TRUE)
-    
-    if (append) {
-      tempFile <- paste0(path, "/", "SSIM_APPEND-", name, ".csv")
-    } else {
-      tempFile <- paste0(path, "/", "SSIM_OVERWRITE-", name, ".csv")
-    }
-    
-    if (nchar(tempFile) >= 260){
-      msg <- paste("path to temporary files generated at runtime is longer", 
-                   " than 260 characters. This may result in a connection ",
-                   "error if long paths are not enabled on Windows machines.")
-      updateRunLog(msg, type = "warning")
-    }
-    
-    write.csv(data, file = tempFile, row.names = FALSE, quote = TRUE)
     out <- "Saved"
   }
   
