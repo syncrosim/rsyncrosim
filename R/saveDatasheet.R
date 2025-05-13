@@ -198,6 +198,8 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
   write.csv(data, file = tempFile, row.names = FALSE, quote = TRUE)
 
   # If not running in SyncroSim env then import changes to ssim database
+  out <- TRUE
+  
   if (import) {
     
     args <- list(import = NULL, lib = .filepath(ssimObject), sheet = name, file = tempFile)
@@ -220,20 +222,11 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     
     if (tt[[1]] == "saved") {
       unlink(tempFile)
+      message(paste0("Datasheet <",name, "> saved"))
+    } else {
+      out <- FALSE
+      message(tt[[1]])
     }
-    out <- tt
-    
-  } else {
-    
-    out <- "Saved"
-  }
-  
-  if (out == "saved"){
-    message(paste0("Datasheet <",name, "> saved"))
-    out <- TRUE
-  } else {
-    message(out)
-    out <- FALSE
   }
   
   # Clean up temporary files
