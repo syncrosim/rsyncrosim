@@ -83,8 +83,7 @@ setMethod("saveDatasheet",
 #' @rdname saveDatasheet
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), 
           function(ssimObject, data, name, append, force) {
-  browser()
-            
+
   # Check if we are currently running in a SyncroSim environment
   e <- ssimEnvironment()
   if (!is.na(e$TransferDirectory)) {
@@ -176,7 +175,8 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     }
   }
 
-  # Convert NAs to empty strings
+  # Convert dataframe to characters and NAs to empty strings
+  data[] <- lapply(data, as.character)
   data[is.na(data)] <- ""
   
   # Save temporary datasheet CSV file
@@ -202,7 +202,8 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
   
   if (import) {
     
-    args <- list(import = NULL, lib = .filepath(ssimObject), sheet = name, file = tempFile)
+    args <- list(import = NULL, lib = .filepath(ssimObject), 
+                 sheet = name, file = tempFile)
     tt <- "saved"
     
     if (nrow(data) > 0) {
