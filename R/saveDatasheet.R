@@ -83,7 +83,7 @@ setMethod("saveDatasheet",
 #' @rdname saveDatasheet
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), 
           function(ssimObject, data, name, append, force) {
-
+  
   # Check if we are currently running in a SyncroSim environment
   e <- ssimEnvironment()
   if (!is.na(e$TransferDirectory)) {
@@ -127,7 +127,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
   }
 
   # Check whether datasheet provided actually exists.
-  sheetNames <- .datasheets(ssimObject)
+  sheetNames <- .datasheets(ssimObject, core = TRUE)
   scope <- sheetNames$scope[sheetNames$name == name]
   if (length(scope) == 0) {
     stop(paste0(name, " not found in available datasheets"))
