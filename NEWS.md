@@ -1,21 +1,14 @@
-# rsyncrosim 2.1.3
+# rsyncrosim 2.1.4
 
 ## Breaking changes:
 
-* Removed the following arguments from `saveDatasheet()`:
-  * `fileData`
-  * `forceElements`
-  * `breakpoint`
-  * `import`
-  * `path`
-
 ## Bug fixes:
 
-* Fix error when dataframe columns of type double contain both NAs and values and you try to use `saveDatasheet()`
+* Fix bug in `saveDatasheet()` preventing saving of core datasheets
 
 ## New features:
 
 ## Minor improvements and fixes:
 
-* Refactored `saveDatasheet`
+* Error handling for when `data` value is not in R data.frame format in `saveDatasheet()`
 

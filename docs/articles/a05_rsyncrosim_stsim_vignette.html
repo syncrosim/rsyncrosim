@@ -6,16 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>rsyncrosim: introduction to ST-Sim • rsyncrosim</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="rsyncrosim: introduction to ST-Sim">
 </head>
 <body>
@@ -26,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,7 +155,7 @@ the SyncroSim software.</p>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
 <pre><code><span><span class="co">## class               : Session</span></span>
-<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~1</span></span>
+<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~2</span></span>
 <span><span class="co">## silent [logical]    : TRUE</span></span>
 <span><span class="co">## printCmd [logical]  : FALSE</span></span>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
@@ -164,7 +163,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.3"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.11"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -177,7 +176,7 @@ package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install stsim</span></span>
 <span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;stsim v4.3.6&gt; installed</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;stsim v4.3.8&gt; installed</span></span></code></pre>
 <p><code>stsim</code> should now be included in the package list
 returned by the <code><a href="../reference/packages.html">packages()</a></code> function in
 <code>rsyncrosim</code>:</p>
@@ -185,9 +184,9 @@ returned by the <code><a href="../reference/packages.html">packages()</a></code>
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/packages.html">packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    name version                                      description</span></span>
-<span><span class="co">## 1 stsim   4.3.6 The ST-Sim state-and-transition simulation model</span></span>
+<span><span class="co">## 1 stsim   4.3.8 The ST-Sim state-and-transition simulation model</span></span>
 <span><span class="co">##                                                              location status</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.3.6     OK</span></span></code></pre>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.3.8     OK</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -211,7 +210,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"stsimLibrary.ssim"</span>,</span>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
 <span>                         packages <span class="op">=</span> <span class="st">"stsim"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;stsim v4.3.6&gt; added</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;stsim v4.3.8&gt; added</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Open the default project</span></span>
 <span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu">rsyncrosim</span><span class="fu">::</span><span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
@@ -585,8 +584,8 @@ GeoTIFF format) provided with the <code>rsyncrosim</code> package.</li>
 <p>We can add these rasters as model inputs using the
 <code>stsim_InitialConditionsSpatial</code> datasheet.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create an R list of the input raster layers</span></span>
-<span><span class="va">ICSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>StratumFileName <span class="op">=</span> <span class="va">stratumTif</span>, </span>
+<code class="sourceCode R"><span><span class="co"># Create an data.frame of the input raster layers</span></span>
+<span><span class="va">ICSpatial</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>StratumFileName <span class="op">=</span> <span class="va">stratumTif</span>, </span>
 <span>                  StateClassFileName <span class="op">=</span> <span class="va">sclassTif</span>, </span>
 <span>                  AgeFileName <span class="op">=</span> <span class="va">ageTif</span><span class="op">)</span></span>
 <span></span>
@@ -853,7 +852,7 @@ only).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>

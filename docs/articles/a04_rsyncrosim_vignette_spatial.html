@@ -6,16 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>rsyncrosim: introduction to spatial data • rsyncrosim</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="rsyncrosim: introduction to spatial data">
 </head>
 <body>
@@ -26,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +158,7 @@ the SyncroSim software.</p>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
 <pre><code><span><span class="co">## class               : Session</span></span>
-<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~1</span></span>
+<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~2</span></span>
 <span><span class="co">## silent [logical]    : TRUE</span></span>
 <span><span class="co">## printCmd [logical]  : FALSE</span></span>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
@@ -167,7 +166,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.3"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.11"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -180,7 +179,7 @@ package server for the specified package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldSpatial</span></span>
 <span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldSpatial"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;helloworldSpatial v2.0.0&gt; installed</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;helloworldSpatial v2.1.0&gt; installed</span></span></code></pre>
 <p><code>helloworldSpatial</code> should now be included in the package
 list returned by the <code><a href="../reference/packages.html">packages()</a></code> function in
 <code>rsyncrosim</code>:</p>
@@ -188,11 +187,11 @@ list returned by the <code><a href="../reference/packages.html">packages()</a></
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/packages.html">packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                name version</span></span>
-<span><span class="co">## 1 helloworldSpatial   2.0.0</span></span>
+<span><span class="co">## 1 helloworldSpatial   2.1.0</span></span>
 <span><span class="co">##                                                     description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use spatial data with an R model</span></span>
 <span><span class="co">##                                                                          location</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.0.0</span></span>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -218,7 +217,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
 <span>                         packages <span class="op">=</span> <span class="st">"helloworldSpatial"</span>,</span>
 <span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;helloworldSpatial v2.0.0&gt; added</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;helloworldSpatial v2.1.0&gt; added</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Open the default project</span></span>
 <span><span class="va">myProject</span> <span class="op">=</span> <span class="fu">rsyncrosim</span><span class="fu">::</span><span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
@@ -475,6 +474,7 @@ multiprocessing configuration.</p>
 <code class="sourceCode R"><span><span class="co"># Run the first scenario we created</span></span>
 <span><span class="va">myResultScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Running scenario [1] My spatial scenario"</span></span></code></pre>
+<pre><code><span><span class="co">## This model uses Conda environments, but no Conda installation was found. Using local environment.</span></span></code></pre>
 <p>After the scenario has been run, a results scenario is created that
 contains results in the output datasheets.</p>
 </div>
@@ -490,21 +490,21 @@ scenario when it was run.</p>
 <p>First, we will view the non-spatial results within the results
 scenarios. For each step in the pipeline, We can load the result tables
 using the <code><a href="../reference/datasheet.html">datasheet()</a></code> function.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load results of first transformer in the pipeline</span></span>
 <span><span class="va">resultsSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                            name <span class="op">=</span> <span class="st">"helloworldSpatial_IntermediateDatasheet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View results table of first transformer in the pipeline</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep          y        OutputRasterFile</span></span>
-<span><span class="co">## 1         1        1  -23.76270 rasterMap_iter1_ts1.tif</span></span>
-<span><span class="co">## 2         1        2  -43.19141 rasterMap_iter1_ts2.tif</span></span>
-<span><span class="co">## 3         1        3  -62.62012 rasterMap_iter1_ts3.tif</span></span>
-<span><span class="co">## 4         1        4  -82.04882 rasterMap_iter1_ts4.tif</span></span>
-<span><span class="co">## 5         1        5 -101.47753 rasterMap_iter1_ts5.tif</span></span>
-<span><span class="co">## 6         1        6 -120.90624 rasterMap_iter1_ts6.tif</span></span></code></pre>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">##   Iteration Timestep         y        OutputRasterFile</span></span>
+<span><span class="co">## 1         1        1  83.09475 rasterMap_iter1_ts1.tif</span></span>
+<span><span class="co">## 2         1        2 170.52349 rasterMap_iter1_ts2.tif</span></span>
+<span><span class="co">## 3         1        3 257.95223 rasterMap_iter1_ts3.tif</span></span>
+<span><span class="co">## 4         1        4 345.38097 rasterMap_iter1_ts4.tif</span></span>
+<span><span class="co">## 5         1        5 432.80971 rasterMap_iter1_ts5.tif</span></span>
+<span><span class="co">## 6         1        6 520.23845 rasterMap_iter1_ts6.tif</span></span></code></pre>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load results of second transformer in the pipeline</span></span>
 <span><span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
 <span>                             name <span class="op">=</span> <span class="st">"helloworldSpatial_OutputDatasheet"</span><span class="op">)</span></span>
@@ -512,12 +512,12 @@ using the <code><a href="../reference/datasheet.html">datasheet()</a></code> fun
 <span><span class="co"># View results table of second transformer in the pipeline</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   Iteration Timestep       yCum</span></span>
-<span><span class="co">## 1         1        1  -23.76270</span></span>
-<span><span class="co">## 2         1        2  -66.95411</span></span>
-<span><span class="co">## 3         1        3 -129.57423</span></span>
-<span><span class="co">## 4         1        4 -211.62305</span></span>
-<span><span class="co">## 5         1        5 -313.10058</span></span>
-<span><span class="co">## 6         1        6 -434.00682</span></span></code></pre>
+<span><span class="co">## 1         1        1   83.09475</span></span>
+<span><span class="co">## 2         1        2  253.61823</span></span>
+<span><span class="co">## 3         1        3  511.57046</span></span>
+<span><span class="co">## 4         1        4  856.95143</span></span>
+<span><span class="co">## 5         1        5 1289.76113</span></span>
+<span><span class="co">## 6         1        6 1809.99958</span></span></code></pre>
 <p>From viewing these datasheets, we can see that the spatial output is
 contained within the <code>IntermediateDatasheet</code>, in the column
 called <code>OutputRasterFile</code>.</p>
@@ -535,7 +535,7 @@ argument. The results contain many raster images, since we have a raster
 for each combination of iteration and timestep. We can use the
 <code>iteration</code> and <code>timestep</code> arguments to specify a
 single raster image or a subset of raster images we want to view.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load raster files for first result scenario with timestep and iteration</span></span>
 <span><span class="va">rasterMaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheetSpatRaster.html">datasheetSpatRaster</a></span><span class="op">(</span></span>
 <span>  <span class="va">myResultScenario</span>,</span>
@@ -554,9 +554,9 @@ single raster image or a subset of raster images we want to view.</p>
 <span><span class="co">## coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
 <span><span class="co">## source      : rasterMap_iter1_ts5.tif </span></span>
 <span><span class="co">## name        : rasterMap_iter1_ts5 </span></span>
-<span><span class="co">## min value   :           -6.511559 </span></span>
-<span><span class="co">## max value   :           -1.767302</span></span></code></pre>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<span><span class="co">## min value   :            14.85993 </span></span>
+<span><span class="co">## max value   :            19.60419</span></span></code></pre>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" width="700"></p>
 </div>
@@ -591,7 +591,7 @@ Studio to map spatial data</div>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>

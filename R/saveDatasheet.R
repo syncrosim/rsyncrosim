@@ -61,11 +61,6 @@ NULL
 #' saveDatasheet(ssimObject = myScenario, 
 #'               data = myDatasheet, 
 #'               name = "helloworldSpatial_RunControl")
-#' 
-#' # Change the name of the rasters in the input Datasheets to match the stack
-#' inSheet <- datasheet(myScenario, name = "helloworldSpatial_InputDatasheet")
-#' inSheet[1,"InterceptRasterFile"] <- names(inRasters)[1]
-#' 
 #' }
 #' 
 #' @export

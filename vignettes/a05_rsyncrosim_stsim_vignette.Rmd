@@ -417,8 +417,8 @@ plot(rAge)
 We can add these rasters as model inputs using the `stsim_InitialConditionsSpatial` datasheet.
 
 ```{r save ICSpatial, warning = FALSE}
-# Create an R list of the input raster layers
-ICSpatial <- list(StratumFileName = stratumTif, 
+# Create an data.frame of the input raster layers
+ICSpatial <- data.frame(StratumFileName = stratumTif, 
                   StateClassFileName = sclassTif, 
                   AgeFileName = ageTif)
 
