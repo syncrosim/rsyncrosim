@@ -84,6 +84,12 @@ setMethod("saveDatasheet",
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), 
           function(ssimObject, data, name, append, force) {
   
+            
+  # Check if data is in correct format
+  if (!is.data.frame(data)) {
+    stop("data must be in R data.frame format.")
+  }          
+  
   # Check if we are currently running in a SyncroSim environment
   e <- ssimEnvironment()
   if (!is.na(e$TransferDirectory)) {
