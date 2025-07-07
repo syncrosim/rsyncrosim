@@ -283,7 +283,9 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"),
           warning(warningMsg)
         }
       } else {
-        cMeta <- .datasheet(x, name = datasheet, optional = TRUE, filterColumn = filterColumn, lookupsAsFactors = getFactors)
+        cMeta <- .datasheet(x, name = datasheet, optional = TRUE, 
+                            filterColumn = filterColumn, filterValue = filterValue, 
+                            lookupsAsFactors = getFactors)
       }
     }
     

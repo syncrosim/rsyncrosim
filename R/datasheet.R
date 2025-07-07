@@ -191,7 +191,7 @@ setMethod("datasheet",
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible, rawValues, verbose) {
-
+  
   cScn <- ssimObject[[1]]
   x <- NULL
   
@@ -243,7 +243,7 @@ setMethod("datasheet",
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible, rawValues, verbose) {
-            
+          
   temp <- NULL
   ProjectId <- NULL
   ScenarioId <- NULL
