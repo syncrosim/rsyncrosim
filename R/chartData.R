@@ -50,7 +50,7 @@ setGeneric("chartData", function(chart, type = "Line", addX = NULL, addY = NULL,
 setMethod("chartData", signature(chart = "Chart"), 
           function(chart, type, addX, addY, removeX, removeY, timesteps, 
                    iterationType, iteration) {
-  
+
   # Set arguments used throughout
   chartSession <- .session(chart)
   proj <- .project(chart)
@@ -124,6 +124,10 @@ setMethod("chartData", signature(chart = "Chart"),
     ds[ds$ChartId == chartCID,]$Iteration <- iteration
   }
   
+  # Drop Chart Id column before saving
+  ds$ChartId <- NULL
+  
+  # Save chart data back to syncrosim
   saveDatasheet(proj, ds, name = chartDSName, append = FALSE, force = TRUE)
   
   # Add x variables
