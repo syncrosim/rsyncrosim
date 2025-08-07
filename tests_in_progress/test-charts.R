@@ -19,7 +19,7 @@
 library(rsyncrosim)
 
 # Setup ----
-mySession <- session("C:/Program Files/SyncroSim Studio")
+mySession <- session("C:/Program Files/SyncroSim")
 libPath <- "tests_in_progress/test_library/spatial-example.ssim"
 myLibrary <- ssimLibrary(name = libPath,
                          session = mySession)

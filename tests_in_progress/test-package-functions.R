@@ -11,8 +11,14 @@
 myLibraryName1 <- file.path(tempdir(),"testlib")
 myLibraryName2 <- file.path(tempdir(),"mylib")
 mySession <- session("C:/gitprojects/ssimbin3/")
+mySession <- session()
 
 # Test ----
+# Test install from file
+installPackage(session = mySession, 
+               packages = "C:\\gitprojects\\ssimbin3\\SyncroSim-3.1.14\\stsim-4-5-1.ssimpkg")
+
+packages(mySession)
 # Test multi-install 
 installPackage(session = mySession, packages = c("stsim", "demosales"), 
                versions = c("4.0.1", "2.0.0"))
