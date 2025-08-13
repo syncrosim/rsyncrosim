@@ -23,9 +23,17 @@ setMethod(f = "initialize", signature = "Session",
   ssimCurrentVersion <- command(list(version = NULL), .Object)
   rsyncrosimVersion <- packageVersion("rsyncrosim")
   
-  if (!grepl("Version is: ", ssimCurrentVersion)) {
-    stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 3.1.0 is required.")
-  }
+  tryCatch(
+    {
+      if (!grepl("Version is: ", ssimCurrentVersion)) {
+        stop("Cannot retrieve SyncroSim version.  At least SyncroSim version 3.1.0 is required.")
+      }
+    },
+    error = function(e){
+      stop(e)
+    }
+  )
+
   
   ssimCurrentVersion <- gsub("Version is: ", "", ssimCurrentVersion, fixed = TRUE)
   ssimCurrentVersionBits <- as.numeric(strsplit(ssimCurrentVersion, ".", fixed = TRUE)[[1]])
