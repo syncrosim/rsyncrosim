@@ -63,6 +63,7 @@ Collate:
     'chartOptionsXAxis.R'
     'chartOptionsYAxis.R'
     'command.R'
+    'compact.R'
     'condaFilepath.R'
     'createCondaEnv.R'
     'datasheet.R'
