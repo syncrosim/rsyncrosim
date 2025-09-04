@@ -12,7 +12,9 @@ NULL
 #' @param folder Optional folder to restore the library into. If NULL, restores
 #' to default location.
 #' @param session SyncroSim session
-#' @return "Library restored" or "Library restoration failed".
+#' @return
+#' Invisibly returns \code{TRUE} upon success (i.e.successful backup) and
+#' \code{FALSE} upon failure.
 #'
 #' @examples
 #' \dontrun{
