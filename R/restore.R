@@ -1,4 +1,5 @@
-# Copyright (c) 2024 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2024 Apex Resource Management Solution Ltd. (ApexRMS). All
+# rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -7,8 +8,9 @@ NULL
 #'
 #' Restores a SyncroSim library from a backup file.
 #'
-#' @param ssimLibraryBackup SsimLibrary backup file or path to a library backup file
-#' @param folder Optional folder to restore the library into. If NULL, restores to default location.
+#' @param ssimLibraryBackup Path to a library backup file
+#' @param folder Optional folder to restore the library into. If NULL, restores
+#' to default location.
 #' @param session SyncroSim session
 #' @return "Library restored" or "Library restoration failed".
 #'
@@ -19,7 +21,8 @@ NULL
 #'
 #' # Set up a SyncroSim Session and create SsimLibrary from backup file
 #' mySession <- session()
-#' myLibrary <- restore(ssimLibraryBackup = myLibraryBackupName, session = mySession)
+#' myLibrary <- restore(ssimLibraryBackup = myLibraryBackupName,
+#' session = mySession)
 #'
 #' }
 #'
@@ -39,7 +42,8 @@ setMethod("restore", signature(ssimLibraryBackup = "character"),
               stop(paste0("Library not found: ", ssimLibraryBackup))
             }
 
-            args <- list(restore = NULL, lib = ssimLibraryBackup, folder = folder)
+            args <- list(restore = NULL, lib = ssimLibraryBackup,
+                         folder = folder)
 
             tt <- command(args = args, session = session)
 
