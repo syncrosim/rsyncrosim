@@ -10,7 +10,8 @@ NULL
 #'
 #' @param ssimLibraryBackup character string. Path to a library backup file
 #' @param folder character string. Optional folder to restore the library into.
-#' If NULL, restores to default location.
+#' If NULL, restores to default location. If the folder specified does not
+#' exist, it will be created.
 #' @param session SyncroSim session.
 #' @return
 #' Invisibly returns \code{TRUE} upon success (i.e.successful backup) and
