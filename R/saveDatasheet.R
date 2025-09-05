@@ -79,7 +79,6 @@ setMethod("saveDatasheet",
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), 
           function(ssimObject, data, name, append, force) {
   
-            
   # Check if data is in correct format
   if (!is.data.frame(data)) {
     stop("data must be in R data.frame format.")
@@ -162,6 +161,10 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     stop(paste0("The following column does not exist in the datasheet: ", 
                 unknownCols))
   }
+  
+  # Add invisible columns to data to ensure they are not overwritten
+  originalData <- .datasheet(ssimObject, name, returnInvisible = T)
+  data <- merge(data, originalData, all = T)
   
   # Subset data by the valid columns
   colsToKeep <- colnames(data)[colnames(data) %in% colsToKeep]
