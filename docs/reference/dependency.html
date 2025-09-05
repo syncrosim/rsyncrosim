@@ -5,7 +5,7 @@ Scenario Datafeeds, such that a change in the Scenario that is the source
 dependency will update the dependent Scenario as well."><meta property="og:description" content="List dependencies, set dependencies, or remove dependencies from a SyncroSim
 Scenario. Setting dependencies is a way of linking together
 Scenario Datafeeds, such that a change in the Scenario that is the source
-dependency will update the dependent Scenario as well."><meta property="og:image" content="https://syncrosim.github.io/rsyncrosim/logo.png"></head><body>
+dependency will update the dependent Scenario as well."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +13,7 @@ dependency will update the dependent Scenario as well."><meta property="og:image
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,14 +43,15 @@ dependency will update the dependent Scenario as well."><meta property="og:image
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Get, set or remove Scenario dependencies</h1>
+
+      <h1>Get, set or remove Scenario dependencies</h1>
       <small class="dont-index">Source: <a href="https://github.com/syncrosim/rsyncrosim/blob/HEAD/R/dependency.R" class="external-link"><code>R/dependency.R</code></a></small>
       <div class="d-none name"><code>dependency.Rd</code></div>
     </div>
 
     <div class="ref-description section level2">
     <p>List dependencies, set dependencies, or remove dependencies from a SyncroSim
-<code><a href="Scenario-class.html">Scenario</a></code>. Setting dependencies is a way of linking together
+<code>Scenario</code>. Setting dependencies is a way of linking together
 Scenario Datafeeds, such that a change in the Scenario that is the source
 dependency will update the dependent Scenario as well.</p>
     </div>
@@ -76,14 +77,14 @@ dependency will update the dependent Scenario as well.</p>
 
 
 <dl><dt id="arg-ssimobject">ssimObject<a class="anchor" aria-label="anchor" href="#arg-ssimobject"></a></dt>
-<dd><p><code><a href="Scenario-class.html">Scenario</a></code> object, character string, integer, or
+<dd><p><code>Scenario</code> object, character string, integer, or
 vector of these. The Scenario object, name, or ID to which a dependency is to
 be added (or has already been added if <code>remove=TRUE</code>). Note that integer ids
 are slightly faster.</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p><code><a href="Scenario-class.html">Scenario</a></code> object, character string, integer, or
+<dd><p><code>Scenario</code> object, character string, integer, or
 vector of these. The Scenario object, name, or ID to be used as the
 dependency. If an empty vector is provided, all dependencies are removed. If
 multiple elements are provided, elements should be ordered from highest to lowest

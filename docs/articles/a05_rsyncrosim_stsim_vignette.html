@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,8 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>rsyncrosim: introduction to ST-Sim</h1>
+
+      <h1>rsyncrosim: introduction to ST-Sim</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/syncrosim/rsyncrosim/blob/HEAD/vignettes/a05_rsyncrosim_stsim_vignette.Rmd" class="external-link"><code>vignettes/a05_rsyncrosim_stsim_vignette.Rmd</code></a></small>
@@ -155,7 +156,7 @@ the SyncroSim software.</p>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
 <pre><code><span><span class="co">## class               : Session</span></span>
-<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~2</span></span>
+<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~1</span></span>
 <span><span class="co">## silent [logical]    : TRUE</span></span>
 <span><span class="co">## printCmd [logical]  : FALSE</span></span>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
@@ -163,7 +164,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.11"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.16"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -176,7 +177,7 @@ package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install stsim</span></span>
 <span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"stsim"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;stsim v4.3.8&gt; installed</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;stsim v4.5.3&gt; installed</span></span></code></pre>
 <p><code>stsim</code> should now be included in the package list
 returned by the <code><a href="../reference/packages.html">packages()</a></code> function in
 <code>rsyncrosim</code>:</p>
@@ -184,9 +185,9 @@ returned by the <code><a href="../reference/packages.html">packages()</a></code>
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/packages.html">packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    name version                                      description</span></span>
-<span><span class="co">## 1 stsim   4.3.8 The ST-Sim state-and-transition simulation model</span></span>
+<span><span class="co">## 1 stsim   4.5.3 The ST-Sim state-and-transition simulation model</span></span>
 <span><span class="co">##                                                              location status</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.3.8     OK</span></span></code></pre>
+<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.5.3     OK</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -210,7 +211,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"stsimLibrary.ssim"</span>,</span>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
 <span>                         packages <span class="op">=</span> <span class="st">"stsim"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;stsim v4.3.8&gt; added</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;stsim v4.5.3&gt; added</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Open the default project</span></span>
 <span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu">rsyncrosim</span><span class="fu">::</span><span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
@@ -730,10 +731,8 @@ but with a harvest level of 20 acres/year.</p>
 <h2 id="run-scenarios">Run Scenarios<a class="anchor" aria-label="anchor" href="#run-scenarios"></a>
 </h2>
 <div class="section level3">
-<h3 id="setting-run-parameters-with-run">Setting run parameters with <code>run()</code><a class="anchor" aria-label="anchor" href="#setting-run-parameters-with-run"></a>
+<h3 id="setting-the-number-of-multiprocessing-jobs">Setting the number of multiprocessing jobs<a class="anchor" aria-label="anchor" href="#setting-the-number-of-multiprocessing-jobs"></a>
 </h3>
-<p>We will now run both scenarios using the <code><a href="../reference/run.html">run()</a></code> function
-in <code>rsyncrosim</code>.</p>
 <p>If we have a large model and we want to parallelize the run using
 multiprocessing, we can modify the library-scoped “core_Multiprocessing”
 datasheet. Since we are using five iterations in our model, we will set
@@ -773,13 +772,17 @@ single iteration.</p>
 <span><span class="va">multiprocess</span><span class="op">$</span><span class="va">EnableMultiprocessing</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span></span>
 <span><span class="co"># Set maximum number of jobs to 5</span></span>
-<span><span class="va">multiprocess</span><span class="op">$</span><span class="va">MaximumJobs</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="va">multiprocess</span><span class="op">$</span><span class="va">MaximumJobs</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
 <span></span>
 <span><span class="co"># Save multiprocessing configuration</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, </span>
 <span>              data <span class="op">=</span> <span class="va">multiprocess</span>, </span>
 <span>              name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;core_Multiprocessing&gt; saved</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="setting-run-parameters-with-run">Setting run parameters with <code>run()</code><a class="anchor" aria-label="anchor" href="#setting-run-parameters-with-run"></a>
+</h3>
 <p>Now, when we run our scenario, it will use the desired
 multiprocessing configuration. Running a scenario generates a
 corresponding new child scenario, called a <em>results scenario</em>,

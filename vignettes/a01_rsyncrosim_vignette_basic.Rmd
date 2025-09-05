@@ -396,6 +396,21 @@ saveDatasheet(ssimObject = myScenario, data = runSettings,
 
 ## Run scenarios
 
+### Setting the number of multiprocessing jobs
+
+To set the number of multiprocessing jobs for a scenario run, we need to modify the library-scoped "core_Multiprocessing" datasheet.
+
+```{r set num jobs}
+# Open the multiprocessing datasheet
+mpSettings <- datasheet(myLibrary, name = "core_Multiprocessing")
+
+# Set the maximum number of jobs to 4
+mpSettings$MaximumJobs <- 4
+
+# Save the datasheet back to the library
+saveDatasheet(myLibrary, mpSettings, name = "core_Multiprocessing")
+```
+
 ### Setting run parameters with `run()`
 
 We will now run our scenarios using the `run()` function in `rsyncrosim`, starting with the first scenario we created ("My first scenario").

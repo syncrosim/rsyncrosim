@@ -535,9 +535,7 @@ datasheet(myProject,
 
 ## Run Scenarios
 
-### Setting run parameters with `run()`
-
-We will now run both scenarios using the `run()` function in `rsyncrosim`.
+### Setting the number of multiprocessing jobs
 
 If we have a large model and we want to parallelize the run using multiprocessing, we can modify the library-scoped "core_Multiprocessing" datasheet. Since we are using five iterations in our model, we will set the number of jobs to five so each multiprocessing core will run a single iteration.
 
@@ -555,13 +553,15 @@ str(multiprocess)
 multiprocess$EnableMultiprocessing <- TRUE
 
 # Set maximum number of jobs to 5
-multiprocess$MaximumJobs <- 5
+multiprocess$MaximumJobs <- 4
 
 # Save multiprocessing configuration
 saveDatasheet(ssimObject = myLibrary, 
               data = multiprocess, 
               name = "core_Multiprocessing")
 ```
+
+### Setting run parameters with `run()`
 
 Now, when we run our scenario, it will use the desired multiprocessing configuration. Running a scenario generates a corresponding new child scenario, called a *results scenario*, which contains the results of the run along with a snapshot of all the model inputs. 
 

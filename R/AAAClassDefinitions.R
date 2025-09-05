@@ -23,8 +23,9 @@ setClassUnion("NULLOrChar", c("NULL", "character"))
 #' @slot condaFilepath The path to the Conda installation. Default is \code{"default"}
 #' @name Session-class
 #' @rdname Session-class
+#' @aliases Session-class
 #' @export
-Session <- setClass("Session", representation(filepath = "character", 
+setClass("Session", representation(filepath = "character", 
                                               silent = "logical", 
                                               printCmd = "logical", 
                                               condaFilepath = "NULLOrChar"))
@@ -36,7 +37,7 @@ Session <- setClass("Session", representation(filepath = "character",
 # @slot filepath The path to the Library on disk.
 # @slot datasheetNames The names and scope of all datasheets in the Library. 
 # Used to speed calculations.
-SsimObject <- setClass("SsimObject", 
+setClass("SsimObject", 
                        representation(session = "Session", 
                                       filepath = "character", 
                                       datasheetNames = "data.frame"))
@@ -55,8 +56,9 @@ SsimObject <- setClass("SsimObject",
 #'  in the SsimLibrary.
 #' @name SsimLibrary-class
 #' @rdname SsimLibrary-class
+#' @aliases SsimLibrary-class
 #' @export
-SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject", 
+setClass("SsimLibrary", contains = "SsimObject", 
                         representation())
 
 #' SyncroSim Scenario class
@@ -80,8 +82,9 @@ SsimLibrary <- setClass("SsimLibrary", contains = "SsimObject",
 #' exists at the root of the project, then this value is NULL.
 #' @name Scenario-class
 #' @rdname Scenario-class
+#' @aliases Scenario-class
 #' @export
-Scenario <- setClass("Scenario", contains = "SsimObject", 
+setClass("Scenario", contains = "SsimObject", 
                      representation(projectId = "numeric", 
                                     scenarioId = "numeric", 
                                     parentId = "numeric", 
@@ -103,8 +106,9 @@ Scenario <- setClass("Scenario", contains = "SsimObject",
 #' @slot projectId integer. The Project id
 #' @name Project-class
 #' @rdname Project-class
+#' @aliases Project-class
 #' @export
-Project <- setClass("Project", contains = "SsimObject", 
+setClass("Project", contains = "SsimObject", 
                     representation(projectId = "numeric"))
 
 #' SyncroSim Folder class
@@ -124,8 +128,9 @@ Project <- setClass("Project", contains = "SsimObject",
 #' @slot projectId integer. The Project id
 #' @name Folder-class
 #' @rdname Folder-class
+#' @aliases Folder-class
 #' @export
-Folder <- setClass("Folder", contains = "SsimObject",
+setClass("Folder", contains = "SsimObject",
                    representation(folderId = "numeric", 
                                   parentId = "numeric", 
                                   projectId = "numeric"))
@@ -145,8 +150,9 @@ Folder <- setClass("Folder", contains = "SsimObject",
 #' @slot projectId integer. The Project id
 #' @name Chart-class
 #' @rdname Chart-class
+#' @aliases Chart-class
 #' @export
-Chart <- setClass("Chart", contains = "SsimObject", 
+setClass("Chart", contains = "SsimObject", 
                   representation(chartId = "numeric",
                                  projectId = "numeric"))
 

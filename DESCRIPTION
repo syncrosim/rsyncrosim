@@ -99,6 +99,7 @@ Collate:
     'printCmd.R'
     'readOnly.R'
     'removePackage.R'
+    'restore.R'
     'rsyncrosim.R'
     'run.R'
     'runLog.R'
