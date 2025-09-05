@@ -133,6 +133,7 @@ setMethod(
 #' myChart <- chart(myProject, chart = "New Chart")
 #' }
 #' @name chart
+#' @aliases chart 
 #' @export
 setGeneric("chart", function(ssimObject = NULL, chart = NULL, 
                              create = FALSE, summary = FALSE) standardGeneric("chart"))

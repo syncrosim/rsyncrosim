@@ -3,7 +3,6 @@
 \docType{class}
 \name{Session-class}
 \alias{Session-class}
-\alias{Session}
 \title{SyncroSim Session class}
 \description{
 A SyncroSim Session object contains a link to a SyncroSim installation.

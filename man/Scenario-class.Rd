@@ -3,7 +3,6 @@
 \docType{class}
 \name{Scenario-class}
 \alias{Scenario-class}
-\alias{Scenario}
 \title{SyncroSim Scenario class}
 \description{
 \code{Scenario} object representing a SyncroSim Scenario. A Scenario is the

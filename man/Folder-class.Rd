@@ -3,7 +3,6 @@
 \docType{class}
 \name{Folder-class}
 \alias{Folder-class}
-\alias{Folder}
 \title{SyncroSim Folder class}
 \description{
 \code{Folder} object representing a SyncroSim Folder. A Folder is used to

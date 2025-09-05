@@ -34,6 +34,7 @@ ssimEnvironment <- function() {
     AfterIteration = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_AFTER_ITERATION"), unset = -1)),
     BeforeTimestep = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_BEFORE_TIMESTEP"), unset = -1)),
     AfterTimestep = as.integer(Sys.getenv(tolower("SSIM_STOCHASTIC_TIME_AFTER_TIMESTEP"), unset = -1)),
+    MPJobs = as.integer(Sys.getenv(tolower("SSIM_MP_JOBS"), unset=-1)),
     IsChildProcess = Sys.getenv(tolower("SSIM_IS_CHILD_PROCESS"), unset = "false"), stringsAsFactors = FALSE
   ))
 }

@@ -3,7 +3,6 @@
 \docType{class}
 \name{Project-class}
 \alias{Project-class}
-\alias{Project}
 \title{SyncroSim Project class}
 \description{
 \code{Project} object representing a SyncroSim Project. A Project is the intermediate

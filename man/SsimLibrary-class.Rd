@@ -3,7 +3,6 @@
 \docType{class}
 \name{SsimLibrary-class}
 \alias{SsimLibrary-class}
-\alias{SsimLibrary}
 \title{SyncroSim Library class}
 \description{
 \code{SsimLibrary} object representing a SyncroSim Library. A SsimLibrary is the

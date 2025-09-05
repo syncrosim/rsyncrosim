@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,8 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>rsyncrosim: introduction to uncertainty</h1>
+
+      <h1>rsyncrosim: introduction to uncertainty</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/syncrosim/rsyncrosim/blob/HEAD/vignettes/a02_rsyncrosim_vignette_uncertainty.Rmd" class="external-link"><code>vignettes/a02_rsyncrosim_vignette_uncertainty.Rmd</code></a></small>
@@ -154,7 +155,7 @@ the SyncroSim software.</p>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
 <pre><code><span><span class="co">## class               : Session</span></span>
-<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~2</span></span>
+<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~1</span></span>
 <span><span class="co">## silent [logical]    : TRUE</span></span>
 <span><span class="co">## printCmd [logical]  : FALSE</span></span>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
@@ -162,7 +163,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.11"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.16"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -405,10 +406,8 @@ this example, we will use only five iterations.</p>
 <h2 id="run-scenarios">Run scenarios<a class="anchor" aria-label="anchor" href="#run-scenarios"></a>
 </h2>
 <div class="section level3">
-<h3 id="setting-run-parameters-with-run">Setting run parameters with <code>run()</code><a class="anchor" aria-label="anchor" href="#setting-run-parameters-with-run"></a>
+<h3 id="setting-the-number-of-multiprocessing-jobs">Setting the number of multiprocessing jobs<a class="anchor" aria-label="anchor" href="#setting-the-number-of-multiprocessing-jobs"></a>
 </h3>
-<p>We will now run our scenario using the <code><a href="../reference/run.html">run()</a></code> function in
-<code>rsyncrosim</code>.</p>
 <p>If we have a large model and we want to parallelize the run using
 multiprocessing, we can modify the library-scoped “core_Multiprocessing”
 datasheet. Since we are using five iterations in our model, we will set
@@ -448,13 +447,17 @@ single iteration.</p>
 <span><span class="va">multiprocess</span><span class="op">$</span><span class="va">EnableMultiprocessing</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span></span>
 <span><span class="co"># Set maximum number of jobs to 5</span></span>
-<span><span class="va">multiprocess</span><span class="op">$</span><span class="va">MaximumJobs</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="va">multiprocess</span><span class="op">$</span><span class="va">MaximumJobs</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
 <span></span>
 <span><span class="co"># Save multiprocessing configuration</span></span>
 <span><span class="fu"><a href="../reference/saveDatasheet.html">saveDatasheet</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, </span>
 <span>              data <span class="op">=</span> <span class="va">multiprocess</span>, </span>
 <span>              name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Datasheet &lt;core_Multiprocessing&gt; saved</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="setting-run-parameters-with-run">Setting run parameters with <code>run()</code><a class="anchor" aria-label="anchor" href="#setting-run-parameters-with-run"></a>
+</h3>
 <p>Now, when we run our scenario, it will use the desired
 multiprocessing configuration.</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
@@ -473,13 +476,13 @@ result scenarios using the <code><a href="../reference/scenario.html">scenario()
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioId ProjectId ParentId                                          Name</span></span>
 <span><span class="co">## 1          1         1       NA                             My first scenario</span></span>
-<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 05-Jun-2025 9:54 AM)</span></span>
+<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 05-Sep-2025 4:03 PM)</span></span>
 <span><span class="co">##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly</span></span>
 <span><span class="co">## 1   N/A                No                 NA       No         No</span></span>
 <span><span class="co">## 2   N/A                No                 NA      Yes         No</span></span>
 <span><span class="co">##        DateLastModified</span></span>
-<span><span class="co">## 1 2025-06-05 at 9:54 AM</span></span>
-<span><span class="co">## 2 2025-06-05 at 9:54 AM</span></span></code></pre>
+<span><span class="co">## 1 2025-09-05 at 4:03 PM</span></span>
+<span><span class="co">## 2 2025-09-05 at 4:03 PM</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -499,13 +502,13 @@ containing the results is called “OutputDatasheet”.</p>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep         y</span></span>
-<span><span class="co">## 1         1        1  4.913369</span></span>
-<span><span class="co">## 2         1        2  6.826738</span></span>
-<span><span class="co">## 3         1        3  8.740107</span></span>
-<span><span class="co">## 4         1        4 10.653476</span></span>
-<span><span class="co">## 5         1        5 12.566846</span></span>
-<span><span class="co">## 6         1        6 14.480215</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep        y</span></span>
+<span><span class="co">## 1         1        1  7.29095</span></span>
+<span><span class="co">## 2         1        2 11.58190</span></span>
+<span><span class="co">## 3         1        3 15.87285</span></span>
+<span><span class="co">## 4         1        4 20.16380</span></span>
+<span><span class="co">## 5         1        5 24.45475</span></span>
+<span><span class="co">## 6         1        6 28.74570</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="plotting-uncertainty-in-syncrosim-studio">Plotting uncertainty in SyncroSim Studio<a class="anchor" aria-label="anchor" href="#plotting-uncertainty-in-syncrosim-studio"></a>

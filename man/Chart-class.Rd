@@ -3,7 +3,6 @@
 \docType{class}
 \name{Chart-class}
 \alias{Chart-class}
-\alias{Chart}
 \title{SyncroSim Chart class}
 \description{
 \code{Chart} object representing a SyncroSim Chart object. A Chart object
