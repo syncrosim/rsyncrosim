@@ -14,8 +14,8 @@ NULL
 #' exist, it will be created.
 #' @param session SyncroSim session.
 #' @return
-#' Invisibly returns \code{TRUE} upon success (i.e.successful backup) and
-#' \code{FALSE} upon failure.
+#' Invisibly returns "successful restore" upon success (i.e.successful backup)
+#' and \code{FALSE} upon failure.
 #'
 #' @examples
 #' \dontrun{
