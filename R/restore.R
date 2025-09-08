@@ -15,7 +15,7 @@ NULL
 #' @param session SyncroSim session.
 #' @return
 #' Invisibly returns "successful restore" upon success (i.e.successful backup)
-#' and \code{FALSE} upon failure.
+#' and "Library restoration failed" with error message upon failure.
 #'
 #' @examples
 #' \dontrun{
@@ -54,7 +54,7 @@ setMethod("restore", signature(ssimLibraryBackup = "character"),
               message("Library restored")
               return(invisible(TRUE))
             } else {
-              message("Library restoration failed")
+              message(paste0("Library restoration failed:\n", tt))
               return(invisible(FALSE))
             }
           })
