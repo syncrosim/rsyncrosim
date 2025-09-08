@@ -9,9 +9,9 @@ NULL
 #' Restores a SyncroSim library from a backup file.
 #'
 #' @param ssimLibraryBackup character string. Path to a library backup file
-#' @param folder character string. Optional folder to restore the library into.
-#' If NULL, restores to default location. If the folder specified does not
-#' exist, it will be created.
+#' @param folder character string. Optional path to a folder to restore
+#' the library into. If NULL, restores to default location. If the folder
+#' specified does not exist, it will be created.
 #' @param session SyncroSim session.
 #' @return
 #' Invisibly returns "successful restore" upon success (i.e.successful backup)
