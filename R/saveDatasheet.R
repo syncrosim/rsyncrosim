@@ -163,8 +163,11 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
   }
   
   # Add invisible columns to data to ensure they are not overwritten
-  originalData <- .datasheet(ssimObject, name, returnInvisible = T)
-  data <- merge(data, originalData, all = T)
+  # if datasheet is possibly a validation source
+  if ((scope == "project") & (append != FALSE)) {
+    originalData <- .datasheet(ssimObject, name, returnInvisible = T)
+    data <- merge(data, originalData, all = T)
+  }
   
   # Subset data by the valid columns
   colsToKeep <- colnames(data)[colnames(data) %in% colsToKeep]
