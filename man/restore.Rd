@@ -19,7 +19,7 @@ specified does not exist, it will be created.}
 \item{session}{SyncroSim session.}
 }
 \value{
-Invisibly returns \code{TRUE} upon success (i.e.successful restore)
+Invisibly returns \code{TRUE} upon success (i.e. successful restore)
 and \code{FALSE} upon failure.
 }
 \description{

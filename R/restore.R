@@ -14,7 +14,7 @@ NULL
 #' specified does not exist, it will be created.
 #' @param session SyncroSim session.
 #' @return
-#' Invisibly returns \code{TRUE} upon success (i.e.successful restore)
+#' Invisibly returns \code{TRUE} upon success (i.e. successful restore)
 #' and \code{FALSE} upon failure.
 #'
 #' @examples
@@ -51,7 +51,7 @@ setMethod("restore", signature(ssimLibraryBackup = "character"),
             tt <- command(args = args, session = session)
 
             if (any(grepl("Library successfully restored", tt, fixed = TRUE))) {
-              message("Library restored")
+              message(tt)
               return(invisible(TRUE))
             } else {
               message(paste0("Library restoration failed:\n", tt))
