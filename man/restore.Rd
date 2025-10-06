@@ -30,9 +30,9 @@ Restores a SyncroSim library from a backup file.
 # Specify file path and name of SsimLibrary backup file
 myLibraryBackupName <- file.path(tempdir(), "testlib.ssimbak")
 
-# Set up a SyncroSim Session and create SsimLibrary from backup file
+# Set up a SyncroSim Session and restore SsimLibrary from backup file
 mySession <- session()
-myLibrary <- restore(ssimLibraryBackup = myLibraryBackupName,
+restore(ssimLibraryBackup = myLibraryBackupName,
 session = mySession)
 
 }
