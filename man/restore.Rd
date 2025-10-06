@@ -19,8 +19,8 @@ specified does not exist, it will be created.}
 \item{session}{SyncroSim session.}
 }
 \value{
-Invisibly returns "successful restore" upon success (i.e.successful backup)
-and "Library restoration failed" with error message upon failure.
+Invisibly returns \code{TRUE} upon success (i.e.successful restore)
+and \code{FALSE} upon failure.
 }
 \description{
 Restores a SyncroSim library from a backup file.

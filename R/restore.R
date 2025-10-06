@@ -14,8 +14,8 @@ NULL
 #' specified does not exist, it will be created.
 #' @param session SyncroSim session.
 #' @return
-#' Invisibly returns "successful restore" upon success (i.e.successful backup)
-#' and "Library restoration failed" with error message upon failure.
+#' Invisibly returns \code{TRUE} upon success (i.e.successful restore)
+#' and \code{FALSE} upon failure.
 #'
 #' @examples
 #' \dontrun{
