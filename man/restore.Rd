@@ -10,14 +10,17 @@ restore(ssimLibraryBackup, folder = NULL, session = NULL)
 \S4method{restore}{character}(ssimLibraryBackup, folder = NULL, session = NULL)
 }
 \arguments{
-\item{ssimLibraryBackup}{SsimLibrary backup file or path to a library backup file}
+\item{ssimLibraryBackup}{character string. Path to a library backup file}
 
-\item{folder}{Optional folder to restore the library into. If NULL, restores to default location.}
+\item{folder}{character string. Optional path to a folder to restore
+the library into. If NULL, restores to default location. If the folder
+specified does not exist, it will be created.}
 
-\item{session}{SyncroSim session}
+\item{session}{SyncroSim session.}
 }
 \value{
-"Library restored" or "Library restoration failed".
+Invisibly returns \code{TRUE} upon success (i.e. successful restore)
+and \code{FALSE} upon failure.
 }
 \description{
 Restores a SyncroSim library from a backup file.
@@ -27,9 +30,10 @@ Restores a SyncroSim library from a backup file.
 # Specify file path and name of SsimLibrary backup file
 myLibraryBackupName <- file.path(tempdir(), "testlib.ssimbak")
 
-# Set up a SyncroSim Session and create SsimLibrary from backup file
+# Set up a SyncroSim Session and restore SsimLibrary from backup file
 mySession <- session()
-myLibrary <- restore(ssimLibraryBackup = myLibraryBackupName, session = mySession)
+restore(ssimLibraryBackup = myLibraryBackupName,
+session = mySession)
 
 }
 

@@ -1,4 +1,5 @@
-# Copyright (c) 2024 Apex Resource Management Solution Ltd. (ApexRMS). All rights reserved.
+# Copyright (c) 2024 Apex Resource Management Solution Ltd. (ApexRMS). All
+# rights reserved.
 # MIT License
 #' @include AAAClassDefinitions.R
 NULL
@@ -7,19 +8,24 @@ NULL
 #'
 #' Restores a SyncroSim library from a backup file.
 #'
-#' @param ssimLibraryBackup SsimLibrary backup file or path to a library backup file
-#' @param folder Optional folder to restore the library into. If NULL, restores to default location.
-#' @param session SyncroSim session
-#' @return "Library restored" or "Library restoration failed".
+#' @param ssimLibraryBackup character string. Path to a library backup file
+#' @param folder character string. Optional path to a folder to restore
+#' the library into. If NULL, restores to default location. If the folder
+#' specified does not exist, it will be created.
+#' @param session SyncroSim session.
+#' @return
+#' Invisibly returns \code{TRUE} upon success (i.e. successful restore)
+#' and \code{FALSE} upon failure.
 #'
 #' @examples
 #' \dontrun{
 #' # Specify file path and name of SsimLibrary backup file
 #' myLibraryBackupName <- file.path(tempdir(), "testlib.ssimbak")
 #'
-#' # Set up a SyncroSim Session and create SsimLibrary from backup file
+#' # Set up a SyncroSim Session and restore SsimLibrary from backup file
 #' mySession <- session()
-#' myLibrary <- restore(ssimLibraryBackup = myLibraryBackupName, session = mySession)
+#' restore(ssimLibraryBackup = myLibraryBackupName,
+#'         session = mySession)
 #'
 #' }
 #'
@@ -39,15 +45,16 @@ setMethod("restore", signature(ssimLibraryBackup = "character"),
               stop(paste0("Library not found: ", ssimLibraryBackup))
             }
 
-            args <- list(restore = NULL, lib = ssimLibraryBackup, folder = folder)
+            args <- list(restore = NULL, lib = ssimLibraryBackup,
+                         folder = folder)
 
             tt <- command(args = args, session = session)
 
             if (any(grepl("Library successfully restored", tt, fixed = TRUE))) {
-              message("Library restored")
+              message(tt)
               return(invisible(TRUE))
             } else {
-              message("Library restoration failed")
+              message(paste0("Library restoration failed:\n", tt))
               return(invisible(FALSE))
             }
           })
