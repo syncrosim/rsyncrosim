@@ -25,7 +25,7 @@ NULL
 #' # Set up a SyncroSim Session and restore SsimLibrary from backup file
 #' mySession <- session()
 #' restore(ssimLibraryBackup = myLibraryBackupName,
-#' session = mySession)
+#'         session = mySession)
 #'
 #' }
 #'
