@@ -33,7 +33,7 @@ myLibraryBackupName <- file.path(tempdir(), "testlib.ssimbak")
 # Set up a SyncroSim Session and restore SsimLibrary from backup file
 mySession <- session()
 restore(ssimLibraryBackup = myLibraryBackupName,
-session = mySession)
+        session = mySession)
 
 }
 

@@ -1,13 +1,16 @@
-# rsyncrosim 2.1.7
+# rsyncrosim 2.1.8
 
 ## Breaking changes:
 
 ## Bug fixes:
 
+* Bug fix to prevent overwriting of default invisible values in project-scope datasheets
+
 ## New features:
 
-## Minor improvements and fixes:
+* Added restore function to restore a SyncroSim library backup to a .ssim file
+* Added compact function to clean up the underlying database of a SyncroSim library
 
-* Add error handling when version command in `session()` fails
+## Minor improvements and fixes:
 
 
