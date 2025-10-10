@@ -3,12 +3,12 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Sets the \code{\link{Chart}} type and axes
+#' Sets the \code{\link{Chart-class}} type and axes
 #'
-#' Sets the \code{\link{Chart}} type and adds the variables to plot
+#' Sets the \code{\link{Chart-class}} type and adds the variables to plot
 #' in the line chart.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\link{Chart-class}} object
 #' @param type character. Chart type. Can be "Line" (Default) or "Column".
 #' @param addX character or character vector. X variable(s) to add to the chart. 
 #' If \code{NULL} (Default), does not add any X variables. If no X variables

@@ -7,7 +7,7 @@ NULL
 #'
 #' Signs in to syncrosim.com to authenticate user credentials.
 #'
-#' @param session \code{\link{Session}} object. If \code{NULL}(default), the 
+#' @param session \code{\link{Session-class}} object. If \code{NULL}(default), the 
 #' default session will be used
 #' 
 #' @return 

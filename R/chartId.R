@@ -5,15 +5,15 @@ NULL
 
 #' Retrieves chartId of SyncroSim Chart
 #'
-#' Retrieves the Chart Id of a SyncroSim \code{\link{Chart}}.
+#' Retrieves the Chart Id of a SyncroSim \code{\link{Chart-class}}.
 #'
-#' @param ssimObject \code{\link{Chart}} object
+#' @param ssimObject \code{\link{Chart-class}} object
 #' 
 #' @return 
 #' An integer: chart id.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

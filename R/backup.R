@@ -5,19 +5,19 @@ NULL
 
 #' Backup a SsimLibrary
 #'
-#' Backup a \code{\link{SsimLibrary}}. The backup folder can be defined in the
+#' Backup a \code{\link{SsimLibrary-class}}. The backup folder can be defined in the
 #' SyncroSim User Interface, but is by default at the same level as the 
 #' SsimLibrary file, and is called libraryName.backup.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}}, 
-#'     \code{\link{Project}} or \code{\link{Scenario}} object
+#' @param ssimObject \code{\link{SsimLibrary-class}}, 
+#'     \code{\link{Project-class}} or \code{\link{Scenario-class}} object
 #' 
 #' @return 
 #' Invisibly returns \code{TRUE} upon success (i.e.successful 
 #' backup) and \code{FALSE} upon failure.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

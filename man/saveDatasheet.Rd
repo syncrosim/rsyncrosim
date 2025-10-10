@@ -13,8 +13,8 @@ saveDatasheet(ssimObject, data, name = NULL, append = NULL, force = FALSE)
 \S4method{saveDatasheet}{SsimObject}(ssimObject, data, name = NULL, append = NULL, force = FALSE)
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or
-\code{\link{Scenario}} object}
+\item{ssimObject}{\code{\link{SsimLibrary-class}}, \code{\link{Project-class}}, or
+\code{\link{Scenario-class}} object}
 
 \item{data}{data.frame. The datasheet to load}
 
@@ -35,8 +35,8 @@ Invisibly returns a vector or list of logical values for each
 input: \code{TRUE} upon success (i.e.successful save) and \code{FALSE} upon failure.
 }
 \description{
-Saves a datasheet to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or
-\code{\link{Scenario}}.
+Saves a datasheet to a \code{\link{SsimLibrary-class}}, \code{\link{Project-class}}, or
+\code{\link{Scenario-class}}.
 }
 \details{
 About the 'append' argument:

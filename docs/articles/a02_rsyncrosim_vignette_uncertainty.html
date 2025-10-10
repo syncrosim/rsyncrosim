@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -163,7 +163,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.16"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.20"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -186,8 +186,8 @@ package list when we call the <code><a href="../reference/packages.html">package
 <span><span class="co">## 1 helloworldUncertainty   2.1.0</span></span>
 <span><span class="co">##                                                   description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use iterations with an R model</span></span>
-<span><span class="co">##                                                                              location</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.0</span></span>
+<span><span class="co">##                                                                                    location</span></span>
+<span><span class="co">## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -439,7 +439,7 @@ single iteration.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">multiprocess</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    1 obs. of  4 variables:</span></span>
 <span><span class="co">##  $ EnableMultiprocessing  : logi FALSE</span></span>
-<span><span class="co">##  $ MaximumJobs            : num 7</span></span>
+<span><span class="co">##  $ MaximumJobs            : num 15</span></span>
 <span><span class="co">##  $ EnableMultiScenario    : logi FALSE</span></span>
 <span><span class="co">##  $ EnableCopyExternalFiles: logi NA</span></span></code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
@@ -476,13 +476,13 @@ result scenarios using the <code><a href="../reference/scenario.html">scenario()
 <span><span class="fu"><a href="../reference/scenario.html">scenario</a></span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   ScenarioId ProjectId ParentId                                          Name</span></span>
 <span><span class="co">## 1          1         1       NA                             My first scenario</span></span>
-<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 05-Sep-2025 4:03 PM)</span></span>
+<span><span class="co">## 2          2         1        1 My first scenario ([1] @ 10-Oct-2025 2:07 PM)</span></span>
 <span><span class="co">##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly</span></span>
 <span><span class="co">## 1   N/A                No                 NA       No         No</span></span>
 <span><span class="co">## 2   N/A                No                 NA      Yes         No</span></span>
 <span><span class="co">##        DateLastModified</span></span>
-<span><span class="co">## 1 2025-09-05 at 4:03 PM</span></span>
-<span><span class="co">## 2 2025-09-05 at 4:03 PM</span></span></code></pre>
+<span><span class="co">## 1 2025-10-10 at 2:06 PM</span></span>
+<span><span class="co">## 2 2025-10-10 at 2:07 PM</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -502,13 +502,8 @@ containing the results is called “OutputDatasheet”.</p>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep        y</span></span>
-<span><span class="co">## 1         1        1  7.29095</span></span>
-<span><span class="co">## 2         1        2 11.58190</span></span>
-<span><span class="co">## 3         1        3 15.87285</span></span>
-<span><span class="co">## 4         1        4 20.16380</span></span>
-<span><span class="co">## 5         1        5 24.45475</span></span>
-<span><span class="co">## 6         1        6 28.74570</span></span></code></pre>
+<pre><code><span><span class="co">## [1] y</span></span>
+<span><span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="plotting-uncertainty-in-syncrosim-studio">Plotting uncertainty in SyncroSim Studio<a class="anchor" aria-label="anchor" href="#plotting-uncertainty-in-syncrosim-studio"></a>
@@ -545,7 +540,7 @@ Studio to plot uncertainty</div>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

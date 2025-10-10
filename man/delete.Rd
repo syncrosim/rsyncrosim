@@ -28,26 +28,26 @@ delete(
 )
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-\code{\link{Scenario}}, \code{\link{Folder}}, or \code{\link{Chart}}
+\item{ssimObject}{\code{\link{SsimLibrary-class}}, \code{\link{Project-class}},
+\code{\link{Scenario-class}}, \code{\link{Folder-class}}, or \code{\link{Chart-class}}
 object}
 
 \item{project}{character string, numeric, or vector of these. One or more
-\code{\link{Project}} names or ids. Note that project argument is ignored
+\code{\link{Project-class}} names or ids. Note that project argument is ignored
 if ssimObject is a list. Note that integer ids are slightly faster (optional)}
 
 \item{scenario}{character string, numeric, or vector of these. One or more
-\code{\link{Scenario}} names or ids. Note that scenario argument is
+\code{\link{Scenario-class}} names or ids. Note that scenario argument is
 ignored if ssimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
 \item{folder}{character string, numeric, or vector of these. One or more
-\code{\link{Folder}} names or ids. Note that folder argument is
+\code{\link{Folder-class}} names or ids. Note that folder argument is
 ignored if ssimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
 \item{chart}{character string, numeric, or vector of these. One or more
-\code{\link{Chart}} names or ids. Note that chart argument is
+\code{\link{Chart-class}} names or ids. Note that chart argument is
 ignored if SsimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
@@ -57,7 +57,7 @@ names (optional)}
 \item{force}{logical. If \code{FALSE} (default), user will be prompted to approve
 removal of each item}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
+\item{session}{\code{\link{Session-class}} object. If \code{NULL} (default), session()
 will be used. Only applicable when \code{ssimObject} argument is a character}
 }
 \value{
@@ -72,7 +72,7 @@ Deletes one or more items. Note that this is irreversible. To delete
 a library, you must use the \code{\link{deleteLibrary}} function instead.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

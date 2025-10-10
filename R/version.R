@@ -7,13 +7,13 @@ NULL
 #'
 #' Retrieves the version of a SyncroSim Session.
 #'
-#' @param session \code{\link{Session}} object
+#' @param session \code{\link{Session-class}} object
 #' 
 #' @return
 #' A character string e.g. "2.2.13".
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set SyncroSim Session
 #' mySession <- session()
 #' 

@@ -19,12 +19,12 @@ dependency(ssimObject) <- value
 \S4method{dependency}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}} object, character string, integer, or
+\item{ssimObject}{\code{\link{Scenario-class}} object, character string, integer, or
 vector of these. The Scenario object, name, or ID to which a dependency is to
 be added (or has already been added if \code{remove=TRUE}). Note that integer ids
 are slightly faster.}
 
-\item{value}{\code{\link{Scenario}} object, character string, integer, or
+\item{value}{\code{\link{Scenario-class}} object, character string, integer, or
 vector of these. The Scenario object, name, or ID to be used as the
 dependency. If an empty vector is provided, all dependencies are removed. If
 multiple elements are provided, elements should be ordered from highest to lowest
@@ -35,7 +35,7 @@ A data.frame: all dependencies for a given Scenario
 }
 \description{
 List dependencies, set dependencies, or remove dependencies from a SyncroSim
-\code{\link{Scenario}}. Setting dependencies is a way of linking together
+\code{\link{Scenario-class}}. Setting dependencies is a way of linking together
 Scenario Datafeeds, such that a change in the Scenario that is the source
 dependency will update the dependent Scenario as well.
 }
@@ -49,7 +49,7 @@ Note that pre-existing dependencies will be removed when adding new dependencies
 those elements are included in the vector of new dependencies.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

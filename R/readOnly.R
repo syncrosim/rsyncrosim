@@ -5,12 +5,12 @@ NULL
 
 #' Read-only status of a SsimLibrary, Project, Scenario, Folder or Chart
 #'
-#' Retrieves or sets whether or not a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}}, \code{\link{Scenario}}, \code{\link{Folder}},
-#' or \code{\link{Chart}} is read-only.
+#' Retrieves or sets whether or not a \code{\link{SsimLibrary-class}}, 
+#' \code{\link{Project-class}}, \code{\link{Scenario-class}}, \code{\link{Folder-class}},
+#' or \code{\link{Chart-class}} is read-only.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{SsimLibrary}}, or \code{\link{Folder}} object
+#' @param ssimObject \code{\link{Scenario-class}}, \code{\link{Project-class}}, 
+#' \code{\link{SsimLibrary-class}}, or \code{\link{Folder-class}} object
 #' @param value logical. If \code{TRUE} the SsimObject will be read-only. Default is 
 #' \code{FALSE}
 #' 
@@ -19,7 +19,7 @@ NULL
 #' otherwise.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

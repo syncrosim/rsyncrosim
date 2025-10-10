@@ -16,7 +16,7 @@ scenario(
 )
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}} or \code{\link{Project}} object,
+\item{ssimObject}{\code{\link{SsimLibrary-class}} or \code{\link{Project-class}} object,
 or character (i.e. a filepath)}
 
 \item{scenario}{character, integer, or vector of these. Names or ids of one or
@@ -26,7 +26,7 @@ used to open existing Scenarios}
 \item{sourceScenario}{character or integer. If not \code{NULL} (Default), new
 Scenarios will be copies of the sourceScenario}
 
-\item{folder}{\code{\link{Folder}} object, character, or integer. The Folder object,
+\item{folder}{\code{\link{Folder-class}} object, character, or integer. The Folder object,
 name (must be unique), or Folder ID. If not \code{NULL} (Default), new
 Scenarios will be moved into the specified folder}
 
@@ -40,7 +40,7 @@ dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL}
 
 \item{forceElements}{logical. If \code{TRUE} then returns a single Scenario as a named
 list; if \code{FALSE} (default), returns a single Scenario as a
-\code{\link{Scenario}} object. Applies only when \code{summary=FALSE}}
+\code{\link{Scenario-class}} object. Applies only when \code{summary=FALSE}}
 
 \item{overwrite}{logical. If \code{TRUE} an existing Scenario will be overwritten.
 Default is \code{FALSE}}
@@ -48,12 +48,12 @@ Default is \code{FALSE}}
 \value{
 A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario
 objects, or a data frame of Scenario names and descriptions. If \code{summary = FALSE},
-returns one or more \code{\link{Scenario}} objects representing SyncroSim Scenarios.
+returns one or more \code{\link{Scenario-class}} objects representing SyncroSim Scenarios.
 If \code{summary = TRUE}, returns Scenario summary info.
 }
 \description{
-Create or open one or more \code{\link{Scenario}}s from a
-\code{\link{SsimLibrary}}.
+Create or open one or more \code{\link{Scenario-class}}s from a
+\code{\link{SsimLibrary-class}}.
 }
 \details{
 For each element of Scenario:
@@ -75,7 +75,7 @@ a copy of sourceScenario.
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

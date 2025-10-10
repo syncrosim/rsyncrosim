@@ -6,11 +6,11 @@ NULL
 #' Installed or available packages
 #'
 #' Retrieves the packages installed or available in the current session if 
-#' called on a \code{\link{Session}} object, or the packages added to a 
-#' SyncroSim Library if called on a \code{\link{SsimLibrary}} object.
+#' called on a \code{\link{Session-class}} object, or the packages added to a 
+#' SyncroSim Library if called on a \code{\link{SsimLibrary-class}} object.
 #'
-#' @param ssimObject \code{\link{Session}} or 
-#' \code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
+#' @param ssimObject \code{\link{Session-class}} or 
+#' \code{\link{SsimLibrary-class}} object. If \code{NULL} (default), \code{session()}
 #' will be used
 #' @param installed logical or character. \code{TRUE} (default) to list 
 #' installed packages or \code{FALSE} to list available packages on the server
@@ -20,7 +20,7 @@ NULL
 #' for a specified package.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

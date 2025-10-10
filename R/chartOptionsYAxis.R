@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Modify the Y axis of a \code{\link{Chart}}
+#' Modify the Y axis of a \code{\link{Chart-class}}
 #'
-#' Set the title and style of the Y axis of a \code{\link{Chart}}.
+#' Set the title and style of the Y axis of a \code{\link{Chart-class}}.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\link{Chart-class}} object
 #' @param title character. Title of the Y axis. Default is \code{NULL}.
 #' @param numberStyle character. Sets the style for the axes labels. Options 
 #' include "number", scientific", or "currency". Default is \code{NULL}.

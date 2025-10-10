@@ -22,8 +22,8 @@ description(ssimObject) <- value
 \S4method{description}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-\code{\link{Scenario}}, or \code{\link{Folder}} object}
+\item{ssimObject}{\code{\link{SsimLibrary-class}}, \code{\link{Project-class}},
+\code{\link{Scenario-class}}, or \code{\link{Folder-class}} object}
 
 \item{value}{character string specifying the new description}
 }
@@ -31,11 +31,11 @@ description(ssimObject) <- value
 A character string: the description of the SsimObject
 }
 \description{
-Get or set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}},
-or \code{\link{Scenario}}.
+Get or set the description of a \code{\link{SsimLibrary-class}}, \code{\link{Project-class}},
+or \code{\link{Scenario-class}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

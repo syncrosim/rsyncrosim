@@ -5,18 +5,18 @@ NULL
 
 #' Name of a SsimLibrary, Project, Scenario, Folder, or Chart
 #'
-#' Retrieves or sets the name of a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
+#' Retrieves or sets the name of a \code{\link{SsimLibrary-class}}, 
+#' \code{\link{Project-class}}, \code{\link{Scenario-class}}, or \code{\link{Folder-class}}.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{SsimLibrary}}, \code{\link{Folder}} or \code{\link{Chart}} object
+#' @param ssimObject \code{\link{Scenario-class}}, \code{\link{Project-class}}, 
+#' \code{\link{SsimLibrary-class}}, \code{\link{Folder-class}} or \code{\link{Chart-class}} object
 #' @param value character string of the new name
 #' 
 #' @return 
 #' A character string: the name of the SsimObject.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

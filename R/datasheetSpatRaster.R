@@ -6,7 +6,7 @@ NULL
 #' Retrieve spatial data from a SyncroSim Datasheet
 #'
 #' This function retrieves spatial columns from one or more SyncroSim 
-#' \code{\link{Scenario}} Datasheets.
+#' \code{\link{Scenario-class}} Datasheets.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario object or list of Scenario objects. If 
 #'     SsimLibrary/Project, then \code{scenario} argument is required

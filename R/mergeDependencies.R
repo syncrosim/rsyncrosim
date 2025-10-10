@@ -5,10 +5,10 @@ NULL
 
 #' Merge dependencies for a Scenario
 #'
-#' Retrieves or sets whether or not a \code{\link{Scenario}} is configured to 
+#' Retrieves or sets whether or not a \code{\link{Scenario-class}} is configured to 
 #' merge dependencies at run time.
 #'
-#' @param ssimObject \code{\link{Scenario}} object
+#' @param ssimObject \code{\link{Scenario-class}} object
 #' @param value logical. If \code{TRUE} the Scenario will be set to merge 
 #' dependencies at run time. Default is \code{FALSE}
 #' 
@@ -17,7 +17,7 @@ NULL
 #' and \code{FALSE} otherwise.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

@@ -3,7 +3,7 @@
 \name{chartOptionsLegend}
 \alias{chartOptionsLegend}
 \alias{chartOptionsLegend,Chart-method}
-\title{Modifies the legend settings for a \code{\link{Chart}}}
+\title{Modifies the legend settings for a \code{\link{Chart-class}}}
 \usage{
 chartOptionsLegend(
   chart,
@@ -24,7 +24,7 @@ chartOptionsLegend(
 )
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\link{Chart-class}} object}
 
 \item{show}{logical. Whether to show the chart legend. Default is \code{NULL}.}
 
@@ -46,7 +46,7 @@ other than the chart are provided, a data.frame of the current chart legend
 settings.
 }
 \description{
-Modifies the legend settings for a \code{\link{Chart}}.
+Modifies the legend settings for a \code{\link{Chart-class}}.
 }
 \examples{
 \dontrun{

@@ -68,7 +68,7 @@ setMethod(f = "initialize", signature = "Session",
 
 #' Create or return SyncroSim Session
 #'
-#' Methods to create or return a SyncroSim \code{\link{Session}}.
+#' Methods to create or return a SyncroSim \code{\link{Session-class}}.
 #' 
 #' @param x character or SsimObject. Path to SyncroSim installation. If \code{NULL}
 #' (default), then default path is used
@@ -77,8 +77,8 @@ setMethod(f = "initialize", signature = "Session",
 #' @param printCmd logical. Applies only if x is a path or \code{NULL} If \code{TRUE}, 
 #'     arguments passed to the SyncroSim console are also printed. Helpful for 
 #'     debugging. Default is \code{FALSE}
-#' @param ssimObject \code{\link{Project}} or \code{\link{Scenario}} object
-#' @param value \code{\link{Session}} object
+#' @param ssimObject \code{\link{Project-class}} or \code{\link{Scenario-class}} object
+#' @param value \code{\link{Session-class}} object
 #' 
 #' @details
 #'
@@ -91,10 +91,10 @@ setMethod(f = "initialize", signature = "Session",
 #' to use the new software.
 #' 
 #' @return 
-#' A SyncroSim \code{\link{Session}} object.
+#' A SyncroSim \code{\link{Session-class}} object.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

@@ -13,7 +13,7 @@ removePackage(ssimLibrary, packages)
 \S4method{removePackage}{SsimLibrary}(ssimLibrary, packages)
 }
 \arguments{
-\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
+\item{ssimLibrary}{\code{\link{SsimLibrary-class}} object}
 
 \item{packages}{character string or vector of package name(s)}
 }
@@ -22,7 +22,7 @@ This function invisibly returns \code{TRUE} upon success (i.e.successful
 removal of the package) or \code{FALSE} upon failure.
 }
 \description{
-Removes package(s) from a \code{\link{SsimLibrary}}.
+Removes package(s) from a \code{\link{SsimLibrary-class}}.
 }
 \examples{
 \dontrun{

@@ -5,17 +5,17 @@ NULL
 
 #' Retrieves projectId of SyncroSim Project, Scenario, Folder, or Chart
 #'
-#' Retrieves the projectId of a SyncroSim \code{\link{Project}},
-#' \code{\link{Scenario}}, \code{\link{Folder}} or \code{\link{Chart}}.
+#' Retrieves the projectId of a SyncroSim \code{\link{Project-class}},
+#' \code{\link{Scenario-class}}, \code{\link{Folder-class}} or \code{\link{Chart-class}}.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{Folder}}, or \code{\link{Chart}} object
+#' @param ssimObject \code{\link{Scenario-class}}, \code{\link{Project-class}}, 
+#' \code{\link{Folder-class}}, or \code{\link{Chart-class}} object
 #' 
 #' @return 
 #' An integer: project id.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

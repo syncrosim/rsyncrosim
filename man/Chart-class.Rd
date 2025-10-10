@@ -12,7 +12,7 @@ and can be viewed using the SyncroSim User Interface.
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{\code{\link{Session}} object. The Session associated with the
+\item{\code{session}}{\code{\link{Session-class}} object. The Session associated with the
 Chart's SsimLibrary}
 
 \item{\code{filepath}}{character string. The path to the Chart's SsimLibrary on disk}
@@ -23,6 +23,6 @@ Chart's SsimLibrary}
 }}
 
 \seealso{
-See \code{\link{chart}} for options when creating or loading a
+See \code{\link{Chart-class}} for options when creating or loading a
 SyncroSim Chart
 }

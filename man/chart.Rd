@@ -13,7 +13,7 @@ chart(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
 \S4method{chart}{SsimObject}(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Project}} or \code{\link{Scenario}} object}
+\item{ssimObject}{\code{\link{Project-class}} or \code{\link{Scenario-class}} object}
 
 \item{chart}{character or integer. If character, then will either open an
 existing chart if \code{create=FALSE}, or will create a new chart with the
@@ -36,11 +36,11 @@ a SyncroSim Chart object}
 A \code{Chart} object representing a SyncroSim chart
 }
 \description{
-Create or open a \code{\link{Chart}} from a SyncroSim
-\code{\link{Project}}.
+Create or open a \code{\link{Chart-class}} from a SyncroSim
+\code{\link{Project-class}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

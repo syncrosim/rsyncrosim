@@ -125,7 +125,7 @@ A SpatRaster object, or List. See terra package documentation for details.
 }
 \description{
 This function retrieves spatial columns from one or more SyncroSim
-\code{\link{Scenario}} Datasheets.
+\code{\link{Scenario-class}} Datasheets.
 }
 \details{
 The names of the returned SpatRaster contain metadata.

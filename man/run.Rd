@@ -16,8 +16,8 @@ run(ssimObject, scenario = NULL, summary = FALSE, transformerName = NULL)
 \S4method{run}{SsimObject}(ssimObject, scenario = NULL, summary = FALSE, transformerName = NULL)
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}}, or
-\code{\link{Scenario}} object, or a list of Scenarios, or character (i.e.
+\item{ssimObject}{\code{\link{SsimLibrary-class}}, \code{\link{Project-class}}, or
+\code{\link{Scenario-class}} object, or a list of Scenarios, or character (i.e.
 path to a SsimLibrary on disk)}
 
 \item{scenario}{character, integer, or vector of these. Scenario names or ids.
@@ -35,7 +35,7 @@ of result Scenarios. The name is the parent Scenario for each result. If
 \code{summary = TRUE}, returns summary info for result Scenarios.
 }
 \description{
-Run one or more SyncroSim \code{\link{Scenario}}(s).
+Run one or more SyncroSim \code{\link{Scenario-class}}(s).
 }
 \details{
 Note that breakpoints are ignored unless the SsimObject is a single Scenario.

@@ -17,7 +17,7 @@ command(
 vector. Arguments for the SyncroSim console. See 'details' for more
 information about this argument}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL}(default), the default
+\item{session}{\code{\link{Session-class}} object. If \code{NULL}(default), the default
 session will be used}
 
 \item{program}{character. The name of the target SyncroSim executable.

@@ -10,7 +10,7 @@ NULL
 #' @param versions character or character vector. The version(s) of the 
 #' package(s) to uninstall. If \code{NULL} then will uninstall all versions of 
 #' the package(s).
-#' @param session \code{\link{Session}} object. If \code{NULL} (default), 
+#' @param session \code{\link{Session-class}} object. If \code{NULL} (default), 
 #' \code{session()} will be used
 #' 
 #' @return 

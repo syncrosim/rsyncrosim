@@ -5,9 +5,9 @@ NULL
 
 #' Removes SyncroSim package(s)
 #'
-#' Removes package(s) from a \code{\link{SsimLibrary}}.
+#' Removes package(s) from a \code{\link{SsimLibrary-class}}.
 #'
-#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param ssimLibrary \code{\link{SsimLibrary-class}} object
 #' @param packages character string or vector of package name(s)
 #' 
 #' @return

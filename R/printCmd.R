@@ -5,7 +5,7 @@ NULL
 
 #' Retrieves printCmd setting of a Session
 #'
-#' Retrieves a printCmd setting of a \code{\link{Session}} object. The printCmd
+#' Retrieves a printCmd setting of a \code{\link{Session-class}} object. The printCmd
 #' setting configures a Session for printing commands sent to the console.
 #'
 #' @param session Session object or character. The Session or path
@@ -17,7 +17,7 @@ NULL
 #' \code{FALSE} if it is not.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set SyncroSim Session
 #' mySession <- session()
 #' 

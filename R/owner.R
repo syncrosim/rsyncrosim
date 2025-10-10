@@ -5,11 +5,11 @@ NULL
 
 #' Owner of a SsimLibrary, Project, or Scenario
 #'
-#' Retrieves or sets the owner of a \code{\link{SsimLibrary}},
-#' \code{\link{Project}}, or \code{\link{Scenario}}.
+#' Retrieves or sets the owner of a \code{\link{SsimLibrary-class}},
+#' \code{\link{Project-class}}, or \code{\link{Scenario-class}}.
 #'
-#' @param ssimObject \code{\link{Session}}, \code{\link{Project}}, 
-#' or \code{\link{SsimLibrary}} object
+#' @param ssimObject \code{\link{Session-class}}, \code{\link{Project-class}}, 
+#' or \code{\link{SsimLibrary-class}} object
 #' @param value character string of the new owner
 #' 
 #' @return 

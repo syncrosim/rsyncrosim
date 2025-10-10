@@ -3,7 +3,7 @@
 \name{chartOptionsYAxis}
 \alias{chartOptionsYAxis}
 \alias{chartOptionsYAxis,Chart-method}
-\title{Modify the Y axis of a \code{\link{Chart}}}
+\title{Modify the Y axis of a \code{\link{Chart-class}}}
 \usage{
 chartOptionsYAxis(
   chart,
@@ -28,7 +28,7 @@ chartOptionsYAxis(
 )
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\link{Chart-class}} object}
 
 \item{title}{character. Title of the Y axis. Default is \code{NULL}.}
 
@@ -56,7 +56,7 @@ other than the chart are provided, a data.frame of the current chart Y axis
 settings.
 }
 \description{
-Set the title and style of the Y axis of a \code{\link{Chart}}.
+Set the title and style of the Y axis of a \code{\link{Chart-class}}.
 }
 \examples{
 \dontrun{

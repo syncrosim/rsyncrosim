@@ -5,7 +5,7 @@ NULL
 
 #' Adds package to SyncroSim Installation
 #'
-#' This function installs a package to the SyncroSim \code{\link{Session}}.
+#' This function installs a package to the SyncroSim \code{\link{Session-class}}.
 #' If only the package name is provided as input, the function queries the 
 #' SyncroSim package server for the specified package. If a file path is 
 #' provided as input, the function installs a package to SyncroSim from a local 
@@ -17,7 +17,7 @@ NULL
 #' @param versions character string. The packages version(s) to install if
 #' installing a package from the server. If \code{NULL} then installs the 
 #' latest version 
-#' @param session \code{\link{Session}} object. If \code{NULL} (default),
+#' @param session \code{\link{Session-class}} object. If \code{NULL} (default),
 #' \code{session()} will be used
 #' 
 #' @return 

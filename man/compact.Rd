@@ -13,17 +13,17 @@ compact(ssimLibrary)
 \S4method{compact}{SsimLibrary}(ssimLibrary)
 }
 \arguments{
-\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
+\item{ssimLibrary}{\code{\link{SsimLibrary-class}} object}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful
 compacting) and \code{FALSE} upon failure.
 }
 \description{
-Compact a \code{\link{SsimLibrary}}. Removes extraneous data from the SyncroSim library.
+Compact a \code{\link{SsimLibrary-class}}. Removes extraneous data from the SyncroSim library.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

@@ -18,7 +18,7 @@ createCondaEnv(pkgs, session = NULL)
 \arguments{
 \item{pkgs}{character or list of characters.}
 
-\item{session}{\code{\link{Session}} object or character (i.e. filepath to a
+\item{session}{\code{\link{Session-class}} object or character (i.e. filepath to a
 session). If \code{NULL}, \code{session()} will be used}
 }
 \value{

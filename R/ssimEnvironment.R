@@ -79,7 +79,7 @@ envCreateTempFolder <- function(folderName) {
 #' development of R-based Syncrosim Packages. This function creates and returns 
 #' a SyncroSim Data Folder.
 #'
-#' @param scenario \code{\link{Scenario}} object. A SyncroSim result Scenario
+#' @param scenario \code{\link{Scenario-class}} object. A SyncroSim result Scenario
 #' @param datasheetName character. The datasheet name
 #' 
 #' @return 

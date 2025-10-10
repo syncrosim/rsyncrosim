@@ -5,16 +5,16 @@ NULL
 
 #' Compacts a SsimLibrary
 #'
-#' Compact a \code{\link{SsimLibrary}}. Removes extraneous data from the SyncroSim library.
+#' Compact a \code{\link{SsimLibrary-class}}. Removes extraneous data from the SyncroSim library.
 #'
-#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param ssimLibrary \code{\link{SsimLibrary-class}} object
 #'
 #' @return
 #' Invisibly returns \code{TRUE} upon success (i.e.successful
 #' compacting) and \code{FALSE} upon failure.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #'

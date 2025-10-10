@@ -126,10 +126,10 @@ setMethod(
 
 #' Create or open a Folder
 #'
-#' Create or open a \code{\link{Folder}} from a SyncroSim
-#' \code{\link{Project}}.
+#' Create or open a \code{\link{Folder-class}} from a SyncroSim
+#' \code{\link{Project-class}}.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Project}} object.
+#' @param ssimObject \code{\link{SsimLibrary-class}} or \code{\link{Project-class}} object.
 #' @param folder character or integer. If character, then will either open an
 #' existing folder if \code{create=FALSE}, or will create a new folder with the 
 #' given name if the folder does not exist yet or \code{create=TRUE} (Default). 
@@ -151,7 +151,7 @@ setMethod(
 #' A \code{Folder} object representing a SyncroSim folder.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

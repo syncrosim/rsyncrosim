@@ -5,9 +5,9 @@ NULL
 
 #' Ignore dependencies for a Scenario
 #'
-#' Retrieves or sets the Datafeeds to ignore for a \code{\link{Scenario}}.
+#' Retrieves or sets the Datafeeds to ignore for a \code{\link{Scenario-class}}.
 #'
-#' @param ssimObject \code{\link{Scenario}} object
+#' @param ssimObject \code{\link{Scenario-class}} object
 #' @param value character string of Datafeed names to be ignored, separated by
 #' commas (optional)
 #' 
@@ -15,7 +15,7 @@ NULL
 #' A character string: Scenario Datafeeds that will be ignored.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

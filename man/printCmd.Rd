@@ -22,11 +22,11 @@ A logical : \code{TRUE} if the session is configured to print commands and
 \code{FALSE} if it is not.
 }
 \description{
-Retrieves a printCmd setting of a \code{\link{Session}} object. The printCmd
+Retrieves a printCmd setting of a \code{\link{Session-class}} object. The printCmd
 setting configures a Session for printing commands sent to the console.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set SyncroSim Session
 mySession <- session()
 

@@ -91,8 +91,8 @@ datasheet(
 )
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-or \code{\link{Scenario}} object or list of objects.
+\item{ssimObject}{\code{\link{SsimLibrary-class}}, \code{\link{Project-class}},
+or \code{\link{Scenario-class}} object or list of objects.
 Note that all objects in a list must be of the same type, and belong to
 the same SsimLibrary}
 
@@ -102,10 +102,10 @@ all datasheets in the ssimObject will be returned. Note that setting
 consuming and not generally recommended}
 
 \item{project}{numeric or numeric vector. One or more
-\code{\link{Project}} ids}
+\code{\link{Project-class}} ids}
 
 \item{scenario}{numeric or numeric vector. One or more
-\code{\link{Scenario}} ids}
+\code{\link{Scenario-class}} ids}
 
 \item{summary}{logical or character. If \code{TRUE} (default) returns a data.frame of sheet names
 and other info including built-in core SyncroSim Datasheets. If \code{FALSE} returns
@@ -170,13 +170,13 @@ and other information, otherwise returns a data.frame or list of these.
 }
 \description{
 This function retrieves a SyncroSim Datasheet, either by calling the SyncroSim
-console, or by directly querying the \code{\link{SsimLibrary}} database.
+console, or by directly querying the \code{\link{SsimLibrary-class}} database.
 }
 \details{
 If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the
 Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{packages},
 \code{name}, \code{displayName}, \code{isSingle}, \code{data}. data only displayed for
-a SyncroSim \code{\link{Scenario}}. \code{dataInherited} and \code{dataSource} columns
+a SyncroSim \code{\link{Scenario-class}}. \code{dataInherited} and \code{dataSource} columns
 added if a Scenario has dependencies. If \code{optional=FALSE}, columns include:
 \code{scope}, \code{name}, \code{displayName}. All other arguments are ignored.
 
@@ -189,9 +189,9 @@ A warning is issued if the lookup has not yet been set.
 console command).
 \item If \code{empty=FALSE} and \code{lookupsAsFactors=FALSE}: Column types are not checked,
 and the optional argument is ignored. Fast (1 less console command).
-\item If SsimObject is a list of \code{\link{Scenario}} or \code{\link{Project}}
-objects (output from \code{\link{run}}, \code{\link{Scenario}} or
-\code{\link{Project}}): Adds ScenarioId/ProjectId column if appropriate.
+\item If SsimObject is a list of \code{\link{Scenario-class}} or \code{\link{Project-class}}
+objects (output from \code{\link{run}}, \code{\link{Scenario-class}} or
+\code{\link{Project-class}}): Adds ScenarioId/ProjectId column if appropriate.
 \item If Scenario/Project is a vector: Adds ScenarioId/ProjectId column
 as necessary.
 \item If requested Datasheet has Scenario scope and contains info from more

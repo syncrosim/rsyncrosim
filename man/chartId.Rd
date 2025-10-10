@@ -13,16 +13,16 @@ chartId(ssimObject)
 \S4method{chartId}{Chart}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Chart}} object}
+\item{ssimObject}{\code{\link{Chart-class}} object}
 }
 \value{
 An integer: chart id.
 }
 \description{
-Retrieves the Chart Id of a SyncroSim \code{\link{Chart}}.
+Retrieves the Chart Id of a SyncroSim \code{\link{Chart-class}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

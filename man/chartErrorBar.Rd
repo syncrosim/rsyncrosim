@@ -3,14 +3,14 @@
 \name{chartErrorBar}
 \alias{chartErrorBar}
 \alias{chartErrorBar,Chart-method}
-\title{Modify the error bars of a \code{\link{Chart}}}
+\title{Modify the error bars of a \code{\link{Chart-class}}}
 \usage{
 chartErrorBar(chart, type = NULL, lower = NULL, upper = NULL)
 
 \S4method{chartErrorBar}{Chart}(chart, type = NULL, lower = NULL, upper = NULL)
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\link{Chart-class}} object}
 
 \item{type}{character. Type of error bar. Values can be "percentile",
 "minmax", or "none". Default is NULL.}
@@ -29,7 +29,7 @@ other than the chart are provided, a data.frame of the current chart error
 bar settings.
 }
 \description{
-Set the type and properties of the error bars of a \code{\link{Chart}}.
+Set the type and properties of the error bars of a \code{\link{Chart-class}}.
 }
 \examples{
 \dontrun{

@@ -94,10 +94,10 @@ setMethod(
 
 #' Create or open a chart
 #'
-#' Create or open a \code{\link{Chart}} from a SyncroSim
-#' \code{\link{Project}}.
+#' Create or open a \code{\link{Chart-class}} from a SyncroSim
+#' \code{\link{Project-class}}.
 #'
-#' @param ssimObject \code{\link{Project}} or \code{\link{Scenario}} object
+#' @param ssimObject \code{\link{Project-class}} or \code{\link{Scenario-class}} object
 #' @param chart character or integer. If character, then will either open an
 #' existing chart if \code{create=FALSE}, or will create a new chart with the 
 #' given name if the chart does not exist yet or \code{create=TRUE}. 
@@ -117,7 +117,7 @@ setMethod(
 #' A \code{Chart} object representing a SyncroSim chart
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

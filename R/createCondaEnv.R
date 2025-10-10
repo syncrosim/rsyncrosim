@@ -8,7 +8,7 @@ NULL
 #' Creates the conda environment for the specified SyncroSim package(s).
 #'
 #' @param pkgs character or list of characters. 
-#' @param session \code{\link{Session}} object or character (i.e. filepath to a 
+#' @param session \code{\link{Session-class}} object or character (i.e. filepath to a 
 #' session). If \code{NULL}, \code{session()} will be used
 #'  
 #' @return 

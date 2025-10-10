@@ -14,7 +14,7 @@ setClassUnion("NULLOrChar", c("NULL", "character"))
 #' \code{SsimLibrary}, \code{Project} and \code{Scenario} objects contain a 
 #' \code{Session} used to query and modify the object.
 #'
-#' @seealso See \code{\link{session}} for options when creating a Session.
+#' @seealso See \code{\link{Session-class}} for options when creating a Session.
 #' @slot filepath The path to the SyncroSim installation
 #' @slot silent If \code{FALSE}, all SyncroSim output with non-zero exit status is 
 #'     printed. Helpful for debugging. Default is \code{TRUE}
@@ -33,7 +33,7 @@ setClass("Session", representation(filepath = "character",
 # SyncroSim Object class (nor exported)
 # SsimLibrary, Project and Scenario all inherit from this abstract class.
 #
-# @slot session The SyncroSim \code{\link{Session}}.
+# @slot session The SyncroSim \code{\link{Session-class}}.
 # @slot filepath The path to the Library on disk.
 # @slot datasheetNames The names and scope of all datasheets in the Library. 
 # Used to speed calculations.
@@ -46,11 +46,11 @@ setClass("SsimObject",
 #'
 #' \code{SsimLibrary} object representing a SyncroSim Library. A SsimLibrary is the
 #' highest level of organization in the SyncroSim workflow and contains at 
-#' least one \code{\link{Project}}.
+#' least one \code{\link{Project-class}}.
 #'
-#' @seealso See \code{\link{ssimLibrary}} for options when creating or loading a 
+#' @seealso See \code{\link{SsimLibrary-class}} for options when creating or loading a 
 #'     SyncroSim SsimLibrary.
-#' @slot session \code{\link{Session}} object
+#' @slot session \code{\link{Session-class}} object
 #' @slot filepath character string. The path to the SsimLibrary on disk
 #' @slot datasheetNames character string. The name and scope of all Datasheets
 #'  in the SsimLibrary.
@@ -67,9 +67,9 @@ setClass("SsimLibrary", contains = "SsimObject",
 #' lowest level of organization in the SyncroSim workflow, and is often used 
 #' to isolate information on a single Datasheet. 
 #'
-#' @seealso See \code{\link{scenario}} for options when creating or loading a 
+#' @seealso See \code{\link{Scenario-class}} for options when creating or loading a 
 #'     SyncroSim Scenario.
-#' @slot session \code{\link{Session}} object. The Session associated with the 
+#' @slot session \code{\link{Session-class}} object. The Session associated with the 
 #' Scenario
 #' @slot filepath character string. The path to the Scenario's SsimLibrary on disk
 #' @slot datasheetNames character string. Names and scope of all Datasheets in
@@ -93,13 +93,13 @@ setClass("Scenario", contains = "SsimObject",
 #' SyncroSim Project class
 #'
 #' \code{Project} object representing a SyncroSim Project. A Project is the intermediate
-#' level of organization in the SyncroSim workflow, between the \code{\link{ssimLibrary}} 
-#' and the \code{\link{scenario}}. It contains information relevant to a group 
+#' level of organization in the SyncroSim workflow, between the \code{\link{SsimLibrary-class}} 
+#' and the \code{\link{Scenario-class}}. It contains information relevant to a group 
 #' of Scenarios.
 #'
-#' @seealso See \code{\link{project}} for options when creating or loading a 
+#' @seealso See \code{\link{Project-class}} for options when creating or loading a 
 #'     SyncroSim Project.
-#' @slot session \code{\link{Session}} object. The Session associated with the 
+#' @slot session \code{\link{Session-class}} object. The Session associated with the 
 #' Project's SsimLibrary
 #' @slot filepath character string. The path to the Project's SsimLibrary on disk
 #' @slot datasheetNames Names and scopes of datasheets in the Project's Library
@@ -114,13 +114,13 @@ setClass("Project", contains = "SsimObject",
 #' SyncroSim Folder class
 #'
 #' \code{Folder} object representing a SyncroSim Folder. A Folder is used to 
-#' organize SyncroSim Scenarios within a \code{\link{Project}}, and can be 
+#' organize SyncroSim Scenarios within a \code{\link{Project-class}}, and can be 
 #' nested within other Folders at the project-level. These are used mostly in 
 #' the SyncroSim User Interface.
 #'
-#' @seealso See \code{\link{folder}} for options when creating or loading a 
+#' @seealso See \code{\link{Folder-class}} for options when creating or loading a 
 #' SyncroSim Folder
-#' @slot session \code{\link{Session}} object. The Session associated with the 
+#' @slot session \code{\link{Session-class}} object. The Session associated with the 
 #' Folder's SsimLibrary
 #' @slot filepath character string. The path to the Folder's SsimLibrary on disk
 #' @slot folderId integer. The Folder id
@@ -141,9 +141,9 @@ setClass("Folder", contains = "SsimObject",
 #' is used to create line or column charts from tabular output data in the 
 #' and can be viewed using the SyncroSim User Interface.
 #'
-#' @seealso See \code{\link{chart}} for options when creating or loading a 
+#' @seealso See \code{\link{Chart-class}} for options when creating or loading a 
 #' SyncroSim Chart
-#' @slot session \code{\link{Session}} object. The Session associated with the 
+#' @slot session \code{\link{Session-class}} object. The Session associated with the 
 #' Chart's SsimLibrary
 #' @slot filepath character string. The path to the Chart's SsimLibrary on disk
 #' @slot chartId integer. The Chart id

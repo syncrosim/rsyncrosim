@@ -5,20 +5,20 @@ NULL
 
 #' Retrieves folderId of SyncroSim Folder or Scenario
 #'
-#' Retrieves the Folder Id of a SyncroSim \code{\link{Folder}} or 
-#' \code{\link{Scenario}}. Can also use to set the Folder Id for a 
-#' \code{\link{Scenario}} - this will move the \code{\link{Scenario}} into the
+#' Retrieves the Folder Id of a SyncroSim \code{\link{Folder-class}} or 
+#' \code{\link{Scenario-class}}. Can also use to set the Folder Id for a 
+#' \code{\link{Scenario-class}} - this will move the \code{\link{Scenario-class}} into the
 #' desired folder in the SyncroSim User Interface.
 #'
-#' @param ssimObject \code{\link{Folder}} or \code{\link{Scenario}} object
-#' @param value integer of the folder ID to move the \code{\link{Scenario}} to. 
-#' Only applicable if the ssimObject provided is a \code{\link{Scenario}}.
+#' @param ssimObject \code{\link{Folder-class}} or \code{\link{Scenario-class}} object
+#' @param value integer of the folder ID to move the \code{\link{Scenario-class}} to. 
+#' Only applicable if the ssimObject provided is a \code{\link{Scenario-class}}.
 #' 
 #' @return 
 #' An integer: folder id.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

@@ -3,7 +3,7 @@
 \name{chartOptionsFormat}
 \alias{chartOptionsFormat}
 \alias{chartOptionsFormat,Chart-method}
-\title{Modifies the font settings for a \code{\link{Chart}}}
+\title{Modifies the font settings for a \code{\link{Chart-class}}}
 \usage{
 chartOptionsFormat(
   chart,
@@ -28,7 +28,7 @@ chartOptionsFormat(
 )
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\link{Chart-class}} object}
 
 \item{noDataAsZero}{logical. Determines whether NA, Null and No Data values
 should be charted as zero. Default is \code{NULL}.}
@@ -57,7 +57,7 @@ other than the chart are provided, a data.frame of the current chart format
 settings.
 }
 \description{
-Modifies the font style and size of various \code{\link{Chart}} components.
+Modifies the font style and size of various \code{\link{Chart-class}} components.
 }
 \examples{
 \dontrun{

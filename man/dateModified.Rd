@@ -22,16 +22,16 @@ dateModified(ssimObject)
 \S4method{dateModified}{Folder}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-\code{\link{Scenario}}, or \code{\link{Folder}} object}
+\item{ssimObject}{\code{\link{SsimLibrary-class}}, \code{\link{Project-class}},
+\code{\link{Scenario-class}}, or \code{\link{Folder-class}} object}
 }
 \value{
 A character string: date and time of the most recent modification
 to the SsimObject provided as input.
 }
 \description{
-The most recent modification date of a \code{\link{SsimLibrary}},
-\code{\link{Project}}, \code{\link{Scenario}} or \code{\link{Folder}}.
+The most recent modification date of a \code{\link{SsimLibrary-class}},
+\code{\link{Project-class}}, \code{\link{Scenario-class}} or \code{\link{Folder-class}}.
 }
 \examples{
 \dontrun{

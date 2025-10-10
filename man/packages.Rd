@@ -19,8 +19,8 @@ packages(ssimObject = NULL, installed = TRUE)
 \S4method{packages}{SsimLibrary}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}} or
-\code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
+\item{ssimObject}{\code{\link{Session-class}} or
+\code{\link{SsimLibrary-class}} object. If \code{NULL} (default), \code{session()}
 will be used}
 
 \item{installed}{logical or character. \code{TRUE} (default) to list
@@ -32,11 +32,11 @@ for a specified package.
 }
 \description{
 Retrieves the packages installed or available in the current session if
-called on a \code{\link{Session}} object, or the packages added to a
-SyncroSim Library if called on a \code{\link{SsimLibrary}} object.
+called on a \code{\link{Session-class}} object, or the packages added to a
+SyncroSim Library if called on a \code{\link{SsimLibrary-class}} object.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

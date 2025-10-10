@@ -13,16 +13,16 @@ scenarioId(scenario)
 \S4method{scenarioId}{Scenario}(scenario)
 }
 \arguments{
-\item{scenario}{\code{\link{Scenario}} object}
+\item{scenario}{\code{\link{Scenario-class}} object}
 }
 \value{
 Integer id of the input Scenario.
 }
 \description{
-Retrieves the scenarioId of a \code{\link{Scenario}}.
+Retrieves the scenarioId of a \code{\link{Scenario-class}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

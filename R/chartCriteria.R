@@ -8,9 +8,9 @@ NULL
 #' Retrieves the available variables for charting, or the variables that are 
 #' set for an existing chart.
 #'
-#' @param ssimObject \code{\link{Project}} or \code{\link{Chart}} object
+#' @param ssimObject \code{\link{Project-class}} or \code{\link{Chart-class}} object
 #' @param chart character or integer. Either the name or ID of an existing chart.
-#' If \code{NULL} and a \code{\link{Project}} is provided as the first argument,
+#' If \code{NULL} and a \code{\link{Project-class}} is provided as the first argument,
 #' then will return the available variables for charting.
 #' @param variable character. The name of a charting variable. If provided,
 #' then will return a list of the available filter columns for that variable.

@@ -24,5 +24,5 @@ printed. Helpful for debugging. Default is \code{FALSE}}
 }}
 
 \seealso{
-See \code{\link{session}} for options when creating a Session.
+See \code{\link{Session-class}} for options when creating a Session.
 }

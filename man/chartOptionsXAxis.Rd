@@ -3,7 +3,7 @@
 \name{chartOptionsXAxis}
 \alias{chartOptionsXAxis}
 \alias{chartOptionsXAxis,Chart-method}
-\title{Modify the X Axis of a \code{\link{Chart}}}
+\title{Modify the X Axis of a \code{\link{Chart-class}}}
 \usage{
 chartOptionsXAxis(
   chart,
@@ -22,7 +22,7 @@ chartOptionsXAxis(
 )
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\link{Chart-class}} object}
 
 \item{title}{character. Title of the X Axis. Default is \code{NULL}.}
 
@@ -41,7 +41,7 @@ other than the chart are provided, a data.frame of the current chart X Axis
 settings.
 }
 \description{
-Set the title and style of the X Axis of a \code{\link{Chart}}.
+Set the title and style of the X Axis of a \code{\link{Chart-class}}.
 }
 \examples{
 \dontrun{

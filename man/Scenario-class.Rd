@@ -12,7 +12,7 @@ to isolate information on a single Datasheet.
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{\code{\link{Session}} object. The Session associated with the
+\item{\code{session}}{\code{\link{Session-class}} object. The Session associated with the
 Scenario}
 
 \item{\code{filepath}}{character string. The path to the Scenario's SsimLibrary on disk}
@@ -32,6 +32,6 @@ exists at the root of the project, then this value is NULL.}
 }}
 
 \seealso{
-See \code{\link{scenario}} for options when creating or loading a
+See \code{\link{Scenario-class}} for options when creating or loading a
 SyncroSim Scenario.
 }

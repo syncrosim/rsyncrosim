@@ -5,15 +5,15 @@ NULL
 
 #' Retrieves scenarioId of Scenario
 #'
-#' Retrieves the scenarioId of a \code{\link{Scenario}}.
+#' Retrieves the scenarioId of a \code{\link{Scenario-class}}.
 #'
-#' @param scenario \code{\link{Scenario}} object
+#' @param scenario \code{\link{Scenario-class}} object
 #' 
 #' @return 
 #' Integer id of the input Scenario.
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Set the file path and name of the new SsimLibrary
 #' myLibraryName <- file.path(tempdir(),"testlib")
 #' 

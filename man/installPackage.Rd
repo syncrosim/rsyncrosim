@@ -23,7 +23,7 @@ install}
 installing a package from the server. If \code{NULL} then installs the
 latest version}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default),
+\item{session}{\code{\link{Session-class}} object. If \code{NULL} (default),
 \code{session()} will be used}
 }
 \value{
@@ -31,7 +31,7 @@ Invisibly returns \code{TRUE} upon success (i.e.successful
 install) and \code{FALSE} upon failure.
 }
 \description{
-This function installs a package to the SyncroSim \code{\link{Session}}.
+This function installs a package to the SyncroSim \code{\link{Session-class}}.
 If only the package name is provided as input, the function queries the
 SyncroSim package server for the specified package. If a file path is
 provided as input, the function installs a package to SyncroSim from a local

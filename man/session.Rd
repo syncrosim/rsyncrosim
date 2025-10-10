@@ -35,15 +35,15 @@ from the console are ignored. Otherwise they are printed. Default is \code{FALSE
 arguments passed to the SyncroSim console are also printed. Helpful for
 debugging. Default is \code{FALSE}}
 
-\item{ssimObject}{\code{\link{Project}} or \code{\link{Scenario}} object}
+\item{ssimObject}{\code{\link{Project-class}} or \code{\link{Scenario-class}} object}
 
-\item{value}{\code{\link{Session}} object}
+\item{value}{\code{\link{Session-class}} object}
 }
 \value{
-A SyncroSim \code{\link{Session}} object.
+A SyncroSim \code{\link{Session-class}} object.
 }
 \description{
-Methods to create or return a SyncroSim \code{\link{Session}}.
+Methods to create or return a SyncroSim \code{\link{Session-class}}.
 }
 \details{
 In order to avoid problems with SyncroSim version compatibility and SsimLibrary
@@ -55,7 +55,7 @@ have updated the SyncroSim software and want to update an existing SsimObject
 to use the new software.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

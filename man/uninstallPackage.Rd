@@ -23,7 +23,7 @@ to uninstall}
 package(s) to uninstall. If \code{NULL} then will uninstall all versions of
 the package(s).}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default),
+\item{session}{\code{\link{Session-class}} object. If \code{NULL} (default),
 \code{session()} will be used}
 }
 \value{

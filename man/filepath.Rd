@@ -19,19 +19,19 @@ filepath(ssimObject)
 \S4method{filepath}{Folder}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}},
-\code{\link{SsimLibrary}}, or \code{\link{Folder}} object}
+\item{ssimObject}{\code{\link{Session-class}}, \code{\link{Project-class}},
+\code{\link{SsimLibrary-class}}, or \code{\link{Folder-class}} object}
 }
 \value{
 A character string: the path to a SyncroSim object on disk.
 }
 \description{
-Retrieves the path to a SyncroSim \code{\link{Session}},
-\code{\link{SsimLibrary}}, \code{\link{Project}}, \code{\link{Scenario}},
-of \code{\link{Folder}} on disk.
+Retrieves the path to a SyncroSim \code{\link{Session-class}},
+\code{\link{SsimLibrary-class}}, \code{\link{Project-class}}, \code{\link{Scenario-class}},
+of \code{\link{Folder-class}} on disk.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 
