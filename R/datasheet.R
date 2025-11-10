@@ -439,10 +439,28 @@ setMethod("datasheet",
         datasheetCols <- .dataframeFromSSim(tt, csv = FALSE)
         
         if (!(filterColumn %in% datasheetCols$name)) {
-          filterColumn <- NULL
+          stop("filterColumn is not present in datasheet.")
         }
-        
-        else if (is.na(suppressWarnings(as.integer(filterValue)))) {
+
+        # verify filterValue is present in filterColumn
+        tempFile <- tempfile(fileext = ".csv")
+        args <- list(export = NULL, lib = .filepath(x), sheet = name,
+                    file = tempFile, valsheets = NULL, force = NULL)
+        args <- assignPidSid(args, sheetNames, pid, sid)
+        tt <- command(args, session = session(x))
+
+        if (!identical(tt, "saved")) {
+          stop("Unable to export datasheet for filter check: ", tt)
+        }
+
+        dsPreview <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
+        unlink(tempFile)
+
+        if (!(filterValue %in% dsPreview[[filterColumn]])) {
+          stop(paste0("filterValue is not present in filterColumn."))
+        }
+
+        if (is.na(suppressWarnings(as.integer(filterValue)))) {
           
           inputDatasheetName <- subset(datasheetCols, 
                                        name == filterColumn)$formula1
