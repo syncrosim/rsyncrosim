@@ -425,7 +425,6 @@ setMethod("datasheet",
         }
       }
       
-      # Check here if filterColumn exists in current datasheet if not null
       # Also check here if second part of filterColumn is not an int, find corresponding ID int
       if (!is.null(filterColumn)) {
         
@@ -439,10 +438,10 @@ setMethod("datasheet",
         datasheetCols <- .dataframeFromSSim(tt, csv = FALSE)
         
         if (!(filterColumn %in% datasheetCols$name)) {
-          stop("filterColumn is not present in datasheet.")
+          stop("Column '", filterColumn, "' is not present in the datasheet.")
         }
 
-        # verify filterValue is present in filterColumn
+        # verify filterValues are present in filterColumn
         tempFile <- tempfile(fileext = ".csv")
         args <- list(export = NULL, lib = .filepath(x), sheet = name,
                     file = tempFile, valsheets = NULL, force = NULL)
@@ -456,11 +455,22 @@ setMethod("datasheet",
         dsPreview <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
         unlink(tempFile)
 
-        if (!(filterValue %in% dsPreview[[filterColumn]])) {
-          stop(paste0("filterValue is not present in filterColumn."))
+        presentVals  <- unique(dsPreview[[filterColumn]])
+        missingVals  <- setdiff(filterValue, presentVals)
+
+        if (length(missingVals) > 0) {
+          stop(
+            paste0(
+              "The following filterValue(s) are not present in column '",
+              filterColumn, "': ",
+              paste(missingVals, collapse = ", ")
+            )
+          )
         }
 
-        if (is.na(suppressWarnings(as.integer(filterValue)))) {
+        fvInt <- suppressWarnings(as.integer(filterValue))
+
+        if (all(is.na(fvInt))) {
           
           inputDatasheetName <- subset(datasheetCols, 
                                        name == filterColumn)$formula1
@@ -477,15 +487,24 @@ setMethod("datasheet",
           args <- assignPidSid(args, sheetNames, pid, sid)
           tt <- command(args, session = session(x))
           inputDatasheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
-          newColID <- inputDatasheet[inputDatasheet$Name == filterValue,][[filterColumn]] ## when to use Name vs Filename???
+          matchedRows <- inputDatasheet$Name %in% filterValue
+          newColID <- inputDatasheet[matchedRows, ][[filterColumn]]
           
           if (length(newColID) == 0) {
             stop("filterValue not found in filterColumn.")
           }
           
-          filterColumn <- paste0(filterColumn, "=", newColID)
-        } else {
-          filterColumn <- paste0(filterColumn, "=", filterValue)
+        #   if (length(newColID) > 1) {
+        #     filterColumn <- paste0(paste0(filterColumn, "=", newColID), collapse = ";")
+        #   } else {
+        #     filterColumn <- paste0(filterColumn, "=", newColID)
+        #   }
+        # } else {
+        #   if (length(filterValue) > 1) {
+        #     filterColumn <- paste0(paste0(filterColumn, "=", filterValue), collapse = ";")
+        #   } else {
+        #     filterColumn <- paste0(filterColumn, "=", filterValue)
+        #   }
         }
       }
     }
@@ -603,8 +622,62 @@ setMethod("datasheet",
           }
           args <- assignPidSid(args, sheetNames, pid, sid)
           
-          if (!is.null(filterColumn)){
-            args[["filtercol"]] <- filterColumn
+          # Handle filterColumn argument (single or multiple values)
+          if (!is.null(filterColumn)) {
+            if (length(filterValue) > 1) {
+              # Multiple filter values: loop and merge
+              allSheets <- list()
+              
+              for (fv in filterValue) {
+                tempFileLoop <- tempfile(fileext = ".csv")
+                
+                argsLoop <- args
+                argsLoop[["file"]] <- tempFileLoop
+
+                print(filterValue) # REMOVE
+                print(paste0(filterColumn, "=", fv)) # REMOVE
+
+                argsLoop[["filtercol"]] <- paste0(filterColumn, "=", fv)
+                
+                ttLoop <- command(argsLoop, .session(x))
+                if (!identical(ttLoop, "saved")) {
+                  stop("Unable to export datasheet for filterValue '", fv, "': ", ttLoop)
+                }
+
+                if (!file.exists(tempFileLoop)) {
+                  stop("Expected export file was not created: ", tempFileLoop)
+                }
+
+                print(tempFileLoop) # REMOVE
+                
+                oneSheet <- read.csv(tempFileLoop, as.is = TRUE, encoding = "UTF-8")
+                print(oneSheet) # REMOVE
+                unlink(tempFileLoop)
+                
+                if (nrow(oneSheet) > 0) {
+                  allSheets[[as.character(fv)]] <- oneSheet
+                }
+              }
+              
+              # Merge all data frames together
+              if (length(allSheets) == 0) {
+                stop(
+                  paste0(
+                    "None of the filterValue(s) ", paste(filterValue, collapse = ", "),
+                    " are present in column '", filterColumn, "'."
+                  )
+                )
+              }
+              print(allSheets) # REMOVE
+              sheet <- do.call(rbind, allSheets)
+              next  # Skip the single-value export below
+              
+            } else {
+              # Single filter value: normal export
+              print(filterValue) # REMOVE
+              print(paste0(filterColumn, "=", filterValue)) # REMOVE
+              args[["filtercol"]] <- paste0(filterColumn, "=", filterValue)
+            }
           }
           
           if (rawValues){
