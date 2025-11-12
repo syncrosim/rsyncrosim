@@ -1,4 +1,4 @@
-# rsyncrosim ![](reference/figures/logo.png)
+# rsyncrosim
 
 ## The R interface to SyncroSim
 
