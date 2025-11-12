@@ -1,4 +1,4 @@
-# rsyncrosim
+# rsyncrosim <img src="reference/figures/logo.png" align="right" width=140/>
 
 ## The R interface to SyncroSim
 
