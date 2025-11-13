@@ -1,0 +1,145 @@
+# Create or open a SsimLibrary
+
+Creates or opens a `SsimLibrary` object. If `summary = TRUE`, returns
+SsimLibrary summary info. If `summary = NULL`, returns SsimLibrary
+summary info if ssimObject is a SsimLibrary, SsimLibrary object
+otherwise.
+
+## Usage
+
+``` r
+ssimLibrary(
+  name = NULL,
+  summary = NULL,
+  packages = NULL,
+  session = NULL,
+  forceUpdate = FALSE,
+  overwrite = FALSE,
+  useConda = NULL
+)
+
+# S4 method for class 'SsimObject'
+ssimLibrary(
+  name = NULL,
+  summary = NULL,
+  packages = NULL,
+  session = NULL,
+  forceUpdate = FALSE,
+  overwrite = FALSE,
+  useConda = NULL
+)
+
+# S4 method for class 'missingOrNULLOrChar'
+ssimLibrary(
+  name = NULL,
+  summary = NULL,
+  packages = NULL,
+  session = NULL,
+  forceUpdate = FALSE,
+  overwrite = FALSE,
+  useConda = NULL
+)
+```
+
+## Arguments
+
+- name:
+
+  `SsimLibrary`, `Project` or `Scenario` object, or character string
+  (i.e. path to a SsimLibrary or SsimObject)
+
+- summary:
+
+  logical. Default is `TRUE`
+
+- packages:
+
+  character or character vector. The SyncroSim Package(s) to add to the
+  Library if creating a new Library (optional)
+
+- session:
+
+  `Session` object. If `NULL` (default), session() will be used
+
+- forceUpdate:
+
+  logical. If `FALSE` (default) user will be prompted to approve any
+  required updates. If `TRUE`, required updates will be applied
+  silently.
+
+- overwrite:
+
+  logical. If `TRUE` an existing SsimLibrary will be overwritten
+
+- useConda:
+
+  logical. If set to TRUE, then all packages associated with the Library
+  will have their Conda environments created and Conda environments will
+  be used during runtime.If set to FALSE, then no packages will have
+  their Conda environments created and Conda environments will not be
+  used during runtime. Default is NULL
+
+## Value
+
+Returns a `SsimLibrary` object.
+
+## Details
+
+Example arguments:
+
+- If name is SyncroSim Project or Scenario: Returns the `SsimLibrary`
+  associated with the Project or Scenario.
+
+- If name is `NULL`: Create/open a SsimLibrary in the current working
+  directory with the filename SsimLibrary.ssim.
+
+- If name is a string: If string is not a valid path treat as filename
+  in working directory. If no file suffix provided in string then add
+  .ssim. Attempts to open a SsimLibrary of that name. If SsimLibrary
+  does not exist creates a SsimLibrary of type package in the current
+  working directory.
+
+- If given a name and a package: Create/open a SsimLibrary called
+  [name](https://syncrosim.github.io/rsyncrosim/reference/name.md).ssim.
+  Returns an error if the SsimLibrary already exists but is a different
+  type of package.
+
+## Examples
+
+``` r
+# \donttest{
+# Make sure packages are installed
+installPackage("stsim")
+#> Package <stsim v4.5.3> installed
+
+# Create or open a SsimLibrary using the default Session
+myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
+
+# Create SsimLibrary using a specific Session
+mySession <- session()
+
+myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
+                         session = mySession)
+
+# Retrieve SsimLibrary properties
+session(myLibrary)
+#> class               : Session
+#> filepath [character]: C:\PROGRA~1\SYNCRO~1
+#> silent [logical]    : TRUE
+#> printCmd [logical]  : FALSE
+#> condaFilepath [NULL]: 
+
+# Create SsimLibrary from template
+installPackage("helloworldSpatial")
+#> [1] "Package helloworldSpatial v2.1.0 is already installed."
+mySession <- session()
+myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"), 
+                         session = mySession,
+                         forceUpdate = TRUE,
+                         packages = "helloworldSpatial",
+                         overwrite = TRUE)
+#> Library C:\Users\HANNAH~1\AppData\Local\Temp\Rtmp656ERu/mylib.ssim deleted
+#> Package <helloworldSpatial v2.1.0> added
+                         
+# }
+```

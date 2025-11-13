@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,7 +168,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.16"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.20"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -192,8 +192,8 @@ list returned by the <code><a href="../reference/packages.html">packages()</a></
 <span><span class="co">## 1 helloworldPipeline   2.1.0</span></span>
 <span><span class="co">##                                                  description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use pipelines with an R model</span></span>
-<span><span class="co">##                                                                           location</span></span>
-<span><span class="co">## 1 C:\\Users\\birch\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.0</span></span>
+<span><span class="co">##                                                                                 location</span></span>
+<span><span class="co">## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -447,7 +447,7 @@ single iteration.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">multiprocess</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    1 obs. of  4 variables:</span></span>
 <span><span class="co">##  $ EnableMultiprocessing  : logi FALSE</span></span>
-<span><span class="co">##  $ MaximumJobs            : num 7</span></span>
+<span><span class="co">##  $ MaximumJobs            : num 15</span></span>
 <span><span class="co">##  $ EnableMultiScenario    : logi FALSE</span></span>
 <span><span class="co">##  $ EnableCopyExternalFiles: logi NA</span></span></code></pre>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
@@ -519,8 +519,8 @@ below).</p>
 <span><span class="co">## 15                Pipeline    FALSE           N/A  TRUE        1</span></span>
 <span><span class="co">## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
 <span><span class="co">## 29                  Inputs     TRUE           N/A  TRUE        1</span></span>
-<span><span class="co">## 30    Intermediate Outputs    FALSE           N/A  TRUE        1</span></span>
-<span><span class="co">## 31                 Outputs    FALSE           N/A  TRUE        1</span></span>
+<span><span class="co">## 30    Intermediate Outputs    FALSE           N/A FALSE        1</span></span>
+<span><span class="co">## 31                 Outputs    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 32             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
 </div>
 </div>
@@ -544,13 +544,8 @@ datasheet corresponds to the results from the
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep         y</span></span>
-<span><span class="co">## 1         1        1  7.515948</span></span>
-<span><span class="co">## 2         1        2 12.031896</span></span>
-<span><span class="co">## 3         1        3 16.547844</span></span>
-<span><span class="co">## 4         1        4 21.063792</span></span>
-<span><span class="co">## 5         1        5 25.579740</span></span>
-<span><span class="co">## 6         1        6 30.095688</span></span></code></pre>
+<pre><code><span><span class="co">## [1] y</span></span>
+<span><span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre>
 <p>We can see that for every timestep in an iteration we have a new
 value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
@@ -568,13 +563,8 @@ from the <code>Hello World Pipeline 2</code> transformer stage.</p>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep       yCum</span></span>
-<span><span class="co">## 1         1        1   7.515948</span></span>
-<span><span class="co">## 2         1        2  19.547844</span></span>
-<span><span class="co">## 3         1        3  36.095688</span></span>
-<span><span class="co">## 4         1        4  57.159481</span></span>
-<span><span class="co">## 5         1        5  82.739221</span></span>
-<span><span class="co">## 6         1        6 112.834909</span></span></code></pre>
+<pre><code><span><span class="co">## [1] yCum</span></span>
+<span><span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre>
 <p>We can see for each timestep in an iteration, we have a new value of
 <em>yCum</em>, representing the cumulative value of <em>y</em> over
 time.</p>
@@ -591,7 +581,7 @@ time.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

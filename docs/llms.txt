@@ -1,0 +1,344 @@
+# rsyncrosim <img src="reference/figures/logo.png" align="right" width=140/>
+
+## The R interface to SyncroSim
+
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT/)
+[![Downloads](https://cranlogs.r-pkg.org/badges/rsyncrosim?color=brightgreen)](https://CRAN.R-project.org/package=rsyncrosim/)
+
+[![Latest
+Release](https://img.shields.io/github/v/release/syncrosim/rsyncrosim?label=Latest%20Release)](https://github.com/syncrosim/rsyncrosim/releases/latest)
+[![CRAN
+Version](https://img.shields.io/cran/v/rsyncrosim?label=CRAN%20Version)](https://CRAN.R-project.org/package=rsyncrosim)
+[![GitHub
+Version](https://img.shields.io/github/r-package/v/syncrosim/rsyncrosim?label=GitHub%20Version)](https://github.com/syncrosim/rsyncrosim/blob/dev/DESCRIPTION)
+
+## About SyncroSim
+
+[**SyncroSim**](https://syncrosim.com/) is an open science tool for
+organizing tabular and spatial data, running geospatial simulation code,
+and visualizing model results. Its flexible framework supports the
+integration of code across multiple scripting languages and the use and
+creation of customizable **SyncroSim**
+[packages](https://docs.syncrosim.com/how_to_guides/package_overview.html),
+allowing you to tailor the platform to your specific needs.
+
+For more details, please consult the **SyncroSim** [online
+documentation](https://docs.syncrosim.com/).
+
+## About `rsyncrosim`
+
+**rsyncrosim** is an open-source R package that leverages the
+**SyncroSim** command-line interface to simplify scripting model
+workflows for **SyncroSim** in R. This R package provides functions for
+building models from scratch, running those models, and accessing both
+spatial and tabular model outputs. The **rsyncrosim** package is
+designed to work with any **SyncroSim** package.
+
+A key feature of the **rsyncrosim** package is its seamless integration
+with [**SyncroSim Studio**](https://syncrosim.com/studio/), allowing you
+to interactively explore and validate your models in the user interface
+as you step through your R code. Additionally, **rsyncrosim**
+facilitates the creation of a permanent, reproducible record of the
+entire modeling workflow – including pre- and post-processing of model
+inputs and outputs – in an R script.
+
+### Installation
+
+- [Download](https://cran.r-project.org/package=rsyncrosim/) from CRAN
+
+- [Download](https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.html)
+  from GitHub
+
+### Getting Started
+
+- Run the vignettes:
+
+  - [Introduction to
+    `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.html)
+
+  - [`rsyncrosim`: introduction to
+    uncertainty](https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.html)
+
+  - [`rsyncrosim`: introduction to
+    pipelines](https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.html)
+
+  - [`rsyncrosim`: introduction to spatial
+    data](https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.html)
+
+  - [Introduction to `ST-Sim` in
+    `rsyncrosim`](https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.html)
+
+- View the package
+  [documentation](https://cran.r-project.org/package=rsyncrosim/rsyncrosim.pdf)
+
+# Package index
+
+## All functions
+
+- [`addPackage()`](https://syncrosim.github.io/rsyncrosim/reference/addPackage.md)
+  : Add SyncroSim package(s)
+
+- [`addRow()`](https://syncrosim.github.io/rsyncrosim/reference/addRow.md)
+  : Add row(s) to a data.frame
+
+- [`backup()`](https://syncrosim.github.io/rsyncrosim/reference/backup.md)
+  : Backup a SsimLibrary
+
+- [`Chart-class`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  : SyncroSim Chart class
+
+- [`chart()`](https://syncrosim.github.io/rsyncrosim/reference/chart.md)
+  : Create or open a chart
+
+- [`chartCriteria()`](https://syncrosim.github.io/rsyncrosim/reference/chartCriteria.md)
+  : Retrieves chart variables
+
+- [`chartData()`](https://syncrosim.github.io/rsyncrosim/reference/chartData.md)
+  :
+
+  Sets the `Chart` type and axes
+
+- [`chartDisagg()`](https://syncrosim.github.io/rsyncrosim/reference/chartDisagg.md)
+  :
+
+  Disaggregates the `Chart` by a Y variable
+
+- [`chartErrorBar()`](https://syncrosim.github.io/rsyncrosim/reference/chartErrorBar.md)
+  :
+
+  Modify the error bars of a `Chart`
+
+- [`chartId()`](https://syncrosim.github.io/rsyncrosim/reference/chartId.md)
+  : Retrieves chartId of SyncroSim Chart
+
+- [`chartInclude()`](https://syncrosim.github.io/rsyncrosim/reference/chartInclude.md)
+  :
+
+  Add or remove values by column in a `Chart`
+
+- [`chartOptionsFont()`](https://syncrosim.github.io/rsyncrosim/reference/chartOptionsFont.md)
+  :
+
+  Modifies the font settings for a `Chart`
+
+- [`chartOptionsFormat()`](https://syncrosim.github.io/rsyncrosim/reference/chartOptionsFormat.md)
+  :
+
+  Modifies the font settings for a `Chart`
+
+- [`chartOptionsLegend()`](https://syncrosim.github.io/rsyncrosim/reference/chartOptionsLegend.md)
+  :
+
+  Modifies the legend settings for a `Chart`
+
+- [`chartOptionsXAxis()`](https://syncrosim.github.io/rsyncrosim/reference/chartOptionsXAxis.md)
+  :
+
+  Modify the X Axis of a `Chart`
+
+- [`chartOptionsYAxis()`](https://syncrosim.github.io/rsyncrosim/reference/chartOptionsYAxis.md)
+  :
+
+  Modify the Y axis of a `Chart`
+
+- [`command()`](https://syncrosim.github.io/rsyncrosim/reference/command.md)
+  : SyncroSim console command
+
+- [`compact()`](https://syncrosim.github.io/rsyncrosim/reference/compact.md)
+  : Compacts a SsimLibrary
+
+- [`condaFilepath()`](https://syncrosim.github.io/rsyncrosim/reference/condaFilepath.md)
+  [`` `condaFilepath<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/condaFilepath.md)
+  : Path to Conda installation folder
+
+- [`createCondaEnv()`](https://syncrosim.github.io/rsyncrosim/reference/createCondaEnv.md)
+  : Create SyncroSim package conda environments
+
+- [`datasheet()`](https://syncrosim.github.io/rsyncrosim/reference/datasheet.md)
+  : Retrieve a SyncroSim Datasheet
+
+- [`datasheetSpatRaster()`](https://syncrosim.github.io/rsyncrosim/reference/datasheetSpatRaster.md)
+  : Retrieve spatial data from a SyncroSim Datasheet
+
+- [`dateModified()`](https://syncrosim.github.io/rsyncrosim/reference/dateModified.md)
+  : Last date a SsimLibrary, Project, Scenario, or Folder was modified
+
+- [`delete()`](https://syncrosim.github.io/rsyncrosim/reference/delete.md)
+  : Delete Project, Scenario, Folder, Chart or Datasheet
+
+- [`deleteLibrary()`](https://syncrosim.github.io/rsyncrosim/reference/deleteLibrary.md)
+  : Delete Library
+
+- [`dependency()`](https://syncrosim.github.io/rsyncrosim/reference/dependency.md)
+  [`` `dependency<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/dependency.md)
+  : Get, set or remove Scenario dependencies
+
+- [`description()`](https://syncrosim.github.io/rsyncrosim/reference/description.md)
+  [`` `description<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/description.md)
+  : Description of SsimLibrary, Project or Scenario
+
+- [`filepath()`](https://syncrosim.github.io/rsyncrosim/reference/filepath.md)
+  : Retrieves the path to a SyncroSim object on disk
+
+- [`Folder-class`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  : SyncroSim Folder class
+
+- [`folder()`](https://syncrosim.github.io/rsyncrosim/reference/folder.md)
+  : Create or open a Folder
+
+- [`folderId()`](https://syncrosim.github.io/rsyncrosim/reference/folderId.md)
+  [`` `folderId<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/folderId.md)
+  : Retrieves folderId of SyncroSim Folder or Scenario
+
+- [`ignoreDependencies()`](https://syncrosim.github.io/rsyncrosim/reference/ignoreDependencies.md)
+  [`` `ignoreDependencies<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/ignoreDependencies.md)
+  : Ignore dependencies for a Scenario
+
+- [`info()`](https://syncrosim.github.io/rsyncrosim/reference/info.md) :
+  Retrieves information about a library
+
+- [`installConda()`](https://syncrosim.github.io/rsyncrosim/reference/installConda.md)
+  : Installs Miniforge or Miniconda
+
+- [`installPackage()`](https://syncrosim.github.io/rsyncrosim/reference/installPackage.md)
+  : Adds package to SyncroSim Installation
+
+- [`mergeDependencies()`](https://syncrosim.github.io/rsyncrosim/reference/mergeDependencies.md)
+  [`` `mergeDependencies<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/mergeDependencies.md)
+  : Merge dependencies for a Scenario
+
+- [`name()`](https://syncrosim.github.io/rsyncrosim/reference/name.md)
+  [`` `name<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/name.md)
+  : Name of a SsimLibrary, Project, Scenario, Folder, or Chart
+
+- [`owner()`](https://syncrosim.github.io/rsyncrosim/reference/owner.md)
+  [`` `owner<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/owner.md)
+  : Owner of a SsimLibrary, Project, or Scenario
+
+- [`packages()`](https://syncrosim.github.io/rsyncrosim/reference/packages.md)
+  : Installed or available packages
+
+- [`parentId()`](https://syncrosim.github.io/rsyncrosim/reference/parentId.md)
+  : Retrieves the parent Scenario id or parent Folder id
+
+- [`printCmd()`](https://syncrosim.github.io/rsyncrosim/reference/printCmd.md)
+  : Retrieves printCmd setting of a Session
+
+- [`progressBar()`](https://syncrosim.github.io/rsyncrosim/reference/progressBar.md)
+  : Sets the progress bar in the SyncroSim User Interface
+
+- [`Project-class`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  : SyncroSim Project class
+
+- [`project()`](https://syncrosim.github.io/rsyncrosim/reference/project.md)
+  : Create or open Project(s)
+
+- [`projectId()`](https://syncrosim.github.io/rsyncrosim/reference/projectId.md)
+  : Retrieves projectId of SyncroSim Project, Scenario, Folder, or Chart
+
+- [`readOnly()`](https://syncrosim.github.io/rsyncrosim/reference/readOnly.md)
+  [`` `readOnly<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/readOnly.md)
+  : Read-only status of a SsimLibrary, Project, Scenario, Folder or
+  Chart
+
+- [`removePackage()`](https://syncrosim.github.io/rsyncrosim/reference/removePackage.md)
+  : Removes SyncroSim package(s)
+
+- [`restore()`](https://syncrosim.github.io/rsyncrosim/reference/restore.md)
+  : Restore Library
+
+- [`rsyncrosim-package`](https://syncrosim.github.io/rsyncrosim/reference/rsyncrosim.md)
+  [`rsyncrosim`](https://syncrosim.github.io/rsyncrosim/reference/rsyncrosim.md)
+  : rsyncrosim: The R interface to SyncroSim: https://syncrosim.com/
+
+- [`run()`](https://syncrosim.github.io/rsyncrosim/reference/run.md) :
+  Run scenarios
+
+- [`runLog()`](https://syncrosim.github.io/rsyncrosim/reference/runLog.md)
+  : Retrieves run log of result Scenario
+
+- [`runtimeDataFolder()`](https://syncrosim.github.io/rsyncrosim/reference/runtimeDataFolder.md)
+  : SyncroSim Data Folder
+
+- [`runtimeTempFolder()`](https://syncrosim.github.io/rsyncrosim/reference/runtimeTempFolder.md)
+  : SyncroSim Temporary Folder
+
+- [`saveDatasheet()`](https://syncrosim.github.io/rsyncrosim/reference/saveDatasheet.md)
+  : Save datasheet
+
+- [`Scenario-class`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  : SyncroSim Scenario class
+
+- [`scenario()`](https://syncrosim.github.io/rsyncrosim/reference/scenario.md)
+  : Create or open Scenario(s)
+
+- [`scenarioId()`](https://syncrosim.github.io/rsyncrosim/reference/scenarioId.md)
+  : Retrieves scenarioId of Scenario
+
+- [`Session-class`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  : SyncroSim Session class
+
+- [`session()`](https://syncrosim.github.io/rsyncrosim/reference/session.md)
+  [`` `session<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/session.md)
+  : Create or return SyncroSim Session
+
+- [`signIn()`](https://syncrosim.github.io/rsyncrosim/reference/signIn.md)
+  : Signs in to SyncroSim
+
+- [`signOut()`](https://syncrosim.github.io/rsyncrosim/reference/signOut.md)
+  : Signs out of SyncroSim
+
+- [`silent()`](https://syncrosim.github.io/rsyncrosim/reference/silent.md)
+  [`` `silent<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/silent.md)
+  : Silent status of SyncroSim Session
+
+- [`sqlStatement()`](https://syncrosim.github.io/rsyncrosim/reference/sqlStatement.md)
+  : Construct an SQLite query
+
+- [`ssimEnvironment()`](https://syncrosim.github.io/rsyncrosim/reference/ssimEnvironment.md)
+  : SyncroSim Environment
+
+- [`SsimLibrary-class`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  : SyncroSim Library class
+
+- [`ssimLibrary()`](https://syncrosim.github.io/rsyncrosim/reference/ssimLibrary.md)
+  : Create or open a SsimLibrary
+
+- [`tempfilepath()`](https://syncrosim.github.io/rsyncrosim/reference/tempfilepath.md)
+  : Retrieves the temporary file path to a SyncroSim object on disk
+
+- [`uninstallPackage()`](https://syncrosim.github.io/rsyncrosim/reference/uninstallPackage.md)
+  : Removes a package from SyncroSim installation
+
+- [`updateRunLog()`](https://syncrosim.github.io/rsyncrosim/reference/updateRunLog.md)
+  : Function to write to the SyncroSim run log
+
+- [`useConda()`](https://syncrosim.github.io/rsyncrosim/reference/useConda.md)
+  [`` `useConda<-`() ``](https://syncrosim.github.io/rsyncrosim/reference/useConda.md)
+  : Conda configuration of a SsimLibrary
+
+- [`version()`](https://syncrosim.github.io/rsyncrosim/reference/version.md)
+  : Retrieves SyncroSim version
+
+- [`viewProfile()`](https://syncrosim.github.io/rsyncrosim/reference/viewProfile.md)
+  : Display SyncroSim profile
+
+# Articles
+
+### All vignettes
+
+- [Introduction to
+  rsyncrosim](https://syncrosim.github.io/rsyncrosim/articles/a01_rsyncrosim_vignette_basic.md):
+- [rsyncrosim: introduction to
+  uncertainty](https://syncrosim.github.io/rsyncrosim/articles/a02_rsyncrosim_vignette_uncertainty.md):
+- [rsyncrosim: introduction to
+  pipelines](https://syncrosim.github.io/rsyncrosim/articles/a03_rsyncrosim_vignette_pipelines.md):
+- [rsyncrosim: introduction to spatial
+  data](https://syncrosim.github.io/rsyncrosim/articles/a04_rsyncrosim_vignette_spatial.md):
+- [rsyncrosim: introduction to
+  ST-Sim](https://syncrosim.github.io/rsyncrosim/articles/a05_rsyncrosim_stsim_vignette.md):
+- [Installing GitHub
+  release](https://syncrosim.github.io/rsyncrosim/articles/a06_rsyncrosim_install_github.md):
+- [Updating scripts to rsyncrosim
+  v2](https://syncrosim.github.io/rsyncrosim/articles/a07_updating_rsyncrosim_scripts_to_v2.md):
