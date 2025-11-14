@@ -125,9 +125,9 @@ Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}}
 (e.g. "TransitionGroupId"). Note that to use the filterColumn argument,
 you must also specify the filterValue argument. Default is \code{NULL}}
 
-\item{filterValue}{character string or integer. The value to filter the
-filterColumn by. To use the filterValue argument, you must also specify
-the filterColumn argument. Default is \code{NULL}}
+\item{filterValue}{character string or integer (scalar or vector). The value
+to filter the filterColumn by. To use the filterValue argument, you must
+also specify the filterColumn argument. Default is \code{NULL}}
 
 \item{lookupsAsFactors}{logical. If \code{TRUE} (default) dependencies
 returned as factors with allowed values (levels). Set \code{FALSE} to speed
