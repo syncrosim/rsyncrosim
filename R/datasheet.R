@@ -613,10 +613,8 @@ setMethod("datasheet",
 
           filteringDone <- FALSE
           
-          # Handle filterColumn argument (single or multiple values)
           if (!is.null(filterColumn)) {
             if (length(filterValue) > 1) {
-              # Multiple filter values: loop and merge
               allSheets <- list()
               
               for (fv in filterValue) {
@@ -657,7 +655,6 @@ setMethod("datasheet",
               filteringDone <- TRUE 
               
             } else {
-              # Single filter value: normal export
               args[["filtercol"]] <- paste0(filterColumn, "=", filterValue)
 
               filteringDone <- FALSE
@@ -665,8 +662,6 @@ setMethod("datasheet",
           }
           
           if (!filteringDone) {
-
-            # Single-value filter goes here (multi-filter uses NONE)
             if (!is.null(filterColumn) && length(filterValue) == 1) {
               args[["filtercol"]] <- paste0(filterColumn, "=", filterValue)
             }
