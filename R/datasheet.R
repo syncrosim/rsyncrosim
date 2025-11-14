@@ -494,17 +494,6 @@ setMethod("datasheet",
             stop("filterValue not found in filterColumn.")
           }
           
-        #   if (length(newColID) > 1) {
-        #     filterColumn <- paste0(paste0(filterColumn, "=", newColID), collapse = ";")
-        #   } else {
-        #     filterColumn <- paste0(filterColumn, "=", newColID)
-        #   }
-        # } else {
-        #   if (length(filterValue) > 1) {
-        #     filterColumn <- paste0(paste0(filterColumn, "=", filterValue), collapse = ";")
-        #   } else {
-        #     filterColumn <- paste0(filterColumn, "=", filterValue)
-        #   }
         }
       }
     }
@@ -609,7 +598,7 @@ setMethod("datasheet",
           
         } else {
           # If fastQuery is false, do this
-          # THis happens IF fast query is FALSE and if not complex
+          # This happens IF fast query is FALSE and if not complex
           # It writes out the csv to temp file
           if (!optional && (sheetNames$scope != "library")) {
             args <- list(export = NULL, lib = .filepath(x), sheet = name, 
@@ -621,6 +610,8 @@ setMethod("datasheet",
                          includepk = NULL, force = NULL)
           }
           args <- assignPidSid(args, sheetNames, pid, sid)
+
+          filteringDone <- FALSE
           
           # Handle filterColumn argument (single or multiple values)
           if (!is.null(filterColumn)) {
@@ -633,10 +624,6 @@ setMethod("datasheet",
                 
                 argsLoop <- args
                 argsLoop[["file"]] <- tempFileLoop
-
-                print(filterValue) # REMOVE
-                print(paste0(filterColumn, "=", fv)) # REMOVE
-
                 argsLoop[["filtercol"]] <- paste0(filterColumn, "=", fv)
                 
                 ttLoop <- command(argsLoop, .session(x))
@@ -648,14 +635,11 @@ setMethod("datasheet",
                   stop("Expected export file was not created: ", tempFileLoop)
                 }
 
-                print(tempFileLoop) # REMOVE
-                
                 oneSheet <- read.csv(tempFileLoop, as.is = TRUE, encoding = "UTF-8")
-                print(oneSheet) # REMOVE
                 unlink(tempFileLoop)
                 
                 if (nrow(oneSheet) > 0) {
-                  allSheets[[as.character(fv)]] <- oneSheet
+                  allSheets[[length(allSheets) + 1]] <- oneSheet
                 }
               }
               
@@ -668,30 +652,37 @@ setMethod("datasheet",
                   )
                 )
               }
-              print(allSheets) # REMOVE
               sheet <- do.call(rbind, allSheets)
-              next  # Skip the single-value export below
+
+              filteringDone <- TRUE 
               
             } else {
               # Single filter value: normal export
-              print(filterValue) # REMOVE
-              print(paste0(filterColumn, "=", filterValue)) # REMOVE
               args[["filtercol"]] <- paste0(filterColumn, "=", filterValue)
+
+              filteringDone <- FALSE
             }
           }
           
-          if (rawValues){
-            args[["valSheet"]] <- NULL
-            args <- append(args, list(rawvalues = NULL))
+          if (!filteringDone) {
+
+            # Single-value filter goes here (multi-filter uses NONE)
+            if (!is.null(filterColumn) && length(filterValue) == 1) {
+              args[["filtercol"]] <- paste0(filterColumn, "=", filterValue)
+            }
+
+            if (rawValues) {
+              args[["valSheet"]] <- NULL
+              args <- append(args, list(rawvalues = NULL))
+            }
+
+            tt <- command(args, .session(x))
+            if (!identical(tt, "saved")) {
+              stop(tt)
+            }
+
+            sheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
           }
-          
-          tt <- command(args, .session(x))
-          
-          if (!identical(tt, "saved")) {
-            stop(tt)
-          }
-          
-          sheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
         }
         
         unlink(tempFile)
