@@ -27,9 +27,9 @@ NULL
 #' @param filterColumn character string. The column to filter a Datasheet by. 
 #'     (e.g. "TransitionGroupID"). Note that to use the filterColumn argument, 
 #'     you must also specify a filterValue. Default is \code{NULL}
-#' @param filterValue character string or integer. The value of the filterColumn
-#'     to filter the Datasheet by. To use the filterValue argument, you must 
-#'     also specify a filterColumn. Default is \code{NULL}
+#' @param filterValue character string or integer (scalar or vector). The value of
+#'     the filterColumn to filter the Datasheet by. To use the filterValue argument,
+#'     you must also specify a filterColumn. Default is \code{NULL}
 #' @param subset logical expression indicating Datasheet rows to return. 
 #'     e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for 
 #'     details (optional)

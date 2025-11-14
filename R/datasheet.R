@@ -59,15 +59,15 @@ NULL
 #'     \code{summary=TRUE}, \code{optional=FALSE} (default), returns only those columns that are mandatory 
 #'     and contain data (if \code{empty=FALSE}). Ignored if \code{summary=FALSE}, \code{empty=FALSE}
 #'     and \code{lookupsAsFactors=FALSE}
-#' @param empty logical. If \code{TRUE} returns empty data.frames for each 
+#' @param empty logical. If \code{TRUE} returns empty data.frames for each
 #'     Datasheet. Ignored if \code{summary=TRUE} Default is \code{FALSE}
-#' @param filterColumn character string. The column to filter a Datasheet by. 
+#' @param filterColumn character string. The column to filter a Datasheet by.
 #'     (e.g. "TransitionGroupId"). Note that to use the filterColumn argument,
 #'     you must also specify the filterValue argument. Default is \code{NULL}
-#' @param filterValue character string or integer. The value to filter the 
-#'     filterColumn by. To use the filterValue argument, you must also specify
-#'     the filterColumn argument. Default is \code{NULL}
-#' @param lookupsAsFactors logical. If \code{TRUE} (default) dependencies 
+#' @param filterValue character string or integer (scalar or vector). The value
+#'     to filter the filterColumn by. To use the filterValue argument, you must
+#'     also specify the filterColumn argument. Default is \code{NULL}
+#' @param lookupsAsFactors logical. If \code{TRUE} (default) dependencies
 #'     returned as factors with allowed values (levels). Set \code{FALSE} to speed 
 #'     calculations. Ignored if \code{summary=TRUE}
 #' @param sqlStatement list returned by \code{\link{sqlStatement}}. \code{SELECT} and 

@@ -111,7 +111,7 @@ Collate:
     'uninstallPackage.R'
     'useConda.R'
     'version.R'
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://syncrosim.github.io/rsyncrosim/
 BugReports: https://github.com/syncrosim/rsyncrosim/issues/
 Config/testthat/edition: 3
