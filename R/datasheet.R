@@ -185,46 +185,64 @@ setGeneric("datasheet", function(ssimObject, name = NULL, project = NULL, scenar
 
 # Handles case where ssimObject is list of Scenario or Project objects
 #' @rdname datasheet
-setMethod("datasheet", 
-          signature(ssimObject = "list"), 
-          function(ssimObject, name, project, scenario, summary, optional, empty, 
-                   filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
+setMethod("datasheet",
+          signature(ssimObject = "list"),
+          function(ssimObject, name, project, scenario, summary, optional, empty,
+                   filterColumn, filterValue, lookupsAsFactors, sqlStatement,
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible, rawValues, verbose) {
-  
-  cScn <- ssimObject[[1]]
-  x <- NULL
-  
-  if (is(cScn, "Scenario")) {
-    x <- getIdsFromListOfObjects(ssimObject, expecting = "Scenario", scenario = scenario, project = project)
-    scenario <- x$objs
-    project <- NULL
-  }
-  
-  if (is(cScn, "Project")) {
-    x <- getIdsFromListOfObjects(ssimObject, expecting = "Project", scenario = scenario, project = project)
-    project <- x$objs
-    scenario <- NULL
-  }
-  
-  ssimObject <- x$ssimObject
-  
-  if (is.null(ssimObject)) {
-    stop("Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects.")
-  }
-  # Now have scenario/project ids of same type in same library, and ssimObject is library
-  
-  out <- .datasheet(ssimObject, name = name, project = project, scenario = scenario, 
-                    summary = summary, optional = optional, empty = empty, 
-                    filterColumn = filterColumn, filterValue = filterValue, 
-                    lookupsAsFactors = lookupsAsFactors, sqlStatement = sqlStatement, 
-                    includeKey = includeKey, forceElements = forceElements, 
-                    fastQuery = fastQuery, returnScenarioInfo = returnScenarioInfo,
-                    returnInvisible = returnInvisible, rawValues = rawValues,
-                    verbose = verbose)
-  
-  return(out)
-})
+
+            # Determine type of list contents
+            first <- ssimObject[[1]]
+
+            if (is(first, "Scenario")) {
+                x <- getIdsFromListOfObjects(
+                    ssimObject,
+                    expecting = "Scenario",
+                    scenario = NULL,
+                    project = NULL
+                )
+                lib <- x$ssimObject
+                scenarios <- x$objs
+                projects <- NULL
+            } else if (is(first, "Project")) {
+              x <- getIdsFromListOfObjects(
+                  ssimObject,
+                  expecting = "Project",
+                    scenario = NULL,
+                    project = NULL
+              )
+                lib <- x$ssimObject
+                projects <- x$objs
+                scenarios <- NULL
+            } else {
+              stop("List must contain Scenario or Project objects.")
+            }
+
+            # Now call core datasheet function with explicit multi-scenario vector
+            out <- .datasheet(
+                lib,
+                name = name,
+                project = projects,
+                scenario = scenarios,
+                summary = summary,
+                optional = optional,
+                empty = empty,
+                filterColumn = filterColumn,
+                filterValue = filterValue,
+                lookupsAsFactors = lookupsAsFactors,
+                sqlStatement = sqlStatement,
+                includeKey = includeKey,
+                forceElements = forceElements,
+                fastQuery = fastQuery,
+                returnScenarioInfo = TRUE,
+                returnInvisible = returnInvisible,
+                rawValues = rawValues,
+                verbose = verbose
+            )
+
+            return(out)
+          })
 
 #' @rdname datasheet
 setMethod("datasheet", 
@@ -253,30 +271,115 @@ setMethod("datasheet",
   Name <- NULL
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, 
                                convertObject = FALSE, complainIfMissing = TRUE)
+
+  
+  # -------------------------------------------------------------------------
+  # 1. GOAL-BASED INITIALIZATION
+  # -------------------------------------------------------------------------
+
+  # goal is one of: "library", "project", "scenario"
+  scopeDS <- xProjScn$goal  
+
+  # Extract initial pid/sid from getFromXProjScn
+  if (is(xProjScn, "SsimLibrary")) {
+      x <- xProjScn           # library object itself
+      pid <- NULL
+      sid <- NULL
+  } else {
+      x <- xProjScn$ssimObject
+      pid <- xProjScn$project
+      sid <- xProjScn$scenario
+  }
+
+  # -------------------------------------------------------------------------
+  # 2. HANDLE scenarioSet WHEN LISTS OR MULTI-ID INPUTS ARE INVOLVED
+  # -------------------------------------------------------------------------
+
+  if (!is.null(xProjScn$scenarioSet)) {
+      scenarioSet <- xProjScn$scenarioSet
+
+      # If user supplied no explicit scenario IDs, use scenarioSet
+      if (is.null(scenario)) {
+          sid <- unique(scenarioSet$ScenarioId)
+          pid <- unique(scenarioSet$ProjectId)
+      }
+
+      # Multi-scenario override
+      if (length(unique(scenarioSet$ScenarioId)) > 1) {
+          scopeDS <- "scenario"
+          returnScenarioInfo <- TRUE
+      }
+
+      # Multi-project override (only if not multi-scenario)
+      if (length(unique(scenarioSet$ProjectId)) > 1 &&
+          length(unique(scenarioSet$ScenarioId)) == 1) {
+          scopeDS <- "project"
+      }
+  }
+
+  # -------------------------------------------------------------------------
+  # 3. FINAL SAFETY FIXES
+  # -------------------------------------------------------------------------
+
+  # If user passed explicit scenario vector, respect it
+  if (!missing(scenario) && !is.null(scenario)) {
+      sid <- scenario
+      if (length(scenario) > 1) {
+          scopeDS <- "scenario"
+          returnScenarioInfo <- TRUE
+      }
+  }
+
+  # If user passed explicit project vector, respect it
+  if (!missing(project) && !is.null(project)) {
+      pid <- project
+      if (length(project) > 1) {
+          scopeDS <- "project"
+      }
+  }
+
+  # Debug (optional)
+  print(list(scopeDS=scopeDS, sid=sid, pid=pid))
+  # -------------------------------------------------------------------------
+  
+  # # If user explicitly supplied scenario IDs → trust them
+  # if (!missing(scenario) && !is.null(scenario)) {
+  #     sid <- scenario
+  # }
+
+  # # Auto-detect multi-scenario ONLY IF:
+  # #   - user did NOT specify scenario IDs
+  # #   - but xProjScn$scenario already contains multiple IDs
+  # if (is.null(scenario) && length(xProjScn$scenario) > 1) {
+  #     sid <- xProjScn$scenario
+  #     pid <- xProjScn$project
+  #     message("datasheet(): Using multi-scenario mode (list or vector detected).")
+  # }
+
   IDColumns <- c("ScenarioId", "ProjectId")
   
-  if (is(ssimObject, "SsimLibrary")){
-    scopeDS <- "library"
-  } else if (is(ssimObject, "Project")){
-    scopeDS <- "project"
-  } else {
-    scopeDS <- "scenario"
-  }
+  # if (is(ssimObject, "SsimLibrary")){
+  #   scopeDS <- "library"
+  # } else if (is(ssimObject, "Project")){
+  #   scopeDS <- "project"
+  # } else {
+  #   scopeDS <- "scenario"
+  # }
   
-  if (is(xProjScn, "SsimLibrary")) {
-    x <- xProjScn
-    pid <- NULL
-    sid <- NULL
-    scopeDS <- "library"
-  } else {
-    x <- xProjScn$ssimObject
-    pid <- xProjScn$project
-    sid <- xProjScn$scenario
-    
-    if (!is.null(sid) & is.null(pid)) {
-      pid <- subset(xProjScn$scenarioSet, is.element(ScenarioId, sid))$ProjectId
-    }
-  }
+  # if (is(xProjScn, "SsimLibrary")) {
+  #   x <- xProjScn
+  #   pid <- NULL
+  #   sid <- NULL
+  #   scopeDS <- "library"
+  # } else {
+  #   x <- xProjScn$ssimObject
+  #   pid <- xProjScn$project
+  #   sid <- xProjScn$scenario
+
+  #   if (!is.null(sid) & is.null(pid)) {
+  #     pid <- subset(xProjScn$scenarioSet, is.element(ScenarioId, sid))$ProjectId
+  #   }
+  # }
   
   # now have valid pid/sid vectors and x is library.
   if (!is.null(name)) {
@@ -531,6 +634,12 @@ setMethod("datasheet",
       # => These send you to query building (case for BOTH fastQuery and UseConsole are FALSE) if :
       # sql statement is complex, or more than one proj/sce is provided
       
+      # --- FORCE PER-SCENARIO EXPORT WHEN MULTIPLE SIDs PRESENT ---
+      if (!is.null(sid) && length(sid) > 1) {
+          useConsole <- TRUE      # console export path
+          fastQuery <- TRUE       # force per-scenario query & smartbind
+      }
+
       if (useConsole | fastQuery) {
         unlink(tempFile)
         
@@ -801,14 +910,25 @@ setMethod("datasheet",
         
         cRow <- sheetInfo[i, ]
         
+        # Correctly assign ScenarioId when missing
         if (!is.element(cRow$name, colnames(sheet))) {
-          if (cRow$name == "ScenarioId"){
-            sheet[[cRow$name]] <- sid
-          } else if (sqlStatement$select == "SELECT *") {
-            sheet[[cRow$name]] <- NA
-          } else {
-            next
-          }
+            if (cRow$name == "ScenarioId") {
+
+                if (length(sid) == 1) {
+                    # Single scenario → fill entire column
+                    sheet$ScenarioId <- sid
+                } else {
+                    # Multi-scenario → sheet must already include ScenarioId from SQL export
+                    # or from fastQuery mode. If not, we must split by scenario.
+                    stop("ERROR: Multi-scenario datasheet did not contain per-row ScenarioId. 
+                          This sheet must be exported per scenario to preserve row identity.")
+                }
+
+            } else if (sqlStatement$select == "SELECT *") {
+                sheet[[cRow$name]] <- NA
+            } else {
+                next
+            }
         }
         
         outNames <- c(outNames, cRow$name)
