@@ -606,11 +606,16 @@ setMethod("datasheet",
       # Policy change - always query output directly from database. It is faster.
       useConsole <- useConsole & ((sqlStatement$select == "SELECT *")) # &(!lookupsAsFactors))
       useConsole <- useConsole & !((sheetNames$scope == "project") & (length(pid) > 1))
-      # Force DB query for multi-scenario sheets (console export loses ScenarioId!)
+      # --------------------------------------------
+      # Enforce DB query for multi-scenario OR multi-project
+      # --------------------------------------------
+
       if (sheetNames$scope == "scenario" && length(sid) > 1) {
           useConsole <- FALSE
-      } else {
-          useConsole <- TRUE
+      }
+
+      if (sheetNames$scope == "project" && length(pid) > 1) {
+          useConsole <- FALSE
       }
       # => These send you to query building (case for BOTH fastQuery and UseConsole are FALSE) if :
       # sql statement is complex, or more than one proj/sce is provided
@@ -1102,16 +1107,15 @@ setMethod("datasheet",
       }
     }
     
-    if (is.element("ProjectId", names(sheet))) {
-      if (length(pid) == 1) {
-        sheet$ProjectId <- NULL
-      } else {
-        if (nrow(sheet) > 0) {
-          allProjects <- .project(x)
-          names(allProjects) <- c("ProjectId", "ProjectName")
-          sheet <- merge(allProjects, sheet, all.y = TRUE)
+    if ("ProjectId" %in% names(sheet)) {
+
+        # Single project extraction → simplify output
+        if (length(pid) == 1) {
+            sheet$ProjectId <- NULL
         }
-      }
+
+        # Multi-project: keep ProjectId exactly as returned by DB
+        # DO NOT modify or rebuild it (DB output is correct)
     }
     if (is.element("ScenarioId", names(sheet))) {
 
