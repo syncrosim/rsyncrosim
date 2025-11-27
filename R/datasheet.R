@@ -606,7 +606,12 @@ setMethod("datasheet",
       # Policy change - always query output directly from database. It is faster.
       useConsole <- useConsole & ((sqlStatement$select == "SELECT *")) # &(!lookupsAsFactors))
       useConsole <- useConsole & !((sheetNames$scope == "project") & (length(pid) > 1))
-      useConsole <- useConsole & !((sheetNames$scope == "scenario") & (length(sid) > 1))
+      # Force DB query for multi-scenario sheets (console export loses ScenarioId!)
+      if (sheetNames$scope == "scenario" && length(sid) > 1) {
+          useConsole <- FALSE
+      } else {
+          useConsole <- TRUE
+      }
       # => These send you to query building (case for BOTH fastQuery and UseConsole are FALSE) if :
       # sql statement is complex, or more than one proj/sce is provided
       
@@ -755,6 +760,8 @@ setMethod("datasheet",
               stop(tt)
             }
 
+            cat("CONSOLE EXPORT path\n")
+
             sheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
             
             cat("Rows/Cols after import:", nrow(sheet), ncol(sheet), "\n")
@@ -805,6 +812,10 @@ setMethod("datasheet",
         
         sql <- paste(sqlStatement$select, sqlStatement$from, sqlStatement$where, sqlStatement$groupBy)
         sheet <- DBI::dbGetQuery(con, sql)
+        # Normalize DB column names to expected SyncroSim case conventions
+        names(sheet) <- sub("^ScenarioID$", "ScenarioId", names(sheet), ignore.case = TRUE)
+        names(sheet) <- sub("^ProjectID$",  "ProjectId", names(sheet), ignore.case = TRUE)
+        cat("DB query path: columns = ", paste(names(sheet), collapse=", "), "\n")
         DBI::dbDisconnect(con)
 
         cat("Rows/Cols after import:", nrow(sheet), ncol(sheet), "\n")
@@ -893,31 +904,60 @@ setMethod("datasheet",
           ))
         }
         
-        # Fix for multi-scenario support
+        # ------------------------------
+        # ScenarioId Handling (correct)
+        # ------------------------------
+        if (cRow$name == "ScenarioId") {
+
+            # DB query path (multi or single scenario)
+            # DB output already contains ScenarioId (after earlier normalization)
+            if ("ScenarioId" %in% names(sheet)) {
+                outNames <- c(outNames, "ScenarioId")
+                next
+            }
+
+            # Console export: multi-scenario
+            # Console never returns ScenarioId for >1 scenario
+            # Leave NA to be filled later during merge with allScns
+            if (length(sid) > 1) {
+                sheet$ScenarioId <- NA_integer_
+                outNames <- c(outNames, "ScenarioId")
+                next
+            }
+
+            # Console export: single scenario
+            # Console output missing ScenarioId → fill with scalar sid
+            if (length(sid) == 1) {
+                sheet$ScenarioId <- rep(sid, nrow(sheet))
+                outNames <- c(outNames, "ScenarioId")
+                next
+            }
+
+            # Fallback (should never be hit)
+            sheet$ScenarioId <- NA_integer_
+            outNames <- c(outNames, "ScenarioId")
+            next
+        }
+
+
+        # ------------------------------
+        # Non-ScenarioId handling
+        # Only fill missing columns when needed
+        # ------------------------------
         if (!is.element(cRow$name, colnames(sheet))) {
 
-          # --- ScenarioId Fix ---
-          if (cRow$name == "ScenarioId") {
-
-            # Case 1: Multiple scenarios → leave missing here
-            # We will insert ScenarioId correctly later during merge.
-            if (length(sid) > 1) {
-              sheet[[cRow$name]] <- NA_integer_
-            
-            # Case 2: Single scenario → fill with scalar repeated for all rows
-            } else if (length(sid) == 1) {
-              sheet[[cRow$name]] <- rep(sid, nrow(sheet))
-            
+            # For SELECT * queries, missing columns become NA
+            if (sqlStatement$select == "SELECT *") {
+                sheet[[cRow$name]] <- NA
+                outNames <- c(outNames, cRow$name)
+                next
             }
-          
-          # --- Everything else ---
-          } else if (sqlStatement$select == "SELECT *") {
-            sheet[[cRow$name]] <- NA
-          } else {
+
+            # Otherwise skip; column to be ignored
             next
-          }
         }
-        
+
+        # If we reach here, column already exists; include in outNames
         outNames <- c(outNames, cRow$name)
         
         if ((cRow$type %in% c("Integer", "Double", "Single")) & !(cRow$valType %in% c("DataSheet", "List"))) {
@@ -1106,8 +1146,13 @@ setMethod("datasheet",
         names(allScns) <- c("ScenarioId", "ProjectId", "ScenarioName", "ParentId", "ParentName")
         allScns <- allScns[allScns$ScenarioId %in% sid,]
         
-        sheet <- sheet[, !(names(sheet) %in% "ScenarioId")]
-        sheet <- merge(allScns, sheet, all.y = TRUE)
+        # KEEP ScenarioId in sheet for multi-scenario joins
+        # Only drop ScenarioId if single-scenario extraction
+        if (length(sid) == 1) {
+            sheet$ScenarioId <- NULL
+        }
+        # FIX: join by ScenarioId only
+        sheet <- merge(allScns, sheet, by = "ScenarioId", all.y = TRUE)
       }
     }
     
