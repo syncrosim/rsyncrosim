@@ -191,8 +191,6 @@ setMethod("datasheet",
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible, rawValues, verbose) {
-  
-  print("=== In datasheet method for list ===")
 
   cScn <- ssimObject[[1]]
   x <- NULL
@@ -256,21 +254,9 @@ setMethod("datasheet",
   xProjScn <- .getFromXProjScn(ssimObject, project, scenario, returnIds = TRUE, 
                                convertObject = FALSE, complainIfMissing = TRUE)
 
-  print("=== In datasheet method for SsimObject ===")
-  print("=== After .getFromXProjScn ===")
-
   IDColumns <- c("ScenarioId", "ProjectId")
   
-  # -------------------------------------------------------------------------
-  # NEW: Goal-based scope detection (fixes multi-scenario logic)
-  # -------------------------------------------------------------------------
-
-  # xProjScn always contains:
-  #   $ssimObject
-  #   $project
-  #   $scenario
-  #   $scenarioSet
-  #   $goal  ← THIS is the correct source of truth
+  # Goal-based scope detection (fixes multi-scenario logic)
 
   scopeDS <- xProjScn$goal
   x <- NULL
@@ -294,19 +280,11 @@ setMethod("datasheet",
       }
   }
 
-  cat("DEBUG: Goal-based initialization\n")
-  print(list(goal = scopeDS, pid = pid, sid = sid))
-
-  # -------------------------------------------------------------------------
   # Override using scenarioSet (handles lists and multi-scenario inputs)
-  # -------------------------------------------------------------------------
 
   if (!is.null(xProjScn$scenarioSet)) {
 
       scenarioSet <- xProjScn$scenarioSet
-
-      cat("DEBUG: scenarioSet detected\n")
-      print(head(scenarioSet))
 
       # If user did not explicitly specify scenarios, derive them
       if (is.null(scenario)) {
@@ -314,24 +292,18 @@ setMethod("datasheet",
           pid <- unique(scenarioSet$ProjectId)
       }
 
-      # MULTI-SCENARIO → enforce scenario scope
+      # enforce scenario scope for multi-scenario input
       if (length(unique(scenarioSet$ScenarioId)) > 1) {
           scopeDS <- "scenario"
           returnScenarioInfo <- TRUE
-          cat("DEBUG: Multi-scenario override triggered\n")
       }
 
-      # MULTI-PROJECT but not multi-scenario
+      # enforce project scope for multi-project input
       if (length(unique(scenarioSet$ProjectId)) > 1 &&
           length(unique(scenarioSet$ScenarioId)) == 1) {
           scopeDS <- "project"
-          cat("DEBUG: Multi-project override triggered\n")
       }
   }
-
-  # -------------------------------------------------------------------------
-  # Respect explicit scenario / project arguments
-  # -------------------------------------------------------------------------
 
   # Explicit scenario override
   if (!missing(scenario) && !is.null(scenario)) {
@@ -349,10 +321,6 @@ setMethod("datasheet",
           scopeDS <- "project"
       }
   }
-
-  cat("DEBUG: Final pid/sid/scope after overrides:\n")
-  print(list(scope = scopeDS, pid = pid, sid = sid))
-  # -------------------------------------------------------------------------
   
   # now have valid pid/sid vectors and x is library.
   if (!is.null(name)) {
@@ -485,9 +453,6 @@ setMethod("datasheet",
   
   # Loop through all datasheet names
   for (kk in seq(length.out = length(allNames))) {
-
-    cat("\n=== Processing sheet:", name, "===\n")
-    print(list(pid = pid, sid = sid, sheetScope = scopeDS))
     
     if (summary == FALSE) {
       
@@ -606,10 +571,8 @@ setMethod("datasheet",
       # Policy change - always query output directly from database. It is faster.
       useConsole <- useConsole & ((sqlStatement$select == "SELECT *")) # &(!lookupsAsFactors))
       useConsole <- useConsole & !((sheetNames$scope == "project") & (length(pid) > 1))
-      # --------------------------------------------
-      # Enforce DB query for multi-scenario OR multi-project
-      # --------------------------------------------
 
+      # Enforce DB query for multi-scenario OR multi-project
       if (sheetNames$scope == "scenario" && length(sid) > 1) {
           useConsole <- FALSE
       }
@@ -765,11 +728,8 @@ setMethod("datasheet",
               stop(tt)
             }
 
-            cat("CONSOLE EXPORT path\n")
-
             sheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
             
-            cat("Rows/Cols after import:", nrow(sheet), ncol(sheet), "\n")
           }
         }
         
@@ -820,10 +780,7 @@ setMethod("datasheet",
         # Normalize DB column names to expected SyncroSim case conventions
         names(sheet) <- sub("^ScenarioID$", "ScenarioId", names(sheet), ignore.case = TRUE)
         names(sheet) <- sub("^ProjectID$",  "ProjectId", names(sheet), ignore.case = TRUE)
-        cat("DB query path: columns = ", paste(names(sheet), collapse=", "), "\n")
         DBI::dbDisconnect(con)
-
-        cat("Rows/Cols after import:", nrow(sheet), ncol(sheet), "\n")
         
         # Filter out columns without data (drop NA columns) 
         if (!optional && (nrow(sheet) > 0)) {
@@ -899,19 +856,8 @@ setMethod("datasheet",
       for (i in seq(length.out = nrow(sheetInfo))) {
 
         cRow <- sheetInfo[i, ]
-
-        if (cRow$name == "ScenarioId") {
-          cat("*** About to assign ScenarioId ***\n")
-          print(list(
-            sid = sid,
-            sheet_nrows = nrow(sheet),
-            existing_col = sheet[["ScenarioId"]]
-          ))
-        }
         
-        # ------------------------------
-        # ScenarioId Handling (correct)
-        # ------------------------------
+        # ScenarioId Handling
         if (cRow$name == "ScenarioId") {
 
             # DB query path (multi or single scenario)
@@ -931,7 +877,7 @@ setMethod("datasheet",
             }
 
             # Console export: single scenario
-            # Console output missing ScenarioId → fill with scalar sid
+            # Console output missing ScenarioId; fill with scalar sid
             if (length(sid) == 1) {
                 sheet$ScenarioId <- rep(sid, nrow(sheet))
                 outNames <- c(outNames, "ScenarioId")
@@ -945,10 +891,7 @@ setMethod("datasheet",
         }
 
 
-        # ------------------------------
         # Non-ScenarioId handling
-        # Only fill missing columns when needed
-        # ------------------------------
         if (!is.element(cRow$name, colnames(sheet))) {
 
             # For SELECT * queries, missing columns become NA
@@ -958,7 +901,6 @@ setMethod("datasheet",
                 next
             }
 
-            # Otherwise skip; column to be ignored
             next
         }
 
@@ -1118,9 +1060,6 @@ setMethod("datasheet",
         # DO NOT modify or rebuild it (DB output is correct)
     }
     if (is.element("ScenarioId", names(sheet))) {
-
-      cat("ScenarioId handling block: before merge\n")
-      print(head(sheet))
 
       if (length(sid) > 1){
         returnScenarioInfo <- TRUE
