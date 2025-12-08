@@ -64,7 +64,7 @@ NULL
 #' @param filterColumn character string. The column to filter a Datasheet by.
 #'     (e.g. "TransitionGroupId"). Note that to use the filterColumn argument,
 #'     you must also specify the filterValue argument. Default is \code{NULL}
-#' @param filterValue character string or integer (scalar or vector). The value
+#' @param filterValue character, integer, or vector of these. The value
 #'     to filter the filterColumn by. To use the filterValue argument, you must
 #'     also specify the filterColumn argument. Default is \code{NULL}
 #' @param lookupsAsFactors logical. If \code{TRUE} (default) dependencies

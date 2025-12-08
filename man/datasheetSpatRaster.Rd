@@ -105,7 +105,7 @@ included.  If no Timestep column is in the Datasheet, then ignored}
 (e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
 you must also specify a filterValue. Default is \code{NULL}}
 
-\item{filterValue}{character string or integer (scalar or vector). The value of
+\item{filterValue}{character, integer, or vector of these. The value of
 the filterColumn to filter the Datasheet by. To use the filterValue argument,
 you must also specify a filterColumn. Default is \code{NULL}}
 
