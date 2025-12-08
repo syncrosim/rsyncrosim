@@ -869,7 +869,7 @@ setMethod("datasheet",
 
             # Console export: multi-scenario
             # Console never returns ScenarioId for >1 scenario
-            # Leave NA to be filled later during merge with allScns
+            # Fallback (should never be hit)
             if (length(sid) > 1) {
                 sheet$ScenarioId <- NA_integer_
                 outNames <- c(outNames, "ScenarioId")
