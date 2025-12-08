@@ -1094,7 +1094,8 @@ setMethod("datasheet",
         if (length(sid) == 1) {
             sheet$ScenarioId <- NULL
         }
-        # FIX: join by ScenarioId only
+        # NOTE: In the default single-scenario case, returnScenarioInfo is FALSE, so we do not merge scenario metadata
+        # The merge path below is primarily for multi-scenario outputs (or when returnScenarioInfo=TRUE)
         sheet <- merge(allScns, sheet, by = "ScenarioId", all.y = TRUE)
       }
     }
