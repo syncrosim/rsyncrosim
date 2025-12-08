@@ -217,12 +217,12 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"),
   }
   
   # TO DO: make sure datasheet is spatial after opening
-  cMeta <- datasheet(x, name = datasheet, optional = TRUE, 
+  cMeta <- .datasheet(x, name = datasheet, optional = TRUE, 
                       filterColumn = filterColumn, filterValue = filterValue,
                       lookupsAsFactors = getFactors)
   
   if (nrow(cMeta) == 0) {
-    cMeta <- datasheet(x, name = datasheet, optional = TRUE, 
+    cMeta <- .datasheet(x, name = datasheet, optional = TRUE, 
                         filterColumn = filterColumn, filterValue = filterValue, 
                         lookupsAsFactors = getFactors)
   }
@@ -283,7 +283,7 @@ setMethod("datasheetSpatRaster", signature(ssimObject = "Scenario"),
           warning(warningMsg)
         }
       } else {
-        cMeta <- datasheet(x, name = datasheet, optional = TRUE, 
+        cMeta <- .datasheet(x, name = datasheet, optional = TRUE, 
                             filterColumn = filterColumn, filterValue = filterValue, 
                             lookupsAsFactors = getFactors)
       }
