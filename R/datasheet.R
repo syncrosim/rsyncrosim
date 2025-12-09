@@ -343,10 +343,29 @@ setMethod("datasheet",
       summary <- FALSE
     }
   }
-  
+
+  # --- Build pid_for_sid mapping (ScenarioId -> ProjectId) for multi-scenario cases ---
+  pid_for_sid <- NULL
+
+  if (!is.null(sid) && length(sid) > 1) {
+
+    # Preferred: scenarioSet already computed by .getFromXProjScn (fast + exact)
+    if (!is.null(xProjScn$scenarioSet) && nrow(xProjScn$scenarioSet) > 0) {
+      ss <- subset(xProjScn$scenarioSet, ScenarioId %in% sid, select = c("ScenarioId", "ProjectId"))
+      pid_for_sid <- setNames(as.integer(ss$ProjectId), as.character(ss$ScenarioId))
+
+    } else {
+      # Fallback: query library scenario summary
+      lib <- if (is(x, "SsimLibrary")) x else .ssimLibrary(x)
+      scns <- scenario(lib, summary = TRUE)
+      scns <- subset(scns, ScenarioId %in% sid, select = c("ScenarioId", "ProjectId"))
+      pid_for_sid <- setNames(as.integer(scns$ProjectId), as.character(scns$ScenarioId))
+    }
+  }
+
   # if summary, don't need to bother with project/scenario ids: sheet info doesn't vary among project/scenarios in a project
   if (summary == TRUE) {
-    sumInfo <- .datasheets(x, project[[1]], scenario[[1]], core = TRUE)
+    sumInfo <- .datasheets(x, project[1], scenario[1], core = TRUE)
     
     if (nrow(sumInfo) == 0) {
       stop("No datasheets available")
@@ -362,7 +381,7 @@ setMethod("datasheet",
     missingSheets <- setdiff(name, sumInfo$name)
     
     if (length(missingSheets) > 0) {
-      sumInfo <- .datasheets(x, project[[1]], scenario[[1]], refresh = TRUE)
+      sumInfo <- .datasheets(x, project[1], scenario[1], refresh = TRUE)
       missingSheets <- setdiff(name, sumInfo$name)
       
       if (length(missingSheets) > 0) {
@@ -375,7 +394,7 @@ setMethod("datasheet",
   
   # now assume we have one or more names
   if (is.null(name) & summary == FALSE) {
-    sumInfo <- .datasheets(x, project[[1]], scenario[[1]])
+    sumInfo <- .datasheets(x, project[1], scenario[1])
     allNames <- sumInfo$name
   } else if (is.null(name) & !summary == FALSE) {
     stop("Something is wrong in datasheet().")
@@ -416,7 +435,7 @@ setMethod("datasheet",
         warning("missing data column. assume FALSE")
       }
       if (length(setdiff(hasDataInfo$name, sumInfo$name)) > 0) {
-        sumInfo <- .datasheets(x, project[[1]], scenario[[1]], refresh = TRUE)
+        sumInfo <- .datasheets(x, project[1], scenario[1], refresh = TRUE)
         sumInfo$order <- seq(1, nrow(sumInfo))
         if (is.null(name)) {
           name <- sumInfo$name
@@ -487,21 +506,28 @@ setMethod("datasheet",
 
         # verify filterValues are present in filterColumn
         tempFile <- tempfile(fileext = ".csv")
-        args <- list(export = NULL, lib = .filepath(x), sheet = name,
-                    file = tempFile, valsheets = NULL, force = NULL)
-        args <- assignPidSid(args, sheetNames, pid, sid)
-        tt <- command(args, session = session(x))
+        on.exit(unlink(tempFile), add = TRUE)
 
-        if (!identical(tt, "saved")) {
-          stop("Unable to export datasheet for filter check: ", tt)
-        }
+        args_preview <- list(
+          export = NULL,
+          lib = .filepath(x),
+          sheet = name,
+          file = tempFile,
+          valsheets = NULL,
+          force = NULL
+        )
 
-        dsPreview <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
-        unlink(tempFile)
+        presentVals <- export_preview(
+          args = args_preview,
+          sheetNames = sheetNames,
+          pid = pid,
+          sid = sid,
+          session_obj = session(x),
+          filterColumn = filterColumn,
+          pid_for_sid = pid_for_sid
+        )
 
-        presentVals  <- unique(dsPreview[[filterColumn]])
-        missingVals  <- setdiff(filterValue, presentVals)
-
+        missingVals <- setdiff(filterValue, presentVals)
         if (length(missingVals) > 0) {
           stop(
             paste0(
@@ -515,29 +541,40 @@ setMethod("datasheet",
         fvInt <- suppressWarnings(as.integer(filterValue))
 
         if (all(is.na(fvInt))) {
-          
-          inputDatasheetName <- subset(datasheetCols, 
-                                       name == filterColumn)$formula1
-          
+
+          inputDatasheetName <- subset(datasheetCols, name == filterColumn)$formula1
           if (inputDatasheetName == "N/A") {
             inputDatasheetName <- name
           }
-            
-          tempFile <- paste0(.tempfilepath(x), "/", name, ".csv")
-          unlink(tempFile)
-          args <- list(export = NULL, lib = .filepath(x), sheet = inputDatasheetName,
-                       file = tempFile, valsheets = NULL, extfilepaths = NULL,
-                       includepk = NULL, force = NULL)
-          args <- assignPidSid(args, sheetNames, pid, sid)
-          tt <- command(args, session = session(x))
-          inputDatasheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
+
+          # Build args for exporting the input/lookup datasheet
+          args_lookup <- list(
+            export = NULL,
+            lib = .filepath(x),
+            sheet = inputDatasheetName,
+            file = NULL,                 # filled per-iteration
+            valsheets = NULL,
+            extfilepaths = NULL,
+            includepk = NULL,
+            force = NULL
+          )
+
+          # Export preview across all scenarios/projects if needed, then read+combine
+          inputDatasheet <- export_preview_df(
+            args = args_lookup,
+            sheetNames = sheetNames,
+            pid = pid,
+            sid = sid,
+            session_obj = session(x),
+            pid_for_sid = pid_for_sid
+          )
+
           matchedRows <- inputDatasheet$Name %in% filterValue
           newColID <- inputDatasheet[matchedRows, ][[filterColumn]]
-          
+
           if (length(newColID) == 0) {
             stop("filterValue not found in filterColumn.")
           }
-          
         }
       }
     }
@@ -582,6 +619,10 @@ setMethod("datasheet",
       }
       # => These send you to query building (case for BOTH fastQuery and UseConsole are FALSE) if :
       # sql statement is complex, or more than one proj/sce is provided
+
+      multiScopeCall <-
+      (sheetNames$scope == "scenario" && !is.null(sid) && length(sid) > 1) ||
+      (sheetNames$scope == "project"  && !is.null(pid) && length(pid) > 1)
       
       if (useConsole | fastQuery) {
         unlink(tempFile)
@@ -605,7 +646,8 @@ setMethod("datasheet",
           for (id in seq_along(sid)){
             
             args <- list(export = NULL, lib = .filepath(x), sheet = name, file = tempFile, queryonly = NULL, force = NULL, includepk = NULL, colswithdata = NULL)
-            args <- assignPidSid(args, sheetNames, pid[id], sid[id])
+            pid_i <- if (!is.null(pid_for_sid) && length(sid) > 1) pid_for_sid[as.character(sid[id])] else pid[1]
+            args <- assignPidSid(args, sheetNames, as.integer(pid_i), sid[id])
             
             tt <- command(args, .session(x))
             
@@ -775,11 +817,39 @@ setMethod("datasheet",
           }
         }
         
+        # --- DB filtering ONLY for multi-scenario OR multi-project calls ---
+        if (!is.null(filterColumn) && multiScopeCall) {
+
+          if (is.null(filterValue)) {
+            stop("filterColumn specified without a filterValue.")
+          }
+
+          # Optional safety/typo check: ensure filterColumn exists in this table
+          cols <- DBI::dbGetQuery(con, paste0("PRAGMA table_info(", name, ");"))
+
+          db_filter_col <- resolve_db_colname(filterColumn, cols$name)
+          if (is.null(db_filter_col)) {
+            stop("Column '", filterColumn, "' is not present in the datasheet/table.")
+          }
+
+          filter_vals_to_use <- filterValue
+          if (exists("newColID", inherits = FALSE) && length(newColID) > 0) {
+            filter_vals_to_use <- newColID
+          }
+
+          sqlStatement$where <- append_where(
+            sqlStatement$where,
+            sql_in_clause(db_filter_col, filter_vals_to_use)  # <-- use resolved DB name
+          )
+        }
         sql <- paste(sqlStatement$select, sqlStatement$from, sqlStatement$where, sqlStatement$groupBy)
         sheet <- DBI::dbGetQuery(con, sql)
         # Normalize DB column names to expected SyncroSim case conventions
-        names(sheet) <- sub("^ScenarioID$", "ScenarioId", names(sheet), ignore.case = TRUE)
-        names(sheet) <- sub("^ProjectID$",  "ProjectId", names(sheet), ignore.case = TRUE)
+        normalize_id_cols <- function(nms) {
+          # Convert trailing ...ID to ...Id (ScenarioID -> ScenarioId, TransitionGroupID -> TransitionGroupId, etc.)
+          sub("ID$", "Id", nms, ignore.case = FALSE)
+        }
+        names(sheet) <- normalize_id_cols(names(sheet))
         DBI::dbDisconnect(con)
         
         # Filter out columns without data (drop NA columns) 
@@ -1126,14 +1196,140 @@ setMethod("datasheet",
 # Helper function 
 # Assign PID and SID to the argument list
 assignPidSid <- function(args, sheetNames, pid, sid){
-  if (sheetNames$scope == "project") {
-    args[["pid"]] <- pid
-  }
-  if (is.element(sheetNames$scope, c("project", "scenario"))) {
+  if (sheetNames$scope %in% c("project", "scenario")) {
     args[["pid"]] <- pid
   }
   if (sheetNames$scope == "scenario") {
     args[["sid"]] <- sid
   }
-  return(args)
+  args
+}
+
+export_preview <- function(args, sheetNames, pid, sid, session_obj, filterColumn, pid_for_sid = NULL) {
+  stopifnot(!is.null(args[["file"]]))  # caller must pass a temp file path
+  tmp <- args[["file"]]
+
+  read_present_vals <- function() {
+    if (!file.exists(tmp)) stop("Preview file was not created: ", tmp)
+    dsPreview <- read.csv(tmp, as.is = TRUE, encoding = "UTF-8")
+    if (!(filterColumn %in% names(dsPreview))) {
+      stop("Preview export did not contain filterColumn '", filterColumn, "'.")
+    }
+    unique(dsPreview[[filterColumn]])
+  }
+
+  presentVals <- c()
+
+  # ---- multi-scenario preview (console export per scenario) ----
+  if (sheetNames$scope == "scenario" && length(sid) > 1) {
+    if (is.null(pid_for_sid)) {
+      stop("pid_for_sid required for multi-scenario preview.")
+    }
+
+    for (oneSid in sid) {
+      onePid <- pid_for_sid[as.character(oneSid)]
+      if (is.na(onePid) || length(onePid) == 0) {
+        stop("No ProjectId found in pid_for_sid for ScenarioId ", oneSid)
+      }
+
+      args_i <- args
+      args_i <- assignPidSid(args_i, sheetNames, as.integer(onePid), oneSid)
+
+      tt <- command(args_i, session = session_obj)
+      if (!identical(tt, "saved")) stop("Unable to export datasheet for filter check: ", tt)
+
+      presentVals <- unique(c(presentVals, read_present_vals()))
+    }
+
+    return(presentVals)
+  }
+
+  # ---- multi-project preview (console export per project) ----
+  if (sheetNames$scope == "project" && length(pid) > 1) {
+    for (onePid in pid) {
+      args_i <- args
+      args_i <- assignPidSid(args_i, sheetNames, onePid, sid)  # sid is NULL for project scope
+
+      tt <- command(args_i, session = session_obj)
+      if (!identical(tt, "saved")) stop("Unable to export datasheet for filter check: ", tt)
+
+      presentVals <- unique(c(presentVals, read_present_vals()))
+    }
+    return(presentVals)
+  }
+
+  # ---- single pid/sid preview ----
+  args_i <- args
+  args_i <- assignPidSid(args_i, sheetNames, pid, sid)
+
+  tt <- command(args_i, session = session_obj)
+  if (!identical(tt, "saved")) stop("Unable to export datasheet for filter check: ", tt)
+
+  unique(read_present_vals())
+}
+
+export_preview_df <- function(args, sheetNames, pid, sid, session_obj, pid_for_sid = NULL) {
+  read_one <- function(pid1, sid1) {
+    tmp <- tempfile(fileext = ".csv")
+    args_i <- args
+    args_i[["file"]] <- tmp
+    args_i <- assignPidSid(args_i, sheetNames, pid1, sid1)
+
+    tt <- command(args_i, session = session_obj)
+    if (!identical(tt, "saved")) {
+      unlink(tmp)
+      stop("Unable to export preview: ", tt)
+    }
+
+    df <- read.csv(tmp, as.is = TRUE, encoding = "UTF-8")
+    unlink(tmp)
+    df
+  }
+
+  if (sheetNames$scope == "scenario" && length(sid) > 1) {
+    if (is.null(pid_for_sid)) stop("pid_for_sid required for multi-scenario preview.")
+    dfs <- lapply(seq_along(sid), \(i) read_one(pid_for_sid[as.character(sid[i])], sid[i]))
+    return(do.call(rbind, dfs))
+  }
+
+  if (sheetNames$scope == "project" && length(pid) > 1) {
+    sid1 <- if (!is.null(sid) && length(sid) >= 1) sid[1] else NULL
+    dfs <- lapply(seq_along(pid), \(i) read_one(pid[i], sid1))
+    return(do.call(rbind, dfs))
+  }
+
+  pid1 <- if (!is.null(pid) && length(pid) >= 1) pid[1] else NULL
+  sid1 <- if (!is.null(sid) && length(sid) >= 1) sid[1] else NULL
+  read_one(pid1, sid1)
+}
+
+sql_quote <- function(x) {
+  # escape single quotes for SQLite
+  paste0("'", gsub("'", "''", as.character(x), fixed = TRUE), "'")
+}
+
+sql_in_clause <- function(col, vals) {
+  # vals can be numeric or character
+  vals <- vals[!is.na(vals)]
+  if (length(vals) == 0) stop("No non-NA filter values provided for ", col)
+
+  if (is.numeric(vals) || all(grepl("^[-]?[0-9]+(\\.[0-9]+)?$", as.character(vals)))) {
+    paste0(col, " IN (", paste(as.character(vals), collapse = ","), ")")
+  } else {
+    paste0(col, " IN (", paste(sql_quote(vals), collapse = ","), ")")
+  }
+}
+
+append_where <- function(where, clause) {
+  if (is.null(where) || where == "") {
+    paste0("WHERE ", clause)
+  } else {
+    paste0(where, " AND (", clause, ")")
+  }
+}
+
+resolve_db_colname <- function(requested, db_cols) {
+  idx <- match(tolower(requested), tolower(db_cols))
+  if (is.na(idx)) return(NULL)
+  db_cols[[idx]]   # return the exact DB spelling, e.g. "TransitionGroupID"
 }
