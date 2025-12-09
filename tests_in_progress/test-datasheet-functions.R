@@ -18,6 +18,10 @@ myScn <- scenario(myProj, scenario = 14)
 mySpatialScn <- scenario(myProj, scenario = 16)
 mySpatialResultsScn <- scenario(myProj, scenario = 101)
 
+# load project and scenarios for multi-scenario and multi-project testing
+myProj2 <- rsyncrosim::project(myLib, project = 33)
+myScn2 <- scenario(myProj, scenario = 39)
+
 # Test getting lists of datasheets for each ssimObject
 datasheet(myLib)
 datasheet(myProj)
@@ -46,6 +50,10 @@ datasheet(myProj, "stsim_StateClass", summary = T, optional = T)
 datasheet(myProj, name = "core_DistributionType")
 datasheet(myProj, name = "core_DistributionType", returnInvisible = T)
 
+# load multiple project datasheets
+datasheet(list(myProj, myProj2), name = "stsim_StateClass")
+datasheet(myLib, name = "stsim_StateClass", project = c(1, 33))
+
 # Load scenario datasheet
 pipeline <- datasheet(myScn, name = "core_Pipeline")
 str(pipeline)
@@ -55,6 +63,10 @@ datasheet(myScn, name = "stsim_Transition", includeKey = T)
 datasheet(myScn, name = "stsim_Transition", optional =T)
 
 datasheet(myScn, name = "stsim_Transition", returnScenarioInfo = T) # broken
+
+# Load multiple scenario datasheets
+datasheet(list(myScn, myScn2), name = "stsim_OutputStratumTransition")
+datasheet(myProj, name = "stsim_OutputStratumTransition", scenario = c(14, 39))
 
 # Load spatial data
 ics <- datasheet(mySpatialScn, "stsim_InitialConditionsSpatial")
