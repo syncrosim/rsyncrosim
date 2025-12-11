@@ -575,6 +575,7 @@ setMethod("datasheet",
           if (length(newColID) == 0) {
             stop("filterValue not found in filterColumn.")
           }
+          filterValue <- as.integer(newColID)
         }
       }
     }
@@ -712,30 +713,27 @@ setMethod("datasheet",
               allSheets <- list()
               
               for (fv in filterValue) {
-                tempFileLoop <- tempfile(fileext = ".csv")
-                
+                # reuse the shared tempFile so value sheets are written alongside it
                 argsLoop <- args
-                argsLoop[["file"]] <- tempFileLoop
+                argsLoop[["file"]] <- tempFile
                 argsLoop[["filtercol"]] <- paste0(filterColumn, "=", fv)
                 
                 ttLoop <- command(argsLoop, .session(x))
                 if (!identical(ttLoop, "saved")) {
                   stop("Unable to export datasheet for filterValue '", fv, "': ", ttLoop)
                 }
-
-                if (!file.exists(tempFileLoop)) {
-                  stop("Expected export file was not created: ", tempFileLoop)
+                
+                if (!file.exists(tempFile)) {
+                  stop("Expected export file was not created: ", tempFile)
                 }
-
-                oneSheet <- read.csv(tempFileLoop, as.is = TRUE, encoding = "UTF-8")
-                unlink(tempFileLoop)
+                
+                oneSheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
                 
                 if (nrow(oneSheet) > 0) {
                   allSheets[[length(allSheets) + 1]] <- oneSheet
                 }
               }
               
-              # Merge all data frames together
               if (length(allSheets) == 0) {
                 stop(
                   paste0(
@@ -744,13 +742,12 @@ setMethod("datasheet",
                   )
                 )
               }
+              
               sheet <- do.call(rbind, allSheets)
-
-              filteringDone <- TRUE 
+              filteringDone <- TRUE
               
             } else {
               args[["filtercol"]] <- paste0(filterColumn, "=", filterValue)
-
               filteringDone <- FALSE
             }
           }
@@ -833,9 +830,6 @@ setMethod("datasheet",
           }
 
           filter_vals_to_use <- filterValue
-          if (exists("newColID", inherits = FALSE) && length(newColID) > 0) {
-            filter_vals_to_use <- newColID
-          }
 
           sqlStatement$where <- append_where(
             sqlStatement$where,
@@ -1021,17 +1015,28 @@ setMethod("datasheet",
             tt <- .dataframeFromSSim(tt, csv = FALSE)
             displayMem <- tt[tt$name == cRow$formula1,]$displayMember
             
-            # console export can't handle multiple projects/scenarios - so query database directly if necessary.
-            if (directQuery) {
-              lookupSheet <- DBI::dbReadTable(con, name = cRow$formula1)
+            # Always read lookup table directly from DB (not from CSV written with filters)
+            use_existing_con <- exists("con") && inherits(con, "SQLiteConnection")
+
+            if (use_existing_con) {
+              lookup_con <- con
+              local_con  <- FALSE
             } else {
-              lookupPath <- gsub(name, cRow$formula1, tempFile, fixed = TRUE)
-              if (!file.exists(lookupPath)) {
-                lookupSheet <- setNames(data.frame(matrix(ncol = 1, nrow = 0)), 
-                                        c(displayMem))
-              } else {
-                lookupSheet <- read.csv(lookupPath, as.is = TRUE)
-              }
+              drv_lu    <- DBI::dbDriver("SQLite")
+              lookup_con <- DBI::dbConnect(drv_lu, .filepath(x))
+              local_con  <- TRUE
+            }
+
+            lookupSheet <- DBI::dbReadTable(lookup_con, name = cRow$formula1)
+
+            if (local_con) {
+              DBI::dbDisconnect(lookup_con)
+            }
+            if (ncol(lookupSheet) == 0) {
+              lookupSheet <- setNames(
+                data.frame(matrix(ncol = 1, nrow = 0)),
+                c(displayMem)
+              )
             }
             if (is.element("ProjectId", names(lookupSheet))) {
               if (identical(pid, NULL) & !identical(sid, NULL)) {
