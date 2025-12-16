@@ -242,8 +242,7 @@ setMethod("datasheet",
           function(ssimObject, name, project, scenario, summary, optional, empty, 
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
-                   returnInvisible, rawValues, verbose) {
-          
+                   returnInvisible, rawValues, verbose) {        
   temp <- NULL
   ProjectId <- NULL
   ScenarioId <- NULL
@@ -746,6 +745,8 @@ setMethod("datasheet",
     if (nrow(sheet) > 0) {
       sheet[sheet == ""] <- NA
     }
+
+    names(sheet) <- sub("ID$", "Id", names(sheet)) # standardize ID columns
     
     # TODO review this, this bit assign the correct data types 
     if (empty | lookupsAsFactors | !returnInvisible) {
@@ -869,6 +870,7 @@ setMethod("datasheet",
                 lookupSheet <- read.csv(lookupPath, as.is = TRUE)
               }
             }
+            names(lookupSheet) <- sub("ID$", "Id", names(lookupSheet))
             if (is.element("ProjectId", names(lookupSheet))) {
               if (identical(pid, NULL) & !identical(sid, NULL)) {
                 allScns <- scenario(x)
