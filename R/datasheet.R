@@ -1002,9 +1002,8 @@ setMethod("datasheet",
         
         names(allScns) <- c("ScenarioId", "ProjectId", "ScenarioName", "ParentId", "ParentName")
         allScns <- allScns[allScns$ScenarioId %in% sid,]
-        
-        sheet <- sheet[, !(names(sheet) %in% "ScenarioId")]
-        sheet <- merge(allScns, sheet, all.y = TRUE)
+       
+        sheet <- merge(allScns, sheet, by = "ScenarioId", all.y = TRUE)
       }
     }
     
