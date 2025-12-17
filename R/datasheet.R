@@ -435,7 +435,7 @@ setMethod("datasheet",
         args <- list(list = NULL, columns = NULL, lib = .filepath(x), sheet = name)
         tt <- command(args, session = session(x))
         datasheetCols <- .dataframeFromSSim(tt, csv = FALSE)
-        
+
         if (!(filterColumn %in% datasheetCols$name)) {
           stop("Column '", filterColumn, "' is not present in the datasheet.")
         }
@@ -492,7 +492,8 @@ setMethod("datasheet",
           if (length(newColID) == 0) {
             stop("filterValue not found in filterColumn.")
           }
-          
+
+          # filterValue <- newColID
         }
       }
     }
@@ -567,7 +568,7 @@ setMethod("datasheet",
             } else {
               # Otherwise, carry on
               sql <- readChar(tempFile, file.info(tempFile)$size)
-              
+
               drv <- DBI::dbDriver("SQLite")
               fqcon <- DBI::dbConnect(drv, .filepath(x))
               sheet <- DBI::dbGetQuery(fqcon, sql)
@@ -622,7 +623,7 @@ setMethod("datasheet",
                 argsLoop <- args
                 argsLoop[["file"]] <- tempFileLoop
                 argsLoop[["filtercol"]] <- paste0(filterColumn, "=", fv)
-                
+
                 ttLoop <- command(argsLoop, .session(x))
                 if (!identical(ttLoop, "saved")) {
                   stop("Unable to export datasheet for filterValue '", fv, "': ", ttLoop)
@@ -650,6 +651,11 @@ setMethod("datasheet",
                 )
               }
               sheet <- do.call(rbind, allSheets)
+
+              # Export once more to tempFile to generate lookup sheets
+              args[["file"]] <- tempFile
+              args$filtercol <- NULL  # Remove filter
+              tt <- command(args, .session(x))
 
               filteringDone <- TRUE 
               
@@ -848,6 +854,7 @@ setMethod("datasheet",
           }
           sheet[[cRow$name]] <- factor(sheet[[cRow$name]], levels = cLevels)
         }
+        # browser()
         if (cRow$valType == "DataSheet") {
           if (lookupsAsFactors) {
             
