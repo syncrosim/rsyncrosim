@@ -243,7 +243,6 @@ setMethod("datasheet",
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible, rawValues, verbose) {        
-  # browser()
   temp <- NULL
   ProjectId <- NULL
   ScenarioId <- NULL
@@ -536,7 +535,7 @@ setMethod("datasheet",
       # sql statement is complex, or more than one proj/sce is provided
 
       # Disable console filtering for multiple scenarios - we'll filter after merge
-      if (!is.null(filterColumn) && length(sid) > 1) {
+      if (!is.null(filterColumn) && (length(sid) > 1 || length(pid) > 1)) {
         useConsole <- FALSE
       }
       
@@ -622,7 +621,7 @@ setMethod("datasheet",
 
           filteringDone <- FALSE
 
-          if (!is.null(filterColumn) && length(sid) == 1) { # console filtering for single scenarios only
+          if (!is.null(filterColumn) && length(sid) == 1 && length(pid) == 1) { # console filtering for single scenarios or projects only
             if (length(filterValue) > 1) {
               allSheets <- list()
               
@@ -764,7 +763,7 @@ setMethod("datasheet",
     names(sheet) <- sub("ID$", "Id", names(sheet)) # standardize ID columns
 
     # Apply post-filtering if there are multiple scenarios and filtering was requested
-    if (!is.null(filterColumn) && length(sid) > 1 && exists("originalFilterColumn")) {
+    if (!is.null(filterColumn) && (length(sid) > 1 || length(pid) > 1) && exists("originalFilterColumn")) {
       if (is.element(originalFilterColumn, names(sheet))) {
         # Convert string filter values to IDs if necessary
         if (all(is.na(suppressWarnings(as.integer(originalFilterValue))))) {
@@ -946,7 +945,7 @@ setMethod("datasheet",
             }
             if (nrow(lookupSheet) > 0) {
               lookupSheet <- lookupSheet[order(lookupSheet[[names(lookupSheet[1])]]), ]
-              lookupLevels <- lookupSheet[[displayMem]]
+              lookupLevels <- unique(lookupSheet[[displayMem]])
             } else {
               lookupLevels <- c()
             }
@@ -1014,8 +1013,9 @@ setMethod("datasheet",
       } else {
         if (nrow(sheet) > 0) {
           allProjects <- .project(x)
-          names(allProjects) <- c("ProjectId", "ProjectName")
-          sheet <- merge(allProjects, sheet, all.y = TRUE)
+          allProjects <- allProjects[, 1:2, drop = FALSE] # Only keep the first two columns (ProjectId and Name)
+          names(allProjects) <- c("ProjectId", "ProjectName") # Merge by ProjectId to avoid duplicate columns
+          sheet <- merge(allProjects, sheet, by = "ProjectId", all.y = TRUE)
         }
       }
     }
