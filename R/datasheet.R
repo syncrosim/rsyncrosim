@@ -243,6 +243,7 @@ setMethod("datasheet",
                    filterColumn, filterValue, lookupsAsFactors, sqlStatement, 
                    includeKey, forceElements, fastQuery, returnScenarioInfo,
                    returnInvisible, rawValues, verbose) {        
+  # browser()
   temp <- NULL
   ProjectId <- NULL
   ScenarioId <- NULL
@@ -430,6 +431,10 @@ setMethod("datasheet",
         if (is.null(filterValue)) {
           stop("filterColumn specified without a filterValue.")
         }
+
+        # Store original filter info for post-processing
+        originalFilterColumn <- filterColumn
+        originalFilterValue <- filterValue
         
         # Check if column exists in Datasheet
         args <- list(list = NULL, columns = NULL, lib = .filepath(x), sheet = name)
@@ -444,7 +449,7 @@ setMethod("datasheet",
         tempFile <- tempfile(fileext = ".csv")
         args <- list(export = NULL, lib = .filepath(x), sheet = name,
                     file = tempFile, valsheets = NULL, force = NULL)
-        args <- assignPidSid(args, sheetNames, pid, sid)
+        args <- assignPidSid(args, sheetNames, pid[1], sid[1])
         tt <- command(args, session = session(x))
 
         if (!identical(tt, "saved")) {
@@ -483,7 +488,7 @@ setMethod("datasheet",
           args <- list(export = NULL, lib = .filepath(x), sheet = inputDatasheetName,
                        file = tempFile, valsheets = NULL, extfilepaths = NULL,
                        includepk = NULL, force = NULL)
-          args <- assignPidSid(args, sheetNames, pid, sid)
+          args <- assignPidSid(args, sheetNames, pid[1], sid[1])
           tt <- command(args, session = session(x))
           inputDatasheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
           matchedRows <- inputDatasheet$Name %in% filterValue
@@ -493,7 +498,6 @@ setMethod("datasheet",
             stop("filterValue not found in filterColumn.")
           }
 
-          # filterValue <- newColID
         }
       }
     }
@@ -530,6 +534,11 @@ setMethod("datasheet",
       useConsole <- useConsole & !((sheetNames$scope == "scenario") & (length(sid) > 1))
       # => These send you to query building (case for BOTH fastQuery and UseConsole are FALSE) if :
       # sql statement is complex, or more than one proj/sce is provided
+
+      # Disable console filtering for multiple scenarios - we'll filter after merge
+      if (!is.null(filterColumn) && length(sid) > 1) {
+        useConsole <- FALSE
+      }
       
       if (useConsole | fastQuery) {
         unlink(tempFile)
@@ -612,8 +621,8 @@ setMethod("datasheet",
           args <- assignPidSid(args, sheetNames, pid, sid)
 
           filteringDone <- FALSE
-          
-          if (!is.null(filterColumn)) {
+
+          if (!is.null(filterColumn) && length(sid) == 1) { # console filtering for single scenarios only
             if (length(filterValue) > 1) {
               allSheets <- list()
               
@@ -753,6 +762,43 @@ setMethod("datasheet",
     }
 
     names(sheet) <- sub("ID$", "Id", names(sheet)) # standardize ID columns
+
+    # Apply post-filtering if there are multiple scenarios and filtering was requested
+    if (!is.null(filterColumn) && length(sid) > 1 && exists("originalFilterColumn")) {
+      if (is.element(originalFilterColumn, names(sheet))) {
+        # Convert string filter values to IDs if necessary
+        if (all(is.na(suppressWarnings(as.integer(originalFilterValue))))) {
+          # Get the lookup datasheet to convert names to IDs
+          args <- list(list = NULL, columns = NULL, lib = .filepath(x), sheet = name)
+          tt <- command(args, session = session(x))
+          datasheetCols <- .dataframeFromSSim(tt, csv = FALSE)
+          
+          inputDatasheetName <- subset(datasheetCols, 
+                                      name == originalFilterColumn)$formula1
+          
+          if (inputDatasheetName != "N/A") {
+            tempFile2 <- tempfile(fileext = ".csv")
+            args <- list(export = NULL, lib = .filepath(x), sheet = inputDatasheetName,
+                        file = tempFile2, valsheets = NULL, extfilepaths = NULL,
+                        includepk = NULL, force = NULL)
+            args <- assignPidSid(args, sheetNames, pid[1], sid[1])
+            tt <- command(args, session = session(x))
+            inputDatasheet <- read.csv(tempFile2, as.is = TRUE, encoding = "UTF-8")
+            unlink(tempFile2)
+            
+            matchedRows <- inputDatasheet$Name %in% originalFilterValue
+            filterIDs <- inputDatasheet[matchedRows, ][[originalFilterColumn]]
+            
+            if (length(filterIDs) > 0) {
+              originalFilterValue <- filterIDs
+            }
+          }
+        }
+        
+        # Apply the filter
+        sheet <- sheet[sheet[[originalFilterColumn]] %in% originalFilterValue, , drop = FALSE]
+      }
+    }
     
     # TODO review this, this bit assign the correct data types 
     if (empty | lookupsAsFactors | !returnInvisible) {
@@ -854,7 +900,6 @@ setMethod("datasheet",
           }
           sheet[[cRow$name]] <- factor(sheet[[cRow$name]], levels = cLevels)
         }
-        # browser()
         if (cRow$valType == "DataSheet") {
           if (lookupsAsFactors) {
             
