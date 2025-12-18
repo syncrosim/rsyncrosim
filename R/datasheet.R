@@ -491,11 +491,6 @@ setMethod("datasheet",
           tt <- command(args, session = session(x))
           inputDatasheet <- read.csv(tempFile, as.is = TRUE, encoding = "UTF-8")
           matchedRows <- inputDatasheet$Name %in% filterValue
-          newColID <- inputDatasheet[matchedRows, ][[filterColumn]]
-          
-          if (length(newColID) == 0) {
-            stop("filterValue not found in filterColumn.")
-          }
 
         }
       }
