@@ -1003,7 +1003,13 @@ setMethod("datasheet",
         names(allScns) <- c("ScenarioId", "ProjectId", "ScenarioName", "ParentId", "ParentName")
         allScns <- allScns[allScns$ScenarioId %in% sid,]
        
-        sheet <- merge(allScns, sheet, by = "ScenarioId", all.y = TRUE)
+        if (is.element("ScenarioId", names(sheet))) {
+          # ScenarioId exists - use it as merge key
+          sheet <- merge(allScns, sheet, by = "ScenarioId", all.y = TRUE)
+        } else {
+          # ScenarioId was removed (single scenario case) - don't remove it again
+          sheet <- merge(allScns, sheet, all.y = TRUE)
+        }
       }
     }
     
