@@ -309,7 +309,7 @@ setMethod(
     }
 
     # TO DO: make sure datasheet is spatial after opening
-    cMeta <- datasheet(
+    cMeta <- .datasheet(
       x,
       name = datasheet,
       optional = TRUE,
@@ -319,7 +319,7 @@ setMethod(
     )
 
     if (nrow(cMeta) == 0) {
-      cMeta <- datasheet(
+      cMeta <- .datasheet(
         x,
         name = datasheet,
         optional = TRUE,
@@ -401,7 +401,7 @@ setMethod(
             warning(warningMsg)
           }
         } else {
-          cMeta <- datasheet(
+          cMeta <- .datasheet(
             x,
             name = datasheet,
             optional = TRUE,
