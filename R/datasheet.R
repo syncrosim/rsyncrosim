@@ -625,7 +625,6 @@ setMethod(
               as.is = TRUE,
               encoding = "UTF-8"
             )
-            matchedRows <- inputDatasheet$Name %in% filterValue
           }
         }
       }
