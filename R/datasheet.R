@@ -660,10 +660,13 @@ setMethod(
       if (!empty | lookupsAsFactors) {
         # If non empty set, carry on with the retrieving of data
 
-        # Use console if filterColumn argument is used
-        if (!is.null(filterColumn)) {
-          useConsole <- TRUE
-        }
+        # Use console if single scenario and filterColumn argument is used
+        if (!is.null(filterColumn)){
+          if (length(sid) > 1 || length(pid) > 1) {
+            useConsole <- FALSE
+          } else {
+            useConsole <- TRUE
+        }}
 
         # Policy change - always query output directly from database. It is faster
         useConsole <- useConsole & ((sqlStatement$select == "SELECT *"))
@@ -674,11 +677,6 @@ setMethod(
         # => These send you to query building (case for BOTH fastQuery and
         # UseConsole are FALSE) if :
         # sql statement is complex, or more than one proj/sce is provided
-
-        # Disable console filtering for multiple scenarios; filter after merge
-        if (!is.null(filterColumn) && (length(sid) > 1 || length(pid) > 1)) {
-          useConsole <- FALSE
-        }
 
         if (useConsole | fastQuery) {
           unlink(tempFile)
