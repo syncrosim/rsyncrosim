@@ -78,7 +78,7 @@ setMethod("saveDatasheet",
 #' @rdname saveDatasheet
 setMethod("saveDatasheet", signature(ssimObject = "SsimObject"), 
           function(ssimObject, data, name, append, force) {
-  
+            
   # Check if data is in correct format
   if (!is.data.frame(data)) {
     stop("data must be in R data.frame format.")
@@ -213,7 +213,7 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
     args <- list(import = NULL, lib = .filepath(ssimObject), 
                  sheet = name, file = tempFile)
     tt <- "saved"
-    
+
     if (nrow(data) > 0) {
       
       if (scope == "project") {
@@ -227,6 +227,10 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
       }
       
       tt <- command(args, .session(ssimObject))
+    } else {
+      if (append == FALSE) {
+        .delete(ssimObject, datasheet = name, force = force)
+      }
     }
     
     if (tt[[1]] == "saved") {
