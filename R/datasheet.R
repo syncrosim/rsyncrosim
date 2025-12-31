@@ -1227,7 +1227,7 @@ setMethod(
                 lookupSheet <- lookupSheet[
                   order(lookupSheet[[names(lookupSheet[1])]]),
                 ]
-                lookupLevels <- unique(lookupSheet[[displayMem]])
+                lookupLevels <- lookupSheet[[displayMem]]
               } else {
                 lookupLevels <- c()
               }
