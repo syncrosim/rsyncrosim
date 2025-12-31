@@ -790,6 +790,7 @@ setMethod(
             if (
               !is.null(filterColumn) && length(sid) == 1 && length(pid) == 1
             ) {
+              lookupsAsFactors <- FALSE
               if (length(filterValue) > 1) {
                 allSheets <- list()
 
