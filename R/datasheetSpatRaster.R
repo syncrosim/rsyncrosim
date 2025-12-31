@@ -318,17 +318,6 @@ setMethod(
       lookupsAsFactors = getFactors
     )
 
-    if (nrow(cMeta) == 0) {
-      cMeta <- .datasheet(
-        x,
-        name = datasheet,
-        optional = TRUE,
-        filterColumn = filterColumn,
-        filterValue = filterValue,
-        lookupsAsFactors = getFactors
-      )
-    }
-
     args <- list(
       list = NULL,
       columns = NULL,
