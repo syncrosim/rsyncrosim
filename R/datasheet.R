@@ -541,6 +541,9 @@ setMethod(
           if (is.null(filterValue)) {
             stop("filterColumn specified without a filterValue.")
           }
+          if (length(filterValue) == 0) {
+           stop("filterValue must contain at least one element.")
+          }
 
           # Store original filter info for post-processing
           originalFilterColumn <- filterColumn
