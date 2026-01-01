@@ -252,7 +252,7 @@ setMethod(
 
     if (is.null(ssimObject)) {
       stop(
-        "Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios/Projects."
+        "Expecting ssimObject to be an SsimLibrary/Project/Scenario, or a list of Scenarios."
       )
     }
 
@@ -348,7 +348,6 @@ setMethod(
       complainIfMissing = TRUE
     )
     IDColumns <- c("ScenarioId", "ProjectId")
-    browser()
     if (is(ssimObject, "SsimLibrary")) {
       scopeDS <- "library"
     } else if (is(ssimObject, "Project")) {
@@ -792,9 +791,10 @@ setMethod(
 
             filteringDone <- FALSE
 
-            # console filtering for single scenarios or projects only
             if (
-              !is.null(filterColumn) && length(sid) == 1 && length(pid) == 1
+              !is.null(filterColumn) && 
+              ((sheetNames$scope == "scenario" && length(sid) == 1) ||
+              (sheetNames$scope == "project" && length(pid) == 1))
             ) {
               lookupsAsFactors <- FALSE
               if (length(filterValue) > 1) {
