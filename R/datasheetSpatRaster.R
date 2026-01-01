@@ -190,7 +190,11 @@ setMethod(
       }
     }
 
-    if ((length(names(out)) == 1) & !forceElements) {
+    if (!started) {
+      return(list())
+    }
+
+    if ((length(names(out)) == 1) && !forceElements) {
       out <- out[[1]]
     }
 
