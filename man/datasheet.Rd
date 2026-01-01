@@ -101,8 +101,7 @@ all datasheets in the ssimObject will be returned. Note that setting
 \code{summary=FALSE} and \code{name=NULL} pulls all Datasheets, which is time
 consuming and not generally recommended}
 
-\item{project}{numeric or numeric vector. One or more
-\code{\link{Project}} ids}
+\item{project}{numeric \code{\link{Project}} id}
 
 \item{scenario}{numeric or numeric vector. One or more
 \code{\link{Scenario}} ids}
@@ -215,9 +214,9 @@ mySession <- session()
 
 # Create a new SsimLibrary with the example template from helloworldSpatial
 myLibrary <- ssimLibrary(name = myLibraryName,
-                         session = mySession, 
+                         session = mySession,
                          packages = "helloworldSpatial")
-                         
+
 # Set the Project and Scenario
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
@@ -233,31 +232,31 @@ myDatasheetList <- datasheet(myScenario, summary = FALSE)
 myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 
 # Include primary key when retrieving a Datasheet
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          includeKey = TRUE)
 
 # Return all columns, including optional ones
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          summary = TRUE, optional = TRUE)
 
 # Return Datasheet as an element
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          forceElements = TRUE)
 myDatasheet$helloworldSpatial_RunControl
 
 # Get a Datasheet without pre-specified values
-myDatasheetEmpty <- datasheet(myScenario, 
-                              name = "helloworldSpatial_RunControl", 
+myDatasheetEmpty <- datasheet(myScenario,
+                              name = "helloworldSpatial_RunControl",
                               empty = TRUE)
 
 # If Datasheet is empty, do not return dependencies as factors
-myDatasheetEmpty <- datasheet(myScenario, 
-                              name = "helloworldSpatial_RunControl", 
+myDatasheetEmpty <- datasheet(myScenario,
+                              name = "helloworldSpatial_RunControl",
                               empty = TRUE,
                               lookupsAsFactors = FALSE)
-                              
+
 # Optimize query
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          fastQuery = TRUE)
 
 # Get specific SsimLibrary core Datasheet
@@ -269,7 +268,7 @@ mySQL <- sqlStatement(
   aggregate = c("MinimumTimestep"),
   where = list(MinimumTimestep = c(1))
 )
-myAggregatedDatasheet <- datasheet(myScenario, 
+myAggregatedDatasheet <- datasheet(myScenario,
                                    name = "helloworldSpatial_RunControl",
                                    sqlStatement = mySQL)
 }

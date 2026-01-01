@@ -148,23 +148,23 @@ resultRaster <- datasheetSpatRaster(resultScenario,
 )
 
 # Extract specific Datasheet SpatRasters using pattern matching
-resultDatasheet <- datasheet(resultScenario, 
+resultDatasheet <- datasheet(resultScenario,
                              name = "helloworldSpatial_IntermediateDatasheet")
 outputRasterPaths <- resultDatasheet$OutputRasterFile
-resultRaster <- datasheetSpatRaster(resultScenario, 
+resultRaster <- datasheetSpatRaster(resultScenario,
                   datasheet = "helloworldSpatial_IntermediateDatasheet",
                   column = "OutputRasterFile",
-                  subset = expression(grepl("ts20", 
+                  subset = expression(grepl("ts20",
                                              outputRasterPaths,
                                              fixed = TRUE))
 )
 
 # Return the raster Datasheets as a SpatRaster list
-resultRaster <- datasheetSpatRaster(resultScenario, 
+resultRaster <- datasheetSpatRaster(resultScenario,
                  datasheet = "helloworldSpatial_IntermediateDatasheet",
                  column = "OutputRasterFile",
                  forceElements = TRUE)
-                 
+
 # Filter for only rasters that fit specific criteria (ST-Sim example)
 resultRaster <- datasheetSpatRaster(resultScenario,
                  datasheet = "stsim_OutputSpatialTransition",

@@ -46,8 +46,7 @@ NULL
 #'     all datasheets in the ssimObject will be returned. Note that setting
 #'     \code{summary=FALSE} and \code{name=NULL} pulls all Datasheets, which is time
 #'     consuming and not generally recommended
-#' @param project numeric or numeric vector. One or more
-#'     \code{\link{Project}} ids
+#' @param project numeric \code{\link{Project}} id
 #' @param scenario numeric or numeric vector. One or more
 #'     \code{\link{Scenario}} ids
 #' @param summary logical or character. If \code{TRUE} (default) returns a data.frame of sheet names
