@@ -375,6 +375,10 @@ setMethod(
       }
     }
 
+    if (length(pid) > 1) {
+      stop("The project argument must be a single project ID")
+    }
+
     # now have valid pid/sid vectors and x is library.
     if (!is.null(name)) {
       for (i in seq_along(name)) {
