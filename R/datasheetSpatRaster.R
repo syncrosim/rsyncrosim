@@ -431,9 +431,8 @@ setMethod(
       basename(cMeta$rasterColumn),
       fixed = TRUE
     )
-
     if (
-      (length(setdiff(NA, unique(cMeta$Band))) > 0) &
+      (length(setdiff(NA, unique(cMeta$Band))) > 0) &&
         length(intersect(names(cMeta), c("Timestep", "Iteration"))) == 0
     ) {
       cMeta$outName <- paste0(cMeta$outName, ".b", cMeta$bandColumn)
@@ -449,7 +448,7 @@ setMethod(
     nFiles <- unique(cMeta$rasterColumn)
 
     # Case of unique file for many iterations/timestep
-    if ((length(nFiles) == 1) & (nrow(cMeta) > 1) & !is.null(cMeta$Band[1])) {
+    if ((length(nFiles) == 1) && (nrow(cMeta) > 1) && !is.null(cMeta$Band[1])) {
       if (!file.exists(nFiles)) {
         addPath <- paste0(
           .filepath(x),
