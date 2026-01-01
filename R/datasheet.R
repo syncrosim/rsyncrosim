@@ -374,7 +374,7 @@ setMethod(
       }
     }
 
-    if (length(unique(pid)) > 1) {
+    if (!is.null(pid) && length(unique(pid)) > 1) {
         stop("Please input a single project; lists of projects are not supported")
       }
 
