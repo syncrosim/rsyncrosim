@@ -348,7 +348,7 @@ setMethod(
       complainIfMissing = TRUE
     )
     IDColumns <- c("ScenarioId", "ProjectId")
-
+    browser()
     if (is(ssimObject, "SsimLibrary")) {
       scopeDS <- "library"
     } else if (is(ssimObject, "Project")) {
@@ -375,11 +375,9 @@ setMethod(
       }
     }
 
-    if (!is.null(ProjectId)) {
-      if (length(ProjectId) > 1){
-        stop("The project argument must be a single project ID")
+    if (length(unique(pid)) > 1) {
+        stop("Please input a single project; lists of projects are not supported")
       }
-    }
 
     # now have valid pid/sid vectors and x is library.
     if (!is.null(name)) {
