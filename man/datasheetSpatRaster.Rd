@@ -105,9 +105,9 @@ included.  If no Timestep column is in the Datasheet, then ignored}
 (e.g. "TransitionGroupID"). Note that to use the filterColumn argument,
 you must also specify a filterValue. Default is \code{NULL}}
 
-\item{filterValue}{character string or integer. The value of the filterColumn
-to filter the Datasheet by. To use the filterValue argument, you must
-also specify a filterColumn. Default is \code{NULL}}
+\item{filterValue}{character string or integer (scalar or vector). The value of
+the filterColumn to filter the Datasheet by. To use the filterValue argument,
+you must also specify a filterColumn. Default is \code{NULL}}
 
 \item{subset}{logical expression indicating Datasheet rows to return.
 e.g. expression(grepl("Ts0001", Filename, fixed=T)). See subset() for
@@ -148,23 +148,23 @@ resultRaster <- datasheetSpatRaster(resultScenario,
 )
 
 # Extract specific Datasheet SpatRasters using pattern matching
-resultDatasheet <- datasheet(resultScenario, 
+resultDatasheet <- datasheet(resultScenario,
                              name = "helloworldSpatial_IntermediateDatasheet")
 outputRasterPaths <- resultDatasheet$OutputRasterFile
-resultRaster <- datasheetSpatRaster(resultScenario, 
+resultRaster <- datasheetSpatRaster(resultScenario,
                   datasheet = "helloworldSpatial_IntermediateDatasheet",
                   column = "OutputRasterFile",
-                  subset = expression(grepl("ts20", 
+                  subset = expression(grepl("ts20",
                                              outputRasterPaths,
                                              fixed = TRUE))
 )
 
 # Return the raster Datasheets as a SpatRaster list
-resultRaster <- datasheetSpatRaster(resultScenario, 
+resultRaster <- datasheetSpatRaster(resultScenario,
                  datasheet = "helloworldSpatial_IntermediateDatasheet",
                  column = "OutputRasterFile",
                  forceElements = TRUE)
-                 
+
 # Filter for only rasters that fit specific criteria (ST-Sim example)
 resultRaster <- datasheetSpatRaster(resultScenario,
                  datasheet = "stsim_OutputSpatialTransition",
