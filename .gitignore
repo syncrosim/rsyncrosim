@@ -19,6 +19,7 @@ gitIncantations.txt
 /rsyncrosim_binaries/
 rsyncrosim.Rcheck
 *.tar.gz
+*.lnk
 # Don't build pkgdown site from actions
 **/pkgdown.yaml
 debugging.R
