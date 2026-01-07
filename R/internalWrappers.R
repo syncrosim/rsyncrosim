@@ -22,6 +22,7 @@ NULL
 #' @include name.R
 #' @include packages.R
 #' @include viewProfile.R
+#' @include delete.R
 NULL
 # @export
 .projectId <- projectId
@@ -59,3 +60,5 @@ NULL
 .packages <- packages
 # @export
 .viewProfile <- viewProfile
+# @export
+.delete <- delete
