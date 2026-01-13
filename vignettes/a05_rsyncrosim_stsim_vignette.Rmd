@@ -389,9 +389,11 @@ saveDatasheet(myScenario, pTransitions, "stsim_Transition")
 
 ```{r echo = FALSE}
 # Load sample .tif files
-stratumTif <- "C:/gitprojects/rsyncrosim/vignettes/initial-stratum.tif"
-sclassTif <- "C:/gitprojects/rsyncrosim/vignettes/initial-sclass.tif"
-ageTif <- "C:/gitprojects/rsyncrosim/vignettes/initial-age.tif"
+currentDir <- this.path::this.dir()
+
+stratumTif <- file.path(currentDir, "initial-stratum.tif")
+sclassTif <- file.path(currentDir, "initial-sclass.tif")
+ageTif <- file.path(currentDir, "initial-age.tif")
 ```
 
 ```{r eval = FALSE}

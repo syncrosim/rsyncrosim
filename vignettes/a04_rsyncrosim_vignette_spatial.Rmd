@@ -185,9 +185,12 @@ myInputDataframe
 
 ```{r add input data run, warning = FALSE, echo = FALSE, results = FALSE}
 # Create input data and add it to the input data frame
+currentDir <- this.path::this.dir()
+interceptRasterPath <- file.path(currentDir, "input-raster.tif")
+
 myInputDataframe <- data.frame(
   mMean = 0, mSD = 4,
-  InterceptRasterFile = "C:/gitprojects/rsyncrosim/vignettes/input-raster.tif")
+  InterceptRasterFile = interceptRasterPath)
 ```
 
 Finally, save the updated R data frame to a SyncroSim datasheet using `saveDatasheet()`.

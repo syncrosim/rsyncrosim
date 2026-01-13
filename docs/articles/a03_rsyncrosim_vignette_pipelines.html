@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,8 +66,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>rsyncrosim: introduction to pipelines</h1>
+      <img src="../man/figures/logo.png" class="logo" alt=""><h1>rsyncrosim: introduction to pipelines</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/syncrosim/rsyncrosim/blob/HEAD/vignettes/a03_rsyncrosim_vignette_pipelines.Rmd" class="external-link"><code>vignettes/a03_rsyncrosim_vignette_pipelines.Rmd</code></a></small>
@@ -168,7 +167,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.20"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.23"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -181,7 +180,7 @@ package server for the specified package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install helloworldPipeline</span></span>
 <span><span class="fu"><a href="../reference/installPackage.html">installPackage</a></span><span class="op">(</span><span class="st">"helloworldPipeline"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;helloworldPipeline v2.1.0&gt; installed</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;helloworldPipeline v2.1.1&gt; installed</span></span></code></pre>
 <p><code>helloworldPipeline</code> should now be included in the package
 list returned by the <code><a href="../reference/packages.html">packages()</a></code> function in
 <code>rsyncrosim</code>:</p>
@@ -189,11 +188,11 @@ list returned by the <code><a href="../reference/packages.html">packages()</a></
 <code class="sourceCode R"><span><span class="co"># Get list of installed packages</span></span>
 <span><span class="fu"><a href="../reference/packages.html">packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                 name version</span></span>
-<span><span class="co">## 1 helloworldPipeline   2.1.0</span></span>
+<span><span class="co">## 1 helloworldPipeline   2.1.1</span></span>
 <span><span class="co">##                                                  description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use pipelines with an R model</span></span>
-<span><span class="co">##                                                                                 location</span></span>
-<span><span class="co">## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.0</span></span>
+<span><span class="co">##                                                                                location</span></span>
+<span><span class="co">## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -219,7 +218,7 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <span>                         session <span class="op">=</span> <span class="va">mySession</span>,</span>
 <span>                         packages <span class="op">=</span> <span class="st">"helloworldPipeline"</span>,</span>
 <span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Package &lt;helloworldPipeline v2.1.0&gt; added</span></span></code></pre>
+<pre><code><span><span class="co">## Package &lt;helloworldPipeline v2.1.1&gt; added</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Open the default project</span></span>
 <span><span class="va">myProject</span> <span class="op">=</span> <span class="fu"><a href="../reference/project.html">project</a></span><span class="op">(</span>ssimObject <span class="op">=</span> <span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span>
@@ -236,14 +235,14 @@ to <code>rsyncrosim</code></a> vignette.</p>
 <code class="sourceCode R"><span><span class="co"># View all datasheets associated with a library, project, or scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myScenario</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       scope                                     name             displayName</span></span>
-<span><span class="co">## 25 scenario                   core_DistributionValue           Distributions</span></span>
-<span><span class="co">## 26 scenario               core_ExternalVariableValue      External Variables</span></span>
-<span><span class="co">## 27 scenario                            core_Pipeline                Pipeline</span></span>
-<span><span class="co">## 28 scenario              core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
-<span><span class="co">## 29 scenario        helloworldPipeline_InputDatasheet                  Inputs</span></span>
-<span><span class="co">## 30 scenario helloworldPipeline_IntermediateDatasheet    Intermediate Outputs</span></span>
-<span><span class="co">## 31 scenario       helloworldPipeline_OutputDatasheet                 Outputs</span></span>
-<span><span class="co">## 32 scenario            helloworldPipeline_RunControl             Run Control</span></span></code></pre>
+<span><span class="co">## 26 scenario                   core_DistributionValue           Distributions</span></span>
+<span><span class="co">## 27 scenario               core_ExternalVariableValue      External Variables</span></span>
+<span><span class="co">## 28 scenario                            core_Pipeline                Pipeline</span></span>
+<span><span class="co">## 29 scenario              core_SpatialMultiprocessing Spatial Multiprocessing</span></span>
+<span><span class="co">## 30 scenario        helloworldPipeline_InputDatasheet                  Inputs</span></span>
+<span><span class="co">## 31 scenario helloworldPipeline_IntermediateDatasheet    Intermediate Outputs</span></span>
+<span><span class="co">## 32 scenario       helloworldPipeline_OutputDatasheet                 Outputs</span></span>
+<span><span class="co">## 33 scenario            helloworldPipeline_RunControl             Run Control</span></span></code></pre>
 <p>From the list of datasheets above, we can see that there are four
 datasheets specific to the <code>helloworldPipeline</code> package,
 including an <code>Inputs</code> datasheet, an
@@ -431,13 +430,14 @@ single iteration.</p>
 <span><span class="co">## 4  library                       core_Option                        Options</span></span>
 <span><span class="co">## 5  library         core_ProcessorGroupOption        Processor Group Options</span></span>
 <span><span class="co">## 6  library          core_ProcessorGroupValue         Processor Group Values</span></span>
-<span><span class="co">## 7  library                     core_PyConfig                         Python</span></span>
-<span><span class="co">## 8  library                      core_RConfig                              R</span></span>
-<span><span class="co">## 9  library                      core_Setting                       Settings</span></span>
-<span><span class="co">## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option</span></span>
-<span><span class="co">## 11 library                core_SpatialOption                Spatial Options</span></span>
-<span><span class="co">## 12 library                    core_SysFolder                        Folders</span></span>
-<span><span class="co">## 13 library                  core_Terminology                    Terminology</span></span></code></pre>
+<span><span class="co">## 7  library             core_PublishDatasheet               PublishDatasheet</span></span>
+<span><span class="co">## 8  library                     core_PyConfig                         Python</span></span>
+<span><span class="co">## 9  library                      core_RConfig                              R</span></span>
+<span><span class="co">## 10 library                      core_Setting                       Settings</span></span>
+<span><span class="co">## 11 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option</span></span>
+<span><span class="co">## 12 library                core_SpatialOption                Spatial Options</span></span>
+<span><span class="co">## 13 library                    core_SysFolder                        Folders</span></span>
+<span><span class="co">## 14 library                  core_Terminology                    Terminology</span></span></code></pre>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the library-scoped multiprocessing datasheet</span></span>
 <span><span class="va">multiprocess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myLibrary</span>, name <span class="op">=</span> <span class="st">"core_Multiprocessing"</span><span class="op">)</span></span></code></pre></div>
@@ -487,20 +487,20 @@ below).</p>
 <span><span class="co">## 5  scenario               core                   core_DistributionValue</span></span>
 <span><span class="co">## 7  scenario               core               core_ExternalVariableValue</span></span>
 <span><span class="co">## 15 scenario               core                            core_Pipeline</span></span>
-<span><span class="co">## 21 scenario               core              core_SpatialMultiprocessing</span></span>
-<span><span class="co">## 29 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
-<span><span class="co">## 30 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
-<span><span class="co">## 31 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
-<span><span class="co">## 32 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
+<span><span class="co">## 22 scenario               core              core_SpatialMultiprocessing</span></span>
+<span><span class="co">## 30 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
+<span><span class="co">## 31 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
+<span><span class="co">## 32 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
+<span><span class="co">## 33 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
 <span><span class="co">##                displayName isSingle displayMember  data scenario</span></span>
 <span><span class="co">## 5            Distributions    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 7       External Variables    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 15                Pipeline    FALSE           N/A  TRUE        1</span></span>
-<span><span class="co">## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
-<span><span class="co">## 29                  Inputs     TRUE           N/A  TRUE        1</span></span>
-<span><span class="co">## 30    Intermediate Outputs    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 31                 Outputs    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 32             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
+<span><span class="co">## 22 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
+<span><span class="co">## 30                  Inputs     TRUE           N/A  TRUE        1</span></span>
+<span><span class="co">## 31    Intermediate Outputs    FALSE           N/A FALSE        1</span></span>
+<span><span class="co">## 32                 Outputs    FALSE           N/A FALSE        1</span></span>
+<span><span class="co">## 33             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Datasheets for result scenario</span></span>
 <span><span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>, optional <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -508,20 +508,20 @@ below).</p>
 <span><span class="co">## 5  scenario               core                   core_DistributionValue</span></span>
 <span><span class="co">## 7  scenario               core               core_ExternalVariableValue</span></span>
 <span><span class="co">## 15 scenario               core                            core_Pipeline</span></span>
-<span><span class="co">## 21 scenario               core              core_SpatialMultiprocessing</span></span>
-<span><span class="co">## 29 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
-<span><span class="co">## 30 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
-<span><span class="co">## 31 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
-<span><span class="co">## 32 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
+<span><span class="co">## 22 scenario               core              core_SpatialMultiprocessing</span></span>
+<span><span class="co">## 30 scenario helloworldPipeline        helloworldPipeline_InputDatasheet</span></span>
+<span><span class="co">## 31 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet</span></span>
+<span><span class="co">## 32 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet</span></span>
+<span><span class="co">## 33 scenario helloworldPipeline            helloworldPipeline_RunControl</span></span>
 <span><span class="co">##                displayName isSingle displayMember  data scenario</span></span>
 <span><span class="co">## 5            Distributions    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 7       External Variables    FALSE           N/A FALSE        1</span></span>
 <span><span class="co">## 15                Pipeline    FALSE           N/A  TRUE        1</span></span>
-<span><span class="co">## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
-<span><span class="co">## 29                  Inputs     TRUE           N/A  TRUE        1</span></span>
-<span><span class="co">## 30    Intermediate Outputs    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 31                 Outputs    FALSE           N/A FALSE        1</span></span>
-<span><span class="co">## 32             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
+<span><span class="co">## 22 Spatial Multiprocessing     TRUE           N/A FALSE        1</span></span>
+<span><span class="co">## 30                  Inputs     TRUE           N/A  TRUE        1</span></span>
+<span><span class="co">## 31    Intermediate Outputs    FALSE           N/A  TRUE        1</span></span>
+<span><span class="co">## 32                 Outputs    FALSE           N/A  TRUE        1</span></span>
+<span><span class="co">## 33             Run Control     TRUE           N/A  TRUE        1</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -544,8 +544,13 @@ datasheet corresponds to the results from the
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] y</span></span>
-<span><span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep          y</span></span>
+<span><span class="co">## 1         1        1  2.1057425</span></span>
+<span><span class="co">## 2         1        2  1.2114851</span></span>
+<span><span class="co">## 3         1        3  0.3172276</span></span>
+<span><span class="co">## 4         1        4 -0.5770298</span></span>
+<span><span class="co">## 5         1        5 -1.4712873</span></span>
+<span><span class="co">## 6         1        6 -2.3655448</span></span></code></pre>
 <p>We can see that for every timestep in an iteration we have a new
 value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
@@ -563,8 +568,13 @@ from the <code>Hello World Pipeline 2</code> transformer stage.</p>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] yCum</span></span>
-<span><span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep       yCum</span></span>
+<span><span class="co">## 1         1        1  2.1057425</span></span>
+<span><span class="co">## 2         1        2  3.3172276</span></span>
+<span><span class="co">## 3         1        3  3.6344552</span></span>
+<span><span class="co">## 4         1        4  3.0574254</span></span>
+<span><span class="co">## 5         1        5  1.5861381</span></span>
+<span><span class="co">## 6         1        6 -0.7794067</span></span></code></pre>
 <p>We can see for each timestep in an iteration, we have a new value of
 <em>yCum</em>, representing the cumulative value of <em>y</em> over
 time.</p>
@@ -581,7 +591,7 @@ time.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
