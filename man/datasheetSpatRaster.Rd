@@ -124,10 +124,14 @@ files on disk. Default is \code{FALSE}}
 A SpatRaster object, or List. See terra package documentation for details.
 }
 \description{
-This function retrieves spatial columns from one or more SyncroSim
-\code{\link{Scenario}} Datasheets.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
+Please use \code{\link{datasheet}} to get the path to the raster file instead.
+
+This function retrieves spatial columns from one or more SyncroSim
+\code{\link{Scenario}} Datasheets.
+
 The names of the returned SpatRaster contain metadata.
 For Datasheets without Filename this is:
 
