@@ -968,6 +968,7 @@ setMethod(
         sheet[sheet == ""] <- NA
       }
 
+      browser()
       # standardize ID columns
       names(sheet) <- sub("ID$", "Id", names(sheet))
 
@@ -1108,9 +1109,14 @@ setMethod(
 
         for (i in seq(length.out = nrow(sheetInfo))) {
           cRow <- sheetInfo[i, ]
-
-          if (!is.element(cRow$name, colnames(sheet))) {
-            if (cRow$name == "ScenarioId") {
+          
+          sheetColnames <- colnames(sheet)
+          if (!is.element(cRow$name, sheetColnames)) {
+            if (is.element(tolower(cRow$name), tolower(sheetColnames))) {
+              matchIdx <- match(tolower(cRow$name), tolower(sheetColnames))
+              sheetColnames[matchIdx] <- cRow$name
+              colnames(sheet) <- sheetColnames
+            } else if (cRow$name == "ScenarioId") {
               sheet[[cRow$name]] <- sid
             } else if (sqlStatement$select == "SELECT *") {
               sheet[[cRow$name]] <- NA
