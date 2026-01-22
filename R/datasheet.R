@@ -968,7 +968,6 @@ setMethod(
         sheet[sheet == ""] <- NA
       }
 
-      browser()
       # standardize ID columns
       names(sheet) <- sub("ID$", "Id", names(sheet))
 
