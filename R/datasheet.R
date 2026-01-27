@@ -967,9 +967,44 @@ setMethod(
       if (nrow(sheet) > 0) {
         sheet[sheet == ""] <- NA
       }
+      
+      # standardize primary key and foreign key ID columns only (not all ID columns)
+      # Get column properties to identify primary keys and foreign keys
+      args <- list(
+        list = NULL,
+        columns = NULL,
+        allprops = NULL,
+        csv = NULL,
+        lib = .filepath(x),
+        sheet = name
+      )
+      tt <- command(args, session = session(x))
+      cPropsAll <- .dataframeFromSSim(tt)
 
-      # standardize ID columns
-      names(sheet) <- sub("ID$", "Id", names(sheet))
+      # Identify columns that should be converted:
+      # 1. Primary key columns (isPrimary=Yes)
+      # 2. Foreign key columns (valType=DataSheet)
+      primaryKeyCols <- cPropsAll[
+        grep("isPrimary^Yes", cPropsAll$properties, fixed = TRUE),
+      ]$name
+
+      foreignKeyCols <- cPropsAll[cPropsAll$valType == "DataSheet", ]$name
+
+      # Combine primary and foreign key columns
+      colsToConvert <- unique(c(primaryKeyCols, foreignKeyCols))
+
+      # Only convert these columns from "ID" to "Id"
+      for (colName in colsToConvert) {
+        # Check if this column ends with "ID" (uppercase)
+        if (grepl("ID$", colName)) {
+          # Convert "ID" to "Id" for this column
+          newColName <- sub("ID$", "Id", colName)
+          # Rename in the sheet if it exists
+          if (colName %in% names(sheet)) {
+            names(sheet)[names(sheet) == colName] <- newColName
+          }
+        }
+      }
 
       # Apply post-filtering if there are multiple scenarios and filtering was requested
       if (
@@ -1108,7 +1143,7 @@ setMethod(
 
         for (i in seq(length.out = nrow(sheetInfo))) {
           cRow <- sheetInfo[i, ]
-
+          
           if (!is.element(cRow$name, colnames(sheet))) {
             if (cRow$name == "ScenarioId") {
               sheet[[cRow$name]] <- sid
@@ -1195,7 +1230,45 @@ setMethod(
                   lookupSheet <- read.csv(lookupPath, as.is = TRUE)
                 }
               }
-              names(lookupSheet) <- sub("ID$", "Id", names(lookupSheet))
+
+              # standardize primary key and foreign key ID columns only (not all ID columns)
+              # Get column properties for the lookup datasheet
+              argsLookup <- list(
+                list = NULL,
+                columns = NULL,
+                allprops = NULL,
+                csv = NULL,
+                lib = .filepath(x),
+                sheet = cRow$formula1
+              )
+              ttLookup <- command(argsLookup, session = session(x))
+              cPropsLookup <- .dataframeFromSSim(ttLookup)
+
+              # Identify columns that should be converted in lookup sheet:
+              # 1. Primary key columns (isPrimary=Yes)
+              # 2. Foreign key columns (valType=DataSheet)
+              primaryKeyColsLookup <- cPropsLookup[
+                grep("isPrimary^Yes", cPropsLookup$properties, fixed = TRUE),
+              ]$name
+
+              foreignKeyColsLookup <- cPropsLookup[cPropsLookup$valType == "DataSheet", ]$name
+
+              # Combine primary and foreign key columns
+              colsToConvertLookup <- unique(c(primaryKeyColsLookup, foreignKeyColsLookup))
+
+              # Only convert these columns from "ID" to "Id"
+              for (colName in colsToConvertLookup) {
+                # Check if this column ends with "ID" (uppercase)
+                if (grepl("ID$", colName)) {
+                  # Convert "ID" to "Id" for this column
+                  newColName <- sub("ID$", "Id", colName)
+                  # Rename in the lookup sheet if it exists
+                  if (colName %in% names(lookupSheet)) {
+                    names(lookupSheet)[names(lookupSheet) == colName] <- newColName
+                  }
+                }
+              }
+
               if (is.element("ProjectId", names(lookupSheet))) {
                 if (identical(pid, NULL) & !identical(sid, NULL)) {
                   allScns <- scenario(x)
