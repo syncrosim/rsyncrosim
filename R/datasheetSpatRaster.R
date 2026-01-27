@@ -4,6 +4,10 @@
 NULL
 
 #' Retrieve spatial data from a SyncroSim Datasheet
+#' 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' Please use \code{\link{datasheet}} to get the path to the raster file instead.
 #'
 #' This function retrieves spatial columns from one or more SyncroSim
 #' \code{\link{Scenario}} Datasheets.
@@ -126,6 +130,11 @@ setMethod(
     forceElements,
     pathOnly
   ) {
+    lifecycle::deprecate_warn(
+      "2.1.11",
+      "datasheetSpatRaster()",
+      details = paste0("Please use `datasheet()` to get the path to the raster", 
+                       " instead."))
     return(SyncroSimNotFound(ssimObject))
   }
 )
@@ -147,6 +156,11 @@ setMethod(
     forceElements,
     pathOnly
   ) {
+    lifecycle::deprecate_warn(
+      "2.1.11",
+      "datasheetSpatRaster()",
+      details = paste0("Please use `datasheet()` to get the path to the raster", 
+                       " instead."))    
     if (!is(ssimObject[[1]], "Scenario")) {
       stop(
         "Expecting an SsimLibrary/Project/Scenario or list of Scenario objects."
@@ -219,6 +233,11 @@ setMethod(
     forceElements,
     pathOnly
   ) {
+    lifecycle::deprecate_warn(
+      "2.1.11",
+      "datasheetSpatRaster()",
+      details = paste0("Please use `datasheet()` to get the path to the raster", 
+                       " instead."))    
     if (is.null(scenario)) {
       stop(
         "If ssimObject is an SimLibrary or Project, one or more scenarios must be specified using the scenario argument."
@@ -278,6 +297,11 @@ setMethod(
     forceElements,
     pathOnly
   ) {
+    lifecycle::deprecate_warn(
+      "2.1.11",
+      "datasheetSpatRaster()",
+      details = paste0("Please use `datasheet()` to get the path to the raster", 
+                       " instead."))    
     rat <- NULL
 
     if (is.null(subset)) {
