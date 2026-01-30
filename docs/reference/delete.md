@@ -101,8 +101,8 @@ myProject <- project(myLibrary, project = "a project")
 # Check the Projects associated with this SsimLibrary
 project(myLibrary)
 #>   ProjectId        Name Owner IsReadOnly IsActive       DateLastModified
-#> 2        16   a project   N/A         No       No 2025-11-12 at 10:20 AM
-#> 1         1 Definitions   N/A         No       No 2025-11-12 at 10:20 AM
+#> 2        16   a project   N/A         No       No 2026-01-30 at 11:31 AM
+#> 1         1 Definitions   N/A         No       No 2026-01-30 at 11:31 AM
 
 # Delete Project
 delete(myLibrary, project = "a project", force = TRUE)
@@ -111,6 +111,6 @@ delete(myLibrary, project = "a project", force = TRUE)
 # Check that Project was successfully deleted from SsimLibrary
 project(myLibrary)
 #>   ProjectId        Name Owner IsReadOnly IsActive       DateLastModified
-#> 1         1 Definitions   N/A         No       No 2025-11-12 at 10:20 AM
+#> 1         1 Definitions   N/A         No       No 2026-01-30 at 11:31 AM
 # }
 ```

@@ -73,7 +73,7 @@ mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, 
                          session = mySession,
                          packages = "stsim")
-#> Package <stsim v4.5.4> added
+#> Package <stsim v4.5.3> added
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 myFolder <- folder(myProject, folder = "New Folder")

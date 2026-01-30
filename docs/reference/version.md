@@ -36,6 +36,6 @@ mySession <- session()
 
 # Retrieve version of SyncroSim associated with Session
 version(mySession)
-#> [1] "3.1.20"
+#> [1] "3.1.24"
 # }
 ```

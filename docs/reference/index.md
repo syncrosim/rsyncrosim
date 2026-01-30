@@ -85,7 +85,7 @@
   : Retrieve a SyncroSim Datasheet
 
 - [`datasheetSpatRaster()`](https://syncrosim.github.io/rsyncrosim/reference/datasheetSpatRaster.md)
-  : Retrieve spatial data from a SyncroSim Datasheet
+  **\[deprecated\]** : Retrieve spatial data from a SyncroSim Datasheet
 
 - [`dateModified()`](https://syncrosim.github.io/rsyncrosim/reference/dateModified.md)
   : Last date a SsimLibrary, Project, Scenario, or Folder was modified
@@ -174,8 +174,7 @@
 - [`restore()`](https://syncrosim.github.io/rsyncrosim/reference/restore.md)
   : Restore Library
 
-- [`rsyncrosim-package`](https://syncrosim.github.io/rsyncrosim/reference/rsyncrosim.md)
-  [`rsyncrosim`](https://syncrosim.github.io/rsyncrosim/reference/rsyncrosim.md)
+- [`rsyncrosim`](https://syncrosim.github.io/rsyncrosim/reference/rsyncrosim.md)
   : rsyncrosim: The R interface to SyncroSim: https://syncrosim.com/
 
 - [`run()`](https://syncrosim.github.io/rsyncrosim/reference/run.md) :

@@ -1,7 +1,6 @@
 # Retrieve spatial data from a SyncroSim Datasheet
 
-This function retrieves spatial columns from one or more SyncroSim
-`Scenario` Datasheets.
+**\[deprecated\]**
 
 ## Usage
 
@@ -124,9 +123,9 @@ datasheetSpatRaster(
 
 - filterValue:
 
-  character string or integer. The value of the filterColumn to filter
-  the Datasheet by. To use the filterValue argument, you must also
-  specify a filterColumn. Default is `NULL`
+  character string or integer (scalar or vector). The value of the
+  filterColumn to filter the Datasheet by. To use the filterValue
+  argument, you must also specify a filterColumn. Default is `NULL`
 
 - subset:
 
@@ -152,6 +151,13 @@ details.
 
 ## Details
 
+Please use
+[`datasheet`](https://syncrosim.github.io/rsyncrosim/reference/datasheet.md)
+to get the path to the raster file instead.
+
+This function retrieves spatial columns from one or more SyncroSim
+`Scenario` Datasheets.
+
 The names of the returned SpatRaster contain metadata. For Datasheets
 without Filename this is:
 
@@ -174,23 +180,23 @@ resultRaster <- datasheetSpatRaster(resultScenario,
 )
 
 # Extract specific Datasheet SpatRasters using pattern matching
-resultDatasheet <- datasheet(resultScenario, 
+resultDatasheet <- datasheet(resultScenario,
                              name = "helloworldSpatial_IntermediateDatasheet")
 outputRasterPaths <- resultDatasheet$OutputRasterFile
-resultRaster <- datasheetSpatRaster(resultScenario, 
+resultRaster <- datasheetSpatRaster(resultScenario,
                   datasheet = "helloworldSpatial_IntermediateDatasheet",
                   column = "OutputRasterFile",
-                  subset = expression(grepl("ts20", 
+                  subset = expression(grepl("ts20",
                                              outputRasterPaths,
                                              fixed = TRUE))
 )
 
 # Return the raster Datasheets as a SpatRaster list
-resultRaster <- datasheetSpatRaster(resultScenario, 
+resultRaster <- datasheetSpatRaster(resultScenario,
                  datasheet = "helloworldSpatial_IntermediateDatasheet",
                  column = "OutputRasterFile",
                  forceElements = TRUE)
-                 
+
 # Filter for only rasters that fit specific criteria (ST-Sim example)
 resultRaster <- datasheetSpatRaster(resultScenario,
                  datasheet = "stsim_OutputSpatialTransition",

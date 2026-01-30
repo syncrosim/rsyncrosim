@@ -90,7 +90,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.22"
+    ## [1] "3.1.24"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -806,13 +806,9 @@ datasheet(myProject,
     ##   ScenarioId ProjectId ScenarioName ParentId ParentName TransitionGroupId
     ## 1          2         1   No Harvest       NA       <NA>           Harvest
     ## 2          3         1      Harvest       NA       <NA>           Harvest
-    ## 3          2         1   No Harvest       NA       <NA>           Harvest
-    ## 4          3         1      Harvest       NA       <NA>           Harvest
     ##   Amount
     ## 1      0
-    ## 2      0
-    ## 3     20
-    ## 4     20
+    ## 2     20
 
 ## Run Scenarios
 

@@ -115,7 +115,7 @@ function.
 version(mySession)
 ```
 
-    ## [1] "3.1.20"
+    ## [1] "3.1.24"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -173,7 +173,7 @@ SyncroSim package server for the specified package.
 installPackage("helloworldTime")
 ```
 
-    ## Package <helloworldTime v2.1.0> installed
+    ## Package <helloworldTime v2.1.1> installed
 
 To install the package from a `.ssimpkg` file on your local computer
 rather than installing directly from the server, you can use the
@@ -196,11 +196,11 @@ packages()
 ```
 
     ##             name version
-    ## 1 helloworldTime   2.1.0
+    ## 1 helloworldTime   2.1.1
     ##                                                  description
     ## 1 Example demonstrating how to use timesteps with an R model
     ##                                                                             location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldTime\\2.1.0
+    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldTime\\2.1.1
     ##   status
     ## 1     OK
 
@@ -249,7 +249,7 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
 myLibrary
 ```
 
-    ## Package <helloworldTime v2.1.0> added
+    ## Package <helloworldTime v2.1.1> added
 
     ## class                      : SsimLibrary
     ## session [Session]          : C:\PROGRA~1\SYNCRO~1, printCmd=FALSE
@@ -376,13 +376,13 @@ datasheet(myScenario)
 ```
 
     ##       scope                           name             displayName
-    ## 25 scenario         core_DistributionValue           Distributions
-    ## 26 scenario     core_ExternalVariableValue      External Variables
-    ## 27 scenario                  core_Pipeline                Pipeline
-    ## 28 scenario    core_SpatialMultiprocessing Spatial Multiprocessing
-    ## 29 scenario  helloworldTime_InputDatasheet                  Inputs
-    ## 30 scenario helloworldTime_OutputDatasheet                 Outputs
-    ## 31 scenario      helloworldTime_RunControl             Run Control
+    ## 26 scenario         core_DistributionValue           Distributions
+    ## 27 scenario     core_ExternalVariableValue      External Variables
+    ## 28 scenario                  core_Pipeline                Pipeline
+    ## 29 scenario    core_SpatialMultiprocessing Spatial Multiprocessing
+    ## 30 scenario  helloworldTime_InputDatasheet                  Inputs
+    ## 31 scenario helloworldTime_OutputDatasheet                 Outputs
+    ## 32 scenario      helloworldTime_RunControl             Run Control
 
 If we want to see more information about each datasheet, such as the
 scope of the datasheet or if it only accepts a single row of data, we
@@ -397,18 +397,18 @@ datasheet(myScenario, optional = TRUE)
     ## 5  scenario           core         core_DistributionValue
     ## 7  scenario           core     core_ExternalVariableValue
     ## 15 scenario           core                  core_Pipeline
-    ## 21 scenario           core    core_SpatialMultiprocessing
-    ## 29 scenario helloworldTime  helloworldTime_InputDatasheet
-    ## 30 scenario helloworldTime helloworldTime_OutputDatasheet
-    ## 31 scenario helloworldTime      helloworldTime_RunControl
+    ## 22 scenario           core    core_SpatialMultiprocessing
+    ## 30 scenario helloworldTime  helloworldTime_InputDatasheet
+    ## 31 scenario helloworldTime helloworldTime_OutputDatasheet
+    ## 32 scenario helloworldTime      helloworldTime_RunControl
     ##                displayName isSingle displayMember  data scenario
     ## 5            Distributions    FALSE           N/A FALSE        1
     ## 7       External Variables    FALSE           N/A FALSE        1
     ## 15                Pipeline    FALSE           N/A FALSE        1
-    ## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1
-    ## 29                  Inputs     TRUE           N/A FALSE        1
-    ## 30                 Outputs    FALSE           N/A FALSE        1
-    ## 31             Run Control     TRUE           N/A FALSE        1
+    ## 22 Spatial Multiprocessing     TRUE           N/A FALSE        1
+    ## 30                  Inputs     TRUE           N/A FALSE        1
+    ## 31                 Outputs    FALSE           N/A FALSE        1
+    ## 32             Run Control     TRUE           N/A FALSE        1
 
 From this output we can see the the `Run Control` and `Inputs`
 datasheets only accept a single row of data (i.e. `isSingle = TRUE`).
@@ -680,40 +680,37 @@ function, in which the only argument is the result scenario variable.
 runLog(myResultScenario)
 ```
 
-    ## RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-    ## SyncroSim Version: 3.1.20.0
-    ## Operating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)
-    ## 
-    ## Packages:
-    ## core -> 3.1.20
-    ## helloworldTime -> 2.1.0
-    ## 
-    ## Parent Scenario is: [1] My first scenario
-    ## Result scenario is: [2] My first scenario ([1] @ 12-Nov-2025 10:25 AM)
-    ## 
-    ## --------------------------------------------
-    ## STARTING SIMULATION: 2025-11-12 : 10:25:38 AM
-    ## --------------------------------------------
-    ## 
-    ## START TRANSFORMER: Hello World Time (R)
-    ## 
-    ## This Library is capable of using conda environments, but the 'Use conda' property is disabled.
-    ## To enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html
-    ## 
-    ## [Failure] The external program failed.
-    ## Program name was: C:\Program Files\R\R-4.5.1\bin\Rscript.exe
-    ## Arguments were: "C:\Users\HannahAdams\AppData\Local\SyncroSim\Packages\helloworldTime\2.1.0\model.R"
-    ## Exit code was: 1
-    ## More information:
-    ## Error in library(rsyncrosim) : there is no package called 'rsyncrosim'
-    ## Execution halted
-    ## 
-    ## --------------------------------------------
-    ## SIMULATION COMPLETE: 2025-11-12 : 10:25:38 AM
-    ## --------------------------------------------
-    ## Total simulation time: 00:00:00
+    ## RunLog                                                                                              
+    ## SyncroSim Version: 3.1.24.0                                                                         
+    ## Operating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)                        
+    ##                                                                                                     
+    ## Packages:                                                                                           
+    ## core -> 3.1.24                                                                                      
+    ## helloworldTime -> 2.1.1                                                                             
+    ##                                                                                                     
+    ## Parent Scenario is: [1] My first scenario                                                           
+    ## Result scenario is: [2] My first scenario ([1] @ 30-Jan-2026 11:34 AM)                              
+    ##                                                                                                     
+    ## --------------------------------------------                                                        
+    ## STARTING SIMULATION: 2026-01-30 : 11:34:38 AM                                                       
+    ## --------------------------------------------                                                        
+    ##                                                                                                     
+    ## START TRANSFORMER: Hello World Time (R)                                                             
+    ##                                                                                                     
+    ## This Library is capable of using conda environments, but the 'Use conda' property is disabled.      
+    ## To enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html          
+    ##                                                                                                     
+    ## Hello World Time (R) post processing => Total time: 00:00:00                                        
+    ## Hello World Time (R) saving results => Total time: 00:00:00                                         
+    ## Hello World Time (R) Total time: 00:00:10                                                           
+    ## END TRANSFORMER: Hello World Time (R)                                                               
+    ##                                                                                                     
+    ## --------------------------------------------                                                        
+    ## SIMULATION COMPLETE: 2026-01-30 : 11:34:48 AM                                                       
+    ## --------------------------------------------                                                        
+    ## Total simulation time: 00:00:10
 
-    ## [1] "RunLog                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \nSyncroSim Version: 3.1.20.0\nOperating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)\n\nPackages:\ncore -> 3.1.20\nhelloworldTime -> 2.1.0\n\nParent Scenario is: [1] My first scenario\nResult scenario is: [2] My first scenario ([1] @ 12-Nov-2025 10:25 AM)\n\n--------------------------------------------\nSTARTING SIMULATION: 2025-11-12 : 10:25:38 AM\n--------------------------------------------\n\nSTART TRANSFORMER: Hello World Time (R)\n\nThis Library is capable of using conda environments, but the 'Use conda' property is disabled.\nTo enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html\n\n[Failure] The external program failed.\nProgram name was: C:\\Program Files\\R\\R-4.5.1\\bin\\Rscript.exe\nArguments were: \"C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldTime\\2.1.0\\model.R\"\nExit code was: 1\nMore information:\nError in library(rsyncrosim) : there is no package called 'rsyncrosim'\nExecution halted\n\n--------------------------------------------\nSIMULATION COMPLETE: 2025-11-12 : 10:25:38 AM\n--------------------------------------------\nTotal simulation time: 00:00:00      "
+    ## [1] "RunLog                                                                                              \nSyncroSim Version: 3.1.24.0                                                                         \nOperating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)                        \n                                                                                                    \nPackages:                                                                                           \ncore -> 3.1.24                                                                                      \nhelloworldTime -> 2.1.1                                                                             \n                                                                                                    \nParent Scenario is: [1] My first scenario                                                           \nResult scenario is: [2] My first scenario ([1] @ 30-Jan-2026 11:34 AM)                              \n                                                                                                    \n--------------------------------------------                                                        \nSTARTING SIMULATION: 2026-01-30 : 11:34:38 AM                                                       \n--------------------------------------------                                                        \n                                                                                                    \nSTART TRANSFORMER: Hello World Time (R)                                                             \n                                                                                                    \nThis Library is capable of using conda environments, but the 'Use conda' property is disabled.      \nTo enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html          \n                                                                                                    \nHello World Time (R) post processing => Total time: 00:00:00                                        \nHello World Time (R) saving results => Total time: 00:00:00                                         \nHello World Time (R) Total time: 00:00:10                                                           \nEND TRANSFORMER: Hello World Time (R)                                                               \n                                                                                                    \n--------------------------------------------                                                        \nSIMULATION COMPLETE: 2026-01-30 : 11:34:48 AM                                                       \n--------------------------------------------                                                        \nTotal simulation time: 00:00:10                                                                     "
 
 *Note*: if your scenario fails to run, it will still produce a *result
 scenario* that you can use the
@@ -744,13 +741,13 @@ scenario(myLibrary)
 
     ##   ScenarioId ProjectId ParentId                                           Name
     ## 1          1         1       NA                              My first scenario
-    ## 2          2         1        1 My first scenario ([1] @ 12-Nov-2025 10:25 AM)
+    ## 2          2         1        1 My first scenario ([1] @ 30-Jan-2026 11:34 AM)
     ##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly
     ## 1   N/A                No                 NA       No         No
     ## 2   N/A                No                 NA      Yes         No
     ##         DateLastModified
-    ## 1 2025-11-12 at 10:25 AM
-    ## 2 2025-11-12 at 10:25 AM
+    ## 1 2026-01-30 at 11:34 AM
+    ## 2 2026-01-30 at 11:34 AM
 
 The first scenario is our original scenario, and the second is the
 result scenario with a time and date stamp of when it was run. We can
@@ -772,18 +769,18 @@ datasheet(myScenario, optional = TRUE)
     ## 5  scenario           core         core_DistributionValue
     ## 7  scenario           core     core_ExternalVariableValue
     ## 15 scenario           core                  core_Pipeline
-    ## 21 scenario           core    core_SpatialMultiprocessing
-    ## 29 scenario helloworldTime  helloworldTime_InputDatasheet
-    ## 30 scenario helloworldTime helloworldTime_OutputDatasheet
-    ## 31 scenario helloworldTime      helloworldTime_RunControl
+    ## 22 scenario           core    core_SpatialMultiprocessing
+    ## 30 scenario helloworldTime  helloworldTime_InputDatasheet
+    ## 31 scenario helloworldTime helloworldTime_OutputDatasheet
+    ## 32 scenario helloworldTime      helloworldTime_RunControl
     ##                displayName isSingle displayMember  data scenario
     ## 5            Distributions    FALSE           N/A FALSE        1
     ## 7       External Variables    FALSE           N/A FALSE        1
     ## 15                Pipeline    FALSE           N/A  TRUE        1
-    ## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1
-    ## 29                  Inputs     TRUE           N/A  TRUE        1
-    ## 30                 Outputs    FALSE           N/A FALSE        1
-    ## 31             Run Control     TRUE           N/A  TRUE        1
+    ## 22 Spatial Multiprocessing     TRUE           N/A FALSE        1
+    ## 30                  Inputs     TRUE           N/A  TRUE        1
+    ## 31                 Outputs    FALSE           N/A FALSE        1
+    ## 32             Run Control     TRUE           N/A  TRUE        1
 
 ``` r
 
@@ -795,18 +792,18 @@ datasheet(myResultScenario, optional = TRUE)
     ## 5  scenario           core         core_DistributionValue
     ## 7  scenario           core     core_ExternalVariableValue
     ## 15 scenario           core                  core_Pipeline
-    ## 21 scenario           core    core_SpatialMultiprocessing
-    ## 29 scenario helloworldTime  helloworldTime_InputDatasheet
-    ## 30 scenario helloworldTime helloworldTime_OutputDatasheet
-    ## 31 scenario helloworldTime      helloworldTime_RunControl
+    ## 22 scenario           core    core_SpatialMultiprocessing
+    ## 30 scenario helloworldTime  helloworldTime_InputDatasheet
+    ## 31 scenario helloworldTime helloworldTime_OutputDatasheet
+    ## 32 scenario helloworldTime      helloworldTime_RunControl
     ##                displayName isSingle displayMember  data scenario
     ## 5            Distributions    FALSE           N/A FALSE        1
     ## 7       External Variables    FALSE           N/A FALSE        1
     ## 15                Pipeline    FALSE           N/A  TRUE        1
-    ## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1
-    ## 29                  Inputs     TRUE           N/A  TRUE        1
-    ## 30                 Outputs    FALSE           N/A FALSE        1
-    ## 31             Run Control     TRUE           N/A  TRUE        1
+    ## 22 Spatial Multiprocessing     TRUE           N/A FALSE        1
+    ## 30                  Inputs     TRUE           N/A  TRUE        1
+    ## 31                 Outputs    FALSE           N/A  TRUE        1
+    ## 32             Run Control     TRUE           N/A  TRUE        1
 
 Looking at the `data` column, the `Outputs` does not contain any data in
 the original scenario, but does in the result scenario.
@@ -829,8 +826,13 @@ myOutputDataframe <- datasheet(myResultScenario,
 head(myOutputDataframe)
 ```
 
-    ## [1] y
-    ## <0 rows> (or 0-length row.names)
+    ##   Timestep  y
+    ## 1        1 13
+    ## 2        2 16
+    ## 3        3 19
+    ## 4        4 22
+    ## 5        5 25
+    ## 6        6 28
 
 ## Working with multiple scenarios
 
@@ -850,7 +852,7 @@ scenario(myLibrary)['Name']
 
     ##                                             Name
     ## 1                              My first scenario
-    ## 2 My first scenario ([1] @ 12-Nov-2025 10:25 AM)
+    ## 2 My first scenario ([1] @ 30-Jan-2026 11:34 AM)
 
 ``` r
 
@@ -865,7 +867,7 @@ scenario(myLibrary)['Name']
 
     ##                                             Name
     ## 1                              My first scenario
-    ## 2 My first scenario ([1] @ 12-Nov-2025 10:25 AM)
+    ## 2 My first scenario ([1] @ 30-Jan-2026 11:34 AM)
     ## 3                             My second scenario
 
 To edit the new scenario, we must first load the contents of the
@@ -962,8 +964,17 @@ interested in.
 datasheet(myResultScenarioAll[2], name = "helloworldTime_OutputDatasheet")
 ```
 
-    ## [1] y
-    ## <0 rows> (or 0-length row.names)
+    ##    Timestep  y
+    ## 1         1 14
+    ## 2         2 18
+    ## 3         3 22
+    ## 4         4 26
+    ## 5         5 30
+    ## 6         6 34
+    ## 7         7 38
+    ## 8         8 42
+    ## 9         9 46
+    ## 10       10 50
 
 ### Identifying the parent scenario of a result scenario using `parentId()`
 
@@ -1001,8 +1012,8 @@ info(myLibrary)
     ## 1             Name:              helloworldLibrary
     ## 2            Owner:                            N/A
     ## 3        Read Only:                             No
-    ## 4    Last Modified:         2025-11-12 at 10:26 AM
-    ## 5             Size:            212 KB  (217,088 B)
+    ## 4    Last Modified:         2026-01-30 at 11:35 AM
+    ## 5             Size:            220 KB  (225,280 B)
     ## 6       Data files:    helloworldLibrary.ssim.data
     ## 7    Publish files: helloworldLibrary.ssim.publish
     ## 8  Temporary files:    helloworldLibrary.ssim.temp
@@ -1059,13 +1070,14 @@ datasheet(myLibrary)
     ## 4  library                       core_Option                        Options
     ## 5  library         core_ProcessorGroupOption        Processor Group Options
     ## 6  library          core_ProcessorGroupValue         Processor Group Values
-    ## 7  library                     core_PyConfig                         Python
-    ## 8  library                      core_RConfig                              R
-    ## 9  library                      core_Setting                       Settings
-    ## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option
-    ## 11 library                core_SpatialOption                Spatial Options
-    ## 12 library                    core_SysFolder                        Folders
-    ## 13 library                  core_Terminology                    Terminology
+    ## 7  library             core_PublishDatasheet               PublishDatasheet
+    ## 8  library                     core_PyConfig                         Python
+    ## 9  library                      core_RConfig                              R
+    ## 10 library                      core_Setting                       Settings
+    ## 11 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option
+    ## 12 library                core_SpatialOption                Spatial Options
+    ## 13 library                    core_SysFolder                        Folders
+    ## 14 library                  core_Terminology                    Terminology
 
 ``` r
 

@@ -37,8 +37,8 @@ myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession, 
                          packages = "stsim",
                          overwrite = TRUE) 
-#> Library C:\Users\HANNAH~1\AppData\Local\Temp\Rtmp656ERu/testlib.ssim deleted
-#> Package <stsim v4.5.4> added
+#> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpErgD5f/testlib.ssim deleted
+#> Package <stsim v4.5.3> added
 myProject <- project(myLibrary, project = "Definitions")
 
 # Get the chart object corresponding to the chart called "My Chart"

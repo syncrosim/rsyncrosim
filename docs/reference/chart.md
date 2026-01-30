@@ -60,7 +60,7 @@ mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, 
                          session = mySession,
                          packages = "stsim") 
-#> Package <stsim v4.5.4> added
+#> Package <stsim v4.5.3> added
 myProject <- project(myLibrary, project = "My Project")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 

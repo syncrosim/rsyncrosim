@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.11</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,22 +42,28 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.1.8" id="rsyncrosim-218">rsyncrosim 2.1.8<a class="anchor" aria-label="anchor" href="#rsyncrosim-218"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.1.11" id="rsyncrosim-2111">rsyncrosim 2.1.11<a class="anchor" aria-label="anchor" href="#rsyncrosim-2111"></a></h2>
 <div class="section level3">
-<h3 id="breaking-changes-2-1-8">Breaking changes:<a class="anchor" aria-label="anchor" href="#breaking-changes-2-1-8"></a></h3>
+<h3 id="breaking-changes-2-1-11">Breaking changes:<a class="anchor" aria-label="anchor" href="#breaking-changes-2-1-11"></a></h3>
 </div>
 <div class="section level3">
-<h3 id="bug-fixes-2-1-8">Bug fixes:<a class="anchor" aria-label="anchor" href="#bug-fixes-2-1-8"></a></h3>
-<ul><li>Bug fix to prevent overwriting of default invisible values in project-scope datasheets</li>
+<h3 id="bug-fixes-2-1-11">Bug fixes:<a class="anchor" aria-label="anchor" href="#bug-fixes-2-1-11"></a></h3>
+<ul><li>Improved column matching when populating datasheets to treat column names case-insensitively, reducing mismatche</li>
+<li>When a case-insensitive match is found, sheet column names are aligned to the canonical names for consistent outpu</li>
+<li>Preserved previous behaviors for ID assignment and full-selection imports to maintain compatibility</li>
+<li>Restrict renaming of “ID”→“Id” to primary key and foreign key columns only, avoiding unintended renames in other column</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-2-1-8">New features:<a class="anchor" aria-label="anchor" href="#new-features-2-1-8"></a></h3>
-<ul><li>Added restore function to restore a SyncroSim library backup to a .ssim file</li>
-<li>Added compact function to clean up the underlying database of a SyncroSim library</li>
-</ul></div>
-<div class="section level3">
-<h3 id="minor-improvements-and-fixes-2-1-8">Minor improvements and fixes:<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-2-1-8"></a></h3>
+<h3 id="new-features-2-1-11">New features:<a class="anchor" aria-label="anchor" href="#new-features-2-1-11"></a></h3>
 </div>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixes-2-1-11">Minor improvements and fixes:<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-2-1-11"></a></h3>
+<ul><li>Updated package dependencies</li>
+</ul></div>
+<div class="section level3">
+<h3 id="deprecations-2-1-11">Deprecations:<a class="anchor" aria-label="anchor" href="#deprecations-2-1-11"></a></h3>
+<ul><li>datasheetSpatRaster() is now deprecated; use datasheet() instead to obtain raster file paths.</li>
+</ul></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

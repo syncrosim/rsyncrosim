@@ -110,7 +110,7 @@ datasheet(
 
 - project:
 
-  numeric or numeric vector. One or more `Project` ids
+  numeric `Project` id
 
 - scenario:
 
@@ -144,9 +144,9 @@ datasheet(
 
 - filterValue:
 
-  character string or integer. The value to filter the filterColumn by.
-  To use the filterValue argument, you must also specify the
-  filterColumn argument. Default is `NULL`
+  character string or integer (scalar or vector). The value to filter
+  the filterColumn by. To use the filterValue argument, you must also
+  specify the filterColumn argument. Default is `NULL`
 
 - lookupsAsFactors:
 
@@ -261,9 +261,9 @@ mySession <- session()
 
 # Create a new SsimLibrary with the example template from helloworldSpatial
 myLibrary <- ssimLibrary(name = myLibraryName,
-                         session = mySession, 
+                         session = mySession,
                          packages = "helloworldSpatial")
-                         
+
 # Set the Project and Scenario
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
@@ -279,31 +279,31 @@ myDatasheetList <- datasheet(myScenario, summary = FALSE)
 myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 
 # Include primary key when retrieving a Datasheet
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          includeKey = TRUE)
 
 # Return all columns, including optional ones
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          summary = TRUE, optional = TRUE)
 
 # Return Datasheet as an element
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          forceElements = TRUE)
 myDatasheet$helloworldSpatial_RunControl
 
 # Get a Datasheet without pre-specified values
-myDatasheetEmpty <- datasheet(myScenario, 
-                              name = "helloworldSpatial_RunControl", 
+myDatasheetEmpty <- datasheet(myScenario,
+                              name = "helloworldSpatial_RunControl",
                               empty = TRUE)
 
 # If Datasheet is empty, do not return dependencies as factors
-myDatasheetEmpty <- datasheet(myScenario, 
-                              name = "helloworldSpatial_RunControl", 
+myDatasheetEmpty <- datasheet(myScenario,
+                              name = "helloworldSpatial_RunControl",
                               empty = TRUE,
                               lookupsAsFactors = FALSE)
-                              
+
 # Optimize query
-myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl", 
+myDatasheet <- datasheet(myScenario, name = "helloworldSpatial_RunControl",
                          fastQuery = TRUE)
 
 # Get specific SsimLibrary core Datasheet
@@ -315,7 +315,7 @@ mySQL <- sqlStatement(
   aggregate = c("MinimumTimestep"),
   where = list(MinimumTimestep = c(1))
 )
-myAggregatedDatasheet <- datasheet(myScenario, 
+myAggregatedDatasheet <- datasheet(myScenario,
                                    name = "helloworldSpatial_RunControl",
                                    sqlStatement = mySQL)
 } # }

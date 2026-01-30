@@ -98,7 +98,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.20"
+    ## [1] "3.1.24"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -113,7 +113,7 @@ SyncroSim package server for the specified package.
 installPackage("helloworldPipeline")
 ```
 
-    ## Package <helloworldPipeline v2.1.0> installed
+    ## Package <helloworldPipeline v2.1.1> installed
 
 `helloworldPipeline` should now be included in the package list returned
 by the
@@ -127,11 +127,11 @@ packages()
 ```
 
     ##                 name version
-    ## 1 helloworldPipeline   2.1.0
+    ## 1 helloworldPipeline   2.1.1
     ##                                                  description
     ## 1 Example demonstrating how to use pipelines with an R model
     ##                                                                                 location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.0
+    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1
     ##   status
     ## 1     OK
 
@@ -159,7 +159,7 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          overwrite = TRUE)
 ```
 
-    ## Package <helloworldPipeline v2.1.0> added
+    ## Package <helloworldPipeline v2.1.1> added
 
 ``` r
 
@@ -183,14 +183,14 @@ datasheet(myScenario)
 ```
 
     ##       scope                                     name             displayName
-    ## 25 scenario                   core_DistributionValue           Distributions
-    ## 26 scenario               core_ExternalVariableValue      External Variables
-    ## 27 scenario                            core_Pipeline                Pipeline
-    ## 28 scenario              core_SpatialMultiprocessing Spatial Multiprocessing
-    ## 29 scenario        helloworldPipeline_InputDatasheet                  Inputs
-    ## 30 scenario helloworldPipeline_IntermediateDatasheet    Intermediate Outputs
-    ## 31 scenario       helloworldPipeline_OutputDatasheet                 Outputs
-    ## 32 scenario            helloworldPipeline_RunControl             Run Control
+    ## 26 scenario                   core_DistributionValue           Distributions
+    ## 27 scenario               core_ExternalVariableValue      External Variables
+    ## 28 scenario                            core_Pipeline                Pipeline
+    ## 29 scenario              core_SpatialMultiprocessing Spatial Multiprocessing
+    ## 30 scenario        helloworldPipeline_InputDatasheet                  Inputs
+    ## 31 scenario helloworldPipeline_IntermediateDatasheet    Intermediate Outputs
+    ## 32 scenario       helloworldPipeline_OutputDatasheet                 Outputs
+    ## 33 scenario            helloworldPipeline_RunControl             Run Control
 
 From the list of datasheets above, we can see that there are four
 datasheets specific to the `helloworldPipeline` package, including an
@@ -416,13 +416,14 @@ datasheet(myLibrary)
     ## 4  library                       core_Option                        Options
     ## 5  library         core_ProcessorGroupOption        Processor Group Options
     ## 6  library          core_ProcessorGroupValue         Processor Group Values
-    ## 7  library                     core_PyConfig                         Python
-    ## 8  library                      core_RConfig                              R
-    ## 9  library                      core_Setting                       Settings
-    ## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option
-    ## 11 library                core_SpatialOption                Spatial Options
-    ## 12 library                    core_SysFolder                        Folders
-    ## 13 library                  core_Terminology                    Terminology
+    ## 7  library             core_PublishDatasheet               PublishDatasheet
+    ## 8  library                     core_PyConfig                         Python
+    ## 9  library                      core_RConfig                              R
+    ## 10 library                      core_Setting                       Settings
+    ## 11 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option
+    ## 12 library                core_SpatialOption                Spatial Options
+    ## 13 library                    core_SysFolder                        Folders
+    ## 14 library                  core_Terminology                    Terminology
 
 ``` r
 
@@ -492,20 +493,20 @@ datasheet(myScenario, optional = TRUE)
     ## 5  scenario               core                   core_DistributionValue
     ## 7  scenario               core               core_ExternalVariableValue
     ## 15 scenario               core                            core_Pipeline
-    ## 21 scenario               core              core_SpatialMultiprocessing
-    ## 29 scenario helloworldPipeline        helloworldPipeline_InputDatasheet
-    ## 30 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet
-    ## 31 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet
-    ## 32 scenario helloworldPipeline            helloworldPipeline_RunControl
+    ## 22 scenario               core              core_SpatialMultiprocessing
+    ## 30 scenario helloworldPipeline        helloworldPipeline_InputDatasheet
+    ## 31 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet
+    ## 32 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet
+    ## 33 scenario helloworldPipeline            helloworldPipeline_RunControl
     ##                displayName isSingle displayMember  data scenario
     ## 5            Distributions    FALSE           N/A FALSE        1
     ## 7       External Variables    FALSE           N/A FALSE        1
     ## 15                Pipeline    FALSE           N/A  TRUE        1
-    ## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1
-    ## 29                  Inputs     TRUE           N/A  TRUE        1
-    ## 30    Intermediate Outputs    FALSE           N/A FALSE        1
-    ## 31                 Outputs    FALSE           N/A FALSE        1
-    ## 32             Run Control     TRUE           N/A  TRUE        1
+    ## 22 Spatial Multiprocessing     TRUE           N/A FALSE        1
+    ## 30                  Inputs     TRUE           N/A  TRUE        1
+    ## 31    Intermediate Outputs    FALSE           N/A FALSE        1
+    ## 32                 Outputs    FALSE           N/A FALSE        1
+    ## 33             Run Control     TRUE           N/A  TRUE        1
 
 ``` r
 
@@ -517,20 +518,20 @@ datasheet(myResultScenario, optional = TRUE)
     ## 5  scenario               core                   core_DistributionValue
     ## 7  scenario               core               core_ExternalVariableValue
     ## 15 scenario               core                            core_Pipeline
-    ## 21 scenario               core              core_SpatialMultiprocessing
-    ## 29 scenario helloworldPipeline        helloworldPipeline_InputDatasheet
-    ## 30 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet
-    ## 31 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet
-    ## 32 scenario helloworldPipeline            helloworldPipeline_RunControl
+    ## 22 scenario               core              core_SpatialMultiprocessing
+    ## 30 scenario helloworldPipeline        helloworldPipeline_InputDatasheet
+    ## 31 scenario helloworldPipeline helloworldPipeline_IntermediateDatasheet
+    ## 32 scenario helloworldPipeline       helloworldPipeline_OutputDatasheet
+    ## 33 scenario helloworldPipeline            helloworldPipeline_RunControl
     ##                displayName isSingle displayMember  data scenario
     ## 5            Distributions    FALSE           N/A FALSE        1
     ## 7       External Variables    FALSE           N/A FALSE        1
     ## 15                Pipeline    FALSE           N/A  TRUE        1
-    ## 21 Spatial Multiprocessing     TRUE           N/A FALSE        1
-    ## 29                  Inputs     TRUE           N/A  TRUE        1
-    ## 30    Intermediate Outputs    FALSE           N/A FALSE        1
-    ## 31                 Outputs    FALSE           N/A FALSE        1
-    ## 32             Run Control     TRUE           N/A  TRUE        1
+    ## 22 Spatial Multiprocessing     TRUE           N/A FALSE        1
+    ## 30                  Inputs     TRUE           N/A  TRUE        1
+    ## 31    Intermediate Outputs    FALSE           N/A  TRUE        1
+    ## 32                 Outputs    FALSE           N/A  TRUE        1
+    ## 33             Run Control     TRUE           N/A  TRUE        1
 
 ## View results
 
@@ -555,8 +556,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ## [1] y
-    ## <0 rows> (or 0-length row.names)
+    ##   Iteration Timestep        y
+    ## 1         1        1 11.86268
+    ## 2         1        2 20.72536
+    ## 3         1        3 29.58804
+    ## 4         1        4 38.45073
+    ## 5         1        5 47.31341
+    ## 6         1        6 56.17609
 
 We can see that for every timestep in an iteration we have a new value
 of *y* corresponding to *y=mt+b*.
@@ -579,8 +585,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ## [1] yCum
-    ## <0 rows> (or 0-length row.names)
+    ##   Iteration Timestep      yCum
+    ## 1         1        1  11.86268
+    ## 2         1        2  32.58804
+    ## 3         1        3  62.17609
+    ## 4         1        4 100.62682
+    ## 5         1        5 147.94022
+    ## 6         1        6 204.11631
 
 We can see for each timestep in an iteration, we have a new value of
 *yCum*, representing the cumulative value of *y* over time.

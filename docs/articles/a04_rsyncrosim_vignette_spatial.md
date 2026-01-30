@@ -100,7 +100,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.22"
+    ## [1] "3.1.24"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -512,12 +512,12 @@ head(resultsSummary)
 ```
 
     ##   Iteration Timestep         y        OutputRasterFile
-    ## 1         1        1  33.32991 rasterMap_iter1_ts1.tif
-    ## 2         1        2  70.99381 rasterMap_iter1_ts2.tif
-    ## 3         1        3 108.65771 rasterMap_iter1_ts3.tif
-    ## 4         1        4 146.32161 rasterMap_iter1_ts4.tif
-    ## 5         1        5 183.98551 rasterMap_iter1_ts5.tif
-    ## 6         1        6 221.64941 rasterMap_iter1_ts6.tif
+    ## 1         1        1 -19.08977 rasterMap_iter1_ts1.tif
+    ## 2         1        2 -33.84555 rasterMap_iter1_ts2.tif
+    ## 3         1        3 -48.60133 rasterMap_iter1_ts3.tif
+    ## 4         1        4 -63.35710 rasterMap_iter1_ts4.tif
+    ## 5         1        5 -78.11288 rasterMap_iter1_ts5.tif
+    ## 6         1        6 -92.86866 rasterMap_iter1_ts6.tif
 
 ``` r
 
@@ -529,13 +529,13 @@ resultsSummary2 <- datasheet(myResultScenario,
 head(resultsSummary2)
 ```
 
-    ##   Iteration Timestep      yCum
-    ## 1         1        1  33.32991
-    ## 2         1        2 104.32371
-    ## 3         1        3 212.98142
-    ## 4         1        4 359.30303
-    ## 5         1        5 543.28854
-    ## 6         1        6 764.93796
+    ##   Iteration Timestep       yCum
+    ## 1         1        1  -19.08977
+    ## 2         1        2  -52.93532
+    ## 3         1        3 -101.53665
+    ## 4         1        4 -164.89375
+    ## 5         1        5 -243.00663
+    ## 6         1        6 -335.87528
 
 From viewing these datasheets, we can see that the spatial output is
 contained within the `IntermediateDatasheet`, in the column called
@@ -577,8 +577,8 @@ rasterMaps
     ## coord. ref. : lon/lat WGS 84 (EPSG:4326) 
     ## source      : rasterMap_iter1_ts5.tif 
     ## name        : rasterMap_iter1_ts5 
-    ## min value   :            4.906962 
-    ## max value   :            9.651219
+    ## min value   :          -5.5769734 
+    ## max value   :          -0.8327161
 
 ``` r
 

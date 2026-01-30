@@ -95,7 +95,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.20"
+    ## [1] "3.1.24"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -110,7 +110,7 @@ SyncroSim package server for the specified package.
 installPackage("helloworldUncertainty")
 ```
 
-    ## Package <helloworldUncertainty v2.1.0> installed
+    ## Package <helloworldUncertainty v2.1.1> installed
 
 `helloworldUncertainty` should now be included in the package list when
 we call the
@@ -124,11 +124,11 @@ packages()
 ```
 
     ##                    name version
-    ## 1 helloworldUncertainty   2.1.0
+    ## 1 helloworldUncertainty   2.1.1
     ##                                                   description
     ## 1 Example demonstrating how to use iterations with an R model
     ##                                                                                    location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.0
+    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.1
     ##   status
     ## 1     OK
 
@@ -156,7 +156,7 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          overwrite = TRUE)
 ```
 
-    ## Package <helloworldUncertainty v2.1.0> added
+    ## Package <helloworldUncertainty v2.1.1> added
 
 ``` r
 
@@ -180,13 +180,13 @@ datasheet(myScenario)
 ```
 
     ##       scope                                  name             displayName
-    ## 25 scenario                core_DistributionValue           Distributions
-    ## 26 scenario            core_ExternalVariableValue      External Variables
-    ## 27 scenario                         core_Pipeline                Pipeline
-    ## 28 scenario           core_SpatialMultiprocessing Spatial Multiprocessing
-    ## 29 scenario  helloworldUncertainty_InputDatasheet                  Inputs
-    ## 30 scenario helloworldUncertainty_OutputDatasheet                 Outputs
-    ## 31 scenario      helloworldUncertainty_RunControl             Run Control
+    ## 26 scenario                core_DistributionValue           Distributions
+    ## 27 scenario            core_ExternalVariableValue      External Variables
+    ## 28 scenario                         core_Pipeline                Pipeline
+    ## 29 scenario           core_SpatialMultiprocessing Spatial Multiprocessing
+    ## 30 scenario  helloworldUncertainty_InputDatasheet                  Inputs
+    ## 31 scenario helloworldUncertainty_OutputDatasheet                 Outputs
+    ## 32 scenario      helloworldUncertainty_RunControl             Run Control
 
 From the list of datasheets above, we can see that there are three
 datasheets specific to the `helloworldUncertainty` package. Let’s view
@@ -411,13 +411,14 @@ datasheet(myLibrary)
     ## 4  library                       core_Option                        Options
     ## 5  library         core_ProcessorGroupOption        Processor Group Options
     ## 6  library          core_ProcessorGroupValue         Processor Group Values
-    ## 7  library                     core_PyConfig                         Python
-    ## 8  library                      core_RConfig                              R
-    ## 9  library                      core_Setting                       Settings
-    ## 10 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option
-    ## 11 library                core_SpatialOption                Spatial Options
-    ## 12 library                    core_SysFolder                        Folders
-    ## 13 library                  core_Terminology                    Terminology
+    ## 7  library             core_PublishDatasheet               PublishDatasheet
+    ## 8  library                     core_PyConfig                         Python
+    ## 9  library                      core_RConfig                              R
+    ## 10 library                      core_Setting                       Settings
+    ## 11 library core_SpatialMultiprocessingOption Spatial Multiprocessing Option
+    ## 12 library                core_SpatialOption                Spatial Options
+    ## 13 library                    core_SysFolder                        Folders
+    ## 14 library                  core_Terminology                    Terminology
 
 ``` r
 
@@ -485,13 +486,13 @@ scenario(myLibrary)
 
     ##   ScenarioId ProjectId ParentId                                           Name
     ## 1          1         1       NA                              My first scenario
-    ## 2          2         1        1 My first scenario ([1] @ 12-Nov-2025 10:27 AM)
+    ## 2          2         1        1 My first scenario ([1] @ 30-Jan-2026 11:36 AM)
     ##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly
     ## 1   N/A                No                 NA       No         No
     ## 2   N/A                No                 NA      Yes         No
     ##         DateLastModified
-    ## 1 2025-11-12 at 10:27 AM
-    ## 2 2025-11-12 at 10:27 AM
+    ## 1 2026-01-30 at 11:36 AM
+    ## 2 2026-01-30 at 11:36 AM
 
 ## View results
 
@@ -513,8 +514,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ## [1] y
-    ## <0 rows> (or 0-length row.names)
+    ##   Iteration Timestep         y
+    ## 1         1        1  5.786265
+    ## 2         1        2  8.572530
+    ## 3         1        3 11.358795
+    ## 4         1        4 14.145060
+    ## 5         1        5 16.931325
+    ## 6         1        6 19.717590
 
 ### Plotting uncertainty in SyncroSim Studio
 

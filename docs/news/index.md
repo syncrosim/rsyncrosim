@@ -1,19 +1,27 @@
 # Changelog
 
-## rsyncrosim 2.1.8
+## rsyncrosim 2.1.11
 
 ### Breaking changes:
 
 ### Bug fixes:
 
-- Bug fix to prevent overwriting of default invisible values in
-  project-scope datasheets
+- Improved column matching when populating datasheets to treat column
+  names case-insensitively, reducing mismatche
+- When a case-insensitive match is found, sheet column names are aligned
+  to the canonical names for consistent outpu
+- Preserved previous behaviors for ID assignment and full-selection
+  imports to maintain compatibility
+- Restrict renaming of “ID”→“Id” to primary key and foreign key columns
+  only, avoiding unintended renames in other column
 
 ### New features:
 
-- Added restore function to restore a SyncroSim library backup to a
-  .ssim file
-- Added compact function to clean up the underlying database of a
-  SyncroSim library
-
 ### Minor improvements and fixes:
+
+- Updated package dependencies
+
+### Deprecations:
+
+- datasheetSpatRaster() is now deprecated; use datasheet() instead to
+  obtain raster file paths.

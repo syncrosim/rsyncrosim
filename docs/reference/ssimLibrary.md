@@ -110,7 +110,7 @@ Example arguments:
 # \donttest{
 # Make sure packages are installed
 installPackage("stsim")
-#> Package <stsim v4.5.3> installed
+#> [1] "Package stsim v4.5.3 is already installed."
 
 # Create or open a SsimLibrary using the default Session
 myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"))
@@ -138,7 +138,7 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          forceUpdate = TRUE,
                          packages = "helloworldSpatial",
                          overwrite = TRUE)
-#> Library C:\Users\HANNAH~1\AppData\Local\Temp\Rtmp656ERu/mylib.ssim deleted
+#> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpErgD5f/mylib.ssim deleted
 #> Package <helloworldSpatial v2.1.0> added
                          
 # }
