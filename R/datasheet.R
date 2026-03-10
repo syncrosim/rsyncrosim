@@ -6,13 +6,13 @@ NULL
 #' Retrieve a SyncroSim Datasheet
 #'
 #' This function retrieves a SyncroSim Datasheet, either by calling the SyncroSim
-#' console, or by directly querying the \code{\link[=SsimLibrary]{SsimLibrary-class}} database.
+#' console, or by directly querying the \code{\linkS4class{SsimLibrary}} database.
 #'
 #' @details
 #' If \code{summary=TRUE} or \code{summary=NULL} and \code{name=NULL} a data.frame describing the
 #' Datasheets is returned. If \code{optional=TRUE}, columns include: \code{scope}, \code{packages},
 #' \code{name}, \code{displayName}, \code{isSingle}, \code{data}. Data only displayed for
-#' a SyncroSim \code{\link[=Scenario]{Scenario-class}}. \code{dataInherited} and \code{dataSource} columns
+#' a SyncroSim \code{\linkS4class{Scenario}}. \code{dataInherited} and \code{dataSource} columns
 #' added if a Scenario has dependencies. If \code{optional=FALSE}, columns include:
 #' \code{scope}, \code{name}, \code{displayName}. All other arguments are ignored.
 #'
@@ -25,10 +25,10 @@ NULL
 #'          console command).
 #'   \item If \code{empty=FALSE} and \code{lookupsAsFactors=FALSE}: Column types are not checked,
 #'          and the optional argument is ignored. Fast (1 less console command).
-#'   \item If SsimObject is a list of \code{\link[=Scenario]{Scenario-class}} or \code{\link[=Project]{Project-class}}
-#'          objects (output from \code{\link{run}}, \code{\link[=Scenario]{Scenario-class}} or
-#'          \code{\link[=Project]{Project-class}}): Adds ScenarioId/ProjectId column if appropriate.
-#'   \item If Scenario/Project is a vector: Adds ScenarioId/ProjectId column
+#'   \item If SsimObject is a list of \code{\linkS4class{Scenario}} or \code{\linkS4class{Project}}
+#'          objects (output from \code{\link{run}}, \code{\linkS4class{Scenario}} or
+#'          \code{\linkS4class{Project}}): Adds ScenarioId/ProjectId column if appropriate.
+#'   \item If \code{\linkS4class{Scenario}}/\code{\linkS4class{Project}} is a vector: Adds ScenarioId/ProjectId column
 #'          as necessary.
 #'   \item If requested Datasheet has Scenario scope and contains info from more
 #'          than one Scenario: ScenarioId/ScenarioName/ScenarioParent columns
@@ -38,17 +38,17 @@ NULL
 #'          by \code{name} and \code{id}
 #' }
 #'
-#' @param ssimObject \code{\link[=SsimLibrary]{SsimLibrary-class}}, \code{\link[=Project]{Project-class}},
-#'     or \code{\link[=Scenario]{Scenario-class}} object or list of objects.
+#' @param ssimObject \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}},
+#'     or \code{\linkS4class{Scenario}} object or list of objects.
 #'     Note that all objects in a list must be of the same type, and belong to
 #'     the same SsimLibrary
 #' @param name character or character vector. Sheet name(s). If \code{NULL} (default),
 #'     all datasheets in the ssimObject will be returned. Note that setting
 #'     \code{summary=FALSE} and \code{name=NULL} pulls all Datasheets, which is time
 #'     consuming and not generally recommended
-#' @param project numeric \code{\link[=Project]{Project-class}} id
+#' @param project numeric \code{\linkS4class{Project}} id
 #' @param scenario numeric or numeric vector. One or more
-#'     \code{\link[=Scenario]{Scenario-class}} ids
+#'     \code{\linkS4class{Scenario}} ids
 #' @param summary logical or character. If \code{TRUE} (default) returns a data.frame of sheet names
 #'     and other info including built-in core SyncroSim Datasheets. If \code{FALSE} returns
 #'     data.frame or list of data.frames.
@@ -169,7 +169,7 @@ NULL
 #'                                    name = "helloworldSpatial_RunControl",
 #'                                    sqlStatement = mySQL)
 #' }
-#'
+#' @aliases datasheet-method
 #' @export
 #' @import RSQLite
 setGeneric(
