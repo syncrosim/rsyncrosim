@@ -1,7 +1,8 @@
 # Retrieve a SyncroSim Datasheet
 
 This function retrieves a SyncroSim Datasheet, either by calling the
-SyncroSim console, or by directly querying the `SsimLibrary` database.
+SyncroSim console, or by directly querying the `SsimLibrary-class`
+database.
 
 ## Usage
 
@@ -97,9 +98,9 @@ datasheet(
 
 - ssimObject:
 
-  `SsimLibrary`, `Project`, or `Scenario` object or list of objects.
-  Note that all objects in a list must be of the same type, and belong
-  to the same SsimLibrary
+  `SsimLibrary-class`, `Project-class`, or `Scenario-class` object or
+  list of objects. Note that all objects in a list must be of the same
+  type, and belong to the same SsimLibrary
 
 - name:
 
@@ -110,11 +111,11 @@ datasheet(
 
 - project:
 
-  numeric `Project` id
+  numeric `Project-class` id
 
 - scenario:
 
-  numeric or numeric vector. One or more `Scenario` ids
+  numeric or numeric vector. One or more `Scenario-class` ids
 
 - summary:
 
@@ -211,8 +212,8 @@ information, otherwise returns a data.frame or list of these.
 If `summary=TRUE` or `summary=NULL` and `name=NULL` a data.frame
 describing the Datasheets is returned. If `optional=TRUE`, columns
 include: `scope`, `packages`, `name`, `displayName`, `isSingle`, `data`.
-data only displayed for a SyncroSim `Scenario`. `dataInherited` and
-`dataSource` columns added if a Scenario has dependencies. If
+Data only displayed for a SyncroSim `Scenario-class`. `dataInherited`
+and `dataSource` columns added if a Scenario has dependencies. If
 `optional=FALSE`, columns include: `scope`, `name`, `displayName`. All
 other arguments are ignored.
 
@@ -229,10 +230,11 @@ Otherwise, for each element in name a Datasheet is returned as follows:
   checked, and the optional argument is ignored. Fast (1 less console
   command).
 
-- If SsimObject is a list of `Scenario` or `Project` objects (output
-  from [`run`](https://syncrosim.github.io/rsyncrosim/reference/run.md),
-  `Scenario` or `Project`): Adds ScenarioId/ProjectId column if
-  appropriate.
+- If SsimObject is a list of `Scenario-class` or `Project-class` objects
+  (output from
+  [`run`](https://syncrosim.github.io/rsyncrosim/reference/run.md),
+  `Scenario-class` or `Project-class`): Adds ScenarioId/ProjectId column
+  if appropriate.
 
 - If Scenario/Project is a vector: Adds ScenarioId/ProjectId column as
   necessary.

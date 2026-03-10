@@ -61,7 +61,6 @@ of `rsyncrosim` are available for both Windows and Linux.
 In a new R script, load the `rsyncrosim` package.
 
 ``` r
-
 # Load R package for working with SyncroSim
 library(rsyncrosim)
 ```
@@ -74,7 +73,6 @@ creating a SyncroSim Session object. Use the
 function to connect R to your installed copy of the SyncroSim software.
 
 ``` r
-
 mySession <- session("path/to/install_folder")      # Create a Session based SyncroSim install folder
 mySession <- session()                              # Using default install folder (Windows only)
 mySession                                           # Displays the Session object
@@ -91,7 +89,6 @@ Use the
 function to ensure you are using the latest version of SyncroSim.
 
 ``` r
-
 version(mySession)
 ```
 
@@ -105,7 +102,6 @@ This function takes a package name as input and then queries the
 SyncroSim package server for the specified package.
 
 ``` r
-
 # Install helloworldUncertainty
 installPackage("helloworldUncertainty")
 ```
@@ -118,7 +114,6 @@ we call the
 function:
 
 ``` r
-
 # Get list of installed packages
 packages()
 ```
@@ -148,7 +143,6 @@ vignette.
 ### Set up library, project, and scenario
 
 ``` r
-
 # Create a new library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
@@ -159,7 +153,6 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
     ## Package <helloworldUncertainty v2.1.1> added
 
 ``` r
-
 # Open the default project
 myProject = project(ssimObject = myLibrary, project = "Definitions")
 
@@ -174,7 +167,6 @@ View the datasheets associated with your new scenario using the
 function from `rsyncrosim`.
 
 ``` r
-
 # View all datasheets associated with a library, project, or scenario
 datasheet(myScenario)
 ```
@@ -193,7 +185,6 @@ datasheets specific to the `helloworldUncertainty` package. Let’s view
 the contents of the `Inputs` datasheet as an R data frame.
 
 ``` r
-
 # View the contents of the Inputs datasheet for the scenario
 datasheet(myScenario, name = "helloworldUncertainty_InputDatasheet")
 ```
@@ -213,7 +204,6 @@ data frame variable using
 then check the columns that need input values.
 
 ``` r
-
 # Load the Inputs datasheet to an R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldUncertainty_InputDatasheet")
@@ -238,7 +228,6 @@ Add these values to a new data frame, then use the
 function from `rsyncrosim` to update the input data frame.
 
 ``` r
-
 # Create input data and add it to the input data frame
 myInputRow <- data.frame(mMean = 2, mSD = 4, b = 3)
 myInputDataframe <- addRow(myInputDataframe, myInputRow)
@@ -254,7 +243,6 @@ Finally, save the updated R data frame to a SyncroSim datasheet using
 [`saveDatasheet()`](https://syncrosim.github.io/rsyncrosim/reference/saveDatasheet.md).
 
 ``` r
-
 # Save input R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
               name = "helloworldUncertainty_InputDatasheet")
@@ -270,7 +258,6 @@ which order. Use the code below to assign the Pipeline datasheet to a
 new data frame variable and check the values required by the datasheet.
 
 ``` r
-
 # Assign contents of the Pipeline datasheet to an R data frame
 myPipeline <- datasheet(myScenario,
                         name = "core_Pipeline")
@@ -301,7 +288,6 @@ so we will add this transformer to the data frame and set the `RunOrder`
 to `1`.
 
 ``` r
-
 # Create pipeline data and add it to the pipeline data frame
 myPipelineRow <- data.frame(StageNameId = "Hello World Uncertainty (R)", RunOrder = 1)
 myPipeline <- addRow(myPipeline, myPipelineRow)
@@ -314,7 +300,6 @@ myPipeline
     ## 1 Hello World Uncertainty (R)        1
 
 ``` r
-
 # Save Pipeline R data frame to a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, data = myPipeline,
               name = "core_Pipeline")
@@ -333,7 +318,6 @@ more accurate the range of output values we will obtain. Let’s take a
 look at the columns that need input values.
 
 ``` r
-
 # Load Run Control datasheet to a new R data frame
 runSettings <- datasheet(myScenario, name = "helloworldUncertainty_RunControl")
 
@@ -361,7 +345,6 @@ We’ll add this information to an R data frame and then add it to the
 For this example, we will use only five iterations.
 
 ``` r
-
 # Create Run Control data and add it to the Run Control data frame
 runSettingsRow <- data.frame(MaximumIteration = 5,
                              MinimumTimestep = 1,
@@ -379,7 +362,6 @@ Finally, save the R data frame to a SyncroSim datasheet using
 [`saveDatasheet()`](https://syncrosim.github.io/rsyncrosim/reference/saveDatasheet.md).
 
 ``` r
-
 # Save Run Control R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, 
               data = runSettings,
@@ -399,7 +381,6 @@ the number of jobs to five so each multiprocessing core will run a
 single iteration.
 
 ``` r
-
 # Load list of available library-scoped datasheets
 datasheet(myLibrary)
 ```
@@ -421,7 +402,6 @@ datasheet(myLibrary)
     ## 14 library                  core_Terminology                    Terminology
 
 ``` r
-
 # Load the library-scoped multiprocessing datasheet
 multiprocess <- datasheet(myLibrary, name = "core_Multiprocessing")
 ```
@@ -429,7 +409,6 @@ multiprocess <- datasheet(myLibrary, name = "core_Multiprocessing")
     ## [1] "Note: MaximumJobs should be between 1 and 9999"
 
 ``` r
-
 # Check required inputs
 str(multiprocess)
 ```
@@ -441,7 +420,6 @@ str(multiprocess)
     ##  $ EnableCopyExternalFiles: logi NA
 
 ``` r
-
 # Enable multiprocessing
 multiprocess$EnableMultiprocessing <- TRUE
 
@@ -462,7 +440,6 @@ Now, when we run our scenario, it will use the desired multiprocessing
 configuration.
 
 ``` r
-
 # Run the first scenario we created
 myResultScenario <- run(myScenario)
 ```
@@ -479,7 +456,6 @@ We can view which scenarios are result scenarios using the
 function from `rsyncrosim`.
 
 ``` r
-
 # Check that we have two scenarios, and one is a result scenario
 scenario(myLibrary)
 ```
@@ -505,7 +481,6 @@ function. In this package, the datasheet containing the results is
 called “OutputDatasheet”.
 
 ``` r
-
 # Results of first scenario
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldUncertainty_OutputDatasheet")
