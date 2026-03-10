@@ -45,8 +45,8 @@ SsimLibrary."><meta property="og:image" content="https://syncrosim.github.io/rsy
     </div>
 
     <div class="ref-description section level2">
-    <p>Create or open one or more <code>Scenario</code>s from a
-<code>SsimLibrary</code>.</p>
+    <p>Create or open one or more <code><a href="Scenario-class.html">Scenario</a></code>s from a
+<code><a href="SsimLibrary-class.html">SsimLibrary</a></code>.</p>
     </div>
 
     <div class="section level2">
@@ -68,7 +68,7 @@ SsimLibrary."><meta property="og:image" content="https://syncrosim.github.io/rsy
 
 
 <dl><dt id="arg-ssimobject">ssimObject<a class="anchor" aria-label="anchor" href="#arg-ssimobject"></a></dt>
-<dd><p><code>SsimLibrary</code> or <code>Project</code> object,
+<dd><p><code><a href="SsimLibrary-class.html">SsimLibrary</a></code> or <code><a href="Project-class.html">Project</a></code> object,
 or character (i.e. a filepath)</p></dd>
 
 
@@ -84,7 +84,7 @@ Scenarios will be copies of the sourceScenario</p></dd>
 
 
 <dt id="arg-folder">folder<a class="anchor" aria-label="anchor" href="#arg-folder"></a></dt>
-<dd><p><code>Folder</code> object, character, or integer. The Folder object,
+<dd><p><code><a href="Folder-class.html">Folder</a></code> object, character, or integer. The Folder object,
 name (must be unique), or Folder ID. If not <code>NULL</code> (Default), new
 Scenarios will be moved into the specified folder</p></dd>
 
@@ -104,7 +104,7 @@ dateModified, readOnly, parentID. Default is <code>TRUE</code> if <code>scenario
 <dt id="arg-forceelements">forceElements<a class="anchor" aria-label="anchor" href="#arg-forceelements"></a></dt>
 <dd><p>logical. If <code>TRUE</code> then returns a single Scenario as a named
 list; if <code>FALSE</code> (default), returns a single Scenario as a
-<code>Scenario</code> object. Applies only when <code>summary=FALSE</code></p></dd>
+<code><a href="Scenario-class.html">Scenario</a></code> object. Applies only when <code>summary=FALSE</code></p></dd>
 
 
 <dt id="arg-overwrite">overwrite<a class="anchor" aria-label="anchor" href="#arg-overwrite"></a></dt>
@@ -116,7 +116,7 @@ Default is <code>FALSE</code></p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code>Scenario</code> object representing a SyncroSim scenario, a list of Scenario
 objects, or a data frame of Scenario names and descriptions. If <code>summary = FALSE</code>,
-returns one or more <code>Scenario</code> objects representing SyncroSim Scenarios.
+returns one or more <code><a href="Scenario-class.html">Scenario</a></code> objects representing SyncroSim Scenarios.
 If <code>summary = TRUE</code>, returns Scenario summary info.</p>
     </div>
     <div class="section level2">
@@ -168,11 +168,11 @@ a copy of sourceScenario.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                               No        Yes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                                               No         No</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4                                               No         No</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         DateLastModified</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-01-30 at 11:32 AM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-01-30 at 11:32 AM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-01-30 at 11:33 AM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-01-30 at 11:33 AM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        DateLastModified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-03-10 at 4:45 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-03-10 at 4:46 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-03-10 at 4:47 PM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-03-10 at 4:47 PM</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Only return the results Scenarios for a SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="fu">scenario</span><span class="op">(</span><span class="va">myLibrary</span>, results <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>

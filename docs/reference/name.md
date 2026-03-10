@@ -1,7 +1,11 @@
 # Name of a SsimLibrary, Project, Scenario, Folder, or Chart
 
-Retrieves or sets the name of a `SsimLibrary`, `Project`, `Scenario`, or
-`Folder`.
+Retrieves or sets the name of a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+or
+[`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md).
 
 ## Usage
 
@@ -51,7 +55,13 @@ name(ssimObject) <- value
 
 - ssimObject:
 
-  `Scenario`, `Project`, `SsimLibrary`, `Folder` or `Chart` object
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  or
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - value:
 

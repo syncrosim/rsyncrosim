@@ -16,7 +16,7 @@ installConda(session, software = "miniforge")
 \S4method{installConda}{Session}(session, software = "miniforge")
 }
 \arguments{
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default),
+\item{session}{\code{\linkS4class{Session}} object. If \code{NULL} (default),
 \code{session()} will be used}
 
 \item{software}{character. Whether to install the latest release of

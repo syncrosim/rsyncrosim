@@ -2,7 +2,6 @@
 % Please edit documentation in R/datasheet.R
 \name{datasheet}
 \alias{datasheet}
-\alias{datasheet-method}
 \alias{datasheet,list-method}
 \alias{datasheet,character-method}
 \alias{datasheet,SsimObject-method}
@@ -273,4 +272,5 @@ myAggregatedDatasheet <- datasheet(myScenario,
                                    name = "helloworldSpatial_RunControl",
                                    sqlStatement = mySQL)
 }
+
 }

@@ -22,8 +22,8 @@ description(ssimObject) <- value
 \S4method{description}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-\code{\link{Scenario}}, or \code{\link{Folder}} object}
+\item{ssimObject}{\code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}},
+\code{\linkS4class{Scenario}}, or \code{\linkS4class{Folder}} object}
 
 \item{value}{character string specifying the new description}
 }
@@ -31,8 +31,8 @@ description(ssimObject) <- value
 A character string: the description of the SsimObject
 }
 \description{
-Get or set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}},
-or \code{\link{Scenario}}.
+Get or set the description of a \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}},
+or \code{\linkS4class{Scenario}}.
 }
 \examples{
 \donttest{

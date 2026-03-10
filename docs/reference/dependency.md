@@ -1,9 +1,11 @@
 # Get, set or remove Scenario dependencies
 
 List dependencies, set dependencies, or remove dependencies from a
-SyncroSim `Scenario`. Setting dependencies is a way of linking together
-Scenario Datafeeds, such that a change in the Scenario that is the
-source dependency will update the dependent Scenario as well.
+SyncroSim
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
+Setting dependencies is a way of linking together Scenario Datafeeds,
+such that a change in the Scenario that is the source dependency will
+update the dependent Scenario as well.
 
 ## Usage
 
@@ -26,17 +28,19 @@ dependency(ssimObject) <- value
 
 - ssimObject:
 
-  `Scenario` object, character string, integer, or vector of these. The
-  Scenario object, name, or ID to which a dependency is to be added (or
-  has already been added if `remove=TRUE`). Note that integer ids are
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object, character string, integer, or vector of these. The Scenario
+  object, name, or ID to which a dependency is to be added (or has
+  already been added if `remove=TRUE`). Note that integer ids are
   slightly faster.
 
 - value:
 
-  `Scenario` object, character string, integer, or vector of these. The
-  Scenario object, name, or ID to be used as the dependency. If an empty
-  vector is provided, all dependencies are removed. If multiple elements
-  are provided, elements should be ordered from highest to lowest
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object, character string, integer, or vector of these. The Scenario
+  object, name, or ID to be used as the dependency. If an empty vector
+  is provided, all dependencies are removed. If multiple elements are
+  provided, elements should be ordered from highest to lowest
   precedence.
 
 ## Value

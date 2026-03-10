@@ -1,7 +1,9 @@
 # Retrieves printCmd setting of a Session
 
-Retrieves a printCmd setting of a `Session` object. The printCmd setting
-configures a Session for printing commands sent to the console.
+Retrieves a printCmd setting of a
+[`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+object. The printCmd setting configures a Session for printing commands
+sent to the console.
 
 ## Usage
 

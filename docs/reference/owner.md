@@ -1,7 +1,10 @@
 # Owner of a SsimLibrary, Project, or Scenario
 
-Retrieves or sets the owner of a `SsimLibrary`, `Project`, or
-`Scenario`.
+Retrieves or sets the owner of a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+or
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
 
 ## Usage
 
@@ -33,7 +36,11 @@ owner(ssimObject) <- value
 
 - ssimObject:
 
-  `Session`, `Project`, or `SsimLibrary` object
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  or
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  object
 
 - value:
 

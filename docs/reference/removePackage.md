@@ -1,6 +1,7 @@
 # Removes SyncroSim package(s)
 
-Removes package(s) from a `SsimLibrary`.
+Removes package(s) from a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md).
 
 ## Usage
 
@@ -18,7 +19,8 @@ removePackage(ssimLibrary, packages)
 
 - ssimLibrary:
 
-  `SsimLibrary` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  object
 
 - packages:
 

@@ -1,6 +1,9 @@
 # Create or open Scenario(s)
 
-Create or open one or more `Scenario`s from a `SsimLibrary`.
+Create or open one or more
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)s
+from a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md).
 
 ## Usage
 
@@ -21,7 +24,10 @@ scenario(
 
 - ssimObject:
 
-  `SsimLibrary` or `Project` object, or character (i.e. a filepath)
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  or
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  object, or character (i.e. a filepath)
 
 - scenario:
 
@@ -36,9 +42,10 @@ scenario(
 
 - folder:
 
-  `Folder` object, character, or integer. The Folder object, name (must
-  be unique), or Folder ID. If not `NULL` (Default), new Scenarios will
-  be moved into the specified folder
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  object, character, or integer. The Folder object, name (must be
+  unique), or Folder ID. If not `NULL` (Default), new Scenarios will be
+  moved into the specified folder
 
 - summary:
 
@@ -54,8 +61,9 @@ scenario(
 - forceElements:
 
   logical. If `TRUE` then returns a single Scenario as a named list; if
-  `FALSE` (default), returns a single Scenario as a `Scenario` object.
-  Applies only when `summary=FALSE`
+  `FALSE` (default), returns a single Scenario as a
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object. Applies only when `summary=FALSE`
 
 - overwrite:
 
@@ -66,8 +74,10 @@ scenario(
 
 A `Scenario` object representing a SyncroSim scenario, a list of
 Scenario objects, or a data frame of Scenario names and descriptions. If
-`summary = FALSE`, returns one or more `Scenario` objects representing
-SyncroSim Scenarios. If `summary = TRUE`, returns Scenario summary info.
+`summary = FALSE`, returns one or more
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+objects representing SyncroSim Scenarios. If `summary = TRUE`, returns
+Scenario summary info.
 
 ## Details
 
@@ -124,11 +134,11 @@ scenario(myLibrary)
 #> 2                                               No        Yes
 #> 3                                               No         No
 #> 4                                               No         No
-#>         DateLastModified
-#> 1 2026-01-30 at 11:32 AM
-#> 2 2026-01-30 at 11:32 AM
-#> 3 2026-01-30 at 11:33 AM
-#> 4 2026-01-30 at 11:33 AM
+#>        DateLastModified
+#> 1 2026-03-10 at 4:45 PM
+#> 2 2026-03-10 at 4:46 PM
+#> 3 2026-03-10 at 4:47 PM
+#> 4 2026-03-10 at 4:47 PM
 
 # Only return the results Scenarios for a SsimLibrary
 scenario(myLibrary, results = TRUE)

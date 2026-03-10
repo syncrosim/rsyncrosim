@@ -1,6 +1,9 @@
 # Create or open a Folder
 
-Create or open a `Folder` from a SyncroSim `Project`.
+Create or open a
+[`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+from a SyncroSim
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md).
 
 ## Usage
 
@@ -18,7 +21,10 @@ folder(
 
 - ssimObject:
 
-  `SsimLibrary` or `Project` object.
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  or
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  object.
 
 - folder:
 
@@ -76,8 +82,8 @@ folder(myProject)
 #>   FolderId              Name ProjectId ParentId Owner IsReadOnly
 #> 1       46        New Folder        31      N/A   N/A         No
 #> 2       47 New Nested Folder        31       46   N/A         No
-#>             LastModified
-#> 1 2026-01-30 at 11:31 AM
-#> 2 2026-01-30 at 11:31 AM
+#>            LastModified
+#> 1 2026-03-10 at 4:44 PM
+#> 2 2026-03-10 at 4:44 PM
 # }
 ```

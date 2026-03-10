@@ -49,9 +49,9 @@ desired folder in the SyncroSim User Interface."><meta property="og:image" conte
     </div>
 
     <div class="ref-description section level2">
-    <p>Retrieves the Folder Id of a SyncroSim <code>Folder</code> or
-<code>Scenario</code>. Can also use to set the Folder Id for a
-<code>Scenario</code> - this will move the <code>Scenario</code> into the
+    <p>Retrieves the Folder Id of a SyncroSim <code><a href="Folder-class.html">Folder</a></code> or
+<code><a href="Scenario-class.html">Scenario</a></code>. Can also use to set the Folder Id for a
+<code><a href="Scenario-class.html">Scenario</a></code> - this will move the <code><a href="Scenario-class.html">Scenario</a></code> into the
 desired folder in the SyncroSim User Interface.</p>
     </div>
 
@@ -79,12 +79,12 @@ desired folder in the SyncroSim User Interface.</p>
 
 
 <dl><dt id="arg-ssimobject">ssimObject<a class="anchor" aria-label="anchor" href="#arg-ssimobject"></a></dt>
-<dd><p><code>Folder</code> or <code>Scenario</code> object</p></dd>
+<dd><p><code><a href="Folder-class.html">Folder</a></code> or <code><a href="Scenario-class.html">Scenario</a></code> object</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>integer of the folder ID to move the <code>Scenario</code> to.
-Only applicable if the ssimObject provided is a <code>Scenario</code>.</p></dd>
+<dd><p>integer of the folder ID to move the <code><a href="Scenario-class.html">Scenario</a></code> to.
+Only applicable if the ssimObject provided is a <code><a href="Scenario-class.html">Scenario</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -103,7 +103,7 @@ Only applicable if the ssimObject provided is a <code>Scenario</code>.</p></dd>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, </span></span>
 <span class="r-in"><span>                         session <span class="op">=</span> <span class="va">mySession</span>, </span></span>
 <span class="r-in"><span>                         overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpErgD5f/testlib.ssim deleted</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Library C:\Users\VICKIZ~1\AppData\Local\Temp\Rtmpqq1REa/testlib.ssim deleted</span>
 <span class="r-in"><span><span class="va">myProject</span> <span class="op">&lt;-</span> <span class="fu"><a href="project.html">project</a></span><span class="op">(</span><span class="va">myLibrary</span>, project <span class="op">=</span> <span class="st">"Definitions"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myScenario</span> <span class="op">&lt;-</span> <span class="fu"><a href="scenario.html">scenario</a></span><span class="op">(</span><span class="va">myProject</span>, scenario <span class="op">=</span> <span class="st">"My Scenario"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">myFolder</span> <span class="op">&lt;-</span> <span class="fu"><a href="folder.html">folder</a></span><span class="op">(</span><span class="va">myProject</span>, <span class="st">"New Folder"</span><span class="op">)</span></span></span>

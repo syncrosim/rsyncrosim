@@ -32,7 +32,8 @@ deleteLibrary(
 
 - ssimLibrary:
 
-  SsimLibrary or path to a library
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  or path to a library
 
 - force:
 

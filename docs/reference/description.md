@@ -1,6 +1,10 @@
 # Description of SsimLibrary, Project or Scenario
 
-Get or set the description of a `SsimLibrary`, `Project`, or `Scenario`.
+Get or set the description of a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+or
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
 
 ## Usage
 
@@ -26,7 +30,12 @@ description(ssimObject) <- value
 
 - ssimObject:
 
-  `SsimLibrary`, `Project`, `Scenario`, or `Folder` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+  or
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  object
 
 - value:
 

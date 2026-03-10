@@ -17,7 +17,8 @@ info(ssimLibrary)
 
 - ssimLibrary:
 
-  `SsimLibrary` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  object
 
 ## Value
 

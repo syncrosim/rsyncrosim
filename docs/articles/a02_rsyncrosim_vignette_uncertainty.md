@@ -92,7 +92,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.24"
+    ## [1] "3.1.27"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -122,8 +122,8 @@ packages()
     ## 1 helloworldUncertainty   2.1.1
     ##                                                   description
     ## 1 Example demonstrating how to use iterations with an R model
-    ##                                                                                    location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.1
+    ##                                                                                   location
+    ## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.1
     ##   status
     ## 1     OK
 
@@ -460,15 +460,15 @@ function from `rsyncrosim`.
 scenario(myLibrary)
 ```
 
-    ##   ScenarioId ProjectId ParentId                                           Name
-    ## 1          1         1       NA                              My first scenario
-    ## 2          2         1        1 My first scenario ([1] @ 30-Jan-2026 11:36 AM)
+    ##   ScenarioId ProjectId ParentId                                          Name
+    ## 1          1         1       NA                             My first scenario
+    ## 2          2         1        1 My first scenario ([1] @ 10-Mar-2026 4:52 PM)
     ##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly
     ## 1   N/A                No                 NA       No         No
     ## 2   N/A                No                 NA      Yes         No
-    ##         DateLastModified
-    ## 1 2026-01-30 at 11:36 AM
-    ## 2 2026-01-30 at 11:36 AM
+    ##        DateLastModified
+    ## 1 2026-03-10 at 4:52 PM
+    ## 2 2026-03-10 at 4:52 PM
 
 ## View results
 
@@ -489,13 +489,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep         y
-    ## 1         1        1  5.786265
-    ## 2         1        2  8.572530
-    ## 3         1        3 11.358795
-    ## 4         1        4 14.145060
-    ## 5         1        5 16.931325
-    ## 6         1        6 19.717590
+    ##   Iteration Timestep        y
+    ## 1         1        1 16.27219
+    ## 2         1        2 29.54437
+    ## 3         1        3 42.81656
+    ## 4         1        4 56.08875
+    ## 5         1        5 69.36093
+    ## 6         1        6 82.63312
 
 ### Plotting uncertainty in SyncroSim Studio
 

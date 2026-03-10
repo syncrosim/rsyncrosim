@@ -45,7 +45,7 @@ SsimLibrary."><meta property="og:image" content="https://syncrosim.github.io/rsy
     </div>
 
     <div class="ref-description section level2">
-    <p>Creates or retrieves a <code>Project</code> or multiple Projects from a
+    <p>Creates or retrieves a <code><a href="Project-class.html">Project</a></code> or multiple Projects from a
 SsimLibrary.</p>
     </div>
 
@@ -65,19 +65,14 @@ SsimLibrary.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-ssimobject">ssimObject<a class="anchor" aria-label="anchor" href="#arg-ssimobject"></a></dt>
-<dd><p><code>Scenario</code>, <code>SsimLibrary</code>, or
-<code>Chart</code> object, or a character string (i.e. a filepath)</p></dd>
-
-
-<dt id="arg-project">project<a class="anchor" aria-label="anchor" href="#arg-project"></a></dt>
-<dd><p><code>Project</code> object, character, integer, or vector
+<dl><dt id="arg-project">project<a class="anchor" aria-label="anchor" href="#arg-project"></a></dt>
+<dd><p><code><a href="Project-class.html">Project</a></code> object, character, integer, or vector
 of these. Names or ids of one or more Projects. Note that integer ids are
 slightly faster (optional)</p></dd>
 
 
 <dt id="arg-sourceproject">sourceProject<a class="anchor" aria-label="anchor" href="#arg-sourceproject"></a></dt>
-<dd><p><code>Project</code> object, character, or integer. If
+<dd><p><code><a href="Project-class.html">Project</a></code> object, character, or integer. If
 not <code>NULL</code> (default), new Projects will be copies of the sourceProject</p></dd>
 
 
@@ -90,7 +85,7 @@ otherwise</p></dd>
 
 <dt id="arg-forceelements">forceElements<a class="anchor" aria-label="anchor" href="#arg-forceelements"></a></dt>
 <dd><p>logical. If <code>TRUE</code> then returns a single Project as a named
-list; otherwise returns a single project as a <code>Project</code> object.
+list; otherwise returns a single project as a <code><a href="Project-class.html">Project</a></code> object.
 Applies only when <code>summary=FALSE</code> Default is <code>FALSE</code></p></dd>
 
 
@@ -101,7 +96,7 @@ Default is <code>FALSE</code></p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Returns a <code>Project</code> object representing a SyncroSim Project. If
+    <p>Returns a <code><a href="Project-class.html">Project</a></code> object representing a SyncroSim Project. If
 summary is <code>TRUE</code>, returns a data.frame of Project names and descriptions.</p>
     </div>
     <div class="section level2">

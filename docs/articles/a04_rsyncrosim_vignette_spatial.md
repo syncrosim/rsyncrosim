@@ -97,7 +97,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.24"
+    ## [1] "3.1.27"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -127,8 +127,8 @@ packages()
     ## 1 helloworldSpatial   2.1.0
     ##                                                     description
     ## 1 Example demonstrating how to use spatial data with an R model
-    ##                                                                                location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0
+    ##                                                                               location
+    ## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0
     ##   status
     ## 1     OK
 
@@ -488,13 +488,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep         y        OutputRasterFile
-    ## 1         1        1 -19.08977 rasterMap_iter1_ts1.tif
-    ## 2         1        2 -33.84555 rasterMap_iter1_ts2.tif
-    ## 3         1        3 -48.60133 rasterMap_iter1_ts3.tif
-    ## 4         1        4 -63.35710 rasterMap_iter1_ts4.tif
-    ## 5         1        5 -78.11288 rasterMap_iter1_ts5.tif
-    ## 6         1        6 -92.86866 rasterMap_iter1_ts6.tif
+    ##   Iteration Timestep          y        OutputRasterFile
+    ## 1         1        1  -46.69128 rasterMap_iter1_ts1.tif
+    ## 2         1        2  -89.04856 rasterMap_iter1_ts2.tif
+    ## 3         1        3 -131.40584 rasterMap_iter1_ts3.tif
+    ## 4         1        4 -173.76312 rasterMap_iter1_ts4.tif
+    ## 5         1        5 -216.12040 rasterMap_iter1_ts5.tif
+    ## 6         1        6 -258.47768 rasterMap_iter1_ts6.tif
 
 ``` r
 # Load results of second transformer in the pipeline
@@ -506,12 +506,12 @@ head(resultsSummary2)
 ```
 
     ##   Iteration Timestep       yCum
-    ## 1         1        1  -19.08977
-    ## 2         1        2  -52.93532
-    ## 3         1        3 -101.53665
-    ## 4         1        4 -164.89375
-    ## 5         1        5 -243.00663
-    ## 6         1        6 -335.87528
+    ## 1         1        1  -46.69128
+    ## 2         1        2 -135.73984
+    ## 3         1        3 -267.14567
+    ## 4         1        4 -440.90880
+    ## 5         1        5 -657.02920
+    ## 6         1        6 -915.50688
 
 From viewing these datasheets, we can see that the spatial output is
 contained within the `IntermediateDatasheet`, in the column called
@@ -549,11 +549,11 @@ rasterMaps
     ## size        : 5, 5, 1  (nrow, ncol, nlyr)
     ## resolution  : 0.4, 0.4  (x, y)
     ## extent      : -1, 1, -1, 1  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+    ## coord. ref. : lon/lat WGS 84 
     ## source      : rasterMap_iter1_ts5.tif 
     ## name        : rasterMap_iter1_ts5 
-    ## min value   :          -5.5769734 
-    ## max value   :          -0.8327161
+    ## min value   :          -11.097275 
+    ## max value   :           -6.353017
 
 ``` r
 plot(rasterMaps[[1]])

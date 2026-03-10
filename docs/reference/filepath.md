@@ -1,7 +1,13 @@
 # Retrieves the path to a SyncroSim object on disk
 
-Retrieves the path to a SyncroSim `Session`, `SsimLibrary`, `Project`,
-`Scenario`, of `Folder` on disk.
+Retrieves the path to a SyncroSim
+[`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md),
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+of
+[`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+on disk.
 
 ## Usage
 
@@ -25,7 +31,12 @@ filepath(ssimObject)
 
 - ssimObject:
 
-  `Session`, `Project`, `SsimLibrary`, or `Folder` object
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  or
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  object
 
 ## Value
 

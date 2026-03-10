@@ -1,6 +1,7 @@
 # Retrieves scenarioId of Scenario
 
-Retrieves the scenarioId of a `Scenario`.
+Retrieves the scenarioId of a
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
 
 ## Usage
 
@@ -18,7 +19,8 @@ scenarioId(scenario)
 
 - scenario:
 
-  `Scenario` object
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 ## Value
 

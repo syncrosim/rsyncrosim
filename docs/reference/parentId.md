@@ -22,7 +22,10 @@ parentId(child)
 
 - child:
 
-  `Scenario` or `Folder` object
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  or
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  object
 
 ## Value
 

@@ -1,7 +1,8 @@
 # Create or open Project(s)
 
-Creates or retrieves a `Project` or multiple Projects from a
-SsimLibrary.
+Creates or retrieves a
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+or multiple Projects from a SsimLibrary.
 
 ## Usage
 
@@ -18,21 +19,17 @@ project(
 
 ## Arguments
 
-- ssimObject:
-
-  `Scenario`, `SsimLibrary`, or `Chart` object, or a character string
-  (i.e. a filepath)
-
 - project:
 
-  `Project` object, character, integer, or vector of these. Names or ids
-  of one or more Projects. Note that integer ids are slightly faster
-  (optional)
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  object, character, integer, or vector of these. Names or ids of one or
+  more Projects. Note that integer ids are slightly faster (optional)
 
 - sourceProject:
 
-  `Project` object, character, or integer. If not `NULL` (default), new
-  Projects will be copies of the sourceProject
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  object, character, or integer. If not `NULL` (default), new Projects
+  will be copies of the sourceProject
 
 - summary:
 
@@ -44,8 +41,9 @@ project(
 - forceElements:
 
   logical. If `TRUE` then returns a single Project as a named list;
-  otherwise returns a single project as a `Project` object. Applies only
-  when `summary=FALSE` Default is `FALSE`
+  otherwise returns a single project as a
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  object. Applies only when `summary=FALSE` Default is `FALSE`
 
 - overwrite:
 
@@ -54,8 +52,10 @@ project(
 
 ## Value
 
-Returns a `Project` object representing a SyncroSim Project. If summary
-is `TRUE`, returns a data.frame of Project names and descriptions.
+Returns a
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+object representing a SyncroSim Project. If summary is `TRUE`, returns a
+data.frame of Project names and descriptions.
 
 ## Details
 

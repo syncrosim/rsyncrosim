@@ -1,7 +1,11 @@
 # Retrieves projectId of SyncroSim Project, Scenario, Folder, or Chart
 
-Retrieves the projectId of a SyncroSim `Project`, `Scenario`, `Folder`
-or `Chart`.
+Retrieves the projectId of a SyncroSim
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+[`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+or
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md).
 
 ## Usage
 
@@ -28,7 +32,12 @@ projectId(ssimObject)
 
 - ssimObject:
 
-  `Scenario`, `Project`, `Folder`, or `Chart` object
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md),
+  or
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 ## Value
 

@@ -21,7 +21,8 @@ version(session = NULL)
 
 - session:
 
-  `Session` object
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object
 
 ## Value
 
@@ -36,6 +37,6 @@ mySession <- session()
 
 # Retrieve version of SyncroSim associated with Session
 version(mySession)
-#> [1] "3.1.24"
+#> [1] "3.1.27"
 # }
 ```

@@ -23,7 +23,7 @@ condaFilepath(session) <- value
 }
 \arguments{
 \item{session}{\code{\linkS4class{Session}} object or character (i.e. filepath to a
-session). If \code{NULL}, \code{session} will be used}
+session). If \code{NULL}, \code{session()} will be used}
 
 \item{value}{character. If empty, then returns the current Conda installation
 path}

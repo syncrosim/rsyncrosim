@@ -1,7 +1,11 @@
 # Last date a SsimLibrary, Project, Scenario, or Folder was modified
 
-The most recent modification date of a `SsimLibrary`, `Project`,
-`Scenario` or `Folder`.
+The most recent modification date of a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+or
+[`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md).
 
 ## Usage
 
@@ -28,7 +32,12 @@ dateModified(ssimObject)
 
 - ssimObject:
 
-  `SsimLibrary`, `Project`, `Scenario`, or `Folder` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+  or
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  object
 
 ## Value
 

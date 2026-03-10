@@ -33,29 +33,39 @@ delete(
 
 - ssimObject:
 
-  `SsimLibrary`, `Project`, `Scenario`, `Folder`, or `Chart` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md),
+  or
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - project:
 
-  character string, numeric, or vector of these. One or more `Project`
+  character string, numeric, or vector of these. One or more
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
   names or ids. Note that project argument is ignored if ssimObject is a
   list. Note that integer ids are slightly faster (optional)
 
 - scenario:
 
-  character string, numeric, or vector of these. One or more `Scenario`
+  character string, numeric, or vector of these. One or more
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
   names or ids. Note that scenario argument is ignored if ssimObject is
   a list. Note that integer ids are slightly faster (optional)
 
 - folder:
 
-  character string, numeric, or vector of these. One or more `Folder`
+  character string, numeric, or vector of these. One or more
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
   names or ids. Note that folder argument is ignored if ssimObject is a
   list. Note that integer ids are slightly faster (optional)
 
 - chart:
 
-  character string, numeric, or vector of these. One or more `Chart`
+  character string, numeric, or vector of these. One or more
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
   names or ids. Note that chart argument is ignored if SsimObject is a
   list. Note that integer ids are slightly faster (optional)
 
@@ -71,8 +81,11 @@ delete(
 
 - session:
 
-  `Session` object. If `NULL` (default), session() will be used. Only
-  applicable when `ssimObject` argument is a character
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object. If `NULL` (default),
+  [`session()`](https://syncrosim.github.io/rsyncrosim/reference/session.md)
+  will be used. Only applicable when `ssimObject` argument is a
+  character
 
 ## Value
 
@@ -100,9 +113,9 @@ myProject <- project(myLibrary, project = "a project")
 
 # Check the Projects associated with this SsimLibrary
 project(myLibrary)
-#>   ProjectId        Name Owner IsReadOnly IsActive       DateLastModified
-#> 2        16   a project   N/A         No       No 2026-01-30 at 11:31 AM
-#> 1         1 Definitions   N/A         No       No 2026-01-30 at 11:31 AM
+#>   ProjectId        Name Owner IsReadOnly IsActive      DateLastModified
+#> 2        16   a project   N/A         No       No 2026-03-10 at 4:43 PM
+#> 1         1 Definitions   N/A         No       No 2026-03-10 at 4:43 PM
 
 # Delete Project
 delete(myLibrary, project = "a project", force = TRUE)
@@ -110,7 +123,7 @@ delete(myLibrary, project = "a project", force = TRUE)
 
 # Check that Project was successfully deleted from SsimLibrary
 project(myLibrary)
-#>   ProjectId        Name Owner IsReadOnly IsActive       DateLastModified
-#> 1         1 Definitions   N/A         No       No 2026-01-30 at 11:31 AM
+#>   ProjectId        Name Owner IsReadOnly IsActive      DateLastModified
+#> 1         1 Definitions   N/A         No       No 2026-03-10 at 4:43 PM
 # }
 ```

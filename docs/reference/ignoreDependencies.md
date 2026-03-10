@@ -1,6 +1,7 @@
 # Ignore dependencies for a Scenario
 
-Retrieves or sets the Datafeeds to ignore for a `Scenario`.
+Retrieves or sets the Datafeeds to ignore for a
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
 
 ## Usage
 
@@ -26,7 +27,8 @@ ignoreDependencies(ssimObject) <- value
 
 - ssimObject:
 
-  `Scenario` object
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 - value:
 

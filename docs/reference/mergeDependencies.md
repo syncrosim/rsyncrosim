@@ -1,7 +1,8 @@
 # Merge dependencies for a Scenario
 
-Retrieves or sets whether or not a `Scenario` is configured to merge
-dependencies at run time.
+Retrieves or sets whether or not a
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+is configured to merge dependencies at run time.
 
 ## Usage
 
@@ -27,7 +28,8 @@ mergeDependencies(ssimObject) <- value
 
 - ssimObject:
 
-  `Scenario` object
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 - value:
 

@@ -95,7 +95,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.24"
+    ## [1] "3.1.27"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -125,8 +125,8 @@ packages()
     ## 1 helloworldPipeline   2.1.1
     ##                                                  description
     ## 1 Example demonstrating how to use pipelines with an R model
-    ##                                                                                 location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1
+    ##                                                                                location
+    ## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1
     ##   status
     ## 1     OK
 
@@ -531,13 +531,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep        y
-    ## 1         1        1 11.86268
-    ## 2         1        2 20.72536
-    ## 3         1        3 29.58804
-    ## 4         1        4 38.45073
-    ## 5         1        5 47.31341
-    ## 6         1        6 56.17609
+    ##   Iteration Timestep         y
+    ## 1         1        1  6.035522
+    ## 2         1        2  9.071044
+    ## 3         1        3 12.106565
+    ## 4         1        4 15.142087
+    ## 5         1        5 18.177609
+    ## 6         1        6 21.213131
 
 We can see that for every timestep in an iteration we have a new value
 of *y* corresponding to *y=mt+b*.
@@ -560,12 +560,12 @@ head(resultsSummary)
 ```
 
     ##   Iteration Timestep      yCum
-    ## 1         1        1  11.86268
-    ## 2         1        2  32.58804
-    ## 3         1        3  62.17609
-    ## 4         1        4 100.62682
-    ## 5         1        5 147.94022
-    ## 6         1        6 204.11631
+    ## 1         1        1  6.035522
+    ## 2         1        2 15.106565
+    ## 3         1        3 27.213131
+    ## 4         1        4 42.355218
+    ## 5         1        5 60.532827
+    ## 6         1        6 81.745958
 
 We can see for each timestep in an iteration, we have a new value of
 *yCum*, representing the cumulative value of *y* over time.

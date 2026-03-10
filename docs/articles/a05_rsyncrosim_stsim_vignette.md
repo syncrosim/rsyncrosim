@@ -87,7 +87,7 @@ function to ensure you are using the latest version of SyncroSim.
 version(mySession)
 ```
 
-    ## [1] "3.1.24"
+    ## [1] "3.1.27"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -114,8 +114,8 @@ packages()
 
     ##    name version                                      description
     ## 1 stsim   4.5.3 The ST-Sim state-and-transition simulation model
-    ##                                                                    location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.5.3
+    ##                                                                   location
+    ## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.5.3
     ##   status
     ## 1     OK
 
