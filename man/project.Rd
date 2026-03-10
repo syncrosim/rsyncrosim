@@ -14,6 +14,9 @@ project(
 )
 }
 \arguments{
+\item{ssimObject}{\code{\linkS4class{Scenario}}, \code{\linkS4class{SsimLibrary}}, or
+\code{\linkS4class{Chart}} object, or a character string (i.e. a filepath)}
+
 \item{project}{\code{\linkS4class{Project}} object, character, integer, or vector
 of these. Names or ids of one or more Projects. Note that integer ids are
 slightly faster (optional)}
