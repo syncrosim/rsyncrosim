@@ -22,6 +22,8 @@ useConda(ssimObject) <- value
 \S4method{useConda}{SsimLibrary}(ssimObject) <- value
 }
 \arguments{
+\item{ssimObject}{\code{\linkS4class{SsimLibrary}} object}
+
 \item{value}{logical for whether to use Conda
 environments for the given SyncroSim Library. If set to
 \code{TRUE}, then Conda environments will be used. If set to \code{FALSE},
@@ -29,10 +31,14 @@ then Conda environments will not be used during runtime.}
 }
 \value{
 Logical: whether Conda environments will be used during runtime for the given
-\code{\linkS4classSsimLibrary}}
+\code{\linkS4class{SsimLibrary}}
 }
 \description{
-
+Retrieves or sets the Conda configuration of a \code{\linkS4class{SsimLibrary}}. Note
+that in order to use conda environments, you will first need to ensure that
+the conda environment has been created for a given package. You can create
+the conda environment for a package using the \code{\link{createCondaEnv}}
+function.
 }
 \examples{
 \dontrun{

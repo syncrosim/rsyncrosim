@@ -135,8 +135,8 @@ setMethod(f = "initialize", signature = "Project",
 #' Creates or retrieves a \code{\linkS4class{Project}} or multiple Projects from a
 #' SsimLibrary.
 #'
-#' @param ssimObject \code{\linkS4class{Session}}Scenario}}, \code{\linkS4class{Session}}SsimLibrary}}, or 
-#'     \code{\linkS4class{Session}}Chart}} object, or a character string (i.e. a filepath)
+#' @param ssimObject \code{\linkS4class{Scenario}}, \code{\linkS4class{SsimLibrary}}, or 
+#'     \code{\linkS4class{Chart}} object, or a character string (i.e. a filepath)
 #' @param project \code{\linkS4class{Project}} object, character, integer, or vector 
 #'     of these. Names or ids of one or more Projects. Note that integer ids are 
 #'     slightly faster (optional)
