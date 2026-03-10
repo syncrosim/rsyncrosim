@@ -7,7 +7,7 @@ NULL
 #'
 #' Retrieves the version of a SyncroSim Session.
 #'
-#' @param session \code{\link{Session}} object
+#' @param session \code{\linkS4class{Session}} object
 #' 
 #' @return
 #' A character string e.g. "2.2.13".

@@ -11,7 +11,7 @@ NULL
 #' point SyncroSim towards that installation using the 
 #' \code{\link{condaFilepath}} function.
 #'
-#' @param session \code{\link{Session}} object. If \code{NULL} (default),
+#' @param session \code{\linkS4class{Session}} object. If \code{NULL} (default),
 #' \code{session()} will be used
 #' @param software character. Whether to install the latest release of
 #' "miniforge" (Default) or "miniconda".

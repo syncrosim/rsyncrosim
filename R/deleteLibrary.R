@@ -7,7 +7,7 @@ NULL
 #'
 #' Deletes a SyncroSim library. Note this is irreversable.
 #'
-#' @param ssimLibrary SsimLibrary or path to a library
+#' @param ssimLibrary \code{\linkS4class{SsimLibrary}} or path to a library
 #' @param force Logical. If FALSE (default) prompt to confirm that the library 
 #'      should be deleted. This is irreversable.
 #' @param removeBackup logical. If \code{TRUE}, will remove the backup folder when

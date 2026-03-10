@@ -5,11 +5,11 @@ NULL
 
 #' Description of SsimLibrary, Project or Scenario
 #'
-#' Get or set the description of a \code{\link{SsimLibrary}}, \code{\link{Project}}, 
-#' or \code{\link{Scenario}}.
+#' Get or set the description of a \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}}, 
+#' or \code{\linkS4class{Scenario}}.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, 
-#' \code{\link{Scenario}}, or \code{\link{Folder}} object
+#' @param ssimObject \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}}, 
+#' \code{\linkS4class{Scenario}}, or \code{\linkS4class{Folder}} object
 #' @param value character string specifying the new description
 #' 
 #' @return

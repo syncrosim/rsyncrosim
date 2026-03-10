@@ -5,10 +5,10 @@ NULL
 
 #' Silent status of SyncroSim Session
 #'
-#' Checks or sets whether a SyncroSim \code{\link{Session}} is silent or not. In
+#' Checks or sets whether a SyncroSim \code{\linkS4class{Session}} is silent or not. In
 #' a silent session, warnings from the console are ignored.
 #'
-#' @param session \code{\link{Session}} object or character (i.e. filepath to a 
+#' @param session \code{\linkS4class{Session}} object or character (i.e. filepath to a 
 #' session). If \code{NULL}, \code{session()} will be used
 #' @param value logical. If \code{TRUE} (default), the SyncroSim Session will be 
 #' silent

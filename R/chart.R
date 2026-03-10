@@ -94,10 +94,10 @@ setMethod(
 
 #' Create or open a chart
 #'
-#' Create or open a \code{\link{Chart}} from a SyncroSim
-#' \code{\link{Project}}.
+#' Create or open a \code{\linkS4class{Chart}} from a SyncroSim
+#' \code{\linkS4class{Project}}.
 #'
-#' @param ssimObject \code{\link{Project}} or \code{\link{Scenario}} object
+#' @param ssimObject \code{\linkS4class{Project}} or \code{\linkS4class{Scenario}} object
 #' @param chart character or integer. If character, then will either open an
 #' existing chart if \code{create=FALSE}, or will create a new chart with the 
 #' given name if the chart does not exist yet or \code{create=TRUE}. 

@@ -25,7 +25,8 @@ command(
 
 - session:
 
-  `Session` object. If `NULL`(default), the default session will be used
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object. If `NULL`(default), the default session will be used
 
 - program:
 

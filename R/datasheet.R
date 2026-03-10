@@ -169,7 +169,7 @@ NULL
 #'                                    name = "helloworldSpatial_RunControl",
 #'                                    sqlStatement = mySQL)
 #' }
-#' @aliases datasheet-method
+#' 
 #' @export
 #' @import RSQLite
 setGeneric(

@@ -8,7 +8,7 @@ NULL
 #' Retrieves the id of the parent of a SyncroSim results Scenario or a SyncroSim
 #' Folder.
 #'
-#' @param child \code{\link{Scenario}} or \code{\link{Folder}} object
+#' @param child \code{\linkS4class{Scenario}} or \code{\linkS4class{Folder}} object
 #' 
 #' @return 
 #' An integer id of the parent Scenario if input is a Scenario, or an integer 

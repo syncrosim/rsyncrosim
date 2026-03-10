@@ -1,6 +1,7 @@
 # Add SyncroSim package(s)
 
-Adds package(s) to a `SsimLibrary`.
+Adds package(s) to a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md).
 
 ## Usage
 
@@ -18,7 +19,8 @@ addPackage(ssimLibrary, packages, versions = NULL, forceUpdate = FALSE)
 
 - ssimLibrary:
 
-  `SsimLibrary` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  object
 
 - packages:
 

@@ -1,7 +1,7 @@
-# Add or remove values by column in a `Chart`
+# Add or remove values by column in a [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
 
 Add or remove values by a specified column in the X or Y axis of a
-`Chart`.
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md).
 
 ## Usage
 
@@ -30,7 +30,8 @@ chartInclude(
 
 - chart:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - variable:
 

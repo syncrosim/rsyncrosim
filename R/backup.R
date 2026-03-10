@@ -5,12 +5,12 @@ NULL
 
 #' Backup a SsimLibrary
 #'
-#' Backup a \code{\link{SsimLibrary}}. The backup folder can be defined in the
+#' Backup a \code{\linkS4class{SsimLibrary}}. The backup folder can be defined in the
 #' SyncroSim User Interface, but is by default at the same level as the 
 #' SsimLibrary file, and is called libraryName.backup.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}}, 
-#'     \code{\link{Project}} or \code{\link{Scenario}} object
+#' @param ssimObject \code{\linkS4class{SsimLibrary}}, 
+#'     \code{\linkS4class{Project}} or \code{\linkS4class{Scenario}} object
 #' 
 #' @return 
 #' Invisibly returns \code{TRUE} upon success (i.e.successful 

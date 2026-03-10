@@ -5,7 +5,7 @@ NULL
 
 #' Retrieves printCmd setting of a Session
 #'
-#' Retrieves a printCmd setting of a \code{\link{Session}} object. The printCmd
+#' Retrieves a printCmd setting of a \code{\linkS4class{Session}} object. The printCmd
 #' setting configures a Session for printing commands sent to the console.
 #'
 #' @param session Session object or character. The Session or path

@@ -3,12 +3,12 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Add or remove values by column in a \code{\link{Chart}}
+#' Add or remove values by column in a \code{\linkS4class{Chart}}
 #'
 #' Add or remove values by a specified column in the X or Y axis of a 
-#' \code{\link{Chart}}.
+#' \code{\linkS4class{Chart}}.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\linkS4class{Chart}} object
 #' @param variable character. A variable belonging to the X or Y axis.
 #' @param filter character or character vector. A filter column belonging to
 #' the X or Y variable.

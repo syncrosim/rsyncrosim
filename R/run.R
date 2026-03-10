@@ -5,10 +5,10 @@ NULL
 
 #' Run scenarios
 #'
-#' Run one or more SyncroSim \code{\link{Scenario}}(s).
+#' Run one or more SyncroSim \code{\linkS4class{Scenario}}(s).
 #'
-#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, or
-#'     \code{\link{Scenario}} object, or a list of Scenarios, or character (i.e.
+#' @param ssimObject \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}}, or
+#'     \code{\linkS4class{Scenario}} object, or a list of Scenarios, or character (i.e.
 #'     path to a SsimLibrary on disk)
 #' @param scenario character, integer, or vector of these. Scenario names or ids. 
 #'     If \code{NULL} (default), then runs all Scenarios associated with the SsimObject. Note 

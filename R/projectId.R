@@ -5,11 +5,11 @@ NULL
 
 #' Retrieves projectId of SyncroSim Project, Scenario, Folder, or Chart
 #'
-#' Retrieves the projectId of a SyncroSim \code{\link{Project}},
-#' \code{\link{Scenario}}, \code{\link{Folder}} or \code{\link{Chart}}.
+#' Retrieves the projectId of a SyncroSim \code{\linkS4class{Project}},
+#' \code{\linkS4class{Scenario}}, \code{\linkS4class{Folder}} or \code{\linkS4class{Chart}}.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{Folder}}, or \code{\link{Chart}} object
+#' @param ssimObject \code{\linkS4class{Scenario}}, \code{\linkS4class{Project}}, 
+#' \code{\linkS4class{Folder}}, or \code{\linkS4class{Chart}} object
 #' 
 #' @return 
 #' An integer: project id.

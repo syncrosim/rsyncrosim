@@ -5,9 +5,9 @@ NULL
 
 #' Compacts a SsimLibrary
 #'
-#' Compact a \code{\link{SsimLibrary}}. Removes extraneous data from the SyncroSim library.
+#' Compact a \code{\linkS4class{SsimLibrary}}. Removes extraneous data from the SyncroSim library.
 #'
-#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param ssimLibrary \code{\linkS4class{SsimLibrary}} object
 #'
 #' @return
 #' Invisibly returns \code{TRUE} upon success (i.e.successful

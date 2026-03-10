@@ -3,12 +3,12 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Disaggregates the \code{\link{Chart}} by a Y variable
+#' Disaggregates the \code{\linkS4class{Chart}} by a Y variable
 #'
-#' Disaggregates the \code{\link{Chart}} by given filter column(s) in a Y 
+#' Disaggregates the \code{\linkS4class{Chart}} by given filter column(s) in a Y 
 #' variable.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\linkS4class{Chart}} object
 #' @param variable character. The variable to disaggregate the Y axis by.
 #' @param addFilter character or character vector. Adds Y variable column(s) to 
 #' disaggregate the chart by.

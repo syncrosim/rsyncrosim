@@ -5,12 +5,12 @@ NULL
 
 #' Retrieves the path to a SyncroSim object on disk
 #'
-#' Retrieves the path to a SyncroSim \code{\link{Session}}, 
-#' \code{\link{SsimLibrary}}, \code{\link{Project}}, \code{\link{Scenario}}, 
-#' of \code{\link{Folder}} on disk.
+#' Retrieves the path to a SyncroSim \code{\linkS4class{Session}}, 
+#' \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}}, \code{\linkS4class{Scenario}}, 
+#' of \code{\linkS4class{Folder}} on disk.
 #'
-#' @param ssimObject \code{\link{Session}}, \code{\link{Project}}, 
-#' \code{\link{SsimLibrary}}, or \code{\link{Folder}} object
+#' @param ssimObject \code{\linkS4class{Session}}, \code{\linkS4class{Project}}, 
+#' \code{\linkS4class{SsimLibrary}}, or \code{\linkS4class{Folder}} object
 #' 
 #' @return 
 #' A character string: the path to a SyncroSim object on disk.
@@ -47,12 +47,12 @@ setMethod("filepath", signature(ssimObject = "Folder"), function(ssimObject) ssi
 
 #' Retrieves the temporary file path to a SyncroSim object on disk
 #'
-#' Retrieves the temporary file path to a SyncroSim \code{\link{Session}}, 
-#' \code{\link{SsimLibrary}}, \code{\link{Project}} or \code{\link{Scenario}} 
+#' Retrieves the temporary file path to a SyncroSim \code{\linkS4class{Session}}, 
+#' \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}} or \code{\linkS4class{Scenario}} 
 #' on disk.
 #'
-#' @param ssimObject \code{\link{Session}}, 
-#'     \code{\link{Project}}, or \code{\link{SsimLibrary}} object
+#' @param ssimObject \code{\linkS4class{Session}}, 
+#'     \code{\linkS4class{Project}}, or \code{\linkS4class{SsimLibrary}} object
 #' 
 #' @return 
 #' A character string: the temporary file path to a SyncroSim object on disk.

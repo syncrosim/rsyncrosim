@@ -1,6 +1,8 @@
-# Disaggregates the `Chart` by a Y variable
+# Disaggregates the [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md) by a Y variable
 
-Disaggregates the `Chart` by given filter column(s) in a Y variable.
+Disaggregates the
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+by given filter column(s) in a Y variable.
 
 ## Usage
 
@@ -15,7 +17,8 @@ chartDisagg(chart, variable, addFilter = NULL, removeFilter = NULL)
 
 - chart:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - variable:
 

@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Modifies the font settings for a \code{\link{Chart}}
+#' Modifies the font settings for a \code{\linkS4class{Chart}}
 #'
-#' Modifies the font style and size of various \code{\link{Chart}} components.
+#' Modifies the font style and size of various \code{\linkS4class{Chart}} components.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\linkS4class{Chart}} object
 #' @param noDataAsZero logical. Determines whether NA, Null and No Data values 
 #' should be charted as zero. Default is \code{NULL}.
 #' @param showDataPoints logical. Determines whether each data point should be 

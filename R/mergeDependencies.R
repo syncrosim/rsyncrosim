@@ -5,10 +5,10 @@ NULL
 
 #' Merge dependencies for a Scenario
 #'
-#' Retrieves or sets whether or not a \code{\link{Scenario}} is configured to 
+#' Retrieves or sets whether or not a \code{\linkS4class{Scenario}} is configured to 
 #' merge dependencies at run time.
 #'
-#' @param ssimObject \code{\link{Scenario}} object
+#' @param ssimObject \code{\linkS4class{Scenario}} object
 #' @param value logical. If \code{TRUE} the Scenario will be set to merge 
 #' dependencies at run time. Default is \code{FALSE}
 #' 

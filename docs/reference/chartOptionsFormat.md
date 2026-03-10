@@ -1,6 +1,8 @@
-# Modifies the font settings for a `Chart`
+# Modifies the font settings for a [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
 
-Modifies the font style and size of various `Chart` components.
+Modifies the font style and size of various
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+components.
 
 ## Usage
 
@@ -33,7 +35,8 @@ chartOptionsFormat(
 
 - chart:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - noDataAsZero:
 

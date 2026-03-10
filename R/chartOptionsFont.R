@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Modifies the font settings for a \code{\link{Chart}}
+#' Modifies the font settings for a \code{\linkS4class{Chart}}
 #'
-#' Modifies the font style and size of various \code{\link{Chart}} components.
+#' Modifies the font style and size of various \code{\linkS4class{Chart}} components.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\linkS4class{Chart}} object
 #' @param titleFont character. Sets the font for the title of the 
 #' chart axes (e.g., "Microsoft Sans Serif, "Times New Roman", "Arial Narrow"). 
 #' Default is \code{NULL}.

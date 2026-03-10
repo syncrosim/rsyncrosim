@@ -153,18 +153,18 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"),
 #' Create or open a SsimLibrary
 #'
 #' @description 
-#' Creates or opens a \code{\link{SsimLibrary}} object.
+#' Creates or opens a \code{\linkS4class{SsimLibrary}} object.
 #' If \code{summary = TRUE}, returns SsimLibrary summary info.
 #' If \code{summary = NULL}, returns SsimLibrary summary info if ssimObject is a SsimLibrary, 
 #' SsimLibrary object otherwise.
 #' 
-#' @param name \code{\link{SsimLibrary}}, \code{\link{Project}} or 
-#' \code{\link{Scenario}} object, or character string (i.e. path to a SsimLibrary 
+#' @param name \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}} or 
+#' \code{\linkS4class{Scenario}} object, or character string (i.e. path to a SsimLibrary 
 #'     or SsimObject)
 #' @param summary logical. Default is \code{TRUE}
 #' @param packages character or character vector. The SyncroSim Package(s) to
 #'  add to the Library if creating a new Library (optional)
-#' @param session \code{\link{Session}} object. If \code{NULL} (default), session()
+#' @param session \code{\linkS4class{Session}} object. If \code{NULL} (default), session()
 #'  will be used
 #' @param forceUpdate logical. If \code{FALSE} (default) user will be prompted to approve 
 #'  any required updates. If \code{TRUE}, required updates will be applied silently.
@@ -176,13 +176,13 @@ setMethod(".ssimLibrary", signature(name = "SsimObject"),
 #'  Default is NULL
 #' 
 #' @return 
-#' Returns a \code{\link{SsimLibrary}} object.
+#' Returns a \code{\linkS4class{SsimLibrary}} object.
 #' 
 #' @details  
 #' Example arguments:
 #' \itemize{
 #'   \item If name is SyncroSim Project or Scenario: Returns the 
-#'          \code{\link{SsimLibrary}} associated with the Project or Scenario.
+#'          \code{\linkS4class{SsimLibrary}} associated with the Project or Scenario.
 #'   \item If name is \code{NULL}: Create/open a SsimLibrary in the current working 
 #'          directory with the filename SsimLibrary.ssim.
 #'   \item If name is a string: If string is not a valid path treat as filename 

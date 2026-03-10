@@ -3,14 +3,14 @@
 \name{chartDisagg}
 \alias{chartDisagg}
 \alias{chartDisagg,Chart-method}
-\title{Disaggregates the \code{\link{Chart}} by a Y variable}
+\title{Disaggregates the \code{\linkS4class{Chart}} by a Y variable}
 \usage{
 chartDisagg(chart, variable, addFilter = NULL, removeFilter = NULL)
 
 \S4method{chartDisagg}{Chart}(chart, variable, addFilter = NULL, removeFilter = NULL)
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\linkS4class{Chart}} object}
 
 \item{variable}{character. The variable to disaggregate the Y axis by.}
 
@@ -24,7 +24,7 @@ column(s) from disaggregating the chart.}
 A \code{Chart} object representing a SyncroSim chart
 }
 \description{
-Disaggregates the \code{\link{Chart}} by given filter column(s) in a Y
+Disaggregates the \code{\linkS4class{Chart}} by given filter column(s) in a Y
 variable.
 }
 \examples{

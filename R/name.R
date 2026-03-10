@@ -5,11 +5,11 @@ NULL
 
 #' Name of a SsimLibrary, Project, Scenario, Folder, or Chart
 #'
-#' Retrieves or sets the name of a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
+#' Retrieves or sets the name of a \code{\linkS4class{SsimLibrary}}, 
+#' \code{\linkS4class{Project}}, \code{\linkS4class{Scenario}}, or \code{\linkS4class{Folder}}.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{SsimLibrary}}, \code{\link{Folder}} or \code{\link{Chart}} object
+#' @param ssimObject \code{\linkS4class{Scenario}}, \code{\linkS4class{Project}}, 
+#' \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Folder}} or \code{\linkS4class{Chart}} object
 #' @param value character string of the new name
 #' 
 #' @return 

@@ -5,11 +5,11 @@ NULL
 
 #' Save datasheet
 #'
-#' Saves a datasheet to a \code{\link{SsimLibrary}}, \code{\link{Project}}, or 
-#' \code{\link{Scenario}}.
+#' Saves a datasheet to a \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}}, or 
+#' \code{\linkS4class{Scenario}}.
 #' 
-#' @param ssimObject \code{\link{SsimLibrary}}, \code{\link{Project}}, or 
-#'     \code{\link{Scenario}} object
+#' @param ssimObject \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}}, or 
+#'     \code{\linkS4class{Scenario}} object
 #' @param data data.frame. The datasheet to load
 #' @param name character. The name of the datasheet to be saved
 #' @param append logical. If \code{TRUE}, the incoming data will be appended to the 

@@ -126,10 +126,10 @@ setMethod(
 
 #' Create or open a Folder
 #'
-#' Create or open a \code{\link{Folder}} from a SyncroSim
-#' \code{\link{Project}}.
+#' Create or open a \code{\linkS4class{Folder}} from a SyncroSim
+#' \code{\linkS4class{Project}}.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Project}} object.
+#' @param ssimObject \code{\linkS4class{SsimLibrary}} or \code{\linkS4class{Project}} object.
 #' @param folder character or integer. If character, then will either open an
 #' existing folder if \code{create=FALSE}, or will create a new folder with the 
 #' given name if the folder does not exist yet or \code{create=TRUE} (Default). 

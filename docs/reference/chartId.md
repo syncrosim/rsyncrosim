@@ -1,6 +1,7 @@
 # Retrieves chartId of SyncroSim Chart
 
-Retrieves the Chart Id of a SyncroSim `Chart`.
+Retrieves the Chart Id of a SyncroSim
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md).
 
 ## Usage
 
@@ -18,7 +19,8 @@ chartId(ssimObject)
 
 - ssimObject:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 ## Value
 
@@ -37,7 +39,7 @@ myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession, 
                          packages = "stsim",
                          overwrite = TRUE) 
-#> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpErgD5f/testlib.ssim deleted
+#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpOQHvjn/testlib.ssim deleted
 #> Package <stsim v4.5.3> added
 myProject <- project(myLibrary, project = "Definitions")
 

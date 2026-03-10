@@ -5,9 +5,9 @@ NULL
 
 #' Retrieves scenarioId of Scenario
 #'
-#' Retrieves the scenarioId of a \code{\link{Scenario}}.
+#' Retrieves the scenarioId of a \code{\linkS4class{Scenario}}.
 #'
-#' @param scenario \code{\link{Scenario}} object
+#' @param scenario \code{\linkS4class{Scenario}} object
 #' 
 #' @return 
 #' Integer id of the input Scenario.

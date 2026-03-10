@@ -4,7 +4,7 @@
 #' Size, Read Only, Data files, Publish files, Temporary files, Backup files, 
 #' and Use conda.
 #' 
-#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param ssimLibrary \code{\linkS4class{SsimLibrary}} object
 #' 
 #' @return 
 #' Returns a \code{data.frame} with information on the properties of the SsimLibrary 

@@ -5,9 +5,9 @@ NULL
 
 #' Retrieves chartId of SyncroSim Chart
 #'
-#' Retrieves the Chart Id of a SyncroSim \code{\link{Chart}}.
+#' Retrieves the Chart Id of a SyncroSim \code{\linkS4class{Chart}}.
 #'
-#' @param ssimObject \code{\link{Chart}} object
+#' @param ssimObject \code{\linkS4class{Chart}} object
 #' 
 #' @return 
 #' An integer: chart id.

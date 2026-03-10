@@ -18,8 +18,8 @@ createCondaEnv(pkgs, session = NULL)
 \arguments{
 \item{pkgs}{character or list of characters.}
 
-\item{session}{\code{\link{Session}} object or character (i.e. filepath to a
-session). If \code{NULL}, \code{session()} will be used}
+\item{session}{\code{\linkS4class{Session}} object or character (i.e. filepath to a
+session). If \code{NULL}, \code{session} will be used}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful creation of the

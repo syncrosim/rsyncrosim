@@ -1,7 +1,8 @@
 # Compacts a SsimLibrary
 
-Compact a `SsimLibrary`. Removes extraneous data from the SyncroSim
-library.
+Compact a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md).
+Removes extraneous data from the SyncroSim library.
 
 ## Usage
 
@@ -19,7 +20,8 @@ compact(ssimLibrary)
 
 - ssimLibrary:
 
-  `SsimLibrary` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  object
 
 ## Value
 

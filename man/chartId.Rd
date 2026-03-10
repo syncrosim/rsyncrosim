@@ -13,13 +13,13 @@ chartId(ssimObject)
 \S4method{chartId}{Chart}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Chart}} object}
+\item{ssimObject}{\code{\linkS4class{Chart}} object}
 }
 \value{
 An integer: chart id.
 }
 \description{
-Retrieves the Chart Id of a SyncroSim \code{\link{Chart}}.
+Retrieves the Chart Id of a SyncroSim \code{\linkS4class{Chart}}.
 }
 \examples{
 \donttest{
