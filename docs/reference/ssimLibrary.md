@@ -146,7 +146,7 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          forceUpdate = TRUE,
                          packages = "helloworldSpatial",
                          overwrite = TRUE)
-#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\Rtmpqq1REa/mylib.ssim deleted
+#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpsFazdk/mylib.ssim deleted
 #> Package <helloworldSpatial v2.1.0> added
                          
 # }

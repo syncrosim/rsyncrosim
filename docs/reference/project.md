@@ -19,6 +19,14 @@ project(
 
 ## Arguments
 
+- ssimObject:
+
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  or
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object, or a character string (i.e. a filepath)
+
 - project:
 
   [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)

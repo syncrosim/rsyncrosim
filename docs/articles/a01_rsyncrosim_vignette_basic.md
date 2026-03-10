@@ -660,10 +660,10 @@ runLog(myResultScenario)
     ## helloworldTime -> 2.1.1                                                                             
     ##                                                                                                     
     ## Parent Scenario is: [1] My first scenario                                                           
-    ## Result scenario is: [2] My first scenario ([1] @ 10-Mar-2026 4:49 PM)                               
+    ## Result scenario is: [2] My first scenario ([1] @ 10-Mar-2026 5:20 PM)                               
     ##                                                                                                     
     ## --------------------------------------------                                                        
-    ## STARTING SIMULATION: 2026-03-10 : 4:49:24 PM                                                        
+    ## STARTING SIMULATION: 2026-03-10 : 5:20:26 PM                                                        
     ## --------------------------------------------                                                        
     ##                                                                                                     
     ## START TRANSFORMER: Hello World Time (R)                                                             
@@ -673,15 +673,15 @@ runLog(myResultScenario)
     ##                                                                                                     
     ## Hello World Time (R) post processing => Total time: 00:00:00                                        
     ## Hello World Time (R) saving results => Total time: 00:00:00                                         
-    ## Hello World Time (R) Total time: 00:00:17                                                           
+    ## Hello World Time (R) Total time: 00:00:12                                                           
     ## END TRANSFORMER: Hello World Time (R)                                                               
     ##                                                                                                     
     ## --------------------------------------------                                                        
-    ## SIMULATION COMPLETE: 2026-03-10 : 4:49:42 PM                                                        
+    ## SIMULATION COMPLETE: 2026-03-10 : 5:20:39 PM                                                        
     ## --------------------------------------------                                                        
-    ## Total simulation time: 00:00:17
+    ## Total simulation time: 00:00:13
 
-    ## [1] "RunLog                                                                                              \nSyncroSim Version: 3.1.27.0                                                                         \nOperating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)                        \n                                                                                                    \nPackages:                                                                                           \ncore -> 3.1.27                                                                                      \nhelloworldTime -> 2.1.1                                                                             \n                                                                                                    \nParent Scenario is: [1] My first scenario                                                           \nResult scenario is: [2] My first scenario ([1] @ 10-Mar-2026 4:49 PM)                               \n                                                                                                    \n--------------------------------------------                                                        \nSTARTING SIMULATION: 2026-03-10 : 4:49:24 PM                                                        \n--------------------------------------------                                                        \n                                                                                                    \nSTART TRANSFORMER: Hello World Time (R)                                                             \n                                                                                                    \nThis Library is capable of using conda environments, but the 'Use conda' property is disabled.      \nTo enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html          \n                                                                                                    \nHello World Time (R) post processing => Total time: 00:00:00                                        \nHello World Time (R) saving results => Total time: 00:00:00                                         \nHello World Time (R) Total time: 00:00:17                                                           \nEND TRANSFORMER: Hello World Time (R)                                                               \n                                                                                                    \n--------------------------------------------                                                        \nSIMULATION COMPLETE: 2026-03-10 : 4:49:42 PM                                                        \n--------------------------------------------                                                        \nTotal simulation time: 00:00:17                                                                     "
+    ## [1] "RunLog                                                                                              \nSyncroSim Version: 3.1.27.0                                                                         \nOperating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)                        \n                                                                                                    \nPackages:                                                                                           \ncore -> 3.1.27                                                                                      \nhelloworldTime -> 2.1.1                                                                             \n                                                                                                    \nParent Scenario is: [1] My first scenario                                                           \nResult scenario is: [2] My first scenario ([1] @ 10-Mar-2026 5:20 PM)                               \n                                                                                                    \n--------------------------------------------                                                        \nSTARTING SIMULATION: 2026-03-10 : 5:20:26 PM                                                        \n--------------------------------------------                                                        \n                                                                                                    \nSTART TRANSFORMER: Hello World Time (R)                                                             \n                                                                                                    \nThis Library is capable of using conda environments, but the 'Use conda' property is disabled.      \nTo enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html          \n                                                                                                    \nHello World Time (R) post processing => Total time: 00:00:00                                        \nHello World Time (R) saving results => Total time: 00:00:00                                         \nHello World Time (R) Total time: 00:00:12                                                           \nEND TRANSFORMER: Hello World Time (R)                                                               \n                                                                                                    \n--------------------------------------------                                                        \nSIMULATION COMPLETE: 2026-03-10 : 5:20:39 PM                                                        \n--------------------------------------------                                                        \nTotal simulation time: 00:00:13                                                                     "
 
 *Note*: if your scenario fails to run, it will still produce a *result
 scenario* that you can use the
@@ -711,13 +711,13 @@ scenario(myLibrary)
 
     ##   ScenarioId ProjectId ParentId                                          Name
     ## 1          1         1       NA                             My first scenario
-    ## 2          2         1        1 My first scenario ([1] @ 10-Mar-2026 4:49 PM)
+    ## 2          2         1        1 My first scenario ([1] @ 10-Mar-2026 5:20 PM)
     ##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly
     ## 1   N/A                No                 NA       No         No
     ## 2   N/A                No                 NA      Yes         No
     ##        DateLastModified
-    ## 1 2026-03-10 at 4:49 PM
-    ## 2 2026-03-10 at 4:49 PM
+    ## 1 2026-03-10 at 5:20 PM
+    ## 2 2026-03-10 at 5:20 PM
 
 The first scenario is our original scenario, and the second is the
 result scenario with a time and date stamp of when it was run. We can
@@ -818,7 +818,7 @@ scenario(myLibrary)['Name']
 
     ##                                            Name
     ## 1                             My first scenario
-    ## 2 My first scenario ([1] @ 10-Mar-2026 4:49 PM)
+    ## 2 My first scenario ([1] @ 10-Mar-2026 5:20 PM)
 
 ``` r
 # Create a new scenario as a copy of an existing scenario
@@ -832,7 +832,7 @@ scenario(myLibrary)['Name']
 
     ##                                            Name
     ## 1                             My first scenario
-    ## 2 My first scenario ([1] @ 10-Mar-2026 4:49 PM)
+    ## 2 My first scenario ([1] @ 10-Mar-2026 5:20 PM)
     ## 3                            My second scenario
 
 To edit the new scenario, we must first load the contents of the
@@ -969,7 +969,7 @@ info(myLibrary)
     ## 1             Name:              helloworldLibrary
     ## 2            Owner:                            N/A
     ## 3        Read Only:                             No
-    ## 4    Last Modified:          2026-03-10 at 4:50 PM
+    ## 4    Last Modified:          2026-03-10 at 5:21 PM
     ## 5             Size:            220 KB  (225,280 B)
     ## 6       Data files:    helloworldLibrary.ssim.data
     ## 7    Publish files: helloworldLibrary.ssim.publish

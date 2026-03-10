@@ -462,13 +462,13 @@ scenario(myLibrary)
 
     ##   ScenarioId ProjectId ParentId                                          Name
     ## 1          1         1       NA                             My first scenario
-    ## 2          2         1        1 My first scenario ([1] @ 10-Mar-2026 4:52 PM)
+    ## 2          2         1        1 My first scenario ([1] @ 10-Mar-2026 5:22 PM)
     ##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly
     ## 1   N/A                No                 NA       No         No
     ## 2   N/A                No                 NA      Yes         No
     ##        DateLastModified
-    ## 1 2026-03-10 at 4:52 PM
-    ## 2 2026-03-10 at 4:52 PM
+    ## 1 2026-03-10 at 5:22 PM
+    ## 2 2026-03-10 at 5:23 PM
 
 ## View results
 
@@ -489,13 +489,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep        y
-    ## 1         1        1 16.27219
-    ## 2         1        2 29.54437
-    ## 3         1        3 42.81656
-    ## 4         1        4 56.08875
-    ## 5         1        5 69.36093
-    ## 6         1        6 82.63312
+    ##   Iteration Timestep          y
+    ## 1         1        1  2.1446524
+    ## 2         1        2  1.2893047
+    ## 3         1        3  0.4339571
+    ## 4         1        4 -0.4213905
+    ## 5         1        5 -1.2767382
+    ## 6         1        6 -2.1320858
 
 ### Plotting uncertainty in SyncroSim Studio
 

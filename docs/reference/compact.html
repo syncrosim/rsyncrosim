@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,13 +79,11 @@ compacting) and <code>FALSE</code> upon failure.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set up a SyncroSim Session, SsimLibrary, and Project</span></span></span>
 <span class="r-in"><span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="session.html">session</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in packageVersion("rsyncrosim"):</span> there is no package called 'rsyncrosim'</span>
 <span class="r-in"><span><span class="va">myLibrary</span> <span class="op">&lt;-</span> <span class="fu"><a href="ssimLibrary.html">ssimLibrary</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">myLibraryName</span>, session <span class="op">=</span> <span class="va">mySession</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'mySession' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compact data from the SsimLibrary</span></span></span>
 <span class="r-in"><span><span class="fu">compact</span><span class="op">(</span><span class="va">myLibrary</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'ssimLibrary' in selecting a method for function 'compact': object 'myLibrary' not found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Compacting library...Library successfully compacted.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

@@ -135,10 +135,10 @@ scenario(myLibrary)
 #> 3                                               No         No
 #> 4                                               No         No
 #>        DateLastModified
-#> 1 2026-03-10 at 4:45 PM
-#> 2 2026-03-10 at 4:46 PM
-#> 3 2026-03-10 at 4:47 PM
-#> 4 2026-03-10 at 4:47 PM
+#> 1 2026-03-10 at 5:17 PM
+#> 2 2026-03-10 at 5:17 PM
+#> 3 2026-03-10 at 5:18 PM
+#> 4 2026-03-10 at 5:18 PM
 
 # Only return the results Scenarios for a SsimLibrary
 scenario(myLibrary, results = TRUE)

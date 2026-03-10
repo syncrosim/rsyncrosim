@@ -531,13 +531,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep         y
-    ## 1         1        1  6.035522
-    ## 2         1        2  9.071044
-    ## 3         1        3 12.106565
-    ## 4         1        4 15.142087
-    ## 5         1        5 18.177609
-    ## 6         1        6 21.213131
+    ##   Iteration Timestep          y
+    ## 1         1        1  2.3728384
+    ## 2         1        2  1.7456769
+    ## 3         1        3  1.1185153
+    ## 4         1        4  0.4913538
+    ## 5         1        5 -0.1358078
+    ## 6         1        6 -0.7629693
 
 We can see that for every timestep in an iteration we have a new value
 of *y* corresponding to *y=mt+b*.
@@ -559,13 +559,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep      yCum
-    ## 1         1        1  6.035522
-    ## 2         1        2 15.106565
-    ## 3         1        3 27.213131
-    ## 4         1        4 42.355218
-    ## 5         1        5 60.532827
-    ## 6         1        6 81.745958
+    ##   Iteration Timestep     yCum
+    ## 1         1        1 2.372838
+    ## 2         1        2 4.118515
+    ## 3         1        3 5.237031
+    ## 4         1        4 5.728384
+    ## 5         1        5 5.592577
+    ## 6         1        6 4.829607
 
 We can see for each timestep in an iteration, we have a new value of
 *yCum*, representing the cumulative value of *y* over time.

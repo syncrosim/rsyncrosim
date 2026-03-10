@@ -488,13 +488,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep          y        OutputRasterFile
-    ## 1         1        1  -46.69128 rasterMap_iter1_ts1.tif
-    ## 2         1        2  -89.04856 rasterMap_iter1_ts2.tif
-    ## 3         1        3 -131.40584 rasterMap_iter1_ts3.tif
-    ## 4         1        4 -173.76312 rasterMap_iter1_ts4.tif
-    ## 5         1        5 -216.12040 rasterMap_iter1_ts5.tif
-    ## 6         1        6 -258.47768 rasterMap_iter1_ts6.tif
+    ##   Iteration Timestep        y        OutputRasterFile
+    ## 1         1        1 104.0214 rasterMap_iter1_ts1.tif
+    ## 2         1        2 212.3768 rasterMap_iter1_ts2.tif
+    ## 3         1        3 320.7322 rasterMap_iter1_ts3.tif
+    ## 4         1        4 429.0876 rasterMap_iter1_ts4.tif
+    ## 5         1        5 537.4429 rasterMap_iter1_ts5.tif
+    ## 6         1        6 645.7983 rasterMap_iter1_ts6.tif
 
 ``` r
 # Load results of second transformer in the pipeline
@@ -505,13 +505,13 @@ resultsSummary2 <- datasheet(myResultScenario,
 head(resultsSummary2)
 ```
 
-    ##   Iteration Timestep       yCum
-    ## 1         1        1  -46.69128
-    ## 2         1        2 -135.73984
-    ## 3         1        3 -267.14567
-    ## 4         1        4 -440.90880
-    ## 5         1        5 -657.02920
-    ## 6         1        6 -915.50688
+    ##   Iteration Timestep      yCum
+    ## 1         1        1  104.0214
+    ## 2         1        2  316.3982
+    ## 3         1        3  637.1303
+    ## 4         1        4 1066.2179
+    ## 5         1        5 1603.6608
+    ## 6         1        6 2249.4592
 
 From viewing these datasheets, we can see that the spatial output is
 contained within the `IntermediateDatasheet`, in the column called
@@ -552,8 +552,8 @@ rasterMaps
     ## coord. ref. : lon/lat WGS 84 
     ## source      : rasterMap_iter1_ts5.tif 
     ## name        : rasterMap_iter1_ts5 
-    ## min value   :          -11.097275 
-    ## max value   :           -6.353017
+    ## min value   :            19.04526 
+    ## max value   :            23.78952
 
 ``` r
 plot(rasterMaps[[1]])
