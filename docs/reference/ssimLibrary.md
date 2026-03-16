@@ -1,9 +1,10 @@
 # Create or open a SsimLibrary
 
-Creates or opens a `SsimLibrary` object. If `summary = TRUE`, returns
-SsimLibrary summary info. If `summary = NULL`, returns SsimLibrary
-summary info if ssimObject is a SsimLibrary, SsimLibrary object
-otherwise.
+Creates or opens a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+object. If `summary = TRUE`, returns SsimLibrary summary info. If
+`summary = NULL`, returns SsimLibrary summary info if ssimObject is a
+SsimLibrary, SsimLibrary object otherwise.
 
 ## Usage
 
@@ -45,8 +46,11 @@ ssimLibrary(
 
 - name:
 
-  `SsimLibrary`, `Project` or `Scenario` object, or character string
-  (i.e. path to a SsimLibrary or SsimObject)
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  or
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object, or character string (i.e. path to a SsimLibrary or SsimObject)
 
 - summary:
 
@@ -59,7 +63,8 @@ ssimLibrary(
 
 - session:
 
-  `Session` object. If `NULL` (default), session() will be used
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object. If `NULL` (default), session() will be used
 
 - forceUpdate:
 
@@ -81,13 +86,16 @@ ssimLibrary(
 
 ## Value
 
-Returns a `SsimLibrary` object.
+Returns a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+object.
 
 ## Details
 
 Example arguments:
 
-- If name is SyncroSim Project or Scenario: Returns the `SsimLibrary`
+- If name is SyncroSim Project or Scenario: Returns the
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
   associated with the Project or Scenario.
 
 - If name is `NULL`: Create/open a SsimLibrary in the current working
@@ -138,7 +146,7 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          forceUpdate = TRUE,
                          packages = "helloworldSpatial",
                          overwrite = TRUE)
-#> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpErgD5f/mylib.ssim deleted
+#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpsFazdk/mylib.ssim deleted
 #> Package <helloworldSpatial v2.1.0> added
                          
 # }

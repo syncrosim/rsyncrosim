@@ -13,13 +13,13 @@ scenarioId(scenario)
 \S4method{scenarioId}{Scenario}(scenario)
 }
 \arguments{
-\item{scenario}{\code{\link{Scenario}} object}
+\item{scenario}{\code{\linkS4class{Scenario}} object}
 }
 \value{
 Integer id of the input Scenario.
 }
 \description{
-Retrieves the scenarioId of a \code{\link{Scenario}}.
+Retrieves the scenarioId of a \code{\linkS4class{Scenario}}.
 }
 \examples{
 \donttest{

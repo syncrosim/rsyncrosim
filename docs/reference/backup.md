@@ -1,8 +1,10 @@
 # Backup a SsimLibrary
 
-Backup a `SsimLibrary`. The backup folder can be defined in the
-SyncroSim User Interface, but is by default at the same level as the
-SsimLibrary file, and is called libraryName.backup.
+Backup a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md).
+The backup folder can be defined in the SyncroSim User Interface, but is
+by default at the same level as the SsimLibrary file, and is called
+libraryName.backup.
 
 ## Usage
 
@@ -20,7 +22,11 @@ backup(ssimObject)
 
 - ssimObject:
 
-  `SsimLibrary`, `Project` or `Scenario` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  or
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 ## Value
 

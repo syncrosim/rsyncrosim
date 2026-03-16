@@ -19,8 +19,8 @@ packages(ssimObject = NULL, installed = TRUE)
 \S4method{packages}{SsimLibrary}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}} or
-\code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
+\item{ssimObject}{\code{\linkS4class{Session}} or
+\code{\linkS4class{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
 will be used}
 
 \item{installed}{logical or character. \code{TRUE} (default) to list
@@ -32,8 +32,8 @@ for a specified package.
 }
 \description{
 Retrieves the packages installed or available in the current session if
-called on a \code{\link{Session}} object, or the packages added to a
-SyncroSim Library if called on a \code{\link{SsimLibrary}} object.
+called on a \code{\linkS4class{Session}} object, or the packages added to a
+SyncroSim Library if called on a \code{\linkS4class{SsimLibrary}} object.
 }
 \examples{
 \donttest{

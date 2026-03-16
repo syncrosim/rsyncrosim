@@ -5,9 +5,9 @@ NULL
 
 #' Ignore dependencies for a Scenario
 #'
-#' Retrieves or sets the Datafeeds to ignore for a \code{\link{Scenario}}.
+#' Retrieves or sets the Datafeeds to ignore for a \code{\linkS4class{Scenario}}.
 #'
-#' @param ssimObject \code{\link{Scenario}} object
+#' @param ssimObject \code{\linkS4class{Scenario}} object
 #' @param value character string of Datafeed names to be ignored, separated by
 #' commas (optional)
 #' 

@@ -46,8 +46,8 @@ name(ssimObject) <- value
 \S4method{name}{Chart}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
-\code{\link{SsimLibrary}}, \code{\link{Folder}} or \code{\link{Chart}} object}
+\item{ssimObject}{\code{\linkS4class{Scenario}}, \code{\linkS4class{Project}},
+\code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Folder}} or \code{\linkS4class{Chart}} object}
 
 \item{value}{character string of the new name}
 }
@@ -55,8 +55,8 @@ name(ssimObject) <- value
 A character string: the name of the SsimObject.
 }
 \description{
-Retrieves or sets the name of a \code{\link{SsimLibrary}},
-\code{\link{Project}}, \code{\link{Scenario}}, or \code{\link{Folder}}.
+Retrieves or sets the name of a \code{\linkS4class{SsimLibrary}},
+\code{\linkS4class{Project}}, \code{\linkS4class{Scenario}}, or \code{\linkS4class{Folder}}.
 }
 \examples{
 \donttest{

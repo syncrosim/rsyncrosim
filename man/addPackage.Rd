@@ -13,7 +13,7 @@ addPackage(ssimLibrary, packages, versions = NULL, forceUpdate = FALSE)
 \S4method{addPackage}{SsimLibrary}(ssimLibrary, packages, versions = NULL, forceUpdate = FALSE)
 }
 \arguments{
-\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
+\item{ssimLibrary}{\code{\linkS4class{SsimLibrary}} object}
 
 \item{packages}{character string or vector of package name(s)}
 
@@ -29,7 +29,7 @@ Invisibly returns \code{TRUE} upon success (i.e.successful addition
 of the package) or \code{FALSE} upon failure.
 }
 \description{
-Adds package(s) to a \code{\link{SsimLibrary}}.
+Adds package(s) to a \code{\linkS4class{SsimLibrary}}.
 }
 \examples{
 \dontrun{

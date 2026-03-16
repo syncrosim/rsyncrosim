@@ -5,11 +5,11 @@ NULL
 
 #' Last date a SsimLibrary, Project, Scenario, or Folder was modified
 #'
-#' The most recent modification date of a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}}, \code{\link{Scenario}} or \code{\link{Folder}}.
+#' The most recent modification date of a \code{\linkS4class{SsimLibrary}}, 
+#' \code{\linkS4class{Project}}, \code{\linkS4class{Scenario}} or \code{\linkS4class{Folder}}.
 #'
-#' @param ssimObject  \code{\link{SsimLibrary}}, \code{\link{Project}},
-#'     \code{\link{Scenario}}, or \code{\link{Folder}} object
+#' @param ssimObject  \code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}},
+#'     \code{\linkS4class{Scenario}}, or \code{\linkS4class{Folder}} object
 #' 
 #' @return 
 #' A character string: date and time of the most recent modification 

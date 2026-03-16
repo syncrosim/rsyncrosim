@@ -1,6 +1,8 @@
-# Sets the `Chart` type and axes
+# Sets the [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md) type and axes
 
-Sets the `Chart` type and adds the variables to plot in the line chart.
+Sets the
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+type and adds the variables to plot in the line chart.
 
 ## Usage
 
@@ -35,7 +37,8 @@ chartData(
 
 - chart:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - type:
 

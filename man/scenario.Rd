@@ -16,7 +16,7 @@ scenario(
 )
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}} or \code{\link{Project}} object,
+\item{ssimObject}{\code{\linkS4class{SsimLibrary}} or \code{\linkS4class{Project}} object,
 or character (i.e. a filepath)}
 
 \item{scenario}{character, integer, or vector of these. Names or ids of one or
@@ -26,7 +26,7 @@ used to open existing Scenarios}
 \item{sourceScenario}{character or integer. If not \code{NULL} (Default), new
 Scenarios will be copies of the sourceScenario}
 
-\item{folder}{\code{\link{Folder}} object, character, or integer. The Folder object,
+\item{folder}{\code{\linkS4class{Folder}} object, character, or integer. The Folder object,
 name (must be unique), or Folder ID. If not \code{NULL} (Default), new
 Scenarios will be moved into the specified folder}
 
@@ -40,7 +40,7 @@ dateModified, readOnly, parentID. Default is \code{TRUE} if \code{scenario=NULL}
 
 \item{forceElements}{logical. If \code{TRUE} then returns a single Scenario as a named
 list; if \code{FALSE} (default), returns a single Scenario as a
-\code{\link{Scenario}} object. Applies only when \code{summary=FALSE}}
+\code{\linkS4class{Scenario}} object. Applies only when \code{summary=FALSE}}
 
 \item{overwrite}{logical. If \code{TRUE} an existing Scenario will be overwritten.
 Default is \code{FALSE}}
@@ -48,12 +48,12 @@ Default is \code{FALSE}}
 \value{
 A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario
 objects, or a data frame of Scenario names and descriptions. If \code{summary = FALSE},
-returns one or more \code{\link{Scenario}} objects representing SyncroSim Scenarios.
+returns one or more \code{\linkS4class{Scenario}} objects representing SyncroSim Scenarios.
 If \code{summary = TRUE}, returns Scenario summary info.
 }
 \description{
-Create or open one or more \code{\link{Scenario}}s from a
-\code{\link{SsimLibrary}}.
+Create or open one or more \code{\linkS4class{Scenario}}s from a
+\code{\linkS4class{SsimLibrary}}.
 }
 \details{
 For each element of Scenario:

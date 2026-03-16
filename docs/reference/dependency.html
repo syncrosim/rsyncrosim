@@ -13,7 +13,7 @@ dependency will update the dependent Scenario as well."><meta property="og:image
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ dependency will update the dependent Scenario as well."><meta property="og:image
 
     <div class="ref-description section level2">
     <p>List dependencies, set dependencies, or remove dependencies from a SyncroSim
-<code>Scenario</code>. Setting dependencies is a way of linking together
+<code><a href="Scenario-class.html">Scenario</a></code>. Setting dependencies is a way of linking together
 Scenario Datafeeds, such that a change in the Scenario that is the source
 dependency will update the dependent Scenario as well.</p>
     </div>
@@ -76,14 +76,14 @@ dependency will update the dependent Scenario as well.</p>
 
 
 <dl><dt id="arg-ssimobject">ssimObject<a class="anchor" aria-label="anchor" href="#arg-ssimobject"></a></dt>
-<dd><p><code>Scenario</code> object, character string, integer, or
+<dd><p><code><a href="Scenario-class.html">Scenario</a></code> object, character string, integer, or
 vector of these. The Scenario object, name, or ID to which a dependency is to
 be added (or has already been added if <code>remove=TRUE</code>). Note that integer ids
 are slightly faster.</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p><code>Scenario</code> object, character string, integer, or
+<dd><p><code><a href="Scenario-class.html">Scenario</a></code> object, character string, integer, or
 vector of these. The Scenario object, name, or ID to be used as the
 dependency. If an empty vector is provided, all dependencies are removed. If
 multiple elements are provided, elements should be ordered from highest to lowest

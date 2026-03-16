@@ -5,12 +5,12 @@ NULL
 
 #' Read-only status of a SsimLibrary, Project, Scenario, Folder or Chart
 #'
-#' Retrieves or sets whether or not a \code{\link{SsimLibrary}}, 
-#' \code{\link{Project}}, \code{\link{Scenario}}, \code{\link{Folder}},
-#' or \code{\link{Chart}} is read-only.
+#' Retrieves or sets whether or not a \code{\linkS4class{SsimLibrary}}, 
+#' \code{\linkS4class{Project}}, \code{\linkS4class{Scenario}}, \code{\linkS4class{Folder}},
+#' or \code{\linkS4class{Chart}} is read-only.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{Project}}, 
-#' \code{\link{SsimLibrary}}, or \code{\link{Folder}} object
+#' @param ssimObject \code{\linkS4class{Scenario}}, \code{\linkS4class{Project}}, 
+#' \code{\linkS4class{SsimLibrary}}, or \code{\linkS4class{Folder}} object
 #' @param value logical. If \code{TRUE} the SsimObject will be read-only. Default is 
 #' \code{FALSE}
 #' 

@@ -1,6 +1,10 @@
 # Save datasheet
 
-Saves a datasheet to a `SsimLibrary`, `Project`, or `Scenario`.
+Saves a datasheet to a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+or
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
 
 ## Usage
 
@@ -18,7 +22,11 @@ saveDatasheet(ssimObject, data, name = NULL, append = NULL, force = FALSE)
 
 - ssimObject:
 
-  `SsimLibrary`, `Project`, or `Scenario` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  or
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 - data:
 

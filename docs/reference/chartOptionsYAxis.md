@@ -1,6 +1,7 @@
-# Modify the Y axis of a `Chart`
+# Modify the Y axis of a [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
 
-Set the title and style of the Y axis of a `Chart`.
+Set the title and style of the Y axis of a
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md).
 
 ## Usage
 
@@ -33,7 +34,8 @@ chartOptionsYAxis(
 
 - chart:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - title:
 

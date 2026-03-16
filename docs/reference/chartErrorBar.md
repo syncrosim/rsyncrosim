@@ -1,6 +1,7 @@
-# Modify the error bars of a `Chart`
+# Modify the error bars of a [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
 
-Set the type and properties of the error bars of a `Chart`.
+Set the type and properties of the error bars of a
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md).
 
 ## Usage
 
@@ -15,7 +16,8 @@ chartErrorBar(chart, type = NULL, lower = NULL, upper = NULL)
 
 - chart:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - type:
 

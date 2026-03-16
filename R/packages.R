@@ -6,11 +6,11 @@ NULL
 #' Installed or available packages
 #'
 #' Retrieves the packages installed or available in the current session if 
-#' called on a \code{\link{Session}} object, or the packages added to a 
-#' SyncroSim Library if called on a \code{\link{SsimLibrary}} object.
+#' called on a \code{\linkS4class{Session}} object, or the packages added to a 
+#' SyncroSim Library if called on a \code{\linkS4class{SsimLibrary}} object.
 #'
-#' @param ssimObject \code{\link{Session}} or 
-#' \code{\link{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
+#' @param ssimObject \code{\linkS4class{Session}} or 
+#' \code{\linkS4class{SsimLibrary}} object. If \code{NULL} (default), \code{session()}
 #' will be used
 #' @param installed logical or character. \code{TRUE} (default) to list 
 #' installed packages or \code{FALSE} to list available packages on the server

@@ -28,8 +28,8 @@ owner(ssimObject) <- value
 \S4method{owner}{SsimObject}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Session}}, \code{\link{Project}},
-or \code{\link{SsimLibrary}} object}
+\item{ssimObject}{\code{\linkS4class{Session}}, \code{\linkS4class{Project}},
+or \code{\linkS4class{SsimLibrary}} object}
 
 \item{value}{character string of the new owner}
 }
@@ -37,8 +37,8 @@ or \code{\link{SsimLibrary}} object}
 A character string: the owner of the SsimObject.
 }
 \description{
-Retrieves or sets the owner of a \code{\link{SsimLibrary}},
-\code{\link{Project}}, or \code{\link{Scenario}}.
+Retrieves or sets the owner of a \code{\linkS4class{SsimLibrary}},
+\code{\linkS4class{Project}}, or \code{\linkS4class{Scenario}}.
 }
 \examples{
 \dontrun{

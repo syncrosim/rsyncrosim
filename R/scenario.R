@@ -150,17 +150,17 @@ setMethod(
 
 #' Create or open Scenario(s)
 #'
-#' Create or open one or more \code{\link{Scenario}}s from a 
-#' \code{\link{SsimLibrary}}.
+#' Create or open one or more \code{\linkS4class{Scenario}}s from a 
+#' \code{\linkS4class{SsimLibrary}}.
 #'
-#' @param ssimObject \code{\link{SsimLibrary}} or \code{\link{Project}} object,
+#' @param ssimObject \code{\linkS4class{SsimLibrary}} or \code{\linkS4class{Project}} object,
 #'   or character (i.e. a filepath)
 #' @param scenario character, integer, or vector of these. Names or ids of one or 
 #'     more Scenarios. Note integer ids are slightly faster, but can only be 
 #'     used to open existing Scenarios
 #' @param sourceScenario character or integer. If not \code{NULL} (Default), new 
 #' Scenarios will be copies of the sourceScenario
-#' @param folder \code{\link{Folder}} object, character, or integer. The Folder object,
+#' @param folder \code{\linkS4class{Folder}} object, character, or integer. The Folder object,
 #'     name (must be unique), or Folder ID. If not \code{NULL} (Default), new 
 #'     Scenarios will be moved into the specified folder
 #' @param summary logical. If \code{TRUE} then loads and returns the Scenario(s) in a 
@@ -171,14 +171,14 @@ setMethod(
 #' \code{FALSE}
 #' @param forceElements logical. If \code{TRUE} then returns a single Scenario as a named 
 #'     list; if \code{FALSE} (default), returns a single Scenario as a 
-#'     \code{\link{Scenario}} object. Applies only when \code{summary=FALSE}
+#'     \code{\linkS4class{Scenario}} object. Applies only when \code{summary=FALSE}
 #' @param overwrite logical. If \code{TRUE} an existing Scenario will be overwritten.
 #' Default is \code{FALSE}
 #' 
 #' @return 
 #' A \code{Scenario} object representing a SyncroSim scenario, a list of Scenario 
 #' objects, or a data frame of Scenario names and descriptions. If \code{summary = FALSE}, 
-#' returns one or more \code{\link{Scenario}} objects representing SyncroSim Scenarios.
+#' returns one or more \code{\linkS4class{Scenario}} objects representing SyncroSim Scenarios.
 #' If \code{summary = TRUE}, returns Scenario summary info.
 #' 
 #' @details

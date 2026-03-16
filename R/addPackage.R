@@ -5,9 +5,9 @@ NULL
 
 #' Add SyncroSim package(s)
 #'
-#' Adds package(s) to a \code{\link{SsimLibrary}}.
+#' Adds package(s) to a \code{\linkS4class{SsimLibrary}}.
 #'
-#' @param ssimLibrary \code{\link{SsimLibrary}} object
+#' @param ssimLibrary \code{\linkS4class{SsimLibrary}} object
 #' @param packages character string or vector of package name(s)
 #' @param versions character string or vector of package version(s). If 
 #' \code{NULL} then uses the latest installed version of the package

@@ -76,7 +76,6 @@ of `rsyncrosim` are available for both Windows and Linux.
 In a new R script, load the `rsyncrosim` package.
 
 ``` r
-
 # Load R package for working with SyncroSim
 library(rsyncrosim)
 ```
@@ -93,7 +92,6 @@ computer where SyncroSim has been installed. If the first argument is
 left blank, then the default install folder is used (Windows only).
 
 ``` r
-
 mySession <- session("path/to/install_folder")      # Create a session based on SyncroSim install folder
 mySession <- session()                              # Using default install folder (Windows only)
 mySession                                           # Displays the session object
@@ -111,11 +109,10 @@ connected to by running the
 function.
 
 ``` r
-
 version(mySession)
 ```
 
-    ## [1] "3.1.24"
+    ## [1] "3.1.27"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -127,7 +124,6 @@ function from `rsyncrosim` to first get a list of all currently
 installed packages in SyncroSim.
 
 ``` r
-
 # Get list of installed packages
 packages()
 ```
@@ -142,7 +138,6 @@ are available from the SyncroSim package server, you can use the
 function.
 
 ``` r
-
 availablePackages <- packages(installed = FALSE)
 head(availablePackages)
 ```
@@ -168,7 +163,6 @@ This function takes a package name as input and then queries the
 SyncroSim package server for the specified package.
 
 ``` r
-
 # Install helloworldTime
 installPackage("helloworldTime")
 ```
@@ -182,7 +176,6 @@ function with the file path to the `.ssimpkg`, rather than using the
 package name as the argument.
 
 ``` r
-
 # Install helloworldTime using file path to ssimpkg file
 installPackage("path/to/helloworldTime.ssimpkg")
 ```
@@ -190,7 +183,6 @@ installPackage("path/to/helloworldTime.ssimpkg")
 Now `helloworldTime` should be included in the package list:
 
 ``` r
-
 # Get list of installed packages
 packages()
 ```
@@ -199,8 +191,8 @@ packages()
     ## 1 helloworldTime   2.1.1
     ##                                                  description
     ## 1 Example demonstrating how to use timesteps with an R model
-    ##                                                                             location
-    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldTime\\2.1.1
+    ##                                                                            location
+    ## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldTime\\2.1.1
     ##   status
     ## 1     OK
 
@@ -239,7 +231,6 @@ function to create a new *SsimLibrary* object in R that is connected
 (through your session) to a SyncroSim library file.
 
 ``` r
-
 # Create a new library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
@@ -272,7 +263,6 @@ that you would like to open. Since “helloworldLibrary” is in our working
 directory we do not need to specify the full path to this library.
 
 ``` r
-
 # Open existing library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim")
 ```
@@ -297,7 +287,6 @@ function is used to both create and retrieve projects. Note that the
 `ssimObject` here can be the name of a library or scenario.
 
 ``` r
-
 # Open existing project
 myProject = project(ssimObject = myLibrary, project = "Definitions")  # Using name for project
 myProject = project(ssimObject = myLibrary, project = 1)              # Using projectId for project
@@ -332,7 +321,6 @@ function is used to both create and retrieve scenarios. Note that the
 `ssimObject` here can be the name of a library or a project.
 
 ``` r
-
 # Create a new scenario (associated with the default project)
 myScenario = scenario(ssimObject = myProject, scenario = "My first scenario")
 
@@ -370,7 +358,6 @@ datasheets of varying scopes using the
 function from `rsyncrosim`.
 
 ``` r
-
 # View all Datasheets associated with a library, project, or scenario
 datasheet(myScenario)
 ```
@@ -389,7 +376,6 @@ scope of the datasheet or if it only accepts a single row of data, we
 can set the `optional` argument to `TRUE`.
 
 ``` r
-
 datasheet(myScenario, optional = TRUE)
 ```
 
@@ -423,7 +409,6 @@ From the list of datasheets above, we can see that there are 3
 datasheets specific to the `helloworldTime` package.
 
 ``` r
-
 # View the Inputs datasheet for the scenario
 datasheet(myScenario, name = "helloworldTime_InputDatasheet")
 ```
@@ -445,7 +430,6 @@ our model.
 First, assign the `Inputs` datasheet to a new data frame variable.
 
 ``` r
-
 # Assign contents of the Inputs datasheet to an R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldTime_InputDatasheet")
@@ -458,7 +442,6 @@ function will also let us know if certain columns are factors with
 specific acceptable values.
 
 ``` r
-
 # Check the columns of the input data frame
 str(myInputDataframe)
 ```
@@ -483,7 +466,6 @@ our `Inputs` data frame that we want to update), and the data frame of
 new rows to append to the input data frame as the second value.
 
 ``` r
-
 # Create input data and add it to the input data frame
 myInputRow <- data.frame(m = 3, b = 10)
 myInputDataframe <- addRow(myInputDataframe, myInputRow)
@@ -504,7 +486,6 @@ function. Since this datasheet is scenario-scoped, we will save it at
 the scenario level by setting `ssimObject = myScenario`.
 
 ``` r
-
 # Save Inputs R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = myInputDataframe,
               name = "helloworldTime_InputDatasheet")
@@ -524,7 +505,6 @@ data. Use the code below to assign the `Pipeline` datasheet to a new
 data frame variable and check the values required by the datasheet.
 
 ``` r
-
 # Assign contents of the Pipeline datasheet to an R data frame
 myPipeline <- datasheet(myScenario,
                         name = "core_Pipeline")
@@ -554,7 +534,6 @@ package, called “Hello World Time (R)”, so we will add this transformer
 to the data frame and set the `RunOrder` to `1`.
 
 ``` r
-
 # Create Pipeline data and add it to the Pipeline data frame
 myPipelineRow <- data.frame(StageNameId = "Hello World Time (R)", RunOrder = 1)
 myPipeline <- addRow(myPipeline, myPipelineRow)
@@ -567,7 +546,6 @@ myPipeline
     ## 1 Hello World Time (R)        1
 
 ``` r
-
 # Save Pipeline R data frame to a SyncroSim Datasheet
 saveDatasheet(ssimObject = myScenario, 
               data = myPipeline,
@@ -590,7 +568,6 @@ We need to specify data for the following 2 columns:
 - `MaximumTimestep` : the end time point of the simulation.
 
 ``` r
-
 # Assign contents of the run control datasheet to an R data frame
 runSettings <- datasheet(myScenario, name = "helloworldTime_RunControl")
 
@@ -603,7 +580,6 @@ str(runSettings)
     ##  $ MaximumTimestep: num
 
 ``` r
-
 # Create run control data and add it to the run control data frame
 runSettingsRow <- data.frame(MinimumTimestep = 1,
                              MaximumTimestep = 10)
@@ -617,7 +593,6 @@ runSettings
     ## 1               1              10
 
 ``` r
-
 # Save run control R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = runSettings,
               name = "helloworldTime_RunControl")
@@ -633,7 +608,6 @@ To set the number of multiprocessing jobs for a scenario run, we need to
 modify the library-scoped “core_Multiprocessing” datasheet.
 
 ``` r
-
 # Open the multiprocessing datasheet
 mpSettings <- datasheet(myLibrary, name = "core_Multiprocessing")
 ```
@@ -641,7 +615,6 @@ mpSettings <- datasheet(myLibrary, name = "core_Multiprocessing")
     ## [1] "Note: MaximumJobs should be between 1 and 9999"
 
 ``` r
-
 # Set the maximum number of jobs to 4
 mpSettings$MaximumJobs <- 4
 
@@ -659,7 +632,6 @@ function in `rsyncrosim`, starting with the first scenario we created
 (“My first scenario”).
 
 ``` r
-
 # Run the first scenario we created
 myResultScenario <- run(myScenario)
 ```
@@ -675,24 +647,23 @@ For more information use the
 function, in which the only argument is the result scenario variable.
 
 ``` r
-
 # Get run details for the first result scenario
 runLog(myResultScenario)
 ```
 
     ## RunLog                                                                                              
-    ## SyncroSim Version: 3.1.24.0                                                                         
+    ## SyncroSim Version: 3.1.27.0                                                                         
     ## Operating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)                        
     ##                                                                                                     
     ## Packages:                                                                                           
-    ## core -> 3.1.24                                                                                      
+    ## core -> 3.1.27                                                                                      
     ## helloworldTime -> 2.1.1                                                                             
     ##                                                                                                     
     ## Parent Scenario is: [1] My first scenario                                                           
-    ## Result scenario is: [2] My first scenario ([1] @ 30-Jan-2026 11:34 AM)                              
+    ## Result scenario is: [2] My first scenario ([1] @ 10-Mar-2026 5:20 PM)                               
     ##                                                                                                     
     ## --------------------------------------------                                                        
-    ## STARTING SIMULATION: 2026-01-30 : 11:34:38 AM                                                       
+    ## STARTING SIMULATION: 2026-03-10 : 5:20:26 PM                                                        
     ## --------------------------------------------                                                        
     ##                                                                                                     
     ## START TRANSFORMER: Hello World Time (R)                                                             
@@ -702,15 +673,15 @@ runLog(myResultScenario)
     ##                                                                                                     
     ## Hello World Time (R) post processing => Total time: 00:00:00                                        
     ## Hello World Time (R) saving results => Total time: 00:00:00                                         
-    ## Hello World Time (R) Total time: 00:00:10                                                           
+    ## Hello World Time (R) Total time: 00:00:12                                                           
     ## END TRANSFORMER: Hello World Time (R)                                                               
     ##                                                                                                     
     ## --------------------------------------------                                                        
-    ## SIMULATION COMPLETE: 2026-01-30 : 11:34:48 AM                                                       
+    ## SIMULATION COMPLETE: 2026-03-10 : 5:20:39 PM                                                        
     ## --------------------------------------------                                                        
-    ## Total simulation time: 00:00:10
+    ## Total simulation time: 00:00:13
 
-    ## [1] "RunLog                                                                                              \nSyncroSim Version: 3.1.24.0                                                                         \nOperating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)                        \n                                                                                                    \nPackages:                                                                                           \ncore -> 3.1.24                                                                                      \nhelloworldTime -> 2.1.1                                                                             \n                                                                                                    \nParent Scenario is: [1] My first scenario                                                           \nResult scenario is: [2] My first scenario ([1] @ 30-Jan-2026 11:34 AM)                              \n                                                                                                    \n--------------------------------------------                                                        \nSTARTING SIMULATION: 2026-01-30 : 11:34:38 AM                                                       \n--------------------------------------------                                                        \n                                                                                                    \nSTART TRANSFORMER: Hello World Time (R)                                                             \n                                                                                                    \nThis Library is capable of using conda environments, but the 'Use conda' property is disabled.      \nTo enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html          \n                                                                                                    \nHello World Time (R) post processing => Total time: 00:00:00                                        \nHello World Time (R) saving results => Total time: 00:00:00                                         \nHello World Time (R) Total time: 00:00:10                                                           \nEND TRANSFORMER: Hello World Time (R)                                                               \n                                                                                                    \n--------------------------------------------                                                        \nSIMULATION COMPLETE: 2026-01-30 : 11:34:48 AM                                                       \n--------------------------------------------                                                        \nTotal simulation time: 00:00:10                                                                     "
+    ## [1] "RunLog                                                                                              \nSyncroSim Version: 3.1.27.0                                                                         \nOperating System: Microsoft Windows 11 Pro (Microsoft Windows NT 6.2.9200.0)                        \n                                                                                                    \nPackages:                                                                                           \ncore -> 3.1.27                                                                                      \nhelloworldTime -> 2.1.1                                                                             \n                                                                                                    \nParent Scenario is: [1] My first scenario                                                           \nResult scenario is: [2] My first scenario ([1] @ 10-Mar-2026 5:20 PM)                               \n                                                                                                    \n--------------------------------------------                                                        \nSTARTING SIMULATION: 2026-03-10 : 5:20:26 PM                                                        \n--------------------------------------------                                                        \n                                                                                                    \nSTART TRANSFORMER: Hello World Time (R)                                                             \n                                                                                                    \nThis Library is capable of using conda environments, but the 'Use conda' property is disabled.      \nTo enable conda, refer to https://docs.syncrosim.com/getting_started/quickstart_conda.html          \n                                                                                                    \nHello World Time (R) post processing => Total time: 00:00:00                                        \nHello World Time (R) saving results => Total time: 00:00:00                                         \nHello World Time (R) Total time: 00:00:12                                                           \nEND TRANSFORMER: Hello World Time (R)                                                               \n                                                                                                    \n--------------------------------------------                                                        \nSIMULATION COMPLETE: 2026-03-10 : 5:20:39 PM                                                        \n--------------------------------------------                                                        \nTotal simulation time: 00:00:13                                                                     "
 
 *Note*: if your scenario fails to run, it will still produce a *result
 scenario* that you can use the
@@ -734,20 +705,19 @@ Check out the current scenarios in your library using the
 function.
 
 ``` r
-
 # Check scenarios that currently exist in your library
 scenario(myLibrary)
 ```
 
-    ##   ScenarioId ProjectId ParentId                                           Name
-    ## 1          1         1       NA                              My first scenario
-    ## 2          2         1        1 My first scenario ([1] @ 30-Jan-2026 11:34 AM)
+    ##   ScenarioId ProjectId ParentId                                          Name
+    ## 1          1         1       NA                             My first scenario
+    ## 2          2         1        1 My first scenario ([1] @ 10-Mar-2026 5:20 PM)
     ##   Owner MergeDependencies IgnoreDependencies IsResult IsReadOnly
     ## 1   N/A                No                 NA       No         No
     ## 2   N/A                No                 NA      Yes         No
-    ##         DateLastModified
-    ## 1 2026-01-30 at 11:34 AM
-    ## 2 2026-01-30 at 11:34 AM
+    ##        DateLastModified
+    ## 1 2026-03-10 at 5:20 PM
+    ## 2 2026-03-10 at 5:20 PM
 
 The first scenario is our original scenario, and the second is the
 result scenario with a time and date stamp of when it was run. We can
@@ -760,7 +730,6 @@ scenario and the original scenario using the
 function.
 
 ``` r
-
 # Take a look at original scenario datasheets
 datasheet(myScenario, optional = TRUE)
 ```
@@ -783,7 +752,6 @@ datasheet(myScenario, optional = TRUE)
     ## 32             Run Control     TRUE           N/A  TRUE        1
 
 ``` r
-
 # Take a look at result scenario datasheets
 datasheet(myResultScenario, optional = TRUE)
 ```
@@ -817,7 +785,6 @@ result table using the
 function and setting the `name` parameter to the `Outputs` datasheet.
 
 ``` r
-
 # Results of first scenario
 myOutputDataframe <- datasheet(myResultScenario,
                                name = "helloworldTime_OutputDatasheet")
@@ -845,17 +812,15 @@ function with the `sourceScenario` argument set to the name of the
 scenario you want to copy.
 
 ``` r
-
 # Check which scenarios you currently have in your library
 scenario(myLibrary)['Name']
 ```
 
-    ##                                             Name
-    ## 1                              My first scenario
-    ## 2 My first scenario ([1] @ 30-Jan-2026 11:34 AM)
+    ##                                            Name
+    ## 1                             My first scenario
+    ## 2 My first scenario ([1] @ 10-Mar-2026 5:20 PM)
 
 ``` r
-
 # Create a new scenario as a copy of an existing scenario
 myNewScenario <- scenario(ssimObject = myProject,
                           scenario = "My second scenario",
@@ -865,10 +830,10 @@ myNewScenario <- scenario(ssimObject = myProject,
 scenario(myLibrary)['Name']
 ```
 
-    ##                                             Name
-    ## 1                              My first scenario
-    ## 2 My first scenario ([1] @ 30-Jan-2026 11:34 AM)
-    ## 3                             My second scenario
+    ##                                            Name
+    ## 1                             My first scenario
+    ## 2 My first scenario ([1] @ 10-Mar-2026 5:20 PM)
+    ## 3                            My second scenario
 
 To edit the new scenario, we must first load the contents of the
 `Inputs` datasheet and assign it to a new R data frame using the
@@ -878,7 +843,6 @@ getting the values from the existing scenario, we can start with an
 empty data frame again.
 
 ``` r
-
 # Load empty Inputs datasheets as an R data frame
 myNewInputDataframe <- datasheet(myNewScenario,
                                  name = "helloworldTime_InputDatasheet",
@@ -898,7 +862,6 @@ did before, using the
 function.
 
 ``` r
-
 # Create input data and add it to the input data frame
 newInputRow <- data.frame(m = 4, b = 10)
 myNewInputDataframe <- addRow(myNewInputDataframe, newInputRow)
@@ -915,7 +878,6 @@ using
 [`saveDatasheet()`](https://syncrosim.github.io/rsyncrosim/reference/saveDatasheet.md).
 
 ``` r
-
 # Save R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myNewScenario, 
               data = myNewInputDataframe,
@@ -935,7 +897,6 @@ project to use and including a vector of scenarios in the `scenario`
 argument.
 
 ``` r
-
 # Run all scenarios
 myResultScenarioAll <- run(myProject,
                            scenario = c("My first scenario",
@@ -960,7 +921,6 @@ function, we just need to index for the result scenario object we are
 interested in.
 
 ``` r
-
 datasheet(myResultScenarioAll[2], name = "helloworldTime_OutputDatasheet")
 ```
 
@@ -984,14 +944,12 @@ the Rrsults scenario using the `rsyncrosim` function
 [`parentId()`](https://syncrosim.github.io/rsyncrosim/reference/parentId.md).
 
 ``` r
-
 parentId(myResultScenarioAll[[1]])
 ```
 
     ## [1] 1
 
 ``` r
-
 parentId(myResultScenarioAll[[2]])
 ```
 
@@ -1004,7 +962,6 @@ parentId(myResultScenarioAll[[2]])
 Retrieve library information:
 
 ``` r
-
 info(myLibrary)
 ```
 
@@ -1012,7 +969,7 @@ info(myLibrary)
     ## 1             Name:              helloworldLibrary
     ## 2            Owner:                            N/A
     ## 3        Read Only:                             No
-    ## 4    Last Modified:         2026-01-30 at 11:35 AM
+    ## 4    Last Modified:          2026-03-10 at 5:21 PM
     ## 5             Size:            220 KB  (225,280 B)
     ## 6       Data files:    helloworldLibrary.ssim.data
     ## 7    Publish files: helloworldLibrary.ssim.publish
@@ -1058,7 +1015,6 @@ all the datasheets with a library scope using the
 function on a *ssimLibrary* object.
 
 ``` r
-
 # Find all library-scoped datasheets
 datasheet(myLibrary)
 ```
@@ -1080,7 +1036,6 @@ datasheet(myLibrary)
     ## 14 library                  core_Terminology                    Terminology
 
 ``` r
-
 # Get the current values for the library's Backup datasheet
 myDataframe <- datasheet(myLibrary, name = "core_Backup")   
 
@@ -1092,7 +1047,6 @@ myDataframe
     ## 1        TRUE         TRUE
 
 ``` r
-
 # Add output to the library's Backup datasheet and save
 myDataframe$IncludeData <- TRUE 
 saveDatasheet(myLibrary, data = myDataframe, name = "core_Backup")
@@ -1101,7 +1055,6 @@ saveDatasheet(myLibrary, data = myDataframe, name = "core_Backup")
     ## Datasheet <core_Backup> saved
 
 ``` r
-
 # Check to make sure IncludeOutput is now TRUE
 datasheet(myLibrary, "core_Backup")
 ```
@@ -1114,7 +1067,6 @@ Now, you can use the
 function from `rsyncrosim` to backup a library, project, or scenario.
 
 ``` r
-
 backup(myLibrary)
 ```
 

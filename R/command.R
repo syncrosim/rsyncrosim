@@ -19,7 +19,7 @@ NULL
 #' @param args character string, named list, named vector, unnamed list, or unnamed 
 #'     vector. Arguments for the SyncroSim console. See 'details' for more 
 #'     information about this argument
-#' @param session \code{\link{Session}} object. If \code{NULL}(default), the default
+#' @param session \code{\linkS4class{Session}} object. If \code{NULL}(default), the default
 #'  session will be used
 #' @param program character. The name of the target SyncroSim executable. 
 #'     Options include "SyncroSim.Console.exe" (default), "SyncroSim.VizConsole.exe", 

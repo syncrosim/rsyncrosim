@@ -1,7 +1,13 @@
 # Read-only status of a SsimLibrary, Project, Scenario, Folder or Chart
 
-Retrieves or sets whether or not a `SsimLibrary`, `Project`, `Scenario`,
-`Folder`, or `Chart` is read-only.
+Retrieves or sets whether or not a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+[`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md),
+or
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+is read-only.
 
 ## Usage
 
@@ -45,7 +51,12 @@ readOnly(ssimObject) <- value
 
 - ssimObject:
 
-  `Scenario`, `Project`, `SsimLibrary`, or `Folder` object
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  or
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  object
 
 - value:
 

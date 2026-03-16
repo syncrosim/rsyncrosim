@@ -3,7 +3,7 @@
 \name{chartOptionsFont}
 \alias{chartOptionsFont}
 \alias{chartOptionsFont,Chart-method}
-\title{Modifies the font settings for a \code{\link{Chart}}}
+\title{Modifies the font settings for a \code{\linkS4class{Chart}}}
 \usage{
 chartOptionsFont(
   chart,
@@ -38,7 +38,7 @@ chartOptionsFont(
 )
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\linkS4class{Chart}} object}
 
 \item{titleFont}{character. Sets the font for the title of the
 chart axes (e.g., "Microsoft Sans Serif, "Times New Roman", "Arial Narrow").
@@ -86,7 +86,7 @@ other than the chart are provided, a data.frame of the current chart font
 settings.
 }
 \description{
-Modifies the font style and size of various \code{\link{Chart}} components.
+Modifies the font style and size of various \code{\linkS4class{Chart}} components.
 }
 \examples{
 \dontrun{

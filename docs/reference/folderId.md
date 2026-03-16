@@ -1,8 +1,14 @@
 # Retrieves folderId of SyncroSim Folder or Scenario
 
-Retrieves the Folder Id of a SyncroSim `Folder` or `Scenario`. Can also
-use to set the Folder Id for a `Scenario` - this will move the
-`Scenario` into the desired folder in the SyncroSim User Interface.
+Retrieves the Folder Id of a SyncroSim
+[`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+or
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
+Can also use to set the Folder Id for a
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md) -
+this will move the
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+into the desired folder in the SyncroSim User Interface.
 
 ## Usage
 
@@ -28,12 +34,17 @@ folderId(ssimObject) <- value
 
 - ssimObject:
 
-  `Folder` or `Scenario` object
+  [`Folder`](https://syncrosim.github.io/rsyncrosim/reference/Folder-class.md)
+  or
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 - value:
 
-  integer of the folder ID to move the `Scenario` to. Only applicable if
-  the ssimObject provided is a `Scenario`.
+  integer of the folder ID to move the
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  to. Only applicable if the ssimObject provided is a
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md).
 
 ## Value
 
@@ -51,7 +62,7 @@ mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, 
                          session = mySession, 
                          overwrite = TRUE) 
-#> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpErgD5f/testlib.ssim deleted
+#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpsFazdk/testlib.ssim deleted
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 myFolder <- folder(myProject, "New Folder")

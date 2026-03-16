@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -167,7 +167,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.24"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.27"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -191,8 +191,8 @@ list returned by the <code><a href="../reference/packages.html">packages()</a></
 <span><span class="co">## 1 helloworldPipeline   2.1.1</span></span>
 <span><span class="co">##                                                  description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use pipelines with an R model</span></span>
-<span><span class="co">##                                                                                 location</span></span>
-<span><span class="co">## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1</span></span>
+<span><span class="co">##                                                                                location</span></span>
+<span><span class="co">## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -544,13 +544,13 @@ datasheet corresponds to the results from the
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep        y</span></span>
-<span><span class="co">## 1         1        1 11.86268</span></span>
-<span><span class="co">## 2         1        2 20.72536</span></span>
-<span><span class="co">## 3         1        3 29.58804</span></span>
-<span><span class="co">## 4         1        4 38.45073</span></span>
-<span><span class="co">## 5         1        5 47.31341</span></span>
-<span><span class="co">## 6         1        6 56.17609</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep          y</span></span>
+<span><span class="co">## 1         1        1  2.3728384</span></span>
+<span><span class="co">## 2         1        2  1.7456769</span></span>
+<span><span class="co">## 3         1        3  1.1185153</span></span>
+<span><span class="co">## 4         1        4  0.4913538</span></span>
+<span><span class="co">## 5         1        5 -0.1358078</span></span>
+<span><span class="co">## 6         1        6 -0.7629693</span></span></code></pre>
 <p>We can see that for every timestep in an iteration we have a new
 value of <em>y</em> corresponding to <em>y=mt+b</em>.</p>
 </div>
@@ -568,13 +568,13 @@ from the <code>Hello World Pipeline 2</code> transformer stage.</p>
 <span></span>
 <span><span class="co"># View results table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep      yCum</span></span>
-<span><span class="co">## 1         1        1  11.86268</span></span>
-<span><span class="co">## 2         1        2  32.58804</span></span>
-<span><span class="co">## 3         1        3  62.17609</span></span>
-<span><span class="co">## 4         1        4 100.62682</span></span>
-<span><span class="co">## 5         1        5 147.94022</span></span>
-<span><span class="co">## 6         1        6 204.11631</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep     yCum</span></span>
+<span><span class="co">## 1         1        1 2.372838</span></span>
+<span><span class="co">## 2         1        2 4.118515</span></span>
+<span><span class="co">## 3         1        3 5.237031</span></span>
+<span><span class="co">## 4         1        4 5.728384</span></span>
+<span><span class="co">## 5         1        5 5.592577</span></span>
+<span><span class="co">## 6         1        6 4.829607</span></span></code></pre>
 <p>We can see for each timestep in an iteration, we have a new value of
 <em>yCum</em>, representing the cumulative value of <em>y</em> over
 time.</p>

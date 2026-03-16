@@ -8,7 +8,7 @@ NULL
 #' Gets or sets the path to the Conda installation folder. Can be used to direct
 #' SyncroSim to a custom Conda installation.
 #'
-#' @param session \code{\link{Session}} object or character (i.e. filepath to a 
+#' @param session \code{\linkS4class{Session}} object or character (i.e. filepath to a 
 #' session). If \code{NULL}, \code{session()} will be used
 #' @param value character. If empty, then returns the current Conda installation 
 #' path

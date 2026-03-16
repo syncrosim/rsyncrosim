@@ -18,7 +18,8 @@ runLog(scenario)
 
 - scenario:
 
-  `Scenario` object.
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object.
 
 ## Value
 

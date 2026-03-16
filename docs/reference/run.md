@@ -1,6 +1,7 @@
 # Run scenarios
 
-Run one or more SyncroSim `Scenario`(s).
+Run one or more SyncroSim
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)(s).
 
 ## Usage
 
@@ -21,8 +22,12 @@ run(ssimObject, scenario = NULL, summary = FALSE, transformerName = NULL)
 
 - ssimObject:
 
-  `SsimLibrary`, `Project`, or `Scenario` object, or a list of
-  Scenarios, or character (i.e. path to a SsimLibrary on disk)
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  or
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object, or a list of Scenarios, or character (i.e. path to a
+  SsimLibrary on disk)
 
 - scenario:
 

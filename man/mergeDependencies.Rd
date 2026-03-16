@@ -22,7 +22,7 @@ mergeDependencies(ssimObject) <- value
 \S4method{mergeDependencies}{Scenario}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}} object}
+\item{ssimObject}{\code{\linkS4class{Scenario}} object}
 
 \item{value}{logical. If \code{TRUE} the Scenario will be set to merge
 dependencies at run time. Default is \code{FALSE}}
@@ -32,7 +32,7 @@ A logical: \code{TRUE} if the scenario is configured to merge dependencies at ru
 and \code{FALSE} otherwise.
 }
 \description{
-Retrieves or sets whether or not a \code{\link{Scenario}} is configured to
+Retrieves or sets whether or not a \code{\linkS4class{Scenario}} is configured to
 merge dependencies at run time.
 }
 \examples{

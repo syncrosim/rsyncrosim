@@ -132,22 +132,22 @@ setMethod(f = "initialize", signature = "Project",
 
 #' Create or open Project(s)
 #'
-#' Creates or retrieves a \code{\link{Project}} or multiple Projects from a
+#' Creates or retrieves a \code{\linkS4class{Project}} or multiple Projects from a
 #' SsimLibrary.
 #'
-#' @param ssimObject \code{\link{Scenario}}, \code{\link{SsimLibrary}}, or 
-#'     \code{\link{Chart}} object, or a character string (i.e. a filepath)
-#' @param project \code{\link{Project}} object, character, integer, or vector 
+#' @param ssimObject \code{\linkS4class{Scenario}}, \code{\linkS4class{SsimLibrary}}, or 
+#'     \code{\linkS4class{Chart}} object, or a character string (i.e. a filepath)
+#' @param project \code{\linkS4class{Project}} object, character, integer, or vector 
 #'     of these. Names or ids of one or more Projects. Note that integer ids are 
 #'     slightly faster (optional)
-#' @param sourceProject \code{\link{Project}} object, character, or integer. If 
+#' @param sourceProject \code{\linkS4class{Project}} object, character, or integer. If 
 #'     not \code{NULL} (default), new Projects will be copies of the sourceProject
 #' @param summary logical. If \code{TRUE} then return the Project(s) in a data.frame with 
 #'     the projectId, name, description, owner, dateModified, readOnly. Default 
 #'     is \code{TRUE} if \code{project=NULL} and SsimObject is not Scenario/Project, \code{FALSE} 
 #'     otherwise
 #' @param forceElements logical. If \code{TRUE} then returns a single Project as a named 
-#'     list; otherwise returns a single project as a \code{\link{Project}} object. 
+#'     list; otherwise returns a single project as a \code{\linkS4class{Project}} object. 
 #'     Applies only when \code{summary=FALSE} Default is \code{FALSE}
 #' @param overwrite logical. If \code{TRUE} an existing Project will be overwritten. 
 #'     Default is \code{FALSE}
@@ -162,7 +162,7 @@ setMethod(f = "initialize", signature = "Project",
 #' }
 #' 
 #' @return 
-#' Returns a \code{\link{Project}} object representing a SyncroSim Project. If 
+#' Returns a \code{\linkS4class{Project}} object representing a SyncroSim Project. If 
 #' summary is \code{TRUE}, returns a data.frame of Project names and descriptions.
 #' 
 #' @examples

@@ -1,6 +1,9 @@
 # Create or open a chart
 
-Create or open a `Chart` from a SyncroSim `Project`.
+Create or open a
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+from a SyncroSim
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md).
 
 ## Usage
 
@@ -18,7 +21,10 @@ chart(ssimObject = NULL, chart = NULL, create = FALSE, summary = FALSE)
 
 - ssimObject:
 
-  `Project` or `Scenario` object
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  or
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 - chart:
 

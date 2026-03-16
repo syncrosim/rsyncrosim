@@ -27,7 +27,8 @@ condaFilepath(session) <- value
 
 - session:
 
-  `Session` object or character (i.e. filepath to a session). If `NULL`,
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object or character (i.e. filepath to a session). If `NULL`,
   [`session()`](https://syncrosim.github.io/rsyncrosim/reference/session.md)
   will be used
 

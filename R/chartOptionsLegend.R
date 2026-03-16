@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Modifies the legend settings for a \code{\link{Chart}}
+#' Modifies the legend settings for a \code{\linkS4class{Chart}}
 #'
-#' Modifies the legend settings for a \code{\link{Chart}}.
+#' Modifies the legend settings for a \code{\linkS4class{Chart}}.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\linkS4class{Chart}} object
 #' @param show logical. Whether to show the chart legend. Default is \code{NULL}.
 #' @param showScenarioName logical. Whether to show the scenario name in the 
 #'    legend. Default is \code{NULL}.

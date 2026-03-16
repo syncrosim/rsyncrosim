@@ -6,7 +6,7 @@ NULL
 #' Get, set or remove Scenario dependencies
 #' 
 #' List dependencies, set dependencies, or remove dependencies from a SyncroSim
-#' \code{\link{Scenario}}. Setting dependencies is a way of linking together
+#' \code{\linkS4class{Scenario}}. Setting dependencies is a way of linking together
 #' Scenario Datafeeds, such that a change in the Scenario that is the source 
 #' dependency will update the dependent Scenario as well. 
 #'
@@ -21,12 +21,12 @@ NULL
 #' those elements are included in the vector of new dependencies.
 #'
 #'
-#' @param ssimObject \code{\link{Scenario}} object, character string, integer, or 
+#' @param ssimObject \code{\linkS4class{Scenario}} object, character string, integer, or 
 #' vector of these. The Scenario object, name, or ID to which a dependency is to 
 #' be added (or has already been added if \code{remove=TRUE}). Note that integer ids 
 #' are slightly faster.
 #' 
-#' @param value \code{\link{Scenario}} object, character string, integer, or 
+#' @param value \code{\linkS4class{Scenario}} object, character string, integer, or 
 #' vector of these. The Scenario object, name, or ID to be used as the 
 #' dependency. If an empty vector is provided, all dependencies are removed. If 
 #' multiple elements are provided, elements should be ordered from highest to lowest

@@ -10,10 +10,10 @@ chartCriteria(ssimObject, chart = NULL, variable = NULL, filter = NULL)
 \S4method{chartCriteria}{SsimObject}(ssimObject, chart = NULL, variable = NULL, filter = NULL)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Project}} or \code{\link{Chart}} object}
+\item{ssimObject}{\code{\linkS4class{Project}} or \code{\linkS4class{Chart}} object}
 
 \item{chart}{character or integer. Either the name or ID of an existing chart.
-If \code{NULL} and a \code{\link{Project}} is provided as the first argument,
+If \code{NULL} and a \code{\linkS4class{Project}} is provided as the first argument,
 then will return the available variables for charting.}
 
 \item{variable}{character. The name of a charting variable. If provided,

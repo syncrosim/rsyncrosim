@@ -1,6 +1,7 @@
-# Modifies the legend settings for a `Chart`
+# Modifies the legend settings for a [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
 
-Modifies the legend settings for a `Chart`.
+Modifies the legend settings for a
+[`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md).
 
 ## Usage
 
@@ -29,7 +30,8 @@ chartOptionsLegend(
 
 - chart:
 
-  `Chart` object
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - show:
 

@@ -13,14 +13,14 @@ compact(ssimLibrary)
 \S4method{compact}{SsimLibrary}(ssimLibrary)
 }
 \arguments{
-\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
+\item{ssimLibrary}{\code{\linkS4class{SsimLibrary}} object}
 }
 \value{
 Invisibly returns \code{TRUE} upon success (i.e.successful
 compacting) and \code{FALSE} upon failure.
 }
 \description{
-Compact a \code{\link{SsimLibrary}}. Removes extraneous data from the SyncroSim library.
+Compact a \code{\linkS4class{SsimLibrary}}. Removes extraneous data from the SyncroSim library.
 }
 \examples{
 \donttest{

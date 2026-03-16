@@ -3,11 +3,11 @@
 #' @include AAAClassDefinitions.R
 NULL
 
-#' Modify the error bars of a \code{\link{Chart}}
+#' Modify the error bars of a \code{\linkS4class{Chart}}
 #'
-#' Set the type and properties of the error bars of a \code{\link{Chart}}.
+#' Set the type and properties of the error bars of a \code{\linkS4class{Chart}}.
 #'
-#' @param chart \code{\link{Chart}} object
+#' @param chart \code{\linkS4class{Chart}} object
 #' @param type character. Type of error bar. Values can be "percentile", 
 #' "minmax", or "none". Default is NULL.
 #' @param lower float. If the error bar type is set to "percentile", then

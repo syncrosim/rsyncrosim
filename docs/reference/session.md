@@ -1,6 +1,7 @@
 # Create or return SyncroSim Session
 
-Methods to create or return a SyncroSim `Session`.
+Methods to create or return a SyncroSim
+[`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md).
 
 ## Usage
 
@@ -46,15 +47,21 @@ session(ssimObject) <- value
 
 - ssimObject:
 
-  `Project` or `Scenario` object
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  or
+  [`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+  object
 
 - value:
 
-  `Session` object
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object
 
 ## Value
 
-A SyncroSim `Session` object.
+A SyncroSim
+[`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+object.
 
 ## Details
 
@@ -84,154 +91,133 @@ filepath(mySession)
 
 # Lists the version of SyncroSim Session
 version(mySession)
-#> [1] "3.1.24"
+#> [1] "3.1.27"
 
 # Data frame of the packages installed with this version of SyncroSim
 packages(mySession)
-#>                     name version
-#> 1             burnP3Plus   2.3.0
-#> 2             burnP3Plus   2.6.5
-#> 3    burnP3PlusCell2Fire   2.2.0
-#> 4    burnP3PlusFireSTARR   1.2.0
-#> 5    burnP3PlusFireSTARR   1.5.3
-#> 6    burnP3PlusFireSTARR   1.5.5
-#> 7   burnP3PlusPrometheus   2.2.0
-#> 8              demosales   2.1.0
-#> 9                  dgsim   3.1.0
-#> 10           ecoClassify   1.0.1
-#> 11           ecoClassify   1.0.2
-#> 12           ecoClassify   1.0.4
-#> 13           ecoClassify   1.1.0
-#> 14           ecoClassify   1.2.0
-#> 15           ecoClassify   1.2.1
-#> 16           ecoClassify   1.2.2
-#> 17           ecoClassify   1.2.3
-#> 18           ecoClassify   2.1.0
-#> 19           ecoClassify   2.1.1
-#> 20           ecoClassify   2.1.2
-#> 21           ecoClassify   2.1.3
-#> 22           ecoClassify   2.2.0
-#> 23           ecoClassify   2.2.1
-#> 24           ecoClassify   2.2.2
-#> 25           ecoClassify   2.3.0
-#> 26           ecoClassify   2.3.1
-#> 27           ecoClassify   2.3.2
-#> 28            helloworld   2.0.1
-#> 29    helloworldPipeline   2.1.1
-#> 30     helloworldSpatial   2.1.0
-#> 31        helloworldTime   2.1.1
-#> 32 helloworldUncertainty   2.1.1
-#> 33          lucasbuilder   2.0.2
-#> 34          lucasbuilder   2.0.4
-#> 35             omniscape   2.2.0
-#> 36             omniscape   2.3.0
-#> 37             omniscape   2.6.0
-#> 38            prioritizr   2.2.1
-#> 39            prioritizr   2.2.2
-#> 40       resourceMonitor   1.0.0
-#> 41                 stsim   4.3.8
-#> 42                 stsim   4.5.0
-#> 43                 stsim   4.5.2
-#> 44                 stsim   4.5.3
-#> 45                 wisdm  2.1.12
-#> 46                 wisdm   2.3.0
-#> 47                 wisdm   2.4.1
+#>                       name version
+#> 1         burnP3FireHazard   2.0.0
+#> 2               burnP3Plus   2.3.0
+#> 3               burnP3Plus   2.5.3
+#> 4               burnP3Plus   2.6.5
+#> 5               burnP3Plus   2.6.7
+#> 6      burnP3PlusCell2Fire   2.2.0
+#> 7      burnP3PlusCell2Fire   2.4.3
+#> 8      burnP3PlusFireSTARR   1.2.0
+#> 9      burnP3PlusFireSTARR   1.5.5
+#> 10     burnP3PlusFireSTARR   1.5.6
+#> 11  burnP3PlusInputBuilder   1.0.0
+#> 12    burnP3PlusPrometheus   2.2.0
+#> 13    burnP3PlusPrometheus   2.5.4
+#> 14             burnP3Sharp   1.0.0
+#> 15               demosales   2.1.0
+#> 16                   dgsim   3.1.0
+#> 17             ecoClassify   2.3.0
+#> 18             ecoClassify   2.3.1
+#> 19             ecoClassify   2.4.0
+#> 20              helloworld   2.1.0
+#> 21              helloworld   2.1.1
+#> 22      helloworldPipeline   2.1.1
+#> 23    helloworldPipelinePy   2.0.1
+#> 24            helloworldPy   1.0.1
+#> 25       helloworldSpatial   2.1.0
+#> 26     helloworldSpatialPy   2.0.0
+#> 27          helloworldTime   2.1.1
+#> 28   helloworldUncertainty   2.1.1
+#> 29 helloworldUncertaintyPy   2.0.1
+#> 30           lotkavolterra   1.0.0
+#> 31            lucasbuilder   2.0.2
+#> 32            lucasbuilder   2.0.3
+#> 33               omniscape   2.2.0
+#> 34               omniscape   2.3.0
+#> 35              prioritizr   2.2.2
+#> 36                   stsim   4.5.3
+#> 37             stsimecodep   4.1.0
+#> 38                   wisdm   2.4.1
+#> 39                   wisdm   2.5.0
+#> 40     wisdmStsimConnector   1.2.0
 #>                                                                                                      description
-#> 1                                                                                      Burn probability modeling
+#> 1                                                                     Simple summary and map outputs for BurnP3+
 #> 2                                                                                      Burn probability modeling
-#> 3                                                                        Cell2Fire fire growth model for BurnP3+
-#> 4                                                                        FireSTARR fire growth model for BurnP3+
-#> 5                                                                        FireSTARR fire growth model for BurnP3+
-#> 6                                                                        FireSTARR fire growth model for BurnP3+
-#> 7                                                                       Prometheus fire growth model for BurnP3+
-#> 8                                                                                   Demo Sales SyncroSim Package
-#> 9                                                                 Simulates demographics of wildlife populations
-#> 10                                                            Image classifier using semantic image segmentation
-#> 11                                                            Image classifier using semantic image segmentation
-#> 12                                                            Image classifier using semantic image segmentation
-#> 13                                                            Image classifier using semantic image segmentation
-#> 14                                                            Image classifier using semantic image segmentation
-#> 15                                                            Image classifier using semantic image segmentation
-#> 16                                                            Image classifier using semantic image segmentation
+#> 3                                                                                      Burn probability modeling
+#> 4                                                                                      Burn probability modeling
+#> 5                                                                                      Burn probability modeling
+#> 6                                                                        Cell2Fire fire growth model for BurnP3+
+#> 7                                                                        Cell2Fire fire growth model for BurnP3+
+#> 8                                                                        FireSTARR fire growth model for BurnP3+
+#> 9                                                                        FireSTARR fire growth model for BurnP3+
+#> 10                                                                       FireSTARR fire growth model for BurnP3+
+#> 11                                                                               Preprocess raw data for BurnP3+
+#> 12                                                                      Prometheus fire growth model for BurnP3+
+#> 13                                                                      Prometheus fire growth model for BurnP3+
+#> 14                                                                      Preprocess and post-process BurnP3+ data
+#> 15                                                                                  Demo Sales SyncroSim Package
+#> 16                                                                Simulates demographics of wildlife populations
 #> 17                                                            Image classifier using semantic image segmentation
 #> 18                                                            Image classifier using semantic image segmentation
 #> 19                                                            Image classifier using semantic image segmentation
-#> 20                                                            Image classifier using semantic image segmentation
-#> 21                                                            Image classifier using semantic image segmentation
-#> 22                                                            Image classifier using semantic image segmentation
-#> 23                                                            Image classifier using semantic image segmentation
-#> 24                                                            Image classifier using semantic image segmentation
-#> 25                                                            Image classifier using semantic image segmentation
-#> 26                                                            Image classifier using semantic image segmentation
-#> 27                                                            Image classifier using semantic image segmentation
-#> 28                                                                 Example demonstrating how to create a package
-#> 29                                                    Example demonstrating how to use pipelines with an R model
-#> 30                                                 Example demonstrating how to use spatial data with an R model
-#> 31                                                    Example demonstrating how to use timesteps with an R model
-#> 32                                                   Example demonstrating how to use iterations with an R model
-#> 33 Integrates the Carbon Budget Model of the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.
-#> 34 Integrates the Carbon Budget Model of the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.
-#> 35                                                 Omni-directional habitat connectivity based on circuit theory
-#> 36                                                 Omni-directional habitat connectivity based on circuit theory
-#> 37                                                 Omni-directional habitat connectivity based on circuit theory
-#> 38                                                                              Systematic conservation planning
-#> 39                                                                              Systematic conservation planning
-#> 40                                                            Monitors CPU and RAM usage during simulation runs.
-#> 41                                                              The ST-Sim state-and-transition simulation model
-#> 42                                                              The ST-Sim state-and-transition simulation model
-#> 43                                                              The ST-Sim state-and-transition simulation model
-#> 44                                                              The ST-Sim state-and-transition simulation model
-#> 45                                                        Workbench for Integrated Species Distribution Modeling
-#> 46                                                        Workbench for Integrated Species Distribution Modeling
-#> 47                                                        Workbench for Integrated Species Distribution Modeling
+#> 20                                                                 Example demonstrating how to create a package
+#> 21                                                                 Example demonstrating how to create a package
+#> 22                                                    Example demonstrating how to use pipelines with an R model
+#> 23                                                Example demonstrating how to use pipelines with a Python model
+#> 24                                                                                          Hello World (Python)
+#> 25                                                 Example demonstrating how to use spatial data with an R model
+#> 26                                             Example demonstrating how to use spatial data with a Python model
+#> 27                                                    Example demonstrating how to use timesteps with an R model
+#> 28                                                   Example demonstrating how to use iterations with an R model
+#> 29                                               Example demonstrating how to use iterations with a Python model
+#> 30                                                                       Predator-prey population dynamics model
+#> 31 Integrates the Carbon Budget Model of the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.
+#> 32 Integrates the Carbon Budget Model of the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.
+#> 33                                                 Omni-directional habitat connectivity based on circuit theory
+#> 34                                                 Omni-directional habitat connectivity based on circuit theory
+#> 35                                                                              Systematic conservation planning
+#> 36                                                              The ST-Sim state-and-transition simulation model
+#> 37                             Calculates TNC's unified ecological departure from reference conditions in ST-Sim
+#> 38                                                        Workbench for Integrated Species Distribution Modeling
+#> 39                                                        Workbench for Integrated Species Distribution Modeling
+#> 40                                                                    Connector package between WISDM and ST-Sim
 #>                                                                                     location
-#> 1             C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\burnP3Plus\\2.3.0
-#> 2             C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\burnP3Plus\\2.6.5
-#> 3    C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusCell2Fire\\2.2.0
-#> 4    C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusFireSTARR\\1.2.0
-#> 5    C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusFireSTARR\\1.5.3
-#> 6    C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusFireSTARR\\1.5.5
-#> 7   C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusPrometheus\\2.2.0
-#> 8              C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\demosales\\2.1.0
-#> 9                  C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\dgsim\\3.1.0
-#> 10           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.0.1
-#> 11           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.0.2
-#> 12           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.0.4
-#> 13           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.1.0
-#> 14           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.2.0
-#> 15           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.2.1
-#> 16           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.2.2
-#> 17           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\1.2.3
-#> 18           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.1.0
-#> 19           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.1.1
-#> 20           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.1.2
-#> 21           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.1.3
-#> 22           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.2.0
-#> 23           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.2.1
-#> 24           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.2.2
-#> 25           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.3.0
-#> 26           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.3.1
-#> 27           C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.3.2
-#> 28            C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworld\\2.0.1
-#> 29    C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1
-#> 30     C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0
-#> 31        C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldTime\\2.1.1
-#> 32 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.1
-#> 33          C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\lucasbuilder\\2.0.2
-#> 34          C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\lucasbuilder\\2.0.4
-#> 35             C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\omniscape\\2.2.0
-#> 36             C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\omniscape\\2.3.0
-#> 37             C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\omniscape\\2.6.0
-#> 38            C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\prioritizr\\2.2.1
-#> 39            C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\prioritizr\\2.2.2
-#> 40       C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\resourceMonitor\\1.0.0
-#> 41                 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.3.8
-#> 42                 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.5.0
-#> 43                 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.5.2
-#> 44                 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.5.3
-#> 45                C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\wisdm\\2.1.12
-#> 46                 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\wisdm\\2.3.0
-#> 47                 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\wisdm\\2.4.1
+#> 1                      C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\BurnP3BasicSummary\\src
+#> 2              C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3Plus\\2.3.0
+#> 3                              C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\BurnP3Plus\\src
+#> 4              C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3Plus\\2.6.5
+#> 5              C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3Plus\\2.6.7
+#> 6     C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusCell2Fire\\2.2.0
+#> 7                     C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\BurnP3PlusCell2Fire\\src
+#> 8     C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusFireSTARR\\1.2.0
+#> 9     C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusFireSTARR\\1.5.5
+#> 10    C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusFireSTARR\\1.5.6
+#> 11 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusInputBuilder\\1.0.0
+#> 12   C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusPrometheus\\2.2.0
+#> 13   C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\burnP3PlusPrometheus\\2.5.4
+#> 14                            C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\BurnP3Sharp\\src
+#> 15              C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\demosales\\2.1.0
+#> 16                  C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\dgsim\\3.1.0
+#> 17            C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.3.0
+#> 18            C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\ecoClassify\\2.3.1
+#> 19                            C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\ecoClassify\\src
+#> 20             C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworld\\2.1.0
+#> 21             C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworld\\2.1.1
+#> 22     C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1
+#> 23                   C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\helloworldPipelinePy\\src
+#> 24                           C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\helloworldPy\\src
+#> 25      C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0
+#> 26                    C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\helloworldSpatialPy\\src
+#> 27         C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldTime\\2.1.1
+#> 28  C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldUncertainty\\2.1.1
+#> 29                C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\helloworldUncertaintyPy\\src
+#> 30          C:\\Users\\VickiZhang\\Documents\\SyncroSim\\My Packages\\LV-Package-Claude\\src
+#> 31           C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\lucasbuilder\\2.0.2
+#> 32                           C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\lucasbuilder\\src
+#> 33              C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\omniscape\\2.2.0
+#> 34                              C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\omniscape\\src
+#> 35             C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\prioritizr\\2.2.2
+#> 36                  C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\stsim\\4.5.3
+#> 37            C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\stsimecodep\\4.1.0
+#> 38                  C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\wisdm\\2.4.1
+#> 39                                  C:\\Users\\VickiZhang\\Documents\\GH_ApexRMS\\wisdm\\src
+#> 40    C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\wisdmStsimConnector\\1.2.0
 #>    status
 #> 1      OK
 #> 2      OK
@@ -273,13 +259,6 @@ packages(mySession)
 #> 38     OK
 #> 39     OK
 #> 40     OK
-#> 41     OK
-#> 42     OK
-#> 43     OK
-#> 44     OK
-#> 45     OK
-#> 46     OK
-#> 47     OK
 
 # Set a new SyncroSim Session for the SyncroSim Project
 session(myProject) <- session(x = filepath(session(myProject)))

@@ -1,11 +1,12 @@
 # Adds package to SyncroSim Installation
 
-This function installs a package to the SyncroSim `Session`. If only the
-package name is provided as input, the function queries the SyncroSim
-package server for the specified package. If a file path is provided as
-input, the function installs a package to SyncroSim from a local package
-file (ends in ".ssimpkg"). The list of SyncroSim packages can be found
-[here](https://syncrosim.com/packages/).
+This function installs a package to the SyncroSim
+[`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md).
+If only the package name is provided as input, the function queries the
+SyncroSim package server for the specified package. If a file path is
+provided as input, the function installs a package to SyncroSim from a
+local package file (ends in ".ssimpkg"). The list of SyncroSim packages
+can be found [here](https://syncrosim.com/packages/).
 
 ## Usage
 
@@ -35,7 +36,8 @@ installPackage(packages, versions = NULL, session = NULL)
 
 - session:
 
-  `Session` object. If `NULL` (default),
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object. If `NULL` (default),
   [`session()`](https://syncrosim.github.io/rsyncrosim/reference/session.md)
   will be used
 

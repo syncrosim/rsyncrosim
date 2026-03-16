@@ -1,9 +1,10 @@
 # Conda configuration of a SsimLibrary
 
-Retrieves or sets the Conda configuration of a `SsimLibrary`. Note that
-in order to use conda environments, you will first need to ensure that
-the conda environment has been created for a given package. You can
-create the conda environment for a package using the
+Retrieves or sets the Conda configuration of a
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md).
+Note that in order to use conda environments, you will first need to
+ensure that the conda environment has been created for a given package.
+You can create the conda environment for a package using the
 [`createCondaEnv`](https://syncrosim.github.io/rsyncrosim/reference/createCondaEnv.md)
 function.
 
@@ -31,7 +32,8 @@ useConda(ssimObject) <- value
 
 - ssimObject:
 
-  `SsimLibrary` object
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  object
 
 - value:
 
@@ -43,7 +45,8 @@ useConda(ssimObject) <- value
 ## Value
 
 Logical: whether Conda environments will be used during runtime for the
-given `SsimLibrary`
+given
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
 
 ## Examples
 

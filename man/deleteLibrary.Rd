@@ -27,7 +27,7 @@ deleteLibrary(
 )
 }
 \arguments{
-\item{ssimLibrary}{SsimLibrary or path to a library}
+\item{ssimLibrary}{\code{\linkS4class{SsimLibrary}} or path to a library}
 
 \item{force}{Logical. If FALSE (default) prompt to confirm that the library
 should be deleted. This is irreversable.}

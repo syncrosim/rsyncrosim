@@ -10,7 +10,7 @@ info(ssimLibrary)
 \S4method{info}{SsimLibrary}(ssimLibrary)
 }
 \arguments{
-\item{ssimLibrary}{\code{\link{SsimLibrary}} object}
+\item{ssimLibrary}{\code{\linkS4class{SsimLibrary}} object}
 }
 \value{
 Returns a \code{data.frame} with information on the properties of the SsimLibrary

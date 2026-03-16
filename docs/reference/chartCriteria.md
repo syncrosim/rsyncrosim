@@ -16,13 +16,18 @@ chartCriteria(ssimObject, chart = NULL, variable = NULL, filter = NULL)
 
 - ssimObject:
 
-  `Project` or `Chart` object
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  or
+  [`Chart`](https://syncrosim.github.io/rsyncrosim/reference/Chart-class.md)
+  object
 
 - chart:
 
   character or integer. Either the name or ID of an existing chart. If
-  `NULL` and a `Project` is provided as the first argument, then will
-  return the available variables for charting.
+  `NULL` and a
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+  is provided as the first argument, then will return the available
+  variables for charting.
 
 - variable:
 

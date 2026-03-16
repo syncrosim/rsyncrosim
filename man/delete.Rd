@@ -28,26 +28,26 @@ delete(
 )
 }
 \arguments{
-\item{ssimObject}{\code{\link{SsimLibrary}}, \code{\link{Project}},
-\code{\link{Scenario}}, \code{\link{Folder}}, or \code{\link{Chart}}
+\item{ssimObject}{\code{\linkS4class{SsimLibrary}}, \code{\linkS4class{Project}},
+\code{\linkS4class{Scenario}}, \code{\linkS4class{Folder}}, or \code{\linkS4class{Chart}}
 object}
 
 \item{project}{character string, numeric, or vector of these. One or more
-\code{\link{Project}} names or ids. Note that project argument is ignored
+\code{\linkS4class{Project}} names or ids. Note that project argument is ignored
 if ssimObject is a list. Note that integer ids are slightly faster (optional)}
 
 \item{scenario}{character string, numeric, or vector of these. One or more
-\code{\link{Scenario}} names or ids. Note that scenario argument is
+\code{\linkS4class{Scenario}} names or ids. Note that scenario argument is
 ignored if ssimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
 \item{folder}{character string, numeric, or vector of these. One or more
-\code{\link{Folder}} names or ids. Note that folder argument is
+\code{\linkS4class{Folder}} names or ids. Note that folder argument is
 ignored if ssimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
 \item{chart}{character string, numeric, or vector of these. One or more
-\code{\link{Chart}} names or ids. Note that chart argument is
+\code{\linkS4class{Chart}} names or ids. Note that chart argument is
 ignored if SsimObject is a list. Note that integer ids are slightly faster
 (optional)}
 
@@ -57,7 +57,7 @@ names (optional)}
 \item{force}{logical. If \code{FALSE} (default), user will be prompted to approve
 removal of each item}
 
-\item{session}{\code{\link{Session}} object. If \code{NULL} (default), session()
+\item{session}{\code{\linkS4class{Session}} object. If \code{NULL} (default), \code{session()}
 will be used. Only applicable when \code{ssimObject} argument is a character}
 }
 \value{

@@ -7,7 +7,7 @@
 signIn(session = NULL)
 }
 \arguments{
-\item{session}{\code{\link{Session}} object. If \code{NULL}(default), the
+\item{session}{\code{\linkS4class{Session}} object. If \code{NULL}(default), the
 default session will be used}
 }
 \value{

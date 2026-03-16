@@ -35,15 +35,15 @@ from the console are ignored. Otherwise they are printed. Default is \code{FALSE
 arguments passed to the SyncroSim console are also printed. Helpful for
 debugging. Default is \code{FALSE}}
 
-\item{ssimObject}{\code{\link{Project}} or \code{\link{Scenario}} object}
+\item{ssimObject}{\code{\linkS4class{Project}} or \code{\linkS4class{Scenario}} object}
 
-\item{value}{\code{\link{Session}} object}
+\item{value}{\code{\linkS4class{Session}} object}
 }
 \value{
-A SyncroSim \code{\link{Session}} object.
+A SyncroSim \code{\linkS4class{Session}} object.
 }
 \description{
-Methods to create or return a SyncroSim \code{\link{Session}}.
+Methods to create or return a SyncroSim \code{\linkS4class{Session}}.
 }
 \details{
 In order to avoid problems with SyncroSim version compatibility and SsimLibrary

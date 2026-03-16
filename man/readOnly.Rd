@@ -40,8 +40,8 @@ readOnly(ssimObject) <- value
 \S4method{readOnly}{Chart}(ssimObject) <- value
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
-\code{\link{SsimLibrary}}, or \code{\link{Folder}} object}
+\item{ssimObject}{\code{\linkS4class{Scenario}}, \code{\linkS4class{Project}},
+\code{\linkS4class{SsimLibrary}}, or \code{\linkS4class{Folder}} object}
 
 \item{value}{logical. If \code{TRUE} the SsimObject will be read-only. Default is
 \code{FALSE}}
@@ -51,9 +51,9 @@ A logical: \code{TRUE} if the SsimObject is read-only and \code{FALSE}
 otherwise.
 }
 \description{
-Retrieves or sets whether or not a \code{\link{SsimLibrary}},
-\code{\link{Project}}, \code{\link{Scenario}}, \code{\link{Folder}},
-or \code{\link{Chart}} is read-only.
+Retrieves or sets whether or not a \code{\linkS4class{SsimLibrary}},
+\code{\linkS4class{Project}}, \code{\linkS4class{Scenario}}, \code{\linkS4class{Folder}},
+or \code{\linkS4class{Chart}} is read-only.
 }
 \examples{
 \donttest{

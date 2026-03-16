@@ -27,7 +27,8 @@ installConda(session, software = "miniforge")
 
 - session:
 
-  `Session` object. If `NULL` (default),
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object. If `NULL` (default),
   [`session()`](https://syncrosim.github.io/rsyncrosim/reference/session.md)
   will be used
 

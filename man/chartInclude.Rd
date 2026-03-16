@@ -3,7 +3,7 @@
 \name{chartInclude}
 \alias{chartInclude}
 \alias{chartInclude,Chart-method}
-\title{Add or remove values by column in a \code{\link{Chart}}}
+\title{Add or remove values by column in a \code{\linkS4class{Chart}}}
 \usage{
 chartInclude(
   chart,
@@ -24,7 +24,7 @@ chartInclude(
 )
 }
 \arguments{
-\item{chart}{\code{\link{Chart}} object}
+\item{chart}{\code{\linkS4class{Chart}} object}
 
 \item{variable}{character. A variable belonging to the X or Y axis.}
 
@@ -45,7 +45,7 @@ A \code{Chart} object representing a SyncroSim chart
 }
 \description{
 Add or remove values by a specified column in the X or Y axis of a
-\code{\link{Chart}}.
+\code{\linkS4class{Chart}}.
 }
 \examples{
 \dontrun{

@@ -1,7 +1,12 @@
 # Retrieves the temporary file path to a SyncroSim object on disk
 
-Retrieves the temporary file path to a SyncroSim `Session`,
-`SsimLibrary`, `Project` or `Scenario` on disk.
+Retrieves the temporary file path to a SyncroSim
+[`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md),
+[`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md),
+[`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md)
+or
+[`Scenario`](https://syncrosim.github.io/rsyncrosim/reference/Scenario-class.md)
+on disk.
 
 ## Usage
 
@@ -22,7 +27,11 @@ tempfilepath(ssimObject)
 
 - ssimObject:
 
-  `Session`, `Project`, or `SsimLibrary` object
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md),
+  [`Project`](https://syncrosim.github.io/rsyncrosim/reference/Project-class.md),
+  or
+  [`SsimLibrary`](https://syncrosim.github.io/rsyncrosim/reference/SsimLibrary-class.md)
+  object
 
 ## Value
 

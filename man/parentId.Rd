@@ -16,7 +16,7 @@ parentId(child)
 \S4method{parentId}{Folder}(child)
 }
 \arguments{
-\item{child}{\code{\link{Scenario}} or \code{\link{Folder}} object}
+\item{child}{\code{\linkS4class{Scenario}} or \code{\linkS4class{Folder}} object}
 }
 \value{
 An integer id of the parent Scenario if input is a Scenario, or an integer

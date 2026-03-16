@@ -22,15 +22,15 @@ projectId(ssimObject)
 \S4method{projectId}{Chart}(ssimObject)
 }
 \arguments{
-\item{ssimObject}{\code{\link{Scenario}}, \code{\link{Project}},
-\code{\link{Folder}}, or \code{\link{Chart}} object}
+\item{ssimObject}{\code{\linkS4class{Scenario}}, \code{\linkS4class{Project}},
+\code{\linkS4class{Folder}}, or \code{\linkS4class{Chart}} object}
 }
 \value{
 An integer: project id.
 }
 \description{
-Retrieves the projectId of a SyncroSim \code{\link{Project}},
-\code{\link{Scenario}}, \code{\link{Folder}} or \code{\link{Chart}}.
+Retrieves the projectId of a SyncroSim \code{\linkS4class{Project}},
+\code{\linkS4class{Scenario}}, \code{\linkS4class{Folder}} or \code{\linkS4class{Chart}}.
 }
 \examples{
 \donttest{

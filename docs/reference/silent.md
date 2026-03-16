@@ -1,7 +1,9 @@
 # Silent status of SyncroSim Session
 
-Checks or sets whether a SyncroSim `Session` is silent or not. In a
-silent session, warnings from the console are ignored.
+Checks or sets whether a SyncroSim
+[`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+is silent or not. In a silent session, warnings from the console are
+ignored.
 
 ## Usage
 
@@ -27,7 +29,8 @@ silent(session) <- value
 
 - session:
 
-  `Session` object or character (i.e. filepath to a session). If `NULL`,
+  [`Session`](https://syncrosim.github.io/rsyncrosim/reference/Session-class.md)
+  object or character (i.e. filepath to a session). If `NULL`,
   [`session()`](https://syncrosim.github.io/rsyncrosim/reference/session.md)
   will be used
 
