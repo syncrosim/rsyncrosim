@@ -26,7 +26,7 @@ SyncroSim User Interface, but is by default at the same level as the
 SsimLibrary file, and is called libraryName.backup.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

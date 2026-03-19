@@ -37,7 +37,7 @@ Retrieves the Folder Id of a SyncroSim \code{\linkS4class{Folder}} or
 desired folder in the SyncroSim User Interface.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

@@ -23,7 +23,7 @@ compacting) and \code{FALSE} upon failure.
 Compact a \code{\linkS4class{SsimLibrary}}. Removes extraneous data from the SyncroSim library.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

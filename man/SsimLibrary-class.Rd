@@ -7,12 +7,12 @@
 \description{
 \code{SsimLibrary} object representing a SyncroSim Library. A SsimLibrary is the
 highest level of organization in the SyncroSim workflow and contains at
-least one \code{\link{Project}}.
+least one \code{\link{Project-class}}.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{\code{\link{Session}} object}
+\item{\code{session}}{\code{\link{Session-class}} object}
 
 \item{\code{filepath}}{character string. The path to the SsimLibrary on disk}
 

@@ -130,7 +130,7 @@ A SpatRaster object, or List. See terra package documentation for details.
 Please use \code{\link{datasheet}} to get the path to the raster file instead.
 
 This function retrieves spatial columns from one or more SyncroSim
-\code{\link{Scenario}} Datasheets.
+\code{\link{Scenario-class}} Datasheets.
 
 The names of the returned SpatRaster contain metadata.
 For Datasheets without Filename this is:

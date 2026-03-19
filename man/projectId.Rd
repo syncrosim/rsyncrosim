@@ -33,7 +33,7 @@ Retrieves the projectId of a SyncroSim \code{\linkS4class{Project}},
 \code{\linkS4class{Scenario}}, \code{\linkS4class{Folder}} or \code{\linkS4class{Chart}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib")
 

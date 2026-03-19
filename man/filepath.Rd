@@ -31,7 +31,7 @@ Retrieves the path to a SyncroSim \code{\linkS4class{Session}},
 of \code{\linkS4class{Folder}} on disk.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

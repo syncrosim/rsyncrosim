@@ -13,7 +13,7 @@ of Scenarios.
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{\code{\link{Session}} object. The Session associated with the
+\item{\code{session}}{\code{\link{Session-class}} object. The Session associated with the
 Project's SsimLibrary}
 
 \item{\code{filepath}}{character string. The path to the Project's SsimLibrary on disk}

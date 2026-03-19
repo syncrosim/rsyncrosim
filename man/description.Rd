@@ -35,7 +35,7 @@ Get or set the description of a \code{\linkS4class{SsimLibrary}}, \code{\linkS4c
 or \code{\linkS4class{Scenario}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

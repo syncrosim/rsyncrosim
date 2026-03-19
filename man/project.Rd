@@ -54,7 +54,7 @@ named element. Note that SyncroSim automatically assigns an id to a new Project.
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(),"testlib_project")
 

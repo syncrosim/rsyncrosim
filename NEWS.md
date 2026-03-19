@@ -16,6 +16,7 @@
 
 
 ## Minor improvements and fixes:
+
 * Updated package dependencies
 * Fixed links for classes in documentation (scenario, project, library, folder)
 * datasheet filterValue argument now accepts vectors to allow filtering on multiple values at once

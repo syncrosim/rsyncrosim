@@ -22,7 +22,7 @@ An integer: chart id.
 Retrieves the Chart Id of a SyncroSim \code{\linkS4class{Chart}}.
 }
 \examples{
-\donttest{
+\dontrun{
 # Set the file path and name of the new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

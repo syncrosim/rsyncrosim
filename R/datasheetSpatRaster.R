@@ -10,7 +10,7 @@ NULL
 #' Please use \code{\link{datasheet}} to get the path to the raster file instead.
 #'
 #' This function retrieves spatial columns from one or more SyncroSim
-#' \code{\link{Scenario}} Datasheets.
+#' \code{\link{Scenario-class}} Datasheets.
 #'
 #' @param ssimObject SsimLibrary/Project/Scenario object or list of Scenario objects. If
 #'     SsimLibrary/Project, then \code{scenario} argument is required
@@ -497,7 +497,7 @@ setMethod(
         cMeta$Band
       )
 
-      keepLayers <- intersect(names(cStack), cMeta$layerName)
+      keepLayers <- terra::intersect(names(cStack), cMeta$layerName)
       cStack <- terra::subset(cStack, keepLayers) #TODO: TEST - updated for terra
       missing <- setdiff(cMeta$layerName, names(cStack))
 

@@ -49,7 +49,7 @@ Note that pre-existing dependencies will be removed when adding new dependencies
 those elements are included in the vector of new dependencies.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

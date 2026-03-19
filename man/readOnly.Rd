@@ -56,7 +56,7 @@ Retrieves or sets whether or not a \code{\linkS4class{SsimLibrary}},
 or \code{\linkS4class{Chart}} is read-only.
 }
 \examples{
-\donttest{
+\dontrun{
 # Specify file path and name of new SsimLibrary
 myLibraryName <- file.path(tempdir(), "testlib")
 

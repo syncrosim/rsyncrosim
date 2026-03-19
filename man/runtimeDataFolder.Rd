@@ -7,7 +7,7 @@
 runtimeDataFolder(scenario, datasheetName)
 }
 \arguments{
-\item{scenario}{\code{\link{Scenario}} object. A SyncroSim result Scenario}
+\item{scenario}{\code{\link{Scenario-class}} object. A SyncroSim result Scenario}
 
 \item{datasheetName}{character. The datasheet name}
 }

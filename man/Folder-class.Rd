@@ -6,14 +6,14 @@
 \title{SyncroSim Folder class}
 \description{
 \code{Folder} object representing a SyncroSim Folder. A Folder is used to
-organize SyncroSim Scenarios within a \code{\link{Project}}, and can be
+organize SyncroSim Scenarios within a \code{\link{Project-class}}, and can be
 nested within other Folders at the project-level. These are used mostly in
 the SyncroSim User Interface.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{session}}{\code{\link{Session}} object. The Session associated with the
+\item{\code{session}}{\code{\link{Session-class}} object. The Session associated with the
 Folder's SsimLibrary}
 
 \item{\code{filepath}}{character string. The path to the Folder's SsimLibrary on disk}
