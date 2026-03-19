@@ -39,7 +39,7 @@ myLibrary <- ssimLibrary(name = myLibraryName,
                          session = mySession, 
                          packages = "stsim",
                          overwrite = TRUE) 
-#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpsFazdk/testlib.ssim deleted
+#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpWUJoYX/testlib.ssim deleted
 #> Package <stsim v4.5.3> added
 myProject <- project(myLibrary, project = "Definitions")
 
