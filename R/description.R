@@ -16,7 +16,7 @@ NULL
 #' A character string: the description of the SsimObject
 #' 
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 

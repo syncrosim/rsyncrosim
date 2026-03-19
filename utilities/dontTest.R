@@ -1,4 +1,4 @@
-setwd("C:/gitprojects/rsyncrosim")
+setwd("C:/GH_ApexRMS/rsyncrosim")
 
 scripts <- list.files(path = "./R", pattern = ".R", full.names = T)
 

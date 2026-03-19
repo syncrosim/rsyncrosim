@@ -94,7 +94,7 @@ setMethod(f = "initialize", signature = "Session",
 #' A SyncroSim \code{\linkS4class{Session}} object.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Specify file path and name of new SsimLibrary
 #' myLibraryName <- file.path(tempdir(), "testlib")
 #' 
