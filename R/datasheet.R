@@ -172,6 +172,7 @@ NULL
 #' 
 #' @export
 #' @import RSQLite
+#' @import RSQLite
 setGeneric(
   "datasheet",
   function(
