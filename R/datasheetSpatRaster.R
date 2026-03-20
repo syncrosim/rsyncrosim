@@ -497,7 +497,7 @@ setMethod(
         cMeta$Band
       )
 
-      keepLayers <- terra::intersect(names(cStack), cMeta$layerName)
+      keepLayers <- base::intersect(names(cStack), cMeta$layerName)
       cStack <- terra::subset(cStack, keepLayers) #TODO: TEST - updated for terra
       missing <- setdiff(cMeta$layerName, names(cStack))
 
