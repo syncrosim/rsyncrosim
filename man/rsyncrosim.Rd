@@ -25,7 +25,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: ApexRMS \email{rsyncrosim@syncrosim.com} [copyright holder]
+\strong{Maintainer}: Leonardo Frid \email{rsyncrosim@syncrosim.com}
 
 Authors:
 \itemize{
@@ -34,11 +34,15 @@ Authors:
   \item Valentin Lucet
   \item Alex Embrey
   \item Katie Birchard \email{katie.birchard@apexrms.com}
-  \item Leonardo Frid
   \item Tabitha Kennedy
   \item Shreeram Senthivasan
   \item Vicki Zhang \email{vicki.zhang@apexrms.com}
   \item Hannah Adams \email{hannah.adams@apexrms.com}
+}
+
+Other contributors:
+\itemize{
+  \item ApexRMS [copyright holder]
 }
 
 }

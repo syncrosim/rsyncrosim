@@ -43,7 +43,7 @@ examples in the documentation are prevented from being checked using `\donttest{
 
 ## R CMD check results
 
-── R CMD check results ───────────────────────────────────rsyncrosim 2.1.13 ────
-Duration: 1m 32.4s
+── R CMD check results ────────────────────────────────── rsyncrosim 2.1.13 ────
+Duration: 1m 34.2s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
