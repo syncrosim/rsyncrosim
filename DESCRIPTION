@@ -13,17 +13,17 @@ Authors@R: c(
            role = "aut"),
     person("Katie", "Birchard", email="katie.birchard@apexrms.com",
            role = c("aut")),
-    person("Leonardo", "Frid", 
-           role = "aut"), 
+    person("Leonardo", "Frid", email = "rsyncrosim@syncrosim.com", 
+           role = c("aut", "cre")), 
     person("Tabitha", "Kennedy", 
            role = "aut"),
     person("Shreeram", "Senthivasan",
            role = "aut"),
     person("Vicki", "Zhang", email = "vicki.zhang@apexrms.com",
-           role = c("aut", "cre")),
+           role = c("aut")),
     person("Hannah", "Adams", email = "hannah.adams@apexrms.com",
            role = c("aut")),
-    person("ApexRMS", email = "rsyncrosim@syncrosim.com",
+    person("ApexRMS", 
            role=c("cph")))
 Description: 'SyncroSim' is a generalized framework for managing scenario-based 
     datasets (<https://syncrosim.com/>). 'rsyncrosim' provides an interface to 
