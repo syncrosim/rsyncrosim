@@ -171,6 +171,7 @@ NULL
 #' }
 #' 
 #' @export
+#' @importFrom stats setNames
 #' @import RSQLite
 setGeneric(
   "datasheet",
