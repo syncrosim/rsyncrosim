@@ -48,7 +48,7 @@ Suggests:
     testthat (>= 3.0.0),
     ggplot2,
     Rcpp,
-    rmarkdown,
+    rmarkdown
 SystemRequirements: SyncroSim (>=3.1.0)
 Collate: 
     'AAAClassDefinitions.R'
