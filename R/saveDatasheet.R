@@ -155,10 +155,13 @@ setMethod("saveDatasheet", signature(ssimObject = "SsimObject"),
   colsToKeep <- colsToKeep[!colsToKeep %in% c(dsNameID)]
   
   # Determine if any columns in incoming data do not exist in datasheet
-  unknownCols <- !colnames(data) %in% colsToKeep
+  # Exclude known ID columns that are intentionally stripped (e.g. when data
+  # was loaded with includeKey = TRUE)
+  knownIdCols <- c("LibraryId", "ProjectId", "ScenarioId", dsNameID)
+  unknownCols <- !colnames(data) %in% c(colsToKeep, knownIdCols)
   if (any(unknownCols)) {
     unknownCols <- colnames(data)[unknownCols]
-    stop(paste0("The following column does not exist in the datasheet: ", 
+    stop(paste0("The following column does not exist in the datasheet: ",
                 unknownCols))
   }
   
