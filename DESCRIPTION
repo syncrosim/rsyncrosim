@@ -20,7 +20,7 @@ Authors@R: c(
     person("Shreeram", "Senthivasan",
            role = "aut"),
     person("Vicki", "Zhang", email = "vicki.zhang@apexrms.com",
-           role = c("aut"),
+           role = c("aut")),
     person("Hannah", "Adams", email = "hannah.adams@apexrms.com",
            role = c("aut")),
     person("ApexRMS",
