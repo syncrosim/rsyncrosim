@@ -1463,7 +1463,7 @@ setMethod(
 
       sheet <- sheet[rowSums(is.na(sheet)) != ncol(sheet), , drop = FALSE]
 
-      if (showFullPaths && isTRUE(sheetNames$isOutput) && nrow(sheet) > 0) {
+      if (showFullPaths && nrow(sheet) > 0) {
         fileColNames <- character(0)
         if ("properties" %in% names(cPropsAll)) {
           fileColNames <- cPropsAll$name[
