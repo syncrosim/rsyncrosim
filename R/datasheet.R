@@ -93,11 +93,11 @@ NULL
 #' @param verbose logical. If set to \code{FALSE}, will not print notes about
 #'     datasheet validation. Default is \code{TRUE}.
 #' @param showFullPaths logical. If \code{TRUE}, returns the full file path for
-#'     external file columns (e.g. raster files) in output Datasheets, rather
-#'     than just the file name. The output folder is determined by checking for
-#'     a custom folder in the library's \code{core_SysFolder} Datasheet; if
-#'     none is set, the default SyncroSim output folder is used. Default is
-#'     \code{FALSE}.
+#'     external file columns (e.g. raster files) in the specified Datasheet,
+#'     rather than just the file name. The output folder is determined by
+#'     checking for a custom folder in the library's \code{core_SysFolder}
+#'     Datasheet; if none is set, the default SyncroSim output folder is used.
+#'     Default is \code{FALSE}.
 #'
 #' @return
 #' If \code{summary=TRUE} returns a data.frame of Datasheet names
