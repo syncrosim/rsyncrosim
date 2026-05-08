@@ -782,7 +782,6 @@ setMethod(
                 sheet = name,
                 file = tempFile,
                 valsheets = NULL,
-                extfilepaths = NULL,
                 includepk = NULL,
                 force = NULL,
                 colswithdata = NULL
@@ -794,10 +793,12 @@ setMethod(
                 sheet = name,
                 file = tempFile,
                 valsheets = NULL,
-                extfilepaths = NULL,
                 includepk = NULL,
                 force = NULL
               )
+            }
+            if (showFullPaths) {
+              args <- append(args, list(extfilepaths = NULL))
             }
             args <- assignPidSid(args, sheetNames, pid, sid)
 
