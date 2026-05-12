@@ -92,6 +92,12 @@ NULL
 #'     \code{FALSE}.
 #' @param verbose logical. If set to \code{FALSE}, will not print notes about
 #'     datasheet validation. Default is \code{TRUE}.
+#' @param showFullPaths logical. If \code{TRUE}, returns the full file path for
+#'     external file columns (e.g. raster files) in the specified
+#'     scenario-scoped Datasheet, rather than just the file name. The output
+#'     folder is determined by checking for a custom folder in the library's
+#'     \code{core_SysFolder} Datasheet; if none is set, the default SyncroSim
+#'     output folder is used. Default is \code{FALSE}.
 #'
 #' @return
 #' If \code{summary=TRUE} returns a data.frame of Datasheet names
@@ -193,7 +199,8 @@ setGeneric(
     returnScenarioInfo = FALSE,
     returnInvisible = FALSE,
     rawValues = FALSE,
-    verbose = TRUE
+    verbose = TRUE,
+    showFullPaths = FALSE
   ) {
     standardGeneric("datasheet")
   }
@@ -222,7 +229,8 @@ setMethod(
     returnScenarioInfo,
     returnInvisible,
     rawValues,
-    verbose
+    verbose,
+    showFullPaths
   ) {
     cScn <- ssimObject[[1]]
     x <- NULL
@@ -275,7 +283,8 @@ setMethod(
       returnScenarioInfo = returnScenarioInfo,
       returnInvisible = returnInvisible,
       rawValues = rawValues,
-      verbose = verbose
+      verbose = verbose,
+      showFullPaths = showFullPaths
     )
 
     return(out)
@@ -303,7 +312,8 @@ setMethod(
     returnScenarioInfo,
     returnInvisible,
     rawValues,
-    verbose
+    verbose,
+    showFullPaths
   ) {
     return(SyncroSimNotFound(ssimObject))
   }
@@ -331,7 +341,8 @@ setMethod(
     returnScenarioInfo,
     returnInvisible,
     rawValues,
-    verbose
+    verbose,
+    showFullPaths
   ) {
     temp <- NULL
     ProjectId <- NULL
@@ -771,7 +782,6 @@ setMethod(
                 sheet = name,
                 file = tempFile,
                 valsheets = NULL,
-                extfilepaths = NULL,
                 includepk = NULL,
                 force = NULL,
                 colswithdata = NULL
@@ -783,10 +793,12 @@ setMethod(
                 sheet = name,
                 file = tempFile,
                 valsheets = NULL,
-                extfilepaths = NULL,
                 includepk = NULL,
                 force = NULL
               )
+            }
+            if (showFullPaths) {
+              args <- append(args, list(extfilepaths = NULL))
             }
             args <- assignPidSid(args, sheetNames, pid, sid)
 
@@ -1451,6 +1463,67 @@ setMethod(
       }
 
       sheet <- sheet[rowSums(is.na(sheet)) != ncol(sheet), , drop = FALSE]
+
+      if (showFullPaths && nrow(sheet) > 0) {
+        fileColNames <- character(0)
+        if ("properties" %in% names(cPropsAll)) {
+          fileColNames <- cPropsAll$name[
+            grepl("isRaster^True", cPropsAll$properties, fixed = TRUE) |
+            grepl("isExternalFile^True", cPropsAll$properties, fixed = TRUE)
+          ]
+        }
+        fileColNames <- intersect(fileColNames, names(sheet))
+
+        if (length(fileColNames) > 0) {
+          customOutputDir <- NULL
+          tryCatch({
+            sysFolderSheet <- .datasheet(x, name = "core_SysFolder",
+                                         lookupsAsFactors = FALSE,
+                                         optional = TRUE,
+                                         verbose = FALSE,
+                                         showFullPaths = FALSE)
+            if (!is.null(sysFolderSheet) && nrow(sysFolderSheet) > 0) {
+              for (dirCol in c("OutputDirectory", "FolderName", "OutputFolderName")) {
+                if (dirCol %in% names(sysFolderSheet) &&
+                    !is.na(sysFolderSheet[[dirCol]][1]) &&
+                    nchar(as.character(sysFolderSheet[[dirCol]][1])) > 0) {
+                  customOutputDir <- as.character(sysFolderSheet[[dirCol]][1])
+                  break
+                }
+              }
+            }
+          }, error = function(e) NULL)
+
+          for (col in fileColNames) {
+            vals <- sheet[[col]]
+
+            if ("ScenarioId" %in% names(sheet)) {
+              for (cSid in unique(sheet$ScenarioId[!is.na(sheet$ScenarioId)])) {
+                folderPath <- if (!is.null(customOutputDir)) {
+                  file.path(customOutputDir, paste0("Scenario-", cSid), name)
+                } else {
+                  paste0(.filepath(x), ".data/Scenario-", cSid, "/", name)
+                }
+                rowMask <- !is.na(sheet$ScenarioId) & sheet$ScenarioId == cSid
+                toUpdate <- rowMask & !is.na(vals) &
+                  !grepl("^(/|[A-Za-z]:[/\\\\])", as.character(vals))
+                sheet[[col]][toUpdate] <- file.path(folderPath, vals[toUpdate])
+              }
+            } else if (!is.null(sid) && length(sid) > 0) {
+              cSid <- sid[1]
+              folderPath <- if (!is.null(customOutputDir)) {
+                file.path(customOutputDir, paste0("Scenario-", cSid), name)
+              } else {
+                paste0(.filepath(x), ".data/Scenario-", cSid, "/", name)
+              }
+              toUpdate <- !is.na(vals) &
+                !grepl("^(/|[A-Za-z]:[/\\\\])", as.character(vals))
+              sheet[[col]][toUpdate] <- file.path(folderPath, vals[toUpdate])
+            }
+          }
+        }
+      }
+
       outSheetList[[cName]] <- sheet
 
       # return single row datasheets as named vectors (if not for multiple scenarios)
