@@ -134,11 +134,11 @@ scenario(myLibrary)
 #> 2                                               No        Yes
 #> 3                                               No         No
 #> 4                                               No         No
-#>        DateLastModified
-#> 1 2026-03-19 at 1:13 PM
-#> 2 2026-03-19 at 1:14 PM
-#> 3 2026-03-19 at 1:15 PM
-#> 4 2026-03-19 at 1:15 PM
+#>         DateLastModified
+#> 1 2026-05-14 at 12:22 PM
+#> 2 2026-05-14 at 12:22 PM
+#> 3 2026-05-14 at 12:23 PM
+#> 4 2026-05-14 at 12:23 PM
 
 # Only return the results Scenarios for a SsimLibrary
 scenario(myLibrary, results = TRUE)

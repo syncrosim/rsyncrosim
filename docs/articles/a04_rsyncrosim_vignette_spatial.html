@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.12</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.13</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -158,7 +158,7 @@ the SyncroSim software.</p>
 <span><span class="va">mySession</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/session.html">session</a></span><span class="op">(</span><span class="op">)</span>                              <span class="co"># Using default install folder (Windows only)</span></span>
 <span><span class="va">mySession</span>                                           <span class="co"># Displays the Session object</span></span></code></pre></div>
 <pre><code><span><span class="co">## class               : Session</span></span>
-<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~1</span></span>
+<span><span class="co">## filepath [character]: C:\PROGRA~1\SYNCRO~3</span></span>
 <span><span class="co">## silent [logical]    : TRUE</span></span>
 <span><span class="co">## printCmd [logical]  : FALSE</span></span>
 <span><span class="co">## condaFilepath [NULL]:</span></span></code></pre>
@@ -166,7 +166,7 @@ the SyncroSim software.</p>
 latest version of SyncroSim.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/version.html">version</a></span><span class="op">(</span><span class="va">mySession</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3.1.27"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "3.1.30"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="installing-syncrosim-packages-using-installpackage">Installing SyncroSim packages using
@@ -190,8 +190,8 @@ list returned by the <code><a href="../reference/packages.html">packages()</a></
 <span><span class="co">## 1 helloworldSpatial   2.1.0</span></span>
 <span><span class="co">##                                                     description</span></span>
 <span><span class="co">## 1 Example demonstrating how to use spatial data with an R model</span></span>
-<span><span class="co">##                                                                               location</span></span>
-<span><span class="co">## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0</span></span>
+<span><span class="co">##                                                                                location</span></span>
+<span><span class="co">## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0</span></span>
 <span><span class="co">##   status</span></span>
 <span><span class="co">## 1     OK</span></span></code></pre>
 </div>
@@ -500,13 +500,13 @@ using the <code><a href="../reference/datasheet.html">datasheet()</a></code> fun
 <span></span>
 <span><span class="co"># View results table of first transformer in the pipeline</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep        y        OutputRasterFile</span></span>
-<span><span class="co">## 1         1        1 104.0214 rasterMap_iter1_ts1.tif</span></span>
-<span><span class="co">## 2         1        2 212.3768 rasterMap_iter1_ts2.tif</span></span>
-<span><span class="co">## 3         1        3 320.7322 rasterMap_iter1_ts3.tif</span></span>
-<span><span class="co">## 4         1        4 429.0876 rasterMap_iter1_ts4.tif</span></span>
-<span><span class="co">## 5         1        5 537.4429 rasterMap_iter1_ts5.tif</span></span>
-<span><span class="co">## 6         1        6 645.7983 rasterMap_iter1_ts6.tif</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep          y        OutputRasterFile</span></span>
+<span><span class="co">## 1         1        1  -178.7381 rasterMap_iter1_ts1.tif</span></span>
+<span><span class="co">## 2         1        2  -353.1423 rasterMap_iter1_ts2.tif</span></span>
+<span><span class="co">## 3         1        3  -527.5464 rasterMap_iter1_ts3.tif</span></span>
+<span><span class="co">## 4         1        4  -701.9505 rasterMap_iter1_ts4.tif</span></span>
+<span><span class="co">## 5         1        5  -876.3547 rasterMap_iter1_ts5.tif</span></span>
+<span><span class="co">## 6         1        6 -1050.7588 rasterMap_iter1_ts6.tif</span></span></code></pre>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load results of second transformer in the pipeline</span></span>
 <span><span class="va">resultsSummary2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datasheet.html">datasheet</a></span><span class="op">(</span><span class="va">myResultScenario</span>,</span>
@@ -514,13 +514,13 @@ using the <code><a href="../reference/datasheet.html">datasheet()</a></code> fun
 <span></span>
 <span><span class="co"># View results table of second transformer in the pipeline</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">resultsSummary2</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Iteration Timestep      yCum</span></span>
-<span><span class="co">## 1         1        1  104.0214</span></span>
-<span><span class="co">## 2         1        2  316.3982</span></span>
-<span><span class="co">## 3         1        3  637.1303</span></span>
-<span><span class="co">## 4         1        4 1066.2179</span></span>
-<span><span class="co">## 5         1        5 1603.6608</span></span>
-<span><span class="co">## 6         1        6 2249.4592</span></span></code></pre>
+<pre><code><span><span class="co">##   Iteration Timestep       yCum</span></span>
+<span><span class="co">## 1         1        1  -178.7381</span></span>
+<span><span class="co">## 2         1        2  -531.8804</span></span>
+<span><span class="co">## 3         1        3 -1059.4268</span></span>
+<span><span class="co">## 4         1        4 -1761.3774</span></span>
+<span><span class="co">## 5         1        5 -2637.7320</span></span>
+<span><span class="co">## 6         1        6 -3688.4909</span></span></code></pre>
 <p>From viewing these datasheets, we can see that the spatial output is
 contained within the <code>IntermediateDatasheet</code>, in the column
 called <code>OutputRasterFile</code>.</p>
@@ -554,11 +554,11 @@ single raster image or a subset of raster images we want to view.</p>
 <span><span class="co">## size        : 5, 5, 1  (nrow, ncol, nlyr)</span></span>
 <span><span class="co">## resolution  : 0.4, 0.4  (x, y)</span></span>
 <span><span class="co">## extent      : -1, 1, -1, 1  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">## coord. ref. : lon/lat WGS 84 </span></span>
+<span><span class="co">## coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
 <span><span class="co">## source      : rasterMap_iter1_ts5.tif </span></span>
 <span><span class="co">## name        : rasterMap_iter1_ts5 </span></span>
-<span><span class="co">## min value   :            19.04526 </span></span>
-<span><span class="co">## max value   :            23.78952</span></span></code></pre>
+<span><span class="co">## min value   :           -37.50665 </span></span>
+<span><span class="co">## max value   :           -32.76239</span></span></code></pre>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rasterMaps</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a04_rsyncrosim_vignette_spatial_files/figure-html/view%20results%20raster-1.png" class="r-plt" width="700"></p>
@@ -590,7 +590,7 @@ Studio to map spatial data</div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan.</p>
+  <p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan, Vicki Zhang, Hannah Adams.</p>
 </div>
 
 <div class="pkgdown-footer-right">

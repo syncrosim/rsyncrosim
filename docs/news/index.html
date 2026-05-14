@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rsyncrosim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.12</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,22 +42,31 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.1.12" id="rsyncrosim-2112">rsyncrosim 2.1.12<a class="anchor" aria-label="anchor" href="#rsyncrosim-2112"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.1.14" id="rsyncrosim-2114">rsyncrosim 2.1.14<a class="anchor" aria-label="anchor" href="#rsyncrosim-2114"></a></h2>
 <div class="section level3">
-<h3 id="breaking-changes-2-1-12">Breaking changes:<a class="anchor" aria-label="anchor" href="#breaking-changes-2-1-12"></a></h3>
+<h3 id="breaking-changes-2-1-14">Breaking changes:<a class="anchor" aria-label="anchor" href="#breaking-changes-2-1-14"></a></h3>
 </div>
 <div class="section level3">
-<h3 id="bug-fixes-2-1-12">Bug fixes:<a class="anchor" aria-label="anchor" href="#bug-fixes-2-1-12"></a></h3>
-</div>
-<div class="section level3">
-<h3 id="new-features-2-1-12">New features:<a class="anchor" aria-label="anchor" href="#new-features-2-1-12"></a></h3>
-</div>
-<div class="section level3">
-<h3 id="minor-improvements-and-fixes-2-1-12">Minor improvements and fixes:<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-2-1-12"></a></h3>
-<ul><li>Fixed links for classes in documentation (scenario, project, library, folder)</li>
+<h3 id="bug-fixes-2-1-14">Bug fixes:<a class="anchor" aria-label="anchor" href="#bug-fixes-2-1-14"></a></h3>
+<ul><li>Fixed <code>chartOptions*</code>, <code>chartData</code>, and <code>chartErrorBar</code> functions throwing an error about a missing <code>ChartId</code> column</li>
+<li>Improved raster layer matching to ensure consistent layer selection and warnings</li>
+<li>Fixed missing parenthesis in <code>DESCRIPTION</code> file that was causing package builds to fail</li>
+<li>Fixed <code>README</code> license badge link formatting</li>
 </ul></div>
 <div class="section level3">
-<h3 id="deprecations-2-1-12">Deprecations:<a class="anchor" aria-label="anchor" href="#deprecations-2-1-12"></a></h3>
+<h3 id="new-features-2-1-14">New features:<a class="anchor" aria-label="anchor" href="#new-features-2-1-14"></a></h3>
+<ul><li>Added <code>showFullPaths</code> argument to <code><a href="../reference/datasheet.html">datasheet()</a></code> to control whether columns containing external file references return filenames or fully-resolved absolute paths</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixes-2-1-14">Minor improvements and fixes:<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-2-1-14"></a></h3>
+<ul><li>Added <code>terra</code> as an optional dependency</li>
+<li>Updated package author role entries</li>
+<li>Added import directive for <code><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">stats::setNames</a></code>
+</li>
+<li>Improved S4 class cross-reference links and a function parameter reference</li>
+</ul></div>
+<div class="section level3">
+<h3 id="deprecations-2-1-14">Deprecations:<a class="anchor" aria-label="anchor" href="#deprecations-2-1-14"></a></h3>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -65,7 +74,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan.</p>
+  <p>Developed by Colin Daniel, Josie Hughes, Valentin Lucet, Alex Embrey, Katie Birchard, Leonardo Frid, Tabitha Kennedy, Shreeram Senthivasan, Vicki Zhang, Hannah Adams.</p>
 </div>
 
 <div class="pkgdown-footer-right">

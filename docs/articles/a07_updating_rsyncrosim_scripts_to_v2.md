@@ -17,6 +17,7 @@ install and uninstall packages from SyncroSim. Now to install and
 uninstall packages from SyncroSim, use:
 
 ``` r
+
 # Installs the selected package(s) to SyncroSim
 installPackage()  
 
@@ -32,6 +33,7 @@ install. If you do not specify a version, then the latest version of the
 package will be installed.
 
 ``` r
+
 # Install ST-Sim version 4.0.0
 installPackage(myLibrary, packages = "stsim", versions = "4.0.0")
 
@@ -46,6 +48,7 @@ not specify a version, then all versions of that package will be
 uninstalled.
 
 ``` r
+
 # Uninstall ST-Sim version 4.0.0
 uninstallPackage(myLibrary, packages = "stsim", versions = "4.0.0")
 
@@ -59,6 +62,7 @@ Now you can use multiple SyncroSim packages in a single library. To add
 and remove packages from your library, use:
 
 ``` r
+
 # Adds package(s) to the library
 addPackage()    
 
@@ -76,6 +80,7 @@ function to load a specific version of a package in a library, or to
 change the version of a package that the library uses.
 
 ``` r
+
 # Add ST-Sim version 4.0.0 to your library
 addPackage(myLibrary, packages = "stsim", versions = "4.0.0")
 
@@ -102,6 +107,7 @@ function:
 - The `package` argument has been renamed to `packages` (plural).
 
 ``` r
+
 # rsyncrosim version 1:
 myLibrary <- ssimLibrary(package = "PackageName", addon = "AddonName")
 
@@ -135,6 +141,7 @@ function has changed.
 To view the existing dependencies for a scenario:
 
 ``` r
+
 dependency(myScenario)
 ```
 
@@ -144,11 +151,13 @@ dependency(myScenario)
 To set dependencies for a scenario:
 
 ``` r
+
 # rsyncrosim version 1:
 dependency(myScenario, dependency = c("Scenario 2", "Scenario 3"))
 ```
 
 ``` r
+
 # rsyncrosim version 2:
 dependency(myScenario) <- c("Scenario 2", "Scenario 3")
 
@@ -170,6 +179,7 @@ of cores to use during a multiprocessing run. Instead, use the
 `core_Multiprocessing` library datasheet to set the number of cores.
 
 ``` r
+
 multiprocessing <- data.frame(EnableMultiprocessing = TRUE,
                               MaximumJobs = 6)
   
@@ -241,6 +251,7 @@ Below is an example of a datasheet with the new naming convention for
 primary keys:
 
 ``` r
+
 datasheet(myScenario, "stsim_FlowPathway", includeKey = TRUE)
 ```
 
@@ -263,6 +274,7 @@ the [reference
 guide](https://syncrosim.github.io/rsyncrosim/reference/index.html).
 
 ``` r
+
 # creates the conda environment for the selected package(s)
 createCondaEnv()
 

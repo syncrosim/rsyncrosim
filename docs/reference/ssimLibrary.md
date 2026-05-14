@@ -132,7 +132,7 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
 # Retrieve SsimLibrary properties
 session(myLibrary)
 #> class               : Session
-#> filepath [character]: C:\PROGRA~1\SYNCRO~1
+#> filepath [character]: C:\PROGRA~1\SYNCRO~3
 #> silent [logical]    : TRUE
 #> printCmd [logical]  : FALSE
 #> condaFilepath [NULL]: 
@@ -146,7 +146,7 @@ myLibrary <- ssimLibrary(name = file.path(tempdir(), "mylib"),
                          forceUpdate = TRUE,
                          packages = "helloworldSpatial",
                          overwrite = TRUE)
-#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpWUJoYX/mylib.ssim deleted
+#> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpshjQzV/mylib.ssim deleted
 #> Package <helloworldSpatial v2.1.0> added
                          
 # }

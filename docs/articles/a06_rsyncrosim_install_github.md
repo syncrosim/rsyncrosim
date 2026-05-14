@@ -10,6 +10,7 @@ from GitHub.
     using the following code:
 
 ``` r
+
 detach("package:rsyncrosim", unload=TRUE)
 ```
 
@@ -20,6 +21,7 @@ detach("package:rsyncrosim", unload=TRUE)
     to install that version from the `rsyncrosim` GitHub repository:
 
 ``` r
+
 # Change the line below to your desired rsyncrosim version
 rsyncrosimVersion = "X.X.X"
 
@@ -36,11 +38,13 @@ install.packages(
     following code:
 
 ``` r
+
 .rs.restartR()
 ```
 
 5.  Load the `rsyncrosim` library.
 
 ``` r
+
 library(rsyncrosim)
 ```

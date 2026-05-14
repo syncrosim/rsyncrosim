@@ -64,6 +64,7 @@ of `rsyncrosim` are available for both Windows and Linux.
 In a new R script, load the `rsyncrosim` package.
 
 ``` r
+
 # Load R package for working with SyncroSim
 library(rsyncrosim)
 ```
@@ -76,13 +77,14 @@ creating a SyncroSim Session object. Use the
 function to connect R to your installed copy of the SyncroSim software.
 
 ``` r
+
 mySession <- session("path/to/install_folder")      # Create a Session based SyncroSim install folder
 mySession <- session()                              # Using default install folder (Windows only)
 mySession                                           # Displays the Session object
 ```
 
     ## class               : Session
-    ## filepath [character]: C:\PROGRA~1\SYNCRO~1
+    ## filepath [character]: C:\PROGRA~1\SYNCRO~3
     ## silent [logical]    : TRUE
     ## printCmd [logical]  : FALSE
     ## condaFilepath [NULL]:
@@ -92,10 +94,11 @@ Use the
 function to ensure you are using the latest version of SyncroSim.
 
 ``` r
+
 version(mySession)
 ```
 
-    ## [1] "3.1.27"
+    ## [1] "3.1.30"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -105,6 +108,7 @@ This function takes a package name as input and then queries the
 SyncroSim package server for the specified package.
 
 ``` r
+
 # Install helloworldPipeline
 installPackage("helloworldPipeline")
 ```
@@ -117,6 +121,7 @@ by the
 function in `rsyncrosim`:
 
 ``` r
+
 # Get list of installed packages
 packages()
 ```
@@ -125,8 +130,8 @@ packages()
     ## 1 helloworldPipeline   2.1.1
     ##                                                  description
     ## 1 Example demonstrating how to use pipelines with an R model
-    ##                                                                                location
-    ## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1
+    ##                                                                                 location
+    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldPipeline\\2.1.1
     ##   status
     ## 1     OK
 
@@ -146,6 +151,7 @@ vignette.
 ### Set up library, project, and scenario
 
 ``` r
+
 # Create a new library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
@@ -156,6 +162,7 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
     ## Package <helloworldPipeline v2.1.1> added
 
 ``` r
+
 # Open the default project
 myProject = project(ssimObject = myLibrary, project = "Definitions")
 
@@ -170,6 +177,7 @@ View the datasheets associated with your new scenario using the
 function from `rsyncrosim`.
 
 ``` r
+
 # View all datasheets associated with a library, project, or scenario
 datasheet(myScenario)
 ```
@@ -212,6 +220,7 @@ variable using
 then check the columns that need input values.
 
 ``` r
+
 # Load Inputs datasheet to a new R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldPipeline_InputDatasheet")
@@ -236,6 +245,7 @@ Add these values to a new data frame, then use the
 function from `rsyncrosim` to update the input data frame
 
 ``` r
+
 # Create input data and add it to the input data frame
 myInputRow <- data.frame(mMean = 2, mSD = 4, b = 3)
 myInputDataframe <- addRow(myInputDataframe, myInputRow)
@@ -251,6 +261,7 @@ Finally, save the updated R data frame to a SyncroSim datasheet using
 [`saveDatasheet()`](https://syncrosim.github.io/rsyncrosim/reference/saveDatasheet.md).
 
 ``` r
+
 # Save input R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, 
               data = myInputDataframe,
@@ -267,6 +278,7 @@ iterations, as well as the minimum and maximum time steps for our model.
 Let’s take a look at the columns that need input values.
 
 ``` r
+
 # Load Run Control datasheet to a new R data frame
 runSettings <- datasheet(myScenario, name = "helloworldPipeline_RunControl")
 
@@ -293,6 +305,7 @@ Run Control data frame using
 [`addRow()`](https://syncrosim.github.io/rsyncrosim/reference/addRow.md).
 
 ``` r
+
 # Create Run Control data and add it to the Run Control data frame
 runSettingsRow <- data.frame(MaximumIteration = 5,
                              MinimumTimestep = 1,
@@ -310,6 +323,7 @@ Finally, save the R data frame to a SyncroSim datasheet using
 [`saveDatasheet()`](https://syncrosim.github.io/rsyncrosim/reference/saveDatasheet.md).
 
 ``` r
+
 # Save Run Control R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = runSettings,
               name = "helloworldPipeline_RunControl")
@@ -341,6 +355,7 @@ We will set the data for this datasheet such that
 `Hello World Pipeline 2 (R)`.
 
 ``` r
+
 # Load Pipeline datasheet to a new R data frame
 myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
 
@@ -353,6 +368,7 @@ str(myPipelineDataframe)
     ##  $ RunOrder   : num
 
 ``` r
+
 # Create Pipeline data and add it to the Pipeline data frame
 myPipelineRow <- data.frame(StageNameId = c("Hello World Pipeline 1 (R)", 
                                             "Hello World Pipeline 2 (R)"),
@@ -369,6 +385,7 @@ myPipelineDataframe
     ## 2 Hello World Pipeline 2 (R)        2
 
 ``` r
+
 # Save Pipeline R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = myPipelineDataframe,
               name = "core_Pipeline")
@@ -387,6 +404,7 @@ the number of jobs to five so each multiprocessing core will run a
 single iteration.
 
 ``` r
+
 # Load list of available library-scoped datasheets
 datasheet(myLibrary)
 ```
@@ -408,6 +426,7 @@ datasheet(myLibrary)
     ## 14 library                  core_Terminology                    Terminology
 
 ``` r
+
 # Load the library-scoped multiprocessing datasheet
 multiprocess <- datasheet(myLibrary, name = "core_Multiprocessing")
 ```
@@ -415,6 +434,7 @@ multiprocess <- datasheet(myLibrary, name = "core_Multiprocessing")
     ## [1] "Note: MaximumJobs should be between 1 and 9999"
 
 ``` r
+
 # Check required inputs
 str(multiprocess)
 ```
@@ -426,6 +446,7 @@ str(multiprocess)
     ##  $ EnableCopyExternalFiles: logi NA
 
 ``` r
+
 # Enable multiprocessing
 multiprocess$EnableMultiprocessing <- TRUE
 
@@ -446,6 +467,7 @@ Now, when we run our scenario, it will use the desired multiprocessing
 configuration.
 
 ``` r
+
 # Run the first scenario we created
 myResultScenario <- run(myScenario)
 ```
@@ -462,6 +484,7 @@ has been added to both the `Intermediate Outputs` and `Outputs`
 datasheets after running the scenario (see `data` column below).
 
 ``` r
+
 # Datasheets for original scenario
 datasheet(myScenario, optional = TRUE)
 ```
@@ -486,6 +509,7 @@ datasheet(myScenario, optional = TRUE)
     ## 33             Run Control     TRUE           N/A  TRUE        1
 
 ``` r
+
 # Datasheets for result scenario
 datasheet(myResultScenario, optional = TRUE)
 ```
@@ -523,6 +547,7 @@ function. The `Intermediate Outputs` datasheet corresponds to the
 results from the `Hello World Pipeline 1` transformer stage.
 
 ``` r
+
 # Results of first scenario
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldPipeline_IntermediateDatasheet")
@@ -531,13 +556,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep          y
-    ## 1         1        1  2.3728384
-    ## 2         1        2  1.7456769
-    ## 3         1        3  1.1185153
-    ## 4         1        4  0.4913538
-    ## 5         1        5 -0.1358078
-    ## 6         1        6 -0.7629693
+    ##   Iteration Timestep         y
+    ## 1         1        1  9.521069
+    ## 2         1        2 16.042139
+    ## 3         1        3 22.563208
+    ## 4         1        4 29.084278
+    ## 5         1        5 35.605347
+    ## 6         1        6 42.126417
 
 We can see that for every timestep in an iteration we have a new value
 of *y* corresponding to *y=mt+b*.
@@ -551,6 +576,7 @@ to load the result table. The `Outputs` datasheet corresponds to the
 results from the `Hello World Pipeline 2` transformer stage.
 
 ``` r
+
 # Results of first scenario
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldPipeline_OutputDatasheet")
@@ -559,13 +585,13 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep     yCum
-    ## 1         1        1 2.372838
-    ## 2         1        2 4.118515
-    ## 3         1        3 5.237031
-    ## 4         1        4 5.728384
-    ## 5         1        5 5.592577
-    ## 6         1        6 4.829607
+    ##   Iteration Timestep       yCum
+    ## 1         1        1   9.521069
+    ## 2         1        2  25.563208
+    ## 3         1        3  48.126417
+    ## 4         1        4  77.210694
+    ## 5         1        5 112.816042
+    ## 6         1        6 154.942458
 
 We can see for each timestep in an iteration, we have a new value of
 *yCum*, representing the cumulative value of *y* over time.

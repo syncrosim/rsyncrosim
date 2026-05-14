@@ -65,6 +65,7 @@ In a new R script, load the necessary packages. This includes the
 `rsyncrosim` and `terra` R packages.
 
 ``` r
+
 # Load R packages
 library(rsyncrosim)  # package for working with SyncroSim
 library(terra)       # package for working with spatial data
@@ -78,13 +79,14 @@ creating a SyncroSim Session object. Use the
 function to connect R to your installed copy of the SyncroSim software.
 
 ``` r
+
 mySession <- session("path/to/install_folder")      # Create a Session based SyncroSim install folder
 mySession <- session()                              # Using default install folder (Windows only)
 mySession                                           # Displays the Session object
 ```
 
     ## class               : Session
-    ## filepath [character]: C:\PROGRA~1\SYNCRO~1
+    ## filepath [character]: C:\PROGRA~1\SYNCRO~3
     ## silent [logical]    : TRUE
     ## printCmd [logical]  : FALSE
     ## condaFilepath [NULL]:
@@ -94,10 +96,11 @@ Use the
 function to ensure you are using the latest version of SyncroSim.
 
 ``` r
+
 version(mySession)
 ```
 
-    ## [1] "3.1.27"
+    ## [1] "3.1.30"
 
 ### Installing SyncroSim packages using `installPackage()`
 
@@ -107,6 +110,7 @@ This function takes a package name as input and then queries the
 SyncroSim package server for the specified package.
 
 ``` r
+
 # Install helloworldSpatial
 installPackage("helloworldSpatial")
 ```
@@ -119,6 +123,7 @@ by the
 function in `rsyncrosim`:
 
 ``` r
+
 # Get list of installed packages
 packages()
 ```
@@ -127,8 +132,8 @@ packages()
     ## 1 helloworldSpatial   2.1.0
     ##                                                     description
     ## 1 Example demonstrating how to use spatial data with an R model
-    ##                                                                               location
-    ## 1 C:\\Users\\VickiZhang\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0
+    ##                                                                                location
+    ## 1 C:\\Users\\HannahAdams\\AppData\\Local\\SyncroSim\\Packages\\helloworldSpatial\\2.1.0
     ##   status
     ## 1     OK
 
@@ -148,6 +153,7 @@ vignette.
 ### Set up library, project, and scenario
 
 ``` r
+
 # Create a new library
 myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
                          session = mySession,
@@ -158,6 +164,7 @@ myLibrary <- ssimLibrary(name = "helloworldLibrary.ssim",
     ## Package <helloworldSpatial v2.1.0> added
 
 ``` r
+
 # Open the default project
 myProject = rsyncrosim::project(ssimObject = myLibrary, project = "Definitions")
 
@@ -172,6 +179,7 @@ View the datasheets associated with your new scenario using the
 function from `rsyncrosim`.
 
 ``` r
+
 # View all datasheets associated with a library, project, or scenario
 datasheet(myScenario)
 ```
@@ -205,6 +213,7 @@ variable using
 then check the columns that need input values.
 
 ``` r
+
 # Load Inputs datasheet to a new R data frame
 myInputDataframe <- datasheet(myScenario,
                               name = "helloworldSpatial_InputDatasheet")
@@ -241,6 +250,7 @@ Add these values to a new data frame, then use the
 function from `rsyncrosim` to update the input data frame
 
 ``` r
+
 # Create input data and add it to the input data frame
 myInputRow <- data.frame(mMean = 0, 
                          mSD = 4,
@@ -258,6 +268,7 @@ Finally, save the updated R data frame to a SyncroSim datasheet using
 [`saveDatasheet()`](https://syncrosim.github.io/rsyncrosim/reference/saveDatasheet.md).
 
 ``` r
+
 # Save input R data frame as a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, 
               data = myInputDataframe,
@@ -283,6 +294,7 @@ We need to specify data for the following four columns:
 `Run Control` datasheet (default=1).
 
 ``` r
+
 # Load Run Control datasheet to an R data frame
 runSettings <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
 
@@ -296,6 +308,7 @@ str(runSettings)
     ##  $ MaximumIteration: num
 
 ``` r
+
 # Create Run Control data and add it to the Run Control data frame
 runSettingsRow <- data.frame(MaximumIteration = 5,
                              MinimumTimestep = 1,
@@ -311,6 +324,7 @@ runSettings
     ## 1               1              10                5
 
 ``` r
+
 # Save Run Control R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, 
               data = runSettings,
@@ -350,6 +364,7 @@ We will set the data for this datasheet such that
 `Hello World Spatial 2 (R)`.
 
 ``` r
+
 # Load Pipeline datasheet to an R data frame
 myPipelineDataframe <- datasheet(myScenario, name = "core_Pipeline")
 
@@ -362,6 +377,7 @@ str(myPipelineDataframe)
     ##  $ RunOrder   : num
 
 ``` r
+
 # Create Pipeline data and add it to the Pipeline data frame
 myPipelineRow <- data.frame(StageNameId = c("Hello World Spatial 1 (R)", 
                                             "Hello World Spatial 2 (R)"),
@@ -378,6 +394,7 @@ myPipelineDataframe
     ## 2 Hello World Spatial 2 (R)        2
 
 ``` r
+
 # Save Pipeline R data frame to a SyncroSim datasheet
 saveDatasheet(ssimObject = myScenario, data = myPipelineDataframe,
               name = "core_Pipeline")
@@ -396,6 +413,7 @@ the number of jobs to five so each multiprocessing core will run a
 single iteration.
 
 ``` r
+
 # Load list of available library-scoped datasheets
 datasheet(myLibrary)
 ```
@@ -417,6 +435,7 @@ datasheet(myLibrary)
     ## 14 library                  core_Terminology                    Terminology
 
 ``` r
+
 # Load the library-scoped multiprocessing datasheet
 multiprocess <- datasheet(myLibrary, name = "core_Multiprocessing")
 ```
@@ -424,6 +443,7 @@ multiprocess <- datasheet(myLibrary, name = "core_Multiprocessing")
     ## [1] "Note: MaximumJobs should be between 1 and 9999"
 
 ``` r
+
 # Check required inputs
 str(multiprocess)
 ```
@@ -435,6 +455,7 @@ str(multiprocess)
     ##  $ EnableCopyExternalFiles: logi NA
 
 ``` r
+
 # Enable multiprocessing
 multiprocess$EnableMultiprocessing <- TRUE
 
@@ -455,6 +476,7 @@ Now, when we run our scenario, it will use the desired multiprocessing
 configuration.
 
 ``` r
+
 # Run the first scenario we created
 myResultScenario <- run(myScenario)
 ```
@@ -480,6 +502,7 @@ using the
 function.
 
 ``` r
+
 # Load results of first transformer in the pipeline
 resultsSummary <- datasheet(myResultScenario,
                             name = "helloworldSpatial_IntermediateDatasheet")
@@ -488,15 +511,16 @@ resultsSummary <- datasheet(myResultScenario,
 head(resultsSummary)
 ```
 
-    ##   Iteration Timestep        y        OutputRasterFile
-    ## 1         1        1 104.0214 rasterMap_iter1_ts1.tif
-    ## 2         1        2 212.3768 rasterMap_iter1_ts2.tif
-    ## 3         1        3 320.7322 rasterMap_iter1_ts3.tif
-    ## 4         1        4 429.0876 rasterMap_iter1_ts4.tif
-    ## 5         1        5 537.4429 rasterMap_iter1_ts5.tif
-    ## 6         1        6 645.7983 rasterMap_iter1_ts6.tif
+    ##   Iteration Timestep          y        OutputRasterFile
+    ## 1         1        1  -178.7381 rasterMap_iter1_ts1.tif
+    ## 2         1        2  -353.1423 rasterMap_iter1_ts2.tif
+    ## 3         1        3  -527.5464 rasterMap_iter1_ts3.tif
+    ## 4         1        4  -701.9505 rasterMap_iter1_ts4.tif
+    ## 5         1        5  -876.3547 rasterMap_iter1_ts5.tif
+    ## 6         1        6 -1050.7588 rasterMap_iter1_ts6.tif
 
 ``` r
+
 # Load results of second transformer in the pipeline
 resultsSummary2 <- datasheet(myResultScenario,
                              name = "helloworldSpatial_OutputDatasheet")
@@ -505,13 +529,13 @@ resultsSummary2 <- datasheet(myResultScenario,
 head(resultsSummary2)
 ```
 
-    ##   Iteration Timestep      yCum
-    ## 1         1        1  104.0214
-    ## 2         1        2  316.3982
-    ## 3         1        3  637.1303
-    ## 4         1        4 1066.2179
-    ## 5         1        5 1603.6608
-    ## 6         1        6 2249.4592
+    ##   Iteration Timestep       yCum
+    ## 1         1        1  -178.7381
+    ## 2         1        2  -531.8804
+    ## 3         1        3 -1059.4268
+    ## 4         1        4 -1761.3774
+    ## 5         1        5 -2637.7320
+    ## 6         1        6 -3688.4909
 
 From viewing these datasheets, we can see that the spatial output is
 contained within the `IntermediateDatasheet`, in the column called
@@ -532,6 +556,7 @@ specify a single raster image or a subset of raster images we want to
 view.
 
 ``` r
+
 # Load raster files for first result scenario with timestep and iteration
 rasterMaps <- datasheetSpatRaster(
   myResultScenario,
@@ -549,13 +574,14 @@ rasterMaps
     ## size        : 5, 5, 1  (nrow, ncol, nlyr)
     ## resolution  : 0.4, 0.4  (x, y)
     ## extent      : -1, 1, -1, 1  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : lon/lat WGS 84 
+    ## coord. ref. : lon/lat WGS 84 (EPSG:4326) 
     ## source      : rasterMap_iter1_ts5.tif 
     ## name        : rasterMap_iter1_ts5 
-    ## min value   :            19.04526 
-    ## max value   :            23.78952
+    ## min value   :           -37.50665 
+    ## max value   :           -32.76239
 
 ``` r
+
 plot(rasterMaps[[1]])
 ```
 

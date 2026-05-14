@@ -62,7 +62,7 @@ mySession <- session()
 myLibrary <- ssimLibrary(name = myLibraryName, 
                          session = mySession, 
                          overwrite = TRUE) 
-#> Library C:\Users\VICKIZ~1\AppData\Local\Temp\RtmpWUJoYX/testlib.ssim deleted
+#> Library C:\Users\HANNAH~1\AppData\Local\Temp\RtmpshjQzV/testlib.ssim deleted
 myProject <- project(myLibrary, project = "Definitions")
 myScenario <- scenario(myProject, scenario = "My Scenario")
 myFolder <- folder(myProject, "New Folder")
